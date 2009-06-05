@@ -1,0 +1,366 @@
+# Language gu-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Drools.xml:5
+#, no-c-format
+msgid "Seam and JBoss Rules"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:7
+#, no-c-format
+msgid ""
+"Seam makes it easy to call JBoss Rules (Drools) rulebases from Seam "
+"components or jBPM process definitions."
+msgstr ""
+
+#. Tag: title
+#: Drools.xml:13
+#, no-c-format
+msgid "Installing rules"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:15
+#, no-c-format
+msgid ""
+"The first step is to make an instance of <literal>org.drools.RuleBase</"
+"literal> available in a Seam context variable. For testing purposes, Seam "
+"provides a built-in component that compiles a static set of rules from the "
+"classpath. You can install this component via <literal>components.xml</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:22
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:rule-base name=\"policyPricingRules\">\n"
+"    <drools:rule-files>\n"
+"        <value>policyPricingRules.drl</value>\n"
+"    </drools:rule-files>\n"
+"</drools:rule-base>]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:24
+#, no-c-format
+msgid ""
+"This component compiles rules from a set of <literal>.drl</literal> files "
+"and caches an instance of <literal>org.drools.RuleBase</literal> in the Seam "
+"<literal>APPLICATION</literal> context. Note that it is quite likely that "
+"you will need to install multiple rule bases in a rule-driven application."
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:32
+#, no-c-format
+msgid ""
+"If you want to use a Drools DSL, you alse need to specify the DSL definition:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:37
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:rule-base name=\"policyPricingRules\" dsl-file="
+"\"policyPricing.dsl\">\n"
+"    <drools:rule-files>\n"
+"        <value>policyPricingRules.drl</value>\n"
+"    </drools:rule-files>\n"
+"</drools:rule-base>]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:39
+#, no-c-format
+msgid ""
+"In most rules-driven applications, rules need to be dynamically deployable, "
+"so a production application will want to use a Drools RuleAgent to manage "
+"the RuleBase. The RuleAgent can connect to a Drools rule server (BRMS) or "
+"hot deploy rules packages from a local file repository. The RulesAgent-"
+"managed RuleBase is also configurable in <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:47
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:rule-agent name=\"insuranceRules\" \n"
+"                    configurationFile=\"/WEB-INF/deployedrules.properties\" /"
+">]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:49
+#, no-c-format
+msgid ""
+"The properties file contains properties specific to the RulesAgent. Here is "
+"an example configuration file from the Drools example distribution."
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:52
+#, no-c-format
+msgid ""
+"newInstance=true\n"
+"url=http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/org."
+"acme.insurance/fmeyer\n"
+"localCacheDir=/Users/fernandomeyer/projects/jbossrules/drools-examples/"
+"drools-examples-brms/cache\n"
+"poll=30\n"
+"name=insuranceconfig"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:55
+#, no-c-format
+msgid ""
+"It is also possible to configure the options on the component directly, "
+"bypassing the configuration file."
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:57
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:rule-agent name=\"insuranceRules\"\n"
+"   url=\"http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/"
+"org.acme.insurance/fmeyer\"\n"
+"   local-cache-dir=\"/Users/fernandomeyer/projects/jbossrules/drools-"
+"examples/drools-examples-brms/cache\"\n"
+"   poll=\"30\"\n"
+"   configuration-name=\"insuranceconfig\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:59
+#, no-c-format
+msgid ""
+"Next, we need to make an instance of <literal>org.drools.WorkingMemory</"
+"literal> available to each conversation. (Each <literal>WorkingMemory</"
+"literal> accumulates facts relating to the current conversation.)"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:65
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" "
+"auto-create=\"true\" rule-base=\"#{policyPricingRules}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:67
+#, no-c-format
+msgid ""
+"Notice that we gave the <literal>policyPricingWorkingMemory</literal> a "
+"reference back to our rule base via the <literal>ruleBase</literal> "
+"configuration property."
+msgstr ""
+
+#. Tag: title
+#: Drools.xml:76
+#, no-c-format
+msgid "Using rules from a Seam component"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:78
+#, no-c-format
+msgid ""
+"We can now inject our <literal>WorkingMemory</literal> into any Seam "
+"component, assert facts, and fire rules:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:83
+#, no-c-format
+msgid ""
+"<![CDATA[@In WorkingMemory policyPricingWorkingMemory;\n"
+"\n"
+"@In Policy policy;\n"
+"@In Customer customer;\n"
+"\n"
+"public void pricePolicy() throws FactException\n"
+"{\n"
+"    policyPricingWorkingMemory.assertObject(policy);\n"
+"    policyPricingWorkingMemory.assertObject(customer);\n"
+"    policyPricingWorkingMemory.fireAllRules();\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Drools.xml:88
+#, no-c-format
+msgid "Using rules from a jBPM process definition"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:90
+#, no-c-format
+msgid ""
+"You can even allow a rule base to act as a jBPM action handler, decision "
+"handler, or assignment handler &#8212; in either a pageflow or business "
+"process definition."
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:96
+#, no-c-format
+msgid ""
+"<![CDATA[<decision name=\"approval\">\n"
+"         \n"
+"    <handler class=\"org.jboss.seam.drools.DroolsDecisionHandler\">\n"
+"        <workingMemoryName>orderApprovalRulesWorkingMemory</"
+"workingMemoryName>\n"
+"        <assertObjects>\n"
+"            <element>#{customer}</element>\n"
+"            <element>#{order}</element>\n"
+"            <element>#{order.lineItems}</element>\n"
+"        </assertObjects>\n"
+"    </handler>\n"
+"    \n"
+"    <transition name=\"approved\" to=\"ship\">\n"
+"        <action class=\"org.jboss.seam.drools.DroolsActionHandler\">\n"
+"            <workingMemoryName>shippingRulesWorkingMemory</"
+"workingMemoryName>\n"
+"            <assertObjects>\n"
+"                <element>#{customer}</element>\n"
+"                <element>#{order}</element>\n"
+"                <element>#{order.lineItems}</element>\n"
+"            </assertObjects>\n"
+"        </action>\n"
+"    </transition>\n"
+"    \n"
+"    <transition name=\"rejected\" to=\"cancelled\"/>\n"
+"    \n"
+"</decision>]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:98
+#, no-c-format
+msgid ""
+"The <literal>&lt;assertObjects&gt;</literal> element specifies EL "
+"expressions that return an object or collection of objects to be asserted as "
+"facts into the <literal>WorkingMemory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:104
+#, no-c-format
+msgid "There is also support for using Drools for jBPM task assignments:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:108
+#, no-c-format
+msgid ""
+"<![CDATA[<task-node name=\"review\">\n"
+"    <task name=\"review\" description=\"Review Order\">\n"
+"        <assignment handler=\"org.jboss.seam.drools.DroolsAssignmentHandler"
+"\">\n"
+"            <workingMemoryName>orderApprovalRulesWorkingMemory</"
+"workingMemoryName>\n"
+"            <assertObjects>\n"
+"                <element>#{actor}</element>\n"
+"                <element>#{customer}</element>\n"
+"                <element>#{order}</element>\n"
+"                <element>#{order.lineItems}</element>\n"
+"            </assertObjects>\n"
+"        </assignment>\n"
+"    </task>\n"
+"    <transition name=\"rejected\" to=\"cancelled\"/>\n"
+"    <transition name=\"approved\" to=\"approved\"/>\n"
+"</task-node>]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:110
+#, no-c-format
+msgid ""
+"Certain objects are available to the rules as Drools globals, namely the "
+"jBPM <literal>Assignable</literal>, as <literal>assignable</literal> and a "
+"Seam <literal>Decision</literal> object, as <literal>decision</literal>. "
+"Rules which handle decisions should call <literal>decision.setOutcome"
+"(\"result\")</literal> to determine the result of the decision. Rules which "
+"perform assignments should set the actor id using the <literal>Assignable</"
+"literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:119
+#, no-c-format
+msgid ""
+"<![CDATA[package org.jboss.seam.examples.shop\n"
+"\n"
+"import org.jboss.seam.drools.Decision\n"
+"\n"
+"global Decision decision\n"
+"\n"
+"rule \"Approve Order For Loyal Customer\"\n"
+"  when\n"
+"    Customer( loyaltyStatus == \"GOLD\" )\n"
+"    Order( totalAmount <= 10000 )\n"
+"  then\n"
+"    decision.setOutcome(\"approved\");\n"
+"end]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:121
+#, no-c-format
+msgid ""
+"<![CDATA[package org.jboss.seam.examples.shop\n"
+"\n"
+"import org.jbpm.taskmgmt.exe.Assignable\n"
+"\n"
+"global Assignable assignable\n"
+"\n"
+"rule \"Assign Review For Small Order\"\n"
+"  when\n"
+"    Order( totalAmount <= 100 )\n"
+"  then\n"
+"    assignable.setPooledActors( new String[] {\"reviewers\"} );\n"
+"end]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:124
+#, no-c-format
+msgid ""
+"You can find out more about Drools at <ulink url=\"http://www.drools.org\"></"
+"ulink>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:131
+#, no-c-format
+msgid ""
+"Seam comes with enough of Drools' dependencies to implement some simple "
+"rules. If you want to add extra capabilities to Drools you should download "
+"the full distribution and add in extra dependencies as needed."
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:140
+#, no-c-format
+msgid ""
+"Drools comes with MVEL compiled for Java 1.4, which is compatible with Java "
+"1.4, Java 5 and Java 6. You may want to change your MVEL jar with one "
+"compiled for the version of Java you are using"
+msgstr ""

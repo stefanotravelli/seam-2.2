@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.ConversationName</name>
+		<family>org.jboss.seam.ui.ConversationName</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlConversationName</classname>
+		<superclass>org.jboss.seam.ui.component.UIConversationName</superclass>
+        
+		<description>
+			<![CDATA[Set the conversation name for a command link or button (or similar JSF control).]]>
+		</description>
+        <renderer generate="false">
+            <name>org.jboss.seam.ui.ConversationNameRenderer</name>
+            <classname>org.jboss.seam.ui.renderkit.ConversationNameRendererBase</classname>
+        </renderer>
+		<tag generate="true">
+			<name>conversationName</name>
+			<classname>org.jboss.seam.ui.taglib.ConversationNameTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+        <taghandler>
+            <classname>org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler</classname>
+        </taghandler>
+		&ui_parameter_attributes;
+	</component>
+</components>

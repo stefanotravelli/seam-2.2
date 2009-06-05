@@ -1,0 +1,269 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="rss">
+   <title>RSS support</title>
+   <para>
+      It is now easy to integrate RSS feeds in Seam through the
+      <ulink url="http://yarfraw.sourceforge.net/">YARFRAW</ulink>
+      library. The RSS support is currently in the state of "tech preview"
+      in the current release.	
+   </para>
+
+   <section id="rss.installation">
+      <title>Installation</title>
+      <para>
+         To enable RSS support, include the <literal>jboss-seam-rss.jar</literal>
+         in your applications <literal>WEB-INF/lib</literal> directory. The RSS
+         library also has some dependent libraries that should be placed in the
+         same directory. See <xref linkend="dependencies.rss"/> for a list of 
+         libraries to include.
+      </para>
+      <para>
+         The Seam RSS support requires the use of Facelets as the view 
+         technology.
+      </para>
+   </section>
+   <section id="rss.usage">
+      <title>Generating feeds</title>
+      <para>
+         The <literal>examples/rss</literal> project contains an example of
+         RSS support in action. It demonstrates proper deployment 
+         packaging, and it shows the exposed functionality.
+      </para>
+      <para>
+         A feed is a xhtml-page that consist of a feed and a list of nested
+         entry items.
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <r:feed 
+               xmlns="http://www.w3.org/1999/xhtml" 
+               xmlns:ui="http://java.sun.com/jsf/facelets" 
+               xmlns:r="http://jboss.com/products/seam/rss"
+               title="#{rss.feed.title}"
+               uid="#{rss.feed.uid}"
+               subtitle="#{rss.feed.subtitle}"
+               updated="#{rss.feed.updated}"
+               link="#{rss.feed.link}">
+               <ui:repeat value="#{rss.feed.entries}" var="entry">
+                  <r:entry
+                     uid="#{entry.uid}"
+                     title="#{entry.title}"
+                     link="#{entry.link}"
+                     author="#{entry.author}"
+                     summary="#{entry.summary}"
+                     published="#{entry.published}"
+                     updated="#{entry.updated}"
+		          />
+	           </ui:repeat>
+            </r:feed>
+        ]]>
+      </programlisting>
+   </section>    
+   
+   <section id="rss.feeds">
+      <title>Feeds</title>
+      <para>
+         Feeds are the top-level entities that describe the properties of the
+         information source. It contains zero or more nested entries.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;r:feed&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>uid</literal>
+                              &#8212; An optional unique feed id. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>title</literal>
+                              &#8212; The title of the feed. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>subtitle</literal>
+                              &#8212; The subtitle of the feed. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>updated</literal>
+                              &#8212; When was the feed updated? The value is a date.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>link</literal>
+                              &#8212; The link to the source of the information.
+                              The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>feedFormat</literal>
+                              &#8212; The feed format. The value is a string and defaults
+                              to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>Zero or more feed entries</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+   </section>
+
+   <section id="rss.entries">
+      <title>Entries</title>
+      <para>
+         Entries are the "headlines" in the feed.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;r:feed&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>uid</literal>
+                              &#8212; An optional unique entry id. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>title</literal>
+                              &#8212; The title of the entry. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>link</literal>
+                              &#8212; A link to the item. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>author</literal>
+                              &#8212; The author of the story. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>summary</literal>
+                              &#8212; The body of the story. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>textFormat</literal>
+                              &#8212; The format of the body and title of the story. 
+                              The value is a string and valid values are "text" and 
+                              "html". Defaults to "html".
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>published</literal>
+                              &#8212; When was the story first published? The value is a date.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>updated</literal>
+                              &#8212; When was the story updated? The value is a date.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+   </section>
+     
+   <section id="rss.links">
+      <title>Links and further documentation</title>
+      <para>
+         The core of the RSs functionality is based on the YARFRAW library
+         which can be found on <ulink url="http://yarfraw.sourceforge.net/">http://yarfraw.sourceforge.net/</ulink> and most 
+         features and possible limitations are inherited from here.
+      </para>
+      <para>
+        For details on the ATOM 1.0 format, have a look at 
+        <ulink url="http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html">
+        the specs</ulink>
+      </para>
+      <para>
+        For details on the RSS 2.0 format, have a look at 
+        <ulink url="http://cyber.law.harvard.edu/rss/rss.html">the specs</ulink>
+	  </para>
+   </section>
+</chapter>

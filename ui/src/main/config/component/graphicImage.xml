@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.graphicImage.GraphicImage</name>
+		<family>org.jboss.seam.ui.graphicImage.GraphicImage</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlGraphicImage</classname>
+		<superclass>org.jboss.seam.ui.graphicImage.UIGraphicImage</superclass>
+		<description>
+			<![CDATA[Output an image to the view. You can specify the file as a path, a java.io.File, java.io.InputStream, java.net.URL or byte[]]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.GraphicImageRenderer</name>
+			<classname>org.jboss.seam.ui.graphicImage.GraphicImageRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlGraphicImage.jspx</template>-->
+		</renderer>
+		<tag>
+			<name>graphicImage</name>
+			<classname>org.jboss.seam.ui.taglib.GraphicImageTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&html_style_attributes;
+		&ui_graphic_attributes;
+		&ui_output_attributes;
+		<property>
+			<name>fileName</name>
+			<classname>java.lang.String</classname>
+			<description>File name for the generated URL - allows a stable file name and thus browser caching</description>
+		</property>
+	</component>
+</components>

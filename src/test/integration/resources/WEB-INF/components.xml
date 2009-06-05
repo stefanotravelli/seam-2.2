@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:i18n="http://jboss.com/products/seam/international"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:jms="http://jboss.com/products/seam/jms"            
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.1.xsd 
+                 http://jboss.com/products/seam/international http://jboss.com/products/seam/international-2.1.xsd 
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd 
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd 
+                 http://jboss.com/products/seam/jms http://jboss.com/products/seam/jms-2.1.xsd 
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd">
+    
+    <core:init debug="false" jndi-pattern="@jndiPattern@" />
+
+    <core:manager concurrent-request-timeout="500"
+                  conversation-timeout="120000" 
+                  conversation-id-parameter="cid"/>
+
+    <i18n:locale-config default-locale="fr_CA" supported-locales="fr_CA fr_FR en"/>
+    
+    <persistence:managed-persistence-context name="entityManager"
+                                             auto-create="true"
+                                             persistence-unit-jndi-name="java:/integrationEntityManagerFactory" />
+    
+    <bpm:jbpm>
+        <bpm:process-definitions>
+            <value>testProcess1.jpdl.xml</value>
+            <value>testProcess2.jpdl.xml</value>
+            <value>testProcess3.jpdl.xml</value>
+            <value>testProcess4.jpdl.xml</value>
+        </bpm:process-definitions>
+    </bpm:jbpm>
+
+    <jms:topic-connection topic-connection-factory-jndi-name="/ConnectionFactory" />
+    <jms:queue-connection queue-connection-factory-jndi-name="/ConnectionFactory" />
+
+    <jms:managed-topic-publisher name="testPublisher"
+                                 auto-create="true" 
+                                 topic-jndi-name="/topic/testTopic" />
+    	                         
+    <jms:managed-queue-sender name="testSender"
+                              auto-create="true"
+                              queue-jndi-name="/queue/testQueue" />
+                       
+
+</components>

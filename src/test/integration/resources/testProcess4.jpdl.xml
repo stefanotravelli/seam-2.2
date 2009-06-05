@@ -1,0 +1,19 @@
+<process-definition name="TestProcess4"
+                    xmlns="urn:jbpm.org:jpdl-3.2"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/xsd/jpdl-3.2.xsd">
+
+    <start-state name="start">
+        <transition to="decision" />
+    </start-state>
+    
+    <decision name="decision" expression="#{testBoolean}">
+      <transition to="done" name="true">
+         <action expression="#{seamExpressionEvaluatorTestController.logTrue}" />
+      </transition>
+      <transition to="done" name="false" />
+    </decision>
+    
+    <end-state name="done"/>
+    
+</process-definition>

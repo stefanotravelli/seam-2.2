@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Cache</name>
+		<family>org.jboss.seam.ui.Cache</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlCache</classname>
+		<superclass>org.jboss.seam.ui.component.UICache</superclass>
+		<description>
+			<![CDATA[Cache the rendered page fragment using the installed cache provider.]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.CacheRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.CacheRendererBase</classname>
+		</renderer>
+		<tag>
+			<name>cache</name>
+			<classname>org.jboss.seam.ui.taglib.CacheTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		<property>
+			<name>key</name>
+			<classname>java.lang.String</classname>
+			<description>the key to cache rendered content, often a value expression. For example, if we were caching a page fragment that displays a document, we might use key="Document-#{document.id}".</description>
+		</property>
+		<property>
+			<name>region</name>
+			<classname>java.lang.String</classname>
+			<description>a cache node to use (different nodes can have different expiry policies).</description>
+		</property>
+      <property elonly="true">
+         <name>cacheProvider</name>
+         <classname>org.jboss.seam.cache.CacheProvider</classname>
+         <description>The cache provider to use, only needed if you install alter the default cache provider in an application where multiple cache providers are in use</description>
+         <defaultvalue>org.jboss.seam.cache.CacheProvider.instance()</defaultvalue>
+      </property>
+		<property elonly="true">
+			<name>enabled</name>
+			<classname>boolean</classname>
+			<description>a value expression that determines if the cache should be used.</description>
+			<defaultvalue>true</defaultvalue>
+		</property>
+	</component>
+</components>

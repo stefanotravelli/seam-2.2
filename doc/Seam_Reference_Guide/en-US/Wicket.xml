@@ -1,0 +1,426 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+]>
+
+<chapter id="wicket">
+   <title>Writing your presentation layer using Apache Wicket</title>
+
+   <para>
+      Seam supports Wicket as an alternative presentation layer to JSF. Take a 
+      look at the <code>wicket</code> example in Seam which shows the Booking
+      Example ported to Wicket.
+   </para>
+
+   <note>
+      <para>
+         Wicket support is new to Seam, so some features which are
+         available in JSF are not yet available when you use Wicket
+         (e.g. pageflow). You'll also notice that the documentation is
+         very JSF-centric and needs reorganization to reflect the first
+         class support for Wicket.
+      </para>
+   </note>
+   
+   <section>
+      <title>Adding Seam to your wicket application</title>
+      
+      <para>
+          The features added to your Wicket application can be split into two 
+          categories: bijection and orchestration; these are discussed in detail
+          below.
+      </para>
+      
+      <para>
+         Extensive use of inner classes is common when building Wicket 
+         applications, with the component tree being built in the constructor.
+         Seam fully supports the use of annotation based control in inner 
+         classes and constructors (unlike regular Seam components).
+      </para>
+      
+      <para>
+         Annotations are processed <emphasis>after</emphasis> any call to
+         a superclass. This mean's that any injected attributes cannot be
+         passed as an argument in a call to <code>this()</code> or 
+         <code>super()</code>.
+      </para>
+      
+      <note>
+         <para>
+            We are working to improve this.
+         </para>
+      </note>
+      
+      <para>
+         When a method is called in an inner class, bijection occurs for any
+         class which encloses it. This allows you to place your bijected
+         variables in the outer class, and refer to them in any inner class.
+      </para>
+      
+      <section>
+         <title>Bijection</title>
+         
+         <para>
+            A Seam enabled Wicket application has full access to the all the 
+            standard Seam contexts (<code>EVENT</code>, <code>CONVERSATION</code>,
+            <code>SESSION</code>, <code>APPLICATION</code> and
+            <code>BUSINESS_PROCESS</code>).
+         </para>
+         
+         <para>
+            To access Seam component's from Wicket, you just need to inject it
+            using <code>@In</code>:
+         </para>
+         
+         <programlisting role="JAVA"><![CDATA[@In(create=true)
+private HotelBooking hotelBooking;]]></programlisting>
+
+         <tip>
+            <para>
+               As your Wicket class isn't a full Seam component, there is no
+               need to annotate it <code>@Name</code>.
+            </para>
+         </tip>
+         
+         <para>
+            You can also outject an object into the Seam contexts from a Wicket
+            component:
+         </para>
+         
+         <programlisting role="JAVA"><![CDATA[@Out(scope=ScopeType.EVENT, required=false)
+private String verify;]]></programlisting>
+
+         <para>
+            TODO Make this more use case driven
+         </para>
+      
+      </section>
+      
+      <section>
+         <title>Orchestration</title>
+         
+         <para>
+            You can secure a Wicket component by using the 
+            <code>@Restrict</code> annotation. This can be placed on the outer
+            component or any inner components. If <code>@Restrict</code> is
+            specified, the component will automatically be restricted to logged
+            in users. You can optionally use an EL expression in the 
+            <code>value</code> attribute to specify a restriction to be applied.
+            For more refer to the <xref linkend="security"/>.
+         </para>
+         
+         <para>
+            For example:
+         </para>
+         
+         <programlisting role="JAVA"><![CDATA[@Restrict
+public class Main extends WebPage {
+
+   ...]]></programlisting>
+         
+         <tip>
+            <para>
+               Seam will automatically apply the restriction to any nested
+               classes.
+            </para>
+         </tip>
+         
+         <para>
+            You can demarcate conversations from within a Wicket component
+            through the use of <code>@Begin</code> and <code>@End</code>. The
+            semantics for these annotations are the same as when used in a Seam
+            component. You can place <code>@Begin</code> and <code>@End</code>
+            on any method.
+         </para>
+         
+         <note>
+            <para>
+               The deprecated <code>ifOutcome</code> attribute is not supported.
+            </para>
+         </note>
+         
+         <para>
+            For example:
+         </para>
+         
+         <programlisting role="JAVA"><![CDATA[item.add(new Link("viewHotel") {
+
+   @Override
+   @Begin
+   public void onClick() {
+      hotelBooking.selectHotel(hotel);
+      setResponsePage(org.jboss.seam.example.wicket.Hotel.class);
+   }
+};]]></programlisting>
+
+         <para>
+            You may have pages in your application which can only be accessed 
+            when the user has a long-running conversation active. To enforce 
+            this you can use the <code>@NoConversationPage</code> annotation: 
+         </para>
+         
+         <programlisting><![CDATA[@Restrict
+@NoConversationPage(Main.class)
+public class Hotel extends WebPage {]]></programlisting>
+
+         <para>
+            If you want to further decouple your application classes, you can 
+            use Seam events. Of course, you can raise an event using
+            <code>Events.instance().raiseEvent("foo")</code>. Alternatively, you
+            can annotate a method <code>@RaiseEvent("foo")</code>; if the method
+            returns a non-null outcome without exception, the event will be
+            raised.
+         </para>
+         
+         <para>
+            You can also control tasks and processes in Wicket classes through
+            the use of <code>@CreateProcess</code>, <code>@ResumeTask</code>,
+            <code>@BeginTask</code>, <code>@EndTask</code>, 
+            <code>@StartTask</code> and <code>@Transition</code>.
+         </para>   
+         
+         <para>
+            TODO - Implement BPM control - JBSEAM-3194
+         </para>
+      </section>
+      
+   </section>
+
+   <section>
+      <title>Setting up your project</title>
+      
+      <para>
+         Seam needs to instrument the bytecode of your Wicket classes to be able
+         to intercept the annotations you use. The first decision to make is: do
+         you want your code instrumented at runtime as your app is running, or 
+         at compile time?  The former requires no integration
+         with your build environment, but has a performance penalty when loading each
+         instrumented class for the first time.  The latter is faster, but requires 
+         you to integrate this instrumentation into your build environment.
+         </para>
+      	 <section>
+      	   <title>Runtime instrumentation</title>
+      	   <para>
+      	    There are two ways to achieve runtime instrumentation.  One relies on  
+      	    placing wicket components to be instrumented in a special folder in your WAR
+      	    deployment.  If this is not acceptable or possible, you can also use an
+      	    instrumentation "agent," which you specify in the command line for launching
+      	    your container.
+      	    </para>
+      	    <section>
+      	    	<title>Location-specific instrumentation</title>
+      	    	<para>
+      	    	Any classes placed in the <literal>WEB-INF/wicket</literal> folder within your
+      	    	WAR deployment will be automatically instrumented by the seam-wicket runtime.
+      	    	You can arrange to place your wicket pages and components here by specifying
+      	    	a separate output folder for those classes in your IDE, or through the use of 
+      	    	ant scripts.
+      	    	</para>
+      	    </section>
+      	    <section>
+      	    <title>Runtime instrumentation agent</title>
+  	    	<para>The jar file <literal>jboss-seam-wicket.jar</literal> can be used as an iinstrumentation 
+  	    	agent through the Java Instrumentation api.  This is accomplished through the following
+  	    	steps:</para>
+  	    	<itemizedlist>
+	  	    	<listitem>
+		  	    	<para>Arrange for the <literal>jboss-seam-wicket.jar</literal> file to live in a 
+		  	    	location for which you have an absolute path, as the Java Instrumentation API does 
+		  	    	not allow relative paths when  specifying the location of an agent lib. </para>
+	  	    	</listitem>
+	  	    	<listitem>
+		  	    	<para>Add <literal>javaagent:/path/to/jboss-seam-wicket.jar</literal> to the command line options 
+		  	    	when launching your webapp container:</para>
+	  	    	</listitem>
+	  	    	<listitem>
+		  	    	<para> In addition, you will need to add an environment variable that specifies 
+		  	    	packages that the agent should instrument.  This is accomplished by a comma separated
+		  	    	list of package names:</para>
+		  	    	<programlisting>-Dorg.jboss.seam.wicket.instrumented-packages=my.package.one,my.other.package</programlisting>
+		  	    	<para>Note that if a package A is specified, classes in subpackages of A are also examined.  The 
+		  	    	classes chosen for instrumentation can be further limited by specifying:
+		  	    	<programlisting>-Dorg.jboss.seam.wicket.scanAnnotations=true</programlisting>
+		  	    	and then marking instrumentable classes with the <literal>@SeamWicketComponent</literal>
+		  	    	annotation, see <xref linkend="SeamWicketComponent"/>.</para>
+	  	    	</listitem>
+  	    	</itemizedlist>
+      	   </section>
+      	 </section>
+      	 <section>
+      	   <title>Compile-time instrumentation</title>
+      	   <para>
+      	   Seam supports instrumentation at compile time through either Apache Ant or Apache Maven.</para>
+      	   <section>
+      	   <title> Instrumenting with ant</title>
+      	   <para>
+      	   Seam provides an ant task in the <literal>jboss-seam-wicket-ant.jar </literal>.  This is used
+      	   in the following manner:
+      <programlisting role="XML"><![CDATA[<taskdef name="instrumentWicket" 
+   classname="org.jboss.seam.wicket.ioc.WicketInstrumentationTask">
+  <classpath>
+    <pathelement location="lib/jboss-seam-wicket-ant.jar"/>
+    <pathelement location="web/WEB-INF/lib/jboss-seam-wicket.jar"/>
+    <pathelement location="lib/javassist.jar"/>
+    <pathelement location="lib/jboss-seam.jar"/>
+  </classpath>
+</taskdef>
+
+<instrumentWicket outputDirectory="${build.instrumented}" useAnnotations="true">
+  <classpath refid="build.classpath"/>
+  <fileset dir="${build.classes}" includes="**/*.class"/>
+</instrumentWicket>]]></programlisting>
+			</para>
+      <para> 
+		   This results in the instrumented classes being placed in the directory
+		   specified by <literal>${build.instrumented}</literal>.  You will then
+		   need to instruct ant to copy these classes into <literal>WEB-INF/classes</literal>. 
+		   If you want to hot deploy the  Wicket components, you can copy the instrumented classes to 
+         <literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that
+         your <literal>WicketApplication</literal> class is also hot-deployed.
+         Upon a reload of hot-deployed classes, the entire WicketApplication 
+         instance has to be  re-initialized, in order to pick up new references 
+		   to the classes of mounted pages.
+      </para>
+      <para> The <literal>useAnnotations</literal> attribute is used to make the ant task only include
+      classes that have been marked with the <literal>@SeamWicketComponent</literal> annotation, 
+      see  <xref linkend="SeamWicketComponent"/>.
+      </para>
+     </section>
+     <section>
+     <title>Instrumenting with maven</title>
+     <para>
+     	The jboss maven repository <literal>repository.jboss.org</literal> provides a plugin named
+     	<literal>seam-instrument-wicket</literal> with a <literal>process-classes</literal> mojo.  An
+     	example configuration in your pom.xml might look like: 
+     	<programlisting role="XML"><![CDATA[<build>
+		<plugins>
+		 <plugin>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>seam-instrument-wicket</artifactId>
+			<version>2.1.2</version>
+			<configuration>
+				<scanAnnotations>true</scanAnnotations>
+				<includes>
+					<include>your.package.name</include>
+				</includes>
+			</configuration>
+			<executions>
+				<execution>
+					<id>instrument</id>
+					<phase>process-classes</phase>
+					<goals>
+						<goal>instrument</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>]]></programlisting>
+		The above example illustrates that the instrumentation is limited to classes specified by
+		the <literal>includes</literal> element.  In this example, the <literal>scanAnnotations</literal>
+		is specified, see  <xref linkend="SeamWicketComponent"/>.
+	</para>
+	</section>
+	</section>
+	<section id="SeamWicketComponent">
+	<title>The <literal>@SeamWicketComponent</literal> annotation</title>
+	<para>
+		Classes placed in WEB-INF/wicket will unconditionally be instrumented.  The other instrumentation 
+		mechanisms all allow you to specify that instrumentation should only be applied to classes 
+		annotated with the <literal>@SeamWicketComponent</literal> annotation.  This annotation is inherited,
+		which means all subclasses of an annotated class will also be instrumented.  An example usage is:
+         <programlisting role="JAVA"><![CDATA[import org.jboss.seam.wicket.ioc.SeamWicketComponent;
+@SeamWicketComponent
+public class MyPage extends WebPage{
+ ...
+}]]></programlisting>
+	</para>
+	</section>
+     	
+      
+      <section>
+         <title>Defining the Application</title>
+      
+         <para>
+            A Wicket web application which uses Seam should use 
+            <code>SeamWebApplication</code> as the base class; this creates hooks
+            into the Wicket lifecycle allowing Seam to automagically propagate the
+            conversation as needed. It also adds status messages to the page.
+         </para>
+         
+         <para>
+            For example:
+         </para>
+         
+         <para>
+            The <code>SeamAuthorizationStrategy</code> delegates authorization
+            to Seam Security, allowing the use of <code>@Restrict</code> on Wicket
+            components. <code>SeamWebApplication</code> installs the authorization
+            strategy for you. You can specify the login page by implementing the
+            <code>getLoginPage()</code> method. 
+         </para>
+         
+         <para>
+            You'll also need to set the home page of the application by 
+            implementing the <code>getHomePage()</code> method.
+         </para>
+         
+         <programlisting role="JAVA"><![CDATA[public class WicketBookingApplication extends SeamWebApplication {
+
+   @Override
+   public Class getHomePage() {
+      return Home.class;
+   }
+
+   @Override
+   protected Class getLoginPage() {
+      return Home.class;
+   }
+   
+}
+]]></programlisting>
+         
+         <para>
+            Seam automatically installs the Wicket filter for you (ensuring that
+            it is inserted in the correct place for you). But you still need to 
+            tell Wicket which <code>WebApplication</code> class to use. 
+         </para>
+         
+         <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+ xmlns:wicket="http://jboss.com/products/seam/wicket"
+ xsi:schemaLocation=
+  "http://jboss.com/products/seam/wicket
+   http://jboss.com/products/seam/wicket-2.1.xsd">
+   
+  <wicket:web-application 
+    application-class="org.jboss.seam.example.wicket.WicketBookingApplication" />
+</components]]></programlisting>
+         
+         <para>
+          In addition, if you plan to use JSF-based pages in the same application as wicket pages, you'll 
+          need to ensure that the jsf exception filter is only enabled for jsf urls:
+         </para>
+          
+                   <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+ xmlns:web="http://jboss.com/products/seam/web"
+ xmlns:wicket="http://jboss.com/products/seam/wicket"
+ xsi:schemaLocation=
+  "http://jboss.com/products/seam/web
+   http://jboss.com/products/seam/web-2.1.xsd">
+     
+    <!-- Only map the seam jsf exception filter to jsf paths, which we identify with the *.seam path -->
+	<web:exception-filter url-pattern="*.seam"/>
+</components]]></programlisting>
+          
+          
+         <tip>
+            <para>
+               Take a look at the Wicket documentation for more on authorization
+               strategies and other methods you can override on the
+               <code>Application</code> class.
+            </para>
+         </tip>
+      </section>
+
+   </section>
+
+</chapter>

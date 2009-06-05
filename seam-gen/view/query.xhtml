@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h1>@beanName@ results</h1>
+    <p>Generated query page</p>
+
+    <h:outputText value="No results from search"
+            rendered="#{empty @componentName@.resultList}"/>
+    <f:subview id="results" rendered="#{not empty @componentName@.resultList}">
+        <h:dataTable id="@componentName@"
+                     var="item"
+                     value="#{@componentName@.resultList}">
+            <h:column>
+                <f:facet name="header">Result</f:facet>
+                #{item}
+            </h:column>
+        </h:dataTable>
+
+       <div class="tableControl">
+            <s:link view="/@pageName@.xhtml"
+                    rendered="#{@componentName@.previousExists}"
+                    value="&lt;&lt; First Page"
+                    id="firstPage">
+                <f:param name="firstResult" value="0"/>
+            </s:link>
+
+            <s:link view="/@pageName@.xhtml"
+                    rendered="#{@componentName@.previousExists}"
+                    value="&lt; Previous Page"
+                    id="previousPage">
+                <f:param name="firstResult"
+                         value="#{@componentName@.previousFirstResult}"/>
+            </s:link>
+
+            <s:link view="/@pageName@.xhtml"
+                    rendered="#{@componentName@.nextExists}"
+                    value="Next Page &gt;"
+                    id="nextPage">
+                <f:param name="firstResult"
+                         value="#{@componentName@.nextFirstResult}"/>
+            </s:link>
+
+            <s:link view="/@pageName@.xhtml"
+                    rendered="#{@componentName@.nextExists}"
+                    value="Last Page &gt;&gt;"
+                    id="lastPage">
+                <f:param name="firstResult"
+                         value="#{@componentName@.lastFirstResult}"/>
+            </s:link>
+       </div>
+
+
+
+
+    </f:subview>
+</ui:define>
+
+</ui:composition>

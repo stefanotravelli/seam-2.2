@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="performance">
+  <title>Performance Tuning</title>
+  
+  <para>
+    This chapter is an attempt to document in one place all the tips for getting the best performance from
+    your Seam application.
+  </para>
+    
+  <section>
+    <title>Bypassing Interceptors</title>
+    
+    <para>
+      For repetitive value bindings such as those found in a JSF dataTable or other iterative control 
+      (like <literal>ui:repeat</literal>), the full interceptor stack will be invoked for every invocation of 
+      the referenced Seam component.  The effect of this can result in a substantial performance hit, especially 
+      if the component is accessed many times.  A significant performance gain can be achieved by disabling the 
+      interceptor stack for the Seam component being invoked.  To disable interceptors for the component, add the 
+      <literal>@BypassInterceptors</literal> annotation to the component class.       
+    </para>
+    
+    <warning>
+      <para>
+        It is very important to be aware of the implications of disabling interceptors for a Seam component.
+        Features such as bijection, annotated security restrictions, synchronization and others are 
+        unavailable for a component marked with <literal>@BypassInterceptors</literal>.  While in most cases
+        it is possible to compensate for the loss of these features (e.g. instead of injecting a component
+        using <literal>@In</literal>, you can use <literal>Component.getInstance()</literal> instead) it is
+        important to be aware of the consequences.
+      </para>      
+    </warning>
+    
+    <para>
+      The following code listing demonstrates a Seam component with its interceptors disabled:
+    </para>
+    
+    <programlisting><![CDATA[@Name("foo")
+@Scope(EVENT)
+@BypassInterceptors
+public class Foo
+{
+   public String getRowActions()
+   {
+     // Role-based security check performed inline instead of using @Restrict or other security annotation
+     Identity.instance().checkRole("user");
+     
+     // Inline code to lookup component instead of using @In
+     Bar bar = (Bar) Component.getInstance("bar");
+   
+     String actions;   
+     // some code here that does something     
+     return actions;
+   }
+}]]></programlisting>
+    
+    
+    
+  </section>
+    
+    
+</chapter>

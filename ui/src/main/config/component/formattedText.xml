@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components >
+	<component>
+		<name>org.jboss.seam.ui.FormattedText</name>
+		<family>org.jboss.seam.ui.FormattedText</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlFormattedText</classname>
+		<superclass>org.jboss.seam.ui.component.UIFormattedText</superclass>
+		<description>
+			<![CDATA[Output Seam Text. Parse errors generate WARN level log messages.]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.FormattedTextRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.FormattedTextRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlFormattedText.jspx</template>-->
+		</renderer>
+		<tag>
+			<name>formattedText</name>
+			<classname>org.jboss.seam.ui.taglib.FormattedTextTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_output_attributes;
+	</component>
+</components>

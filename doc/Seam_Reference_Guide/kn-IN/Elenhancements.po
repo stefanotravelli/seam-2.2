@@ -1,0 +1,438 @@
+# Language kn-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Elenhancements.xml:5
+#, no-c-format
+msgid "JBoss EL"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:7
+#, no-c-format
+msgid ""
+"Seam uses JBoss EL which provides an extension to the standard Unified "
+"Expression Language (EL). JBoss EL provides a number of enhancements that "
+"increase the expressiveness and power of EL expressions."
+msgstr ""
+
+#. Tag: title
+#: Elenhancements.xml:14
+#, no-c-format
+msgid "Parameterized Expressions"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:16
+#, no-c-format
+msgid ""
+"Standard EL does not allow you to use a method with user defined parameters "
+"&#8212; of course, JSF listener methods (e.g. a "
+"<literal>valueChangeListener</literal>) take parameters provided by JSF."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:22
+#, no-c-format
+msgid "JBoss EL removes this restriction. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:26
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton action=\"#{hotelBooking.bookHotel(hotel)}\" value="
+"\"Book Hotel\"/>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:28
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"hotelBooking\")\n"
+"public class HotelBooking {\n"
+"   \n"
+"   public String bookHotel(Hotel hotel) {\n"
+"      // Book the hotel\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Elenhancements.xml:31
+#, no-c-format
+msgid "Usage"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:33
+#, no-c-format
+msgid ""
+"Just as in calls to method from Java, parameters are surrounded by "
+"parentheses, and separated by commas:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:38
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton action=\"#{hotelBooking.bookHotel(hotel, user)}\" "
+"value=\"Book Hotel\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:40
+#, no-c-format
+msgid ""
+"The parameters <literal>hotel</literal> and <literal>user</literal> will be "
+"evaluated as value expressions and passed to the <literal>bookHotel()</"
+"literal> method of the component."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:45
+#, no-c-format
+msgid "Any value expression may be used as a parameter:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:49
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton \n"
+"   action=\"#{hotelBooking.bookHotel(hotel.id, user.username)}\" \n"
+"   value=\"Book Hotel\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:51
+#, no-c-format
+msgid ""
+"It's important to fully understand how this extension to EL works. When the "
+"page is rendered, the parameter <emphasis>names</emphasis> are stored (for "
+"example, <literal>hotel.id</literal> and <literal>user.username</literal>), "
+"and evaluated (as value expressions) when the page is submitted. You can't "
+"pass objects as parameters!"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:60
+#, no-c-format
+msgid ""
+"You must ensure that the parameters are available not only when the page is "
+"rendered, but also when it is submittedIf the arguments can not be resolved "
+"when the page is submitted the action method will be called with "
+"<literal>null</literal> arguments!"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:67
+#, no-c-format
+msgid "You can also pass literal strings using single quotes:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:71
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"#{printer.println('Hello world!')}\" value="
+"\"Hello\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:73
+#, no-c-format
+msgid ""
+"Unified EL also supports value expressions, used to bind a field to a "
+"backing bean. Value expressions use JavaBean naming conventions and expect a "
+"getter/setter pair. Often JSF expects a value expression where only "
+"retrieval (get) is needed (e.g. the <literal>rendered</literal> attribute). "
+"Many objects, however, don't have appropriately named property accessors or "
+"require parameters."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:82
+#, no-c-format
+msgid ""
+"JBoss EL removes this restriction by allowing values to be retrieved using "
+"the method syntax. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:87
+#, no-c-format
+msgid ""
+"<![CDATA[<h:outputText value=\"#{person.name}\" rendered=\"#{person.name."
+"length() > 5}\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:89
+#, no-c-format
+msgid "You can access the size of a collection in a similar manner:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:93
+#, no-c-format
+msgid "#{searchResults.size()}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:95
+#, no-c-format
+msgid ""
+"In general any expression of the form #{obj.property} would be identical to "
+"the expression #{obj.getProperty()}."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:99
+#, no-c-format
+msgid ""
+"Parameters are also allowed. The following example calls the "
+"<literal>productsByColorMethod</literal> with a literal string argument:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:105
+#, no-c-format
+msgid "#{controller.productsByColor('blue')}"
+msgstr ""
+
+#. Tag: title
+#: Elenhancements.xml:110
+#, no-c-format
+msgid "Limitations and Hints"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:112
+#, no-c-format
+msgid "When using JBoss EL you should keep the following points in mind:"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:118
+#, no-c-format
+msgid ""
+"<emphasis>Incompatibility with JSP 2.1</emphasis> &#8212; JBoss EL can't "
+"currently be used with JSP 2.1 as the compiler rejects expressions with "
+"parameters in. So, if you want to use this extension with JSF 1.2, you will "
+"need to use Facelets. The extension works correctly with JSP 2.0."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:127
+#, no-c-format
+msgid ""
+"<emphasis>Use inside iterative components</emphasis> &#8212; Components like "
+"<literal>&lt;c:forEach /&gt;</literal> and <literal>&lt;ui:repeat /&gt;</"
+"literal>iterate over a List or array, exposing each item in the list to "
+"nested components. This works great if you are selecting a row using a "
+"<literal>&lt;h:commandButton /&gt;</literal> or <literal>&lt;h:commandLink /"
+"&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:136
+#, no-c-format
+msgid ""
+"<![CDATA[@Factory(\"items\")\n"
+"public List<Item> getItems() {\n"
+"   return entityManager.createQuery(\"select ...\").getResultList();\n"
+"}]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:137
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{items}\" var=\"item\">\n"
+"   <h:column>\n"
+"      <h:commandLink value=\"Select #{item.name}\" action=\"#{itemSelector."
+"select(item})\" />\n"
+"   </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:138
+#, no-c-format
+msgid ""
+"However if you want to use <literal>&lt;s:link /&gt;</literal> or "
+"<literal>&lt;s:button /&gt;</literal> you <emphasis>must</emphasis> expose "
+"the items as a <literal>DataModel</literal>, and use a <literal>&lt;"
+"dataTable /&gt;</literal> (or equivalent from a component set like "
+"<literal>&lt;rich:dataTable /&gt;</literal> ). Neither <literal>&lt;s:link /"
+"&gt;</literal> or <literal>&lt;s:button /&gt;</literal> submit the form (and "
+"therefore produce a bookmarkable link) so a \"magic\" parameter is needed to "
+"recreate the item when the action method is called. This magic parameter can "
+"only be added when a data table backed by a <literal>DataModel</literal> is "
+"used."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:154
+#, no-c-format
+msgid ""
+"<emphasis>Calling a <literal>MethodExpression</literal> from Java code</"
+"emphasis> &#8212; Normally, when a <literal>MethodExpression</literal> is "
+"created, the parameter types are passed in by JSF. In the case of a method "
+"binding, JSF assumes that there are no parameters to pass. With this "
+"extension, we can't know the parameter types until after the expression has "
+"been evaluated. This has two minor consequences:"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:167
+#, no-c-format
+msgid ""
+"When you invoke a <literal>MethodExpression</literal> in Java code, "
+"parameters you pass may be ignored. Parameters defined in the expression "
+"will take precedence."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:175
+#, no-c-format
+msgid ""
+"Ordinarily, it is safe to call <literal>methodExpression.getMethodInfo()."
+"getParamTypes()</literal> at any time. For an expression with parameters, "
+"you must first invoke the <literal>MethodExpression</literal> before calling "
+"<literal>getParamTypes()</literal>."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:185
+#, no-c-format
+msgid ""
+"Both of these cases are exceedingly rare and only apply when you want to "
+"invoke the <literal>MethodExpression</literal> by hand in Java code."
+msgstr ""
+
+#. Tag: title
+#: Elenhancements.xml:196
+#, no-c-format
+msgid "Projection"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:198
+#, no-c-format
+msgid ""
+"JBoss EL supports a limited projection syntax. A projection expression maps "
+"a sub-expression across a multi-valued (list, set, etc...) expression. For "
+"instance, the expression:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:204
+#, no-c-format
+msgid "#{company.departments}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:206
+#, no-c-format
+msgid ""
+"might return a list of departments. If you only need a list of department "
+"names, your only option is to iterate over the list to retrieve the values. "
+"JBoss EL allows this with a projection expression:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:212
+#, no-c-format
+msgid "#{company.departments.{d|d.name}}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:214
+#, no-c-format
+msgid ""
+"The subexpression is enclosed in braces. In this example, the expression "
+"<literal>d.name</literal> is evaluated for each department, using "
+"<literal>d</literal> as an alias to the department object. The result of "
+"this expression will be a list of String values."
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:221
+#, no-c-format
+msgid ""
+"Any valid expression can be used in an expression, so it would be perfectly "
+"valid to write the following, assuming you had a use for the lengths of all "
+"the department names in a company:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:227
+#, no-c-format
+msgid "#{company.departments.{d|d.size()}}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:229
+#, no-c-format
+msgid ""
+"Projections can be nested. The following expression returns the last names "
+"of every employee in every department:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:234
+#, no-c-format
+msgid "#{company.departments.{d|d.employees.{emp|emp.lastName}}}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:236
+#, no-c-format
+msgid ""
+"Nested projections can be slightly tricky, however. The following expression "
+"looks like it returns a list of all the employees in all the departments:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:242
+#, no-c-format
+msgid "#{company.departments.{d|d.employees}}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:244
+#, no-c-format
+msgid ""
+"However, it actually returns a list containing a list of the employees for "
+"each individual department. To combine the values, it is necessary to use a "
+"slightly longer expression:"
+msgstr ""
+
+#. Tag: programlisting
+#: Elenhancements.xml:250
+#, no-c-format
+msgid "#{company.departments.{d|d.employees.{e|e}}}"
+msgstr ""
+
+#. Tag: para
+#: Elenhancements.xml:252
+#, no-c-format
+msgid ""
+"It is important to note that this syntax cannot be parsed by Facelets or JSP "
+"and thus cannot be used in xhtml or JSP files. We anticipate that the "
+"projection syntax will change in future versions of JBoss EL."
+msgstr ""

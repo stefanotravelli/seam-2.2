@@ -1,0 +1,909 @@
+# Language es-ES translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-25 20:06+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Framework.xml:6
+#, no-c-format
+msgid "The Seam Application Framework"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:8
+#, no-c-format
+msgid ""
+"Seam makes it really easy to create applications by writing plain Java "
+"classes with annotations, which don't need to extend any special interfaces "
+"or superclasses. But we can simplify some common programming tasks even "
+"further, by providing a set of pre-built components which can be re-used "
+"either by configuration in <literal>components.xml</literal> (for very "
+"simple cases) or extension."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:18
+#, no-c-format
+msgid ""
+"The <emphasis>Seam Application Framework</emphasis> can reduce the amount of "
+"code you need to write when doing basic database access in a web "
+"application, using either Hibernate or JPA."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:24
+#, no-c-format
+msgid ""
+"We should emphasize that the framework is extremely simple, just a handful "
+"of simple classes that are easy to understand and extend. The \"magic\" is "
+"in Seam itself &#8212; the same magic you use when creating any Seam "
+"application even without using this framework."
+msgstr ""
+
+#. Tag: title
+#: Framework.xml:33
+#, no-c-format
+msgid "Introduction"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:35
+#, no-c-format
+msgid ""
+"The components provided by the Seam application framework may be used in one "
+"of two different approaches. The first way is to install and configure an "
+"instance of the component in <literal>components.xml</literal>, just like we "
+"have done with other kinds of built-in Seam components. For example, the "
+"following fragment from <literal>components.xml</literal> installs a "
+"component which can perform basic CRUD operations for a <literal>Person</"
+"literal> entity:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:47
+#, no-c-format
+msgid ""
+"<![CDATA[<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       entity-manager=\"#{personDatabase}\">\n"
+"    <framework:id>#{param.personId}</framework:id>\n"
+"</framework:entity-home>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:49
+#, no-c-format
+msgid ""
+"If that looks a bit too much like \"programming in XML\" for your taste, you "
+"can use extension instead:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:54
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"   @In EntityManager personDatabase;\n"
+"    \n"
+"   public EntityManager getEntityManager() {\n"
+"      return personDatabase; \n"
+"   }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:56
+#, no-c-format
+msgid ""
+"The second approach has one huge advantage: you can easily add extra "
+"functionality, and override the built-in functionality (the framework "
+"classes were carefully designed for extension and customization)."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:63
+#, no-c-format
+msgid ""
+"A second advantage is that your classes may be EJB stateful session beans, "
+"if you like. (They do not have to be, they can be plain JavaBean components "
+"if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:70
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:72
+#, no-c-format
+msgid ""
+"You can also make your classes stateless session beans. In this case you "
+"<emphasis>must</emphasis> use injection to provide the persistence context, "
+"even if it is called <literal>entityManager</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:79
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"   @In EntityManager entityManager;\n"
+"    \n"
+"   public EntityManager getPersistenceContext() { \n"
+"      entityManager; \n"
+"   }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:81
+#, no-c-format
+msgid ""
+"At this time, the Seam Application Framework provides four main built-in "
+"components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</"
+"literal> for CRUD, along with <literal>EntityQuery</literal> and "
+"<literal>HibernateEntityQuery</literal> for queries."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:89
+#, no-c-format
+msgid ""
+"The Home and Query components are written so that they can function with a "
+"scope of session, event or conversation. Which scope you use depends upon "
+"the state model you wish to use in your application."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:95
+#, no-c-format
+msgid ""
+"The Seam Application Framework only works with Seam-managed persistence "
+"contexts. By default, the components will look for a persistence context "
+"named <literal>entityManager</literal>."
+msgstr ""
+
+#. Tag: title
+#: Framework.xml:104
+#, no-c-format
+msgid "Home objects"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:106
+#, no-c-format
+msgid ""
+"A Home object provides persistence operations for a particular entity class. "
+"Suppose we have our trusty <literal>Person</literal> class:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:111
+#, no-c-format
+msgid ""
+"<![CDATA[@Entity\n"
+"public class Person {\n"
+"    @Id private Long id;\n"
+"    private String firstName;\n"
+"    private String lastName;\n"
+"    private Country nationality;\n"
+"    \n"
+"    //getters and setters...\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:113
+#, no-c-format
+msgid ""
+"We can define a <literal>personHome</literal> component either via "
+"configuration:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:118
+#, no-c-format
+msgid ""
+"<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person"
+"\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:120
+#, no-c-format
+msgid "Or via extension:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:124
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:126
+#, no-c-format
+msgid ""
+"A Home object provides the following operations: <literal>persist()</"
+"literal>, <literal>remove()</literal>, <literal>update()</literal> and "
+"<literal>getInstance()</literal>. Before you can call the <literal>remove()</"
+"literal>, or <literal>update()</literal> operations, you must first set the "
+"identifier of the object you are interested in, using the <literal>setId()</"
+"literal> method."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:135
+#, no-c-format
+msgid "We can use a Home directly from a JSF page, for example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:139
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{personHome.instance.firstName}\"/"
+"></div>\n"
+"    <div>Last name: <h:inputText value=\"#{personHome.instance.lastName}\"/"
+"></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:141
+#, no-c-format
+msgid ""
+"Usually, it is much nicer to be able to refer to the <literal>Person</"
+"literal> merely as <literal>person</literal>, so let's make that possible by "
+"adding a line to <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:147
+#, no-c-format
+msgid ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:149
+#, no-c-format
+msgid ""
+"(If we are using configuration.) Or by adding a <literal>@Factory</literal> "
+"method to <literal>PersonHome</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:154
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:156
+#, no-c-format
+msgid ""
+"(If we are using extension.) This change simplifies our JSF page to the "
+"following:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:161
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:163
+#, no-c-format
+msgid ""
+"Well, that lets us create new <literal>Person</literal> entries. Yes, that "
+"is all the code that is required! Now, if we want to be able to display, "
+"update and delete pre-existing <literal>Person</literal> entries in the "
+"database, we need to be able to pass the entry identifier to the "
+"<literal>PersonHome</literal>. Page parameters are a great way to do that:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:172
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/editPerson.jsp\">\n"
+"        <param name=\"personId\" value=\"#{personHome.id}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:174
+#, no-c-format
+msgid "Now we can add the extra operations to our JSF page:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:178
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>\n"
+"    <h:outputText rendered=\"#{!personHome.managed}\" value=\"Create Person"
+"\"/>\n"
+"    <h:outputText rendered=\"#{personHome.managed}\" value=\"Edit Person\"/"
+">\n"
+"</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\" rendered=\"#{!personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Update Person\" action=\"#{personHome."
+"update}\" rendered=\"#{personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Delete Person\" action=\"#{personHome."
+"remove}\" rendered=\"#{personHome.managed}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:180
+#, no-c-format
+msgid ""
+"When we link to the page with no request parameters, the page will be "
+"displayed as a \"Create Person\" page. When we provide a value for the "
+"<literal>personId</literal> request parameter, it will be an \"Edit Person\" "
+"page."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:187
+#, no-c-format
+msgid ""
+"Suppose we need to create <literal>Person</literal> entries with their "
+"nationality initialized. We can do that easily, via configuration:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:192
+#, no-c-format
+msgid ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       new-instance=\"#{newPerson}\"/>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:194
+#, no-c-format
+msgid "Or by extension:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:198
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:200
+#, no-c-format
+msgid ""
+"Of course, the <literal>Country</literal> could be an object managed by "
+"another Home object, for example, <literal>CountryHome</literal>."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:205
+#, no-c-format
+msgid ""
+"To add more sophisticated operations (association management, etc), we can "
+"just add methods to <literal>PersonHome</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:210
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    public void migrate()\n"
+"    {\n"
+"        getInstance().setCountry(country);\n"
+"        update();\n"
+"    }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:212
+#, no-c-format
+msgid ""
+"The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</"
+"literal> event when a transaction succeeds (a call to <literal>persist()</"
+"literal>, <literal>update()</literal> or <literal>remove()</literal> "
+"succeeds). By observing this event we can refresh our queries when the "
+"underlying entities are changed. If we only want to refresh certain queries "
+"when a particular entity is persisted, updated or removed we can observe the "
+"<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event "
+"(where <literal>&lt;name&gt;</literal> is the simple name of the entity, e."
+"g. an entity called \"org.foo.myEntity\" has \"myEntity\" as simple name)."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:223
+#, no-c-format
+msgid ""
+"The Home object automatically displays faces messages when an operation is "
+"successful. To customize these messages we can, again, use configuration:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:228
+#, no-c-format
+msgid ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\"\n"
+"                       entity-class=\"eg.Person\"\n"
+"                       new-instance=\"#{newPerson}\">\n"
+"    <framework:created-message>New person #{person.firstName} #{person."
+"lastName} created</framework:created-message>\n"
+"    <framework:deleted-message>Person #{person.firstName} #{person.lastName} "
+"deleted</framework:deleted-message>\n"
+"    <framework:updated-message>Person #{person.firstName} #{person.lastName} "
+"updated</framework:updated-message>\n"
+"</framework:entity-home>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:230
+#, no-c-format
+msgid "Or extension:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:234
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    protected String getCreatedMessage() { return createValueExpression"
+"(\"New person #{person.firstName} #{person.lastName} created\"); }\n"
+"    protected String getUpdatedMessage() { return createValueExpression"
+"(\"Person #{person.firstName} #{person.lastName} updated\"); }\n"
+"    protected String getDeletedMessage() { return createValueExpression"
+"(\"Person #{person.firstName} #{person.lastName} deleted\"); }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:236
+#, no-c-format
+msgid ""
+"But the best way to specify the messages is to put them in a resource bundle "
+"known to Seam (the bundle named <literal>messages</literal>, by default)."
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:242
+#, no-c-format
+msgid ""
+"<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} "
+"created\n"
+"Person_deleted=Person #{person.firstName} #{person.lastName} deleted\n"
+"Person_updated=Person #{person.firstName} #{person.lastName} updated]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:244
+#, no-c-format
+msgid ""
+"This enables internationalization, and keeps your code and configuration "
+"clean of presentation concerns."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:249
+#, no-c-format
+msgid ""
+"The final step is to add validation functionality to the page, using "
+"<literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</"
+"literal>, but I'll leave that for you to figure out."
+msgstr ""
+
+#. Tag: title
+#: Framework.xml:258
+#, no-c-format
+msgid "Query objects"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:260
+#, no-c-format
+msgid ""
+"If we need a list of all <literal>Person</literal> instance in the database, "
+"we can use a Query object. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:265
+#, no-c-format
+msgid ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:267
+#, no-c-format
+msgid "We can use it from a JSF page:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:271
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>List of people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:273
+#, no-c-format
+msgid "We probably need to support pagination:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:277
+#, no-c-format
+msgid ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:279
+#, no-c-format
+msgid "We'll use a page parameter to determine the page to display:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:284
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/searchPerson.jsp\">\n"
+"        <param name=\"firstResult\" value=\"#{people.firstResult}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:286
+#, no-c-format
+msgid "The JSF code for a pagination control is a bit verbose, but manageable:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:290
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
+"\"First Page\">\n"
+"    <f:param name=\"firstResult\" value=\"0\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
+"\"Previous Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.previousFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
+"\"Next Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.nextFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
+"\"Last Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.lastFirstResult}\"/>\n"
+"</s:link>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:292
+#, no-c-format
+msgid ""
+"Real search screens let the user enter a bunch of optional search criteria "
+"to narrow the list of results returned. The Query object lets you specify "
+"optional \"restrictions\" to support this important usecase:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:298
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"examplePerson\" class=\"Person\"/>\n"
+"        \n"
+"<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\">\n"
+"    <framework:restrictions>\n"
+"        <value>lower(firstName) like lower( concat(#{examplePerson."
+"firstName},'%') )</value>\n"
+"        <value>lower(lastName) like lower( concat(#{examplePerson."
+"lastName},'%') )</value>\n"
+"    </framework:restrictions>\n"
+"</framework:entity-query>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:300
+#, no-c-format
+msgid "Notice the use of an \"example\" object."
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:304
+#, no-c-format
+msgid ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{examplePerson.firstName}\"/></"
+"div>\n"
+"    <div>Last name: <h:inputText value=\"#{examplePerson.lastName}\"/></"
+"div>\n"
+"    <div><h:commandButton value=\"Search\" action=\"/search.jsp\"/></div>\n"
+"</h:form>\n"
+"\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:306
+#, no-c-format
+msgid ""
+"To refresh the query when the underlying entities change we observe the "
+"<literal>org.jboss.seam.afterTransactionSuccess</literal> event:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:311
+#, no-c-format
+msgid ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"</event>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:313
+#, no-c-format
+msgid ""
+"Or, to just refresh the query when the person entity is persisted, updated "
+"or removed through <literal>PersonHome</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:318
+#, no-c-format
+msgid ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess.Person\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"    </event>]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:320
+#, no-c-format
+msgid ""
+"Unfortunately Query objects don't work well with <emphasis>join fetch</"
+"emphasis> queries - the use of pagination with these queries is not "
+"recommended, and you'll have to implement your own method of calculating the "
+"total number of results (by overriding <literal>getCountEjbql()</literal>."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:328
+#, no-c-format
+msgid ""
+"The examples in this section have all shown reuse by configuration. However, "
+"reuse by extension is equally possible for Query objects."
+msgstr ""
+
+#. Tag: title
+#: Framework.xml:336
+#, no-c-format
+msgid "Controller objects"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:337
+#, no-c-format
+msgid ""
+"A totally optional part of the Seam Application Framework is the class "
+"<literal>Controller</literal> and its subclasses <literal>EntityController</"
+"literal> <literal>HibernateEntityController</literal> and "
+"<literal>BusinessProcessController</literal>. These classes provide nothing "
+"more than some convenience methods for access to commonly used built-in "
+"components and methods of built-in components. They help save a few "
+"keystrokes (characters can add up!) and provide a great launchpad for new "
+"users to explore the rich functionality built in to Seam."
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:349
+#, no-c-format
+msgid ""
+"For example, here is what <literal>RegisterAction</literal> from the Seam "
+"registration example would look like:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:354
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"register\")\n"
+"public class RegisterAction extends EntityController implements Register\n"
+"{\n"
+"\n"
+"   @In private User user;\n"
+"   \n"
+"   public String register()\n"
+"   {\n"
+"      List existing = createQuery(\"select u.username from User u where u."
+"username=:username\")\n"
+"         .setParameter(\"username\", user.getUsername())\n"
+"         .getResultList();\n"
+"      \n"
+"      if ( existing.size()==0 )\n"
+"      {\n"
+"         persist(user);\n"
+"         info(\"Registered new user #{user.username}\");\n"
+"         return \"/registered.jspx\";\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         addFacesMessage(\"User #{user.username} already exists\");\n"
+"         return null;\n"
+"      }\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:356
+#, no-c-format
+msgid "As you can see, its not an earthshattering improvement..."
+msgstr ""

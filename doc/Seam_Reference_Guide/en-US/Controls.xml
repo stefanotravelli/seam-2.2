@@ -1,0 +1,1526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="controls">
+   <title>Seam JSF controls</title>
+   <para>
+      Seam includes a number of JSF controls that are useful for working with
+      Seam. These are intended to complement the built-in JSF controls, and
+      controls from other third-party libraries. We recommend
+      JBoss RichFaces, ICEsoft ICEfaces and Apache MyFaces Trinidad tag libraries for use with Seam.
+      We do not recommend the use of the Tomahawk tag library.
+   </para>
+
+   <section id="controls.tags">
+      <title>Tags</title>
+
+      <para>
+         To use these tags, define the "<literal>s</literal>" namespace in your page 
+         as follows (facelets only):
+      </para>
+
+      <programlisting role="XHTML"><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib">]]></programlisting>
+
+      <para>
+         The ui example demonstrates the use of a number of these tags.
+      </para>
+  
+      <section>
+         <title>Navigation Controls</title>
+         
+         <section>
+            <title><literal>&lt;s:button&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+               
+            <para>
+               A button that supports invocation of an action with control over 
+               conversation propagation. <emphasis>Does not submit the 
+               form.</emphasis>
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+               
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>value</literal> &#8212; the label.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>action</literal> &#8212; a method binding that 
+                     specified the action
+                     listener.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>view</literal> &#8212; the JSF view id to link to.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fragment</literal> &#8212; the fragment 
+                     identifier to link to.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disabled</literal> &#8212; is the link disabled?
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>propagation</literal> &#8212; determines the 
+                     conversation propagation style: <literal>begin</literal>, 
+                     <literal>join</literal>, <literal>nest</literal>, 
+                     <literal>none</literal> or <literal>end</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>pageflow</literal> &#8212; a pageflow definition 
+                     to begin. (This is only useful when 
+                     <literal>propagation="begin"</literal> or
+                     <literal>propagation="join"</literal> is used).
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+               
+            <programlisting role="XHTML"><![CDATA[<s:button id="cancel" 
+          value="Cancel" 
+          action="#{hotelBooking.cancel}"/>]]></programlisting>
+            <para>
+               You can specify both <literal>view</literal> and 
+               <literal>action</literal> on <literal>&lt;s:link /&gt;</literal>. 
+               In this case, the action will be called once the redirect to the 
+               specified view has occured.
+            </para>
+                        
+            <para>
+               The use of action listeners (including the default JSF action
+               listener) is not supported with <literal>&lt;s:button /&gt;</literal>.
+            </para>
+            
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:conversationId&gt;</literal></title>
+   
+            <para><emphasis>Description</emphasis></para>
+   
+            <para>
+               Add the conversation id to JSF link or button (e.g.
+               <literal>&lt;h:commandLink /&gt;</literal> ,
+               <literal>&lt;s:button /&gt;</literal>).
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            
+            <para>None</para>
+            
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:taskId&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Add the task id to an output link (or similar JSF control), 
+               when the task is available via <literal>#{task}</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+                None.
+            </para>
+         
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:link&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               A link that supports invocation of an action with control over 
+               conversation propagation. <emphasis>Does not submit the 
+               form.</emphasis>
+            </para>
+            
+            <para>
+               The use of action listeners (including the default JSF action
+               listener) is not supported with <literal>&lt;s:link /&gt;</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>value</literal> &#8212; the label.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>action</literal>  &#8212; a method binding that 
+                     specified the action listener.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>view</literal> &#8212; the JSF view id to link to.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fragment</literal> &#8212; the fragment identifier
+                     to link to.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disabled</literal> &#8212; is the link disabled?
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>propagation</literal> &#8212; determines the 
+                     conversation propagation style: <literal>begin</literal>,
+                     <literal>join</literal>, <literal>nest</literal>,
+                     <literal>none</literal> or <literal>end</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>pageflow</literal> &#8212; a pageflow definition 
+                     to begin. (This is only useful when using
+                     <literal>propagation="begin"</literal> or
+                     <literal>propagation="join"</literal>.)
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:link id="register" view="/register.xhtml" 
+        value="Register New User"/>]]></programlisting>
+            <para>
+               You can specify both <literal>view</literal> and 
+               <literal>action</literal> on <literal>&lt;s:link /&gt;</literal>.
+               In this case, the action will be called once the redirect to the 
+               specified view has occured.
+            </para>
+         
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:conversationPropagation&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Customize the conversation propagation for a command link or button
+               (or similar JSF control). <emphasis>Facelets only.</emphasis>
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>type</literal> &#8212; determines the conversation
+                     propagation style: <literal>begin</literal>, 
+                     <literal>join</literal>, <literal>nest</literal>, 
+                     <literal>none</literal> or <literal>end</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>pageflow</literal> &#8212; a pageflow definition to 
+                     begin. (This is only useful when using 
+                     <literal>propagation="begin"</literal> or 
+                     <literal>propagation="join"</literal>.)
+                  </para>
+               </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:commandButton value="Apply" action="#{personHome.update}">
+   <s:conversationPropagation type="join" />
+</h:commandButton>]]></programlisting>
+         </section>
+         
+         <section>
+            <title>
+               <literal>&lt;s:defaultAction&gt;</literal>
+            </title>
+   
+            <para>
+               <emphasis>Description</emphasis>
+            </para>
+            <para>
+               Specify the default action to run when the form is submitted using
+               the enter key.
+            </para>
+            <para>
+               Currently you can only nest it inside buttons (e.g.
+               <literal>&lt;h:commandButton /&gt;</literal>,
+               <literal>&lt;a:commandButton /&gt;</literal> or
+               <literal>&lt;tr:commandButton /&gt;</literal>).
+            </para>
+            <para>
+               You must specify an id on the action source. You can only have one
+               default action per form.
+            </para>
+   
+            <para>
+               <emphasis>Attributes</emphasis>
+            </para>
+            <para>None.</para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:commandButton id="foo" value="Foo" action="#{manager.foo}">
+   <s:defaultAction />
+</h:commandButton>]]></programlisting>
+         </section>
+         
+      </section>
+      
+      <section>
+         <title>Converters and Validators</title>
+         
+         <section>
+            <title><literal>&lt;s:convertDateTime&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>Perform date or time conversions in the Seam timezone.</para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>None.</para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:outputText value="#{item.orderDate}">
+   <s:convertDateTime type="both" dateStyle="full"/>
+</h:outputText>]]></programlisting>
+   
+         </section>
+   
+         <section>
+            <title><literal>&lt;s:convertEntity&gt;</literal></title>
+   
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Assigns an entity converter to the current component. This is
+               useful for radio button and dropdown controls.
+            </para>
+   
+            <para>
+               The converter works with any managed entity - either simple or
+               composite. The converter should be able to find the items 
+               declared in the JSF controls on form submission, otherwise you 
+               will receive a validation error.
+            </para>
+   
+            <para><emphasis>Attributes</emphasis></para>
+            <para>None.</para>
+   
+            <para><emphasis>Configuration</emphasis></para>
+   
+            <para>
+               You must use <emphasis>Seam managed transactions</emphasis> (see
+               <xref linkend="persistence.seam-managed-transactions" />) with
+               <literal>&lt;s:convertEntity /&gt;</literal>.
+            </para>
+   
+            <para>
+               If your <emphasis>Managed Persistence Context</emphasis> isn't 
+               called <literal>entityManager</literal>, then you need to set it 
+               in components.xml:
+            </para>
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:ui="http://jboss.com/products/seam/ui">
+ 
+   <ui:jpa-entity-loader entity-manager="#{em}" />]]></programlisting>
+   
+            <para>
+               If you are using a <emphasis>Managed Hibernate Session</emphasis>
+               then you need to set it in components.xml:
+            </para>
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:ui="http://jboss.com/products/seam/ui">
+ 
+   <ui:hibernate-entity-loader />]]></programlisting>
+   
+            <para>
+               If your <emphasis>Managed Hibernate Session</emphasis> isn't 
+               called <literal>session</literal>, then you need to set it 
+               in components.xml:
+            </para>
+            
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:ui="http://jboss.com/products/seam/ui">
+            
+   <ui:hibernate-entity-loader session="#{hibernateSession}" />]]></programlisting>
+   
+            <para>
+               If you want to use more than one entity manager with the entity
+               converter, you can create a copy of the entity converter for each
+               entity manager in <literal>components.xml</literal> - note how 
+               the entity converter delegates to the entity loader to perform
+               persistence operations:
+            </para>
+   
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:ui="http://jboss.com/products/seam/ui">
+ 
+   <ui:entity-converter name="standardEntityConverter" entity-loader="#{standardEntityLoader}" />
+            
+   <ui:jpa-entity-loader name="standardEntityLoader" entity-manager="#{standardEntityManager}" />
+   
+   <ui:entity-converter name="restrictedEntityConverter" entity-loader="#{restrictedEntityLoader}" />
+            
+   <ui:jpa-entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}" />]]></programlisting>
+
+             <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}">
+   <s:selectItems value="#{continents.resultList}" var="continent" 
+                  label="#{continent.name}" />
+    <f:converter converterId="standardEntityConverter" />
+</h:selectOneMenu>]]></programlisting>
+
+   
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
+   <s:selectItems value="#{continents.resultList}" var="continent" 
+                  label="#{continent.name}" 
+                  noSelectionLabel="Please Select..."/>
+   <s:convertEntity />
+</h:selectOneMenu>]]></programlisting>
+         </section>
+   
+         <section>
+            <title><literal>&lt;s:convertEnum&gt;</literal></title>
+   
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Assigns an enum converter to the current component. This is
+               primarily useful for radio button and dropdown controls.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>None.</para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.honorific}">
+   <s:selectItems value="#{honorifics}" var="honorific" 
+                 label="#{honorific.label}"
+                 noSelectionLabel="Please select" />
+   <s:convertEnum />
+</h:selectOneMenu>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:convertAtomicBoolean&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               <literal>javax.faces.convert.Converter</literal> for 
+               <literal>java.util.concurrent.atomic.AtomicBoolean</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.valid}">
+   <s:convertAtomicBoolean />
+</h:outputText>]]></programlisting>
+         </section>
+         <section>
+            <title><literal>&lt;s:convertAtomicInteger&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               <literal>javax.faces.convert.Converter</literal> for 
+               <literal>java.util.concurrent.atomic.AtomicInteger</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.id}">
+   <s:convertAtomicInteger />
+</h:outputText>]]></programlisting>
+         </section>
+         <section>
+            <title><literal>&lt;s:convertAtomicLong&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               <literal>javax.faces.convert.Converter</literal> for 
+               <literal>java.util.concurrent.atomic.AtomicLong</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.id}">
+   <s:convertAtomicLong />
+</h:outputText>]]></programlisting>
+         </section>
+         
+		 
+         <section>
+            <title><literal>&lt;s:validateEquality&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+				Tag to nest inside an input control to validate that its parent's
+				value is equal (or not equal!) to the referenced control's value.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>for</literal> &#8212; The id of a control to validate against.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>message</literal> &#8212; Message to show on failure.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>messageId</literal> &#8212; Message id to show on failure.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>operator</literal> &#8212; What operator to use when comparing the values
+					 Valid operators are:
+					 <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>equal</literal> &#8212; Validates that value.equals(forValue)
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>not_equal</literal> &#8212; Validates that !value.equals(forValue)
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>greater</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) > 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>greater_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) >= 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>less</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) < 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>less_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) <= 0]]>
+						   </para>
+						 </listitem>
+					 </itemizedlist>
+                  </para>
+               </listitem>			   
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:inputText id="name" value="#{bean.name}"/>
+<h:inputText id="nameVerification" >
+   <s:validateEquality for="name" />
+</h:inputText>]]></programlisting>
+         </section>		 
+		 
+		 
+
+		 
+		 
+         <section>
+            <title><literal>&lt;s:validate&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               A non-visual control, validates a JSF input field against the 
+               bound property using Hibernate Validator.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:inputText id="userName" required="true" 
+             value="#{customer.userName}">
+  <s:validate />
+</h:inputText>
+<h:message for="userName" styleClass="error" />]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:validateAll&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               A non-visual control, validates all child JSF input fields 
+               against their bound properties using Hibernate Validator.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:validateAll>
+  <div class="entry">
+    <h:outputLabel for="username">Username:</h:outputLabel>
+    <h:inputText id="username" value="#{user.username}" 
+                 required="true"/>
+    <h:message for="username" styleClass="error" />
+  </div>
+  <div class="entry">
+    <h:outputLabel for="password">Password:</h:outputLabel>
+    <h:inputSecret id="password" value="#{user.password}" 
+                   required="true"/>
+    <h:message for="password" styleClass="error" />
+  </div>
+  <div class="entry">
+    <h:outputLabel for="verify">Verify Password:</h:outputLabel>
+    <h:inputSecret id="verify" value="#{register.verify}" 
+                   required="true"/>
+    <h:message for="verify" styleClass="error" />
+  </div>
+</s:validateAll>]]></programlisting>
+       
+         </section>
+         
+      </section>
+      
+      <section>
+         <title>Formatting</title>
+         
+         <section>
+            <title><literal>&lt;s:decorate&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               "Decorate" a JSF input field when validation fails or when
+               <literal>required="true"</literal> is set.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>template</literal> &#8212; the facelets template 
+                     to use to decorate the component
+                </para>
+              </listitem>
+              <listitem>
+                  <para>
+                     <literal>enclose</literal> &#8212; if true, the template 
+                     	 used to decorate the input field is enclosed by the 
+                     	 element specified with the "element" attribute. By 
+                     	 default this is a div element.
+                </para>
+              </listitem>
+              <listitem>
+                  <para>
+                     <literal>element</literal> &#8212; the element to enclose 
+                         the template used to decorate the input field.  By default, 
+                         the template is enclosed with a div element.
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para>
+               <literal>#{invalid}</literal> and <literal>#{required}</literal> 
+               are available inside <literal>s:decorate</literal>; 
+               <literal>#{required}</literal> evaluates to 
+               <literal>true</literal> if you have set the input component being
+               decorated as required, and <literal>#{invalid}</literal> 
+               evaluates to <literal>true</literal> if a validation error occurs.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:decorate template="edit.xhtml">
+   <ui:define name="label">Country:</ui:define>
+      <h:inputText value="#{location.country}" required="true"/>
+   </s:decorate>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+                  
+   <div>   
+   
+      <s:label styleClass="#{invalid?'error':''}">
+         <ui:insert name="label"/>
+         <s:span styleClass="required" rendered="#{required}">*</s:span>
+      </s:label>
+        
+      <span class="#{invalid?'error':''}">
+         <s:validateAll>
+            <ui:insert/>
+         </s:validateAll>
+      </span>
+        
+      <s:message styleClass="error"/>     
+      
+   </div>   
+  
+</ui:composition>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:div&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Render a HTML <literal>&lt;div&gt;</literal>.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+               <programlisting role="XHTML"><![CDATA[<s:div rendered="#{selectedMember == null}">
+   Sorry, but this member does not exist.
+</s:div>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:span&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Render a HTML <literal>&lt;span&gt;</literal>.
+            </para>
+          
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>title</literal> &#8212; Title for a span.
+                </para>
+              </listitem>
+            </itemizedlist>
+            </para>
+          
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:span styleClass="required" rendered="#{required}" title="Small tooltip">*</s:span>]]></programlisting>
+         
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:fragment&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               A non-rendering component useful for enabling/disabling rendering
+               of it's children.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:fragment rendered="#{auction.highBidder ne null}">
+   Current bid:
+</s:fragment>]]></programlisting>
+            
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:label&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               "Decorate" a JSF input field with the label.  The label is placed
+               inside the HTML <literal>&lt;label&gt;</literal> tag, and is 
+               associated with the nearest JSF input component.  It is often 
+               used with <literal>&lt;s:decorate&gt;</literal>.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>style</literal> &#8212; The control's style
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>styleClass</literal> &#8212; The control's style class
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:label styleClass="label">
+  Country:
+</s:label>
+<h:inputText value="#{location.country}" required="true"/>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:message&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               "Decorate" a JSF input field with the validation error message.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<f:facet name="afterInvalidField">
+  <s:span>
+    &#160;Error:&#160;
+    <s:message/>
+  </s:span>
+</f:facet>]]></programlisting>
+         
+         </section>
+         
+      </section>
+      
+      <section>
+         <title>Seam Text</title>
+         
+         <section>
+            <title><literal>&lt;s:validateFormattedText&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Checks that the submitted value is valid Seam Text
+            </para>
+          
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+               None.
+            </para>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:formattedText&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful
+               for blogs, wikis and other applications that might use rich text.
+               See the Seam Text chapter for full usage.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+              <listitem>
+                 <para>
+                    <literal>value</literal> &#8212; an EL expression specifying 
+                    the rich text markup to render.
+                 </para>
+              </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:formattedText value="#{blog.text}"/>]]></programlisting>
+            
+            <para><emphasis>Example</emphasis></para>
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/controls-seamtext.png" align="center" scalefit="1"/>
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="images/controls-seamtext.png" align="center"/>
+              </imageobject>
+            </mediaobject>
+         
+         </section>
+      
+      </section> 
+      
+      <section>
+         <title>Form support</title>
+
+         <section>
+            <title><literal>&lt;s:token&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Produces a random token that is inserted into a hidden form field
+              to help to secure JSF form posts against cross-site request
+              forgery (XSRF) attacks. Note that the browser must have cookies
+              enabled to submit forms that include this component.
+            </para>
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>requireSession</literal> &#8212; indicates
+                     whether the session id should be included in the form
+                     signature, hence binding the token to the session. This
+                     value can be set to false if the "build before restore"
+                     mode of Facelets is activated (the default in JSF 2.0).
+                     (default: false)
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>enableCookieNotice</literal> &#8212; indicates
+                     that a JavaScript check should be inserted into the page
+                     to verify that cookies are enabled in the browser.  If
+                     cookies are not enabled, present a notice to the user that
+                     form posts will not work. (default: false)
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>allowMultiplePosts</literal> &#8212; indicates
+                     whether to allow the same form to be submitted multiple
+                     times with the same signature (as long as the view does
+                     not change). This is a common need if the form is perform
+                     Ajax calls but not rerendering itself or, at the very
+                     least, the UIToken component. The preferred approach is to
+                     have the UIToken component rerendered on any Ajax call
+                     where the UIToken component would be processed.
+                     (default: false)
+                  </para>
+               </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:form>
+   <s:token enableCookieNotice="true" requireSession="false"/>
+   ...
+</h:form>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:enumItem&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Creates a <literal>SelectItem</literal> from an enum value.
+            </para>
+               
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>enumValue</literal> &#8212; the string 
+                     representation of the enum value.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>label</literal> &#8212; the label to be used when 
+                     rendering the <literal>SelectItem</literal>.
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:selectOneRadio id="radioList"
+                  layout="lineDirection"
+                  value="#{newPayment.paymentFrequency}">
+   <s:convertEnum />
+   <s:enumItem enumValue="ONCE"         label="Only Once" />
+   <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
+   <s:enumItem enumValue="HOURLY"       label="Every Hour" />
+   <s:enumItem enumValue="DAILY"        label="Every Day" />
+   <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+</h:selectOneRadio>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:selectItems&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
+            </para>
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>value</literal> &#8212; an EL expression 
+                     specifying the data that backs the 
+                     <literal>List&lt;SelectItem&gt;</literal>
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>var</literal>&#8212; defines the name of the local
+                     variable that holds the current object during iteration
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>label</literal> &#8212; the label to be used when 
+                     rendering the <literal>SelectItem</literal>. Can reference 
+                     the <literal>var</literal> variable.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>itemValue</literal> &#8212; Value to return to the 
+                     server if this option is selected. Optional, by default the
+                     <literal>var</literal> object is used. Can reference the
+                     <literal>var</literal> variable.
+                  </para>
+               </listitem>
+
+               <listitem>
+                  <para>
+                     <literal>disabled</literal>
+                     &#8212; if true the <literal>SelectItem</literal> will be 
+                     rendered disabled. Can reference the <literal>var</literal>
+                     variable.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>noSelectionLabel</literal> &#8212; specifies the 
+                     (optional) label to place at the top of list (if
+                     <literal>required="true"</literal> is also specified then 
+                     selecting this value will cause a validation error).
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>hideNoSelectionLabel</literal> &#8212; if true,
+                     the <literal>noSelectionLabel</literal> will be hidden when
+                     a value is selected 
+                  </para>
+               </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+             <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.age}" 
+                 converter="ageConverter">
+  <s:selectItems value="#{ages}" var="age" label="#{age}" />
+</h:selectOneMenu>]]></programlisting>
+         </section>
+		 
+         <section>
+            <title><literal>&lt;s:fileUpload&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Renders a file upload control.  This control must be used within
+               a form with an encoding type of 
+               <literal>multipart/form-data</literal>, i.e: 
+            </para>
+
+            <programlisting role="XHTML"><![CDATA[<h:form enctype="multipart/form-data">]]></programlisting>
+
+            <para>
+               For multipart requests, the Seam Multipart servlet filter must 
+               also be configured in <literal>web.xml</literal>:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<filter>
+  <filter-name>Seam Filter</filter-name>
+  <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+</filter>
+
+<filter-mapping>
+  <filter-name>Seam Filter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>]]></programlisting>
+
+            <para><emphasis>Configuration</emphasis></para>
+
+            <para>
+               The following configuration options for multipart requests may be
+               configured in components.xml:
+            </para>
+
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>createTempFiles</literal> &#8212; if this option 
+                     is set to true, uploaded files are streamed to a temporary 
+                     file instead of in memory.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>maxRequestSize</literal> &#8212; the maximum size 
+                     of a file upload request, in bytes.
+                  </para>
+               </listitem>
+            </itemizedlist>
+
+            <para>
+               Here's an example:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component class="org.jboss.seam.web.MultipartFilter">
+  <property name="createTempFiles">true</property>
+  <property name="maxRequestSize">1000000</property>
+</component>]]></programlisting>
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>data</literal> &#8212; this value binding receives
+                     the binary file data. The receiving field should be 
+                     declared as a <literal>byte[]</literal> or 
+                     <literal>InputStream</literal> (required).
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>contentType</literal> &#8212; this value binding 
+                     receives the file's content type (optional).
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fileName</literal> &#8212; this value binding 
+                     receives the filename (optional).
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fileSize</literal> &#8212; this value binding 
+                     receives the file size (optional).
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>accept</literal> &#8212; a comma-separated list of
+                     content types to accept, may not be supported by the 
+                     browser.  E.g. <literal>"images/png,images/jpg"</literal>,
+                     <literal>"images/*"</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>style</literal> &#8212; The control's style
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>styleClass</literal> &#8212; The control's style 
+                     class
+                  </para>
+               </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:fileUpload id="picture" data="#{register.picture}" 
+              accept="image/png"
+              contentType="#{register.pictureContentType}" />]]></programlisting>
+              
+         </section>
+         
+      </section>
+      
+      <section>
+         <title>Other</title>
+         
+         <section>
+            <title><literal>&lt;s:cache&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Cache the rendered page fragment using JBoss Cache. Note that
+               <literal>&lt;s:cache&gt;</literal> actually uses the instance
+               of JBoss Cache managed by the built-in 
+               <literal>pojoCache</literal> component.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>key</literal> &#8212; the key to cache rendered 
+                     content, often a value expression. For example, if we were 
+                     caching a page fragment that displays a document, we might 
+                     use <literal>key="Document-#{document.id}"</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>enabled</literal> &#8212; a value expression that 
+                     determines if the cache should be used.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>region</literal> &#8212; a JBoss Cache node to use
+                     (different nodes can have different expiry policies).
+                 </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+  <div class="blogEntry">
+    <h3>#{blogEntry.title}</h3>
+    <div>
+      <s:formattedText value="#{blogEntry.body}"/>
+    </div>
+    <p>
+      [Posted on&#160;
+      <h:outputText value="#{blogEntry.date}">
+        <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" 
+                           type="both"/>
+      </h:outputText>]
+    </p>
+  </div>
+</s:cache>]]></programlisting>
+          
+         </section>
+
+
+         <section>
+            <title><literal>&lt;s:resource&gt;</literal></title>
+ 
+            <para><emphasis>Description</emphasis></para>
+            <para>
+			A tag that acts a file download provider. It must be alone in the JSF page.
+			To be able to use this contol, web.xml must be set up as follows.
+            </para>
+
+            <para><emphasis>Configuration</emphasis></para>
+			
+            <programlisting role="XML"><![CDATA[<servlet>
+   <servlet-name>Document Store Servlet</servlet-name>
+   <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+   <servlet-name>Document Store Servlet</servlet-name>
+   <url-pattern>/seam/docstore/*</url-pattern>
+</servlet-mapping>
+]]></programlisting>
+				
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>data</literal> &#8212; Data that should be downloaded.
+					 May be a java.util.File, an InputStream or a byte array.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fileName</literal> &#8212; Filename of the file to be served
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>contentType</literal> &#8212; content type of the file to be downloaded
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disposition</literal> &#8212; disposition to use. Default is inline
+                  </para>
+               </listitem>			   
+            </itemizedlist>			
+
+            <para><emphasis>Usage</emphasis></para>
+			<para>Here is an example on how to use the tag:</para>
+            <programlisting role="XHTML"><![CDATA[<s:resource xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	data="#{resources.data}"
+	contentType="#{resources.contentType}"
+	fileName="#{resources.fileName}" />
+]]></programlisting>		
+		    
+			<para>The bean named <literal>resources</literal> is some backing bean that given
+			some request parameters servers a specific file, see <literal>s:download</literal>.</para>			
+			</section>
+		 
+		 <section>
+		    <title><literal>&lt;s:download&gt;</literal></title>
+            <para><emphasis>Description</emphasis></para>
+            <para>Builds a RESTful link to a <literal>&lt;s:resource&gt;</literal>.
+				Nested <literal>f:param</literal> build up the url.
+			</para>
+
+
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>src</literal> &#8212; Resource file serving files.
+                  </para>
+               </listitem>
+			</itemizedlist>		
+		 
+            <para><emphasis>Attributes</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:download src="/resources.xhtml">
+    <f:param name="fileId" value="#{someBean.downloadableFileId}"/>
+</s:download>]]></programlisting>			
+
+			<para>
+				Will produce something like: 
+				<literal><![CDATA[http://localhost/resources.seam?fileId=1]]></literal>
+			</para>		 
+		 </section>
+		 
+         <section>
+            <title><literal>&lt;s:graphicImage&gt;</literal></title>
+ 
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               An extended <literal>&lt;h:graphicImage&gt;</literal> that allows
+               the image to be created in a Seam Component; further transforms
+               can be applied to the image.
+            </para>
+            <para>
+               All attributes for <literal>&lt;h:graphicImage&gt;</literal> are 
+               supported, as well as:
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>value</literal> &#8212; image to display.  Can be 
+                     a path <literal>String</literal> (loaded from the 
+                     classpath), a <literal>byte[]</literal>, a 
+                     <literal>java.io.File</literal>, a 
+                     <literal>java.io.InputStream</literal> or a 
+                     <literal>java.net.URL</literal>.  Currently supported image
+                     formats are <literal>image/png</literal>, 
+                     <literal>image/jpeg</literal> and 
+                     <literal>image/gif</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fileName</literal> &#8212; if not specified the 
+                     served image will have a generated file name. If you want 
+                     to name your file, you should specify it here.  This name 
+                     should be unique
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Transformations</emphasis></para>
+            <para>
+               To apply a transform to the image, you would nest a tag 
+               specifying the transform to apply.  Seam currently supports these
+               transforms:
+            </para>
+            <variablelist>
+               <varlistentry>
+                  <term>
+                     <literal>&lt;s:transformImageSize&gt;</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>width</literal> &#8212; new width of the 
+                              image
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>height</literal> &#8212; new height of the 
+                              image
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>maintainRatio</literal> &#8212; if
+                              <literal>true</literal>, and 
+                              <emphasis>one</emphasis> of
+                              <literal>width</literal>/<literal>height</literal>
+                              are specified, the image will be resized with the
+                              dimension not specified being calculated to
+                              maintain the aspect ratio.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>factor</literal> &#8212; scale the image 
+                              by the given factor
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>&lt;s:transformImageBlur&gt;</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>radius</literal> &#8212; perform a 
+                              convolution blur with the given radius
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>&lt;s:transformImageType&gt;</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>contentType</literal> &#8212; alter the 
+                              type of the image to either 
+                              <literal>image/jpeg</literal> or
+                              <literal>image/png</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+            </variablelist>
+
+            <para>
+               It's easy to create your own transform - create a 
+               <literal>UIComponent</literal> which implements 
+               <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>.
+               Inside the <literal>applyTransform()</literal>method use 
+               <literal>image.getBufferedImage()</literal> to get the original 
+               image and <literal>image.setBufferedImage()</literal> to set your
+               transformed image.  Transforms are applied in the order specified
+               in the view.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:graphicImage rendered="#{auction.image ne null}"
+                value="#{auction.image.data}">
+  <s:transformImageSize width="200" maintainRatio="true"/>
+</s:graphicImage>]]></programlisting>
+         </section>
+         
+         <section>
+            <title><literal>&lt;s:remote&gt;</literal></title>
+          
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Generates the Javascript stubs required to use Seam Remoting.
+            </para>
+          
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>include</literal> &#8212; a comma-separated list 
+                     of the component names (or fully qualified class names)for 
+                     which to generate Seam Remoting Javascript stubs.  See 
+                     <xref linkend="remoting"/> for more details.
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:remote include="customerAction,accountAction,com.acme.MyBean"/>]]></programlisting>    
+         </section>
+      </section> 
+   </section>
+
+
+   <section id="controls.annotations">
+     <title>Annotations</title>
+     
+     <para>
+       Seam also provides annotations to allow you to use Seam components as JSF
+       converters and validators:
+       
+     </para>
+     <variablelist>
+       <varlistentry>
+         <term>
+           <literal>@Converter</literal>
+         </term>
+         <listitem>
+           <programlisting role="JAVA"><![CDATA[@Name("itemConverter") 
+@BypassInterceptors 
+@Converter
+public class ItemConverter implements Converter {
+   
+   @Transactional
+   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
+      EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
+      entityManager.joinTransaction();
+      // Do the conversion
+   }
+  
+   public String getAsString(FacesContext context, UIComponent cmp, Object value) {
+      // Do the conversion
+   }
+  
+}]]></programlisting>
+   
+             <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" converter="itemConverter" />]]></programlisting>
+               
+             <para>
+               Registers the Seam component as a JSF converter.  Shown here is a 
+               converter which is able to access the JPA EntityManager inside a 
+               JTA transaction, when converting the value back to it's object
+               representation.
+             </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+         <term>
+           <literal>@Validator</literal>
+         </term>
+         <listitem>
+           <programlisting role="JAVA"><![CDATA[@Name("itemValidator") 
+@BypassInterceptors 
+@org.jboss.seam.annotations.faces.Validator
+public class ItemValidator implements javax.faces.validator.Validator {
+      
+   public void validate(FacesContext context, UIComponent cmp, Object value)
+         throws ValidatorException {
+      ItemController ItemController = (ItemController) Component.getInstance("itemController");
+      boolean valid = itemController.validate(value);
+      if (!valid) {
+         throw ValidatorException("Invalid value " + value);
+      }
+   }
+}]]></programlisting>
+            
+            <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" validator="itemValidator" />]]></programlisting>
+               <para>
+                 Registers the Seam component as a JSF validator.  Shown here is a 
+                 validator which injects another Seam component; the injected 
+                 component is used to validate the value.
+               </para>
+           </listitem>
+       </varlistentry>
+     </variablelist>
+   </section>
+
+
+</chapter>

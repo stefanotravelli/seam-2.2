@@ -1,0 +1,2556 @@
+# translation of Conversations.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: Conversations\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
+"PO-Revision-Date: 2009-03-06 17:16+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Conversations.xml:6
+#, no-c-format
+msgid "Conversations and workspace management"
+msgstr "対話とワークスペースの管理"
+
+#. Tag: para
+#: Conversations.xml:8
+#, no-c-format
+msgid "It's time to understand Seam's conversation model in more detail."
+msgstr ""
+"本章では、 そろそろ Seam の対話モデルについて詳細に理解していくことにします。"
+
+#. Tag: para
+#: Conversations.xml:12
+#, no-c-format
+msgid ""
+"Historically, the notion of a Seam \"conversation\" came about as a merger "
+"of three different ideas:"
+msgstr ""
+"事のはじまりは、 3 つの思いつきが融合した結果、 Seam 「対話」の概念となったこ"
+"とです。"
+
+#. Tag: para
+#: Conversations.xml:19
+#, no-c-format
+msgid ""
+"The idea of a <emphasis>workspace</emphasis>, which I encountered in a "
+"project for the Victorian government in 2002. In this project I was forced "
+"to implement workspace management on top of Struts, an experience I pray "
+"never to repeat."
+msgstr ""
+"<emphasis>ワークスペース</emphasis> という思いつき、 これは 2002 年にビクトリ"
+"ア州政府 (オーストラリア) のプロジェクトで思いつきました。 このプロジェクト"
+"で、私は Struts の上にワークスペース管理を実装せざるを得なくなりました。2 度"
+"と繰り返したいとは思わないような経験でした。"
+
+#. Tag: para
+#: Conversations.xml:28
+#, no-c-format
+msgid ""
+"The idea of an <emphasis>application transaction</emphasis> with optimistic "
+"semantics, and the realization that existing frameworks based around a "
+"stateless architecture could not provide effective management of extended "
+"persistence contexts. (The Hibernate team is truly fed up with copping the "
+"blame for <literal>LazyInitializationException</literal>s, which are not "
+"really Hibernate's fault, but rather the fault of the extremely limiting "
+"persistence context model supported by stateless architectures such as the "
+"Spring framework or the traditional <emphasis>stateless session facade</"
+"emphasis> (anti)pattern in J2EE.)"
+msgstr ""
+"楽観的セマンティクスで動作する<emphasis>アプリケーショントランザクション</"
+"emphasis>という思いつきに加え、 ステートレスなアーキテクチャをベースとする既"
+"存のフレームワークでは拡張された永続コンテキストの効率的な管理は実現できない"
+"ことを実感した事実でした。 (Hibernate チームは "
+"<literal>LazyInitializationException</literal> に対する非難は聞き飽きていまし"
+"たし、 実際にはこれは Hibernate に問題があるのではなく、 むしろ Spring フレー"
+"ムワークや J2EE における従来の <emphasis>stateless session facade</emphasis> "
+"(anti) パターンなどステートレスアーキテクチャでサポートされる極端に限定的な永"
+"続コンテキストモデルに問題があったのです。)"
+
+#. Tag: para
+#: Conversations.xml:43
+#, no-c-format
+msgid "The idea of a workflow <emphasis>task</emphasis>."
+msgstr "ワークフロー<emphasis>タスク</emphasis>という思いつき"
+
+#. Tag: para
+#: Conversations.xml:49
+#, no-c-format
+msgid ""
+"By unifying these ideas and providing deep support in the framework, we have "
+"a powerful construct that lets us build richer and more efficient "
+"applications with less code than before."
+msgstr ""
+"こうした思いつきを統一しフレームワークで強力なサポートを提供することで、 以前"
+"よりすっきりしたコードでより豊かで効率的なアプリケーションをビルドできるパワ"
+"フルな構成概念を得ました。"
+
+#. Tag: title
+#: Conversations.xml:56
+#, no-c-format
+msgid "Seam's conversation model"
+msgstr "Seam の対話モデル"
+
+#. Tag: para
+#: Conversations.xml:58
+#, no-c-format
+msgid ""
+"The examples we have seen so far make use of a very simple conversation "
+"model that follows these rules:"
+msgstr ""
+"これまでに見た例は、以下の規則に従う非常に単純な対話モデルを利用します。"
+
+#. Tag: para
+#: Conversations.xml:65
+#, no-c-format
+msgid ""
+"There is always a conversation context active during the apply request "
+"values, process validations, update model values, invoke application and "
+"render response phases of the JSF request lifecycle."
+msgstr ""
+"JSF 要求ライフサイクルである、 要求値の適用、 プロセスの妥当性検証、 モデル値"
+"の更新、 アプリケーションの呼び出し、 応答のレンダリングの各フェーズの期間、 "
+"常にアクティブな対話コンテキストがあります。"
+
+#. Tag: para
+#: Conversations.xml:73
+#, no-c-format
+msgid ""
+"At the end of the restore view phase of the JSF request lifecycle, Seam "
+"attempts to restore any previous long-running conversation context. If none "
+"exists, Seam creates a new temporary conversation context."
+msgstr ""
+"JSF 要求ライフサイクルであるビューの復元フェーズの終わりで、 Seam はそれまで"
+"の長期対話コンテキストの復元を試みます。 存在しなければ、 Seam は新しい一時的"
+"な対話コンテキストを生成します。"
+
+#. Tag: para
+#: Conversations.xml:81
+#, no-c-format
+msgid ""
+"When an <literal>@Begin</literal> method is encountered, the temporary "
+"conversation context is promoted to a long running conversation."
+msgstr ""
+"<literal>@Begin</literal> メソッドが出てくると、 一時的な対話コンテキストは長"
+"期対話に昇格します。"
+
+#. Tag: para
+#: Conversations.xml:88
+#, no-c-format
+msgid ""
+"When an <literal>@End</literal> method is encountered, any long-running "
+"conversation context is demoted to a temporary conversation."
+msgstr ""
+"<literal>@End</literal> メソッドが出てくると、 どのような長期対話コンテキスト"
+"でも一時的な対話に降格されます。"
+
+#. Tag: para
+#: Conversations.xml:95
+#, no-c-format
+msgid ""
+"At the end of the render response phase of the JSF request lifecycle, Seam "
+"stores the contents of a long running conversation context or destroys the "
+"contents of a temporary conversation context."
+msgstr ""
+"JSF 要求ライフサイクルである応答のレンダリングのフェーズの終わりで、 Seam は"
+"長期対話コンテキストの内容を記憶するか、 一時的な対話コンテキストの内容を破棄"
+"します。"
+
+#. Tag: para
+#: Conversations.xml:103
+#, no-c-format
+msgid ""
+"Any faces request (a JSF postback) will propagate the conversation context. "
+"By default, non-faces requests (GET requests, for example) do not propagate "
+"the conversation context, but see below for more information on this."
+msgstr ""
+"どのような faces 要求 (JSF ポストバック) でも対話コンテキストを伝播します。 "
+"デフォルトでは、 non-faces 要求 (例えば、 GET 要求) は対話コンテキストを伝播"
+"しませんが、 これについての詳細は下記を参照してください。"
+
+#. Tag: para
+#: Conversations.xml:111
+#, fuzzy, no-c-format
+msgid ""
+"If the JSF request lifecycle is foreshortened by a redirect, Seam "
+"transparently stores and restores the current conversation context &#8212; "
+"unless the conversation was already ended via <literal>@End"
+"(beforeRedirect=true)</literal>."
+msgstr ""
+"JSF 要求ライフサイクルがリダイレクトによって短縮される場合、 Seam は透過的に"
+"現在の対話コンテキストを保存および復元します (その対話が <literal>@End "
+"(beforeRedirect=true) </literal> で既に終了されていない限り)。"
+
+#. Tag: para
+#: Conversations.xml:120
+#, no-c-format
+msgid ""
+"Seam transparently propagates the conversation context (including the "
+"temporary conversation context) across JSF postbacks and redirects. If you "
+"don't do anything special, a <emphasis>non-faces request</emphasis> (a GET "
+"request for example) will not propagate the conversation context and will be "
+"processed in a new temporary conversation. This is usually - but not always "
+"- the desired behavior."
+msgstr ""
+"Seam は透過的に対話コンテキスト (一時的な対話コンテキストを含む) を JSF ポス"
+"トパックおよびリダイレクト全体に伝播します。 特に何もしなければ <emphasis>非 "
+"faces 要求</emphasis> (たとえば GET 要求など) は対話コンテキストを伝播せず新"
+"しい一時的な対話内で処理されます。 常にとは限りませんが、 これが通常求められ"
+"る動作になります。"
+
+#. Tag: para
+#: Conversations.xml:129
+#, no-c-format
+msgid ""
+"If you want to propagate a Seam conversation across a non-faces request, you "
+"need to explicitly code the Seam <emphasis>conversation id</emphasis> as a "
+"request parameter:"
+msgstr ""
+"non-faces 要求全体に Seam 対話を伝播させたい場合、 要求パラメータとして Seam "
+"<emphasis>対話 ID (conversation id)</emphasis> を明示的にコード化する必要があ"
+"ります。"
+
+#. Tag: programlisting
+#: Conversations.xml:135
+#, no-c-format
+msgid ""
+"<![CDATA[<a href=\"main.jsf?#{manager.conversationIdParameter}=#"
+"{conversation.id}\">Continue</a>]]>"
+msgstr ""
+"<![CDATA[<a href=\"main.jsf?#{manager.conversationIdParameter}=#"
+"{conversation.id}\">Continue</a>]]>"
+
+#. Tag: para
+#: Conversations.xml:137
+#, no-c-format
+msgid "Or, the more JSF-ish:"
+msgstr "JSF のようにする場合には以下のようにします。"
+
+#. Tag: programlisting
+#: Conversations.xml:141
+#, no-c-format
+msgid ""
+"<![CDATA[<h:outputLink value=\"main.jsf\">\n"
+"    <f:param name=\"#{manager.conversationIdParameter}\" value=\"#"
+"{conversation.id}\"/>\n"
+"    <h:outputText value=\"Continue\"/>\n"
+"</h:outputLink>]]>"
+msgstr ""
+"<![CDATA[<h:outputLink value=\"main.jsf\">\n"
+"    <f:param name=\"#{manager.conversationIdParameter}\" value=\"#"
+"{conversation.id}\"/>\n"
+"    <h:outputText value=\"Continue\"/>\n"
+"</h:outputLink>]]>"
+
+#. Tag: para
+#: Conversations.xml:143 Conversations.xml:156
+#, no-c-format
+msgid "If you use the Seam tag library, this is equivalent:"
+msgstr "Seam タグライブラリを使用する場合、 以下は等価です。"
+
+#. Tag: programlisting
+#: Conversations.xml:147
+#, no-c-format
+msgid ""
+"<![CDATA[<h:outputLink value=\"main.jsf\">\n"
+"    <s:conversationId/>\n"
+"    <h:outputText value=\"Continue\"/>\n"
+"</h:outputLink>]]>"
+msgstr ""
+"<![CDATA[<h:outputLink value=\"main.jsf\">\n"
+"    <s:conversationId/>\n"
+"    <h:outputText value=\"Continue\"/>\n"
+"</h:outputLink>]]>"
+
+#. Tag: para
+#: Conversations.xml:149
+#, no-c-format
+msgid ""
+"If you wish to disable propagation of the conversation context for a "
+"postback, a similar trick is used:"
+msgstr ""
+"ポストバック用の対話コンテキストの伝播を無効にしたい場合は、 同様のトリックが"
+"使えます。"
+
+#. Tag: programlisting
+#: Conversations.xml:154
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <f:param name=\"conversationPropagation\" value=\"none\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <f:param name=\"conversationPropagation\" value=\"none\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: programlisting
+#: Conversations.xml:160
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <s:conversationPropagation type=\"none\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <s:conversationPropagation type=\"none\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: para
+#: Conversations.xml:162
+#, no-c-format
+msgid ""
+"Note that disabling conversation context propagation is absolutely not the "
+"same thing as ending the conversation."
+msgstr ""
+"対話コンテキストの伝播を無効にすることと、 対話を終了することとは全く異なるこ"
+"とですので注意してください。"
+
+#. Tag: para
+#: Conversations.xml:167
+#, no-c-format
+msgid ""
+"The <literal>conversationPropagation</literal> request parameter, or the "
+"<literal>&lt;s:conversationPropagation&gt;</literal> tag may even be used to "
+"begin and end conversation, or begin a nested conversation."
+msgstr ""
+"<literal>conversationPropagation</literal> 要求パラメータ または "
+"<literal>&lt;s:conversationPropagation&gt;</literal> タグは、 対話の開始と終"
+"了、あるいはネストされた対話の開始にも使用することができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:174
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <s:conversationPropagation type=\"end\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Exit\">\n"
+"    <s:conversationPropagation type=\"end\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: programlisting
+#: Conversations.xml:176
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Child\">\n"
+"    <s:conversationPropagation type=\"nested\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Child\">\n"
+"    <s:conversationPropagation type=\"nested\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: programlisting
+#: Conversations.xml:178
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Hotel\">\n"
+"    <s:conversationPropagation type=\"begin\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Hotel\">\n"
+"    <s:conversationPropagation type=\"begin\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: programlisting
+#: Conversations.xml:180
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Hotel\">\n"
+"    <s:conversationPropagation type=\"join\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+"<![CDATA[<h:commandLink action=\"main\" value=\"Select Hotel\">\n"
+"    <s:conversationPropagation type=\"join\"/>\n"
+"</h:commandLink>]]>"
+
+#. Tag: para
+#: Conversations.xml:182
+#, no-c-format
+msgid ""
+"This conversation model makes it easy to build applications which behave "
+"correctly with respect to multi-window operation. For many applications, "
+"this is all that is needed. Some complex applications have either or both of "
+"the following additional requirements:"
+msgstr ""
+"この対話モデルは、 マルチウィンドウ操作に関して正常に動作するアプリケーション"
+"の構築を容易してくれます。 多くのアプリケーションにとって必要なものはこれだけ"
+"です。 複雑なアプリケーションのなかには以下の追加要件の両方あるいはどちらかを"
+"必要とするものがあります。"
+
+#. Tag: para
+#: Conversations.xml:191
+#, no-c-format
+msgid ""
+"A conversation spans many smaller units of user interaction, which execute "
+"serially or even concurrently. The smaller <emphasis>nested conversations</"
+"emphasis> have their own isolated set of conversation state, and also have "
+"access to the state of the outer conversation."
+msgstr ""
+"対話には、 連続的に実行したり同時に実行することもある多くの小さな単位のユー"
+"ザーインタラクションも含まれます。 より小さい <emphasis>ネストされた対話 "
+"(nested conversation)</emphasis> には単独の対話状態セットがあり、 また外側の"
+"対話状態へのアクセスもあります。"
+
+#. Tag: para
+#: Conversations.xml:200
+#, no-c-format
+msgid ""
+"The user is able to switch between many conversations within the same "
+"browser window. This feature is called <emphasis>workspace management</"
+"emphasis>."
+msgstr ""
+"ユーザーは同じブラウザのウィンドウ内でいくつもの対話を切り換えることができま"
+"す。 この機能が<emphasis>ワークスペース管理</emphasis>と呼ばれるものです。"
+
+#. Tag: title
+#: Conversations.xml:211
+#, no-c-format
+msgid "Nested conversations"
+msgstr "ネストされた対話"
+
+#. Tag: para
+#: Conversations.xml:213
+#, no-c-format
+msgid ""
+"A nested conversation is created by invoking a method marked <literal>@Begin"
+"(nested=true)</literal> inside the scope of an existing conversation. A "
+"nested conversation has its own conversation context, but can read values "
+"from the outer conversation's context. The outer conversation's context is "
+"read-only within a nested conversation, but because objects are obtained by "
+"reference, changes to the objects themselves will be reflected in the outer "
+"context."
+msgstr ""
+"ネストされた対話は既存の対話のスコープ内で <literal>@Begin(nested=true)</"
+"literal> とマークされたメソッドを呼び出すことによって作成されます。 ネストさ"
+"れた対話はそれ自体の対話コンテキストを持っていますが、 外側の対話のコンテキス"
+"トから値を読み取ることができます。 オブジェクトは参照により取得されるため外側"
+"の対話のコンテキストはネストされた対話内では読み取り専用となりますが、 オブ"
+"ジェクト自体への変更はその外側のコンテキストに反映されます。"
+
+#. Tag: para
+#: Conversations.xml:226
+#, no-c-format
+msgid ""
+"Nesting a conversation through initializes a context that is stacked on the "
+"context of the original, or outer, conversation. The outer conversation is "
+"considered the parent."
+msgstr ""
+"対話をネストするとオリジナルの対話または外側の対話のコンテキストに積み重ねら"
+"れるコンテキストを初期化します。 外側の対話が親とみなされます。"
+
+#. Tag: para
+#: Conversations.xml:233
+#, no-c-format
+msgid ""
+"Any values outjected or directly set into the nested conversation’s context "
+"do not affect the objects accessible in the parent conversation’s context."
+msgstr ""
+"ネストされた対話のコンテキストに直接セットされるまたはアウトジェクトされる値"
+"はすべて親となる対話のコンテキスト内にアクセス可能なオブジェクトに影響は与え"
+"ません。"
+
+#. Tag: para
+#: Conversations.xml:240
+#, no-c-format
+msgid ""
+"Injection or a context lookup from the conversation context will first "
+"lookup the value in the current conversation context and, if no value is "
+"found, will proceed down the conversation stack if the conversation is "
+"nested. As you will see in moment, this behavior can be overriden."
+msgstr ""
+"対話コンテキストからのコンテキスト検索やインジェクションはまず現在の対話コン"
+"テキストにある値を検索し、 値がみつかならないと対話がネストされている場合はそ"
+"の対話スタックに進みます。 このあとわかるように、 この動作は上書き可能です。"
+
+#. Tag: para
+#: Conversations.xml:250
+#, no-c-format
+msgid ""
+"When an <literal>@End</literal> is subsequently encountered, the nested "
+"conversation will be destroyed, and the outer conversation will resume, by "
+"\"popping\" the conversation stack. Conversations may be nested to any "
+"arbitrary depth."
+msgstr ""
+"次に <literal>@End</literal> が出てくると、 対話スタックから「ポップ(Pop)」さ"
+"れることで、 その取り出された対話は破棄されます。 対話は任意の深さにネストす"
+"ることができます。"
+
+#. Tag: para
+#: Conversations.xml:257
+#, no-c-format
+msgid ""
+"Certain user activity (workspace management, or the back button) can cause "
+"the outer conversation to be resumed before the inner conversation is ended. "
+"In this case it is possible to have multiple concurrent nested conversations "
+"belonging to the same outer conversation. If the outer conversation ends "
+"before a nested conversation ends, Seam destroys all nested conversation "
+"contexts along with the outer context."
+msgstr ""
+"特定のユーザーアクティビティ (ワークスペース管理や戻るボタン) により、 内側の"
+"対話が終了する前に外側の対話が開始させることができます。 この場合、 同じ外側"
+"の対話に属する複数の並列ネスト対話を持つことができます。 ネストされた対話が終"
+"了する前に外側の対話が終了すると、 Seam はネストされた対話コンテキストを外側"
+"のコンテキストと共にすべて破棄します。"
+
+#. Tag: para
+#: Conversations.xml:267
+#, no-c-format
+msgid ""
+"The conversation at the bottom of the conversation stack is the root "
+"conversation. Destroying this conversation always destroy all of its "
+"descendents. You can achieve this declaratively by specifying <literal>@End"
+"(root=true)</literal>."
+msgstr ""
+"対話スタックの最下位にある対話がルートの対話になります。 この対話を破棄すると"
+"常に派生した対話はすべて破棄されます。 <literal>@End(root=true)</literal> を"
+"指定すると宣言的にこれを行うことができます。"
+
+#. Tag: para
+#: Conversations.xml:274
+#, no-c-format
+msgid ""
+"A conversation may be thought of as a <emphasis>continuable state</"
+"emphasis>. Nested conversations allow the application to capture a "
+"consistent continuable state at various points in a user interaction, thus "
+"ensuring truly correct behavior in the face of backbuttoning and workspace "
+"management."
+msgstr ""
+"対話は<emphasis>継続可能な状態</emphasis>と見なすことができます。 ネストされ"
+"た対話により、 ユーザーとの交信でのさまざまなポイントにおいてアプリケーション"
+"は一貫した継続可能な状態を捕らえることができるようになります。 従って、 戻る"
+"ボタンを押すことやワークスペース管理に対して正しい動作を保証します。"
+
+#. Tag: para
+#: Conversations.xml:282
+#, no-c-format
+msgid ""
+"As mentioned previously, if a component exists in a parent conversation of "
+"the current nested conversation, the nested conversation will use the same "
+"instance. Occasionally, it is useful to have a different instance in each "
+"nested conversation, so that the component instance that exists in the "
+"parent conversation is invisible to its child conversations. You can achieve "
+"this behavior by annotating the component <literal>@PerNestedConversation</"
+"literal>."
+msgstr ""
+"前述した通り、 現在ネストされている対話の親となる対話にコンポーネントが存在す"
+"る場合、 このネストされている対話は同じインスタンスを使用します。ときには、 "
+"親となる対話内に存在するコンポーネントインスタンスがその子となる対話からは見"
+"えなくなるように、 ネストされるそれぞれの対話内に別々のインスタンスを持たせる"
+"と便利なことがあります。 コンポーネントに <literal>@PerNestedConversation</"
+"literal> アノテーションを付けるとこれを行うことができます。"
+
+#. Tag: title
+#: Conversations.xml:295
+#, no-c-format
+msgid "Starting conversations with GET requests"
+msgstr "GET 要求を使って対話を開始する"
+
+#. Tag: para
+#: Conversations.xml:296
+#, no-c-format
+msgid ""
+"JSF does not define any kind of action listener that is triggered when a "
+"page is accessed via a non-faces request (for example, a HTTP GET request). "
+"This can occur if the user bookmarks the page, or if we navigate to the page "
+"via an <literal>&lt;h:outputLink&gt;</literal>."
+msgstr ""
+"ページが non-faces 要求 (例、 HTTP GET 要求) 経由でアクセスされる場合、 JSF "
+"は起動されるアクションリスナーを全く定義しません。 ユーザーがそのページをブッ"
+"クマークする、あるいは <literal>&lt;h:outputLink&gt;</literal> からそのページ"
+"に行き着く場合などに発生します。"
+
+#. Tag: para
+#: Conversations.xml:303
+#, no-c-format
+msgid ""
+"Sometimes we want to begin a conversation immediately the page is accessed. "
+"Since there is no JSF action method, we can't solve the problem in the usual "
+"way, by annotating the action with <literal>@Begin</literal>."
+msgstr ""
+"ページがアクセスされたら直ちに対話を開始したい場合があります。 JSF アクション"
+"メソッドがないため、 アクションに <literal>@Begin</literal> アノテーションを"
+"付けるという普通の方法では問題を解決することができません。"
+
+#. Tag: para
+#: Conversations.xml:309
+#, no-c-format
+msgid ""
+"A further problem arises if the page needs some state to be fetched into a "
+"context variable. We've already seen two ways to solve this problem. If that "
+"state is held in a Seam component, we can fetch the state in a "
+"<literal>@Create</literal> method. If not, we can define a "
+"<literal>@Factory</literal> method for the context variable."
+msgstr ""
+"このページが状態をコンテキスト変数にフェッチする必要がある場合、 さらなる問題"
+"が発生します。 すでに、2 つの問題解決方法を見てきました。 Seam コンポーネント"
+"にその状態が保持される場合、 <literal>@Create</literal> メソッドでその状態を"
+"フェッチできます。 保持されていなければ、 コンテキスト変数に対して "
+"<literal>@Factory</literal> メソッドを定義することができます。"
+
+#. Tag: para
+#: Conversations.xml:317
+#, no-c-format
+msgid ""
+"If none of these options works for you, Seam lets you define a "
+"<emphasis>page action</emphasis> in the <literal>pages.xml</literal> file."
+msgstr ""
+"これらのオプションがうまくいかない場合、 Seam では <literal>pages.xml</"
+"literal> ファイルに <emphasis>ページアクション</emphasis> を定義することがで"
+"きます。"
+
+#. Tag: programlisting
+#: Conversations.xml:323
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\" action=\"#{messageManager.list}\"/>\n"
+"    ...\n"
+"</pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\" action=\"#{messageManager.list}\"/>\n"
+"    ...\n"
+"</pages>]]>"
+
+#. Tag: para
+#: Conversations.xml:325
+#, no-c-format
+msgid ""
+"This action method is called at the beginning of the render response phase, "
+"any time the page is about to be rendered. If a page action returns a non-"
+"null outcome, Seam will process any appropriate JSF and Seam navigation "
+"rules, possibly resulting in a completely different page being rendered."
+msgstr ""
+"ページがレンダリングされるようとするときは常に、 応答のレンダリングフェーズの"
+"冒頭でこのアクションメソッドが呼び出されます。 ページアクションが null 以外の"
+"結果を返す場合、 Seam は適切な JSF および Seam ナビゲーションの規則を処理する"
+"ので、 まったく異なるページがレンダリングさることになるかもしれません。"
+
+#. Tag: para
+#: Conversations.xml:333
+#, no-c-format
+msgid ""
+"If <emphasis>all</emphasis> you want to do before rendering the page is "
+"begin a conversation, you could use a built-in action method that does just "
+"that:"
+msgstr ""
+"ページのレンダリング前に行いたいことが対話の開始だけなら、 組み込みアクション"
+"メソッドを次のように使用できます。"
+
+#. Tag: programlisting
+#: Conversations.xml:339
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\" action=\"#{conversation.begin}\"/>\n"
+"    ...\n"
+"</pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\" action=\"#{conversation.begin}\"/>\n"
+"    ...\n"
+"</pages>]]>"
+
+#. Tag: para
+#: Conversations.xml:341
+#, no-c-format
+msgid ""
+"Note that you can also call this built-in action from a JSF control, and, "
+"similarly, you can use <literal>#{conversation.end}</literal> to end "
+"conversations."
+msgstr ""
+"また、 この組み込みアクションは JSF コントロールからも呼び出すことができ、 同"
+"様に <literal>#{conversation.end}</literal> を使って対話を終了することができ"
+"ます。"
+
+#. Tag: para
+#: Conversations.xml:347
+#, no-c-format
+msgid ""
+"If you want more control, to join existing conversations or begin a nested "
+"conversion, to begin a pageflow or an atomic conversation, you should use "
+"the <literal>&lt;begin-conversation&gt;</literal> element."
+msgstr ""
+"既存の対話にジョインするあるいはネストされる対話を開始する、 ページフローまた"
+"はアトミック対話を開始するためにさらに制御が必要な場合は、 <literal>&lt;"
+"begin-conversation&gt;</literal> エレメントを使用してください。"
+
+#. Tag: programlisting
+#: Conversations.xml:354
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\">\n"
+"       <begin-conversation nested=\"true\" pageflow=\"AddItem\"/>\n"
+"    <page>\n"
+"    ...\n"
+"</pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/messageList.jsp\">\n"
+"       <begin-conversation nested=\"true\" pageflow=\"AddItem\"/>\n"
+"    <page>\n"
+"    ...\n"
+"</pages>]]>"
+
+#. Tag: para
+#: Conversations.xml:356
+#, no-c-format
+msgid "There is also an <literal>&lt;end-conversation&gt;</literal> element."
+msgstr ""
+"また、 <literal>&lt;end-conversation&gt;</literal> エレメントもあります。"
+
+#. Tag: programlisting
+#: Conversations.xml:361
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/home.jsp\">\n"
+"       <end-conversation/>\n"
+"    <page>\n"
+"    ...\n"
+"</pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/home.jsp\">\n"
+"       <end-conversation/>\n"
+"    <page>\n"
+"    ...\n"
+"</pages>]]>"
+
+#. Tag: para
+#: Conversations.xml:363
+#, no-c-format
+msgid "To solve the first problem, we now have five options:"
+msgstr "1 番目の問題を解決するには、 現在 5 つのオプションから選択できます。"
+
+#. Tag: para
+#: Conversations.xml:369
+#, no-c-format
+msgid ""
+"Annotate the <literal>@Create</literal> method with <literal>@Begin</literal>"
+msgstr ""
+" <literal>@Create</literal> メソッドに <literal>@Begin</literal> アノテーショ"
+"ンを追加する"
+
+#. Tag: para
+#: Conversations.xml:375
+#, no-c-format
+msgid ""
+"Annotate the <literal>@Factory</literal> method with <literal>@Begin</"
+"literal>"
+msgstr ""
+"<literal>@Factory</literal> メソッドに <literal>@Begin</literal> アノテーショ"
+"ンを追加する"
+
+#. Tag: para
+#: Conversations.xml:381
+#, no-c-format
+msgid "Annotate the Seam page action method with <literal>@Begin</literal>"
+msgstr ""
+"Seam ページアクションメソッドに <literal>@Begin</literal> アノテーションを追"
+"加する"
+
+#. Tag: para
+#: Conversations.xml:387
+#, no-c-format
+msgid ""
+"Use <literal>&lt;begin-conversation&gt;</literal> in <literal>pages.xml</"
+"literal>."
+msgstr ""
+"<literal>pages.xml</literal> で <literal>&lt;begin-conversation&gt;</"
+"literal> を使用する"
+
+#. Tag: para
+#: Conversations.xml:393
+#, no-c-format
+msgid ""
+"Use <literal>#{conversation.begin}</literal> as the Seam page action method"
+msgstr ""
+"<literal>#{conversation.begin}</literal> を Seam ページアクションメソッドとし"
+"て使用する"
+
+#. Tag: title
+#: Conversations.xml:403
+#, fuzzy, no-c-format
+msgid "Requiring a long-running conversation"
+msgstr "ナチュラル対話にリダイレクトする"
+
+#. Tag: para
+#: Conversations.xml:404
+#, no-c-format
+msgid ""
+"Certain pages are only relevant in the context of a long-running "
+"conversation. One way to \"protect\" such a page is to require a long-"
+"running conversation as a prerequisite to rendering the page. Fortunately, "
+"Seam has a built-in mechanism for enforcing this requirement."
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:409
+#, no-c-format
+msgid ""
+"In the Seam page descriptor, you can indicate that the current conversation "
+"must be long-running (or nested) in order for a page to be rendered using "
+"the <literal>conversation-required</literal> attribute as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:414
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/book.xhtml\" conversation-required=\"true\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:417
+#, no-c-format
+msgid ""
+"The only downside is there's no built-in way to indicate <emphasis>which</"
+"emphasis> long-running conversation is required. You can build on this basic "
+"authorization by dually checking if a specific value is present in the "
+"conversation within a page action."
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:424
+#, no-c-format
+msgid ""
+"When Seam determines that this page is requested outside of a long-running "
+"conversation, the following actions are taken:"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:431
+#, no-c-format
+msgid ""
+"A contextual event named <literal>org.jboss.seam.noConversation</literal> is "
+"raised"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:434
+#, no-c-format
+msgid ""
+"A warning status message is registered using the bundle key <literal>org."
+"jboss.seam.NoConversation</literal>"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:437
+#, no-c-format
+msgid "The user is redirected to an alternate page, if defined"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:441
+#, fuzzy, no-c-format
+msgid ""
+"The alternate page is defined in the <literal>no-conversation-view-id</"
+"literal> attribute on a <literal>&lt;pages&gt;</literal> element in the Seam "
+"page descriptor as follows:"
+msgstr ""
+"もうひとつの方法は <literal>s:link</literal> または <literal>s:button</"
+"literal> のどちらかを使用するときに <literal>conversationName</literal> を指"
+"定する方法です。"
+
+#. Tag: programlisting
+#: Conversations.xml:446
+#, fuzzy, no-c-format
+msgid "<![CDATA[<pages no-conversation-view-id=\"/main.xhtml\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:448
+#, no-c-format
+msgid ""
+"At the moment, you can only define one such page for the entire application."
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:455
+#, no-c-format
+msgid ""
+"Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</"
+"literal>"
+msgstr ""
+"<literal>&lt;s:link&gt;</literal> と <literal>&lt;s:button&gt;</literal> の使"
+"いかた"
+
+#. Tag: para
+#: Conversations.xml:457
+#, no-c-format
+msgid ""
+"JSF command links always perform a form submission via JavaScript, which "
+"breaks the web browser's \"open in new window\" or \"open in new tab\" "
+"feature. In plain JSF, you need to use an <literal>&lt;h:outputLink&gt;</"
+"literal> if you need this functionality. But there are two major limitations "
+"to <literal>&lt;h:outputLink&gt;</literal>."
+msgstr ""
+"JSF コマンドリンクは常に JavaScript でフォームサブミットを行います。 これによ"
+"りウェブブラウザの「新しいウィンドウで開く」または「新しいタブで開く」機能を"
+"動作させなくしてしまいます。 プレーンの JFS でこの機能が必要な場合は、  "
+"<literal>&lt;h:outputLink&gt;</literal> を使用する必要があります。 ただし、 "
+"<literal>&lt;h:outputLink&gt;</literal> には重要な制限が 2 つあります。"
+
+#. Tag: para
+#: Conversations.xml:467
+#, no-c-format
+msgid ""
+"JSF provides no way to attach an action listener to an <literal>&lt;h:"
+"outputLink&gt;</literal>."
+msgstr ""
+"JSF はアクションリスナーを <literal>&lt;h:outputLink&gt;</literal> につなげる"
+"方法を提供していません。"
+
+#. Tag: para
+#: Conversations.xml:473
+#, no-c-format
+msgid ""
+"JSF does not propagate the selected row of a <literal>DataModel</literal> "
+"since there is no actual form submission."
+msgstr ""
+"実際にフォームサブミットがないため、 JSF は選択された  <literal>DataModel</"
+"literal> の列を伝播しません。"
+
+#. Tag: para
+#: Conversations.xml:480
+#, fuzzy, no-c-format
+msgid ""
+"Seam provides the notion of a <emphasis>page action</emphasis> to help solve "
+"the first problem, but this does nothing to help us with the second problem. "
+"We <emphasis>could</emphasis> work around this by using the RESTful approach "
+"of passing a request parameter and requerying for the selected object on the "
+"server side. In some cases &#8212; such as the Seam blog example application "
+"&#8212; this is indeed the best approach. The RESTful style supports "
+"bookmarking, since it does not require server-side state. In other cases, "
+"where we don't care about bookmarks, the use of <literal>@DataModel</"
+"literal> and <literal>@DataModelSelection</literal> is just so convenient "
+"and transparent!"
+msgstr ""
+"Seam は 1 番目の問題解決に対しては <emphasis>ページアクション</emphasis>とい"
+"う概念を提供していますが、 これは 2 番目の問題についてはまったく役に立ちませ"
+"ん。 これについては要求パラメータを渡すという RESTful 方法を使ってサーバー側"
+"にある選択オブジェクトに再問い合わせを行うことで<emphasis>回避できました</"
+"emphasis>。 Seam ブログサンプルアプリケーションなどの場合には、 実際にこれが"
+"最適の手段となります。 RESTful スタイルはサーバー側の状態を必要としないため"
+"ブックマーク機能をサポートします。 ブックマークはあまり必要ないなどこれ以外の"
+"場合は、 <literal>@DataModel</literal> および <literal>@DataModelSelection</"
+"literal> を使用すると非常に便利で透過的になります。"
+
+#. Tag: para
+#: Conversations.xml:493
+#, no-c-format
+msgid ""
+"To fill in this missing functionality, and to make conversation propagation "
+"even simpler to manage, Seam provides the <literal>&lt;s:link&gt;</literal> "
+"JSF tag."
+msgstr ""
+"この機能を補ってさらに対話伝播の管理をより簡略化するために、 Seam は "
+"<literal>&lt;s:link&gt;</literal> JSF タグを提供しています。"
+
+#. Tag: para
+#: Conversations.xml:499
+#, no-c-format
+msgid "The link may specify just the JSF view id:"
+msgstr "このリンクは JSF ビュー ID だけを指定することができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:503
+#, no-c-format
+msgid "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:505
+#, no-c-format
+msgid ""
+"Or, it may specify an action method (in which case the action outcome "
+"determines the page that results):"
+msgstr ""
+"あるいは、 アクションメソッドを指定することができます (この場合、 アクション"
+"の結果は最終的なページを確定する)。"
+
+#. Tag: programlisting
+#: Conversations.xml:510
+#, no-c-format
+msgid "<![CDATA[<s:link action=\"#{login.logout}\" value=\"Logout\"/>]]>"
+msgstr "<![CDATA[<s:link action=\"#{login.logout}\" value=\"Logout\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:512
+#, no-c-format
+msgid ""
+"If you specify <emphasis>both</emphasis> a JSF view id and an action method, "
+"the 'view' will be used <emphasis>unless</emphasis> the action method "
+"returns a non-null outcome:"
+msgstr ""
+"JSF ビュー ID とアクションメソッドの<emphasis>両方</emphasis>を指定すると、 "
+"<emphasis>アクションメソッドが null 以外の結果を返さない限り</emphasis>"
+"「ビュー」が使用されます。"
+
+#. Tag: programlisting
+#: Conversations.xml:518
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link view=\"/loggedOut.xhtml\"  action=\"#{login.logout}\" value="
+"\"Logout\"/>]]>"
+msgstr ""
+"<![CDATA[<s:link view=\"/loggedOut.xhtml\"  action=\"#{login.logout}\" value="
+"\"Logout\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:520
+#, no-c-format
+msgid ""
+"The link automatically propagates the selected row of a <literal>DataModel</"
+"literal> using inside <literal>&lt;h:dataTable&gt;</literal>:"
+msgstr ""
+"リンクは <literal>&lt;h:dataTable&gt;</literal> 内で使用する "
+"<literal>DataModel</literal> の選択列を自動的に伝播します。"
+
+#. Tag: programlisting
+#: Conversations.xml:525
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link view=\"/hotel.xhtml\" action=\"#{hotelSearch.selectHotel}\" "
+"value=\"#{hotel.name}\"/>]]>"
+msgstr ""
+"<![CDATA[<s:link view=\"/hotel.xhtml\" action=\"#{hotelSearch.selectHotel}\" "
+"value=\"#{hotel.name}\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:527
+#, no-c-format
+msgid "You can leave the scope of an existing conversation:"
+msgstr "既存の対話のスコープを残しておくことができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:531
+#, no-c-format
+msgid "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:533
+#, no-c-format
+msgid "You can begin, end, or nest conversations:"
+msgstr "対話を開始、 終了、 またはネストすることができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:537
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link action=\"#{issueEditor.viewComment}\" propagation=\"nest\"/"
+">]]>"
+msgstr ""
+"<![CDATA[<s:link action=\"#{issueEditor.viewComment}\" propagation=\"nest\"/"
+">]]>"
+
+#. Tag: para
+#: Conversations.xml:539
+#, no-c-format
+msgid ""
+"If the link begins a conversation, you can even specify a pageflow to be "
+"used:"
+msgstr ""
+"リンクが対話を開始すると、 使用されるページプローを指定することもできます。"
+
+#. Tag: programlisting
+#: Conversations.xml:543
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link action=\"#{documentEditor.getDocument}\" propagation=\"begin"
+"\"\n"
+"        pageflow=\"EditDocument\"/>]]>"
+msgstr ""
+"<![CDATA[<s:link action=\"#{documentEditor.getDocument}\" propagation=\"begin"
+"\"\n"
+"        pageflow=\"EditDocument\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:545
+#, fuzzy, no-c-format
+msgid ""
+"The <literal>taskInstance</literal> attribute is for use in jBPM task lists:"
+msgstr ""
+"jBPM タスクリストを使用する場合の <literal>taskInstance</literal> 属性です。"
+
+#. Tag: programlisting
+#: Conversations.xml:549
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link action=\"#{documentApproval.approveOrReject}\" taskInstance="
+"\"#{task}\"/>]]>"
+msgstr ""
+"<![CDATA[<s:link action=\"#{documentApproval.approveOrReject}\" taskInstance="
+"\"#{task}\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:551
+#, no-c-format
+msgid "(See the DVD Store demo application for examples of this.)"
+msgstr " (上記の例は DVD ストアデモアプリケーションを参照してください。)"
+
+#. Tag: para
+#: Conversations.xml:555
+#, no-c-format
+msgid ""
+"Finally, if you need the \"link\" to be rendered as a button, use "
+"<literal>&lt;s:button&gt;</literal>:"
+msgstr ""
+"最後に、 ボタンとしてレンダリングされる「リンク」が必要な場合は <literal>&lt;"
+"s:button&gt;</literal> を使用します。"
+
+#. Tag: programlisting
+#: Conversations.xml:559
+#, no-c-format
+msgid "<![CDATA[<s:button action=\"#{login.logout}\" value=\"Logout\"/>]]>"
+msgstr "<![CDATA[<s:button action=\"#{login.logout}\" value=\"Logout\"/>]]>"
+
+#. Tag: title
+#: Conversations.xml:564
+#, no-c-format
+msgid "Success messages"
+msgstr "成功のメッセージ"
+
+#. Tag: para
+#: Conversations.xml:565
+#, no-c-format
+msgid ""
+"It is quite common to display a message to the user indicating success or "
+"failure of an action. It is convenient to use a JSF <literal>FacesMessage</"
+"literal> for this. Unfortunately, a successful action often requires a "
+"browser redirect, and JSF does not propagate faces messages across "
+"redirects. This makes it quite difficult to display success messages in "
+"plain JSF."
+msgstr ""
+"動作に対して成功したか失敗したかをユーザーに示すメッセージを表示するのは非常"
+"に一般的です。 これには、 JSF <literal>FacesMessage</literal> を使うと便利で"
+"す。 残念ながら、 成功のアクションはブラウザリダイレクトを要することが多く、 "
+"JSF はリダイレクト全体に faces のメッセージは伝播しません。 このためプレーン "
+"JSF で成功のメッセージを表示するのはかなり困難になります。"
+
+#. Tag: para
+#: Conversations.xml:574
+#, no-c-format
+msgid ""
+"The built in conversation-scoped Seam component named "
+"<literal>facesMessages</literal> solves this problem. (You must have the "
+"Seam redirect filter installed.)"
+msgstr ""
+"組み込みの対話スコープ Seam コンポーネントである <literal>facesMessages</"
+"literal> がこの問題を解決してくれます。 (Seam リダイレクトフィルタをインス"
+"トールしておく必要があります。)"
+
+#. Tag: programlisting
+#: Conversations.xml:580
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"editDocumentAction\")\n"
+"@Stateless\n"
+"public class EditDocumentBean implements EditDocument {\n"
+"    @In EntityManager em;\n"
+"    @In Document document;\n"
+"    @In FacesMessages facesMessages;\n"
+"    \n"
+"    public String update() {\n"
+"        em.merge(document);\n"
+"        facesMessages.add(\"Document updated\");\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"editDocumentAction\")\n"
+"@Stateless\n"
+"public class EditDocumentBean implements EditDocument {\n"
+"    @In EntityManager em;\n"
+"    @In Document document;\n"
+"    @In FacesMessages facesMessages;\n"
+"    \n"
+"    public String update() {\n"
+"        em.merge(document);\n"
+"        facesMessages.add(\"Document updated\");\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Conversations.xml:582
+#, no-c-format
+msgid ""
+"Any message added to <literal>facesMessages</literal> is used in the very "
+"next render response phase for the current conversation. This even works "
+"when there is no long-running conversation since Seam preserves even "
+"temporary conversation contexts across redirects."
+msgstr ""
+"<literal>facesMessages</literal> に追加されるメッセージはすべてすぐ次のフェー"
+"スである応答レンダリングフェーズで現在の対話に対して使用されます。 これは "
+"Seam がリダイレクト全体に一時的な対話コンテキストを維持するので長期実行の対話"
+"がない場合でも機能します。"
+
+#. Tag: para
+#: Conversations.xml:590
+#, no-c-format
+msgid "You can even include JSF EL expressions in a faces message summary:"
+msgstr "JSF EL 式を faces メッセージサマリーに含ませることもできます。"
+
+#. Tag: programlisting
+#: Conversations.xml:594
+#, no-c-format
+msgid ""
+"<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
+msgstr ""
+"<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
+
+#. Tag: para
+#: Conversations.xml:596
+#, no-c-format
+msgid "You may display the messages in the usual way, for example:"
+msgstr "たとえば、 通常の方法でメッセージを表示することができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:600
+#, no-c-format
+msgid "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
+msgstr "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
+
+#. Tag: title
+#: Conversations.xml:605
+#, no-c-format
+msgid "Natural conversation ids"
+msgstr "ナチュラル対話の ID"
+
+#. Tag: para
+#: Conversations.xml:606
+#, no-c-format
+msgid ""
+"When working with conversations that deal with persistent objects, it may be "
+"desirable to use the natural business key of the object instead of the "
+"standard, \"surrogate\" conversation id:"
+msgstr ""
+"永続オブジェクトを処理する対話を作業する場合は標準のサロゲート対話 ID ではな"
+"くそのオブジェクトのナチュラルキーを使用する方が望ましい場合があります。"
+
+#. Tag: emphasis
+#: Conversations.xml:613
+#, no-c-format
+msgid "Easy redirect to existing conversation"
+msgstr "既存の対話に容易にリダイレクト"
+
+#. Tag: para
+#: Conversations.xml:615
+#, no-c-format
+msgid ""
+"It can be useful to redirect to an existing conversation if the user "
+"requests the same operation twice. Take this example: <quote> You are on "
+"ebay, half way through paying for an item you just won as a Christmas "
+"present for your parents. Lets say you're sending it straight to them - you "
+"enter your payment details but you can't remember their address. You "
+"accidentally reuse the same browser window finding out their address. Now "
+"you need to return to the payment for the item. </quote>"
+msgstr ""
+"ユーザーが同じ操作を 2 回要求する場合は既存の対話にリダイレクトすると便利な場"
+"合があります。 例をあげてみます。 <quote> 「ebay で両親へのクリスマスプレゼン"
+"トを獲得しそのアイテムの支払いプロセスが途中まで進んでいます。 ここでこのアイ"
+"テムが直接両親に配達されるようにしようと思います。 支払い詳細は入力しましたが"
+"両親の明確な住所を思い出すことができません。 住所を検索しようとして誤って同じ"
+"ブラウザウィンドウを使ってしまいました。 もう一度さっきのアイテムの支払いに戻"
+"る必要があります。」 </quote>"
+
+#. Tag: para
+#: Conversations.xml:628
+#, fuzzy, no-c-format
+msgid ""
+"With a natural conversation it's really easy to have the user rejoin the "
+"existing conversation, and pick up where they left off - just have them to "
+"rejoin the payForItem conversation with the itemId as the conversation id."
+msgstr ""
+"ナチュラル対話では既存の対話にユーザーを再度参加させて中断したところからまた"
+"始めさせることが非常に簡単です。 対話 ID として itemId を使い payForItem 対話"
+"に再度参加させるだけです。"
+
+#. Tag: emphasis
+#: Conversations.xml:636
+#, no-c-format
+msgid "User friendly URLs"
+msgstr "ユーザーフレンドリーな URL"
+
+#. Tag: para
+#: Conversations.xml:639
+#, no-c-format
+msgid ""
+"For me this consists of a navigable hierarchy (I can navigate by editing the "
+"url) and a meaningful URL (like this Wiki uses - so don't identify things by "
+"random ids). For some applications user friendly URLs are less important, of "
+"course."
+msgstr ""
+"個人的には操作可能な階層と (URL を編集しながら操作可能) 意味のある URL (この "
+"Wiki に見られるようにランダムな ID での識別を行わない) で構成されているように"
+"見えますが、 アプリケーションユーザーにとってはフレンドリーな URL はそれほど"
+"重要ではない場合もあるでしょう。"
+
+#. Tag: para
+#: Conversations.xml:647
+#, fuzzy, no-c-format
+msgid ""
+"With a natural conversation, when you are building your hotel booking system "
+"(or, of course, whatever your app is) you can generate a URL like "
+"<literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> "
+"(of course, whatever parameter <literal>hotel</literal> maps to on your "
+"domain model must be unique) and with URLRewrite easily transform this to "
+"http://seam-hotels/book/BestWesternAntwerpen."
+msgstr ""
+"ナチュラル対話では、 ホテル予約システム (あるいはどのようなアプリケーションで"
+"あれ) を構築している場合に <literal>http://seam-hotels/book.seam?"
+"hotel=BestWesternAntwerpen</literal> (ドメインモデルでマッピングを行うパラ"
+"メータ <literal>hotel</literal> は何であれ固有でなければならない) のような "
+"URL を生成し、 URLRewrite でこれを容易に http://seam-hotels/book/"
+"BestWesternAntwerpen に変換することができます。"
+
+#. Tag: para
+#: Conversations.xml:658
+#, no-c-format
+msgid "Much better!"
+msgstr "かなり改善されたはずです。"
+
+#. Tag: title
+#: Conversations.xml:664
+#, no-c-format
+msgid "Creating a natural conversation"
+msgstr "ナチュラル対話を作成する"
+
+#. Tag: para
+#: Conversations.xml:665
+#, no-c-format
+msgid "Natural conversations are defined in <literal>pages.xml</literal>:"
+msgstr "ナチュラル対話は <literal>pages.xml</literal> で定義されます。"
+
+#. Tag: programlisting
+#: Conversations.xml:669
+#, no-c-format
+msgid ""
+"<![CDATA[  <conversation name=\"PlaceBid\"\n"
+"                  parameter-name=\"auctionId\"\n"
+"                  parameter-value=\"#{auction.auctionId}\"/>]]>"
+msgstr ""
+"<![CDATA[  <conversation name=\"PlaceBid\"\n"
+"                  parameter-name=\"auctionId\"\n"
+"                  parameter-value=\"#{auction.auctionId}\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:671
+#, no-c-format
+msgid ""
+"The first thing to note from the above definition is that the conversation "
+"has a name, in this case <literal>PlaceBid</literal>. This name uniquely "
+"identifies this particular named conversation, and is used by the "
+"<literal>page</literal> definition to identify a named conversation to "
+"participate in."
+msgstr ""
+"上記の定義でまず判るのは対話に名前があることです。 この場合 "
+"<literal>PlaceBid</literal> になります。 名前は特定の指定対話を固有に識別する"
+"ため <literal>page</literal> 定義により参加する指定対話の識別に使用されます。"
+
+#. Tag: para
+#: Conversations.xml:679
+#, no-c-format
+msgid ""
+"The next attribute, <literal>parameter-name</literal> defines the request "
+"parameter that will contain the natural conversation id, in place of the "
+"default conversation id parameter. In this example, the <literal>parameter-"
+"name</literal> is <literal>auctionId</literal>. This means that instead of a "
+"conversation parameter like <literal>cid=123</literal> appearing in the URL "
+"for your page, it will contain <literal>auctionId=765432</literal> instead."
+msgstr ""
+"次の属性 <literal>parameter-name</literal> はデフォルトの対話 ID パラメータの"
+"代わりにナチュラル対話の ID を含む要求パラメータを定義します。 この例では "
+"<literal>parameter-name</literal> は <literal>auctionId</literal> になりま"
+"す。 つまり、 ページの URL 内に出現する <literal>cid=123</literal> のような対"
+"話パラメータの代わりに <literal>auctionId=765432</literal> を含むようになりま"
+"す。"
+
+#. Tag: para
+#: Conversations.xml:688
+#, no-c-format
+msgid ""
+"The last attribute in the above configuration, <literal>parameter-value</"
+"literal>, defines an EL expression used to evaluate the value of the natural "
+"business key to use as the conversation id. In this example, the "
+"conversation id will be the primary key value of the <literal>auction</"
+"literal> instance currently in scope."
+msgstr ""
+"上記の設定の最後の属性 <literal>parameter-value</literal> は対話 ID として使"
+"用するナチュラルビジネスキーの値の評価に使用される EL 式を定義します。 この例"
+"では対話 ID は現在範囲内の <literal>auction</literal> のプライマリーキー値に"
+"なります。"
+
+#. Tag: para
+#: Conversations.xml:695
+#, no-c-format
+msgid ""
+"Next, we define which pages will participate in the named conversation. This "
+"is done by specifying the <literal>conversation</literal> attribute for a "
+"<literal>page</literal> definition:"
+msgstr ""
+"次に指定対話に参加するページを定義します。 <literal>page</literal> 定義の "
+"<literal>conversation</literal> 属性を指定してこれを行います。"
+
+#. Tag: programlisting
+#: Conversations.xml:701
+#, no-c-format
+msgid ""
+"<![CDATA[  <page view-id=\"/bid.xhtml\" conversation=\"PlaceBid\" login-"
+"required=\"true\">\n"
+"      <navigation from-action=\"#{bidAction.confirmBid}\">        \n"
+"          <rule if-outcome=\"success\">\n"
+"              <redirect view-id=\"/auction.xhtml\">\n"
+"                  <param name=\"id\" value=\"#{bidAction.bid.auction."
+"auctionId}\"/>\n"
+"              </redirect>\n"
+"          </rule>        \n"
+"      </navigation>\n"
+"  </page>]]>"
+msgstr ""
+"<![CDATA[  <page view-id=\"/bid.xhtml\" conversation=\"PlaceBid\" login-"
+"required=\"true\">\n"
+"      <navigation from-action=\"#{bidAction.confirmBid}\">        \n"
+"          <rule if-outcome=\"success\">\n"
+"              <redirect view-id=\"/auction.xhtml\">\n"
+"                  <param name=\"id\" value=\"#{bidAction.bid.auction."
+"auctionId}\"/>\n"
+"              </redirect>\n"
+"          </rule>        \n"
+"      </navigation>\n"
+"  </page>]]>"
+
+#. Tag: title
+#: Conversations.xml:706
+#, no-c-format
+msgid "Redirecting to a natural conversation"
+msgstr "ナチュラル対話にリダイレクトする"
+
+#. Tag: para
+#: Conversations.xml:708
+#, no-c-format
+msgid ""
+"When starting, or redirecting to, a natural conversation there are a number "
+"of options for specifying the natural conversation name. Let's start by "
+"looking at the following page definition:"
+msgstr ""
+"ナチュラル対話を開始またはリダイレクトする場合、 ナチュラル対話名を指定するい"
+"くつかのオプションがあります。 次のページ定義をまず見てみることにします。"
+
+#. Tag: programlisting
+#: Conversations.xml:714
+#, no-c-format
+msgid ""
+"<![CDATA[  <page view-id=\"/auction.xhtml\">\n"
+"    <param name=\"id\" value=\"#{auctionDetail.selectedAuctionId}\"/>\n"
+"       \n"
+"    <navigation from-action=\"#{bidAction.placeBid}\">\n"
+"      <redirect view-id=\"/bid.xhtml\"/>\n"
+"    </navigation>\n"
+"  </page>]]>"
+msgstr ""
+"<![CDATA[  <page view-id=\"/auction.xhtml\">\n"
+"    <param name=\"id\" value=\"#{auctionDetail.selectedAuctionId}\"/>\n"
+"       \n"
+"    <navigation from-action=\"#{bidAction.placeBid}\">\n"
+"      <redirect view-id=\"/bid.xhtml\"/>\n"
+"    </navigation>\n"
+"  </page>]]>"
+
+#. Tag: para
+#: Conversations.xml:716
+#, no-c-format
+msgid ""
+"From here, we can see that invoking the action <literal>#{bidAction.placeBid}"
+"</literal> from our auction view (by the way, all these examples are taken "
+"from the seamBay example in Seam), that we will be redirected to <literal>/"
+"bid.xhtml</literal>, which, as we saw previously, is configured with the "
+"natural conversation <literal>PlaceBid</literal>. The declaration for our "
+"action method looks like this:"
+msgstr ""
+"auction ビューからアクション <literal>#{bidAction.placeBid}</literal> を呼び"
+"出していること (これらのサンプルはすべて Seam にある seamBay から取得してい"
+"る)、 前述のようにナチュラル対話 <literal>PlaceBid</literal> で設定される "
+"<literal>/bid.xhtml</literal> にリダイレクトしていることがわかります。 アク"
+"ションメソッドの宣言は以下のようになります。"
+
+#. Tag: programlisting
+#: Conversations.xml:724
+#, no-c-format
+msgid ""
+"<![CDATA[   @Begin(join = true)\n"
+"   public void placeBid()]]>"
+msgstr ""
+"<![CDATA[   @Begin(join = true)\n"
+"   public void placeBid()]]>"
+
+#. Tag: para
+#: Conversations.xml:726
+#, no-c-format
+msgid ""
+"When named conversations are specified in the <literal>&lt;page/&gt;</"
+"literal> element, redirection to the named conversation occurs as part of "
+"navigation rules, after the action method has already been invoked. This is "
+"a problem when redirecting to an existing conversation, as redirection needs "
+"to be occur before the action method is invoked. Therefore it is necessary "
+"to specify the conversation name when the action is invoked. One way of "
+"doing this is by using the <literal>s:conversationName</literal> tag:"
+msgstr ""
+"名前が付けられた対話が <literal>&lt;page/&gt;</literal> エレメントに指定され"
+"る場合、 その名前の対話へのリダイレクトはアクションメソッドが完全に呼び出され"
+"た後でナビゲーションルールの一部として発生します。 既存の対話にリダイレクトす"
+"る場合はアクションメソッドが呼び出される前にリダイレクトが発生する必要がある"
+"ため問題となってきます。 したがってアクションが呼び出される場合は対話名を指定"
+"する必要があります。 <literal>s:conversationName</literal> タグを使って行うの"
+"がその方法のひとつとなります。"
+
+#. Tag: programlisting
+#: Conversations.xml:736
+#, no-c-format
+msgid ""
+"<![CDATA[  <h:commandButton id=\"placeBidWithAmount\" styleClass=\"placeBid"
+"\" action=\"#{bidAction.placeBid}\">\n"
+"    <s:conversationName value=\"PlaceBid\"/>\n"
+"  </h:commandButton>]]>"
+msgstr ""
+"<![CDATA[  <h:commandButton id=\"placeBidWithAmount\" styleClass=\"placeBid"
+"\" action=\"#{bidAction.placeBid}\">\n"
+"    <s:conversationName value=\"PlaceBid\"/>\n"
+"  </h:commandButton>]]>"
+
+#. Tag: para
+#: Conversations.xml:738
+#, no-c-format
+msgid ""
+"Another alternative is to specify the <literal>conversationName</literal> "
+"attribute when using either <literal>s:link</literal> or <literal>s:button</"
+"literal>:"
+msgstr ""
+"もうひとつの方法は <literal>s:link</literal> または <literal>s:button</"
+"literal> のどちらかを使用するときに <literal>conversationName</literal> を指"
+"定する方法です。"
+
+#. Tag: programlisting
+#: Conversations.xml:743
+#, no-c-format
+msgid ""
+"<![CDATA[  <s:link value=\"Place Bid\" action=\"#{bidAction.placeBid}\" "
+"conversationName=\"PlaceBid\"/>]]>"
+msgstr ""
+"<![CDATA[  <s:link value=\"Place Bid\" action=\"#{bidAction.placeBid}\" "
+"conversationName=\"PlaceBid\"/>]]>"
+
+#. Tag: title
+#: Conversations.xml:749
+#, no-c-format
+msgid "Workspace management"
+msgstr "ワークスペースの管理"
+
+#. Tag: para
+#: Conversations.xml:751
+#, no-c-format
+msgid ""
+"Workspace management is the ability to \"switch\" conversations in a single "
+"window. Seam makes workspace management completely transparent at the level "
+"of the Java code. To enable workspace management, all you need to do is:"
+msgstr ""
+"ワークスペース管理は、1 つのウィンドウの中で対話を「切り換える」能力です。 "
+"Seam はワークスペース管理を Java コードのレベルで完全に透過的にします。 ワー"
+"クスペース管理を可能にするために、必要なすべては以下の通りです。"
+
+#. Tag: para
+#: Conversations.xml:760
+#, no-c-format
+msgid ""
+"Provide <emphasis>description</emphasis> text for each view id (when using "
+"JSF or Seam navigation rules) or page node (when using jPDL pageflows). This "
+"description text is displayed to the user by the workspace switchers."
+msgstr ""
+"それぞれのビュー ID (JSF または Seam ナビゲーションルールを使用する場合) また"
+"はページノード (jPDL ページフロー) に<emphasis>詳細</emphasis>のテキストを入"
+"力します。 この詳細テキストはワークスペース切り替えによってユーザーに表示され"
+"ます。"
+
+#. Tag: para
+#: Conversations.xml:768
+#, no-c-format
+msgid ""
+"Include one or more of the standard workspace switcher JSP or facelets "
+"fragments in your pages. The standard fragments support workspace management "
+"via a drop down menu, a list of conversations, or breadcrumbs."
+msgstr ""
+"ページの中に 1 つ以上の標準ワークスペース切り替え JSP または facelets の断片"
+"を含ませます。 標準の断片はドロップダウンメニュー、 対話のリスト、 ブレッドク"
+"ラム (breadcrumbs) を通じてワークスペース管理をサポートします。"
+
+#. Tag: title
+#: Conversations.xml:778
+#, no-c-format
+msgid "Workspace management and JSF navigation"
+msgstr "ワークスペース管理と JSF ナビゲーション"
+
+#. Tag: para
+#: Conversations.xml:779
+#, no-c-format
+msgid ""
+"When you use JSF or Seam navigation rules, Seam switches to a conversation "
+"by restoring the current <literal>view-id</literal> for that conversation. "
+"The descriptive text for the workspace is defined in a file called "
+"<literal>pages.xml</literal> that Seam expects to find in the <literal>WEB-"
+"INF</literal> directory, right next to <literal>faces-config.xml</literal>:"
+msgstr ""
+"JSF または Seam ナビゲーションルールを使用する場合、 Seam は対話の現在の "
+"<literal>view-id</literal> を復元してその対話に切り替えます。 ワークスペース"
+"の記述的なテキストは <literal>pages.xml</literal> と呼ばれるファイルで定義さ"
+"れ、 Seam はこのファイルが <literal>WEB-INF</literal> ディレクトリ内の "
+"<literal>faces-config.xml</literal> のすぐ次に配置されていることを期待しま"
+"す。"
+
+#. Tag: programlisting
+#: Conversations.xml:788
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/main.xhtml\">\n"
+"        <description>Search hotels: #{hotelBooking.searchString}</"
+"description>\n"
+"    </page>\n"
+"    <page view-id=\"/hotel.xhtml\">\n"
+"        <description>View hotel: #{hotel.name}</description>\n"
+"    </page>\n"
+"    <page view-id=\"/book.xhtml\">\n"
+"        <description>Book hotel: #{hotel.name}</description>\n"
+"    </page>\n"
+"    <page view-id=\"/confirm.xhtml\">\n"
+"        <description>Confirm: #{booking.description}</description>\n"
+"    </page>\n"
+"    </pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/main.xhtml\">\n"
+"        <description>Search hotels: #{hotelBooking.searchString}</"
+"description>\n"
+"    </page>\n"
+"    <page view-id=\"/hotel.xhtml\">\n"
+"        <description>View hotel: #{hotel.name}</description>\n"
+"    </page>\n"
+"    <page view-id=\"/book.xhtml\">\n"
+"        <description>Book hotel: #{hotel.name}</description>\n"
+"    </page>\n"
+"    <page view-id=\"/confirm.xhtml\">\n"
+"        <description>Confirm: #{booking.description}</description>\n"
+"    </page>\n"
+"    </pages>]]>"
+
+#. Tag: para
+#: Conversations.xml:790
+#, no-c-format
+msgid ""
+"Note that if this file is missing, the Seam application will continue to "
+"work perfectly! The only missing functionality will be the ability to switch "
+"workspaces."
+msgstr ""
+"このファイルが期待する場所になくても Seam アプリケーションは正常に動作を続行"
+"します。 動作しない機能はワークスペースの切り替え機能のみです。"
+
+#. Tag: title
+#: Conversations.xml:799
+#, no-c-format
+msgid "Workspace management and jPDL pageflow"
+msgstr "ワークスペース管理と jPDL ページフロー"
+
+#. Tag: para
+#: Conversations.xml:800
+#, no-c-format
+msgid ""
+"When you use a jPDL pageflow definition, Seam switches to a conversation by "
+"restoring the current jBPM process state. This is a more flexible model "
+"since it allows the same <literal>view-id</literal> to have different "
+"descriptions depending upon the current <literal>&lt;page&gt;</literal> "
+"node. The description text is defined by the <literal>&lt;page&gt;</literal> "
+"node:"
+msgstr ""
+"jPDL ページフロー定義を使う場合、 Seam は現在の jBPM のプロセス状態を復元する"
+"ことによって対話に切り替えます。 同じ <literal>view-id</literal> に現在の "
+"<literal>&lt;page&gt;</literal> に応じて異なる詳細を持たせることができるため"
+"これはより柔軟なモデルになります。 詳細テキストは <literal>&lt;page&gt;</"
+"literal> ノードで定義されます。"
+
+#. Tag: programlisting
+#: Conversations.xml:811
+#, no-c-format
+msgid ""
+"<![CDATA[<pageflow-definition name=\"shopping\">\n"
+"\n"
+"   <start-state name=\"start\">\n"
+"      <transition to=\"browse\"/>\n"
+"   </start-state>\n"
+"   \n"
+"   <page name=\"browse\" view-id=\"/browse.xhtml\">\n"
+"      <description>DVD Search: #{search.searchPattern}</description>\n"
+"      <transition to=\"browse\"/>\n"
+"      <transition name=\"checkout\" to=\"checkout\"/>\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"checkout\" view-id=\"/checkout.xhtml\">\n"
+"      <description>Purchase: $#{cart.total}</description>\n"
+"      <transition to=\"checkout\"/>\n"
+"      <transition name=\"complete\" to=\"complete\"/>\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"complete\" view-id=\"/complete.xhtml\">\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"</pageflow-definition>]]>"
+msgstr ""
+"<![CDATA[<pageflow-definition name=\"shopping\">\n"
+"\n"
+"   <start-state name=\"start\">\n"
+"      <transition to=\"browse\"/>\n"
+"   </start-state>\n"
+"   \n"
+"   <page name=\"browse\" view-id=\"/browse.xhtml\">\n"
+"      <description>DVD Search: #{search.searchPattern}</description>\n"
+"      <transition to=\"browse\"/>\n"
+"      <transition name=\"checkout\" to=\"checkout\"/>\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"checkout\" view-id=\"/checkout.xhtml\">\n"
+"      <description>Purchase: $#{cart.total}</description>\n"
+"      <transition to=\"checkout\"/>\n"
+"      <transition name=\"complete\" to=\"complete\"/>\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"complete\" view-id=\"/complete.xhtml\">\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"</pageflow-definition>]]>"
+
+#. Tag: title
+#: Conversations.xml:816
+#, no-c-format
+msgid "The conversation switcher"
+msgstr "対話切り替え"
+
+#. Tag: para
+#: Conversations.xml:818
+#, no-c-format
+msgid ""
+"Include the following fragment in your JSP or facelets page to get a drop-"
+"down menu that lets you switch to any current conversation, or to any other "
+"page of the application:"
+msgstr ""
+"次の断片を JSP または facelets のページに含ませて、 現在の対話またはその他い"
+"ずれのアプリケーションのページにも切り替えられるドロップダウンメニューを取得"
+"します。"
+
+#. Tag: programlisting
+#: Conversations.xml:824
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneMenu value=\"#{switcher.conversationIdOrOutcome}\">\n"
+"    <f:selectItem itemLabel=\"Find Issues\" itemValue=\"findIssue\"/>\n"
+"    <f:selectItem itemLabel=\"Create Issue\" itemValue=\"editIssue\"/>\n"
+"    <f:selectItems value=\"#{switcher.selectItems}\"/>\n"
+"</h:selectOneMenu>\n"
+"<h:commandButton action=\"#{switcher.select}\" value=\"Switch\"/>]]>"
+msgstr ""
+"<![CDATA[<h:selectOneMenu value=\"#{switcher.conversationIdOrOutcome}\">\n"
+"    <f:selectItem itemLabel=\"Find Issues\" itemValue=\"findIssue\"/>\n"
+"    <f:selectItem itemLabel=\"Create Issue\" itemValue=\"editIssue\"/>\n"
+"    <f:selectItems value=\"#{switcher.selectItems}\"/>\n"
+"</h:selectOneMenu>\n"
+"<h:commandButton action=\"#{switcher.select}\" value=\"Switch\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:826
+#, no-c-format
+msgid ""
+"In this example, we have a menu that includes an item for each conversation, "
+"together with two additional items that let the user begin a new "
+"conversation."
+msgstr ""
+"この例では、 ユーザーに新しい対話を開始させる 2 つの追加アイテムに加えて、 各"
+"対話のためのアイテムを含むメニューがあります。"
+
+#. Tag: para
+#: Conversations.xml:832
+#, no-c-format
+msgid ""
+"Only conversations with a description (specified in <literal>pages.xml</"
+"literal>) will be included in the drop-down menu."
+msgstr ""
+"詳細を持つ対話 (<literal>pages.xml</literal> で指定) のみがドロップダウンメ"
+"ニューに含まれます。"
+
+#. Tag: title
+#: Conversations.xml:850
+#, no-c-format
+msgid "The conversation list"
+msgstr "対話一覧"
+
+#. Tag: para
+#: Conversations.xml:852
+#, no-c-format
+msgid ""
+"The conversation list is very similar to the conversation switcher, except "
+"that it is displayed as a table:"
+msgstr ""
+"対話一覧は対話切り替えに非常によく似ていますが、 表形式で表示される点が異なり"
+"ます。"
+
+#. Tag: programlisting
+#: Conversations.xml:857
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{conversationList}\" var=\"entry\"\n"
+"        rendered=\"#{not empty conversationList}\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Workspace</f:facet>\n"
+"        <h:commandLink action=\"#{entry.select}\" value=\"#{entry."
+"description}\"/>\n"
+"        <h:outputText value=\"[current]\" rendered=\"#{entry.current}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Activity</f:facet>\n"
+"        <h:outputText value=\"#{entry.startDatetime}\">\n"
+"            <f:convertDateTime type=\"time\" pattern=\"hh:mm a\"/>\n"
+"        </h:outputText>\n"
+"        <h:outputText value=\" - \"/>\n"
+"        <h:outputText value=\"#{entry.lastDatetime}\">\n"
+"            <f:convertDateTime type=\"time\" pattern=\"hh:mm a\"/>\n"
+"        </h:outputText>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Action</f:facet>\n"
+"        <h:commandButton action=\"#{entry.select}\" value=\"#{msg.Switch}\"/"
+">\n"
+"        <h:commandButton action=\"#{entry.destroy}\" value=\"#{msg.Destroy}"
+"\"/>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+"<![CDATA[<h:dataTable value=\"#{conversationList}\" var=\"entry\"\n"
+"        rendered=\"#{not empty conversationList}\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Workspace</f:facet>\n"
+"        <h:commandLink action=\"#{entry.select}\" value=\"#{entry."
+"description}\"/>\n"
+"        <h:outputText value=\"[current]\" rendered=\"#{entry.current}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Activity</f:facet>\n"
+"        <h:outputText value=\"#{entry.startDatetime}\">\n"
+"            <f:convertDateTime type=\"time\" pattern=\"hh:mm a\"/>\n"
+"        </h:outputText>\n"
+"        <h:outputText value=\" - \"/>\n"
+"        <h:outputText value=\"#{entry.lastDatetime}\">\n"
+"            <f:convertDateTime type=\"time\" pattern=\"hh:mm a\"/>\n"
+"        </h:outputText>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Action</f:facet>\n"
+"        <h:commandButton action=\"#{entry.select}\" value=\"#{msg.Switch}\"/"
+">\n"
+"        <h:commandButton action=\"#{entry.destroy}\" value=\"#{msg.Destroy}"
+"\"/>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
+
+#. Tag: para
+#: Conversations.xml:859
+#, no-c-format
+msgid ""
+"We imagine that you will want to customize this for your own application."
+msgstr ""
+"恐らく、 多くの方が独自のアプリケーションに合うようカスタマイズを希望するだろ"
+"うと思います。"
+
+#. Tag: para
+#: Conversations.xml:872
+#, no-c-format
+msgid "Only conversations with a description will be included in the list."
+msgstr "詳細を持つ対話のみがこの一覧に含まれます。"
+
+#. Tag: para
+#: Conversations.xml:877
+#, no-c-format
+msgid "Notice that the conversation list lets the user destroy workspaces."
+msgstr ""
+"対話一覧によりユーザーがワークスペースを破壊することができるので留意してくだ"
+"さい。"
+
+#. Tag: title
+#: Conversations.xml:884
+#, no-c-format
+msgid "Breadcrumbs"
+msgstr "ブレッドクラム (Breadcrumbs) "
+
+#. Tag: para
+#: Conversations.xml:886
+#, no-c-format
+msgid ""
+"Breadcrumbs are useful in applications which use a nested conversation "
+"model. The breadcrumbs are a list of links to conversations in the current "
+"conversation stack:"
+msgstr ""
+"ブレッドクラムは、 ネストされた対話モデルを使うアプリケーションで役に立ちま"
+"す。 ブレッドクラムは、 現在の対話スタック内の対話へのリンクの一覧になりま"
+"す。"
+
+#. Tag: programlisting
+#: Conversations.xml:892
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:repeat value=\"#{conversationStack}\" var=\"entry\">\n"
+"    <h:outputText value=\" | \"/> \n"
+"    <h:commandLink value=\"#{entry.description}\" action=\"#{entry.select}\"/"
+">\n"
+"</ui:repeat]]>"
+msgstr ""
+"<![CDATA[<ui:repeat value=\"#{conversationStack}\" var=\"entry\">\n"
+"    <h:outputText value=\" | \"/> \n"
+"    <h:commandLink value=\"#{entry.description}\" action=\"#{entry.select}\"/"
+">\n"
+"</ui:repeat]]>"
+
+#. Tag: title
+#: Conversations.xml:907
+#, no-c-format
+msgid "Conversational components and JSF component bindings"
+msgstr "対話型コンポーネントと JSF コンポーネントのバインディング"
+
+#. Tag: para
+#: Conversations.xml:909
+#, no-c-format
+msgid ""
+"Conversational components have one minor limitation: they cannot be used to "
+"hold bindings to JSF components. (We generally prefer not to use this "
+"feature of JSF unless absolutely necessary, since it creates a hard "
+"dependency from application logic to the view.) On a postback request, "
+"component bindings are updated during the Restore View phase, before the "
+"Seam conversation context has been restored."
+msgstr ""
+"重要ではありませんが、 JSF コンポーネントへのバインディングの保持には使用でき"
+"ないという制限が対話型コンポーネントにはあります。 (一般的には、 アプリケー"
+"ション論理からビューに対する強い依存関係を作ってしまうため、 絶対的に必要でな"
+"い限り一般的にはこの JSF の機能は使用しないようにした方がよいでしょう。) "
+"postback 要求で、 Seam 対話コンテキストが復元される前、 ビューの復元フェーズ"
+"中にコンポーネントのバインディングは更新されます。"
+
+#. Tag: para
+#: Conversations.xml:917
+#, no-c-format
+msgid ""
+"To work around this use an event scoped component to store the component "
+"bindings and inject it into the conversation scoped component that requires "
+"it."
+msgstr ""
+"これを回避するには、 イベントスコープコンポーネントを使ってコンポーネントバイ"
+"ンディングを格納し、 それを必要とする対話スコープコンポーネントにインジェクト"
+"します。"
+
+#. Tag: programlisting
+#: Conversations.xml:922
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"grid\")\n"
+"@Scope(ScopeType.EVENT)\n"
+"public class Grid\n"
+"{\n"
+"    private HtmlPanelGrid htmlPanelGrid;\n"
+"\n"
+"    // getters and setters\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"grid\")\n"
+"@Scope(ScopeType.EVENT)\n"
+"public class Grid\n"
+"{\n"
+"    private HtmlPanelGrid htmlPanelGrid;\n"
+"\n"
+"    // getters and setters\n"
+"    ...\n"
+"}]]>"
+
+#. Tag: programlisting
+#: Conversations.xml:925
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"gridEditor\")\n"
+"@Scope(ScopeType.CONVERSATION)\n"
+"public class GridEditor\n"
+"{\n"
+"    @In(required=false)\n"
+"    private Grid grid;\n"
+"    \n"
+"    ...\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"gridEditor\")\n"
+"@Scope(ScopeType.CONVERSATION)\n"
+"public class GridEditor\n"
+"{\n"
+"    @In(required=false)\n"
+"    private Grid grid;\n"
+"    \n"
+"    ...\n"
+"}]]>"
+
+#. Tag: para
+#: Conversations.xml:927
+#, no-c-format
+msgid ""
+"Also, you can't inject a conversation scoped component into an event scoped "
+"component which you bind a JSF control to. This includes Seam built in "
+"components like <literal>facesMessages</literal>."
+msgstr ""
+"また、 対話スコープのコンポーネントを JSF コントロールのバインド先となるイベ"
+"ントスコープのコンポーネントにはインジェクトできません。 これには "
+"<literal>facesMessages</literal> のようなコンポーネント内での Seam 構築が含ま"
+"れます。"
+
+#. Tag: para
+#: Conversations.xml:933
+#, fuzzy, no-c-format
+msgid ""
+"Alternatively, you can access the JSF component tree through the implicit "
+"<literal>uiComponent</literal> handle. The following example accesses "
+"<literal>getRowIndex()</literal> of the <literal>UIData</literal> component "
+"which backs the data table during iteration, it prints the current row "
+"number:"
+msgstr ""
+"代わりに暗示的な <literal>uiComponent</literal> ハンドルで JSF コンポーネント"
+"ツリーにアクセスすることができます。 次の例では反復の間にデータテーブルを戻"
+"す <literal>UIData</literal> コンポーネントの <literal>getRowIndex()</"
+"literal> にアクセスしています。 現在の列番号を出力します。"
+
+#. Tag: programlisting
+#: Conversations.xml:940
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<h:dataTable id=\"lineItemTable\" var=\"lineItem\" value=\"#{orderHome."
+"lineItems}\">\n"
+"   <h:column>\n"
+"      Row: #{uiComponent['lineItemTable'].rowIndex}\n"
+"   </h:column>\n"
+"   ...\n"
+"</h:dataTable>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<h:dataTable id=\"lineItemTable\" var=\"lineItem\" value=\"#{orderHome."
+"lineItems}\">\n"
+"   <h:column>\n"
+"      Row: #{uiComponent['lineItemTable'].rowIndex}\n"
+"   </h:column>\n"
+"   ...\n"
+"</h:dataTable>]]>"
+
+#. Tag: para
+#: Conversations.xml:942
+#, no-c-format
+msgid ""
+"JSF UI components are available with their client identifier in this map."
+msgstr ""
+"JSF UI のコンポーネントはこのマップ内のクライアント識別子で使用可能になりま"
+"す。"
+
+#. Tag: title
+#: Conversations.xml:949
+#, no-c-format
+msgid "Concurrent calls to conversational components"
+msgstr "対話的コンポーネントへの並列コール"
+
+#. Tag: para
+#: Conversations.xml:951
+#, no-c-format
+msgid ""
+"A general discussion of concurrent calls to Seam components can be found in "
+"<xref linkend=\"concurrency\"/>. Here we will discuss the most common "
+"situation in which you will encounter concurrency &#8212; accessing "
+"conversational components from AJAX requests. We're going to discuss the "
+"options that a Ajax client library should provide to control events "
+"originating at the client &#8212; and we'll look at the options RichFaces "
+"gives you."
+msgstr ""
+"Seam コンポーネントへの並列コールに関する全般は <xref linkend=\"concurrency"
+"\"/> でご覧ください。 ここでは並列が発生する最も一般的な状況について説明して"
+"います (AJAX 要求から対話的コンポーネントにアクセスする)。 クライアントで発生"
+"したイベントの制御に Ajax クライアントライブラリが提供すべきオプションについ"
+"て説明してから RichFaces で提供されるオプションについて見ていきます。"
+
+#. Tag: para
+#: Conversations.xml:961
+#, no-c-format
+msgid ""
+"Conversational components don't allow real concurrent access therefore Seam "
+"queues each request to process them serially. This allows each request to be "
+"executed in a deterministic fashion. However, a simple queue isn't that "
+"great &#8212; firstly, if a method is, for some reason, taking a very long "
+"time to complete, running it over and over again whenever the client "
+"generates a request is bad idea (potential for Denial of Service attacks), "
+"and, secondly, AJAX is often to used to provide a quick status update to the "
+"user, so continuing to run the action after a long time isn't useful."
+msgstr ""
+"対話的コンポーネントでは実際の並列アクセスは許可されないので、 Seam は要求を"
+"連続的に処理するようそれぞれを待ち行列に入れます。 これにより各要求は決定論的"
+"に実行されるようになります。 ただし、 シンプルなキューはあまりよくありませ"
+"ん。 まず、 メソッドがなんらかの理由で完了に長時間かかっている場合、 クライア"
+"ントが要求を生成するたび繰り返してそれを実行するのはよくありません (サービス"
+"妨害攻撃の可能性)。 また、 ユーザーに対するステータスのクィックアップデート"
+"に AJAX が頻繁に使用されるためアクションを長時間実行し続けるのは実用的ではあ"
+"りません。"
+
+#. Tag: para
+#: Conversations.xml:973
+#, no-c-format
+msgid ""
+"Therefore, when you are working inside a long running conversation, Seam "
+"queues the action event for a period of time (the concurrent request "
+"timeout); if it can't process the event in time, it creates a temporary "
+"conversation and prints out a message to the user to let them know what's "
+"going on. It's therefore very important not to flood the server with AJAX "
+"events!"
+msgstr ""
+"したがって、 長時間実行の対話の内側で作業する場合は Seam は一定期間アクション"
+"イベントを待ち行列に入れます (並列要求タイムアウト)。 時間通りにイベントを処"
+"理できないと一時的な対話を作成してユーザーに状況を知らせるメッセージを出力し"
+"ます。 このため、 AJAX イベントでサーバーを溢れさせないようにすることが非常に"
+"重要となります。"
+
+#. Tag: para
+#: Conversations.xml:982
+#, no-c-format
+msgid ""
+"We can set a sensible default for the concurrent request timeout (in ms) in "
+"components.xml:"
+msgstr ""
+"components.xml で並列要求のタイムアウトにミリ秒単位で適当なデフォルトを設定す"
+"ることができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:987
+#, no-c-format
+msgid "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
+msgstr "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
+
+#. Tag: para
+#: Conversations.xml:989
+#, no-c-format
+msgid ""
+"We can also fine tune the concurrent request timeout on a page-by-page basis:"
+msgstr "また、 ページごとに並列要求のタイムアウトを微調整することもできます。"
+
+#. Tag: programlisting
+#: Conversations.xml:994
+#, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/book.xhtml\" \n"
+"         conversation-required=\"true\" \n"
+"         login-required=\"true\"\n"
+"         concurrent-request-timeout=\"2000\" />]]>"
+msgstr ""
+"<![CDATA[<page view-id=\"/book.xhtml\" \n"
+"         conversation-required=\"true\" \n"
+"         login-required=\"true\"\n"
+"         concurrent-request-timeout=\"2000\" />]]>"
+
+#. Tag: para
+#: Conversations.xml:996
+#, no-c-format
+msgid ""
+"So far we've discussed AJAX requests which appear serial to the user - the "
+"client tells the server that an event has occur, and then rerenders part of "
+"the page based on the result. This approach is great when the AJAX request "
+"is lightweight (the methods called are simple e.g. calculating the sum of a "
+"column of numbers). But what if we need to do a complex computation thats "
+"going to take a minute?"
+msgstr ""
+"ここまではユーザーに対して連続的に出現する AJAX 要求について説明してきまし"
+"た。 クライアントはサーバーにイベントが発生したことを伝え、 その結果に応じて"
+"ページの一部を表示します。 この方法は AJAX が軽量である場合には最適となりま"
+"す (1 コラム内の数字の合計を計算するなど呼び出されるメソッドがシンプルである"
+"場合)。 しかし、 計算に 1 分を要するような複雑な計算が必要な場合はどうでしょ"
+"う。"
+
+#. Tag: para
+#: Conversations.xml:1005
+#, no-c-format
+msgid ""
+"For heavy computation we should use a poll based approach &#8212; the client "
+"sends an AJAX request to the server, which causes action to be executed "
+"asynchronously on the server (the response to the client is immediate) and "
+"the client then polls the server for updates. This is good approach when you "
+"have a long-running action for which it is important that every action "
+"executes (you don't want some to timeout)."
+msgstr ""
+"重量のある計算にはポーリングベースの方法を使用してください。 クライアントが"
+"サーバーに AJAX 要求を送信し、 これによりサーバーで非同期にアクションが実行さ"
+"れ (クライアントへの応答が即時となる)、 クライアントは次にサーバーに更新を"
+"ポーリングします。 それぞれのアクションがすべて実行する (いずれもタイムアウト"
+"しない) ことが重要となるような長時間実行のアクションがある場合に適した方法と"
+"なります。"
+
+#. Tag: title
+#: Conversations.xml:1015
+#, no-c-format
+msgid "How should we design our conversational AJAX application?"
+msgstr "対話的 AJAX アプリケーションを設計する"
+
+#. Tag: para
+#: Conversations.xml:1017
+#, no-c-format
+msgid ""
+"Well first, you need to decide whether you want to use the simpler \"serial"
+"\" request or whether you want to use a polling approach."
+msgstr ""
+"まず、 簡単な「連続」要求を使用するのかどうか、 あるいはポーリングの方法を使"
+"用するのかどうかを決める必要があります。"
+
+#. Tag: para
+#: Conversations.xml:1022
+#, no-c-format
+msgid ""
+"If you go for a \"serial\" requests, then you need to estimate how long your "
+"request will take to complete - is it much shorter than the concurrent "
+"request timeout? If not, you probably want to alter the concurrent request "
+"timeout for this page (as discussed above). You probably want a queue on the "
+"client side to prevent flooding the server with requests. If the event "
+"occurs often (e.g. a keypress, onblur of input fields) and immediate update "
+"of the client is not a priority you should set a request delay on the client "
+"side. When working out your request delay, factor in that the event may also "
+"be queued on the server side."
+msgstr ""
+"「連続」要求を選択する場合は要求が完了する長さを推測する必要があります。 並列"
+"要求のタイムアウトに比べ十分に短い時間で完了するかどうか推測してみます。 不十"
+"分な場合はこのページの並列要求のタイムアウトを変更します (前述の通り)。 サー"
+"バーを要求で溢れさせないようにするためクライアント側で行列待ちをさせた方がよ"
+"いでしょう。 イベントが頻繁に発生し (入力フィールドの keypress や onblur な"
+"ど) クライアントの即時更新が優先事項ではない場合はクライアント側で要求の遅延"
+"をセットしてください。 要求遅延の作業を行う場合、 イベントがサーバー側でも行"
+"列待ちできるようにすることを考慮に入れてください。"
+
+#. Tag: para
+#: Conversations.xml:1035
+#, no-c-format
+msgid ""
+"Finally, the client library may provide an option to abort unfinished "
+"duplicate requests in favor of the most recent."
+msgstr ""
+"最後に、 クライアントライブラリは未完了の重複要求を最新のものを残してすべて停"
+"止するオプションを提供することができます。"
+
+#. Tag: para
+#: Conversations.xml:1040
+#, no-c-format
+msgid ""
+"Using a poll-style design requires less fine-tuning. You just mark your "
+"action method <literal>@Asynchronous</literal> and decide on a polling "
+"interval:"
+msgstr ""
+"ポールスタイルのデザインを使用する場合は細かな調整があまり必要ありません。 ア"
+"クションメソッド <literal>@Asynchronous</literal> をマークしてポーリングの間"
+"隔を決定するだけです。"
+
+#. Tag: programlisting
+#: Conversations.xml:1046
+#, no-c-format
+msgid ""
+"<![CDATA[int total;\n"
+"\n"
+"// This method is called when an event occurs on the client\n"
+"// It takes a really long time to execute\n"
+"@Asynchronous      \n"
+"public void calculateTotal() {\n"
+"   total = someReallyComplicatedCalculation();\n"
+"}\n"
+"\n"
+"// This method is called as the result of the poll\n"
+"// It's very quick to execute\n"
+"public int getTotal() {\n"
+"   return total;\n"
+"}]]>"
+msgstr ""
+"<![CDATA[int total;\n"
+"\n"
+"// This method is called when an event occurs on the client\n"
+"// It takes a really long time to execute\n"
+"@Asynchronous      \n"
+"public void calculateTotal() {\n"
+"   total = someReallyComplicatedCalculation();\n"
+"}\n"
+"\n"
+"// This method is called as the result of the poll\n"
+"// It's very quick to execute\n"
+"public int getTotal() {\n"
+"   return total;\n"
+"}]]>"
+
+#. Tag: title
+#: Conversations.xml:1050
+#, no-c-format
+msgid "Dealing with errors"
+msgstr "エラーを処理する"
+
+#. Tag: para
+#: Conversations.xml:1052
+#, no-c-format
+msgid ""
+"However carefully you design your application to queue concurrent requests "
+"to your conversational component, there is a risk that the server will "
+"become overloaded and be unable to process all the requests before the "
+"request will have to wait longer than the <literal>concurrent-request-"
+"timeout</literal>. In this case Seam will throw a "
+"<literal>ConcurrentRequestTimeoutException</literal> which can be handled in "
+"<literal>pages.xml</literal>. We recommend sending an HTTP 503 error:"
+msgstr ""
+"並列要求を対話的コンポーネントに対して行列待ちに入れるよう十分注意をしてアプ"
+"リケーションを設定しても、 サーバー側がオーバーロードとなり要求処理にかかる時"
+"間が <literal>concurrent-request-timeout</literal> を越えるまでに全要求を処理"
+"できなくなる危険性があります。 こうした場合、 Seam は <literal>pages.xml</"
+"literal> で処理が可能な <literal>ConcurrentRequestTimeoutException</literal> "
+"を送出します。 HTTP 503 エラーの送信をお勧めします。"
+
+#. Tag: programlisting
+#: Conversations.xml:1063
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[   <exception class=\"org.jboss.seam."
+"ConcurrentRequestTimeoutException\" log-level=\"trace\">\n"
+"      <http-error error-code=\"503\" />\n"
+"   </exception>]]>"
+msgstr ""
+"<![CDATA[   <exception class=\"org.jboss.seam."
+"ConcurrentRequestTimeoutException\" logLevel=\"trace\">\n"
+"      <http-error error-code=\"503\" />\n"
+"   </exception>]]>"
+
+#. Tag: title
+#: Conversations.xml:1066
+#, no-c-format
+msgid "503 Service Unavailable (HTTP/1.1 RFC)"
+msgstr "503 Service Unavailable (HTTP/1.1 RFC)"
+
+#. Tag: para
+#: Conversations.xml:1068
+#, no-c-format
+msgid ""
+"The server is currently unable to handle the request due to a temporary "
+"overloading or maintenance of the server. The implication is that this is a "
+"temporary condition which will be alleviated after some delay."
+msgstr ""
+"サーバーは現在、 一時的な過負荷またはメンテナンスのため要求を処理することがで"
+"きません。 しばらく待つと緩和されるであろう一時的な状態であることを指します。"
+
+#. Tag: para
+#: Conversations.xml:1076
+#, no-c-format
+msgid "Alternatively you could redirect to an error page:"
+msgstr "代わりにエラーページにリダイレクトすることができます。"
+
+#. Tag: programlisting
+#: Conversations.xml:1080
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
+"\" log-level=\"trace\">\n"
+"   <end-conversation/>\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>The server is too busy to process your request, please try "
+"again later</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
+msgstr ""
+"<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
+"\" logLevel=\"trace\">\n"
+"   <end-conversation/>\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>The server is too busy to process your request, please try "
+"again later</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
+
+#. Tag: para
+#: Conversations.xml:1082
+#, fuzzy, no-c-format
+msgid ""
+"ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
+"Seam Remoting will pop up a dialog box showing the HTTP error. ICEfaces will "
+"indicate the error in its connection status component. RichFaces provides "
+"the most complete support for handling HTTP errors by providing a user "
+"definable callback. For example, to show the error message to the user:"
+msgstr ""
+"ICEfaces、 RichFaces Ajax、 Seam Remoting はいずれも HTTP エラーのコードを処"
+"理することができます。 Seam Remoting は HTTP エラーを示すダイアログボックスを"
+"ポップアップします。 ICEfaces はその接続ステータスのコンポーネントでエラーを"
+"示します。 RichFaces Ajax はユーザー定義が可能なコールバックを提供することで "
+"HTTP エラー処理にほぼ完全に対応します。 たとえば、 ユーザーにエラーメッセージ"
+"を表示するには、"
+
+#. Tag: programlisting
+#: Conversations.xml:1091
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onError = function(req,status,message) { \n"
+"      alert(\"An error occurred\");\n"
+"   };\n"
+"</script>]]>"
+msgstr ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onError = function(req,status,message) { \n"
+"      alert(\"message\");    \n"
+"   };\n"
+"</script>]]>"
+
+#. Tag: para
+#: Conversations.xml:1093
+#, no-c-format
+msgid ""
+"If instead of an error code, the server reports that the view has expired, "
+"perhaps because the session timed out, you use a separate callback function "
+"in RichFaces to handle this scenario."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1099
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onExpired = function(loc,message) { \n"
+"      alert(\"View expired\");\n"
+"   };\n"
+"</script>]]>"
+msgstr ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onError = function(req,status,message) { \n"
+"      alert(\"message\");    \n"
+"   };\n"
+"</script>]]>"
+
+#. Tag: para
+#: Conversations.xml:1101
+#, no-c-format
+msgid ""
+"Alternatively, you can allow RichFaces handle the error, in which case the "
+"user will be presented with a prompt that reads \"View state could't be "
+"restored - reload page?\" You can customize this message globally by setting "
+"the following message key in an application resource bundle."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1109
+#, no-c-format
+msgid "<![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]>"
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:1114
+#, fuzzy, no-c-format
+msgid "RichFaces (Ajax4jsf)"
+msgstr "RichFaces Ajax"
+
+#. Tag: para
+#: Conversations.xml:1116
+#, fuzzy, no-c-format
+msgid ""
+"RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and "
+"provides all the controls discussed above:"
+msgstr ""
+"RichFaces Ajax は Seam で使用される最も一般的な AJAX ライブラリであり、 上述"
+"したような制御をすべて提供します。"
+
+#. Tag: para
+#: Conversations.xml:1123
+#, fuzzy, no-c-format
+msgid ""
+"<literal>eventsQueue</literal> &#8212; provides a queue in which events are "
+"placed. All events are queued and requests are sent to the server serially. "
+"This is useful if the request to the server can take some time to execute (e."
+"g. heavy computation, retrieving information from a slow source) as the "
+"server isn't flooded."
+msgstr ""
+"<literal>eventsQueue</literal> &#8212; イベントが配置されるキューを提供しま"
+"す。 すべてのイベントは待ち行列に配置され、 要求は連続的にサーバーに送信され"
+"ます。 サーバーへの要求の実行に時間がかかる可能性がある場合に便利です (複雑な"
+"計算、 遅いソースからの情報の読み出し)。 これを使用することによりサーバーが要"
+"求で溢れないようにすることができます。"
+
+#. Tag: para
+#: Conversations.xml:1133
+#, fuzzy, no-c-format
+msgid ""
+"<literal>ignoreDupResponses</literal> &#8212; ignores the response produced "
+"by the request if a more recent 'similar' request is already in the queue. "
+"ignoreDupResponses=\"true\" does <emphasis>not cancel</emphasis> the "
+"processing of the request on the server side &#8212; just prevents "
+"unnecessary updates on the client side."
+msgstr ""
+"<literal>ignoreDupResponses</literal> &#8212; より新しい「同様の」要求が既に"
+"キューにある場合は要求によって生成される応答を無視します。 "
+"ignoreDupResponses=\"true\" はサーバー側での要求の処理を <emphasis>取り消すわ"
+"けではありません</emphasis>。 クライアント側で不必要な更新を避けるだけです。"
+
+#. Tag: para
+#: Conversations.xml:1140
+#, no-c-format
+msgid ""
+"This option should be used with care with Seam's conversations as it allows "
+"multiple concurrent requests to be made."
+msgstr ""
+"このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使"
+"用する際は注意が必要です。"
+
+#. Tag: para
+#: Conversations.xml:1146
+#, no-c-format
+msgid ""
+"<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the "
+"request will be remain on the queue. If the request has not been processed "
+"by after this time the request will be sent (regardless of whether a "
+"response has been received) or discarded (if there is a more recent similar "
+"event on the queue)."
+msgstr ""
+"<literal>requestDelay</literal> &#8212; 要求がキューに残っている時間を定義し"
+"ます (ミリ秒単位)。 要求がこの時間を過ぎても処理されないと要求は送信されるか "
+"(応答が受信されているかどうかにかかわらず) 破棄 (より新しい同様のイベントが"
+"キューにある場合) されます。"
+
+#. Tag: para
+#: Conversations.xml:1153
+#, no-c-format
+msgid ""
+"This option should be used with care with Seam's conversations as it allows "
+"multiple concurrent requests to be made. You need to be sure that the delay "
+"you set (in combination with the concurrent request timeout) is longer than "
+"the action will take to execute."
+msgstr ""
+"このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使"
+"用する場合は注意が必要です。 アクションが実行に要する時間よりセットした遅延 "
+"(並列要求のタイムアウトと併用) の方が長いことを確認する必要があります。"
+
+#. Tag: para
+#: Conversations.xml:1161
+#, no-c-format
+msgid ""
+"<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "
+"&#8212; Polls the server, and rerenders an area as needed"
+msgstr ""
+"<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "
+"&#8212; サーバーにポーリングを行い必要に応じてエリアを表示します。"

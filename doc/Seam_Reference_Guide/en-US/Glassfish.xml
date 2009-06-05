@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="glassfish">
+   <title>Seam on GlassFish application server</title>
+
+   <para>
+      GlassFish is an open source application server which fully implements Java
+      EE 5. The latest stable release is v2 UR2.
+   </para>
+
+   <para>
+      First, we'll discuss the GlassFish environment. Then we will go over the 
+      how you deploy the jee5 example. Next, we will deploy the JPA example
+      application. Finally we show how to get a seam-gen's generated 
+      application running on GlassFish.
+   </para>
+
+   <section>
+      <title>GlassFish environment and deployment information</title>
+
+      <section>
+         <title>Installation</title>
+
+         <para>
+            All of the examples and information in this chapter are based on the
+            the latest version of GlassFish at the time of this writing.
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <ulink
+                        url="https://glassfish.dev.java.net/downloads/v2ur2-b04.html">
+                     GlassFish v2 UR2 - download page</ulink>
+                  </para>
+               </listitem>
+            </itemizedlist>
+         </para>
+
+         <para>
+            After downloading GlassFish, install it:
+         </para>
+         
+         <programlisting>$ java -Xmx256m -jar glassfish-installer-v2ur2-b04-linux.jar</programlisting>
+
+         <para>
+            After installing, setup GlassFish:
+         </para>
+         
+         <programlisting>$ cd glassfish; ant -f setup.xml</programlisting>
+         
+         <para>
+            The created domain's name is <literal>domain1</literal>.
+         </para>
+
+         <para>
+            Next, we start the embedded JavaDB server:
+         </para>
+         
+         <programlisting>$ bin/asadmin start-database</programlisting>
+         
+         <note>
+            <para>
+               JavaDB is an embedded database that is included with GlassFish,
+               just as HSQLDB is included in JBoss AS.
+            </para>
+         </note>
+
+         <para>
+            Now, start the GlassFish server:
+         </para>
+         
+         <programlisting>$ bin/asadmin start-domain domain1</programlisting>
+
+         <para>
+            The web administration console is available at <literal>http://localhost:4848/</literal>.
+            You can access the web admin console with the default username 
+            (<literal>admin</literal>) and password (<literal>adminadmin</literal>).
+            We will be using the the admin console to deploy our examples.  
+            You can also copy EAR/WAR files to the
+            <literal>glassfish/domains/domain1/autodeploy</literal> directory 
+            to deploy them, although we are not going to cover that.
+         </para>
+
+         <para>
+            You can stop the server and database using:
+         </para>
+         
+         <programlisting>$ bin/asadmin stop-domain domain1; bin/asadmin stop-database</programlisting>
+      </section>
+   </section>
+
+   <section id="jee5-glassfish-section">
+      <title>The <literal>jee5/booking</literal> example</title>
+
+      <para>
+         The <literal>jee5/booking</literal> example is based on the Hotel 
+         Booking example (which runs on JBoss AS). Out of the box it is also 
+         designed to run on GlassFish. It is located in
+         <literal>$SEAM_DIST/examples/jee5/booking</literal>.
+      </para>
+      
+      <section>
+         <title>Building the <literal>jee5/booking</literal> example</title>
+
+         <para>
+            To build the example, simply execute the default 
+            <literal>ant</literal> target:
+         </para>
+         
+         <programlisting>$ ant</programlisting>
+         
+         <para>
+            in the <literal>examples/jee5/booking</literal> directory.  This 
+            will create the <literal>dist</literal> and 
+            <literal>exploded-archives</literal> directories.
+         </para>
+      </section>
+      <section id="jee5-glassfish-deploy">
+         <title>Deploying the application to GlassFish</title>
+
+         <para>
+            We will deploy the application on GlassFish using the GlassFish
+            admin console.
+         </para>
+         
+         <orderedlist>
+            <listitem>
+               <para>
+                  Log in to the admin console at <literal>http://localhost:4848</literal> 
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  Access the <literal>Enterprise Applications</literal> in the
+                  menu option under the <literal>Applications</literal> left 
+                  side menu.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  At the top of the <literal>Enterprise Application</literal>
+                  table select <literal>Deploy</literal>. Follow through the
+                  wizard, using these hints:
+               </para>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>Preparing for the application installation</literal>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Browse to <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</literal>.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Select the <literal>OK</literal> button.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+            <listitem>
+               <para>
+                  You can now access the application at
+                  <literal>http://localhost:8081/seam-jee5/</literal>.
+               </para>
+            </listitem>
+         </orderedlist>
+      </section>
+   </section>
+
+   <section id="jpa-glassfish-section">
+      <title>The <literal>jpa</literal> booking example</title>
+
+      <para>
+         This is the Hotel Booking example implemented in Seam POJOs and using
+         Hibernate JPA with JPA transactions. It does not require EJB3 support
+         to run on application server.
+      </para>
+
+      <para>
+         The example already has a break-out of configurations and build scripts
+         for many of the common containers including GlassFish.
+      </para>
+
+      <section>
+         <title>Building the <literal>jpa</literal> example</title>
+
+         <para>
+            To build the example, use the <literal>glassfish</literal> target:
+         </para>
+         
+         <programlisting>$ ant glassfish</programlisting>
+         
+         <para>
+            This will create the container specific <literal>dist-glassfish</literal>
+            and <literal>exploded-archives-glasfish</literal> directories.
+         </para>
+      </section>
+
+      <section>
+         <title>Deploying the <literal>jpa</literal> example</title>
+
+         <para>
+            This is very similar to the <literal>jee5</literal> example at
+            <xref linkend="jee5-glassfish-deploy" /> except that this is a
+            <literal>war</literal> and not an <literal>ear</literal>.
+         </para>
+
+         <itemizedlist>
+            <listitem>
+               <para>
+                  Log in to the administration console:
+               </para>
+               <programlisting>http://localhost:4848</programlisting>
+            </listitem>
+            <listitem>
+               <para>
+                  Access the <literal>Web Applications</literal> in the menu 
+                  option under the <literal>Applications</literal> left side 
+                  menu.
+               </para>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>
+                           Preparing for the application installation
+                        </literal>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Select the <literal>OK</literal> button.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        You can now access the application at 
+                        <literal>http://localhost:8081/jboss-seam-jpa/</literal>.
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </itemizedlist>
+
+         <note>
+            <title>Using Derby instead of Hypersonic SQL DB</title>
+
+            In order for the app to work out of the box with GlassFish, we have
+            used the Derby (aka JavaDB) database in GlassFish. However, we
+            strongly recommend that you use another database (e.g. HSQL). 
+            <literal>examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class</literal>
+            is a hack to get around a Derby bug in GlassFish server. You must 
+            use it as your Hibernate dialect if you use Derby with GlassFish.
+         </note>
+      </section>
+
+      <section id="glassfish_jpa_diff">
+         <title>What's different for GlassFish v2 UR2</title>
+
+         <itemizedlist>
+            <listitem>
+               <para>
+                  Configuration file changes
+               </para>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>META-INF/persistence.xml</literal> — the main 
+                        changes needed are the datasource JNDI, switching to the
+                        GlassFish transaction manager lookup class, and 
+                        changing the hibernate dialect to be
+                        <literal>GlassfishDerbyDialect</literal>.
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>WEB-INF/classes/GlassfishDerbyDialect.class</literal>
+                        — this class is needed for the Hibernate dialect change 
+                        to <literal>GlassfishDerbyDialect</literal>
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>import.sql</literal> — either for the dialect 
+                        or Derby DB the <literal>ID</literal> column can not be 
+                        populated by this file and was removed.
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </itemizedlist>
+      </section>
+   </section>
+
+   <section>
+      <title>Deploying an application generated by <literal>seam-gen</literal> on GlassFish v2 UR2</title>
+
+      <para>
+         <literal>seam-gen</literal> is a very useful tool for developers to 
+         quickly get an application up and running, and provides a foundation to
+         add your own functionality. Out of box <literal>seam-gen</literal> will
+         produce applications configured to run on JBoss AS. These instructions 
+         will show the steps needed to get it to run on GlassFish. 
+      </para>
+
+      <section>
+         <title>Running <literal>seam-gen</literal> Setup</title>
+
+         <para>
+            The first step is setting up <literal>seam-gen</literal> to 
+            construct the base project. There are several choices made below,
+            specifically the datasource and hibernate values that we will adjust
+            once the project is created.
+         </para>
+
+         <programlisting><![CDATA[$ ./seam setup
+Buildfile: build.xml
+
+init:
+
+setup:
+[echo] Welcome to seam-gen :-)
+[input] Enter your Java project workspace (the directory that contains your
+Seam projects) [C:/Projects] [C:/Projects]
+/projects
+[input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA]
+[C:/Program Files/jboss-4.2.3.GA]
+
+[input] Enter the project name [myproject] [myproject]
+seamgen_example
+[echo] Accepted project name as: seamgen_example
+[input] Do you want to use ICEfaces instead of RichFaces [n] (y, [n])
+
+[input] skipping input as property icefaces.home.new has already
+been set.
+[input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine,
+deepMarine, emeraldTown, japanCherry, DEFAULT)
+
+[input] Is this project deployed as an EAR (with EJB components) or a WAR
+(with no EJB support) [ear] ([ear], war)
+
+[input] Enter the Java package name for your session beans
+[com.mydomain.seamgen_example] [com.mydomain.seamgen_example]
+org.jboss.seam.tutorial.glassfish.action
+[input] Enter the Java package name for your entity beans
+[org.jboss.seam.tutorial.glassfish.action]
+[org.jboss.seam.tutorial.glassfish.action]
+org.jboss.seam.tutorial.glassfish.model
+[input] Enter the Java package name for your test cases
+[org.jboss.seam.tutorial.glassfish.action.test]
+[org.jboss.seam.tutorial.glassfish.action.test]
+org.jboss.seam.tutorial.glassfish.test
+[input] What kind of database are you using? [hsql] ([hsql], mysql, oracle,
+postgres, mssql, db2, sybase, enterprisedb, h2)
+
+[input] Enter the Hibernate dialect for your database
+[org.hibernate.dialect.HSQLDialect]
+[org.hibernate.dialect.HSQLDialect]
+
+[input] Enter the filesystem path to the JDBC driver jar
+[/tmp/seam/lib/hsqldb.jar] [/tmp/seam/lib/hsqldb.jar]
+
+[input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver]
+[org.hsqldb.jdbcDriver]
+
+[input] Enter the JDBC URL for your database [jdbc:hsqldb:.]
+[jdbc:hsqldb:.]
+
+[input] Enter database username [sa] [sa]
+
+[input] Enter database password [] []
+
+[input] Enter the database schema name (it is OK to leave this blank) [] []
+
+[input] Enter the database catalog name (it is OK to leave this
+blank) [] []
+
+[input] Are you working with tables that already exist in the database? [n]
+(y, [n])
+
+[input] Do you want to drop and recreate the database tables and data in
+import.sql each time you deploy? [n] (y, [n])
+
+[propertyfile] Creating new property file:
+/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/build.properties
+[echo] Installing JDBC driver jar to JBoss server
+[copy] Copying 1 file to
+/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/C:/Program
+Files/jboss-4.2.3.GA/server/default/lib
+[echo] Type 'seam create-project' to create the new project
+
+BUILD SUCCESSFUL
+Total time: 4 minutes 5 seconds]]></programlisting>
+
+         <para>
+            Type <literal>$ ./seam new-project</literal> to create your project
+            and then <literal>cd /projects/seamgen_example</literal> to
+            the newly created structure.
+         </para>
+      </section>
+
+      <section>
+         <title>Changes needed for deployment to GlassFish</title>
+
+         <para>
+            We now need to make some changes to the generated project.
+         </para>
+
+         <section>
+            <title>Configuration file changes</title>
+
+            <variablelist>
+               <varlistentry>
+                  <term>
+                     <literal>resources/META-INF/persistence-dev.xml</literal>
+                  </term>
+
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Alter the <literal>jta-data-source</literal> to be
+                              <literal>jdbc/__default</literal>. We are going to
+                              be using the integrated GlassFish Derby DB.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Replace all of the properties with the following.
+                              The key differences are briefly described in 
+                              <xref linkend="glassfish_jpa_diff" />:
+                           </para>
+                           <programlisting role="XML"><![CDATA[<property name="hibernate.dialect" value="GlassfishDerbyDialect"/>
+<property name="hibernate.hbm2ddl.auto" value="update"/>
+<property name="hibernate.show_sql" value="true"/>
+<property name="hibernate.format_sql" value="true"/>
+<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>]]></programlisting>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              You'll need to alter 
+                              <literal>persistence-prod.xml</literal> as well if
+                              you want to deploy to GlassFish using the prod 
+                              profile.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/GlassfishDerbyDialect.class</literal>
+                  </term>
+                  <listitem>
+                     <para>
+                        As with other examples we need to include this class for
+                        DB support. It can be copied from the 
+                        <literal>jpa</literal> example into the
+                        <literal>seamgen_example/resources</literal> directory.
+                     </para>
+                     <programlisting>$ cp \ 
+$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class \ 
+./resources
+                     </programlisting>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/META-INF/jboss-app.xml</literal>
+                  </term>
+                  <listitem>
+                     <para>
+                        You can delete this file as we aren't deploying to JBoss
+                        AS (<literal>jboss-app.xml</literal> is used to enable 
+                        classloading isolation in JBoss AS)
+                     </para>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/*-ds.xml</literal>
+                  </term>
+                  <listitem>
+                     <para>
+                        You can delete these file as we aren't deploying to
+                        JBoss AS (these files define data sources in JBoss AS,
+                        we are using GlassFish's default data source)
+                     </para>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/WEB-INF/components.xml</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Enable container managed transaction integration -
+                              add the <literal><![CDATA[<transaction:ejb-transaction />]]></literal>
+                              component, and it's namespace declaration 
+                              <literal>xmlns:transaction="http://jboss.com/products/seam/transaction"</literal>
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Alter the <literal>jndi-pattern</literal> to
+                              <literal>java:comp/env/seamgen_example/#{ejbName}</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/WEB-INF/web.xml</literal>
+                  </term>
+                  <listitem>
+                     <para>
+                        As with the <literal>jee5/booking</literal> example, we
+                        need to add EJB references to web.xml. Technically, the
+                        reference type is not required, but we add it here for
+                        good measure. Note that these references require the
+                        presence of an empty <literal>local-home</literal>
+                        element to retain compatibility with a JBoss AS 4.x
+                        deployment.
+                     </para>
+                     <programlisting role="XML"><![CDATA[<ejb-local-ref>              
+    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                
+    <ejb-ref-type>Session</ejb-ref-type>     
+    <local-home/>
+    <local>org.jboss.seam.tutorial.glassfish.action.Authenticator</local>  
+  </ejb-local-ref>
+   
+  <ejb-local-ref>
+    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home/>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>]]></programlisting>
+                     <para>
+                        Keep in mind that if you are deploying to JBoss AS 4.x,
+                        and have defined the EJB references shown above in your
+                        web.xml, you will need to also define local JNDI names
+                        for each of them in jboss-web.xml, as shown below.
+                        This step is not required when deploying to GlassFish,
+                        but it's mentioned here in case you are also deploying the
+                        application to JBoss AS 4.x (not required for JBoss AS 5).
+                     </para>
+                     <programlisting role="XML"><![CDATA[<ejb-local-ref>              
+    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                
+    <local-jndi-name>AuthenticatorAction</local-jndi-name>  
+  </ejb-local-ref>
+   
+  <ejb-local-ref>
+    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  
+    <local-jndi-name>EjbSynchronizations</local-jndi-name>
+  </ejb-local-ref>]]></programlisting>
+                  </listitem>
+               </varlistentry>
+            </variablelist>
+         </section>
+
+         <section>
+            <title>Creating the <literal>AuthenticatorAction</literal> EJB</title>
+
+            <para>
+               We want to take the existing <literal>Authenticator</literal> 
+               Seam POJO component and create an EJB3 out of it.
+            </para>
+
+            <orderedlist>
+               <listitem>
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           Rename the class to 
+                           <literal>AuthenticatorAction</literal>
+                        </para>
+                     </listitem>
+
+                     <listitem>
+                        <para>
+                           Add the <literal>@Stateless</literal> annotation to 
+                           the new <literal>AuthenticatorAction</literal> class.
+                        </para>
+                     </listitem>
+
+                     <listitem>
+                        <para>
+                           Create an interface called 
+                           <literal>Authenticator</literal> which
+                           <literal>AuthenticatorAction</literal>
+                           implements (EJB3 requires session beans to have a
+                           local interface). Annotate the interface with
+                           <literal>@Local</literal>, and add a single method 
+                           with same signature as the <literal>authenticate</literal>
+                           in <literal>AuthenticatorAction</literal>.
+                        </para>
+                     </listitem>
+                  </itemizedlist>
+
+                  <programlisting role="JAVA"><![CDATA[@Name("authenticator") 
+@Stateless
+public class AuthenticatorAction implements Authenticator {]]></programlisting>
+
+                  <programlisting role="JAVA"><![CDATA[@Local
+public interface Authenticator { 
+
+   public boolean authenticate(); 
+}]]></programlisting>
+               </listitem>
+
+               <listitem>
+                  <para>
+                     We've already added its reference to the <literal>web.xml</literal>
+                     file so we are good to go.
+                  </para>
+               </listitem>
+            </orderedlist>
+         </section>
+
+         <section>
+            <title>
+               Extra jar dependencies and other changes to the 
+               <literal>build.xml</literal>
+            </title>
+
+            <para>
+               This application has similar requirements as the
+               <literal>jee5/booking</literal> example.
+            </para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     Change the default target to <literal>archive</literal> (we
+                     aren't going to cover automatic deployment to GlassFish).
+                  </para>
+
+                  <programlisting role="XML"><![CDATA[<project name="seamgen_example" default="archive" basedir=".">]]></programlisting>
+               </listitem>
+               <listitem>
+                  <para>
+                     We need to get the <literal>GlassfishDerbyDialect.class</literal>
+                     into our application jar. To do that find the <literal>jar</literal>
+                     task and add the <literal>GlassfishDerbyDialect.class</literal>
+                     line as shown below:
+                  </para>
+
+                  <programlisting role="XML"><![CDATA[<target name="jar" depends="compile,copyclasses" description="Build the distribution .jar file">
+   <copy todir="${jar.dir}">
+      <fileset dir="${basedir}/resources">
+         <include name="seam.properties" />
+         <include name="*.drl" />
+         <include name="GlassfishDerbyDialect.class" />
+      </fileset> 
+   </copy>
+   ...]]></programlisting>
+               </listitem>
+               <listitem>
+                  <para>
+                     Now we need to get extra jars into the <literal>ear</literal>
+                     file.  Look for the 
+                     <literal><![CDATA[<copy todir="${ear.dir}/lib">]]></literal>
+                     section of the <literal>ear</literal> target. Add the following
+                     to the child 
+                     <literal><![CDATA[<fileset dir="${lib.dir}">]]></literal>
+                     element.
+                  </para>
+               </listitem>
+               <listitem> 
+                  <itemizedlist>
+                     <listitem>
+                        <para>Add Hibernate dependencies</para>
+                        <programlisting role="XML"><![CDATA[<!-- Hibernate and deps --> 
+<include name="hibernate.jar"/>
+<include name="hibernate-commons-annotations.jar"/>
+<include name="hibernate-annotations.jar"/>
+<include name="hibernate-entitymanager.jar"/>
+<include name="hibernate-validator.jar"/>
+<include name="jboss-common-core.jar"/>]]></programlisting>
+                     </listitem>
+                     <listitem>
+                        <para>Add third party dependencies.</para>
+                        <programlisting role="XML"><![CDATA[<!-- 3rd party and supporting jars -->
+<include name="javassist.jar"/>
+<include name="dom4j.jar"/> 
+<include name="concurrent.jar" />
+<include name="cglib.jar"/>
+<include name="asm.jar"/>
+<include name="antlr.jar" />
+<include name="commons-logging.jar" />
+<include name="commons-collections.jar" />]]></programlisting>
+                     </listitem>
+                  </itemizedlist>
+
+                  <para>You should end up with something like:</para>
+
+                  <programlisting role="XML"><![CDATA[<fileset dir="${lib.dir}">
+   <includesfile name="deployed-jars-ear.list" />
+   
+   <!-- Hibernate and deps -->
+   <include name="hibernate.jar"/>
+   <include name="hibernate-commons-annotations.jar"/>
+   <include name="hibernate-annotations.jar"/>
+   <include name="hibernate-entitymanager.jar"/>
+   <include name="hibernate-validator.jar"/>
+   <include name="jboss-common-core.jar" />
+   
+   <!-- 3rd party and supporting jars -->
+   <include name="javassist.jar" />
+   <include name="dom4j.jar" />
+   <include name="concurrent.jar" />
+   <include name="cglib.jar" />
+   <include name="asm.jar" />
+   <include name="antlr.jar" />
+   <include name="commons-logging.jar" />
+   <include name="commons-collections.jar" />
+</fileset>]]></programlisting>
+               </listitem>
+            </itemizedlist>
+         </section>
+
+         <section>
+            <title>Building and deploying the seam-gen'd application to GlassFish</title>
+
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     Build your application by calling <literal>ant</literal> in
+                     the base directory of your project (for example 
+                     <literal>/projects/seamgen-example</literal>). The target 
+                     of the build will be <literal>dist/seamgen-example.ear</literal>.
+                  </para>
+               </listitem>
+
+               <listitem>
+                  <para>
+                     To deploy the application follow the instructions here
+                     <xref linkend="jee5-glassfish-deploy" /> but use references
+                     to this project <literal>seamgen-example</literal> instead 
+                     of <literal>jboss-seam-jee5</literal>.
+                  </para>
+               </listitem>
+
+               <listitem>
+                  <para>
+                     Checkout the app at <literal>http://localhost:8081/seamgen_example/</literal>
+                  </para>
+               </listitem>
+            </itemizedlist>
+         </section>
+      </section>
+   </section>
+</chapter>

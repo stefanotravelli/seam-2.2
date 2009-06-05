@@ -1,0 +1,47 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+		        xmlns:ice="http://www.icesoft.com/icefaces/component"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+ <ice:form id="loginForm">
+      <ice:panelGroup  id="loginPanelGroupId" styleClass="formBorderHighlight">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td class="iceDatTblColHdr2">
+       			<ice:outputText id="loginTextId" value="Login"/>
+                  </td>
+              </tr>
+          </table>
+    
+      
+            <p>Please login with the username 'admin' and a blank password.</p>
+
+                    <div class="dialog">
+                 <ice:panelGrid id="loginPanelGridId" columns="2" rowClasses="prop" columnClasses="name,value">
+                    <h:outputLabel for="username">Username</h:outputLabel>
+                    <ice:inputText id="username" 
+                              value="#{credentials.username}"/>
+                    <h:outputLabel for="password">Password</h:outputLabel>
+                    <ice:inputSecret id="password" 
+                                value="#{credentials.password}"/>
+                    <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
+                    <ice:selectBooleanCheckbox id="rememberMe" 
+                                          value="#{rememberMe.enabled}"/>
+                </ice:panelGrid>
+            </div>
+  
+      </ice:panelGroup>
+         <div class="actionButtons">
+            <ice:commandButton id="submit" value="Login" action="#{identity.login}"/>
+        </div>
+          
+  </ice:form>      
+</ui:define> 
+</ui:composition>

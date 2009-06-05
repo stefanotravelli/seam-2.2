@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages
+		http://jboss.com/products/seam/pages-2.1.xsd">
+
+	<page view-id="/action-test01a.xhtml">
+		<action execute="#{testActions.nonNullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+	</page>
+
+	<page view-id="/action-test01b.xhtml" action="#{testActions.nonNullActionA}">
+		<description>#{fineDescription}</description>
+		<action execute="#{testActions.nonNullActionB}" />
+	</page>
+	
+	<page view-id="/action-test01*">
+		<description>coarse-description</description>
+		<navigation from-action="#{testActions.nonNullActionA}">
+			<rule if-outcome="outcomeA">
+				<render view-id="/pageA.xhtml" />
+			</rule>
+		</navigation>
+
+		<navigation from-action="#{testActions.nonNullActionB}">
+			<rule if-outcome="outcomeB">
+				<render view-id="/pageB.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/action-test02.xhtml">
+		<action execute="#{testActions.nonNullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+		<action execute="#{testActions.nonNullActionC}" />
+		
+		<navigation from-action="#{testActions.nonNullActionB}">
+			<rule if-outcome="outcomeB">
+				<render view-id="/pageB.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/action-test03.xhtml">
+		<action execute="#{testActions.nullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+		
+		<navigation from-action="#{testActions.nullActionA}">
+			<render view-id="/pageA.xhtml"/>
+		</navigation>
+		
+		<navigation from-action="#{testActions.nonNullActionB}">
+			<rule if-outcome="outcomeB">
+				<render view-id="/pageB.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/action-test04.xhtml">
+		<action execute="#{testActions.nullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+		<action execute="#{testActions.nonNullActionC}" />
+		
+		<navigation>
+			<rule>
+				<render view-id="/action-test04.xhtml"/>
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/action-test05.xhtml">
+		<action execute="#{testActions.nonNullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+		
+		<navigation from-action="#{testActions.nonNullActionA}">
+			<rule if-outcome="outcomeA">
+				<redirect view-id="/pageA.xhtml" />
+			</rule>
+		</navigation>
+
+		<navigation from-action="#{testActions.nonNullActionB}">
+			<rule if-outcome="outcomeB">
+				<redirect view-id="/pageB.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+
+	<page view-id="/action-test06.xhtml">
+		<action execute="#{testActions.nonNullActionA}"/>
+		<action execute="#{testActions.nonNullActionB}" on-postback="false"/>
+	</page>
+	
+	<!-- The next two page nodes (action-test99*) demonstrate the old
+	behavior, where successive actions could trigger navigations on
+	different page nodes because the viewId changes mid-run -->
+	<page view-id="/action-test99a.xhtml">
+		<action execute="#{testActions.nonNullActionA}" />
+		<action execute="#{testActions.nonNullActionB}" />
+		
+		<navigation from-action="#{testActions.nonNullActionA}">
+			<rule if-outcome="outcomeA">
+				<render view-id="/action-test99b.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/action-test99b.xhtml">
+		<action execute="#{testActions.nonNullActionC}" />
+
+		<navigation from-action="#{testActions.nonNullActionB}">
+			<rule if-outcome="outcomeB">
+				<render view-id="/pageB.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	
+	<page view-id="/end-conversation-test.xhtml">
+		<end-conversation />
+	</page>
+	
+	<page view-id="/end-root-conversation-test.xhtml">
+		<end-conversation root="true" />
+	</page>
+
+</pages>

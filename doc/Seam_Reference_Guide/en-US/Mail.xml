@@ -1,0 +1,792 @@
+<chapter id="mail">
+  <title>Email</title>
+  <para>
+    Seam now includes an optional components for templating and sending emails.
+  </para>
+
+  <para>
+    Email support is provided by <literal>jboss-seam-mail.jar</literal>. This 
+    JAR contains the mail JSF controls, which are used to construct emails,
+    and the <literal>mailSession</literal> manager component. 
+  </para>
+
+  <para>
+    The examples/mail project contains an example of the email support in 
+    action. It demonstrates proper packaging, and it contains a number of 
+    example that demonstrate the key features currently supported. 
+  </para>
+  
+  <para>
+    You can also test your mail's using Seam's integration testing environment.
+    See <xref linkend="testing.mail" />.
+  </para>
+    
+  <section>
+    <title>Creating a message</title>
+    	
+    <para>
+      You don't need to learn a whole new templating language to use Seam Mail 
+      &#8212; an email is just facelet!
+    </para>
+    	
+    <programlisting role="XHTML"><![CDATA[<m:message xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://jboss.com/products/seam/mail"
+    xmlns:h="http://java.sun.com/jsf/html">
+  
+    <m:from name="Peter" address="peter@example.com" />
+    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+    <m:subject>Try out Seam!</m:subject>
+    
+    <m:body>
+        <p><h:outputText value="Dear #{person.firstname}" />,</p>
+        <p>You can try out Seam by visiting 
+        <a href="http://labs.jboss.com/jbossseam">http://labs.jboss.com/jbossseam</a>.</p>
+        <p>Regards,</p>
+        <p>Pete</p>
+    </m:body>
+    
+</m:message>]]></programlisting>
+    	
+    <para>
+      The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, 
+      and tells Seam to start rendering an email.  Inside the <literal>&lt;m:message&gt;</literal>
+      tag we use an <literal>&lt;m:from&gt;</literal> tag to set who the 
+      message is from, a <literal>&lt;m:to&gt;</literal> tag to	specify a 
+      sender (notice how we use EL as we would in a normal facelet), and a 
+      <literal>&lt;m:subject&gt;</literal> tag.
+    </para>
+    	
+    <para>
+      The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email. 
+      You can use regular HTML tags inside the body as well as JSF components.
+    </para>
+    	
+    <para>
+      So, now you have your email template, how do you go about sending it? 
+      Well, at the end of rendering the <literal>m:message</literal> the 
+      <literal>mailSession</literal> is called to send the email, so all you 
+      have to do is ask Seam to render the view:
+    </para>
+    	
+    <programlisting role="JAVA"><![CDATA[@In(create=true)
+private Renderer renderer;
+   
+public void send() {
+    try {
+       renderer.render("/simple.xhtml");
+       facesMessages.add("Email sent successfully");
+   } 
+   catch (Exception e) {
+       facesMessages.add("Email sending failed: " + e.getMessage());
+   }
+}]]></programlisting>
+    	
+   	<para>
+      If, for example, you entered an invalid email address, then an exception 
+      would be thrown, which is caught and then displayed to the user.
+    </para>
+   	
+   	<section>
+   	  <title>Attachments</title>
+   	  <para>
+        Seam makes it easy to attach files to an email.  It supports most of 
+        the standard java types used when working with files.
+      </para>
+   		
+   	  <para>
+        If you wanted to email the <literal>jboss-seam-mail.jar</literal>:
+      </para>
+   		
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar"/>]]></programlisting>
+   		    	
+   	  <para>
+        Seam will load the file from the classpath, and attach it to the email.
+        By default it would be attached as <literal>jboss-seam-mail.jar</literal>;
+   		if you wanted it to have another name you would just add the <literal>fileName</literal> attribute:
+      </para>
+   		
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" fileName="this-is-so-cool.jar"/>]]></programlisting>
+   		
+   	  <para>
+        You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:
+      </para>
+   		
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="#{numbers}"/>]]></programlisting>
+   		
+   	  <para>
+        Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:
+      </para>
+   		
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="#{person.photo}" contentType="image/png"/>]]></programlisting>
+   		
+   	  <para>
+        You'll notice that for a <literal>byte[]</literal> and a <literal>java.io.InputStream</literal>
+        you need to specify the MIME type of the attachment (as that 
+        information is not carried as part of the file).
+      </para>
+   		
+   	  <para>
+        And it gets even better, you can attach a Seam generated PDF, or any 
+        standard JSF view, just by wrapping a <literal>&lt;m:attachment&gt;</literal> 
+        around the normal tags you would use:
+      </para>
+   		
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment fileName="tiny.pdf">
+    <p:document>                                                      
+        A very tiny PDF                                                                                                
+    </p:document>
+</m:attachment>]]></programlisting>
+
+	  <para>
+        If you had a set of files you wanted to attach (for example a set of 
+        pictures loaded from a database) you can just use a <literal>&lt;ui:repeat&gt;</literal>:
+      </para>
+		
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{people}" var="person">
+    <m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg"/>
+</ui:repeat>]]></programlisting>
+   		
+      <para>
+        And if you want to display an attached image inline:
+      </para>
+
+      <programlisting role="XHTML"><![CDATA[<m:attachment 
+    value="#{person.photo}" 
+    contentType="image/jpeg" 
+    fileName="#{person.firstname}_#{person.lastname}.jpg" 
+    status="personPhoto" 
+    disposition="inline" />
+<img src="cid:#{personPhoto.contentId}" />]]></programlisting>
+
+      <para>
+        You may be wondering what <literal>cid:#{...}</literal> does. Well, the
+        IETF specified that by putting this as the src for your image, the 
+        attachments will be looked at when trying to locate the image (the 
+        <literal>Content-ID</literal>'s must match) &#8212; magic!
+      </para>
+          
+      <para>
+        You must declare the attachment before trying to access the status object.
+      </para>
+      
+    </section>
+    
+	<section>
+	  <title>HTML/Text alternative part</title>
+	    	
+	  <para>
+        Whilst most mail readers nowadays support HTML, some don't, so you can 
+        add a plain text alternative to your email body:
+      </para>
+	    	 
+	  <programlisting role="XHTML"><![CDATA[<m:body>
+    <f:facet name="alternative">Sorry, your email reader can't show our fancy email, 
+please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
+</m:body>]]></programlisting>
+
+	</section>
+	    
+	<section>
+	  <title>Multiple recipients</title>
+	    	
+	  <para>
+        Often you'll want to send an email to a group of recipients (for 
+        example your users).  All of the recipient mail tags can be placed 
+        inside a <literal>&lt;ui:repeat&gt;</literal>:
+      </para>
+	    	 
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{allUsers} var="user">
+    <m:to name="#{user.firstname} #{user.lastname}" address="#{user.emailAddress}" />
+</ui:repeat>]]></programlisting>
+
+    </section>
+	    
+	<section>
+	  <title>Multiple messages</title>
+	    	
+	  <para>
+        Sometimes, however, you need to send a slightly different message to 
+        each recipient (e.g. a password	reset).  The best way to do this is to 
+        place the whole message inside a <literal>&lt;ui:repeat&gt;</literal>:
+      </para>
+	    	
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{people}" var="p">
+    <m:message>
+        <m:from name="#{person.firstname} #{person.lastname}">#{person.address}</m:from>
+        <m:to name="#{p.firstname}">#{p.address}</m:to>
+            ...
+    </m:message>
+</ui:repeat>]]></programlisting>
+
+	</section>
+	    
+	<section>
+	  <title>Templating</title>
+	    	
+	  <para>
+        The mail templating example shows that facelets templating just works 
+        with the Seam mail tags.
+      </para>
+	    	
+	  <para>
+        Our <literal>template.xhtml</literal> contains:
+      </para>
+	    	
+	  <programlisting role="XHTML"><![CDATA[<m:message>
+   <m:from name="Seam" address="do-not-reply@jboss.com" />
+   <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+   <m:subject>#{subject}</m:subject>
+   <m:body>
+       <html>
+           <body>
+               <ui:insert name="body">This is the default body, specified by the template.</ui:insert>
+           </body>
+       </html>
+   </m:body>
+</m:message>]]></programlisting>
+
+      <para>
+        Our <literal>templating.xhtml</literal> contains:
+      </para>
+	    	
+      <programlisting role="XHTML"><![CDATA[<ui:param name="subject" value="Templating with Seam Mail"/>
+<ui:define name="body">
+    <p>This example demonstrates that you can easily use <i>facelets templating</i> in email!</p>
+</ui:define>]]></programlisting>
+            
+      <para>
+        You can also use facelets source tags in your email, but you must place
+        them in a jar in <literal>WEB-INF/lib</literal> - referencing the 
+        <literal>.taglib.xml</literal> from <literal>web.xml</literal> isn't 
+        reliable when using Seam Mail (if you send your mail asynchrounously 
+        Seam Mail doesn't have access to the full JSF or Servlet context, and 
+        so doesn't know about <literal>web.xml</literal> configuration 
+        parameters).
+      </para>
+            
+      <para>
+        If you do need more configure Facelets or JSF when sending mail, you'll
+        need to override the Renderer component and do the configuration 
+        programmatically - only for advanced users!
+      </para>
+            
+            
+	</section>
+	    
+	<section>
+	  <title>Internationalisation</title>
+	  
+      <para>
+        Seam supports sending internationalised messages.  By default, the 
+        encoding provided by JSF is used, but this can be overridden on the 
+        template:
+      </para>
+      
+	  <programlisting role="XHTML"><![CDATA[<m:message charset="UTF-8">
+   ...
+</m:message>]]></programlisting>
+
+      <para>
+        The body, subject and recipient (and from) name will be encoded.  
+        You'll need to make sure facelets uses the correct charset for parsing
+        your pages by setting encoding of the template:
+      </para> 
+    
+      <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>]]></programlisting>
+    </section>
+	    
+	<section>
+      <title>Other Headers</title>
+	    	
+      <para>
+        Sometimes you'll want to add other headers to your email.  Seam 
+        provides support for some (see <xref linkend="mail.tags" />). For 
+        example, we can set the importance of the email, and ask for a read 
+        receipt:
+      </para>
+	    	
+	  <programlisting role="XHTML"><![CDATA[<m:message xmlns:m="http://jboss.com/products/seam/mail"
+    importance="low"
+    requestReadReceipt="true"/>]]></programlisting>
+   
+      <para>
+        Otherwise you can add any header to the message using the 
+        <literal>&lt;m:header&gt;</literal> tag:
+      </para>
+	    	
+      <programlisting role="XHTML"><![CDATA[<m:header name="X-Sent-From" value="JBoss Seam"/>]]></programlisting>
+	    	
+    </section>
+
+  </section>
+  <section>
+    <title>Receiving emails</title>
+    
+    <para>
+      If you are using EJB then you can use a MDB (Message Driven Bean) to 
+      receive email.  JBoss provides a JCA adaptor &#8212; 
+      <literal>mail-ra.rar</literal> &#8212; but the version distributed with
+      JBoss AS has a number of limitations (and isn't bundled in some versions)
+      therefore we recommend using the <literal>mail-ra.rar</literal> 
+      distributed with Seam (it's in the <literal>extras/</literal>
+      directory in the Seam bundle).  <literal>mail-ra.rar</literal> should 
+      be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the
+      version of JBoss AS you use already has this file, replace it.
+    </para>
+    
+    <para>
+      You can configure it like this:
+    </para>
+      
+	<programlisting role="JAVA"><![CDATA[@MessageDriven(activationConfig={
+    @ActivationConfigProperty(propertyName="mailServer", propertyValue="localhost"),
+    @ActivationConfigProperty(propertyName="mailFolder", propertyValue="INBOX"),
+    @ActivationConfigProperty(propertyName="storeProtocol", propertyValue="pop3"),
+    @ActivationConfigProperty(propertyName="userName", propertyValue="seam"),
+    @ActivationConfigProperty(propertyName="password", propertyValue="seam")
+})
+@ResourceAdapter("mail-ra.rar")
+@Name("mailListener")
+public class MailListenerMDB implements MailListener {
+
+    @In(create=true)
+    private OrderProcessor orderProcessor;
+
+    public void onMessage(Message message) {
+       // Process the message
+       orderProcessor.process(message.getSubject());
+    }
+   
+}]]></programlisting>
+
+    <para>
+      Each message received will cause <literal>onMessage(Message message)</literal> 
+      to be called.  Most Seam annotations will work inside a MDB but you 
+      musn't access the persistence context.
+    </para>
+
+    <para>
+      You can find more information on <literal>mail-ra.rar</literal>
+      at <ulink url="http://www.jboss.org/community/wiki/InboundJavaMail">http://www.jboss.org/community/wiki/InboundJavaMail</ulink>.
+    </para>
+		
+    <para>
+      If you aren't using JBoss AS you can still use <literal>mail-ra.rar</literal> 
+      or you may find your application server includes a similar adapter.
+    </para>
+	
+  </section>
+
+  <section>
+    <title>Configuration</title>
+		
+    <para>
+      To include Email support in your application, include <literal>jboss-seam-mail.jar</literal>
+      in your <literal>WEB-INF/lib</literal> directory. If you are using JBoss 
+      AS there is no further configuration needed to use Seam's email support.
+      Otherwise you need to make sure you have the JavaMail API, an 
+      implementation of the JavaMail API present (the API and impl used in 
+      JBoss AS are distributed with seam as <literal>lib/mail.jar</literal>),
+      and a copy of the Java Activation Framework (distributed with Seam as 
+      <literal>lib/activation.jar</literal>.
+    </para>
+            
+    <note>
+      <para>
+         The Seam Mail module requires the use of Facelets as the view 
+         technology. Future versions of the library may also support the use of 
+         JSP. Additionally, it requires the use of the seam-ui package.
+      </para>
+    </note>
+            
+    <para>
+      The <literal>mailSession</literal> component uses JavaMail to talk to a 
+      'real' SMTP server.
+    </para>
+		
+    <section>
+      <title><literal>mailSession</literal></title>
+	        
+      <para>
+        A JavaMail Session may be available via a JNDI lookup if you are 
+        working in an JEE environment or you can use a Seam configured Session.
+      </para>
+	        
+	  <para>
+        The mailSession component's properties are described in more detail in 
+        <xref linkend="components.mail"/>.
+      </para>
+	       
+	  <section>
+		<title>JNDI lookup in JBoss AS</title>
+		        
+		<para>
+          The JBossAS <literal>deploy/mail-service.xml</literal> configures a 
+          JavaMail session binding into JNDI.  The default service 
+          configuration will need altering for your network.  
+          <ulink url="http://www.jboss.org/community/wiki/JavaMail">http://www.jboss.org/community/wiki/JavaMail</ulink>
+          describes the service in more detail.
+        </para>
+		        
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+    xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:mail="http://jboss.com/products/seam/mail">
+        
+    <mail:mail-session session-jndi-name="java:/Mail"/>
+    
+</components>]]></programlisting>
+
+        <para>
+          Here we tell Seam to get the mail session bound to 
+          <literal>java:/Mail</literal> from JNDI.
+        </para>
+		        
+	  </section>
+	        
+      <section>
+        <title>Seam configured Session</title>
+	        	
+        <para>
+          A mail session can be configured via <literal>components.xml</literal>.
+          Here we tell Seam to use <literal>smtp.example.com</literal> as the 
+          smtp server:
+        </para>
+	      	 	
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+    xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:mail="http://jboss.com/products/seam/mail">
+        
+    <mail:mail-session host="smtp.example.com"/>
+    
+</components>]]></programlisting>
+
+      </section>
+    </section>
+  </section>
+	
+  <section>
+    <title>Meldware</title>
+	
+    <para>
+	   Seam's mail examples use Meldware (from <ulink url="http://buni.org">buni.org</ulink>) 
+      as a mail server. Meldware is a groupware package that provides 
+      <literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>,
+      webmail, a shared calendar and an graphical admin tool; it's written as a
+      JEE application so can be deployed onto JBoss AS alongside your Seam
+      application. 
+    </para>
+		
+    <caution>
+       <para>
+         The version of Meldware distributed with Seam (downloaded on demand)
+         is specially tailored for development - mailboxes, users and 
+         aliases (email addresses) are created every time the application 
+         deploys.  If you want to use Meldware in production you should install
+         the latest release from <ulink url="http://buni.org">buni.org</ulink>. 
+       </para>
+    </caution>
+ 			
+  </section>
+
+  <section id="mail.tags">
+    <title>Tags</title>
+
+    <para>
+      Emails are generated using tags in the <literal>http://jboss.com/products/seam/mail</literal>
+      namespace. Documents should always have the <literal>message</literal>
+      tag at the root of the message. The message tag prepares Seam to generate
+      an email.
+    </para>
+            
+    <para>
+      The standard templating tags of facelets can be used as normal. Inside
+      the body you can use any JSF tag; if it  requires access to external 
+      resources (stylesheets, javascript) then be sure to set the 
+      <literal>urlBase</literal>.
+    </para>
+            
+    <variablelist>
+      <varlistentry>
+        <term>&lt;m:message&gt;</term>
+        <listitem>
+          <para>
+	        Root tag of a mail message
+	      </para>
+	      <itemizedlist>
+            <listitem>
+              <para>
+	            <literal>importance</literal> &#8212; low, normal or high.  By
+                default normal, this sets the importance of the mail message.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>precedence</literal> &#8212; sets the precedence of
+                the message (e.g. bulk).
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>requestReadReceipt</literal> &#8212; by default false,
+                if set, a read receipt request will be will be added, with the
+                read receipt being sent to the <literal>From:</literal>
+                address.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>urlBase</literal> &#8212; If set, the value is
+                prepended to the <literal>requestContextPath</literal> allowing
+                you to use components such as
+                <literal>&lt;h:graphicImage&gt;</literal> in your emails.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>messageId</literal> &#8212; Sets the Message-ID explicitly
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:from&gt;</term>
+        <listitem>
+          <para>
+            Set's the From: address for the email.  You can only have one of 
+            these per email.
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <literal>name</literal> &#8212; the name the email should come
+                from.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>address</literal> &#8212; the email address the email
+                should come from.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:replyTo&gt;</term>
+          <listitem>
+            <para>
+              Set's the Reply-to: address for the email.  You can only have one
+              of these per email.
+            </para>
+           <itemizedlist>
+             <listitem>
+               <para>
+                 <literal>address</literal> &#8212; the email address the email
+                 should come from.
+               </para>
+             </listitem>
+           </itemizedlist>
+         </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:to&gt;</term>
+  	    <listitem>
+          <para>
+            Add a recipient to the email. Use multiple &lt;m:to&gt; tags for
+            multiple recipients. This tag can be safely placed inside a repeat 
+            tag such as &lt;ui:repeat&gt;.
+        </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <literal>name</literal> &#8212; the name of the recipient.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>address</literal> &#8212; the email address of the recipient.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:cc&gt;</term>
+          <listitem>
+            <para>
+              Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags
+              for multiple ccs. This tag can be safely placed inside a iterator
+              tag such as &lt;ui:repeat&gt;.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>name</literal> &#8212; the name of the recipient.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>address</literal> &#8212;  the email address of the
+                  recipient.
+                </para>
+             </listitem>
+           </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:bcc&gt;</term>
+          <listitem>
+            <para>
+              Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; 
+              tags for multiple bccs. This tag can be safely placed inside a
+              repeat tag such as &lt;ui:repeat&gt;.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>name</literal> &#8212; the name of the recipient.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>address</literal> &#8212; the email address of the
+                  recipient.
+                </para>
+              </listitem>
+            </itemizedlist>
+         </listitem>
+     	</varlistentry>
+      <varlistentry>
+        <term>&lt;m:header&gt;</term>
+          <listitem>
+            <para>
+              Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>)
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>name</literal> &#8212; The name of the header to 
+                  add (e.g. <literal>X-Sent-From</literal>).
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>value</literal> &#8212; The value of the header to
+                  add (e.g. <literal>JBoss Seam</literal>).
+                </para>
+             </listitem>
+           </itemizedlist>
+         </listitem>
+    	</varlistentry>
+      <varlistentry>
+        <term>&lt;m:attachment&gt;</term>
+        <listitem>
+          <para>
+            Add an attachment to the email.
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <literal>value</literal> &#8212; The file to attach:
+              </para>
+ 	            <itemizedlist>
+         	      <listitem>
+                  <para>
+                    <literal>String</literal> &#8212; A <literal>String</literal>
+                     is interpreted as a path to file within the classpath
+                  </para>
+                </listitem>
+                <listitem>    
+                  <para>
+                    <literal>java.io.File</literal> &#8212; An EL expression
+                    can reference a <literal>File</literal> object
+                  </para>
+                </listitem>
+        	      <listitem>
+ 	           	    <para>
+                   <literal>java.net.URL</literal> &#8212; An EL expression
+                   can reference a <literal>URL</literal> object
+                  </para>
+                </listitem>
+  		      <listitem>
+                  <para>
+                    <literal>java.io.InputStream</literal> &#8212; An EL 
+                    expression can reference an <literal>InputStream</literal>. 
+                    In this case both a <literal>fileName</literal> and a 
+                    <literal>contentType</literal> must be specified.
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>byte[]</literal> &#8212; An EL expression can
+                    reference an <literal>byte[]</literal>. In this case both
+                    a <literal>fileName</literal> and a 
+                    <literal>contentType</literal> must be specified.
+                  </para>
+                </listitem>
+              </itemizedlist>
+              <para>If the value attribute is ommitted:</para>
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    If this tag contains a <literal>&lt;p:document&gt;</literal>
+                    tag, the document described will be generated and 
+                    attached to the email.  A <literal>fileName</literal>
+                    should be specified.
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    If this tag contains other JSF tags a HTML document will 
+                    be generated from them and attached to the email. A 
+                    <literal>fileName</literal> should be specified.
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>fileName</literal> &#8212; Specify the file name to
+                use for the attached file.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <literal>contentType</literal> &#8212; Specify the MIME type
+                of the attached file
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:subject&gt;</term>
+        <listitem>
+          <para>
+            Set's the subject for the email.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>&lt;m:body&gt;</term>
+        <listitem>
+          <para>
+            Set's the body for the email.  Supports an <literal>alternative</literal>
+            facet which, if an HTML email is generated can contain
+            alternative text for a mail reader which doesn't support html.
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <literal>type</literal> &#8212; If set to <literal>plain</literal>
+                then a plain text email will be generated otherwise an HTML 
+                email is generated.  
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+</chapter>

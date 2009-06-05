@@ -1,0 +1,84 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Seam Integration Testsuite" verbose="2" parallel="false">
+	<test name="Seam Integration Tests: Contexts and Components">
+		<classes>
+			<class name="org.jboss.seam.test.integration.PageContextTest" />
+			<class name="org.jboss.seam.test.integration.ConversationTest" />
+			<class name="org.jboss.seam.test.integration.ImportTest" />
+			<class name="org.jboss.seam.test.integration.NamespaceTest" />
+			<class name="org.jboss.seam.test.integration.JavaBeanEqualsTest" />
+			<class name="org.jboss.seam.test.integration.NamespaceResolverTest" />
+		</classes>
+	</test>
+	<test name="Seam Integration Tests: Persistence">
+		<classes>
+			<class name="org.jboss.seam.test.integration.EntityTest" />
+			<class name="org.jboss.seam.test.integration.EntityPassivationTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: Events">
+		<classes>
+			<class name="org.jboss.seam.test.integration.EventTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: EL">
+		<classes>
+			<class name="org.jboss.seam.test.integration.ELTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: Framework">
+		<classes>
+			<class name="org.jboss.seam.test.integration.IdentifierTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: i8ln">
+		<classes>
+			<class name="org.jboss.seam.test.integration.i8ln.TimeZoneTest" />
+			<class name="org.jboss.seam.test.integration.i8ln.LocaleTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: BPM">
+		<classes>
+			<class name="org.jboss.seam.test.integration.BusinessProcessTest" />
+			<class name="org.jboss.seam.test.integration.bpm.SeamExpressionEvaluatorTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: JMS">
+		<classes>
+			<class name="org.jboss.seam.test.integration.MessagingTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: Mocks">
+		<classes>
+			<class name="org.jboss.seam.test.integration.mock.SeamMockELResolverTest" />
+			<class name="org.jboss.seam.test.integration.mock.SeamTestTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: Pages dot xml">
+		<classes>
+			<class name="org.jboss.seam.test.integration.PageParamTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: DataBinding">
+		<classes>
+			<class name="org.jboss.seam.test.integration.databinding.DataModelTest" />
+		</classes>
+	</test>
+
+	<test name="Seam Integration Tests: Security">
+		<classes>
+			<class name="org.jboss.seam.test.integration.security.SecurityTest" />
+		</classes>
+	</test>
+
+</suite>

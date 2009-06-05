@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Fragment</name>
+		<family>org.jboss.seam.ui.Fragment</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlFragment</classname>
+		<superclass>org.jboss.seam.ui.component.UIFragment</superclass>
+		<description>
+			<![CDATA[Surround a page fragment, allows you to apply render/not render without any html output]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.FragmentRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.FragmentRendererBase</classname>
+		</renderer>
+		<tag>
+			<name>fragment</name>
+			<classname>org.jboss.seam.ui.taglib.FragmentTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+	</component>
+</components>

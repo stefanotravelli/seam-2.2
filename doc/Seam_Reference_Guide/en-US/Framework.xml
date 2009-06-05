@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+
+<chapter id="framework">
+    <title>The Seam Application Framework</title>
+    
+    <para>
+        Seam makes it really easy to create applications by writing
+        plain Java classes with annotations, which don't need to extend
+        any special interfaces or superclasses. But we can simplify
+        some common programming tasks even further, by providing a set 
+        of pre-built components which can be re-used either by
+        configuration in <literal>components.xml</literal> (for very 
+        simple cases) or extension.
+    </para>
+    
+    <para>
+        The <emphasis>Seam Application Framework</emphasis> can reduce
+        the amount of code you need to write when doing basic database
+        access in a web application, using either Hibernate or JPA.
+    </para>
+    
+    <para>
+        We should emphasize that the framework is extremely simple, 
+        just a handful of simple classes that are easy to understand
+        and extend. The "magic" is in Seam itself &#8212; the same magic
+        you use when creating any Seam application even without using 
+        this framework.
+    </para>
+    
+    <section>
+        <title>Introduction</title>
+        
+        <para>
+            The components provided by the Seam application framework
+            may be used in one of two different approaches. The first
+            way is to install and configure an instance of the component
+            in <literal>components.xml</literal>, just like we have
+            done with other kinds of built-in Seam components. For
+            example, the following fragment from
+            <literal>components.xml</literal> installs a component
+            which can perform basic CRUD operations for a
+            <literal>Person</literal> entity:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" 
+                       entity-manager="#{personDatabase}">
+    <framework:id>#{param.personId}</framework:id>
+</framework:entity-home>]]></programlisting>
+
+        <para>
+            If that looks a bit too much like "programming in XML" for 
+            your taste, you can use extension instead:
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {
+    
+   @In EntityManager personDatabase;
+    
+   public EntityManager getEntityManager() {
+      return personDatabase; 
+   }
+    
+}]]></programlisting>
+
+        <para>
+            The second approach has one huge advantage: you can easily add 
+            extra functionality, and override the built-in functionality
+            (the framework classes were carefully designed for extension
+            and customization).
+        </para>
+        
+        <para>
+            A second advantage is that your classes may be EJB stateful
+            session beans, if you like. (They do not have to be, they 
+            can be plain JavaBean components if you prefer.)  If you are using
+            JBoss AS, you'll need 4.2.2.GA or later:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateful
+@Name("personHome")
+public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
+    
+}]]></programlisting>
+        
+        <para>
+            You can also make your classes stateless session beans. In this case
+            you <emphasis>must</emphasis> use injection to provide the
+            persistence context, even if it is called 
+            <literal>entityManager</literal>:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("personHome")
+public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
+    
+   @In EntityManager entityManager;
+    
+   public EntityManager getPersistenceContext() { 
+      entityManager; 
+   }
+    
+}]]></programlisting>
+        
+        <para>
+            At this time, the Seam Application Framework provides four main
+            built-in components: <literal>EntityHome</literal> and
+            <literal>HibernateEntityHome</literal> for CRUD, along with
+            <literal>EntityQuery</literal> and <literal>HibernateEntityQuery</literal>
+            for queries.
+        </para>
+        
+        <para>
+            The Home and Query components are written so that they can function
+            with a scope of session, event or conversation. Which scope you
+            use depends upon the state model you wish to use in your application.
+        </para>
+
+        <para>
+            The Seam Application Framework only works with Seam-managed
+            persistence contexts. By default, the components will look
+            for a persistence context named <literal>entityManager</literal>.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Home objects</title>
+        
+        <para>
+            A Home object provides persistence operations for a particular entity
+            class. Suppose we have our trusty <literal>Person</literal> class:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Entity
+public class Person {
+    @Id private Long id;
+    private String firstName;
+    private String lastName;
+    private Country nationality;
+    
+    //getters and setters...
+}]]></programlisting>
+
+        <para>
+            We can define a <literal>personHome</literal> component either via
+            configuration:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
+
+        <para>
+            Or via extension:
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {}]]></programlisting>
+
+        <para>
+            A Home object provides the following operations: <literal>persist()</literal>,
+            <literal>remove()</literal>, <literal>update()</literal> and 
+            <literal>getInstance()</literal>. Before you can call the 
+            <literal>remove()</literal>, or <literal>update()</literal> operations, you 
+            must first set the identifier of the object you are interested in, using the 
+            <literal>setId()</literal> method.
+        </para>
+        
+        <para>
+            We can use a Home directly from a JSF page, for example:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[<h1>Create Person</h1>
+<h:form>
+    <div>First name: <h:inputText value="#{personHome.instance.firstName}"/></div>
+    <div>Last name: <h:inputText value="#{personHome.instance.lastName}"/></div>
+    <div>
+        <h:commandButton value="Create Person" action="#{personHome.persist}"/>
+    </div>
+</h:form>]]></programlisting>
+
+        <para>
+            Usually, it is much nicer to be able to refer to the <literal>Person</literal>
+            merely as <literal>person</literal>, so let's make that possible by adding a
+            line to <literal>components.xml</literal>:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
+
+<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" />]]></programlisting>
+
+        <para>
+            (If we are using configuration.)
+            Or by adding a <literal>@Factory</literal> method to <literal>PersonHome</literal>:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+}]]></programlisting>
+        
+        <para>
+            (If we are using extension.) 
+            This change simplifies our JSF page to the following:
+        </para>
+
+        <programlisting role="XHTML"><![CDATA[<h1>Create Person</h1>
+<h:form>
+    <div>First name: <h:inputText value="#{person.firstName}"/></div>
+    <div>Last name: <h:inputText value="#{person.lastName}"/></div>
+    <div>
+        <h:commandButton value="Create Person" action="#{personHome.persist}"/>
+    </div>
+</h:form>]]></programlisting>
+
+        <para>
+            Well, that lets us create new <literal>Person</literal> entries. Yes,
+            that is all the code that is required! Now, if we want to be able to 
+            display, update and delete pre-existing <literal>Person</literal> 
+            entries in the database, we need to be able to pass the entry
+            identifier to the <literal>PersonHome</literal>. Page parameters
+            are a great way to do that:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/editPerson.jsp">
+        <param name="personId" value="#{personHome.id}"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            Now we can add the extra operations to our JSF page:
+        </para>
+
+        <programlisting role="XHTML"><![CDATA[<h1>
+    <h:outputText rendered="#{!personHome.managed}" value="Create Person"/>
+    <h:outputText rendered="#{personHome.managed}" value="Edit Person"/>
+</h1>
+<h:form>
+    <div>First name: <h:inputText value="#{person.firstName}"/></div>
+    <div>Last name: <h:inputText value="#{person.lastName}"/></div>
+    <div>
+        <h:commandButton value="Create Person" action="#{personHome.persist}" rendered="#{!personHome.managed}"/>
+        <h:commandButton value="Update Person" action="#{personHome.update}" rendered="#{personHome.managed}"/>
+        <h:commandButton value="Delete Person" action="#{personHome.remove}" rendered="#{personHome.managed}"/>
+    </div>
+</h:form>]]></programlisting>
+
+        <para>
+            When we link to the page with no request parameters, the page will 
+            be displayed as a "Create Person" page. When we provide a value for
+            the <literal>personId</literal> request parameter, it will be an
+            "Edit Person" page.
+        </para>
+        
+        <para>
+            Suppose we need to create <literal>Person</literal> entries with their
+            nationality initialized. We can do that easily, via configuration:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
+
+<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" 
+                       new-instance="#{newPerson}"/>
+
+<component name="newPerson" 
+           class="eg.Person">
+    <property name="nationality">#{country}</property>
+</component>]]></programlisting>
+         
+         <para>
+             Or by extension:
+         </para>
+         
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+}]]></programlisting>
+
+        <para>
+            Of course, the <literal>Country</literal> could be an object managed by
+            another Home object, for example, <literal>CountryHome</literal>.
+        </para>
+        
+        <para>
+            To add more sophisticated operations (association management, etc), we can
+            just add methods to <literal>PersonHome</literal>.
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+    public void migrate()
+    {
+        getInstance().setCountry(country);
+        update();
+    }
+    
+}]]></programlisting>
+
+		<para>
+			The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> 
+			event when a transaction succeeds (a call to <literal>persist()</literal>, 
+			<literal>update()</literal> or <literal>remove()</literal> succeeds).  By observing 
+			this event we can refresh our queries when the underlying entities are changed.  If
+			we only want to refresh certain queries when a particular entity is persisted, 
+			updated or removed we can observe the 
+			<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> 
+			event (where <literal>&lt;name&gt;</literal> is the simple name of the entity, e.g. an entity called "org.foo.myEntity" has "myEntity" as simple name).
+		</para>
+
+        <para>
+            The Home object automatically displays faces messages when an operation is
+            successful. To customize these messages we can, again, use configuration:
+        </para>
+         
+        <programlisting role="XML"><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
+
+<framework:entity-home name="personHome"
+                       entity-class="eg.Person"
+                       new-instance="#{newPerson}">
+    <framework:created-message>New person #{person.firstName} #{person.lastName} created</framework:created-message>
+    <framework:deleted-message>Person #{person.firstName} #{person.lastName} deleted</framework:deleted-message>
+    <framework:updated-message>Person #{person.firstName} #{person.lastName} updated</framework:updated-message>
+</framework:entity-home>
+
+<component name="newPerson" 
+           class="eg.Person">
+    <property name="nationality">#{country}</property>
+</component>]]></programlisting>
+         
+         <para>
+             Or extension:
+         </para>
+         
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
+public class PersonHome extends EntityHome<Person> {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+    protected String getCreatedMessage() { return createValueExpression("New person #{person.firstName} #{person.lastName} created"); }
+    protected String getUpdatedMessage() { return createValueExpression("Person #{person.firstName} #{person.lastName} updated"); }
+    protected String getDeletedMessage() { return createValueExpression("Person #{person.firstName} #{person.lastName} deleted"); }
+    
+}]]></programlisting>
+
+        <para>
+            But the best way to specify the messages is to put them in a resource
+            bundle known to Seam (the bundle named <literal>messages</literal>,
+            by default).
+        </para>
+
+        <programlisting><![CDATA[Person_created=New person #{person.firstName} #{person.lastName} created
+Person_deleted=Person #{person.firstName} #{person.lastName} deleted
+Person_updated=Person #{person.firstName} #{person.lastName} updated]]></programlisting>
+
+        <para>
+            This enables internationalization, and keeps your code and configuration clean of
+            presentation concerns.
+        </para>
+
+        <para>
+            The final step is to add validation functionality to the page, using
+            <literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</literal>,
+            but I'll leave that for you to figure out.
+        </para>
+
+    </section>
+    
+    <section>
+        <title>Query objects</title>
+        
+        <para>
+            If we need a list of all <literal>Person</literal> instance in the database, we
+            can use a Query object. For example:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<framework:entity-query name="people" 
+                        ejbql="select p from Person p"/>]]></programlisting>
+        
+        <para>
+            We can use it from a JSF page:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[<h1>List of people</h1>
+<h:dataTable value="#{people.resultList}" var="person">
+    <h:column>
+        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+            <f:param name="personId" value="#{person.id}"/>
+        </s:link>
+    </h:column>
+</h:dataTable>]]></programlisting>
+
+        <para>
+            We probably need to support pagination:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<framework:entity-query name="people" 
+                        ejbql="select p from Person p" 
+                        order="lastName" 
+                        max-results="20"/>]]></programlisting>
+
+        <para>
+            We'll use a page parameter to determine the page to display:
+        </para>
+
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/searchPerson.jsp">
+        <param name="firstResult" value="#{people.firstResult}"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            The JSF code for a pagination control is a bit verbose, but manageable:
+        </para>
+
+        <programlisting role="XHTML"><![CDATA[<h1>Search for people</h1>
+<h:dataTable value="#{people.resultList}" var="person">
+    <h:column>
+        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+            <f:param name="personId" value="#{person.id}"/>
+        </s:link>
+    </h:column>
+</h:dataTable>
+
+<s:link view="/search.xhtml" rendered="#{people.previousExists}" value="First Page">
+    <f:param name="firstResult" value="0"/>
+</s:link>
+
+<s:link view="/search.xhtml" rendered="#{people.previousExists}" value="Previous Page">
+    <f:param name="firstResult" value="#{people.previousFirstResult}"/>
+</s:link>
+
+<s:link view="/search.xhtml" rendered="#{people.nextExists}" value="Next Page">
+    <f:param name="firstResult" value="#{people.nextFirstResult}"/>
+</s:link>
+
+<s:link view="/search.xhtml" rendered="#{people.nextExists}" value="Last Page">
+    <f:param name="firstResult" value="#{people.lastFirstResult}"/>
+</s:link>]]></programlisting>
+
+        <para>
+            Real search screens let the user enter a bunch of optional search criteria
+            to narrow the list of results returned. The Query object lets you specify
+            optional "restrictions" to support this important usecase:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<component name="examplePerson" class="Person"/>
+        
+<framework:entity-query name="people" 
+                        ejbql="select p from Person p" 
+                        order="lastName" 
+                        max-results="20">
+    <framework:restrictions>
+        <value>lower(firstName) like lower( concat(#{examplePerson.firstName},'%') )</value>
+        <value>lower(lastName) like lower( concat(#{examplePerson.lastName},'%') )</value>
+    </framework:restrictions>
+</framework:entity-query>]]></programlisting>
+
+        <para>
+            Notice the use of an "example" object.
+        </para>
+
+        <programlisting role="XHTML"><![CDATA[<h1>Search for people</h1>
+<h:form>
+    <div>First name: <h:inputText value="#{examplePerson.firstName}"/></div>
+    <div>Last name: <h:inputText value="#{examplePerson.lastName}"/></div>
+    <div><h:commandButton value="Search" action="/search.jsp"/></div>
+</h:form>
+
+<h:dataTable value="#{people.resultList}" var="person">
+    <h:column>
+        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+            <f:param name="personId" value="#{person.id}"/>
+        </s:link>
+    </h:column>
+</h:dataTable>]]></programlisting>
+
+		<para>
+			To refresh the query when the underlying entities change we observe the
+			<literal>org.jboss.seam.afterTransactionSuccess</literal> event:
+		</para>
+		
+		<programlisting role="XML"><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess">
+    <action execute="#{people.refresh}" />
+</event>]]></programlisting>
+
+		<para>
+			Or, to just refresh the query when the person entity is persisted, updated or 
+			removed through <literal>PersonHome</literal>:
+		</para>
+		
+		<programlisting role="XML"><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess.Person">
+    <action execute="#{people.refresh}" />
+    </event>]]></programlisting>
+       
+      <para>
+         Unfortunately Query objects don't work well with 
+         <emphasis>join fetch</emphasis> queries - the use of pagination with
+         these queries is not recommended, and you'll have to implement your own
+         method of calculating the total number of results (by overriding 
+         <literal>getCountEjbql()</literal>.
+      </para>
+
+      <para>
+         The examples in this section have all shown reuse by configuration. However,
+         reuse by extension is equally possible for Query objects.
+      </para>
+
+    </section>
+    
+    <section>
+        <title>Controller objects</title>
+        <para>
+            A totally optional part of the Seam Application Framework is the class
+            <literal>Controller</literal> and its subclasses 
+            <literal>EntityController</literal>
+            <literal>HibernateEntityController</literal> and
+            <literal>BusinessProcessController</literal>. These classes provide 
+            nothing more than some convenience methods for access to commonly
+            used built-in components and methods of built-in components. They help
+            save a few keystrokes (characters can add up!) and provide a great
+            launchpad for new users to explore the rich functionality built in
+            to Seam.
+        </para>
+        <para>
+            For example, here is what <literal>RegisterAction</literal> from the
+            Seam registration example would look like:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("register")
+public class RegisterAction extends EntityController implements Register
+{
+
+   @In private User user;
+   
+   public String register()
+   {
+      List existing = createQuery("select u.username from User u where u.username=:username")
+         .setParameter("username", user.getUsername())
+         .getResultList();
+      
+      if ( existing.size()==0 )
+      {
+         persist(user);
+         info("Registered new user #{user.username}");
+         return "/registered.jspx";
+      }
+      else
+      {
+         addFacesMessage("User #{user.username} already exists");
+         return null;
+      }
+   }
+
+}]]></programlisting>
+
+        <para>
+            As you can see, its not an earthshattering improvement...
+        </para>
+
+    </section>
+    
+</chapter>

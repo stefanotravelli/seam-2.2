@@ -1,0 +1,1117 @@
+# Language hi-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-26 13:23+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Mail.xml:2
+#, no-c-format
+msgid "Email"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:3
+#, no-c-format
+msgid ""
+"Seam now includes an optional components for templating and sending emails."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:7
+#, no-c-format
+msgid ""
+"Email support is provided by <literal>jboss-seam-mail.jar</literal>. This "
+"JAR contains the mail JSF controls, which are used to construct emails, and "
+"the <literal>mailSession</literal> manager component."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:13
+#, no-c-format
+msgid ""
+"The examples/mail project contains an example of the email support in "
+"action. It demonstrates proper packaging, and it contains a number of "
+"example that demonstrate the key features currently supported."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:19
+#, no-c-format
+msgid ""
+"You can also test your mail's using Seam's integration testing environment. "
+"See <xref linkend=\"testing.mail\"/>."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:25
+#, no-c-format
+msgid "Creating a message"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:27
+#, no-c-format
+msgid ""
+"You don't need to learn a whole new templating language to use Seam Mail "
+"&#8212; an email is just facelet!"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:32
+#, no-c-format
+msgid ""
+"<![CDATA[<m:message xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"    xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"    xmlns:h=\"http://java.sun.com/jsf/html\">\n"
+"  \n"
+"    <m:from name=\"Peter\" address=\"peter@example.com\" />\n"
+"    <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
+"    <m:subject>Try out Seam!</m:subject>\n"
+"    \n"
+"    <m:body>\n"
+"        <p><h:outputText value=\"Dear #{person.firstname}\" />,</p>\n"
+"        <p>You can try out Seam by visiting \n"
+"        <a href=\"http://labs.jboss.com/jbossseam\">http://labs.jboss.com/"
+"jbossseam</a>.</p>\n"
+"        <p>Regards,</p>\n"
+"        <p>Pete</p>\n"
+"    </m:body>\n"
+"    \n"
+"</m:message>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:34
+#, no-c-format
+msgid ""
+"The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, and "
+"tells Seam to start rendering an email. Inside the <literal>&lt;m:message&gt;"
+"</literal> tag we use an <literal>&lt;m:from&gt;</literal> tag to set who "
+"the message is from, a <literal>&lt;m:to&gt;</literal> tag to specify a "
+"sender (notice how we use EL as we would in a normal facelet), and a "
+"<literal>&lt;m:subject&gt;</literal> tag."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:43
+#, no-c-format
+msgid ""
+"The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email. You "
+"can use regular HTML tags inside the body as well as JSF components."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:48
+#, no-c-format
+msgid ""
+"So, now you have your email template, how do you go about sending it? Well, "
+"at the end of rendering the <literal>m:message</literal> the "
+"<literal>mailSession</literal> is called to send the email, so all you have "
+"to do is ask Seam to render the view:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:55
+#, no-c-format
+msgid ""
+"<![CDATA[@In(create=true)\n"
+"private Renderer renderer;\n"
+"   \n"
+"public void send() {\n"
+"    try {\n"
+"       renderer.render(\"/simple.xhtml\");\n"
+"       facesMessages.add(\"Email sent successfully\");\n"
+"   } \n"
+"   catch (Exception e) {\n"
+"       facesMessages.add(\"Email sending failed: \" + e.getMessage());\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:57
+#, no-c-format
+msgid ""
+"If, for example, you entered an invalid email address, then an exception "
+"would be thrown, which is caught and then displayed to the user."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:63
+#, no-c-format
+msgid "Attachments"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:64
+#, no-c-format
+msgid ""
+"Seam makes it easy to attach files to an email. It supports most of the "
+"standard java types used when working with files."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:69
+#, no-c-format
+msgid "If you wanted to email the <literal>jboss-seam-mail.jar</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:73
+#, no-c-format
+msgid "<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:75
+#, no-c-format
+msgid ""
+"Seam will load the file from the classpath, and attach it to the email. By "
+"default it would be attached as <literal>jboss-seam-mail.jar</literal>; if "
+"you wanted it to have another name you would just add the <literal>fileName</"
+"literal> attribute:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:81
+#, no-c-format
+msgid ""
+"<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileName="
+"\"this-is-so-cool.jar\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:83
+#, no-c-format
+msgid ""
+"You could also attach a <literal>java.io.File</literal>, a <literal>java.net."
+"URL</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:87
+#, no-c-format
+msgid "<![CDATA[<m:attachment value=\"#{numbers}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:89
+#, no-c-format
+msgid ""
+"Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:93
+#, no-c-format
+msgid ""
+"<![CDATA[<m:attachment value=\"#{person.photo}\" contentType=\"image/png\"/"
+">]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:95
+#, no-c-format
+msgid ""
+"You'll notice that for a <literal>byte[]</literal> and a <literal>java.io."
+"InputStream</literal> you need to specify the MIME type of the attachment "
+"(as that information is not carried as part of the file)."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:101
+#, no-c-format
+msgid ""
+"And it gets even better, you can attach a Seam generated PDF, or any "
+"standard JSF view, just by wrapping a <literal>&lt;m:attachment&gt;</"
+"literal> around the normal tags you would use:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:107
+#, no-c-format
+msgid ""
+"<![CDATA[<m:attachment fileName=\"tiny.pdf\">\n"
+"    <p:document>                                                      \n"
+"        A very tiny "
+"PDF                                                                                                \n"
+"    </p:document>\n"
+"</m:attachment>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:109
+#, no-c-format
+msgid ""
+"If you had a set of files you wanted to attach (for example a set of "
+"pictures loaded from a database) you can just use a <literal>&lt;ui:"
+"repeat&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:114
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:repeat value=\"#{people}\" var=\"person\">\n"
+"    <m:attachment value=\"#{person.photo}\" contentType=\"image/jpeg\" "
+"fileName=\"#{person.firstname}_#{person.lastname}.jpg\"/>\n"
+"</ui:repeat>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:116
+#, no-c-format
+msgid "And if you want to display an attached image inline:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:120
+#, no-c-format
+msgid ""
+"<![CDATA[<m:attachment \n"
+"    value=\"#{person.photo}\" \n"
+"    contentType=\"image/jpeg\" \n"
+"    fileName=\"#{person.firstname}_#{person.lastname}.jpg\" \n"
+"    status=\"personPhoto\" \n"
+"    disposition=\"inline\" />\n"
+"<img src=\"cid:#{personPhoto.contentId}\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:122
+#, no-c-format
+msgid ""
+"You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF "
+"specified that by putting this as the src for your image, the attachments "
+"will be looked at when trying to locate the image (the <literal>Content-ID</"
+"literal>'s must match) &#8212; magic!"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:129
+#, no-c-format
+msgid ""
+"You must declare the attachment before trying to access the status object."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:136
+#, no-c-format
+msgid "HTML/Text alternative part"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:138
+#, no-c-format
+msgid ""
+"Whilst most mail readers nowadays support HTML, some don't, so you can add a "
+"plain text alternative to your email body:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:143
+#, no-c-format
+msgid ""
+"<![CDATA[<m:body>\n"
+"    <f:facet name=\"alternative\">Sorry, your email reader can't show our "
+"fancy email, \n"
+"please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>\n"
+"</m:body>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:148
+#, no-c-format
+msgid "Multiple recipients"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:150
+#, no-c-format
+msgid ""
+"Often you'll want to send an email to a group of recipients (for example "
+"your users). All of the recipient mail tags can be placed inside a "
+"<literal>&lt;ui:repeat&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:156
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:repeat value=\"#{allUsers} var=\"user\">\n"
+"    <m:to name=\"#{user.firstname} #{user.lastname}\" address=\"#{user."
+"emailAddress}\" />\n"
+"</ui:repeat>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:161
+#, no-c-format
+msgid "Multiple messages"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:163
+#, no-c-format
+msgid ""
+"Sometimes, however, you need to send a slightly different message to each "
+"recipient (e.g. a password reset). The best way to do this is to place the "
+"whole message inside a <literal>&lt;ui:repeat&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:169
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:repeat value=\"#{people}\" var=\"p\">\n"
+"    <m:message>\n"
+"        <m:from name=\"#{person.firstname} #{person.lastname}\">#{person."
+"address}</m:from>\n"
+"        <m:to name=\"#{p.firstname}\">#{p.address}</m:to>\n"
+"            ...\n"
+"    </m:message>\n"
+"</ui:repeat>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:174
+#, no-c-format
+msgid "Templating"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:176
+#, no-c-format
+msgid ""
+"The mail templating example shows that facelets templating just works with "
+"the Seam mail tags."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:181
+#, no-c-format
+msgid "Our <literal>template.xhtml</literal> contains:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:185
+#, no-c-format
+msgid ""
+"<![CDATA[<m:message>\n"
+"   <m:from name=\"Seam\" address=\"do-not-reply@jboss.com\" />\n"
+"   <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
+"   <m:subject>#{subject}</m:subject>\n"
+"   <m:body>\n"
+"       <html>\n"
+"           <body>\n"
+"               <ui:insert name=\"body\">This is the default body, specified "
+"by the template.</ui:insert>\n"
+"           </body>\n"
+"       </html>\n"
+"   </m:body>\n"
+"</m:message>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:187
+#, no-c-format
+msgid "Our <literal>templating.xhtml</literal> contains:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:191
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:param name=\"subject\" value=\"Templating with Seam Mail\"/>\n"
+"<ui:define name=\"body\">\n"
+"    <p>This example demonstrates that you can easily use <i>facelets "
+"templating</i> in email!</p>\n"
+"</ui:define>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:193
+#, no-c-format
+msgid ""
+"You can also use facelets source tags in your email, but you must place them "
+"in a jar in <literal>WEB-INF/lib</literal> - referencing the <literal>."
+"taglib.xml</literal> from <literal>web.xml</literal> isn't reliable when "
+"using Seam Mail (if you send your mail asynchrounously Seam Mail doesn't "
+"have access to the full JSF or Servlet context, and so doesn't know about "
+"<literal>web.xml</literal> configuration parameters)."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:203
+#, no-c-format
+msgid ""
+"If you do need more configure Facelets or JSF when sending mail, you'll need "
+"to override the Renderer component and do the configuration programmatically "
+"- only for advanced users!"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:213
+#, no-c-format
+msgid "Internationalisation"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:215
+#, no-c-format
+msgid ""
+"Seam supports sending internationalised messages. By default, the encoding "
+"provided by JSF is used, but this can be overridden on the template:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:221
+#, no-c-format
+msgid ""
+"<![CDATA[<m:message charset=\"UTF-8\">\n"
+"   ...\n"
+"</m:message>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:223
+#, no-c-format
+msgid ""
+"The body, subject and recipient (and from) name will be encoded. You'll need "
+"to make sure facelets uses the correct charset for parsing your pages by "
+"setting encoding of the template:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:229
+#, no-c-format
+msgid "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:233
+#, no-c-format
+msgid "Other Headers"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:235
+#, no-c-format
+msgid ""
+"Sometimes you'll want to add other headers to your email. Seam provides "
+"support for some (see <xref linkend=\"mail.tags\"/>). For example, we can "
+"set the importance of the email, and ask for a read receipt:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:242
+#, no-c-format
+msgid ""
+"<![CDATA[<m:message xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"    importance=\"low\"\n"
+"    requestReadReceipt=\"true\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:244
+#, no-c-format
+msgid ""
+"Otherwise you can add any header to the message using the <literal>&lt;m:"
+"header&gt;</literal> tag:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:249
+#, no-c-format
+msgid "<![CDATA[<m:header name=\"X-Sent-From\" value=\"JBoss Seam\"/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:255
+#, no-c-format
+msgid "Receiving emails"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:257
+#, no-c-format
+msgid ""
+"If you are using EJB then you can use a MDB (Message Driven Bean) to receive "
+"email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> "
+"&#8212; but the version distributed with JBoss AS has a number of "
+"limitations (and isn't bundled in some versions) therefore we recommend "
+"using the <literal>mail-ra.rar</literal> distributed with Seam (it's in the "
+"<literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra."
+"rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/"
+"deploy</literal>; if the version of JBoss AS you use already has this file, "
+"replace it."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:269
+#, no-c-format
+msgid "You can configure it like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:273
+#, no-c-format
+msgid ""
+"<![CDATA[@MessageDriven(activationConfig={\n"
+"    @ActivationConfigProperty(propertyName=\"mailServer\", propertyValue="
+"\"localhost\"),\n"
+"    @ActivationConfigProperty(propertyName=\"mailFolder\", propertyValue="
+"\"INBOX\"),\n"
+"    @ActivationConfigProperty(propertyName=\"storeProtocol\", propertyValue="
+"\"pop3\"),\n"
+"    @ActivationConfigProperty(propertyName=\"userName\", propertyValue=\"seam"
+"\"),\n"
+"    @ActivationConfigProperty(propertyName=\"password\", propertyValue=\"seam"
+"\")\n"
+"})\n"
+"@ResourceAdapter(\"mail-ra.rar\")\n"
+"@Name(\"mailListener\")\n"
+"public class MailListenerMDB implements MailListener {\n"
+"\n"
+"    @In(create=true)\n"
+"    private OrderProcessor orderProcessor;\n"
+"\n"
+"    public void onMessage(Message message) {\n"
+"       // Process the message\n"
+"       orderProcessor.process(message.getSubject());\n"
+"    }\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:275
+#, no-c-format
+msgid ""
+"Each message received will cause <literal>onMessage(Message message)</"
+"literal> to be called. Most Seam annotations will work inside a MDB but you "
+"musn't access the persistence context."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:281
+#, no-c-format
+msgid ""
+"You can find more information on <literal>mail-ra.rar</literal> at <ulink "
+"url=\"http://www.jboss.org/community/wiki/InboundJavaMail\">http://www.jboss."
+"org/community/wiki/InboundJavaMail</ulink>."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:286
+#, no-c-format
+msgid ""
+"If you aren't using JBoss AS you can still use <literal>mail-ra.rar</"
+"literal> or you may find your application server includes a similar adapter."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:294
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:296
+#, no-c-format
+msgid ""
+"To include Email support in your application, include <literal>jboss-seam-"
+"mail.jar</literal> in your <literal>WEB-INF/lib</literal> directory. If you "
+"are using JBoss AS there is no further configuration needed to use Seam's "
+"email support. Otherwise you need to make sure you have the JavaMail API, an "
+"implementation of the JavaMail API present (the API and impl used in JBoss "
+"AS are distributed with seam as <literal>lib/mail.jar</literal>), and a copy "
+"of the Java Activation Framework (distributed with Seam as <literal>lib/"
+"activation.jar</literal>."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:308
+#, no-c-format
+msgid ""
+"The Seam Mail module requires the use of Facelets as the view technology. "
+"Future versions of the library may also support the use of JSP. "
+"Additionally, it requires the use of the seam-ui package."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:315
+#, no-c-format
+msgid ""
+"The <literal>mailSession</literal> component uses JavaMail to talk to a "
+"'real' SMTP server."
+msgstr ""
+
+#. Tag: literal
+#: Mail.xml:321
+#, no-c-format
+msgid "mailSession"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:323
+#, no-c-format
+msgid ""
+"A JavaMail Session may be available via a JNDI lookup if you are working in "
+"an JEE environment or you can use a Seam configured Session."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:328
+#, no-c-format
+msgid ""
+"The mailSession component's properties are described in more detail in <xref "
+"linkend=\"components.mail\"/>."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:334
+#, no-c-format
+msgid "JNDI lookup in JBoss AS"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:336
+#, no-c-format
+msgid ""
+"The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail "
+"session binding into JNDI. The default service configuration will need "
+"altering for your network. <ulink url=\"http://www.jboss.org/community/wiki/"
+"JavaMail\">http://www.jboss.org/community/wiki/JavaMail</ulink> describes "
+"the service in more detail."
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:344
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"        \n"
+"    <mail:mail-session session-jndi-name=\"java:/Mail\"/>\n"
+"    \n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:346
+#, no-c-format
+msgid ""
+"Here we tell Seam to get the mail session bound to <literal>java:/Mail</"
+"literal> from JNDI."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:354
+#, no-c-format
+msgid "Seam configured Session"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:356
+#, no-c-format
+msgid ""
+"A mail session can be configured via <literal>components.xml</literal>. Here "
+"we tell Seam to use <literal>smtp.example.com</literal> as the smtp server:"
+msgstr ""
+
+#. Tag: programlisting
+#: Mail.xml:362
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"        \n"
+"    <mail:mail-session host=\"smtp.example.com\"/>\n"
+"    \n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:369
+#, no-c-format
+msgid "Meldware"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:371
+#, no-c-format
+msgid ""
+"Seam's mail examples use Meldware (from <ulink url=\"http://buni.org\">buni."
+"org</ulink>) as a mail server. Meldware is a groupware package that provides "
+"<literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>, "
+"webmail, a shared calendar and an graphical admin tool; it's written as a "
+"JEE application so can be deployed onto JBoss AS alongside your Seam "
+"application."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:381
+#, no-c-format
+msgid ""
+"The version of Meldware distributed with Seam (downloaded on demand) is "
+"specially tailored for development - mailboxes, users and aliases (email "
+"addresses) are created every time the application deploys. If you want to "
+"use Meldware in production you should install the latest release from <ulink "
+"url=\"http://buni.org\">buni.org</ulink>."
+msgstr ""
+
+#. Tag: title
+#: Mail.xml:393
+#, no-c-format
+msgid "Tags"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:395
+#, no-c-format
+msgid ""
+"Emails are generated using tags in the <literal>http://jboss.com/products/"
+"seam/mail</literal> namespace. Documents should always have the "
+"<literal>message</literal> tag at the root of the message. The message tag "
+"prepares Seam to generate an email."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:402
+#, no-c-format
+msgid ""
+"The standard templating tags of facelets can be used as normal. Inside the "
+"body you can use any JSF tag; if it requires access to external resources "
+"(stylesheets, javascript) then be sure to set the <literal>urlBase</literal>."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:411
+#, no-c-format
+msgid "&lt;m:message&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:413
+#, no-c-format
+msgid "Root tag of a mail message"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:418
+#, no-c-format
+msgid ""
+"<literal>importance</literal> &#8212; low, normal or high. By default "
+"normal, this sets the importance of the mail message."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:424
+#, no-c-format
+msgid ""
+"<literal>precedence</literal> &#8212; sets the precedence of the message (e."
+"g. bulk)."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:430
+#, no-c-format
+msgid ""
+"<literal>requestReadReceipt</literal> &#8212; by default false, if set, a "
+"read receipt request will be will be added, with the read receipt being sent "
+"to the <literal>From:</literal> address."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:438
+#, no-c-format
+msgid ""
+"<literal>urlBase</literal> &#8212; If set, the value is prepended to the "
+"<literal>requestContextPath</literal> allowing you to use components such as "
+"<literal>&lt;h:graphicImage&gt;</literal> in your emails."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:446
+#, no-c-format
+msgid "<literal>messageId</literal> &#8212; Sets the Message-ID explicitly"
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:454
+#, no-c-format
+msgid "&lt;m:from&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:456
+#, no-c-format
+msgid ""
+"Set's the From: address for the email. You can only have one of these per "
+"email."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:462
+#, no-c-format
+msgid "<literal>name</literal> &#8212; the name the email should come from."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:468 Mail.xml:485
+#, no-c-format
+msgid ""
+"<literal>address</literal> &#8212; the email address the email should come "
+"from."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:477
+#, no-c-format
+msgid "&lt;m:replyTo&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:479
+#, no-c-format
+msgid ""
+"Set's the Reply-to: address for the email. You can only have one of these "
+"per email."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:494
+#, no-c-format
+msgid "&lt;m:to&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:496
+#, no-c-format
+msgid ""
+"Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple "
+"recipients. This tag can be safely placed inside a repeat tag such as &lt;ui:"
+"repeat&gt;."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:503 Mail.xml:525 Mail.xml:548
+#, no-c-format
+msgid "<literal>name</literal> &#8212; the name of the recipient."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:508 Mail.xml:530 Mail.xml:553
+#, no-c-format
+msgid "<literal>address</literal> &#8212; the email address of the recipient."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:516
+#, no-c-format
+msgid "&lt;m:cc&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:518
+#, no-c-format
+msgid ""
+"Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple "
+"ccs. This tag can be safely placed inside a iterator tag such as &lt;ui:"
+"repeat&gt;."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:539
+#, no-c-format
+msgid "&lt;m:bcc&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:541
+#, no-c-format
+msgid ""
+"Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for "
+"multiple bccs. This tag can be safely placed inside a repeat tag such as &lt;"
+"ui:repeat&gt;."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:562
+#, no-c-format
+msgid "&lt;m:header&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:564
+#, no-c-format
+msgid ""
+"Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>)"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:569
+#, no-c-format
+msgid ""
+"<literal>name</literal> &#8212; The name of the header to add (e.g. "
+"<literal>X-Sent-From</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:575
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; The value of the header to add (e.g. "
+"<literal>JBoss Seam</literal>)."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:584
+#, no-c-format
+msgid "&lt;m:attachment&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:586
+#, no-c-format
+msgid "Add an attachment to the email."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:591
+#, no-c-format
+msgid "<literal>value</literal> &#8212; The file to attach:"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:596
+#, no-c-format
+msgid ""
+"<literal>String</literal> &#8212; A <literal>String</literal> is interpreted "
+"as a path to file within the classpath"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:602
+#, no-c-format
+msgid ""
+"<literal>java.io.File</literal> &#8212; An EL expression can reference a "
+"<literal>File</literal> object"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:608
+#, no-c-format
+msgid ""
+"<literal>java.net.URL</literal> &#8212; An EL expression can reference a "
+"<literal>URL</literal> object"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:614
+#, no-c-format
+msgid ""
+"<literal>java.io.InputStream</literal> &#8212; An EL expression can "
+"reference an <literal>InputStream</literal>. In this case both a "
+"<literal>fileName</literal> and a <literal>contentType</literal> must be "
+"specified."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:622
+#, no-c-format
+msgid ""
+"<literal>byte[]</literal> &#8212; An EL expression can reference an "
+"<literal>byte[]</literal>. In this case both a <literal>fileName</literal> "
+"and a <literal>contentType</literal> must be specified."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:630
+#, no-c-format
+msgid "If the value attribute is ommitted:"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:633
+#, no-c-format
+msgid ""
+"If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the "
+"document described will be generated and attached to the email. A "
+"<literal>fileName</literal> should be specified."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:641
+#, no-c-format
+msgid ""
+"If this tag contains other JSF tags a HTML document will be generated from "
+"them and attached to the email. A <literal>fileName</literal> should be "
+"specified."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:650
+#, no-c-format
+msgid ""
+"<literal>fileName</literal> &#8212; Specify the file name to use for the "
+"attached file."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:656
+#, no-c-format
+msgid ""
+"<literal>contentType</literal> &#8212; Specify the MIME type of the attached "
+"file"
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:665
+#, no-c-format
+msgid "&lt;m:subject&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:667
+#, no-c-format
+msgid "Set's the subject for the email."
+msgstr ""
+
+#. Tag: term
+#: Mail.xml:673
+#, no-c-format
+msgid "&lt;m:body&gt;"
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:675
+#, no-c-format
+msgid ""
+"Set's the body for the email. Supports an <literal>alternative</literal> "
+"facet which, if an HTML email is generated can contain alternative text for "
+"a mail reader which doesn't support html."
+msgstr ""
+
+#. Tag: para
+#: Mail.xml:682
+#, no-c-format
+msgid ""
+"<literal>type</literal> &#8212; If set to <literal>plain</literal> then a "
+"plain text email will be generated otherwise an HTML email is generated."
+msgstr ""

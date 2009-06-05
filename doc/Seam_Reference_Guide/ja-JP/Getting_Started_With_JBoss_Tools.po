@@ -1,0 +1,719 @@
+# translation of Tools.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tools\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"PO-Revision-Date: 2009-02-17 01:45+0900\n"
+"Last-Translator: Takayoshi Osawa <takayoshi.osawa@gmail.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:5
+#, no-c-format
+msgid "Getting started with Seam, using JBoss Tools"
+msgstr "JBoss Tools を使って Seam を始めよう"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:7
+#, no-c-format
+msgid ""
+"JBoss Tools is a collection of Eclipse plugins. JBoss Tools a project "
+"creation wizard for Seam, Content Assist for the Unified Expression Language "
+"(EL) in both facelets and Java code, a graphical editor for jPDL, a "
+"graphical editor for Seam configuration files, support for running Seam "
+"integration tests from within Eclipse, and much more."
+msgstr ""
+"JBoss Tools は Eclipse プラグインを集めたものです。 JBoss Tools は Seam プロ"
+"ジェクト作成ウィザード、facelets と Java コードの Unified Expression "
+"Language (EL) のための入力補助、jPDLのためのグラフィックエディタ、Seam 設定"
+"ファイルのためのグラフィックエディタ、Eclipse から Seam 統合テストの実行サ"
+"ポートなどです。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:15
+#, no-c-format
+msgid "In short, if you are an Eclipse user, then you'll want JBoss Tools!"
+msgstr ""
+"端的にいえば、Eclipse ユーザーであれば、JBoss Tools を必要とするでしょう。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:19
+#, no-c-format
+msgid ""
+"JBoss Tools, as with seam-gen, works best with JBoss AS, but it's possible "
+"with a few tweaks to get your app running on other application servers. The "
+"changes are much like those described for seam-gen later in this reference "
+"manual."
+msgstr ""
+"seam-gen 同様 JBoss Tools は JBoss AS と動作させるのが好ましいのですが、わず"
+"かに変更することで他のアプリケーションサーバーでも動作させることが可能です。 "
+"変更はこのリファレンスマニュアル中の seam-gen の記述と似ています。"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:27
+#, no-c-format
+msgid "Before you start"
+msgstr "始める前に"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:29
+#, fuzzy, no-c-format
+msgid ""
+"Make sure you have JDK 5, JBoss AS 4.2 or 5.0, Eclipse 3.3, the JBoss Tools "
+"plugins (at least Seam Tools, the Visual Page Editor, jBPM Tools and JBoss "
+"AS Tools) and the TestNG plugin for Eclipse correctly installed before "
+"starting."
+msgstr ""
+"開始前に JDK 5、JBoss AS 4.2、Eclipse 3.3、the JBoss Tools プラグイン ( 最低"
+"限、Seam Tools、Visual Page Editor、jBPM Tools と JBoss AS Tools)  そして "
+"TestNG プラグイン for Eclipse がきちんとインストールされていることを確認して"
+"ください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:36
+#, no-c-format
+msgid ""
+"Please see the official <ulink url=\"http://www.jboss.org/tools/download/"
+"installation\">JBoss Tools installation</ulink> page for the quickest way to "
+"get JBoss Tools setup in Eclipse. You can also check out the <ulink url="
+"\"http://www.jboss.org/community/wiki/InstallingJBossTools\">Installing "
+"JBoss Tools</ulink> page on the JBoss community wiki for the gory details "
+"and a set of alternative installation approaches."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:49
+#, no-c-format
+msgid "Setting up a new Seam project"
+msgstr "新しい Eclipse プロジェクトのセットアップ"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:51
+#, no-c-format
+msgid "Start up Eclipse and select the <emphasis>Seam</emphasis> perspective."
+msgstr ""
+"Eclipse を起動して <emphasis>Seam</emphasis> パースペクティブを選択してくださ"
+"い。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:55
+#, no-c-format
+msgid ""
+"Go to <emphasis>File</emphasis> -> <emphasis>New</emphasis> -> "
+"<emphasis>Seam Web Project</emphasis>."
+msgstr ""
+"<emphasis>File</emphasis> -> <emphasis>New</emphasis> -> <emphasis>Seam Web "
+"Project</emphasis> とすすめます。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:71
+#, no-c-format
+msgid ""
+"First, enter a name for your new project. For this tutorial, we're going to "
+"use <literal>helloworld</literal> ."
+msgstr ""
+"最初に、プロジェクト名を登録します。 このチュートリアルでは "
+"<literal>helloworld</literal> とします。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:79
+#, fuzzy, no-c-format
+msgid ""
+"Now, we need to tell JBoss Tools about JBoss AS. In this example we are "
+"using JBoss AS 4.2, though you can certainly use JBoss AS 5.0 as well. "
+"Selecting JBoss AS is a two step process. First we need to define a runtime. "
+"Again, we'll choose JBoss AS 4.2 in this case:"
+msgstr ""
+"次に、JBoss Tools に JBoss AS について指定します。 これは 二段階のプロセスで"
+"す。 最初にランタイムを定義します。 JBoss AS 4.2 を選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:97
+#, no-c-format
+msgid "Enter a name for the runtime, and locate it on your hard drive:"
+msgstr "ランタイムの名前を登録し、ハードディスク上の位置を指定します。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:112
+#, no-c-format
+msgid ""
+"Next, we need to define a server JBoss Tools can deploy the project to. Make "
+"sure to again select JBoss AS 4.2, and also the runtime you just defined:"
+msgstr ""
+"次に、JBoss Tools がプロジェクトをデプロイ可能なサーバを定義する必要がありま"
+"す。 ここでも JBoss AS 4.2 と直前で定義したランタイムを選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:127
+#, no-c-format
+msgid ""
+"On the next screen give the server a name, and hit <emphasis>Finish</"
+"emphasis>:"
+msgstr ""
+"次のサーバに名前をつける画面では、<emphasis>Finish</emphasis> を押してくださ"
+"い。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:143
+#, no-c-format
+msgid ""
+"Make sure the runtime and server you just created are selected, select "
+"<emphasis>Dynamic Web Project with Seam 2.0 (technology preview)</emphasis> "
+"and hit <emphasis>Next</emphasis>:"
+msgstr ""
+"いま作成と選択をしたランタイムとサーバを確認して、<emphasis>Dynamic Web "
+"Project with Seam 2.0 (technology preview)</emphasis> を選択して "
+"<emphasis>Next</emphasis> を押してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:160
+#, fuzzy, no-c-format
+msgid ""
+"The next 3 screens allow you to further customize your new project, but for "
+"us the defaults are fine. So just hit <emphasis>Next</emphasis> until you "
+"reach the final screen."
+msgstr ""
+"次の 3 つの画面では新規プロジェクトのカスタマイズが可能ですが、デフォルトで大"
+"丈夫なので、最後の画面に到達するまでただ <empahsis>Next</empahsis> を押してく"
+"ださい。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:166
+#, no-c-format
+msgid ""
+"The first step here is to tell JBoss Tools about the Seam download you want "
+"to use. <emphasis>Add</emphasis> a new <emphasis>Seam Runtime</emphasis> - "
+"make sure to give it a name, and select <emphasis>2.0</emphasis> as the "
+"version:"
+msgstr ""
+"最初のステップは JBoss Tools を使用する上で必要な Seam ランタイムを指定しま"
+"す。 新しい <emphasis>Seam Runtime</emphasis> を<emphasis>追加</emphasis>しま"
+"す。 - 名前をつけて、バージョンとして <emphasis>2.0</emphasis> を選択してくだ"
+"さい。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:184
+#, no-c-format
+msgid ""
+"The most important choice you need to make is between EAR deployment and WAR "
+"deployment of your project. EAR projects support EJB 3.0 and require Java EE "
+"5. WAR projects do not support EJB 3.0, but may be deployed to a J2EE "
+"environment. The packaging of a WAR is also simpler to understand. If you "
+"installed an EJB3-ready application server like JBoss, choose <emphasis>EAR</"
+"emphasis>. Otherwise, choose <emphasis>WAR</emphasis>. We'll assume that "
+"you've chosen a WAR deployment for the rest of the tutorial, but you can "
+"follow exactly the same steps for a EAR deployment."
+msgstr ""
+"決める必要がある重要な選択は、プロジェクトとして EAR 形式デプロイと WAR 形式"
+"デプロイのどちらにするかです。 EAR プロジェクトは EJB 3.0 に対応し Java EE 5 "
+"が必要です。 WAR プロジェクトは EJB 3.0 には対応しませんが、く J2EE 環境にデ"
+"プロイ可能です。 WAR は EAR に比べシンプルで理解しやすいパッケージです。 "
+"JBoss のような EJB3 が実行可能なアプリケーションサーバーにインストールする場"
+"合は <literal>EAR</literal> を選択してください。 これ以外は <literal>WAR</"
+"literal> を選択してください。 以降、 このチュートリアルでは WAR デプロイメン"
+"トが選択されたと仮定しますが、 EAR デプロイメントの場合もまったく同じステップ"
+"で進むことができます。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:196
+#, no-c-format
+msgid ""
+"Next, select your database type. We'll assume you have MySQL installed, with "
+"an existing schema. You'll need to tell JBoss Tools about the database, "
+"select <emphasis>MySQL</emphasis> as the database, and create a new "
+"connection profile. Select <emphasis>Generic JDBC Connection</emphasis>:"
+msgstr ""
+"次に、データベースのタイプを選択します。 ここでは既存のスキーマを持つ MySQL "
+"がインストールされていることを前提とします。 JBoss Tools にデータベースについ"
+"て指定する必要があります、データベースとして <emphasis>MySQL</emphasis> を選"
+"択して、新たにコネクションプロファイルを作成してください。 <emphasis>Generic "
+"JDBC Connection</emphasis> を選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:215
+#, no-c-format
+msgid "Give it a name:"
+msgstr "名前をつけてください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:230
+#, no-c-format
+msgid ""
+"JBoss Tools doesn't come with drivers for any databases, so you need to tell "
+"JBoss Tools where the MySQL JDBC driver is. Tell it about the driver by "
+"clicking <emphasis>...</emphasis>."
+msgstr ""
+"JBoss Tools はデータベースドライバを持っていないので、JBoss Tools にどこに "
+"MySQL JDBC があるかを指定する必要があります。 クリックしてドライバに関して指"
+"定してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:236
+#, no-c-format
+msgid "Locate MySQL 5, and hit <emphasis>Add...</emphasis>:"
+msgstr "MySQL 5 の場所で、<emphasis>Add...</emphasis> を押してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:251
+#, no-c-format
+msgid "Choose the <emphasis>MySQL JDBC Driver</emphasis> template:"
+msgstr ""
+"<emphasis>MySQL JDBC Driver</emphasis> テンプレートを選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:266
+#, no-c-format
+msgid ""
+"Locate the jar on your computer by choosing <emphasis>Edit Jar/Zip</"
+"emphasis>:"
+msgstr ""
+"<emphasis>Edit Jar/Zip</emphasis> を選択することでコンピュータ上の jar の位置"
+"を指定してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:282
+#, no-c-format
+msgid ""
+"Review the username and password used to connect, and if correct, hit "
+"<emphasis>Ok</emphasis>."
+msgstr ""
+"接続のためのユーザー名とパスワードを確認して正しければ、<emphasis>Ok</"
+"emphasis> を押してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:287
+#, no-c-format
+msgid "Finally, choose the newly created driver:"
+msgstr "最後に新規に作成されたドライバを選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:302
+#, no-c-format
+msgid ""
+"If you are working with an existing data model, make sure you tell JBoss "
+"Tools that the tables already exist in the database."
+msgstr ""
+"既存のデータモデルで作業をしている場合、 データベースに既にテーブルが存在して"
+"いることを JBoss Tools に必ず知らせてください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:307
+#, no-c-format
+msgid ""
+"Review the username and password used to connect, test the connection using "
+"the <emphasis>Test Connection</emphasis> button, and if it works, hit "
+"<emphasis>Finish</emphasis>:"
+msgstr ""
+"接続のためのユーザー名とパスワードを確認して、<emphasis>Test Connection</"
+"emphasis> ボタンを使用して接続をテストします。 動作したならば、"
+"<emphasis>Finish</emphasis> を押します。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:313
+#, no-c-format
+msgid ""
+"Finally, review the package names for your generated beans, and if you are "
+"happy, click <emphasis>Finish</emphasis>:"
+msgstr ""
+"最後に、生成された Bean のパッケージ名を確認して、問題なければ、"
+"<emphasis>Finish</emphasis> をクリックします。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:329
+#, no-c-format
+msgid ""
+"JBoss has sophisticated support for hot re-deployment of WARs and EARs. "
+"Unfortunately, due to bugs in the JVM, repeated redeployment of an EAR—which "
+"is common during development—eventually causes the JVM to run out of perm "
+"gen space. For this reason, we recommend running JBoss in a JVM with a large "
+"perm gen space at development time. We suggest the following values:"
+msgstr ""
+"JBoss は WAR や EAR の優れたホット再デプロイメントをサポートします。 残念なが"
+"ら、 JVM にバグがあるため、 — 開発段階では一般的な — EAR の再デプロイメントを"
+"繰り返すと最終的には JVM が perm gen スペースを使い果たしてしまうことになりま"
+"す。 この理由により、デプロイメント時に perm gen space を大きく確保した JVM "
+"で JBoss を稼動させることを推奨します。 以下のような値を推奨します。"
+
+#. Tag: programlisting
+#: Getting_Started_With_JBoss_Tools.xml:338
+#, no-c-format
+msgid "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512"
+msgstr "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:340
+#, no-c-format
+msgid ""
+"If you don't have so much memory available, the following is our minimum "
+"recommendation:"
+msgstr "十分なメモリがない場合には、以下が最小の推奨値です。"
+
+#. Tag: programlisting
+#: Getting_Started_With_JBoss_Tools.xml:345
+#, no-c-format
+msgid "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256"
+msgstr "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:347
+#, no-c-format
+msgid ""
+"Locate the server in the <emphasis>JBoss Server View</emphasis>, right click "
+"on the server and select <emphasis>Edit Launch Configuration</emphasis>:"
+msgstr ""
+"<emphasis>JBoss Server View</emphasis> にサーバを配置し、サーバの上で右クリッ"
+"クして <emphasis>Edit Launch Configuration</emphasis> を選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:364
+#, no-c-format
+msgid "Then, alter the VM arguements:"
+msgstr "そして、VM 引数を変更してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:379
+#, no-c-format
+msgid ""
+"If you don't want to bother with this stuff now, you don't have to—come back "
+"to it later, when you get your first <literal>OutOfMemoryException</literal>."
+msgstr ""
+"今すぐに変更を行いたくない場合は特に行う必要はありません — "
+"<literal>OutOfMemoryException</literal> が発生した時点で対処してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:385
+#, no-c-format
+msgid ""
+"To start JBoss, and deploy the project, just right click on the server you "
+"created, and click <emphasis>Start</emphasis>, (or <emphasis>Debug</"
+"emphasis> to start in debug mode):"
+msgstr ""
+"JBoss の起動、プロジェクトのデプロイのためには、作成したサーバの上の右クリッ"
+"クして <emphasis>Start</emphasis> をクリックしてください。 また、デバッグモー"
+"ドで起動するには <emphasis>Debug</emphasis> をクリックしてください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:402
+#, no-c-format
+msgid ""
+"Don't get scared by the XML configuration documents that were generated into "
+"the project directory. They are mostly standard Java EE stuff, the stuff you "
+"need to create once and then never look at again, and they are 90% the same "
+"between all Seam projects."
+msgstr ""
+"プロジェクトディレクトリに XML 設定ドキュメントが生成されますがびっくりしない"
+"でください。 これらのほとんどが標準 Java EE に関するもので、 一度生成したら "
+"二度と見る必要のないものです。 すべての Seam プロジェクトで 90% は同じもので"
+"す。"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:412
+#, no-c-format
+msgid "Creating a new action"
+msgstr "新規のアクションを生成する"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:414
+#, no-c-format
+msgid ""
+"If you're used to traditional action-style web frameworks, you're probably "
+"wondering how you can create a simple web page with a stateless action "
+"method in Java."
+msgstr ""
+"従来のアクションスタイルの Web フレームワークに慣れている場合、 おそらくどの"
+"ように Java のステートレスアクションメソッドを持つ簡単な Web ページが生成され"
+"るのだろうかと思われるでしょう。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:420
+#, no-c-format
+msgid ""
+"First, select <emphasis>New</emphasis> -> <emphasis>Seam Action</emphasis>:"
+msgstr ""
+"最初に、<emphasis>New</emphasis> -> <emphasis>Seam Action</emphasis> と選択し"
+"てください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:435
+#: Getting_Started_With_JBoss_Tools.xml:501
+#, no-c-format
+msgid ""
+"Now, enter the name of the Seam component. JBoss Tools selects sensible "
+"defaults for other fields:"
+msgstr ""
+"ここでは、Seam コンポーネント名を登録してください。 JBoss Tools は他のフィー"
+"ルドのために気の利いたデフォルトを選択します。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:451
+#, no-c-format
+msgid "Finally, hit <emphasis>Finish</emphasis>."
+msgstr "最後に <emphasis>Finish</emphasis> を押します。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:455
+#, no-c-format
+msgid ""
+"Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and "
+"click the button. You can see the code behind this action by looking in the "
+"project <literal>src</literal> directory. Put a breakpoint in the "
+"<literal>ping()</literal> method, and click the button again."
+msgstr ""
+"さあ、<literal>http://localhost:8080/helloworld/ping.seam</literal> に進ん"
+"で、クリックボタンを押してください。 プロジェクトの <literal>src</literal> "
+"directory ディレクトリを見れば、このアクションに隠されたコードを見ることがで"
+"きます。 <literal>ping()</literal> メソッドにブレークポイントを置いて、 ク"
+"リックボタンを押してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:463
+#, no-c-format
+msgid ""
+"Finally, open the <literal>helloworld-test</literal> project, locate "
+"<literal>PingTest</literal> class, right click on it, and choose "
+"<emphasis>Run As</emphasis> -> <emphasis>TestNG Test</emphasis>:"
+msgstr ""
+"最後に、<literal>helloworld-test</literal> プロジェクトを開いて、"
+"<literal>PingTest</literal> クラスを指定して、それを右クリックして、"
+"<emphasis>Run As</emphasis> -> <emphasis>TestNG Test</emphasis> と選択してく"
+"ださい。"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:483
+#, no-c-format
+msgid "Creating a form with an action"
+msgstr "アクションのあるフォームを生成する"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:485
+#, no-c-format
+msgid ""
+"The first step is to create a form. Select <emphasis>New</emphasis> -> "
+"<emphasis>Seam Form</emphasis>:"
+msgstr ""
+"最初のステップはフォームを生成することです。 <emphasis>New</emphasis> -> "
+"<emphasis>Seam Form</emphasis> と選択してください。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:517
+#, no-c-format
+msgid ""
+"Go to <literal>http://localhost:8080/helloworld/hello.seam</literal>. Then "
+"take a look at the generated code. Run the test. Try adding some new fields "
+"to the form and Seam component (note, you don't need to restart the app "
+"server each time you change the code in <literal>src/action</literal> as "
+"Seam hot reloads the component for you <xref linkend="
+"\"gettingstartedwithjbosstools.hotdeployment\"/>)."
+msgstr ""
+"<literal>http://localhost:8080/helloworld/hello.seam</literal> と進んでくださ"
+"い。 そして生成されたコードを見てください。 テストを起動してください。 フォー"
+"ムと Seam コンポーネントに新しいフィールドを追加してみてください。(Seam がコ"
+"ンポーネントをホットリロード <xref linkend=\"gettingstartedwithjbosstools."
+"hotdeployment\"/> するので、 <literal>src/hot</literal> のコードを変更するた"
+"びにアプリケーションサーバーをリスタートする必要がないことに留意してくださ"
+"い。)"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:528
+#, no-c-format
+msgid "Generating an application from an existing database"
+msgstr "既存のデータベースからアプリケーションを自動生成する"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:530
+#, no-c-format
+msgid ""
+"Manually create some tables in your database. (If you need to switch to a "
+"different database, create a new project, and select the correct database). "
+"Then, select <emphasis>New</emphasis> -> <emphasis>Seam Generate Entities</"
+"emphasis>:"
+msgstr ""
+"手動でデータベースの中にテーブルを生成します。 (別のデータベースに切り替える"
+"必要がある場合、新たなプロジェクトを作成して、正しいデータベースを選択してく"
+"ださい。) そして、<emphasis>New</emphasis> -> <emphasis>Seam Generate "
+"Entities</emphasis> と選択します。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:548
+#, no-c-format
+msgid ""
+"JBoss Tools gives you the option to either reverse engineer entities, "
+"components and views from a database schema or to reverse engineer "
+"components and views from existing JPA entities. We're going to do "
+"<emphasis>Reverse engieneer from database</emphasis>."
+msgstr ""
+"JBoss Tools には、データベーススキーマからエンティティ、コンポーネント、"
+"ビューのリバースエンジニアリングをするか、あるいは既存 JPA エンティティからコ"
+"ンポーネントとビューのリバースエンジニアリングをするかのオプションがありま"
+"す。 ここでは<emphasis>データベースからのリバースエンジニアリング</emphasis>"
+"を行います。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:555
+#, no-c-format
+msgid "Restart the deployment:"
+msgstr "デプロイメントの再起動："
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:570
+#, no-c-format
+msgid ""
+"Then go to <literal>http://localhost:8080/helloworld</literal>. You can "
+"browse the database, edit existing objects, and create new objects. If you "
+"look at the generated code, you'll probably be amazed how simple it is! Seam "
+"was designed so that data access code is easy to write by hand, even for "
+"people who don't want to cheat by using reverse engineering."
+msgstr ""
+"<literal>http://localhost:8080/helloworld</literal> にすすんでください。 デー"
+"タベースをブラウズ、既存オブジェクトの編集、そして新規オブジェクトの作成が可"
+"能です。 生成されたコードを見ると、何てシンプルなんだと驚かれるはずです！ "
+"Seam はマニュアルで簡単にデータアクセスコードが書けるよう設計されています。 "
+"リバースエンジニアリングを使用したカンニングをしたくない人にも簡単です。"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:581
+#, no-c-format
+msgid "Seam and incremental hot deployment with JBoss Tools"
+msgstr "Seam と JBoss Tools を使用した増分ホットデプロイメント"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:583
+#, no-c-format
+msgid "JBoss Tools supports incremental hot deployment of:"
+msgstr "JBoss Tools は以下について増分ホットデプロイメントをサポートします。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:589
+#, no-c-format
+msgid "any facelets page"
+msgstr "facelets ページ"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:593
+#, no-c-format
+msgid "any <literal>pages.xml</literal> file"
+msgstr "<literal>pages.xml</literal> ファイル"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:599
+#, no-c-format
+msgid "out of the box."
+msgstr "out of the box."
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:603
+#, no-c-format
+msgid ""
+"But if we want to change any Java code, we still need to do a full restart "
+"of the application by doing a <emphasis>Full Publish</emphasis>."
+msgstr ""
+"ただし Java コードを変更したいのならば、<emphasis>Full Publish</emphasis> す"
+"ることでアプリケーションを再起動する必要があります。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:609
+#, no-c-format
+msgid ""
+"But if you really want a fast edit/compile/test cycle, Seam supports "
+"incremental redeployment of JavaBean components. To make use of this "
+"functionality, you must deploy the JavaBean components into the <literal>WEB-"
+"INF/dev</literal> directory, so that they will be loaded by a special Seam "
+"classloader, instead of by the WAR or EAR classloader."
+msgstr ""
+"しかし、 早いペースの編集/コンパイル/テストのサイクルを望むならば、 Seam は "
+"JavaBean コンポーネントの増分再デプロイメントをサポートしています。 この機能"
+"を有効にするためには、 JavaBean コンポーネントを <literal>WEB-INF/dev</"
+"literal> ディレクトリにデプロイする必要があります。 その結果、コンポーネント"
+"は WAR あるいは EAR クラスローダではなく、 特殊な Seam クラスローダによって"
+"ロードされるようになります。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:618
+#, no-c-format
+msgid "You need to be aware of the following limitations:"
+msgstr "以下の制約を知っている必要があります。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:622
+#, no-c-format
+msgid ""
+"the components must be JavaBean components, they cannot be EJB3 beans (we "
+"are working on fixing this limitation)"
+msgstr ""
+"コンポーネントは JavaBean コンポーネントでなければならず、 EJB3 Bean は不可で"
+"す。 (この制約は修正中です。) "
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:629
+#, no-c-format
+msgid "entities can never be hot-deloyed"
+msgstr "エンティティはホットデプロイできません。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:635
+#, no-c-format
+msgid ""
+"components deployed via <literal>components.xml</literal> may not be hot-"
+"deployed"
+msgstr ""
+"<literal>components.xml</literal> でデプロイされたコンポーネントはホットデプ"
+"ロイできない場合があります。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:642
+#, no-c-format
+msgid ""
+"the hot-deployable components will not be visible to any classes deployed "
+"outside of <literal>WEB-INF/dev</literal>"
+msgstr ""
+"ホットデプロイ可能なコンポーネントは、 <literal>WEB-INF/dev</literal> の外部"
+"にデプロイされたクラスからは見えません。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:649
+#, no-c-format
+msgid ""
+"Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal> "
+"must be in <literal>WEB-INF/lib</literal>"
+msgstr ""
+"Seam デバッグモードは有効で <literal>jboss-seam-debug.jar</literal> は "
+"<literal>WEB-INF/lib</literal> になければなりません。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:657
+#, no-c-format
+msgid "You must have the Seam filter installed in web.xml"
+msgstr "web.xml に Seam フィルタをインストールしなければなりません。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:663
+#, no-c-format
+msgid ""
+"You may see errors if the system is placed under any load and debug is "
+"enabled."
+msgstr ""
+"ロードとデバッグが有効な環境のシステムであればエラーが発生するかもしれませ"
+"ん。"
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:671
+#, no-c-format
+msgid ""
+"If you create a WAR project using JBoss Tools, incremental hot deployment is "
+"available out of the box for classes in the <literal>src/action</literal> "
+"source directory. However, JBoss Tools does not support incremental hot "
+"deployment for EAR projects."
+msgstr ""
+"JBoss Tools を使用して WAR プロジェクトを生成する場合、 増分ホットデプロイメ"
+"ントは、<literal>src/hot</literal> ソースディレクトリにあるクラスはそのまま使"
+"用可能です。 しかし、 JBoss Tools は EAR プロジェクトに対する増分ホットデプロ"
+"イに対応していません。"
+
+#~ msgid "TODO - detail where the update sites are."
+#~ msgstr "TODO - アップデートサイトがどこであるかの詳細"

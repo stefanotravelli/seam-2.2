@@ -1,0 +1,20 @@
+
+/******************************************************************************************
+ This rule supports the administration of users and roles using Seam's identity management.
+ ******************************************************************************************/
+rule ManageAccount
+   no-loop
+   // The first rule in an activation-group to fire will cancel the
+   // other rules activations (stop them from firing). The activation
+   // group can be any string, as long as the string is identical for
+   // all the rules you need to be in the one group.
+   activation-group "permissions"
+when
+   $perm: PermissionCheck(name == "seam.user" || == "seam.role", granted == false)
+   Role(name == "admin")
+then
+   $perm.grant();
+end
+/******************************************************************************************
+ This rules supports the administration of users and roles using Seam's identity management.
+ ******************************************************************************************/

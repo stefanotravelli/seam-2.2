@@ -1,0 +1,1255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="dependencies">
+  <title>Dependencies</title>
+  
+  <section id="jdk_dependencies">
+    <title>JDK Dependencies</title>
+    
+    <para>
+      Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses 
+      annotations and other JDK 5.0 features. Seam has been thoroughly tested 
+      using Sun's JDKs.  However there are no known issues specific to Seam with
+      other JDKs.
+    </para>
+    
+    <section id="jdk6_dependencies">
+        <title>Sun's JDK 6 Considerations</title>
+        <para>
+            Earlier versions of Sun's JDK 6 contained an incompatible 
+            version of JAXB and required overriding it using the "endorsed" 
+            directory.  Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and 
+            removed this requirement.  When building, testing, or executing be
+            sure to use this version or higher. 
+        </para>
+        
+        <para>
+            Seam used JBoss Embedded in its unit and integration testing.  This
+            has an additional requirement when using JDK 6. In order to run 
+            JBoss Embedded with JDK 6 you need to set the following JVM argument:
+            
+            <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting>
+            
+            Seam's internal build system is setting this by default when it 
+            executes Seam's test suite.  However if you are also using JBoss
+            Embedded for your testing you will need to set this value. 
+        </para>
+    </section>    
+  </section>
+  
+  <section>
+    <title>Project Dependencies</title>
+
+    <para>
+      This section both lists the compile-time and runtime dependencies for Seam.
+      Where the type is listed as <literal>ear</literal>, the library should be
+      included in the /lib directory of your application's ear file. Where the
+      type is listed as <literal>war</literal>, the library should be placed in 
+      the <literal>/WEB-INF/lib</literal> directory of your application's war
+      file.  The scope of the dependency is either all, runtime or provided (by
+      JBoss AS 4.2 or 5.0).
+    </para>
+    
+    <para>
+      Up to date version information and complete dependency information is not 
+      included in the docs, but is provided in the 
+      <literal>/dependency-report.txt</literal> which is generated from the 
+      Maven POMs stored in <literal>/build</literal>. You can generate this file
+      by running <literal>ant dependencyReport</literal>.
+    </para>
+    
+    <section>
+      <title>Core</title>
+  
+      <para>
+      <table><title></title>
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>            
+     
+            <row>
+              <entry>
+                <para><literal>jboss-seam.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>all</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>The core Seam library, always required.</para>
+              </entry>
+            </row>
+  
+            <row>
+              <entry>
+                <para><literal>jboss-seam-debug.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Include during development when enabling Seam's debug feature</para>
+              </entry>
+            </row>         
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-ioc.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam with Spring</para>
+              </entry>
+            </row>   
+  
+            <row>
+              <entry>
+                <para><literal>jboss-seam-pdf.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam's PDF features</para>
+              </entry>
+            </row>                  
+
+            <row>
+              <entry>
+                <para><literal>jboss-seam-excel.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam's <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> features</para>
+              </entry>
+            </row>                  
+
+            <row>
+              <entry>
+                <para><literal>jboss-seam-rss.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam's RSS generation features</para>
+              </entry>
+            </row>                  
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-remoting.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam Remoting</para>
+              </entry>
+            </row>                         
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-ui.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required to use the Seam JSF controls</para>
+              </entry>
+            </row>        
+            
+            <row>
+              <entry>
+                <para><literal>jsf-api.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>provided</para>
+              </entry>
+              <entry align="center">
+                <para></para>
+              </entry>
+              <entry>
+                <para>JSF API</para>
+              </entry>
+            </row>         
+            
+            <row>
+              <entry>
+                <para><literal>jsf-impl.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>provided</para>
+              </entry>
+              <entry align="center">
+                <para></para>
+              </entry>
+              <entry>
+                <para>JSF Reference Implementation</para>
+              </entry>
+            </row>   
+            
+            <row>
+              <entry>
+                <para><literal>jsf-facelets.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Facelets</para>
+              </entry>
+            </row>    
+            
+            <row>
+              <entry>
+                <para><literal>urlrewrite.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>URL Rewrite library</para>
+              </entry>
+            </row>      
+                        
+            <row>
+              <entry>
+                <para><literal>quartz.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>Required when you wish to use Quartz with Seam's asynchronous features</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+</para>
+
+    </section>
+    
+    <section>
+      <title>RichFaces</title>
+  
+      <table>
+        <title>RichFaces dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+          
+            <row>
+              <entry>
+                <para><literal>richfaces-api.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>all</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>
+                  Required to use RichFaces.  Provides API classes that you may
+                  wish to use from your application e.g. to create a tree
+                </para>
+              </entry>
+            </row>  
+            
+            <row>
+              <entry>
+                <para><literal>richfaces-impl.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required to use RichFaces.</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>richfaces-ui.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required to use RichFaces.  Provides all the UI components.</para>
+              </entry>
+            </row>                        
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section> 
+    
+    <section>
+      <title>Seam Mail</title>    
+  
+      <table>
+        <title>Seam Mail Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>activation.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>Required for attachment support</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>mail.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>Required for outgoing mail support</para>
+              </entry>
+            </row>    
+            
+            <row>
+              <entry>
+                <para><literal>mail-ra.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>compile only</para>
+              </entry>
+              <entry align="center">
+                <para></para>
+              </entry>
+              <entry>
+                <para>Required for incoming mail support</para>
+                <para>mail-ra.rar should be deployed to the application server
+                at runtime</para>
+              </entry>
+            </row>                  
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-mail.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Seam Mail</para>
+              </entry>
+            </row>            
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+    <section>
+      <title>Seam PDF</title>    
+  
+      <table>
+        <title>Seam PDF Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>itext.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>PDF Library</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>jfreechart.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Charting library</para>
+              </entry>
+            </row>         
+            
+            <row>
+              <entry>
+                <para><literal>jcommon.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required by JFreeChart</para>
+              </entry>
+            </row>            
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-pdf.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Seam PDF core library</para>
+              </entry>
+            </row>                
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>  
+
+    <section>
+      <title>Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark></title>    
+  
+      <table>
+        <title>Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>jxl.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>JExcelAPI library</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-excel.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> core library</para>
+              </entry>
+            </row>                
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>  
+
+    <section id="dependencies.rss">
+      <title>Seam RSS support</title>    
+  
+      <table>
+        <title>Seam RSS Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>yarfraw.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>YARFRAW RSS library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>JAXB</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>JAXB XML parsing libraries</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>http-client.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache HTTP Client libraies</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-io</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons IO library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-lang</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons lang library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-codec</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons codec library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-collections</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons collections library</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-rss.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Seam RSS core library</para>
+              </entry>
+            </row>                
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>  
+
+    
+    <section>
+      <title>JBoss Rules</title>
+      
+      <para>
+        The JBoss Rules libraries can be found in the <literal>drools/lib</literal> directory in Seam.
+      </para>
+      
+      <table>
+        <title>JBoss Rules Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>antlr-runtime.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>ANTLR Runtime Library</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>core.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>Eclipse JDT</para>
+              </entry>
+            </row>          
+            
+            <row>
+              <entry>
+                <para><literal>drools-compiler.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para></para>
+              </entry>
+            </row>          
+            
+            <row>
+              <entry>
+                <para><literal>drools-core.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para></para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>janino.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para></para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>mvel.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para></para>
+              </entry>
+            </row>
+    
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </section>    
+    
+    <section>
+      <title>JBPM</title>
+      
+      <table>
+        <title>JBPM dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>    
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>jbpm-jpdl.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para></para>
+              </entry>
+            </row>
+    
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </section>
+    
+    <section>
+      <title>GWT</title>
+      
+      <para>
+        These libraries are required if you with to use the Google Web Toolkit (GWT) with your Seam application.
+      </para>
+      
+      <table>
+        <title>GWT dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>    
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>    
+            <row>
+              <entry>
+                <para><literal>gwt-servlet.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>The GWT Servlet libs</para>
+              </entry>
+            </row>
+    
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </section>        
+    
+    <section>
+      <title>Spring</title>
+      
+      <para>
+        These libraries are required if you with to use the Spring Framework with your Seam application.
+      </para>
+      
+      <table>
+        <title>Spring Framework dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>    
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>    
+            <row>
+              <entry>
+                <para><literal>spring.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>The Spring Framework library</para>
+              </entry>
+            </row>
+    
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </section>     
+    
+    <section>
+      <title>Groovy</title>
+      
+      <para>
+        These libraries are required if you with to use Groovy with your Seam application.
+      </para>
+      
+      <table>
+        <title>Groovy dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>    
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>    
+            <row>
+              <entry>
+                <para><literal>groovy-all.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>ear</para>
+              </entry>
+              <entry>
+                <para>The Groovy libs</para>
+              </entry>
+            </row>
+    
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </section>
+  </section>  
+    
+  <section>
+    <title>Dependency Management using Maven</title>
+
+  
+  <para>
+    Maven offers support for transitive dependency management and can be used
+    to manage the dependencies of your Seam project.  You can use Maven Ant
+    Tasks to integrate Maven into your Ant build, or can use Maven to build and
+    deploy your project.
+  </para>
+  
+  <para>
+    We aren't actually going to discuss how to use Maven here, but just run
+    over some basic POMs you could use.
+  </para> 
+
+   <para>
+     Released versions of Seam are available in <ulink url="http://repository.jboss.org/maven2">
+     http://repository.jboss.org/maven2</ulink>     
+     and nightly snapshots are available in <ulink url="http://snapshots.jboss.org/maven2">
+     http://snapshots.jboss.org/maven2</ulink>.
+   </para>
+
+   <para>
+     All the Seam artifacts are available in Maven:
+   </para>
+
+    <programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-ui</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-pdf</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-remoting</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-ioc</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-ioc</artifactId>
+</dependency>]]></programlisting>
+
+  <para>
+    This sample POM will give you Seam, JPA (provided by Hibernate) and 
+    Hibernate Validator:
+  </para> 
+
+<programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jboss.seam.example/groupId>
+  <artifactId>my-project</artifactId>
+  <version>1.0</version>
+  <name>My Seam Project</name>
+  <packaging>jar</packaging>
+  <repositories>
+    <repository>
+      <id>repository.jboss.org</id>
+      <name>JBoss Repository</name>
+      <url>http://repository.jboss.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>3.0.0.GA</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>3.3.0.ga</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.3.1.ga</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>jboss-seam</artifactId>
+      <version>2.0.0.GA</version>
+    </dependency>
+    
+  </dependencies>
+
+</project>]]></programlisting>
+
+</section>
+
+</chapter>

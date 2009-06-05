@@ -1,0 +1,61 @@
+#!/bin/sh
+
+##############################################
+#                                            #
+# seam-gen - Seam project and code generator #
+#                                            #
+##############################################
+
+# Validate the JDK installation
+if [ -z "$JAVA_HOME" ]; then
+    echo "The JAVA_HOME environment variable is not set"
+    echo "Please point it to a JDK installation"
+    exit 1
+elif [ ! -x "$JAVA_HOME/bin/javac" ]; then 
+    echo "The JAVA_HOME environment variable should point to a JDK, not a JRE"
+    exit 1
+fi
+
+WORKING_DIR=$PWD
+
+if [ -z "$SEAM_HOME" ]; then
+    if [ -h "$0" ]; then
+        SEAM_SCRIPT=`readlink "$0"`
+    else
+        SEAM_SCRIPT=$0
+    fi
+    # get the full path without any relative bits (not really necessary)
+    SEAM_SCRIPT_ABS_PATH=`readlink -f "$0" 2>/dev/null`
+    if [ $? -eq 0 ]; then
+        SEAM_SCRIPT=$SEAM_SCRIPT_ABS_PATH
+    fi
+    SEAM_HOME=`dirname "$SEAM_SCRIPT"`
+fi
+
+SEAM_GEN_DIR="$SEAM_HOME/seam-gen"
+SEAM_COMMAND="$1"
+
+echo "SEAM_HOME: $SEAM_HOME"
+echo "Using seam-gen sources from: $SEAM_GEN_DIR"
+
+cygwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+esac
+
+if [ -z "$SEAM_COMMAND" ]; then
+    cat "$SEAM_GEN_DIR/USAGE"
+elif [ "$SEAM_COMMAND" = help ]; then
+    cat "$SEAM_GEN_DIR/README"
+elif $cygwin; then
+    # Must pass real Windows paths to Java (Java doesn't execute in the context of cgywin)
+    JAVA_HOME_WINPATH=`cygpath -aw "$JAVA_HOME"`
+    SEAM_HOME_WINPATH=`cygpath -aw "$SEAM_HOME"`
+    SEAM_GEN_DIR_WINPATH=`cygpath -aw "$SEAM_GEN_DIR"`
+    WORKING_DIR_WINPATH=`cygpath -aw "$WORKING_DIR"`
+    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME_WINPATH\lib\tools.jar;$SEAM_HOME_WINPATH\build\lib\ant-launcher.jar;$SEAM_HOME_WINPATH\build\lib\ant-nodeps.jar;$SEAM_HOME_WINPATH\build\lib\ant.jar" -Dant.home="$SEAM_HOME_WINPATH\lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR_WINPATH\build.xml" -Dworking.dir="$WORKING_DIR_WINPATH" "$@"
+else
+    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME/lib/tools.jar:$SEAM_HOME/build/lib/ant-launcher.jar:$SEAM_HOME/build/lib/ant-nodeps.jar:$SEAM_HOME/build/lib/ant.jar" -Dant.home="$SEAM_HOME/lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR/build.xml" -Dworking.dir="$WORKING_DIR" "$@"
+fi

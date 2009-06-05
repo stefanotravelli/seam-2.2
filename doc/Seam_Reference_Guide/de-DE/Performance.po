@@ -1,0 +1,95 @@
+# Language de-DE translations for Seam_Reference_Guide package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Seam_Reference_Guide \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-12-13 18:12+0000\n"
+"PO-Revision-Date: 2008-12-13 17:58+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Performance.xml:5
+#, no-c-format
+msgid "Performance Tuning"
+msgstr ""
+
+#. Tag: para
+#: Performance.xml:7
+#, no-c-format
+msgid ""
+"This chapter is an attempt to document in one place all the tips for getting "
+"the best performance from your Seam application."
+msgstr ""
+
+#. Tag: title
+#: Performance.xml:13
+#, no-c-format
+msgid "Bypassing Interceptors"
+msgstr ""
+
+#. Tag: para
+#: Performance.xml:15
+#, no-c-format
+msgid ""
+"For repetitive value bindings such as those found in a JSF dataTable or "
+"other iterative control (like <literal>ui:repeat</literal>), the full "
+"interceptor stack will be invoked for every invocation of the referenced "
+"Seam component. The effect of this can result in a substantial performance "
+"hit, especially if the component is accessed many times. A significant "
+"performance gain can be achieved by disabling the interceptor stack for the "
+"Seam component being invoked. To disable interceptors for the component, add "
+"the <literal>@BypassInterceptors</literal> annotation to the component class."
+msgstr ""
+
+#. Tag: para
+#: Performance.xml:25
+#, no-c-format
+msgid ""
+"It is very important to be aware of the implications of disabling "
+"interceptors for a Seam component. Features such as bijection, annotated "
+"security restrictions, synchronization and others are unavailable for a "
+"component marked with <literal>@BypassInterceptors</literal>. While in most "
+"cases it is possible to compensate for the loss of these features (e.g. "
+"instead of injecting a component using <literal>@In</literal>, you can use "
+"<literal>Component.getInstance()</literal> instead) it is important to be "
+"aware of the consequences."
+msgstr ""
+
+#. Tag: para
+#: Performance.xml:35
+#, no-c-format
+msgid ""
+"The following code listing demonstrates a Seam component with its "
+"interceptors disabled:"
+msgstr ""
+
+#. Tag: programlisting
+#: Performance.xml:39
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"foo\")\n"
+"@Scope(EVENT)\n"
+"@BypassInterceptors\n"
+"public class Foo\n"
+"{\n"
+"   public String getRowActions()\n"
+"   {\n"
+"     // Role-based security check performed inline instead of using "
+"@Restrict or other security annotation\n"
+"     Identity.instance().checkRole(\"user\");\n"
+"     \n"
+"     // Inline code to lookup component instead of using @In\n"
+"     Bar bar = (Bar) Component.getInstance(\"bar\");\n"
+"   \n"
+"     String actions;   \n"
+"     // some code here that does something     \n"
+"     return actions;\n"
+"   }\n"
+"}]]>"
+msgstr ""

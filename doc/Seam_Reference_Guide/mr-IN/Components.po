@@ -1,0 +1,2171 @@
+# Language mr-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-05 12:31+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Components.xml:5
+#, no-c-format
+msgid "Built-in Seam components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:6
+#, no-c-format
+msgid ""
+"This chapter describes Seam's built-in components, and their configuration "
+"properties. The built-in components will be created even if they are not "
+"listed in your <literal>components.xml</literal> file, but if you need to "
+"override default properties or specify more than one component of a certain "
+"type, <literal>components.xml</literal> is used."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:14
+#, no-c-format
+msgid ""
+"Note that you can replace any of the built in components with your own "
+"implementations simply by specifying the name of one of the built in "
+"components on your own class using <literal>@Name</literal>."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:22
+#, no-c-format
+msgid "Context injection components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:23
+#, no-c-format
+msgid ""
+"The first set of built in components exist purely to support injection of "
+"various contextual objects. For example, the following component instance "
+"variable would have the Seam session context object injected:"
+msgstr ""
+
+#. Tag: programlisting
+#: Components.xml:30
+#, no-c-format
+msgid "<![CDATA[@In private Context sessionContext;]]>"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:34
+#, no-c-format
+msgid "org.jboss.seam.core.contexts"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:36
+#, no-c-format
+msgid ""
+"Component that provides access to Seam Context objects, for example "
+"<literal>org.jboss.seam.core.contexts.sessionContext['user']</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:43
+#, no-c-format
+msgid "org.jboss.seam.faces.facesContext"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:45
+#, no-c-format
+msgid ""
+"Manager component for the <literal>FacesContext</literal> context object "
+"(not a true Seam context)"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:53 Components.xml:335 Components.xml:545 Components.xml:697
+#, no-c-format
+msgid "All of these components are always installed."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:60
+#, no-c-format
+msgid "JSF-related components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:61
+#, no-c-format
+msgid "The following set of components are provided to supplement JSF."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:67
+#, no-c-format
+msgid "org.jboss.seam.faces.dateConverter"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:69
+#, no-c-format
+msgid ""
+"Provides a default JSF converter for properties of type <literal>java.util."
+"Date</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:74
+#, no-c-format
+msgid ""
+"This converter is automatically registered with JSF. It is provided to save "
+"a developer from having to specify a DateTimeConverter on an input field or "
+"page parameter. By default, it assumes the type to be a date (as opposed to "
+"a time or date plus time) and uses the short input style adjusted to the "
+"Locale of the user. For Locale.US, the input pattern is mm/DD/yy. However, "
+"to comply with Y2K, the year is changed from two digits to four (e.g., mm/DD/"
+"yyyy)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:85
+#, no-c-format
+msgid ""
+"It's possible to override the input pattern globally using component "
+"configuration. Consult the JavaDoc for this class to see examples."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:93
+#, no-c-format
+msgid "org.jboss.seam.faces.facesMessages"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:95
+#, no-c-format
+msgid "Allows faces success messages to propagate across a browser redirect."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:100
+#, no-c-format
+msgid ""
+"<literal>add(FacesMessage facesMessage)</literal> &#8212; add a faces "
+"message, which will be displayed during the next render response phase that "
+"occurs in the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:107
+#, no-c-format
+msgid ""
+"<literal>add(String messageTemplate)</literal> &#8212; add a faces message, "
+"rendered from the given message template which may contain EL expressions."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:114
+#, no-c-format
+msgid ""
+"<literal>add(Severity severity, String messageTemplate)</literal> &#8212; "
+"add a faces message, rendered from the given message template which may "
+"contain EL expressions."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:121
+#, no-c-format
+msgid ""
+"<literal>addFromResourceBundle(String key)</literal> &#8212; add a faces "
+"message, rendered from a message template defined in the Seam resource "
+"bundle which may contain EL expressions."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:128
+#, no-c-format
+msgid ""
+"<literal>addFromResourceBundle(Severity severity, String key)</literal> "
+"&#8212; add a faces message, rendered from a message template defined in the "
+"Seam resource bundle which may contain EL expressions."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:135
+#, no-c-format
+msgid "<literal>clear()</literal> &#8212; clear all messages."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:143
+#, no-c-format
+msgid "org.jboss.seam.faces.redirect"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:145
+#, no-c-format
+msgid ""
+"A convenient API for performing redirects with parameters (this is "
+"especially useful for bookmarkable search results screens)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:151
+#, no-c-format
+msgid ""
+"<literal>redirect.viewId</literal> &#8212; the JSF view id to redirect to."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:157
+#, no-c-format
+msgid ""
+"<literal>redirect.conversationPropagationEnabled</literal> &#8212; "
+"determines whether the conversation will propagate across the redirect."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:164
+#, no-c-format
+msgid ""
+"<literal>redirect.parameters</literal> &#8212; a map of request parameter "
+"name to value, to be passed in the redirect request."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:171
+#, no-c-format
+msgid "<literal>execute()</literal> &#8212; perform the redirect immediately."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:177
+#, no-c-format
+msgid ""
+"<literal>captureCurrentRequest()</literal> &#8212; stores the view id and "
+"request parameters of the current GET request (in the conversation context), "
+"for later use by calling <literal>execute()</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:188
+#, no-c-format
+msgid "org.jboss.seam.faces.httpError"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:190
+#, no-c-format
+msgid "A convenient API for sending HTTP errors."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:196
+#, no-c-format
+msgid "org.jboss.seam.ui.renderStampStore"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:198
+#, no-c-format
+msgid ""
+"A component (session-scoped by default) responsible for maintaining a "
+"collection of render stamps. A render stamp is an indicator as to whether a "
+"form which was rendered has been submitted. This store is useful when the "
+"client-side state saving method of JSF is being used because it puts the "
+"determination of whether a form has been posted in the control of the server "
+"rather than in the component tree which is maintained on the client."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:206
+#, no-c-format
+msgid ""
+"To unbind this check from the session (which is one of the main design goals "
+"of client-side state saving) an implementation must be provided that stores "
+"the render stamps in the application (valid as long as the application is "
+"running) or the database (valid across server restarts)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:214
+#, no-c-format
+msgid ""
+"<literal>maxSize</literal> &#8212; The maximum number of stamps to be kept "
+"in the store. Default: 100"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:224
+#, no-c-format
+msgid ""
+"These components are installed when the class <literal>javax.faces.context."
+"FacesContext</literal> is available on the classpath."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:231
+#, no-c-format
+msgid "Utility components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:232
+#, no-c-format
+msgid "These components are merely useful."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:238
+#, no-c-format
+msgid "org.jboss.seam.core.events"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:240
+#, no-c-format
+msgid ""
+"An API for raising events that can be observed via <literal>@Observer</"
+"literal> methods, or method bindings in <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:247
+#, no-c-format
+msgid ""
+"<literal>raiseEvent(String type)</literal> &#8212; raise an event of a "
+"particular type and distribute to all observers."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:254
+#, no-c-format
+msgid ""
+"<literal>raiseAsynchronousEvent(String type)</literal> &#8212; raise an "
+"event to be processed asynchronously by the EJB3 timer service."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:261
+#, no-c-format
+msgid ""
+"<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedule an "
+"event to be processed asynchronously by the EJB3 timer service."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:268
+#, no-c-format
+msgid ""
+"<literal>addListener(String type, String methodBinding)</literal> &#8212; "
+"add an observer for a particular event type."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:277
+#, no-c-format
+msgid "org.jboss.seam.core.interpolator"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:279
+#, no-c-format
+msgid "An API for interpolating the values of JSF EL expressions in Strings."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:285
+#, no-c-format
+msgid ""
+"<literal>interpolate(String template)</literal> &#8212; scan the template "
+"for JSF EL expressions of the form <literal>#{...}</literal> and replace "
+"them with their evaluated values."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:295
+#, no-c-format
+msgid "org.jboss.seam.core.expressions"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:297
+#, no-c-format
+msgid "An API for creating value and method bindings."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:302
+#, no-c-format
+msgid ""
+"<literal>createValueBinding(String expression)</literal> &#8212; create a "
+"value binding object."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:308
+#, no-c-format
+msgid ""
+"<literal>createMethodBinding(String expression)</literal> &#8212; create a "
+"method binding object."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:317 Components.xml:1375
+#, no-c-format
+msgid "org.jboss.seam.core.pojoCache"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:319
+#, no-c-format
+msgid ""
+"Manager component for a JBoss Cache <literal>PojoCache</literal> instance."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:325
+#, no-c-format
+msgid ""
+"<literal>pojoCache.cfgResourceName</literal> &#8212; the name of the "
+"configuration file. Default to <literal>treecache.xml</literal>."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:341
+#, no-c-format
+msgid "Components for internationalization and themes"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:342
+#, no-c-format
+msgid ""
+"The next group of components make it easy to build internationalized user "
+"interfaces using Seam."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:349
+#, no-c-format
+msgid "org.jboss.seam.core.locale"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:351
+#, no-c-format
+msgid "The Seam locale."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:357
+#, no-c-format
+msgid "org.jboss.seam.international.timezone"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:359
+#, no-c-format
+msgid "The Seam timezone. The timezone is session scoped."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:365
+#, no-c-format
+msgid "org.jboss.seam.core.resourceBundle"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:367
+#, no-c-format
+msgid ""
+"The Seam resource bundle. The resource bundle is stateless. The Seam "
+"resource bundle performs a depth-first search for keys in a list of Java "
+"resource bundles."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:375
+#, no-c-format
+msgid "org.jboss.seam.core.resourceLoader"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:377
+#, no-c-format
+msgid ""
+"The resource loader provides access to application resources and resource "
+"bundles."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:382
+#, no-c-format
+msgid ""
+"<literal>resourceLoader.bundleNames</literal> &#8212; the names of the Java "
+"resource bundles to search when the Seam resource bundle is used. Default to "
+"<literal>messages</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:392
+#, no-c-format
+msgid "org.jboss.seam.international.localeSelector"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:394
+#, no-c-format
+msgid ""
+"Supports selection of the locale either at configuration time, or by the "
+"user at runtime."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:400 Components.xml:459
+#, no-c-format
+msgid "<literal>select()</literal> &#8212; select the specified locale."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:405
+#, no-c-format
+msgid ""
+"<literal>localeSelector.locale</literal> &#8212; the actual <literal>java."
+"util.Locale</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:411
+#, no-c-format
+msgid ""
+"<literal>localeSelector.localeString</literal> &#8212; the stringified "
+"representation of the locale."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:417
+#, no-c-format
+msgid ""
+"<literal>localeSelector.language</literal> &#8212; the language for the "
+"specified locale."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:423
+#, no-c-format
+msgid ""
+"<literal>localeSelector.country</literal> &#8212; the country for the "
+"specified locale."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:429
+#, no-c-format
+msgid ""
+"<literal>localeSelector.variant</literal> &#8212; the variant for the "
+"specified locale."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:435
+#, no-c-format
+msgid ""
+"<literal>localeSelector.supportedLocales</literal> &#8212; a list of "
+"<literal>SelectItem</literal>s representing the supported locales listed in "
+"<literal>jsf-config.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:442
+#, no-c-format
+msgid ""
+"<literal>localeSelector.cookieEnabled</literal> &#8212; specifies that the "
+"locale selection should be persisted via a cookie."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:451
+#, no-c-format
+msgid "org.jboss.seam.international.timezoneSelector"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:453
+#, no-c-format
+msgid ""
+"Supports selection of the timezone either at configuration time, or by the "
+"user at runtime."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:464
+#, no-c-format
+msgid ""
+"<literal>timezoneSelector.timezone</literal> &#8212; the actual "
+"<literal>java.util.TimeZone</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:470
+#, no-c-format
+msgid ""
+"<literal>timezoneSelector.timeZoneId</literal> &#8212; the stringified "
+"representation of the timezone."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:476
+#, no-c-format
+msgid ""
+"<literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies that the "
+"timezone selection should be persisted via a cookie."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:485
+#, no-c-format
+msgid "org.jboss.seam.international.messages"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:487
+#, no-c-format
+msgid ""
+"A map containing internationalized messages rendered from message templates "
+"defined in the Seam resource bundle."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:494
+#, no-c-format
+msgid "org.jboss.seam.theme.themeSelector"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:496
+#, no-c-format
+msgid ""
+"Supports selection of the theme either at configuration time, or by the user "
+"at runtime."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:502
+#, no-c-format
+msgid "<literal>select()</literal> &#8212; select the specified theme."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:507
+#, no-c-format
+msgid ""
+"<literal>theme.availableThemes</literal> &#8212; the list of defined themes."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:513
+#, no-c-format
+msgid "<literal>themeSelector.theme</literal> &#8212; the selected theme."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:519
+#, no-c-format
+msgid ""
+"<literal>themeSelector.themes</literal> &#8212; a list of "
+"<literal>SelectItem</literal>s representing the defined themes."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:526
+#, no-c-format
+msgid ""
+"<literal>themeSelector.cookieEnabled</literal> &#8212; specifies that the "
+"theme selection should be persisted via a cookie."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:535
+#, no-c-format
+msgid "org.jboss.seam.theme.theme"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:537
+#, no-c-format
+msgid "A map containing theme entries."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:551
+#, no-c-format
+msgid "Components for controlling conversations"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:552
+#, no-c-format
+msgid ""
+"The next group of components allow control of conversations by the "
+"application or user interface."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:559
+#, no-c-format
+msgid "org.jboss.seam.core.conversation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:561
+#, no-c-format
+msgid ""
+"API for application control of attributes of the current Seam conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:566 Components.xml:583
+#, no-c-format
+msgid "<literal>getId()</literal> &#8212; returns the current conversation id"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:571
+#, no-c-format
+msgid ""
+"<literal>isNested()</literal> &#8212; is the current conversation a nested "
+"conversation?"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:577
+#, no-c-format
+msgid ""
+"<literal>isLongRunning()</literal> &#8212; is the current conversation a "
+"long-running conversation?"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:588
+#, no-c-format
+msgid ""
+"<literal>getParentId()</literal> &#8212; returns the conversation id of the "
+"parent conversation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:594
+#, no-c-format
+msgid ""
+"<literal>getRootId()</literal> &#8212; returns the conversation id of the "
+"root conversation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:600
+#, no-c-format
+msgid ""
+"<literal>setTimeout(int timeout)</literal> &#8212; sets the timeout for the "
+"current conversation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:606
+#, no-c-format
+msgid ""
+"<literal>setViewId(String outcome)</literal> &#8212; sets the view id to be "
+"used when switching back to the current conversation from the conversation "
+"switcher, conversation list, or breadcrumbs."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:613
+#, no-c-format
+msgid ""
+"<literal>setDescription(String description)</literal> &#8212; sets the "
+"description of the current conversation to be displayed in the conversation "
+"switcher, conversation list, or breadcrumbs."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:620
+#, no-c-format
+msgid ""
+"<literal>redirect()</literal> &#8212; redirect to the last well-defined view "
+"id for this conversation (useful after login challenges)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:626
+#, no-c-format
+msgid ""
+"<literal>leave()</literal> &#8212; exit the scope of this conversation, "
+"without actually ending the conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:632
+#, no-c-format
+msgid ""
+"<literal>begin()</literal> &#8212; begin a long-running conversation "
+"(equivalent to <literal>@Begin</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:638
+#, no-c-format
+msgid ""
+"<literal>beginPageflow(String pageflowName)</literal> &#8212; begin a long-"
+"running conversation with a pageflow (equivalent to <literal>@Begin(pageflow="
+"\"...\")</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:645
+#, no-c-format
+msgid ""
+"<literal>end()</literal> &#8212; end a long-running conversation (equivalent "
+"to <literal>@End</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:651
+#, no-c-format
+msgid ""
+"<literal>pop()</literal> &#8212; pop the conversation stack, returning to "
+"the parent conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:657
+#, no-c-format
+msgid ""
+"<literal>root()</literal> &#8212; return to the root conversation of the "
+"conversation stack."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:663
+#, no-c-format
+msgid ""
+"<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change "
+"the flush mode of the conversation."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:672
+#, no-c-format
+msgid "org.jboss.seam.core.conversationList"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:674
+#, no-c-format
+msgid "Manager component for the conversation list."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:680
+#, no-c-format
+msgid "org.jboss.seam.core.conversationStack"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:682
+#, no-c-format
+msgid "Manager component for the conversation stack (breadcrumbs)."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:688
+#, no-c-format
+msgid "org.jboss.seam.faces.switcher"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:690
+#, no-c-format
+msgid "The conversation switcher."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:704
+#, no-c-format
+msgid "jBPM-related components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:705
+#, no-c-format
+msgid "These components are for use with jBPM."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:711
+#, no-c-format
+msgid "org.jboss.seam.pageflow.pageflow"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:713
+#, no-c-format
+msgid "API control of Seam pageflows."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:718
+#, no-c-format
+msgid ""
+"<literal>isInProcess()</literal> &#8212; returns <literal>true</literal> if "
+"there is currently a pageflow in process"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:724
+#, no-c-format
+msgid ""
+"<literal>getProcessInstance()</literal> &#8212; returns jBPM "
+"<literal>ProcessInstance</literal> for the current pageflow"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:730
+#, no-c-format
+msgid ""
+"<literal>begin(String pageflowName)</literal> &#8212; begin a pageflow in "
+"the context of the current conversation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:736
+#, no-c-format
+msgid ""
+"<literal>reposition(String nodeName)</literal> &#8212; reposition the "
+"current pageflow to a particular node"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:745
+#, no-c-format
+msgid "org.jboss.seam.bpm.actor"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:747
+#, no-c-format
+msgid ""
+"API for application control of attributes of the jBPM actor associated with "
+"the current session."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:753
+#, no-c-format
+msgid ""
+"<literal>setId(String actorId)</literal> &#8212; sets the jBPM actor id of "
+"the current user."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:759
+#, no-c-format
+msgid ""
+"<literal>getGroupActorIds()</literal> &#8212; returns a <literal>Set</"
+"literal> to which jBPM actor ids for the current users groups may be added."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:769
+#, no-c-format
+msgid "org.jboss.seam.bpm.transition"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:771
+#, no-c-format
+msgid ""
+"API for application control of the jBPM transition for the current task."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:777
+#, no-c-format
+msgid ""
+"<literal>setName(String transitionName)</literal> &#8212; sets the jBPM "
+"transition name to be used when the current task is ended via "
+"<literal>@EndTask</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:787
+#, no-c-format
+msgid "org.jboss.seam.bpm.businessProcess"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:789
+#, no-c-format
+msgid ""
+"API for programmatic control of the association between the conversation and "
+"business process."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:795
+#, no-c-format
+msgid ""
+"<literal>businessProcess.taskId</literal> &#8212; the id of the task "
+"associated with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:801
+#, no-c-format
+msgid ""
+"<literal>businessProcess.processId</literal> &#8212; the id of the process "
+"associated with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:807
+#, no-c-format
+msgid ""
+"<literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task "
+"instance associated with the current conversation?"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:813
+#, no-c-format
+msgid ""
+"<literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process "
+"instance associated with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:819
+#, no-c-format
+msgid ""
+"<literal>createProcess(String name)</literal> &#8212; create an instance of "
+"the named process definition and associate it with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:826
+#, no-c-format
+msgid ""
+"<literal>startTask()</literal> &#8212; start the task associated with the "
+"current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:832
+#, no-c-format
+msgid ""
+"<literal>endTask(String transitionName)</literal> &#8212; end the task "
+"associated with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:838
+#, no-c-format
+msgid ""
+"<literal>resumeTask(Long id)</literal> &#8212; associate the task with the "
+"given id with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:844
+#, no-c-format
+msgid ""
+"<literal>resumeProcess(Long id)</literal> &#8212; associate the process with "
+"the given id with the current conversation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:850
+#, no-c-format
+msgid ""
+"<literal>transition(String transitionName)</literal> &#8212; trigger the "
+"transition."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:859
+#, no-c-format
+msgid "org.jboss.seam.bpm.taskInstance"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:861
+#, no-c-format
+msgid "Manager component for the jBPM <literal>TaskInstance</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:867
+#, no-c-format
+msgid "org.jboss.seam.bpm.processInstance"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:869
+#, no-c-format
+msgid "Manager component for the jBPM <literal>ProcessInstance</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:875
+#, no-c-format
+msgid "org.jboss.seam.bpm.jbpmContext"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:877
+#, no-c-format
+msgid "Manager component for an event-scoped <literal>JbpmContext</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:883
+#, no-c-format
+msgid "org.jboss.seam.bpm.taskInstanceList"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:885
+#, no-c-format
+msgid "Manager component for the jBPM task list."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:891
+#, no-c-format
+msgid "org.jboss.seam.bpm.pooledTaskInstanceList"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:893
+#, no-c-format
+msgid "Manager component for the jBPM pooled task list."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:899
+#, no-c-format
+msgid "org.jboss.seam.bpm.taskInstanceListForType"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:901
+#, no-c-format
+msgid "Manager component for the jBPM task lists."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:907
+#, no-c-format
+msgid "org.jboss.seam.bpm.pooledTask"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:909
+#, no-c-format
+msgid "Action handler for pooled task assignment."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:915
+#, no-c-format
+msgid "org.jboss.seam.bpm.processInstanceFinder"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:917
+#, no-c-format
+msgid "Manager for the process instance task list."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:923
+#, no-c-format
+msgid "org.jboss.seam.bpm.processInstanceList"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:925
+#, no-c-format
+msgid "The process instance task list."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:932
+#, no-c-format
+msgid ""
+"All of these components are installed whenever the component <literal>org."
+"jboss.seam.bpm.jbpm</literal> is installed."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:940
+#, no-c-format
+msgid "Security-related components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:941
+#, no-c-format
+msgid "These components relate to web-tier security."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:947
+#, no-c-format
+msgid "org.jboss.seam.web.userPrincipal"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:949
+#, no-c-format
+msgid "Manager component for the current user <literal>Principal</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:955
+#, no-c-format
+msgid "org.jboss.seam.web.isUserInRole"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:957
+#, no-c-format
+msgid ""
+"Allows JSF pages to choose to render a control, depending upon the roles "
+"available to the current principal. <literal>&lt;h:commandButton value=\"edit"
+"\" rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:968
+#, no-c-format
+msgid "JMS-related components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:969
+#, no-c-format
+msgid ""
+"These components are for use with managed <literal>TopicPublisher</literal>s "
+"and <literal>QueueSender</literal>s (see below)."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:976
+#, no-c-format
+msgid "org.jboss.seam.jms.queueSession"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:978
+#, no-c-format
+msgid "Manager component for a JMS <literal>QueueSession</literal> ."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:984
+#, no-c-format
+msgid "org.jboss.seam.jms.topicSession"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:986
+#, no-c-format
+msgid "Manager component for a JMS <literal>TopicSession</literal> ."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:995
+#, no-c-format
+msgid "Mail-related components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:996
+#, no-c-format
+msgid "These components are for use with Seam's Email support"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1002
+#, no-c-format
+msgid "org.jboss.seam.mail.mailSession"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1004
+#, no-c-format
+msgid ""
+"Manager component for a JavaMail <literal>Session</literal>. The session can "
+"be either looked up in the JNDI context (by setting the "
+"<literal>sessionJndiName</literal> property) or it can created from the "
+"configuration options in which case the <literal>host</literal> is mandatory."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1013
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname "
+"of the SMTP server to use"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1018
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of "
+"the SMTP server to use"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1023
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; the "
+"username to use to connect to the SMTP server."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1028
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the "
+"password to use to connect to the SMTP server"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1033
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable "
+"JavaMail debugging (very verbose)"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1038
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL "
+"connection to SMTP (will default to port 465)"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1041
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default "
+"true, enable TLS support in the mail session"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1046
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; "
+"name under which a javax.mail.Session is bound to JNDI. If supplied, all "
+"other properties will be ignored."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:1058
+#, no-c-format
+msgid "Infrastructural components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1059
+#, no-c-format
+msgid ""
+"These components provide critical platform infrastructure. You can install a "
+"component which isn't installed by default by setting <literal>install=\"true"
+"\"</literal> on the component in <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1067
+#, no-c-format
+msgid "org.jboss.seam.core.init"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1069
+#, no-c-format
+msgid "Initialization settings for Seam. Always installed."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1074
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI "
+"pattern used for looking up session beans"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1080
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam debug "
+"mode. This should be set to false when in production. You may see errors if "
+"the system is placed under any load and debug is enabled."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1087
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; "
+"if set to <literal>true</literal>, Seam will save conversation context "
+"variables in the client instead of in the <literal>HttpSession</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1097
+#, no-c-format
+msgid "org.jboss.seam.core.manager"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1099
+#, no-c-format
+msgid ""
+"Internal component for Seam page and conversation context management. Always "
+"installed."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1105
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; "
+"the conversation context timeout in milliseconds."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1111
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> "
+"&#8212; maximum wait time for a thread attempting to gain a lock on the long-"
+"running conversation context."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1118
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.manager.conversationIdParameter</literal> "
+"&#8212; the request parameter used to propagate the conversation id, default "
+"to <literal>conversationId</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1125
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</"
+"literal> &#8212; the request parameter used to propagate information about "
+"whether the conversation is long-running, default to "
+"<literal>conversationIsLongRunning</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1132
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; set "
+"the flush mode set by default on any Seam Managed Persistence Context. By "
+"default <literal>AUTO</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1142
+#, no-c-format
+msgid "org.jboss.seam.navigation.pages"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1144
+#, no-c-format
+msgid "Internal component for Seam workspace management. Always installed."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1149
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> "
+"&#8212; global setting for the view id to redirect to when a conversation "
+"entry is not found on the server side."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1156
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; "
+"global setting for the view id to redirect to when an unauthenticated user "
+"tries to access a protected view."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1163
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; global "
+"setting for the port to use when the http scheme is requested."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1170
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; global "
+"setting for the port to use when the https scheme is requested."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1177
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; a list "
+"of resources to search for <literal>pages.xml</literal> style resources. "
+"Defaults to <literal>WEB-INF/pages.xml</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1187
+#, no-c-format
+msgid "org.jboss.seam.bpm.jbpm"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1189
+#, no-c-format
+msgid ""
+"Bootstraps a <literal>JbpmConfiguration</literal>. Install as class "
+"<literal>org.jboss.seam.bpm.Jbpm</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1195
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; a list "
+"of resource names of jPDL files to be used for orchestration of business "
+"processes."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1202
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; a "
+"list of resource names of jPDL files to be used for orchestration of "
+"conversation page flows."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1212
+#, no-c-format
+msgid "org.jboss.seam.core.conversationEntries"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1214
+#, no-c-format
+msgid ""
+"Internal session-scoped component recording the active long-running "
+"conversations between requests."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1221
+#, no-c-format
+msgid "org.jboss.seam.faces.facesPage"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1223
+#, no-c-format
+msgid ""
+"Internal page-scoped component recording the conversation context associated "
+"with a page."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1230
+#, no-c-format
+msgid "org.jboss.seam.persistence.persistenceContexts"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1232
+#, no-c-format
+msgid ""
+"Internal component recording the persistence contexts which were used in the "
+"current conversation."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1239
+#, no-c-format
+msgid "org.jboss.seam.jms.queueConnection"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1241
+#, no-c-format
+msgid ""
+"Manages a JMS <literal>QueueConnection</literal>. Installed whenever managed "
+"<literal>QueueSender</literal> is installed."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1247
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</"
+"literal> &#8212; the JNDI name of a JMS <literal>QueueConnectionFactory</"
+"literal>. Default to <literal>UIL2ConnectionFactory</literal>"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1257
+#, no-c-format
+msgid "org.jboss.seam.jms.topicConnection"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1259
+#, no-c-format
+msgid ""
+"Manages a JMS <literal>TopicConnection</literal>. Installed whenever managed "
+"<literal>TopicPublisher</literal> is installed."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1265
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</"
+"literal> &#8212; the JNDI name of a JMS <literal>TopicConnectionFactory</"
+"literal>. Default to <literal>UIL2ConnectionFactory</literal>"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1275
+#, no-c-format
+msgid "org.jboss.seam.persistence.persistenceProvider"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1277
+#, no-c-format
+msgid "Abstraction layer for non-standardized features of JPA provider."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1283
+#, no-c-format
+msgid "org.jboss.seam.core.validators"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1285
+#, no-c-format
+msgid ""
+"Caches instances of Hibernate Validator <literal>ClassValidator</literal>."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1291
+#, no-c-format
+msgid "org.jboss.seam.faces.validation"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1293
+#, no-c-format
+msgid ""
+"Allows the application to determine whether validation failed or was "
+"successful."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1300
+#, no-c-format
+msgid "org.jboss.seam.debug.introspector"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1302 Components.xml:1310
+#, no-c-format
+msgid "Support for the Seam Debug Page."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1308
+#, no-c-format
+msgid "org.jboss.seam.debug.contexts"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1316
+#, no-c-format
+msgid "org.jboss.seam.exception.exceptions"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1318
+#, no-c-format
+msgid "Internal component for exception handling."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1324
+#, no-c-format
+msgid "org.jboss.seam.transaction.transaction"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1326
+#, no-c-format
+msgid ""
+"API for controlling transactions and abstracting the underlying transaction "
+"management implementation behind a JTA-compatible interface."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1334
+#, no-c-format
+msgid "org.jboss.seam.faces.safeActions"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1336
+#, no-c-format
+msgid ""
+"Decides if an action expression in an incoming URL is safe. This is done by "
+"checking that the action expression exists in the view."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:1346
+#, no-c-format
+msgid "Miscellaneous components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1347
+#, no-c-format
+msgid "These components don't fit into"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1353
+#, no-c-format
+msgid "org.jboss.seam.async.dispatcher"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1355
+#, no-c-format
+msgid "Dispatcher stateless session bean for asynchronous methods."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1364
+#, no-c-format
+msgid "org.jboss.seam.core.image"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1366
+#, no-c-format
+msgid "Image manipulation and interrogation."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1377
+#, no-c-format
+msgid "Manager component for a PojoCache instance."
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1386
+#, no-c-format
+msgid "org.jboss.seam.core.uiComponent"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1388
+#, no-c-format
+msgid "Manages a map of UIComponents keyed by component id."
+msgstr ""
+
+#. Tag: title
+#: Components.xml:1400
+#, no-c-format
+msgid "Special components"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1401
+#, no-c-format
+msgid ""
+"Certain special Seam component classes are installable multiple times under "
+"names specified in the Seam configuration. For example, the following lines "
+"in <literal>components.xml</literal> install and configure two Seam "
+"components:"
+msgstr ""
+
+#. Tag: programlisting
+#: Components.xml:1407
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"bookingDatabase\"\n"
+"          class=\"org.jboss.seam.persistence.ManagedPersistenceContext\">\n"
+"    <property name=\"persistenceUnitJndiName\">java:/comp/emf/"
+"bookingPersistence</property>\n"
+"</component>\n"
+"\n"
+"<component name=\"userDatabase\"\n"
+"          class=\"org.jboss.seam.persistence.ManagedPersistenceContext\">\n"
+"    <property name=\"persistenceUnitJndiName\">java:/comp/emf/"
+"userPersistence</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1409
+#, no-c-format
+msgid ""
+"The Seam component names are <literal>bookingDatabase</literal> and "
+"<literal>userDatabase</literal>."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1416
+#, no-c-format
+msgid "&lt;entityManager&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1417
+#, no-c-format
+msgid "org.jboss.seam.persistence.ManagedPersistenceContext"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1419
+#, no-c-format
+msgid ""
+"Manager component for a conversation scoped managed <literal>EntityManager</"
+"literal> with an extended persistence context."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1425
+#, no-c-format
+msgid ""
+"<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; a "
+"value binding expression that evaluates to an instance of "
+"<literal>EntityManagerFactory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1430
+#, no-c-format
+msgid ""
+"<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; "
+"the JNDI name of the entity manager factory, default to java:/<emphasis>&lt;"
+"managedPersistenceContext&gt;</emphasis>."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1440
+#, no-c-format
+msgid "&lt;entityManagerFactory&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1441
+#, no-c-format
+msgid "org.jboss.seam.persistence.EntityManagerFactory"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1443
+#, no-c-format
+msgid ""
+"Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful "
+"when using JPA outside of an EJB 3.0 supporting environment."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1449
+#, no-c-format
+msgid ""
+"<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; the name "
+"of the persistence unit."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1455 Components.xml:1498
+#, no-c-format
+msgid "See the API JavaDoc for further configuration properties."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1461
+#, no-c-format
+msgid "&lt;session&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1462
+#, no-c-format
+msgid "org.jboss.seam.persistence.ManagedSession"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1464
+#, no-c-format
+msgid ""
+"Manager component for a conversation scoped managed Hibernate "
+"<literal>Session</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1469
+#, no-c-format
+msgid ""
+"<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; a value binding "
+"expression that evaluates to an instance of <literal>SessionFactory</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1474
+#, no-c-format
+msgid ""
+"<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; the JNDI "
+"name of the session factory, default to java:/<emphasis>&lt;"
+"managedSession&gt;</emphasis>."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1484
+#, no-c-format
+msgid "&lt;sessionFactory&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1485
+#, no-c-format
+msgid "org.jboss.seam.persistence.HibernateSessionFactory"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1487
+#, no-c-format
+msgid "Manages a Hibernate <literal>SessionFactory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1492
+#, no-c-format
+msgid ""
+"<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; the path "
+"to the configuration file. Default to <literal>hibernate.cfg.xml</literal>."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1504
+#, no-c-format
+msgid "&lt;managedQueueSender&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1505
+#, no-c-format
+msgid "org.jboss.seam.jms.ManagedQueueSender"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1507
+#, no-c-format
+msgid ""
+"Manager component for an event scoped managed JMS <literal>QueueSender</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1512
+#, no-c-format
+msgid ""
+"<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; the "
+"JNDI name of the JMS queue."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1521
+#, no-c-format
+msgid "&lt;managedTopicPublisher&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1522
+#, no-c-format
+msgid "org.jboss.seam.jms.ManagedTopicPublisher"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1524
+#, no-c-format
+msgid ""
+"Manager component for an event scoped managed JMS <literal>TopicPublisher</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1529
+#, no-c-format
+msgid ""
+"<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; the "
+"JNDI name of the JMS topic."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1538
+#, no-c-format
+msgid "&lt;managedWorkingMemory&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1539
+#, no-c-format
+msgid "org.jboss.seam.drools.ManagedWorkingMemory"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1541
+#, no-c-format
+msgid ""
+"Manager component for a conversation scoped managed Drools "
+"<literal>WorkingMemory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1546
+#, no-c-format
+msgid ""
+"<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; a value "
+"expression that evaluates to an instance of <literal>RuleBase</literal>."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1555
+#, no-c-format
+msgid "&lt;ruleBase&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1556
+#, no-c-format
+msgid "org.jboss.seam.drools.RuleBase"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1558
+#, no-c-format
+msgid ""
+"Manager component for an application scoped Drools <literal>RuleBase</"
+"literal>. <emphasis>Note that this is not really intended for production "
+"usage, since it does not support dynamic installation of new rules.</"
+"emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1565
+#, no-c-format
+msgid ""
+"<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; a list of files "
+"containing Drools rules."
+msgstr ""
+
+#. Tag: para
+#: Components.xml:1569
+#, no-c-format
+msgid ""
+"<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; a Drools DSL "
+"definition."
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1578
+#, no-c-format
+msgid "&lt;entityHome&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1579
+#, no-c-format
+msgid "org.jboss.seam.framework.EntityHome"
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1586
+#, no-c-format
+msgid "&lt;hibernateEntityHome&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1587
+#, no-c-format
+msgid "org.jboss.seam.framework.HibernateEntityHome"
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1594
+#, no-c-format
+msgid "&lt;entityQuery&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1595
+#, no-c-format
+msgid "org.jboss.seam.framework.EntityQuery"
+msgstr ""
+
+#. Tag: emphasis
+#: Components.xml:1602
+#, no-c-format
+msgid "&lt;hibernateEntityQuery&gt;"
+msgstr ""
+
+#. Tag: literal
+#: Components.xml:1603
+#, no-c-format
+msgid "org.jboss.seam.framework.HibernateEntityQuery"
+msgstr ""

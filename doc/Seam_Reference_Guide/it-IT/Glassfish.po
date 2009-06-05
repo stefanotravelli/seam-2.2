@@ -1,0 +1,1005 @@
+# Language it-IT translations for Seam_Reference_Guide package.
+#
+# Automatically generated, 2008, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: Seam_Reference_Guide\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-12-27 11:29+0000\n"
+"PO-Revision-Date: 2009-06-05 10:50+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"Language-Team: it <stefano.travelli@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Tag: title
+#: Glassfish.xml:3
+#, no-c-format
+msgid "Seam on GlassFish application server"
+msgstr "Seam sull'application server GlassFish"
+
+#. Tag: para
+#: Glassfish.xml:5
+#, no-c-format
+msgid "GlassFish is an open source application server which fully implements Java EE 5. The latest stable release is v2 UR2."
+msgstr "GlassFish è un application server open source che implementa in maniera completa le specifiche Java EE 5. L'ultima versione stabile rilasciata è la v2 UR2."
+
+#. Tag: para
+#: Glassfish.xml:10
+#, no-c-format
+msgid "First, we'll discuss the GlassFish environment. Then we will go over the how you deploy the jee5 example. Next, we will deploy the JPA example application. Finally we show how to get a seam-gen's generated application running on GlassFish."
+msgstr "Anzitutto vedremo l'ambiente GlassFish. Quindi proseguiremo su come eseguire l'esempio JEE5. Poi eseguiremo l'aplicazione di esempio JPA. Infine mostreremo come si può ottenere un'applicazione generata con seam-gen che funzioni su GlassFish."
+
+#. Tag: title
+#: Glassfish.xml:18
+#, no-c-format
+msgid "GlassFish environment and deployment information"
+msgstr "L'ambiente e l'esecuzione di applicazioni su GlassFish"
+
+#. Tag: title
+#: Glassfish.xml:21
+#, no-c-format
+msgid "Installation"
+msgstr "Installazione"
+
+#. Tag: para
+#: Glassfish.xml:23
+#, no-c-format
+msgid "All of the examples and information in this chapter are based on the the latest version of GlassFish at the time of this writing."
+msgstr "Tutte le informazioni e gli esempi in questo capitolo sono basati sull'ultima versione di GlassFish al momento in cui è stato scritto."
+
+#. Tag: ulink
+#: Glassfish.xml:30
+#, no-c-format
+msgid "GlassFish v2 UR2 - download page"
+msgstr "GlassFish v2 UR2 - pagina di download"
+
+#. Tag: para
+#: Glassfish.xml:37
+#, no-c-format
+msgid "After downloading GlassFish, install it:"
+msgstr "Dopo aver scaricato GlassFish occorre installarlo:"
+
+#. Tag: programlisting
+#: Glassfish.xml:41
+#, no-c-format
+msgid "$ java -Xmx256m -jar glassfish-installer-v2ur2-b04-linux.jar"
+msgstr "$ java -Xmx256m -jar glassfish-installer-v2ur2-b04-linux.jar"
+
+#. Tag: para
+#: Glassfish.xml:43
+#, no-c-format
+msgid "After installing, setup GlassFish:"
+msgstr "Dopo averlo installato, occorre configurarlo:"
+
+#. Tag: programlisting
+#: Glassfish.xml:47
+#, no-c-format
+msgid "$ cd glassfish; ant -f setup.xml"
+msgstr "$ cd glassfish; ant -f setup.xml"
+
+#. Tag: para
+#: Glassfish.xml:49
+#, no-c-format
+msgid "The created domain's name is <literal>domain1</literal>."
+msgstr "Il nome del dominio creato è <literal>domain1</literal>."
+
+#. Tag: para
+#: Glassfish.xml:53
+#, no-c-format
+msgid "Next, we start the embedded JavaDB server:"
+msgstr "Ora facciamo partire il server JavaDB interno:"
+
+#. Tag: programlisting
+#: Glassfish.xml:57
+#, no-c-format
+msgid "$ bin/asadmin start-database"
+msgstr "$ bin/asadmin start-database"
+
+#. Tag: para
+#: Glassfish.xml:60
+#, no-c-format
+msgid "JavaDB is an embedded database that is included with GlassFish, just as HSQLDB is included in JBoss AS."
+msgstr "JavaDB è un database interno che è incluso in GlassFish, così come HSQLDB è incluso in JBoss AS."
+
+#. Tag: para
+#: Glassfish.xml:66
+#, no-c-format
+msgid "Now, start the GlassFish server:"
+msgstr "Ora facciamo partire il server GlassFish:"
+
+#. Tag: programlisting
+#: Glassfish.xml:70
+#, no-c-format
+msgid "$ bin/asadmin start-domain domain1"
+msgstr "$ bin/asadmin start-domain domain1"
+
+#. Tag: para
+#: Glassfish.xml:72
+#, no-c-format
+msgid "The web administration console is available at <literal>http://localhost:4848/</literal>. You can access the web admin console with the default username (<literal>admin</literal>) and password (<literal>adminadmin</literal>). We will be using the the admin console to deploy our examples. You can also copy EAR/WAR files to the <literal>glassfish/domains/domain1/autodeploy</literal> directory to deploy them, although we are not going to cover that."
+msgstr "La console di amministrazione web è disponibile all'indirizzo <literal>http://localhost:4848/</literal>. E' possibile accedere alla console di amministrazione web con il nome utente e la password di default (<literal>admin</literal> e <literal>adminadmin</literal> rispettivamente). Useremo la console di amministrazione per mettere in esecuzione i nostri esempi. E' anche possibile copiare i file EAR/WAR nella cartella <literal>glassfish/domains/domain1/autodeploy</literal> per metterli in esecuzione, ma non ci occuperemo di questo."
+
+#. Tag: para
+#: Glassfish.xml:82
+#, no-c-format
+msgid "You can stop the server and database using:"
+msgstr "E' possibile fermare il server e il database usando:"
+
+#. Tag: programlisting
+#: Glassfish.xml:86
+#, no-c-format
+msgid "$ bin/asadmin stop-domain domain1; bin/asadmin stop-database"
+msgstr "$ bin/asadmin stop-domain domain1; bin/asadmin stop-database"
+
+#. Tag: title
+#: Glassfish.xml:91
+#, no-c-format
+msgid "The <literal>jee5/booking</literal> example"
+msgstr "L'esempio <literal>jee5/booking</literal>"
+
+#. Tag: para
+#: Glassfish.xml:93
+#, no-c-format
+msgid "The <literal>jee5/booking</literal> example is based on the Hotel Booking example (which runs on JBoss AS). Out of the box it is also designed to run on GlassFish. It is located in <literal>$SEAM_DIST/examples/jee5/booking</literal>."
+msgstr "L'esempio <literal>jee5/booking</literal> è basato sull'esempio Hotel Booking (che gira su JBoss AS). Così com'è, è fatto per girare su GlassFish. Si trova in <literal>$SEAM_DIST/examples/jee5/booking</literal>."
+
+#. Tag: title
+#: Glassfish.xml:101
+#, no-c-format
+msgid "Building the <literal>jee5/booking</literal> example"
+msgstr "Compilare l'esempio <literal>jee5/booking</literal>"
+
+#. Tag: para
+#: Glassfish.xml:103
+#, no-c-format
+msgid "To build the example, simply execute the default <literal>ant</literal> target:"
+msgstr "Per compilare l'esempio, eseguire semplicemente il target <literal>ant</literal> di default:"
+
+#. Tag: programlisting
+#: Glassfish.xml:108
+#, no-c-format
+msgid "$ ant"
+msgstr "$ ant"
+
+#. Tag: para
+#: Glassfish.xml:110
+#, no-c-format
+msgid "in the <literal>examples/jee5/booking</literal> directory. This will create the <literal>dist</literal> and <literal>exploded-archives</literal> directories."
+msgstr "nella cartella <literal>examples/jee5/booking</literal>. Questo creerà le cartelle <literal>dist</literal> e <literal>exploded-archives</literal>."
+
+#. Tag: title
+#: Glassfish.xml:117
+#, no-c-format
+msgid "Deploying the application to GlassFish"
+msgstr "Mettere in esecuzione l'applicazione su GlassFish"
+
+#. Tag: para
+#: Glassfish.xml:119
+#, no-c-format
+msgid "We will deploy the application on GlassFish using the GlassFish admin console."
+msgstr "Metteremo in esecuzione l'applicazione su GlassFish usando la console di amministrazione GlassFish."
+
+#. Tag: para
+#: Glassfish.xml:126
+#, no-c-format
+msgid "Log in to the admin console at <literal>http://localhost:4848</literal>"
+msgstr "Accedere alla console di amministrazione all'indirizzo <literal>http://localhost:4848</literal>"
+
+#. Tag: para
+#: Glassfish.xml:131
+#, no-c-format
+msgid "Access the <literal>Enterprise Applications</literal> in the menu option under the <literal>Applications</literal> left side menu."
+msgstr "Accedere all'opzione di menu <literal>Enterprise Applications</literal> sotto il menu <literal>Applications</literal> che si trova a sinistra."
+
+#. Tag: para
+#: Glassfish.xml:138
+#, no-c-format
+msgid "At the top of the <literal>Enterprise Application</literal> table select <literal>Deploy</literal>. Follow through the wizard, using these hints:"
+msgstr "In cima alla tabella delle <literal>Enterprise Applications</literal> selezionare <literal>Deploy</literal>. Seguire la procedura guidata usando questi suggerimenti:"
+
+#. Tag: literal
+#: Glassfish.xml:146
+#: Glassfish.xml:227
+#, no-c-format
+msgid "Preparing for the application installation"
+msgstr "Preparazione dell'installazione dell'applicazione"
+
+#. Tag: para
+#: Glassfish.xml:150
+#, no-c-format
+msgid "Browse to <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</literal>."
+msgstr "Navigare su <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</literal>."
+
+#. Tag: para
+#: Glassfish.xml:155
+#: Glassfish.xml:238
+#, no-c-format
+msgid "Select the <literal>OK</literal> button."
+msgstr "Selezionare il pulsante <literal>OK</literal>."
+
+#. Tag: para
+#: Glassfish.xml:164
+#, no-c-format
+msgid "You can now access the application at <literal>http://localhost:8081/seam-jee5/</literal>."
+msgstr "Ora è possibile accedere all'applicazione all'indirizzo <literal>http://localhost:8081/seam-jee5/</literal>."
+
+#. Tag: title
+#: Glassfish.xml:174
+#, no-c-format
+msgid "The <literal>jpa</literal> booking example"
+msgstr "L'esempio booking <literal>jpa</literal>"
+
+#. Tag: para
+#: Glassfish.xml:176
+#, no-c-format
+msgid "This is the Hotel Booking example implemented in Seam POJOs and using Hibernate JPA with JPA transactions. It does not require EJB3 support to run on application server."
+msgstr "Si tratta dell'esempio Hotel Booking implementato con componente Seam POJO e usando Hibernate JPA con transazioni JPA. Non richiede che il supporto EJB3 sia in funzione sull'application server."
+
+#. Tag: para
+#: Glassfish.xml:182
+#, no-c-format
+msgid "The example already has a break-out of configurations and build scripts for many of the common containers including GlassFish."
+msgstr "L'esempio ha numerose configurazioni e script per compilare per molti dei più comuni application server, incluso GlassFish."
+
+#. Tag: title
+#: Glassfish.xml:188
+#, no-c-format
+msgid "Building the <literal>jpa</literal> example"
+msgstr "Compilazione dell'esempio <literal>jpa</literal>"
+
+#. Tag: para
+#: Glassfish.xml:190
+#, no-c-format
+msgid "To build the example, use the <literal>glassfish</literal> target:"
+msgstr "Per compilare l'esempio usare il target <literal>glassfish</literal>:"
+
+#. Tag: programlisting
+#: Glassfish.xml:194
+#, no-c-format
+msgid "$ ant glassfish"
+msgstr "$ ant glassfish"
+
+#. Tag: para
+#: Glassfish.xml:196
+#, no-c-format
+msgid "This will create the container specific <literal>dist-glassfish</literal> and <literal>exploded-archives-glasfish</literal> directories."
+msgstr "Questo creerà le cartelle specifiche per l'application server <literal>dist-glassfish</literal> e <literal>exploded-archives-glassfish</literal>."
+
+#. Tag: title
+#: Glassfish.xml:203
+#, no-c-format
+msgid "Deploying the <literal>jpa</literal> example"
+msgstr "Deploy dell'esempio <literal>jpa</literal>"
+
+#. Tag: para
+#: Glassfish.xml:205
+#, no-c-format
+msgid "This is very similar to the <literal>jee5</literal> example at <xref linkend=\"jee5-glassfish-deploy\"/> except that this is a <literal>war</literal> and not an <literal>ear</literal>."
+msgstr "Questo è molto simile all'esempio <literal>jee5</literal> descritto in <xref linkend=\"jee5-glassfish-deploy\"/> eccetto che questo è un <literal>war</literal> e non un <literal>ear</literal>."
+
+#. Tag: para
+#: Glassfish.xml:213
+#, no-c-format
+msgid "Log in to the administration console:"
+msgstr "Accedere alla console di amministrazione"
+
+#. Tag: programlisting
+#: Glassfish.xml:216
+#, no-c-format
+msgid "http://localhost:4848"
+msgstr "http://localhost:4848"
+
+#. Tag: para
+#: Glassfish.xml:219
+#, no-c-format
+msgid "Access the <literal>Web Applications</literal> in the menu option under the <literal>Applications</literal> left side menu."
+msgstr "Accedere all'opzione di menu <literal>Web Applications</literal> sotto il menu <literal>Applications</literal> che si trova a sinistra."
+
+#. Tag: para
+#: Glassfish.xml:233
+#, no-c-format
+msgid "Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
+msgstr "Navigare su <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
+
+#. Tag: para
+#: Glassfish.xml:245
+#, no-c-format
+msgid "You can now access the application at <literal>http://localhost:8081/jboss-seam-jpa/</literal>."
+msgstr "Ora è possibile accedere all'applicazione all'indirizzo <literal>http://localhost:8081/jboss-seam-jpa/</literal>."
+
+#. Tag: title
+#: Glassfish.xml:255
+#, no-c-format
+msgid "Using Derby instead of Hypersonic SQL DB"
+msgstr "Usare Derby anziché Hypersonic SQL DB"
+
+#. Tag: note
+#: Glassfish.xml:255
+#, no-c-format
+msgid "In order for the app to work out of the box with GlassFish, we have used the Derby (aka JavaDB) database in GlassFish. However, we strongly recommend that you use another database (e.g. HSQL). <literal>examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class</literal> is a hack to get around a Derby bug in GlassFish server. You must use it as your Hibernate dialect if you use Derby with GlassFish."
+msgstr "Per fare funzionare l'applicazione così com'è con GlassFish abbiamo usato il database Derby (detto anche JavaDB) in GlassFish. Comunque è fortemente raccomandato che venga usato un altro database (ad esempio HSQL). <literal>examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class</literal> è un accorgimento per aggirare un problema di Derby nel server GlassFish. Va usato come dialect per Hibernate se si usa Derby con GlassFish."
+
+#. Tag: title
+#: Glassfish.xml:267
+#, no-c-format
+msgid "What's different for GlassFish v2 UR2"
+msgstr "Quali sono le differenze in GlassFish v2 UR2"
+
+#. Tag: para
+#: Glassfish.xml:271
+#, no-c-format
+msgid "<para>Configuration file changes</para>"
+msgstr "<para>Cambiamenti al file di configurazione</para>"
+
+#. Tag: para
+#: Glassfish.xml:276
+#, no-c-format
+msgid "<literal>META-INF/persistence.xml</literal> — the main changes needed are the datasource JNDI, switching to the GlassFish transaction manager lookup class, and changing the hibernate dialect to be <literal>GlassfishDerbyDialect</literal>."
+msgstr "<literal>META-INF/persistence.xml</literal> - i principali cambiamenti necessari sono la datasource JNDI, il passaggio alla classe che esegue la risoluzione del gestore delle transazioni di GlassFish e il cambiamento del dialect Hibernate che deve essere <literal>GlassfishDerbyDialect</literal>."
+
+#. Tag: para
+#: Glassfish.xml:285
+#, no-c-format
+msgid "<literal>WEB-INF/classes/GlassfishDerbyDialect.class</literal> — this class is needed for the Hibernate dialect change to <literal>GlassfishDerbyDialect</literal>"
+msgstr "<literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal> — questa classe è necessaria per cambiare il dialect Hibernate in <literal>GlassfishDerbyDialect</literal>"
+
+#. Tag: para
+#: Glassfish.xml:292
+#, no-c-format
+msgid "<literal>import.sql</literal> — either for the dialect or Derby DB the <literal>ID</literal> column can not be populated by this file and was removed."
+msgstr "<literal>import.sql</literal> — sia per il diverso dialect che per il database Derby le colonne <literal>ID</literal> non possono essere popolate da questo file sono state rimosse."
+
+#. Tag: title
+#: Glassfish.xml:305
+#, no-c-format
+msgid "Deploying an application generated by <literal>seam-gen</literal> on GlassFish v2 UR2"
+msgstr "Mettere in esecuzione un'applicazione generata con <literal>seam-gen</literal> su GlassFish v2 UR2"
+
+#. Tag: para
+#: Glassfish.xml:307
+#, no-c-format
+msgid "<literal>seam-gen</literal> is a very useful tool for developers to quickly get an application up and running, and provides a foundation to add your own functionality. Out of box <literal>seam-gen</literal> will produce applications configured to run on JBoss AS. These instructions will show the steps needed to get it to run on GlassFish."
+msgstr "<literal>seam-gen</literal> è uno strumento molto utile per i programmatori per avere velocemente un'applicazione pronta e funzionante, e fornisce la base su cui aggiungere le proprie funzionalità. Così com'è <literal>seam-gen</literal> produrrà un'applicazione configurata per girare su JBoss AS. Le seguenti istruzioni mostrano i passi necessari per farla girare su GlassFish."
+
+#. Tag: title
+#: Glassfish.xml:316
+#, no-c-format
+msgid "Running <literal>seam-gen</literal> Setup"
+msgstr "Eseguire il setup di <literal>seam-gen</literal>"
+
+#. Tag: para
+#: Glassfish.xml:318
+#, no-c-format
+msgid "The first step is setting up <literal>seam-gen</literal> to construct the base project. There are several choices made below, specifically the datasource and hibernate values that we will adjust once the project is created."
+msgstr "Il primo passo è configurare <literal>seam-gen</literal> per costruire il progetto base. Ci sono diverse scelte fatte qui sotto, e in particolare i valori della datasource e di Hibernate che metteremo a posto una volta che il progetto è stato creato."
+
+#. Tag: programlisting
+#: Glassfish.xml:325
+#, no-c-format
+msgid ""
+"<![CDATA[$ ./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"[echo] Welcome to seam-gen :-)\n"
+"[input] Enter your Java project workspace (the directory that contains your\n"
+"Seam projects) [C:/Projects] [C:/Projects]\n"
+"/projects\n"
+"[input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA]\n"
+"[C:/Program Files/jboss-4.2.3.GA]\n"
+"\n"
+"[input] Enter the project name [myproject] [myproject]\n"
+"seamgen_example\n"
+"[echo] Accepted project name as: seamgen_example\n"
+"[input] Do you want to use ICEfaces instead of RichFaces [n] (y, [n])\n"
+"\n"
+"[input] skipping input as property icefaces.home.new has already\n"
+"been set.\n"
+"[input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine,\n"
+"deepMarine, emeraldTown, japanCherry, DEFAULT)\n"
+"\n"
+"[input] Is this project deployed as an EAR (with EJB components) or a WAR\n"
+"(with no EJB support) [ear] ([ear], war)\n"
+"\n"
+"[input] Enter the Java package name for your session beans\n"
+"[com.mydomain.seamgen_example] [com.mydomain.seamgen_example]\n"
+"org.jboss.seam.tutorial.glassfish.action\n"
+"[input] Enter the Java package name for your entity beans\n"
+"[org.jboss.seam.tutorial.glassfish.action]\n"
+"[org.jboss.seam.tutorial.glassfish.action]\n"
+"org.jboss.seam.tutorial.glassfish.model\n"
+"[input] Enter the Java package name for your test cases\n"
+"[org.jboss.seam.tutorial.glassfish.action.test]\n"
+"[org.jboss.seam.tutorial.glassfish.action.test]\n"
+"org.jboss.seam.tutorial.glassfish.test\n"
+"[input] What kind of database are you using? [hsql] ([hsql], mysql, oracle,\n"
+"postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"\n"
+"[input] Enter the Hibernate dialect for your database\n"
+"[org.hibernate.dialect.HSQLDialect]\n"
+"[org.hibernate.dialect.HSQLDialect]\n"
+"\n"
+"[input] Enter the filesystem path to the JDBC driver jar\n"
+"[/tmp/seam/lib/hsqldb.jar] [/tmp/seam/lib/hsqldb.jar]\n"
+"\n"
+"[input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver]\n"
+"[org.hsqldb.jdbcDriver]\n"
+"\n"
+"[input] Enter the JDBC URL for your database [jdbc:hsqldb:.]\n"
+"[jdbc:hsqldb:.]\n"
+"\n"
+"[input] Enter database username [sa] [sa]\n"
+"\n"
+"[input] Enter database password [] []\n"
+"\n"
+"[input] Enter the database schema name (it is OK to leave this blank) [] []\n"
+"\n"
+"[input] Enter the database catalog name (it is OK to leave this\n"
+"blank) [] []\n"
+"\n"
+"[input] Are you working with tables that already exist in the database? [n]\n"
+"(y, [n])\n"
+"\n"
+"[input] Do you want to drop and recreate the database tables and data in\n"
+"import.sql each time you deploy? [n] (y, [n])\n"
+"\n"
+"[propertyfile] Creating new property file:\n"
+"/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/build.properties\n"
+"[echo] Installing JDBC driver jar to JBoss server\n"
+"[copy] Copying 1 file to\n"
+"/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/C:/Program\n"
+"Files/jboss-4.2.3.GA/server/default/lib\n"
+"[echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 4 minutes 5 seconds]]>"
+msgstr ""
+"<![CDATA[$ ./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"[echo] Welcome to seam-gen :-)\n"
+"[input] Enter your Java project workspace (the directory that contains your\n"
+"Seam projects) [C:/Projects] [C:/Projects]\n"
+"/projects\n"
+"[input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA]\n"
+"[C:/Program Files/jboss-4.2.3.GA]\n"
+"\n"
+"[input] Enter the project name [myproject] [myproject]\n"
+"seamgen_example\n"
+"[echo] Accepted project name as: seamgen_example\n"
+"[input] Do you want to use ICEfaces instead of RichFaces [n] (y, [n])\n"
+"\n"
+"[input] skipping input as property icefaces.home.new has already\n"
+"been set.\n"
+"[input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine,\n"
+"deepMarine, emeraldTown, japanCherry, DEFAULT)\n"
+"\n"
+"[input] Is this project deployed as an EAR (with EJB components) or a WAR\n"
+"(with no EJB support) [ear] ([ear], war)\n"
+"\n"
+"[input] Enter the Java package name for your session beans\n"
+"[com.mydomain.seamgen_example] [com.mydomain.seamgen_example]\n"
+"org.jboss.seam.tutorial.glassfish.action\n"
+"[input] Enter the Java package name for your entity beans\n"
+"[org.jboss.seam.tutorial.glassfish.action]\n"
+"[org.jboss.seam.tutorial.glassfish.action]\n"
+"org.jboss.seam.tutorial.glassfish.model\n"
+"[input] Enter the Java package name for your test cases\n"
+"[org.jboss.seam.tutorial.glassfish.action.test]\n"
+"[org.jboss.seam.tutorial.glassfish.action.test]\n"
+"org.jboss.seam.tutorial.glassfish.test\n"
+"[input] What kind of database are you using? [hsql] ([hsql], mysql, oracle,\n"
+"postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"\n"
+"[input] Enter the Hibernate dialect for your database\n"
+"[org.hibernate.dialect.HSQLDialect]\n"
+"[org.hibernate.dialect.HSQLDialect]\n"
+"\n"
+"[input] Enter the filesystem path to the JDBC driver jar\n"
+"[/tmp/seam/lib/hsqldb.jar] [/tmp/seam/lib/hsqldb.jar]\n"
+"\n"
+"[input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver]\n"
+"[org.hsqldb.jdbcDriver]\n"
+"\n"
+"[input] Enter the JDBC URL for your database [jdbc:hsqldb:.]\n"
+"[jdbc:hsqldb:.]\n"
+"\n"
+"[input] Enter database username [sa] [sa]\n"
+"\n"
+"[input] Enter database password [] []\n"
+"\n"
+"[input] Enter the database schema name (it is OK to leave this blank) [] []\n"
+"\n"
+"[input] Enter the database catalog name (it is OK to leave this\n"
+"blank) [] []\n"
+"\n"
+"[input] Are you working with tables that already exist in the database? [n]\n"
+"(y, [n])\n"
+"\n"
+"[input] Do you want to drop and recreate the database tables and data in\n"
+"import.sql each time you deploy? [n] (y, [n])\n"
+"\n"
+"[propertyfile] Creating new property file:\n"
+"/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/build.properties\n"
+"[echo] Installing JDBC driver jar to JBoss server\n"
+"[copy] Copying 1 file to\n"
+"/home/mnovotny/workspaces/jboss/jboss-seam/seam-gen/C:/Program\n"
+"Files/jboss-4.2.3.GA/server/default/lib\n"
+"[echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 4 minutes 5 seconds]]>"
+
+#. Tag: para
+#: Glassfish.xml:327
+#, no-c-format
+msgid "Type <literal>$ ./seam new-project</literal> to create your project and then <literal>cd /projects/seamgen_example</literal> to the newly created structure."
+msgstr "Scrivere <literal>$./seam new-project</literal> per creare il progetto e poi fare <literal>cd /projects/seamgen_example</literal> sulla nuova struttura che è stata creata."
+
+#. Tag: title
+#: Glassfish.xml:335
+#, no-c-format
+msgid "Changes needed for deployment to GlassFish"
+msgstr "Modifiche necessarie per l'esecuzione su GlassFish"
+
+#. Tag: para
+#: Glassfish.xml:337
+#, no-c-format
+msgid "We now need to make some changes to the generated project."
+msgstr "Ora dobbiamo fare alcune modifiche al progetto generato."
+
+#. Tag: title
+#: Glassfish.xml:342
+#, no-c-format
+msgid "<title>Configuration file changes</title>"
+msgstr "<title>Cambiamenti al file di configurazione</title>"
+
+#. Tag: literal
+#: Glassfish.xml:347
+#, no-c-format
+msgid "resources/META-INF/persistence-dev.xml"
+msgstr "resources/META-INF/persistence-dev.xml"
+
+#. Tag: para
+#: Glassfish.xml:353
+#, no-c-format
+msgid "Alter the <literal>jta-data-source</literal> to be <literal>jdbc/__default</literal>. We are going to be using the integrated GlassFish Derby DB."
+msgstr "Alterare il <literal>jta-data-source</literal> in modo che sia <literal>jdbc/__default</literal>. Useremo il database Derby integrato in GlassFish."
+
+#. Tag: para
+#: Glassfish.xml:360
+#, no-c-format
+msgid "Replace all of the properties with the following. The key differences are briefly described in <xref linkend=\"glassfish_jpa_diff\"/>:"
+msgstr "Sostituire tutte le proprietà con con quello che segue. Le differenze chiave sono descritte brevemente in <xref linkend=\"glassfish_jpa_diff\"/>:"
+
+#. Tag: programlisting
+#: Glassfish.xml:365
+#, no-c-format
+msgid ""
+"<![CDATA[<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+"<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
+"<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
+"<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
+"<property name=\"hibernate.cache.provider_class\" value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" value=\"org.hibernate.transaction.SunONETransactionManagerLookup\"/>]]>"
+msgstr ""
+"<![CDATA[<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+"<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
+"<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
+"<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
+"<property name=\"hibernate.cache.provider_class\" value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" value=\"org.hibernate.transaction.SunONETransactionManagerLookup\"/>]]>"
+
+#. Tag: para
+#: Glassfish.xml:368
+#, no-c-format
+msgid "You'll need to alter <literal>persistence-prod.xml</literal> as well if you want to deploy to GlassFish using the prod profile."
+msgstr "Sarà necessario alterare anche <literal>persistence-prod.xml</literal> se si vuole mettere in esecuzione in GlassFish usando il profilo prod."
+
+#. Tag: literal
+#: Glassfish.xml:380
+#, no-c-format
+msgid "resources/GlassfishDerbyDialect.class"
+msgstr "resources/GlassfishDerbyDialect.class"
+
+#. Tag: para
+#: Glassfish.xml:383
+#, no-c-format
+msgid "As with other examples we need to include this class for DB support. It can be copied from the <literal>jpa</literal> example into the <literal>seamgen_example/resources</literal> directory."
+msgstr "Come per altri esempi è necessario includere questa classe per il supporto del database. Può essere copiata dall'esempio <literal>jpa</literal> nella cartella <literal>seamgen_example/resources</literal>."
+
+#. Tag: programlisting
+#: Glassfish.xml:389
+#, no-c-format
+msgid ""
+"$ cp \\ \n"
+"$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class \\ \n"
+"./resources"
+msgstr ""
+"$ cp \\ \n"
+"$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class \\ \n"
+"./resources"
+
+#. Tag: literal
+#: Glassfish.xml:394
+#, no-c-format
+msgid "resources/META-INF/jboss-app.xml"
+msgstr "resources/META-INF/jboss-app.xml"
+
+#. Tag: para
+#: Glassfish.xml:397
+#, no-c-format
+msgid "You can delete this file as we aren't deploying to JBoss AS (<literal>jboss-app.xml</literal> is used to enable classloading isolation in JBoss AS)"
+msgstr "E' possibile cancellare questo file dato che non si sta mettendo in esecuzione su JBoss AS (<literal>jboss-app.xml</literal> è usato per abilitare l'isolamento del classloader in JBoss AS)"
+
+#. Tag: literal
+#: Glassfish.xml:406
+#, no-c-format
+msgid "resources/*-ds.xml"
+msgstr "resources/*-ds.xml"
+
+#. Tag: para
+#: Glassfish.xml:409
+#, no-c-format
+msgid "You can delete these file as we aren't deploying to JBoss AS (these files define data sources in JBoss AS, we are using GlassFish's default data source)"
+msgstr "E' possibile cancellare questi file dato che non si sta mettendo in esecuzione in JBoss AS (questi file definiscono le data source in JBoss AS, mentre qui stiamo usando la data source di default di GlassFish)"
+
+#. Tag: literal
+#: Glassfish.xml:418
+#, no-c-format
+msgid "resources/WEB-INF/components.xml"
+msgstr "resources/WEB-INF/components.xml"
+
+#. Tag: para
+#: Glassfish.xml:423
+#, no-c-format
+msgid "Enable container managed transaction integration - add the <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> component, and it's namespace declaration <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
+msgstr "Abilitare l'integrazione con le transazioni gestite dal container - aggiungere il componente <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> e la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
+
+#. Tag: para
+#: Glassfish.xml:431
+#, no-c-format
+msgid "Alter the <literal>jndi-pattern</literal> to <literal>java:comp/env/seamgen_example/#{ejbName}</literal>"
+msgstr "Modificare il <literal>jndi-pattern</literal> in <literal>java:comp/env/seamgen_example/#{ejbName}</literal>"
+
+#. Tag: literal
+#: Glassfish.xml:441
+#, no-c-format
+msgid "resources/WEB-INF/web.xml"
+msgstr "resources/WEB-INF/web.xml"
+
+#. Tag: para
+#: Glassfish.xml:444
+#, no-c-format
+msgid "As with the <literal>jee5/booking</literal> example, we need to add EJB references to web.xml. Technically, the reference type is not required, but we add it here for good measure. Note that these references require the presence of an empty <literal>local-home</literal> element to retain compatibility with a JBoss AS 4.x deployment."
+msgstr "Come per l'esempio <literal>jee5/booking</literal>, occorre aggiungere un riferimento EJB a web.xml. Tecnicamente il tipo di riferimento non è necessario, ma lo aggiungiamo qui come buona pratica. Notare che questi riferimenti richiedono la presenza di un elemento <literal>local-home</literal> vuoto per mantenere la compatibilità con l'esecuzione in JBoss 4.x."
+
+#. Tag: programlisting
+#: Glassfish.xml:453
+#, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>              \n"
+"    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                \n"
+"    <ejb-ref-type>Session</ejb-ref-type>     \n"
+"    <local-home/>\n"
+"    <local>org.jboss.seam.tutorial.glassfish.action.Authenticator</local>  \n"
+"  </ejb-local-ref>\n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local-home/>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>]]>"
+msgstr ""
+"<![CDATA[<ejb-local-ref>              \n"
+"    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                \n"
+"    <ejb-ref-type>Session</ejb-ref-type>     \n"
+"    <local-home/>\n"
+"    <local>org.jboss.seam.tutorial.glassfish.action.Authenticator</local>  \n"
+"  </ejb-local-ref>\n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local-home/>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>]]>"
+
+#. Tag: para
+#: Glassfish.xml:454
+#, no-c-format
+msgid "Keep in mind that if you are deploying to JBoss AS 4.x, and have defined the EJB references shown above in your web.xml, you will need to also define local JNDI names for each of them in jboss-web.xml, as shown below. This step is not required when deploying to GlassFish, but it's mentioned here in case you are also deploying the application to JBoss AS 4.x (not required for JBoss AS 5)."
+msgstr "Tenere presente che se si esegue in JBoss AS 4.x e si sono definiti i riferimenti EJB mostrati sopra nel web.xml, sarà necessario anche definire i nome JNDI locali in jboss-web.xml per ciascuno di essi, come mostrato sotto. Questo passo non è richiesto quando si esegue in GlassFish, ma viene riportato qui nel caso si esegua anche in JBoss AS 4.x (non è richiesto invece per JBoss AS 5)."
+
+#. Tag: programlisting
+#: Glassfish.xml:463
+#, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>              \n"
+"    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                \n"
+"    <local-jndi-name>AuthenticatorAction</local-jndi-name>  \n"
+"  </ejb-local-ref>\n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <local-jndi-name>EjbSynchronizations</local-jndi-name>\n"
+"  </ejb-local-ref>]]>"
+msgstr ""
+"<![CDATA[<ejb-local-ref>              \n"
+"    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-name>                \n"
+"    <local-jndi-name>AuthenticatorAction</local-jndi-name>  \n"
+"  </ejb-local-ref>\n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <local-jndi-name>EjbSynchronizations</local-jndi-name>\n"
+"  </ejb-local-ref>]]>"
+
+#. Tag: title
+#: Glassfish.xml:470
+#, no-c-format
+msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
+msgstr "Creazione dell'EJB <literal>AuthenticatorAction</literal>"
+
+#. Tag: para
+#: Glassfish.xml:472
+#, no-c-format
+msgid "We want to take the existing <literal>Authenticator</literal> Seam POJO component and create an EJB3 out of it."
+msgstr "Vogliamo prendere il componente Seam POJO <literal>Authenticator</literal> e creare da questo un EJB3."
+
+#. Tag: para
+#: Glassfish.xml:481
+#, no-c-format
+msgid "Rename the class to <literal>AuthenticatorAction</literal>"
+msgstr "Rinominare la classe in <literal>AuthenticatorAction</literal>"
+
+#. Tag: para
+#: Glassfish.xml:488
+#, no-c-format
+msgid "Add the <literal>@Stateless</literal> annotation to the new <literal>AuthenticatorAction</literal> class."
+msgstr "Aggiungere l'annotazione <literal>@Stateless</literal> alla nuova classe <literal>AuthenticatorAction</literal>."
+
+#. Tag: para
+#: Glassfish.xml:495
+#, no-c-format
+msgid "Create an interface called <literal>Authenticator</literal> which <literal>AuthenticatorAction</literal> implements (EJB3 requires session beans to have a local interface). Annotate the interface with <literal>@Local</literal>, and add a single method with same signature as the <literal>authenticate</literal> in <literal>AuthenticatorAction</literal>."
+msgstr "Creare un'interfaccia chiamata <literal>Authenticator</literal> che <literal>AuthenticatorAction</literal> implementa (EJB3 richiede che i session bean abbiano una interfaccia local). Annotare l'interfaccia con <literal>@Local</literal> e aggiungere un singolo metodo uguale al metodo <literal>authenticate</literal> in <literal>AuthenticateAction</literal>."
+
+#. Tag: programlisting
+#: Glassfish.xml:508
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"authenticator\") \n"
+"@Stateless\n"
+"public class AuthenticatorAction implements Authenticator {]]>"
+msgstr ""
+"<![CDATA[@Name(\"authenticator\") \n"
+"@Stateless\n"
+"public class AuthenticatorAction implements Authenticator {]]>"
+
+#. Tag: programlisting
+#: Glassfish.xml:510
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface Authenticator { \n"
+"\n"
+"   public boolean authenticate(); \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Local\n"
+"public interface Authenticator { \n"
+"\n"
+"   public boolean authenticate(); \n"
+"}]]>"
+
+#. Tag: para
+#: Glassfish.xml:514
+#, no-c-format
+msgid "We've already added its reference to the <literal>web.xml</literal> file so we are good to go."
+msgstr "Abbiamo già aggiunto il suo riferimento nel file <literal>web.xml</literal> quindi siamo pronti per partire."
+
+#. Tag: title
+#: Glassfish.xml:523
+#, no-c-format
+msgid "Extra jar dependencies and other changes to the <literal>build.xml</literal>"
+msgstr "Ulteriori dipendenze di jar e altri cambiamenti al <literal>build.xml</literal>."
+
+#. Tag: para
+#: Glassfish.xml:528
+#, no-c-format
+msgid "This application has similar requirements as the <literal>jee5/booking</literal> example."
+msgstr "Questa applicazione ha dei requisiti simili a quelli dell'esempio <literal>jee5/booking</literal>."
+
+#. Tag: para
+#: Glassfish.xml:534
+#, no-c-format
+msgid "Change the default target to <literal>archive</literal> (we aren't going to cover automatic deployment to GlassFish)."
+msgstr "Modificare il target di default in <literal>archive</literal> (non tratteremo la messa in esecuzione automatica in GlassFish)."
+
+#. Tag: programlisting
+#: Glassfish.xml:539
+#, no-c-format
+msgid "<![CDATA[<project name=\"seamgen_example\" default=\"archive\" basedir=\".\">]]>"
+msgstr "<![CDATA[<project name=\"seamgen_example\" default=\"archive\" basedir=\".\">]]>"
+
+#. Tag: para
+#: Glassfish.xml:542
+#, no-c-format
+msgid "We need to get the <literal>GlassfishDerbyDialect.class</literal> into our application jar. To do that find the <literal>jar</literal> task and add the <literal>GlassfishDerbyDialect.class</literal> line as shown below:"
+msgstr "Occorre avere <literal>GlassfishDerbyDialect.class</literal> nella nostra applicazione. Per fare questo trovare il task <literal>jar</literal> e aggiungere la riga con <literal>GlassFishDerbyDialect.class</literal> come mostrato qui sotto:"
+
+#. Tag: programlisting
+#: Glassfish.xml:549
+#, no-c-format
+msgid ""
+"<![CDATA[<target name=\"jar\" depends=\"compile,copyclasses\" description=\"Build the distribution .jar file\">\n"
+"   <copy todir=\"${jar.dir}\">\n"
+"      <fileset dir=\"${basedir}/resources\">\n"
+"         <include name=\"seam.properties\" />\n"
+"         <include name=\"*.drl\" />\n"
+"         <include name=\"GlassfishDerbyDialect.class\" />\n"
+"      </fileset> \n"
+"   </copy>\n"
+"   ...]]>"
+msgstr ""
+"<![CDATA[<target name=\"jar\" depends=\"compile,copyclasses\" description=\"Build the distribution .jar file\">\n"
+"   <copy todir=\"${jar.dir}\">\n"
+"      <fileset dir=\"${basedir}/resources\">\n"
+"         <include name=\"seam.properties\" />\n"
+"         <include name=\"*.drl\" />\n"
+"         <include name=\"GlassfishDerbyDialect.class\" />\n"
+"      </fileset> \n"
+"   </copy>\n"
+"   ...]]>"
+
+#. Tag: para
+#: Glassfish.xml:552
+#, no-c-format
+msgid "Now we need to get extra jars into the <literal>ear</literal> file. Look for the <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]></literal> section of the <literal>ear</literal> target. Add the following to the child <literal><![CDATA[<fileset dir=\"${lib.dir}\">]]></literal> element."
+msgstr "A questo punto occorre mettere i jar supplementari nel file <literal>ear</literal>. Individuare la sezione <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]></literal> del target <literal>ear</literal>. Aggiungere il seguente brano all'elemento contenuto <literal><![CDATA[<fileset dir=\"${lib.dir}\">]]></literal>."
+
+#. Tag: para
+#: Glassfish.xml:565
+#, no-c-format
+msgid "Add Hibernate dependencies"
+msgstr "Aggiungere le dipendenze Hibernate"
+
+#. Tag: programlisting
+#: Glassfish.xml:566
+#, no-c-format
+msgid ""
+"<![CDATA[<!-- Hibernate and deps --> \n"
+"<include name=\"hibernate.jar\"/>\n"
+"<include name=\"hibernate-commons-annotations.jar\"/>\n"
+"<include name=\"hibernate-annotations.jar\"/>\n"
+"<include name=\"hibernate-entitymanager.jar\"/>\n"
+"<include name=\"hibernate-validator.jar\"/>\n"
+"<include name=\"jboss-common-core.jar\"/>]]>"
+msgstr ""
+"<![CDATA[<!-- Hibernate and deps --> \n"
+"<include name=\"hibernate.jar\"/>\n"
+"<include name=\"hibernate-commons-annotations.jar\"/>\n"
+"<include name=\"hibernate-annotations.jar\"/>\n"
+"<include name=\"hibernate-entitymanager.jar\"/>\n"
+"<include name=\"hibernate-validator.jar\"/>\n"
+"<include name=\"jboss-common-core.jar\"/>]]>"
+
+#. Tag: para
+#: Glassfish.xml:569
+#, no-c-format
+msgid "Add third party dependencies."
+msgstr "Aggiungere dipendenze di terze parti"
+
+#. Tag: programlisting
+#: Glassfish.xml:570
+#, no-c-format
+msgid ""
+"<![CDATA[<!-- 3rd party and supporting jars -->\n"
+"<include name=\"javassist.jar\"/>\n"
+"<include name=\"dom4j.jar\"/> \n"
+"<include name=\"concurrent.jar\" />\n"
+"<include name=\"cglib.jar\"/>\n"
+"<include name=\"asm.jar\"/>\n"
+"<include name=\"antlr.jar\" />\n"
+"<include name=\"commons-logging.jar\" />\n"
+"<include name=\"commons-collections.jar\" />]]>"
+msgstr ""
+"<![CDATA[<!-- 3rd party and supporting jars -->\n"
+"<include name=\"javassist.jar\"/>\n"
+"<include name=\"dom4j.jar\"/> \n"
+"<include name=\"concurrent.jar\" />\n"
+"<include name=\"cglib.jar\"/>\n"
+"<include name=\"asm.jar\"/>\n"
+"<include name=\"antlr.jar\" />\n"
+"<include name=\"commons-logging.jar\" />\n"
+"<include name=\"commons-collections.jar\" />]]>"
+
+#. Tag: para
+#: Glassfish.xml:574
+#, no-c-format
+msgid "You should end up with something like:"
+msgstr "Alla fine dovrebbe diventare qualcosa di questo genere:"
+
+#. Tag: programlisting
+#: Glassfish.xml:576
+#, no-c-format
+msgid ""
+"<![CDATA[<fileset dir=\"${lib.dir}\">\n"
+"   <includesfile name=\"deployed-jars-ear.list\" />\n"
+"   \n"
+"   <!-- Hibernate and deps -->\n"
+"   <include name=\"hibernate.jar\"/>\n"
+"   <include name=\"hibernate-commons-annotations.jar\"/>\n"
+"   <include name=\"hibernate-annotations.jar\"/>\n"
+"   <include name=\"hibernate-entitymanager.jar\"/>\n"
+"   <include name=\"hibernate-validator.jar\"/>\n"
+"   <include name=\"jboss-common-core.jar\" />\n"
+"   \n"
+"   <!-- 3rd party and supporting jars -->\n"
+"   <include name=\"javassist.jar\" />\n"
+"   <include name=\"dom4j.jar\" />\n"
+"   <include name=\"concurrent.jar\" />\n"
+"   <include name=\"cglib.jar\" />\n"
+"   <include name=\"asm.jar\" />\n"
+"   <include name=\"antlr.jar\" />\n"
+"   <include name=\"commons-logging.jar\" />\n"
+"   <include name=\"commons-collections.jar\" />\n"
+"</fileset>]]>"
+msgstr ""
+"<![CDATA[<fileset dir=\"${lib.dir}\">\n"
+"   <includesfile name=\"deployed-jars-ear.list\" />\n"
+"   \n"
+"   <!-- Hibernate and deps -->\n"
+"   <include name=\"hibernate.jar\"/>\n"
+"   <include name=\"hibernate-commons-annotations.jar\"/>\n"
+"   <include name=\"hibernate-annotations.jar\"/>\n"
+"   <include name=\"hibernate-entitymanager.jar\"/>\n"
+"   <include name=\"hibernate-validator.jar\"/>\n"
+"   <include name=\"jboss-common-core.jar\" />\n"
+"   \n"
+"   <!-- 3rd party and supporting jars -->\n"
+"   <include name=\"javassist.jar\" />\n"
+"   <include name=\"dom4j.jar\" />\n"
+"   <include name=\"concurrent.jar\" />\n"
+"   <include name=\"cglib.jar\" />\n"
+"   <include name=\"asm.jar\" />\n"
+"   <include name=\"antlr.jar\" />\n"
+"   <include name=\"commons-logging.jar\" />\n"
+"   <include name=\"commons-collections.jar\" />\n"
+"</fileset>]]>"
+
+#. Tag: title
+#: Glassfish.xml:582
+#, no-c-format
+msgid "Building and deploying the seam-gen'd application to GlassFish"
+msgstr "Compilare ed eseguire l'applicazione fatta con seam-gen in GlassFish"
+
+#. Tag: para
+#: Glassfish.xml:586
+#, no-c-format
+msgid "Build your application by calling <literal>ant</literal> in the base directory of your project (for example <literal>/projects/seamgen-example</literal>). The target of the build will be <literal>dist/seamgen-example.ear</literal>."
+msgstr "Compilare l'applicazione chiamando <literal>ant</literal> nella cartella principale del progetto (ad esempio <literal>/projects/seamgen-example</literal>). Il risultato della compilazione sarà <literal>dist/seamgen-example.ear</literal>."
+
+#. Tag: para
+#: Glassfish.xml:595
+#, no-c-format
+msgid "To deploy the application follow the instructions here <xref linkend=\"jee5-glassfish-deploy\"/> but use references to this project <literal>seamgen-example</literal> instead of <literal>jboss-seam-jee5</literal>."
+msgstr "Per eseguire l'applicazione seguire le istruzioni indicate qui <xref linkend=\"jee5-glassfish-deploy\"/> ma usare i riferimenti a questo progetto <literal>seamgen-example</literal> anziché <literal>jboss-seam-jee5</literal>."
+
+#. Tag: para
+#: Glassfish.xml:604
+#, no-c-format
+msgid "Checkout the app at <literal>http://localhost:8081/seamgen_example/</literal>"
+msgstr "Controllare l'applicazione all'indirizzo <literal>http://localhost:8081/seamgen_example/</literal>"
+

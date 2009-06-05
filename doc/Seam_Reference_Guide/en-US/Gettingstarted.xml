@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="gettingstarted">
+    <title>Getting started with Seam, using seam-gen</title>
+
+    <para>The Seam distribution includes a command line utility that makes it really easy to set up an Eclipse project,
+        generate some simple Seam skeleton code, and reverse engineer an application from a preexisting database.</para>
+
+    <para>This is the easy way to get your feet wet with Seam, and gives you some ammunition for next time you find
+        yourself trapped in an elevator with one of those tedious Ruby guys ranting about how great and wonderful his
+        new toy is for building totally trivial applications that put things in databases.</para>
+
+    <para>In this release, seam-gen works best for people with JBoss AS. You can use the generated project with other
+        J2EE or Java EE 5 application servers by making a few manual changes to the project configuration.</para>
+
+    <para>You <emphasis>can</emphasis> use seam-gen without Eclipse, but in this tutorial, we want to show you how to
+        use it in conjunction with Eclipse for debugging and integration testing. If you don't want to install Eclipse,
+        you can still follow along with this tutorial—all steps can be performed from the command line.</para>
+
+    <para>seam-gen is basically just an intricate Ant script wrapped around Hibernate Tools, together with some templates.
+        That makes it easy to customize if you need to.</para>
+
+    <section>
+        <title>Before you start</title>
+
+        <para>Make sure you have JDK 5 or JDK 6 (see <xref
+            linkend="jdk_dependencies"/> for details), JBoss AS 4.2 or 5.0 and Ant 1.7.0, along with recent versions of
+            Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before
+            starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode.
+            Finally, start a command prompt in the directory where you unzipped the Seam distribution.</para>
+
+        <para>JBoss has sophisticated support for hot re-deployment of WARs and EARs. Unfortunately, due to bugs in the
+            JVM, repeated redeployment of an EAR—which is common during development—eventually causes the JVM to run out
+            of perm gen space. For this reason, we recommend running JBoss in a JVM with a large perm gen space at
+            development time. If you're running JBoss from JBoss IDE, you can configure this in the server launch
+            configuration, under "VM arguments". We suggest the following values:</para>
+
+        <programlisting>-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</programlisting>
+
+        <para>If you don't have so much memory available, the following is our minimum recommendation:</para>
+
+        <programlisting>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m</programlisting>
+
+        <para>If you're running JBoss from the command line, you can configure the JVM options in
+            <literal>bin/run.conf</literal>.</para>
+
+        <para>If you don't want to bother with this stuff now, you don't have to—come back to it later, when you get
+            your first <literal>OutOfMemoryException</literal>.</para>
+    </section>
+
+    <section>
+        <title>Setting up a new project</title>
+
+        <para>The first thing we need to do is configure seam-gen for your environment: JBoss AS installation directory,
+            project workspace, and database connection. It's easy, just type:</para>
+
+        <programlisting>cd jboss-seam-2.0.x
+seam setup</programlisting>
+
+        <para>And you will be prompted for the needed information:</para>
+
+        <programlisting>~/workspace/jboss-seam$ ./seam setup
+Buildfile: build.xml
+
+init:
+
+setup:
+     [echo] Welcome to seam-gen :-)
+    [input] Enter your project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
+/Users/pmuir/workspace
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] [C:/Program Files/jboss-4.2.3.GA]
+/Applications/jboss-4.2.3.GA
+    [input] Enter the project name [myproject] [myproject]
+helloworld
+     [echo] Accepted project name as: helloworld
+    [input] Select a RichFaces skin (not applicable if using ICEFaces) [blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)
+
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear]  ([ear], war, )
+
+    [input] Enter the Java package name for your session beans [com.mydomain.helloworld] [com.mydomain.helloworld]
+org.jboss.helloworld
+    [input] Enter the Java package name for your entity beans [org.jboss.helloworld] [org.jboss.helloworld]
+
+    [input] Enter the Java package name for your test cases [org.jboss.helloworld.test] [org.jboss.helloworld.test]
+
+    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle, postgres, mssql, db2, sybase, enterprisedb, h2)
+mysql
+    [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]
+
+    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] [lib/hsqldb.jar]
+/Users/pmuir/java/mysql.jar
+    [input] Enter JDBC driver class for your database [com.mysql.jdbc.Driver] [com.mysql.jdbc.Driver]
+
+    [input] Enter the JDBC URL for your database [jdbc:mysql:///test] [jdbc:mysql:///test]
+jdbc:mysql:///helloworld
+    [input] Enter database username [sa] [sa]
+pmuir
+    [input] Enter database password [] []
+
+    [input] skipping input as property hibernate.default_schema.new has already been set.
+    [input] Enter the database catalog name (it is OK to leave this blank) [] []
+
+    [input] Are you working with tables that already exist in the database? [n]  (y, [n], )
+y
+    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n]  (y, [n], )
+n
+    [input] Enter your ICEfaces home directory (leave blank to omit ICEfaces) [] []
+
+[propertyfile] Creating new property file: /Users/pmuir/workspace/jboss-seam/seam-gen/build.properties
+     [echo] Installing JDBC driver jar to JBoss server
+     [echo] Type 'seam create-project' to create the new project
+
+BUILD SUCCESSFUL
+Total time: 1 minute 32 seconds
+~/workspace/jboss-seam $ </programlisting>
+
+        <para>The tool provides sensible defaults, which you can accept by just pressing enter at the prompt.</para>
+
+        <para>The most important choice you need to make is between EAR deployment and WAR deployment of your project.
+            EAR projects support EJB 3.0 and require Java EE 5. WAR projects do not support EJB 3.0, but may be deployed
+            to a J2EE environment. The packaging of a WAR is also simpler to understand. If you installed an EJB3-ready
+            application server like JBoss, choose <literal>ear</literal>. Otherwise, choose <literal>war</literal>.
+            We'll assume that you've chosen an EAR deployment for the rest of the tutorial, but you can follow exactly
+            the same steps for a WAR deployment.</para>
+
+        <para>If you are working with an existing data model, make sure you tell seam-gen that the tables already exist
+            in the database.</para>
+
+        <para>The settings are stored in <literal>seam-gen/build.properties</literal>, but you can also modify them
+            simply by running <literal>seam setup</literal> a second time.</para>
+
+        <para>Now we can create a new project in our Eclipse workspace directory, by typing:</para>
+
+        <programlisting>seam new-project</programlisting>
+
+        <programlisting>C:\Projects\jboss-seam&gt;seam new-project
+Buildfile: build.xml
+
+...
+
+new-project:
+     [echo] A new Seam project named 'helloworld' was created in the C:\Projects directory
+     [echo] Type 'seam explode' and go to http://localhost:8080/helloworld
+     [echo] Eclipse Users: Add the project into Eclipse using File &gt; New &gt; Project and select General &gt; Project (not Java Project)
+     [echo] NetBeans Users: Open the project in NetBeans
+
+BUILD SUCCESSFUL
+Total time: 7 seconds
+C:\Projects\jboss-seam&gt;</programlisting>
+
+        <para>This copies the Seam jars, dependent jars and the JDBC driver jar to a new Eclipse project, and generates
+            all needed resources and configuration files, a facelets template file and stylesheet, along with Eclipse
+            metadata and an Ant build script. The Eclipse project will be automatically deployed to an exploded
+            directory structure in JBoss AS as soon as you add the project using <literal>New -&gt; Project...
+                -&gt; General -&gt; Project -&gt; Next</literal>, typing the <literal>Project name</literal>
+                (<literal>helloworld</literal> in this case), and then clicking <literal>Finish</literal>. Do not select
+                <literal>Java Project</literal> from the New Project wizard.</para>
+
+        <para>If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will need to select a Java SE 5
+            compliant JDK using <literal>Project -&gt; Properties -&gt; Java Compiler</literal>.</para>
+
+        <para>Alternatively, you can deploy the project from outside Eclipse by typing <literal>seam explode</literal>.</para>
+
+        <para>Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome page. This is a facelets page,
+                <literal>view/home.xhtml</literal>, using the template <literal>view/layout/template.xhtml</literal>.
+            You can edit this page, or the template, in Eclipse, and see the results <emphasis>immediately</emphasis>,
+            by clicking refresh in your browser.</para>
+
+        <para>Don't get scared by the XML configuration documents that were generated into the project directory. They
+            are mostly standard Java EE stuff, the stuff you need to create once and then never look at again, and they
+            are 90% the same between all Seam projects. (They are so easy to write that even seam-gen can do it.)</para>
+
+        <para>The generated project includes three database and persistence configurations. The
+            <literal>persistence-test.xml</literal> and
+            <literal>import-test.sql</literal> files are used when running the TestNG unit tests against HSQLDB. The
+            database schema and the test data in <literal>import-test.sql</literal> is always exported to the database
+            before running tests. The <literal>myproject-dev-ds.xml</literal>, <literal>persistence-dev.xml</literal>and
+                <literal>import-dev.sql</literal> files are for use when deploying the application to your development
+            database. The schema might be exported automatically at deployment, depending upon whether you told seam-gen
+            that you are working with an existing database. The <literal>myproject-prod-ds.xml</literal>,
+                <literal>persistence-prod.xml</literal>and <literal>import-prod.sql</literal> files are for use when
+            deploying the application to your production database. The schema is not exported automatically at
+            deployment.</para>
+    </section>
+
+    <section>
+        <title>Creating a new action</title>
+
+        <para>If you're used to traditional action-style web frameworks, you're probably wondering how you can create a
+            simple web page with a stateless action method in Java. If you type:</para>
+
+        <programlisting>seam new-action</programlisting>
+
+        <para>Seam will prompt for some information, and generate a new facelets page and Seam component for your
+            project.</para>
+
+        <programlisting>C:\Projects\jboss-seam&gt;seam new-action
+Buildfile: build.xml
+
+validate-workspace:
+
+validate-project:
+
+action-input:
+    [input] Enter the Seam component name
+ping
+    [input] Enter the local interface name [Ping]
+
+    [input] Enter the bean class name [PingBean]
+
+    [input] Enter the action method name [ping]
+
+    [input] Enter the page name [ping]
+
+
+setup-filters:
+
+new-action:
+     [echo] Creating a new stateless session bean component with an action method
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\view
+     [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/ping.seam
+
+BUILD SUCCESSFUL
+Total time: 13 seconds
+C:\Projects\jboss-seam&gt;</programlisting>
+
+        <para>Because we've added a new Seam component, we need to restart the exploded directory deployment. You can do
+            this by typing <literal>seam restart</literal>, or by running the <literal>restart</literal> target in the
+            generated project <literal>build.xml</literal> file from inside Eclipse. Another way to force a restart is
+            to edit the file <literal>resources/META-INF/application.xml</literal> in Eclipse. <emphasis>Note that you
+                do not need to restart JBoss each time you change the application.</emphasis></para>
+
+        <para>Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and click the button. You can see
+            the code behind this action by looking in the project <literal>src</literal> directory. Put a breakpoint in
+            the <literal>ping()</literal> method, and click the button again.</para>
+
+        <para>Finally, locate the <literal>PingTest.xml</literal> file in the test package and run the integration tests
+            using the TestNG plugin for Eclipse. Alternatively, run the tests using <literal>seam test</literal> or the
+                <literal>test</literal> target of the generated build.</para>
+    </section>
+
+    <section>
+        <title>Creating a form with an action</title>
+
+        <para>The next step is to create a form. Type:</para>
+
+        <programlisting>seam new-form</programlisting>
+
+        <programlisting>C:\Projects\jboss-seam&gt;seam new-form
+Buildfile: C:\Projects\jboss-seam\seam-gen\build.xml
+
+validate-workspace:
+
+validate-project:
+
+action-input:
+    [input] Enter the Seam component name
+hello
+    [input] Enter the local interface name [Hello]
+
+    [input] Enter the bean class name [HelloBean]
+
+    [input] Enter the action method name [hello]
+
+    [input] Enter the page name [hello]
+
+
+setup-filters:
+
+new-form:
+     [echo] Creating a new stateful session bean component with an action method
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello\test
+     [copy] Copying 1 file to C:\Projects\hello\view
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello\test
+     [echo] Type 'seam restart' and go to http://localhost:8080/hello/hello.seam
+
+BUILD SUCCESSFUL
+Total time: 5 seconds
+C:\Projects\jboss-seam&gt;</programlisting>
+
+        <para>Restart the application again, and go to <literal>http://localhost:8080/helloworld/hello.seam</literal>.
+            Then take a look at the generated code. Run the test. Try adding some new fields to the form and Seam
+            component (remember to restart the deployment each time you change the Java code).</para>
+    </section>
+
+    <section>
+        <title>Generating an application from an existing database</title>
+
+        <para>Manually create some tables in your database. (If you need to switch to a different database, just run
+                <literal>seam setup</literal> again.) Now type:</para>
+
+        <programlisting>seam generate-entities</programlisting>
+
+        <para>Restart the deployment, and go to <literal>http://localhost:8080/helloworld</literal>. You can browse the
+            database, edit existing objects, and create new objects. If you look at the generated code, you'll probably
+            be amazed how simple it is! Seam was designed so that data access code is easy to write by hand, even for
+            people who don't want to cheat by using seam-gen.</para>
+    </section>
+    
+    <section>
+        <title>Generating an application from existing JPA/EJB3 entities</title>
+
+        <para>Place your existing, valid entity classes inside the <literal>src/main</literal>. Now type</para>
+
+        <programlisting>seam generate-ui</programlisting>
+
+        <para>Restart the deployment, and go to <literal>http://localhost:8080/helloworld</literal>.</para>
+    </section>
+
+    <section>
+        <title>Deploying the application as an EAR</title>
+
+        <para>Finally, we want to be able to deploy the application using standard Java EE 5 packaging. First, we need
+            to remove the exploded directory by running <literal>seam unexplode</literal>. To deploy the EAR, we can
+            type <literal>seam deploy</literal> at the command prompt, or run the <literal>deploy</literal> target of
+            the generated project build script. You can undeploy using <literal>seam undeploy</literal> or the
+                <literal>undeploy</literal> target.</para>
+
+        <para>By default, the application will be deployed with the <emphasis>dev profile</emphasis>. The EAR will
+            include the <literal>persistence-dev.xml</literal> and <literal>import-dev.sql</literal> files, and the
+                <literal>myproject-dev-ds.xml</literal> file will be deployed. You can change the profile, and use the
+                <emphasis>prod profile</emphasis>, by typing</para>
+
+        <programlisting>seam -Dprofile=prod deploy</programlisting>
+
+        <para>You can even define new deployment profiles for your application. Just add appropriately named files to
+            your project—for example, <literal>persistence-staging.xml</literal>, <literal>import-staging.sql</literal>
+            and <literal>myproject-staging-ds.xml</literal>—and select the name of the profile using
+                <literal>-Dprofile=staging</literal>.</para>
+    </section>
+
+    <section id="gettingstarted-hotdeployment">
+        <title>Seam and incremental hot deployment</title>
+
+        <para>When you deploy your Seam application as an exploded directory, you'll get some support for incremental
+            hot deployment at development time. You need to enable debug mode in both Seam and Facelets, by adding this
+            line to <literal>components.xml</literal>:</para>
+
+        <programlisting role="XML"><![CDATA[<core:init debug="true">]]></programlisting>
+
+        <para>Now, the following files may be redeployed without requiring a full restart of the web application:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>any facelets page</para>
+            </listitem>
+
+            <listitem>
+                <para>any <literal>pages.xml</literal> file</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>But if we want to change any Java code, we still need to do a full restart of the application. (In JBoss
+            this may be accomplished by touching the top level deployment descriptor: <literal>application.xml</literal>
+            for an EAR deployment, or <literal>web.xml</literal> for a WAR deployment.)</para>
+
+        <para>But if you really want a fast edit/compile/test cycle, Seam supports incremental redeployment of JavaBean
+            components. To make use of this functionality, you must deploy the JavaBean components into the
+                <literal>WEB-INF/dev</literal> directory, so that they will be loaded by a special Seam classloader,
+            instead of by the WAR or EAR classloader.</para>
+
+        <para>You need to be aware of the following limitations:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>the components must be JavaBean components, they cannot be EJB3 beans (we are working on fixing
+                    this limitation)</para>
+            </listitem>
+
+            <listitem>
+                <para>entities can never be hot-deployed</para>
+            </listitem>
+
+            <listitem>
+                <para>components deployed via <literal>components.xml</literal> may not be hot-deployed</para>
+            </listitem>
+
+            <listitem>
+                <para>the hot-deployable components will not be visible to any classes deployed outside of
+                        <literal>WEB-INF/dev</literal></para>
+            </listitem>
+
+            <listitem>
+               <para>Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal>
+                   must be in <literal>WEB-INF/lib</literal></para>
+            </listitem>
+            
+            <listitem>
+               <para>You must have the Seam filter installed in web.xml</para>
+            </listitem>
+            
+            <listitem>
+               <para>You may see errors if the system is placed under any load and debug is enabled.</para>
+            </listitem>
+            
+        </itemizedlist>
+
+        <para>If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for
+            classes in the <literal>src/hot</literal> source directory. However, seam-gen does not support
+            incremental hot deployment for EAR projects.</para>
+    </section>
+
+    <section>
+        <title>Using Seam with JBoss 4.0</title>
+
+        <para> Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2 or
+            JBoss 5.0, both of which bundle the JSF 1.2 reference implementation. However, it is still possible to use
+            Seam 2.0 on the JBoss 4.0 platform. There are two basic steps required to do this: install an EJB3-enabled
+            version of JBoss 4.0 and replace MyFaces with the JSF 1.2 reference implementation.  Once you complete these
+            steps, Seam 2.0 applications can be deployed to JBoss 4.0.</para>
+
+        <section>
+            <title>Install JBoss 4.0</title>
+            <para>JBoss 4.0 does not ship a default configuration compatible with Seam. To run Seam, you must install
+                JBoss 4.0.5 using the JEMS 1.2 installer with the ejb3 profile selected. Seam will not run with an
+                installation that doesn't include EJB3 support. The JEMS installer can be downloaded from <ulink
+                    url="http://labs.jboss.com/jemsinstaller/downloads"
+                >http://labs.jboss.com/jemsinstaller/downloads</ulink>. </para>
+        </section>
+
+        <section>
+            <title>Install the JSF 1.2 RI</title>
+
+            <para> The web configuration for JBoss 4.0 can be found in the
+                    <literal>server/default/deploy/jbossweb-tomcat55.sar</literal>. You'll need to delete
+                    <literal>myfaces-api.jar</literal> any <literal>myfaces-impl.jar</literal> from the
+                    <literal>jsf-libs </literal>directory. Then, you'll need to copy <literal>jsf-api.jar</literal>,
+                    <literal>jsf-impl.jar</literal>, <literal>el-api.jar</literal>, and <literal>el-ri.jar</literal>
+                to that directory. The JSF JARs can be found in the Seam <literal>lib</literal> directory. The el JARs
+                can be obtained from the Seam 1.2 release. </para>
+
+            <para>You'll also need to edit the <literal>conf/web.xml</literal>, replacing
+                <literal>myfaces-impl.jar</literal> with <literal>jsf-impl.jar</literal>. </para>
+        </section>
+
+
+
+    </section>
+
+</chapter>

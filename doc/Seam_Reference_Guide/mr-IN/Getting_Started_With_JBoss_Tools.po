@@ -1,0 +1,575 @@
+# Language mr-IN translations for seam package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: seam 2_0\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"PO-Revision-Date: 2008-05-03 11:34+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:5
+#, no-c-format
+msgid "Getting started with Seam, using JBoss Tools"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:7
+#, no-c-format
+msgid ""
+"JBoss Tools is a collection of Eclipse plugins. JBoss Tools a project "
+"creation wizard for Seam, Content Assist for the Unified Expression Language "
+"(EL) in both facelets and Java code, a graphical editor for jPDL, a "
+"graphical editor for Seam configuration files, support for running Seam "
+"integration tests from within Eclipse, and much more."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:15
+#, no-c-format
+msgid "In short, if you are an Eclipse user, then you'll want JBoss Tools!"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:19
+#, no-c-format
+msgid ""
+"JBoss Tools, as with seam-gen, works best with JBoss AS, but it's possible "
+"with a few tweaks to get your app running on other application servers. The "
+"changes are much like those described for seam-gen later in this reference "
+"manual."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:27
+#, no-c-format
+msgid "Before you start"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:29
+#, no-c-format
+msgid ""
+"Make sure you have JDK 5, JBoss AS 4.2 or 5.0, Eclipse 3.3, the JBoss Tools "
+"plugins (at least Seam Tools, the Visual Page Editor, jBPM Tools and JBoss "
+"AS Tools) and the TestNG plugin for Eclipse correctly installed before "
+"starting."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:36
+#, no-c-format
+msgid ""
+"Please see the official <ulink url=\"http://www.jboss.org/tools/download/"
+"installation\">JBoss Tools installation</ulink> page for the quickest way to "
+"get JBoss Tools setup in Eclipse. You can also check out the <ulink url="
+"\"http://www.jboss.org/community/wiki/InstallingJBossTools\">Installing "
+"JBoss Tools</ulink> page on the JBoss community wiki for the gory details "
+"and a set of alternative installation approaches."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:49
+#, no-c-format
+msgid "Setting up a new Seam project"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:51
+#, no-c-format
+msgid "Start up Eclipse and select the <emphasis>Seam</emphasis> perspective."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:55
+#, no-c-format
+msgid ""
+"Go to <emphasis>File</emphasis> -> <emphasis>New</emphasis> -> "
+"<emphasis>Seam Web Project</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:71
+#, no-c-format
+msgid ""
+"First, enter a name for your new project. For this tutorial, we're going to "
+"use <literal>helloworld</literal> ."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:79
+#, no-c-format
+msgid ""
+"Now, we need to tell JBoss Tools about JBoss AS. In this example we are "
+"using JBoss AS 4.2, though you can certainly use JBoss AS 5.0 as well. "
+"Selecting JBoss AS is a two step process. First we need to define a runtime. "
+"Again, we'll choose JBoss AS 4.2 in this case:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:97
+#, no-c-format
+msgid "Enter a name for the runtime, and locate it on your hard drive:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:112
+#, no-c-format
+msgid ""
+"Next, we need to define a server JBoss Tools can deploy the project to. Make "
+"sure to again select JBoss AS 4.2, and also the runtime you just defined:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:127
+#, no-c-format
+msgid ""
+"On the next screen give the server a name, and hit <emphasis>Finish</"
+"emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:143
+#, no-c-format
+msgid ""
+"Make sure the runtime and server you just created are selected, select "
+"<emphasis>Dynamic Web Project with Seam 2.0 (technology preview)</emphasis> "
+"and hit <emphasis>Next</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:160
+#, no-c-format
+msgid ""
+"The next 3 screens allow you to further customize your new project, but for "
+"us the defaults are fine. So just hit <emphasis>Next</emphasis> until you "
+"reach the final screen."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:166
+#, no-c-format
+msgid ""
+"The first step here is to tell JBoss Tools about the Seam download you want "
+"to use. <emphasis>Add</emphasis> a new <emphasis>Seam Runtime</emphasis> - "
+"make sure to give it a name, and select <emphasis>2.0</emphasis> as the "
+"version:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:184
+#, no-c-format
+msgid ""
+"The most important choice you need to make is between EAR deployment and WAR "
+"deployment of your project. EAR projects support EJB 3.0 and require Java EE "
+"5. WAR projects do not support EJB 3.0, but may be deployed to a J2EE "
+"environment. The packaging of a WAR is also simpler to understand. If you "
+"installed an EJB3-ready application server like JBoss, choose <emphasis>EAR</"
+"emphasis>. Otherwise, choose <emphasis>WAR</emphasis>. We'll assume that "
+"you've chosen a WAR deployment for the rest of the tutorial, but you can "
+"follow exactly the same steps for a EAR deployment."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:196
+#, no-c-format
+msgid ""
+"Next, select your database type. We'll assume you have MySQL installed, with "
+"an existing schema. You'll need to tell JBoss Tools about the database, "
+"select <emphasis>MySQL</emphasis> as the database, and create a new "
+"connection profile. Select <emphasis>Generic JDBC Connection</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:215
+#, no-c-format
+msgid "Give it a name:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:230
+#, no-c-format
+msgid ""
+"JBoss Tools doesn't come with drivers for any databases, so you need to tell "
+"JBoss Tools where the MySQL JDBC driver is. Tell it about the driver by "
+"clicking <emphasis>...</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:236
+#, no-c-format
+msgid "Locate MySQL 5, and hit <emphasis>Add...</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:251
+#, no-c-format
+msgid "Choose the <emphasis>MySQL JDBC Driver</emphasis> template:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:266
+#, no-c-format
+msgid ""
+"Locate the jar on your computer by choosing <emphasis>Edit Jar/Zip</"
+"emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:282
+#, no-c-format
+msgid ""
+"Review the username and password used to connect, and if correct, hit "
+"<emphasis>Ok</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:287
+#, no-c-format
+msgid "Finally, choose the newly created driver:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:302
+#, no-c-format
+msgid ""
+"If you are working with an existing data model, make sure you tell JBoss "
+"Tools that the tables already exist in the database."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:307
+#, no-c-format
+msgid ""
+"Review the username and password used to connect, test the connection using "
+"the <emphasis>Test Connection</emphasis> button, and if it works, hit "
+"<emphasis>Finish</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:313
+#, no-c-format
+msgid ""
+"Finally, review the package names for your generated beans, and if you are "
+"happy, click <emphasis>Finish</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:329
+#, no-c-format
+msgid ""
+"JBoss has sophisticated support for hot re-deployment of WARs and EARs. "
+"Unfortunately, due to bugs in the JVM, repeated redeployment of an EAR—which "
+"is common during development—eventually causes the JVM to run out of perm "
+"gen space. For this reason, we recommend running JBoss in a JVM with a large "
+"perm gen space at development time. We suggest the following values:"
+msgstr ""
+
+#. Tag: programlisting
+#: Getting_Started_With_JBoss_Tools.xml:338
+#, no-c-format
+msgid "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:340
+#, no-c-format
+msgid ""
+"If you don't have so much memory available, the following is our minimum "
+"recommendation:"
+msgstr ""
+
+#. Tag: programlisting
+#: Getting_Started_With_JBoss_Tools.xml:345
+#, no-c-format
+msgid "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:347
+#, no-c-format
+msgid ""
+"Locate the server in the <emphasis>JBoss Server View</emphasis>, right click "
+"on the server and select <emphasis>Edit Launch Configuration</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:364
+#, no-c-format
+msgid "Then, alter the VM arguements:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:379
+#, no-c-format
+msgid ""
+"If you don't want to bother with this stuff now, you don't have to—come back "
+"to it later, when you get your first <literal>OutOfMemoryException</literal>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:385
+#, no-c-format
+msgid ""
+"To start JBoss, and deploy the project, just right click on the server you "
+"created, and click <emphasis>Start</emphasis>, (or <emphasis>Debug</"
+"emphasis> to start in debug mode):"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:402
+#, no-c-format
+msgid ""
+"Don't get scared by the XML configuration documents that were generated into "
+"the project directory. They are mostly standard Java EE stuff, the stuff you "
+"need to create once and then never look at again, and they are 90% the same "
+"between all Seam projects."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:412
+#, no-c-format
+msgid "Creating a new action"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:414
+#, no-c-format
+msgid ""
+"If you're used to traditional action-style web frameworks, you're probably "
+"wondering how you can create a simple web page with a stateless action "
+"method in Java."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:420
+#, no-c-format
+msgid ""
+"First, select <emphasis>New</emphasis> -> <emphasis>Seam Action</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:435
+#: Getting_Started_With_JBoss_Tools.xml:501
+#, no-c-format
+msgid ""
+"Now, enter the name of the Seam component. JBoss Tools selects sensible "
+"defaults for other fields:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:451
+#, no-c-format
+msgid "Finally, hit <emphasis>Finish</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:455
+#, no-c-format
+msgid ""
+"Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and "
+"click the button. You can see the code behind this action by looking in the "
+"project <literal>src</literal> directory. Put a breakpoint in the "
+"<literal>ping()</literal> method, and click the button again."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:463
+#, no-c-format
+msgid ""
+"Finally, open the <literal>helloworld-test</literal> project, locate "
+"<literal>PingTest</literal> class, right click on it, and choose "
+"<emphasis>Run As</emphasis> -> <emphasis>TestNG Test</emphasis>:"
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:483
+#, no-c-format
+msgid "Creating a form with an action"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:485
+#, no-c-format
+msgid ""
+"The first step is to create a form. Select <emphasis>New</emphasis> -> "
+"<emphasis>Seam Form</emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:517
+#, no-c-format
+msgid ""
+"Go to <literal>http://localhost:8080/helloworld/hello.seam</literal>. Then "
+"take a look at the generated code. Run the test. Try adding some new fields "
+"to the form and Seam component (note, you don't need to restart the app "
+"server each time you change the code in <literal>src/action</literal> as "
+"Seam hot reloads the component for you <xref linkend="
+"\"gettingstartedwithjbosstools.hotdeployment\"/>)."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:528
+#, no-c-format
+msgid "Generating an application from an existing database"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:530
+#, no-c-format
+msgid ""
+"Manually create some tables in your database. (If you need to switch to a "
+"different database, create a new project, and select the correct database). "
+"Then, select <emphasis>New</emphasis> -> <emphasis>Seam Generate Entities</"
+"emphasis>:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:548
+#, no-c-format
+msgid ""
+"JBoss Tools gives you the option to either reverse engineer entities, "
+"components and views from a database schema or to reverse engineer "
+"components and views from existing JPA entities. We're going to do "
+"<emphasis>Reverse engieneer from database</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:555
+#, no-c-format
+msgid "Restart the deployment:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:570
+#, no-c-format
+msgid ""
+"Then go to <literal>http://localhost:8080/helloworld</literal>. You can "
+"browse the database, edit existing objects, and create new objects. If you "
+"look at the generated code, you'll probably be amazed how simple it is! Seam "
+"was designed so that data access code is easy to write by hand, even for "
+"people who don't want to cheat by using reverse engineering."
+msgstr ""
+
+#. Tag: title
+#: Getting_Started_With_JBoss_Tools.xml:581
+#, no-c-format
+msgid "Seam and incremental hot deployment with JBoss Tools"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:583
+#, no-c-format
+msgid "JBoss Tools supports incremental hot deployment of:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:589
+#, no-c-format
+msgid "any facelets page"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:593
+#, no-c-format
+msgid "any <literal>pages.xml</literal> file"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:599
+#, no-c-format
+msgid "out of the box."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:603
+#, no-c-format
+msgid ""
+"But if we want to change any Java code, we still need to do a full restart "
+"of the application by doing a <emphasis>Full Publish</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:609
+#, no-c-format
+msgid ""
+"But if you really want a fast edit/compile/test cycle, Seam supports "
+"incremental redeployment of JavaBean components. To make use of this "
+"functionality, you must deploy the JavaBean components into the <literal>WEB-"
+"INF/dev</literal> directory, so that they will be loaded by a special Seam "
+"classloader, instead of by the WAR or EAR classloader."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:618
+#, no-c-format
+msgid "You need to be aware of the following limitations:"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:622
+#, no-c-format
+msgid ""
+"the components must be JavaBean components, they cannot be EJB3 beans (we "
+"are working on fixing this limitation)"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:629
+#, no-c-format
+msgid "entities can never be hot-deloyed"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:635
+#, no-c-format
+msgid ""
+"components deployed via <literal>components.xml</literal> may not be hot-"
+"deployed"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:642
+#, no-c-format
+msgid ""
+"the hot-deployable components will not be visible to any classes deployed "
+"outside of <literal>WEB-INF/dev</literal>"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:649
+#, no-c-format
+msgid ""
+"Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal> "
+"must be in <literal>WEB-INF/lib</literal>"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:657
+#, no-c-format
+msgid "You must have the Seam filter installed in web.xml"
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:663
+#, no-c-format
+msgid ""
+"You may see errors if the system is placed under any load and debug is "
+"enabled."
+msgstr ""
+
+#. Tag: para
+#: Getting_Started_With_JBoss_Tools.xml:671
+#, no-c-format
+msgid ""
+"If you create a WAR project using JBoss Tools, incremental hot deployment is "
+"available out of the box for classes in the <literal>src/action</literal> "
+"source directory. However, JBoss Tools does not support incremental hot "
+"deployment for EAR projects."
+msgstr ""

@@ -1,0 +1,2876 @@
+# translation of Tools.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tools\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-03-22 12:50+0000\n"
+"PO-Revision-Date: 2009-02-28 15:51+0900\n"
+"Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Concepts.xml:5
+#, no-c-format
+msgid "The contextual component model"
+msgstr "コンテキスト依存コンポーネントモデル"
+
+#. Tag: para
+#: Concepts.xml:6
+#, no-c-format
+msgid ""
+"The two core concepts in Seam are the notion of a <emphasis>context</"
+"emphasis> and the notion of a <emphasis>component</emphasis>. Components are "
+"stateful objects, usually EJBs, and an instance of a component is associated "
+"with a context, and given a name in that context. <emphasis>Bijection</"
+"emphasis> provides a mechanism for aliasing internal component names "
+"(instance variables) to contextual names, allowing component trees to be "
+"dynamically assembled, and reassembled by Seam."
+msgstr ""
+"Seam における 2 つの中心的概念は、 <emphasis>コンテキスト</emphasis> の概念"
+"と <emphasis>コンポーネント</emphasis> の概念です。 コンポーネントは、ステー"
+"トフルなオブジェクト、通常は EJB です。 コンポーネントのインスタンスは、コン"
+"テキストと関連づけられ、そのコンテキスト中で名前を与えられます。 バイジェク"
+"ション (Bijection) は、内部のコンポーネント名 (インスタンス変数) をコンテキス"
+"ト中の名前にエイリアスし、 Seam によるコンポーネントツリーの動的な組み立て、"
+"再組み立てを可能にするメカニズムを提供します。"
+
+#. Tag: para
+#: Concepts.xml:14
+#, no-c-format
+msgid "Let's start by describing the contexts built in to Seam."
+msgstr "Seam に組み込まれたコンテキストから説明を始めましょう。"
+
+#. Tag: title
+#: Concepts.xml:19
+#, no-c-format
+msgid "Seam contexts"
+msgstr "Seam コンテキスト"
+
+#. Tag: para
+#: Concepts.xml:20
+#, no-c-format
+msgid ""
+"Seam contexts are created and destroyed by the framework. The application "
+"does not control context demarcation via explicit Java API calls. Context "
+"are usually implicit. In some cases, however, contexts are demarcated via "
+"annotations."
+msgstr ""
+"Seam コンテキストはフレームワークによって生成、破棄されます。 アプリケーショ"
+"ンは Java API 呼び出しによってコンテキストの区分 (demarcation) を明示的に制御"
+"することはできません。 コンテキストは通常、暗黙的ですが、場合によってコンテキ"
+"ストはアノテーションによって区分されます。"
+
+#. Tag: para
+#: Concepts.xml:23
+#, no-c-format
+msgid "The basic Seam contexts are:"
+msgstr "基本の Seam コンテキストは以下の通りです。"
+
+#. Tag: para
+#: Concepts.xml:27
+#, no-c-format
+msgid "<para>Stateless context</para>"
+msgstr "<para>ステートレスコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:30
+#, fuzzy, no-c-format
+msgid "Event (i.e., request) context"
+msgstr "イベント (または要求) コンテキスト"
+
+#. Tag: para
+#: Concepts.xml:33 Concepts.xml:225
+#, no-c-format
+msgid "<para>Page context</para>"
+msgstr "<para>ページコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:36 Concepts.xml:228
+#, no-c-format
+msgid "<para>Conversation context</para>"
+msgstr "<para>対話コンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:39 Concepts.xml:231
+#, no-c-format
+msgid "<para>Session context</para>"
+msgstr "<para>セッションコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:42 Concepts.xml:234
+#, no-c-format
+msgid "<para>Business process context</para>"
+msgstr "<para>ビジネスプロセスコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:45 Concepts.xml:237
+#, no-c-format
+msgid "<para>Application context</para>"
+msgstr "<para>アプリケーションコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:49
+#, no-c-format
+msgid ""
+"You will recognize some of these contexts from servlet and related "
+"specifications. However, two of them might be new to you: "
+"<emphasis>conversation context</emphasis>, and <emphasis>business process "
+"context</emphasis>. One reason state management in web applications is so "
+"fragile and error-prone is that the three built-in contexts (request, "
+"session and application) are not especially meaningful from the point of "
+"view of the business logic. A user login session, for example, is a fairly "
+"arbitrary construct in terms of the actual application work flow. Therefore, "
+"most Seam components are scoped to the conversation or business process "
+"contexts, since they are the contexts which are most meaningful in terms of "
+"the application."
+msgstr ""
+"これらのコンテキストのいくつかは、サーブレットや関連する仕様に由来しているこ"
+"とがわかります。 しかし、このうち 2 つは目新しいかもしれません。 <emphasis>対"
+"話コンテキスト (conversation context)</emphasis> と<emphasis>ビジネスプロセス"
+"コンテキスト</emphasis>です。 Web アプリケーション中での状態管理がとても脆弱"
+"でエラーが発生しやすい 1 つの理由は、 3 つの組み込みコンテキスト (要求、セッ"
+"ション、アプリケーション) がビジネスロジックの観点から特定の意味を持たないか"
+"らです。 例えば、実際のアプリケーションのワークフローの観点から見るとユーザー"
+"ログインセッションは極めて自由裁量な構造です。 そのため、ほとんどの Seam コン"
+"ポーネントは、対話コンテキストあるいはビジネスプロセスコンテキストのスコープ"
+"に配置されます。 なぜなら、それらはアプリケーションの観点からとても意味のある"
+"コンテキストだからです。"
+
+#. Tag: para
+#: Concepts.xml:60
+#, no-c-format
+msgid "Let's look at each context in turn."
+msgstr "順に、それぞれのコンテキストを見ていきましょう。"
+
+#. Tag: title
+#: Concepts.xml:65
+#, no-c-format
+msgid "<title>Stateless context</title>"
+msgstr "<title>ステートレスコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:66
+#, fuzzy, no-c-format
+msgid ""
+"Components which are truly stateless (stateless session beans, primarily) "
+"always live in the stateless context (which is basically the absense of a "
+"context since the instance Seam resolves is not stored). Stateless "
+"components are not very interesting, and are arguably not very object-"
+"oriented. Nevertheless, they do get developed and used and are thus an "
+"important part of any Seam application."
+msgstr ""
+"本当に状態をもたないコンポーネント (主にステートレスセッション Bean) は、いつ"
+"もステートレスコンテキスト (実際にはコンテキストではありません) に置かれま"
+"す。 ステートレスコンポーネントは、あまり興味深いものでもなく、まったくオブ"
+"ジェクト指向でもありません。 しかし、これらは重要でしばしば役に立ちます。"
+
+#. Tag: title
+#: Concepts.xml:75
+#, no-c-format
+msgid "<title>Event context</title>"
+msgstr "<title>イベントコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:76
+#, no-c-format
+msgid ""
+"The event context is the \"narrowest\" stateful context, and is a "
+"generalization of the notion of the web request context to cover other kinds "
+"of events. Nevertheless, the event context associated with the lifecycle of "
+"a JSF request is the most important example of an event context, and the one "
+"you will work with most often. Components associated with the event context "
+"are destroyed at the end of the request, but their state is available and "
+"well-defined for at least the lifecycle of the request."
+msgstr ""
+"イベントコンテキストは「最も狭い」状態を持つコンテキストで、 他の種類のイベン"
+"トを網羅する Web 要求コンテキストの概念の一般化です。 それにもかかわらず、"
+"JSF 要求のライフサイクルと関連づけられたイベントコンテキストは、 イベントコン"
+"テキストの最も重要な用例であり、最もよく利用されるものです。 要求終了時に、イ"
+"ベントコンテキストに関連するコンポーネントは破棄されますが、 それらの状態は、"
+"少なくとも要求のライフサイクルの間では有効かつ明確です。"
+
+#. Tag: para
+#: Concepts.xml:83
+#, no-c-format
+msgid ""
+"When you invoke a Seam component via RMI, or Seam Remoting, the event "
+"context is created and destroyed just for the invocation."
+msgstr ""
+"RMI 経由あるいは Seam Remoting により Seam コンポーネントを呼び出すとき、 イ"
+"ベントコンテキストは、その呼び出しだけのために生成、破棄されます。"
+
+#. Tag: title
+#: Concepts.xml:90
+#, no-c-format
+msgid "<title>Page context</title>"
+msgstr "<title>ページコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:91
+#, no-c-format
+msgid ""
+"The page context allows you to associate state with a particular instance of "
+"a rendered page. You can initialize state in your event listener, or while "
+"actually rendering the page, and then have access to it from any event that "
+"originates from that page. This is especially useful for functionality like "
+"clickable lists, where the list is backed by changing data on the server "
+"side. The state is actually serialized to the client, so this construct is "
+"extremely robust with respect to multi-window operation and the back button."
+msgstr ""
+"ページコンテキストは、レンダリングされたページの特定のインスタンスと状態との"
+"関連づけを可能にします。 イベントリスナー内で状態の初期化が可能で、 実際に"
+"ページをレンダリングしている間に、 ページに由来するどんなイベントからも状態に"
+"アクセスが可能です。 これは特にサーバサイドのデータ変化にリストが連動している"
+"クリッカブルリストのような機能に役立ちます。 状態は実際にはクライアントのため"
+"にシリアライズされます。 そのため、この構造は複数ウインドの操作や戻るボタンに"
+"対して極めて堅牢です。"
+
+#. Tag: title
+#: Concepts.xml:102
+#, no-c-format
+msgid "<title>Conversation context</title>"
+msgstr "<title>対話コンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:103
+#, no-c-format
+msgid ""
+"The conversation context is a truly central concept in Seam. A "
+"<emphasis>conversation</emphasis> is a unit of work from the point of view "
+"of the user. It might span several interactions with the user, several "
+"requests, and several database transactions. But to the user, a conversation "
+"solves a single problem. For example, \"book hotel\", \"approve contract\", "
+"\"create order\" are all conversations. You might like to think of a "
+"conversation implementing a single \"use case\" or \"user story\", but the "
+"relationship is not necessarily quite exact."
+msgstr ""
+"対話コンテキストは Seam でまさに中心となるコンセプトです。 <emphasis>対話 "
+"(conversation)</emphasis> は、ユーザーの観点からの作業単位です。 それはユー"
+"ザーとのインタラクション、要求、およびデータベーストランザクションをまたぐか"
+"もしれません。 しかし、ユーザーにとって対話は、1 つの問題を解決します。 例え"
+"ば、「ホテル予約」、「契約承認」、「注文作成」はすべて対話です。 対話というも"
+"のが 1 つの「ユースケース」あるいは「ユーザーストーリ」を実装していると考えた"
+"いかもしれませんが、関係は必ずしもその通りにはなりません。"
+
+#. Tag: para
+#: Concepts.xml:111
+#, no-c-format
+msgid ""
+"A conversation holds state associated with \"what the user is doing now, in "
+"this window\". A single user may have multiple conversations in progress at "
+"any point in time, usually in multiple windows. The conversation context "
+"allows us to ensure that state from the different conversations does not "
+"collide and cause bugs."
+msgstr ""
+"対話は、「ユーザーがこのウィンドウの中で現在していること」と関連づけられた状"
+"態を保持します。 1 人のユーザーは、通常マルチウィンドウで、ある時点に進行中の"
+"複数の対話を持っているかもしれません。 対話コンテキストは、異なる対話からの状"
+"態の衝突をなくし、バグの原因とならないことを保証します。"
+
+#. Tag: para
+#: Concepts.xml:117
+#, no-c-format
+msgid ""
+"It might take you some time to get used to thinking of applications in terms "
+"of conversations. But once you get used to it, we think you'll love the "
+"notion, and never be able to not think in terms of conversations again!"
+msgstr ""
+"対話の観点からアプリケーションについて考えることに慣れるには時間がかかるかも"
+"しれません。 しかし、慣れてしまうと、このコンセプトが大好きになり、もう対話な"
+"しでは考えられなくなるだろうと思います。"
+
+#. Tag: para
+#: Concepts.xml:122
+#, no-c-format
+msgid ""
+"Some conversations last for just a single request. Conversations that span "
+"multiple requests must be demarcated using annotations provided by Seam."
+msgstr ""
+"ある対話は単に 1 つの要求の間続いています。 複数の要求をまたぐ対話は、Seam に"
+"よって提供されたアノテーションを使って、区分を示されなければなりません。"
+
+#. Tag: para
+#: Concepts.xml:126
+#, no-c-format
+msgid ""
+"Some conversations are also <emphasis>tasks</emphasis>. A task is a "
+"conversation that is significant in terms of a long-running business "
+"process, and has the potential to trigger a business process state "
+"transition when it is successfully completed. Seam provides a special set of "
+"annotations for task demarcation."
+msgstr ""
+"一部の対話は <emphasis>タスク</emphasis> でもあります。 タスクは長期ビジネス"
+"プロセスの観点では重要な意味を持つ対話であり、 タスクが首尾よく完了する場"
+"合、 ビジネスプロセスの状態遷移を引き起こす可能性を持っています。 Seam はタス"
+"ク区分用に特別なアノテーションのセットを提供します。"
+
+#. Tag: para
+#: Concepts.xml:132
+#, no-c-format
+msgid ""
+"Conversations may be <emphasis>nested</emphasis>, with one conversation "
+"taking place \"inside\" a wider conversation. This is an advanced feature."
+msgstr ""
+"より広い対話の \"内部\" で対話を発生させるような <emphasis>ネスト</emphasis> "
+"も可能です。 これは拡張機能です。"
+
+#. Tag: para
+#: Concepts.xml:136
+#, no-c-format
+msgid ""
+"Usually, conversation state is actually held by Seam in the servlet session "
+"between requests. Seam implements configurable <emphasis>conversation "
+"timeout</emphasis>, automatically destroying inactive conversations, and "
+"thus ensuring that the state held by a single user login session does not "
+"grow without bound if the user abandons conversations."
+msgstr ""
+"通常、実際には要求と要求の間サーブレットセッション中で Seam により対話状態は"
+"保持されます。 Seam は設定可能な <emphasis>対話タイムアウト (conversation "
+"timeout)</emphasis> を実装し、 自動的に不活性な対話を破棄し、 ユーザーが対話"
+"を中断しても、ユーザーログインセッションにより保持される状態は際限なく増加し"
+"ないことが保証されています。"
+
+#. Tag: para
+#: Concepts.xml:142
+#, no-c-format
+msgid ""
+"Seam serializes processing of concurrent requests that take place in the "
+"same long-running conversation context, in the same process."
+msgstr ""
+"Seam は同じプロセス中の同じ長期対話コンテキスト中で発生する並列の要求処理をシ"
+"リアル化します。"
+
+#. Tag: para
+#: Concepts.xml:146
+#, no-c-format
+msgid ""
+"Alternatively, Seam may be configured to keep conversational state in the "
+"client browser."
+msgstr ""
+"あるいは、Seam はクライアントブラウザの中に対話の状態を保持するように設定され"
+"る場合もあります。"
+
+#. Tag: title
+#: Concepts.xml:152
+#, no-c-format
+msgid "<title>Session context</title>"
+msgstr "<title>セッションコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:153
+#, no-c-format
+msgid ""
+"A session context holds state associated with the user login session. While "
+"there are some cases where it is useful to share state between several "
+"conversations, we generally frown on the use of session context for holding "
+"components other than global information about the logged in user."
+msgstr ""
+"セッションコンテキストはユーザーログインに関する状態を保持します。 いくつかの"
+"場合では対話の間で状態を共有することが有用なことがありますが、 ログインユー"
+"ザーに関するグローバル情報以外のコンポーネントを保持するために、 セッションコ"
+"ンテキストを使用することは賛成できません。"
+
+#. Tag: para
+#: Concepts.xml:158
+#, no-c-format
+msgid ""
+"In a JSR-168 portal environment, the session context represents the portlet "
+"session."
+msgstr ""
+"JSR-168 ポータル環境では、セッションコンテキストはポートレットセッションを意"
+"味します。"
+
+#. Tag: title
+#: Concepts.xml:164
+#, no-c-format
+msgid "<title>Business process context</title>"
+msgstr "<title>ビジネスプロセスコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:165
+#, no-c-format
+msgid ""
+"The business process context holds state associated with the long running "
+"business process. This state is managed and made persistent by the BPM "
+"engine (JBoss jBPM). The business process spans multiple interactions with "
+"multiple users, so this state is shared between multiple users, but in a "
+"well-defined manner. The current task determines the current business "
+"process instance, and the lifecycle of the business process is defined "
+"externally using a <emphasis>process definition language</emphasis>, so "
+"there are no special annotations for business process demarcation."
+msgstr ""
+"ビジネスプロセスコンテキストは長期ビジネスプロセスに関する状態を保持します。 "
+"この状態は BPM エンジン (JBoss jBPM) によって管理や永続化が行われます。 ビジ"
+"ネスプロセスは、複数ユーザーの複数インタラクションを橋渡しします。 従って、こ"
+"の状態は複数ユーザーの間で明確な方法で共有されます。 現在のタスクは現在のビジ"
+"ネスプロセスインスタンスを決定し、 ビジネスプロセスのライフサイクルは "
+"<emphasis>プロセス定義言語 (process definition language)</emphasis> を使用す"
+"ることで外部に定義されます。 従って、ビジネスプロセスの区分のために特別なアノ"
+"テーションはありません。"
+
+#. Tag: title
+#: Concepts.xml:176
+#, no-c-format
+msgid "<title>Application context</title>"
+msgstr "<title>アプリケーションコンテキスト</title>"
+
+#. Tag: para
+#: Concepts.xml:177
+#, no-c-format
+msgid ""
+"The application context is the familiar servlet context from the servlet "
+"spec. Application context is mainly useful for holding static information "
+"such as configuration data, reference data or metamodels. For example, Seam "
+"stores its own configuration and metamodel in the application context."
+msgstr ""
+"アプリケーションコンテキストはサーブレット仕様からおなじみのサーブレットのコ"
+"ンテキストです。 アプリケーションコンテキストは主に、設定データ、参照データ、"
+"メタモデルのような静的な情報を保持するために役立ちます。 例えば、Seam はアプ"
+"リケーションコンテキスト内に Seam 設定やメタモデルを保管しています。"
+
+#. Tag: title
+#: Concepts.xml:185
+#, no-c-format
+msgid "Context variables"
+msgstr "コンテキスト変数"
+
+#. Tag: para
+#: Concepts.xml:186
+#, no-c-format
+msgid ""
+"A context defines a namespace, a set of <emphasis>context variables</"
+"emphasis>. These work much the same as session or request attributes in the "
+"servlet spec. You may bind any value you like to a context variable, but "
+"usually we bind Seam component instances to context variables."
+msgstr ""
+"コンテキストは名前空間、<emphasis>コンテキスト変数</emphasis> のセットを定義"
+"します。 これらはサーブレット仕様のセッションや要求属性と同様に機能します。 "
+"どのような値でもコンテキスト変数とバインドができますが、 通常、Seam コンポー"
+"ネントインスタンスをコンテキスト変数にバインドします。"
+
+#. Tag: para
+#: Concepts.xml:192
+#, no-c-format
+msgid ""
+"So, within a context, a component instance is identified by the context "
+"variable name (this is usually, but not always, the same as the component "
+"name). You may programatically access a named component instance in a "
+"particular scope via the <literal>Contexts</literal> class, which provides "
+"access to several thread-bound instances of the <literal>Context</literal> "
+"interface:"
+msgstr ""
+"従って、コンテキスト中では、 コンポーネントインスタンスは、コンテキスト変数"
+"名 (いつもではないが通常はコンポーネント名と同じ) で識別されます。 "
+"<literal>Contexts</literal> クラスを通して特定のスコープの指定されたコンポー"
+"ネントインスタンスにプログラム的にアクセスもできます。 それは "
+"<literal>Context</literal> インタフェースのスレッドに結びついたインスタンスへ"
+"のアクセスを提供します。"
+
+#. Tag: programlisting
+#: Concepts.xml:199
+#, no-c-format
+msgid ""
+"<![CDATA[User user = (User) Contexts.getSessionContext().get(\"user\");]]>"
+msgstr ""
+"<![CDATA[User user = (User) Contexts.getSessionContext().get(\"user\");]]>"
+
+#. Tag: para
+#: Concepts.xml:201
+#, no-c-format
+msgid "You may also set or change the value associated with a name:"
+msgstr "名前に関連する値を設定したり変更したりすることもできます。"
+
+#. Tag: programlisting
+#: Concepts.xml:205
+#, no-c-format
+msgid "<![CDATA[Contexts.getSessionContext().set(\"user\", user);]]>"
+msgstr "<![CDATA[Contexts.getSessionContext().set(\"user\", user);]]>"
+
+#. Tag: para
+#: Concepts.xml:207
+#, no-c-format
+msgid ""
+"Usually, however, we obtain components from a context via injection, and put "
+"component instances into a context via outjection."
+msgstr ""
+"しかしながら、通常、インジェクションを通してコンテキストからコンポーネントを"
+"取得し、 アウトジェクションを通してコンポーネントインスタンスをコンテキストに"
+"配置します。"
+
+#. Tag: title
+#: Concepts.xml:214
+#, no-c-format
+msgid "Context search priority"
+msgstr "コンテキスト検索優先順位"
+
+#. Tag: para
+#: Concepts.xml:215
+#, no-c-format
+msgid ""
+"Sometimes, as above, component instances are obtained from a particular "
+"known scope. Other times, all stateful scopes are searched, in "
+"<emphasis>priority order</emphasis>. The order is as follows:"
+msgstr ""
+"上記のように、コンポーネントインスタンスは特定の周知のスコープから取得するこ"
+"ともありますが、 それ以外の場合、すべてのステートフルスコープは <emphasis>優"
+"先順位</emphasis> に従って検索されます。 その順序は以下の通りです。"
+
+#. Tag: para
+#: Concepts.xml:222
+#, no-c-format
+msgid "<para>Event context</para>"
+msgstr "<para>イベントコンテキスト</para>"
+
+#. Tag: para
+#: Concepts.xml:241
+#, no-c-format
+msgid ""
+"You can perform a priority search by calling <literal>Contexts."
+"lookupInStatefulContexts()</literal>. Whenever you access a component by "
+"name from a JSF page, a priority search occurs."
+msgstr ""
+"<literal>Contexts.lookupInStatefulContexts()</literal> を呼び出すことによって"
+"優先順位の検索も可能です。 JSF ページから名前によってアクセスする場合はいつ"
+"も、優先順位検索が発生します。"
+
+#. Tag: title
+#: Concepts.xml:249
+#, no-c-format
+msgid "Concurrency model"
+msgstr "同時並行処理モデル"
+
+#. Tag: para
+#: Concepts.xml:250
+#, no-c-format
+msgid ""
+"Neither the servlet nor EJB specifications define any facilities for "
+"managing concurrent requests originating from the same client. The servlet "
+"container simply lets all threads run concurrently and leaves enforcing "
+"threadsafeness to application code. The EJB container allows stateless "
+"components to be accessed concurrently, and throws an exception if multiple "
+"threads access a stateful session bean."
+msgstr ""
+"サーブレット仕様も EJB 仕様も同じクライアントから起こる同時並行の要求を管理す"
+"るための仕組みをまったく定義していません。 サーブレットコンテナは単純にすべて"
+"のスレッドを同時並行的に稼動させ、 スレッドセーフとすることをアプリケーション"
+"コードに任せます。 EJB コンテナはステートレスコンポーネントが同時並行的にアク"
+"セスされることを可能にし、 複数のスレッドがひとつのステートレスセッション "
+"Bean にアクセスするならば例外をスローします。"
+
+#. Tag: para
+#: Concepts.xml:256
+#, no-c-format
+msgid ""
+"This behavior might have been okay in old-style web applications which were "
+"based around fine-grained, synchronous requests. But for modern applications "
+"which make heavy use of many fine-grained, asynchronous (AJAX) requests, "
+"concurrency is a fact of life, and must be supported by the programming "
+"model. Seam weaves a concurrency management layer into its context model."
+msgstr ""
+"この振る舞いは粒度の細かい同期要求をベースとする古いスタイルの Web アプリケー"
+"ションでは大丈夫であったかもしれません。 しかし、多くの粒度の細かい非同期要"
+"求 (AJAX) を多用する最新のアプリケーションにとって、 同時並行はまぎれもない事"
+"実であり、プログラムモデルとしてサポートされなければなりません。 Seam は同時"
+"並行管理レイヤをコンテキストモデルに織り込みます。"
+
+#. Tag: para
+#: Concepts.xml:262
+#, no-c-format
+msgid ""
+"The Seam session and application contexts are multithreaded. Seam will allow "
+"concurrent requests in a context to be processed concurrently. The event and "
+"page contexts are by nature single threaded. The business process context is "
+"strictly speaking multi-threaded, but in practice concurrency is "
+"sufficiently rare that this fact may be disregarded most of the time. "
+"Finally, Seam enforces a <emphasis>single thread per conversation per "
+"process</emphasis> model for the conversation context by serializing "
+"concurrent requests in the same long-running conversation context."
+msgstr ""
+"Seam セッションとアプリケーションコンテキストはマルチスレッドになっていま"
+"す。 Seam は同時並行的に処理されるためにコンテキスト中での同時並行要求を許し"
+"ます。 イベントとページコンテキストは本来シングルスレッドです。 厳密に言えば"
+"ビジネスプロセスコンテキストはマルチスレッドですが、 実際には同時並行はとても"
+"まれで、この事実はほとんど着目されないかもしれません。 最後に、 同じ長期対話"
+"コンテキスト中の同時並行要求をシリアライズすることによって、 Seam は、対話コ"
+"ンテキストのために <emphasis>プロセスごと対話ごとのシングルスレッド</"
+"emphasis> モデルを実施します。"
+
+# 2.1
+#. Tag: para
+#: Concepts.xml:270
+#, no-c-format
+msgid ""
+"Since the session context is multithreaded, and often contains volatile "
+"state, session scope components are always protected by Seam from concurrent "
+"access so long as the Seam interceptors are not disabled for that component. "
+"If interceptors are disabled, then any thread-safety that is required must "
+"be implemented by the component itself. Seam serializes requests to session "
+"scope session beans and JavaBeans by default (and detects and breaks any "
+"deadlocks that occur). This is not the default behaviour for application "
+"scoped components however, since application scoped components do not "
+"usually hold volatile state and because synchronization at the global level "
+"is <emphasis>extremely</emphasis> expensive. However, you can force a "
+"serialized threading model on any session bean or JavaBean component by "
+"adding the <literal>@Synchronized</literal> annotation."
+msgstr ""
+"セッションコンテキストはマルチスレッドで、よく揮発性の状態を含むので、 そのコ"
+"ンポーネントのSeamインタセプタが無効にされていない限り、Seam によりセッション"
+"スコープコンポーネントは同時並行アクセスからいつも保護されています。 もしイン"
+"タセプタが無効にされていたら、要求されるスレッドセーフ性はコンポーネント自身"
+"によって実装されなければなりません。Seam はデフォルトで要求を セッションス"
+"コープセッション Bean と JavaBean にシリアライズします。 ( そして、発生するど"
+"んなデッドロックも検出して打開します。) アプリケーションスコープのコンポーネ"
+"ントは通常揮発性の状態を保持しないため、 これはアプリケーションスコープのコン"
+"ポーネントのためのデフォルトの振る舞いではありません。 なぜなら、グローバルレ"
+"ベルの同期化は <emphasis>極端に</emphasis> コストがかかるからです。 しかし、 "
+"<literal>@Synchronized</literal> アノテーションを追加することで、 セッション "
+"Bean または JavaBean コンポーネントにシリアライズされたスレッドモデルを強制可"
+"能です。"
+
+#. Tag: para
+#: Concepts.xml:281
+#, no-c-format
+msgid ""
+"This concurrency model means that AJAX clients can safely use volatile "
+"session and conversational state, without the need for any special work on "
+"the part of the developer."
+msgstr ""
+"この同時並行モデルは、 開発者側での特別な作業をまったく必要とすることなく、 "
+"AJAX クライアントが安全に揮発性セッションや対話状態を使用できることを意味しま"
+"す。"
+
+#. Tag: title
+#: Concepts.xml:290
+#, no-c-format
+msgid "Seam components"
+msgstr "Seam コンポーネント"
+
+#. Tag: para
+#: Concepts.xml:291
+#, no-c-format
+msgid ""
+"Seam components are POJOs (Plain Old Java Objects). In particular, they are "
+"JavaBeans or EJB 3.0 enterprise beans. While Seam does not require that "
+"components be EJBs and can even be used without an EJB 3.0 compliant "
+"container, Seam was designed with EJB 3.0 in mind and includes deep "
+"integration with EJB 3.0. Seam supports the following <emphasis>component "
+"types</emphasis>."
+msgstr ""
+"Seam コンポーネントは POJO (Plain Old Java Objects) です。 具体的には、Seam "
+"コンポーネントは JavaBean もしくは EJB 3.0 エンタープライズ Bean です。 Seam "
+"は コンポーネントが EJB であることが必須ではなく、また EJB 3.0 準拠のコンテナ"
+"がなくても使用できますが、 Seam は EJB 3.0 を念頭にして設計され、EJB 3.0 と強"
+"く統合されています。 Seam は以下の <emphasis>コンポーネントタイプ</emphasis> "
+"をサポートします。"
+
+#. Tag: para
+#: Concepts.xml:300
+#, no-c-format
+msgid "EJB 3.0 stateless session beans"
+msgstr "EJB 3.0 ステートレスセッション Bean"
+
+#. Tag: para
+#: Concepts.xml:303
+#, no-c-format
+msgid "EJB 3.0 stateful session beans"
+msgstr "EJB 3.0 ステートフルセッション Bean"
+
+#. Tag: para
+#: Concepts.xml:306
+#, no-c-format
+msgid "EJB 3.0 entity beans (i.e., JPA entity classes)"
+msgstr ""
+
+#. Tag: para
+#: Concepts.xml:309
+#, no-c-format
+msgid "<para>JavaBeans</para>"
+msgstr "<para>JavaBeans</para>"
+
+#. Tag: para
+#: Concepts.xml:312
+#, no-c-format
+msgid "EJB 3.0 message-driven beans"
+msgstr "EJB 3.0 メッセージ駆動型 Bean"
+
+#. Tag: para
+#: Concepts.xml:315
+#, no-c-format
+msgid "Spring beans (see <xref linkend=\"spring\"/>)"
+msgstr ""
+
+#. Tag: title
+#: Concepts.xml:320
+#, no-c-format
+msgid "Stateless session beans"
+msgstr "ステートレスセッション Bean"
+
+#. Tag: para
+#: Concepts.xml:321
+#, no-c-format
+msgid ""
+"Stateless session bean components are not able to hold state across multiple "
+"invocations. Therefore, they usually work by operating upon the state of "
+"other components in the various Seam contexts. They may be used as JSF "
+"action listeners, but cannot provide properties to JSF components for "
+"display."
+msgstr ""
+"ステートレスセッション Bean コンポーネントは、複数の呼出しに対して状態を保持"
+"することができません。 従って、それらは通常さまざまな Seam コンテキスト内の別"
+"コンポーネントの状態を操作するのに役に立ちます。 それらは JSF のアクションリ"
+"スナーとして使用できるかもしれませんが、 表示のために JSF コンポーネントにプ"
+"ロパティを提供することはできません。"
+
+#. Tag: para
+#: Concepts.xml:326
+#, no-c-format
+msgid "Stateless session beans always live in the stateless context."
+msgstr ""
+"ステートレスセッション Bean はいつもステートレスコンテキストに置かれます。"
+
+#. Tag: para
+#: Concepts.xml:329
+#, no-c-format
+msgid ""
+"Stateless session beans can be accessed concurrently as a new instance is "
+"used for each request. Assigning the instance to the request is the "
+"responsibility of the EJB3 container (normally instances will be allocated "
+"from a reusable pool meaning that you may find any instance variables "
+"contain data from previous uses of the bean)."
+msgstr ""
+"新しいインスタンスが各要求で使用されるのと同様にステートレスセッション Bean "
+"は同時並行的にアクセスされることが可能です。 インスタンスを要求に割り当てるこ"
+"とは EJB3 コンテナの責務です。 ( 通常インスタンスは再利用可能なプールから割り"
+"当てられます、 つまり、Bean の使用済みのものからデータを含むインスタンス変数"
+"を見つけることができることを意味します。) "
+
+#. Tag: para
+#: Concepts.xml:335
+#, no-c-format
+msgid ""
+"Stateless session beans are the least interesting kind of Seam component."
+msgstr ""
+"ステートレスセッション Bean は最も興味のわかない種類の Seam コンポーネントで"
+"す。"
+
+#. Tag: para
+#: Concepts.xml:338
+#, no-c-format
+msgid ""
+"Seam stateless session bean components may be instantiated using "
+"<literal>Component.getInstance()</literal> or <literal>@In(create=true)</"
+"literal>. They should not be directly instantiated via JNDI lookup or the "
+"<literal>new</literal> operator."
+msgstr ""
+"Seam ステートレスセッション Bean コンポーネントは <literal>Component."
+"getInstance()</literal> または <literal>@In(create=true)</literal> を使用して"
+"インスタンス化可能です。これらは JNDI ルックアップや 直接 new オペレータでイ"
+"ンスタンス化されるべきではありません。 "
+
+#. Tag: title
+#: Concepts.xml:346
+#, no-c-format
+msgid "Stateful session beans"
+msgstr "ステートフルセッション Bean"
+
+#. Tag: para
+#: Concepts.xml:347
+#, no-c-format
+msgid ""
+"Stateful session bean components are able to hold state not only across "
+"multiple invocations of the bean, but also across multiple requests. "
+"Application state that does not belong in the database should usually be "
+"held by stateful session beans. This is a major difference between Seam and "
+"many other web application frameworks. Instead of sticking information about "
+"the current conversation directly in the <literal>HttpSession</literal>, you "
+"should keep it in instance variables of a stateful session bean that is "
+"bound to the conversation context. This allows Seam to manage the lifecycle "
+"of this state for you, and ensure that there are no collisions between state "
+"relating to different concurrent conversations."
+msgstr ""
+"ステートフルセッション Bean コンポーネントは、 Bean の複数の呼出しに対して状"
+"態を保持することができるだけでなく、 複数の要求に対して状態を保持することもで"
+"きます。 データベースに保持されていないアプリケーションの状態は、 通常、ス"
+"テートフルセッション Bean によって保持される必要があります。 これは Seam と他"
+"の多くの Web アプリケーションフレームワークとの大きな違いです。 現在の対話の"
+"情報を直接 <literal>HttpSession</literal> に押し込める代わりに、 対話コンテキ"
+"ストに結びついたステートフルセッション Bean のインスタンス変数の中にそれを保"
+"持すべきです。 これは、Seam がこの状態のライフサイクルの管理を可能にし、 異な"
+"る同時実行中の対話に関連する状態の間に衝突がないことを保証します。"
+
+#. Tag: para
+#: Concepts.xml:357
+#, no-c-format
+msgid ""
+"Stateful session beans are often used as JSF action listener, and as backing "
+"beans that provide properties to JSF components for display or form "
+"submission."
+msgstr ""
+"ステートフルセッション Bean はしばしば JSF アクションリスナー、または、 表示"
+"もしくはフォームのサブミットのためにプロパティを提供する JSF コンポーネントの"
+"バッキング Bean として使用されます。"
+
+#. Tag: para
+#: Concepts.xml:361
+#, no-c-format
+msgid ""
+"By default, stateful session beans are bound to the conversation context. "
+"They may never be bound to the page or stateless contexts."
+msgstr ""
+"デフォルトで、ステートフルセッション Bean は対話コンテキストとバインドしま"
+"す。 ページもしくはステートレスコンテキストとバインドできません。"
+
+# 2.1
+#. Tag: para
+#: Concepts.xml:365
+#, no-c-format
+msgid ""
+"Concurrent requests to session-scoped stateful session beans are always "
+"serialized by Seam as long as the Seam interceptors are not disabled for the "
+"bean."
+msgstr ""
+"セッションスコープのステートレスセッション Bean への同時並行要求は、 そのBean"
+"へのSeamインタセプタが無効にされていない限り、常に Seam によってシリアライズ"
+"されます。"
+
+#. Tag: para
+#: Concepts.xml:370
+#, no-c-format
+msgid ""
+"Seam stateful session bean components may be instantiated using "
+"<literal>Component.getInstance()</literal> or <literal>@In(create=true)</"
+"literal>. They should not be directly instantiated via JNDI lookup or the "
+"<literal>new</literal> operator."
+msgstr ""
+"Seam ステートフルセッション Bean コンポーネントは <literal>Component."
+"getInstance()</literal> または <literal>@In(create=true)</literal> を使用して"
+"インスタンス化可能です。これらは JNDI ルックアップや 直接 <literal>new</"
+"literal> オペレータでインスタンス化されるべきではありません。 "
+
+#. Tag: title
+#: Concepts.xml:378
+#, no-c-format
+msgid "Entity beans"
+msgstr "エンティティ Bean"
+
+#. Tag: para
+#: Concepts.xml:379
+#, no-c-format
+msgid ""
+"Entity beans may be bound to a context variable and function as a seam "
+"component. Because entities have a persistent identity in addition to their "
+"contextual identity, entity instances are usually bound explicitly in Java "
+"code, rather than being instantiated implicitly by Seam."
+msgstr ""
+"エンティティ Bean はコンテキスト変数とバインドし、Seamコンポーネントとして機"
+"能することもあります。 エンティティは、コンテキスト依存識別子に加えて永続識別"
+"子を持つために、 エンティティのインスタンスは、Seam によって暗黙的にインスタ"
+"ンス化されるより、 むしろ Java コード中で明示的にバインドされます。"
+
+#. Tag: para
+#: Concepts.xml:384
+#, no-c-format
+msgid ""
+"Entity bean components do not support bijection or context demarcation. Nor "
+"does invocation of an entity bean trigger validation."
+msgstr ""
+"エンティティ Bean コンポーネントはバイジェクションもコンテキスト区分もサポー"
+"トしません。 また、エンティティ Bean トリガのデータ妥当性検証の呼び出しもサ"
+"ポートしていません。"
+
+#. Tag: para
+#: Concepts.xml:388
+#, no-c-format
+msgid ""
+"Entity beans are not usually used as JSF action listeners, but do often "
+"function as backing beans that provide properties to JSF components for "
+"display or form submission. In particular, it is common to use an entity as "
+"a backing bean, together with a stateless session bean action listener to "
+"implement create/update/delete type functionality."
+msgstr ""
+"エンティティ Bean は、通常 JSF アクションリスナーとして使用されませんが、 し"
+"ばしば、表示あるいはフォームのサブミットのために JSF コンポーネントにプロパ"
+"ティを提供するバッキング Bean として機能します。 特に、エンティティ Bean を"
+"バッキング Bean として使用することは一般的であり、 追加 / 変更 / 削除タイプの"
+"機能の実装のためのステートレスセッション Bean アクションリスナーと一緒に使用"
+"されます。"
+
+#. Tag: para
+#: Concepts.xml:394
+#, no-c-format
+msgid ""
+"By default, entity beans are bound to the conversation context. They may "
+"never be bound to the stateless context."
+msgstr ""
+"デフォルトで、エンティティ Bean は対話コンテキストとバインドします。 ステート"
+"レスセッション Bean とはバインドしません。"
+
+#. Tag: para
+#: Concepts.xml:398
+#, no-c-format
+msgid ""
+"Note that it in a clustered environment is somewhat less efficient to bind "
+"an entity bean directly to a conversation or session scoped Seam context "
+"variable than it would be to hold a reference to the entity bean in a "
+"stateful session bean. For this reason, not all Seam applications define "
+"entity beans to be Seam components."
+msgstr ""
+"クラスタリングされた環境では、 ステートフルセッション Bean 中でエンティティ "
+"Bean の参照を保持することより、 エンティティ Bean を直接的に対話あるいはセッ"
+"ションスコープの Seam コンテキスト変数にバインドする方が多少非効率的であるこ"
+"とに留意してください。 この理由のため、すべての Seam アプリケーションが Seam "
+"コンポーネントであるためにエンティティ Bean を定義するわけではありません。"
+
+#. Tag: para
+#: Concepts.xml:404
+#, no-c-format
+msgid ""
+"Seam entity bean components may be instantiated using <literal>Component."
+"getInstance()</literal>, <literal>@In(create=true)</literal> or directly "
+"using the <literal>new</literal> operator."
+msgstr ""
+"Seam エンティティ Bean コンポーネントは <literal>Component.getInstance()</"
+"literal> または <literal>@In(create=true)</literal> を使用してインスタンス化"
+"可能です。あるいは、直接 <literal>new</literal> オペレータを使用することが可"
+"能です。 "
+
+#. Tag: title
+#: Concepts.xml:411
+#, no-c-format
+msgid "<title>JavaBeans</title>"
+msgstr "<title>JavaBeans</title>"
+
+#. Tag: para
+#: Concepts.xml:412
+#, no-c-format
+msgid ""
+"Javabeans may be used just like a stateless or stateful session bean. "
+"However, they do not provide the functionality of a session bean "
+"(declarative transaction demarcation, declarative security, efficient "
+"clustered state replication, EJB 3.0 persistence, timeout methods, etc)."
+msgstr ""
+"JavaBean はステートレスあるいはステートフルセッション Bean のように使用される"
+"こともあります。 しかし、それらはセッション Bean の機能を提供していません。 "
+"(宣言的トランザクション区分、 宣言的セキュリティ、 効率的にクラスタ化された状"
+"態レプリケーション、 EJB 3.0 永続性、 タイムアウトメソッドなど)"
+
+#. Tag: para
+#: Concepts.xml:417
+#, no-c-format
+msgid ""
+"In a later chapter, we show you how to use Seam and Hibernate without an EJB "
+"container. In this use case, components are JavaBeans instead of session "
+"beans. Note, however, that in many application servers it is somewhat less "
+"efficient to cluster conversation or session scoped Seam JavaBean components "
+"than it is to cluster stateful session bean components."
+msgstr ""
+"後の章で、EJB コンテナなしで Seam や Hibernate を使用する方法を紹介していま"
+"す。 このユースケースでは、コンポーネントはセッション Bean の代わりに "
+"JavaBean です。 しかし、多くのアプリケーションサーバーでは、 ステートフルセッ"
+"ション Bean コンポーネントをクラスタリングするより、 対話あるいはセッションス"
+"コープの Seam JavaBean コンポーネントをクラスタリングする方が多少非効率的であ"
+"ることに留意してください。"
+
+#. Tag: para
+#: Concepts.xml:423
+#, no-c-format
+msgid "By default, JavaBeans are bound to the event context."
+msgstr "デフォルトで、JavaBean はイベントコンテキストとバインドします。"
+
+#. Tag: para
+#: Concepts.xml:426
+#, no-c-format
+msgid ""
+"Concurrent requests to session-scoped JavaBeans are always serialized by "
+"Seam."
+msgstr ""
+"セッションスコープの JavaBean への同時並行要求はいつも Seam によりシリアライ"
+"ズされます。"
+
+#. Tag: para
+#: Concepts.xml:429
+#, no-c-format
+msgid ""
+"Seam JavaBean components may be instantiated using <literal>Component."
+"getInstance()</literal> or <literal>@In(create=true)</literal>. They should "
+"not be directly instantiated using the <literal>new</literal> operator."
+msgstr ""
+"Seam JavaBean コンポーネントは <literal>Component.getInstance()</literal> ま"
+"たは <literal>@In(create=true)</literal> を使用してインスタンス化可能です。こ"
+"れらは直接 <literal>new</literal> オペレータでインスタンス化されるべきではあ"
+"りません。 "
+
+#. Tag: title
+#: Concepts.xml:437
+#, no-c-format
+msgid "Message-driven beans"
+msgstr "メッセージ駆動型 Bean"
+
+#. Tag: para
+#: Concepts.xml:438
+#, no-c-format
+msgid ""
+"Message-driven beans may function as a seam component. However, message-"
+"driven beans are called quite differently to other Seam components - instead "
+"of invoking them via the context variable, they listen for messages sent to "
+"a JMS queue or topic."
+msgstr ""
+"メッセージ駆動形 Bean は Seam コンポーネントとして機能することができます。 し"
+"かし、メッセージ駆動型 Bean は、他の Seam コンポーネントとまったく異なった形"
+"で呼び出されます。 コンテキスト変数を通じてそれらを呼び出す代わりに、 JMS "
+"キュー あるいは、トピックに送信されたメッセージを待ち受けます。"
+
+#. Tag: para
+#: Concepts.xml:443
+#, no-c-format
+msgid ""
+"Message-driven beans may not be bound to a Seam context. Nor do they have "
+"access to the session or conversation state of their \"caller\". However, "
+"they do support bijection and some other Seam functionality."
+msgstr ""
+"メッセージ駆動形 Bean は、Seam コンテキストとバインドできません。 また、それ"
+"らの「呼び出し元」のセッションや対話状態にアクセスできません。 しかし、メッ"
+"セージ駆動形 Bean は、バイジェクションと他の Seam の機能をサポートします。"
+
+#. Tag: para
+#: Concepts.xml:448
+#, no-c-format
+msgid ""
+"Message-driven beans are never instantiated by the application. They are "
+"instantiated by the EJB container when a message is received."
+msgstr ""
+"メッセージ駆動型 Bean はアプリケーションによってインスタンス化されません。こ"
+"れらはメッセージを受信したときに EJB コンテナによってインスタンス化されま"
+"す。 "
+
+#. Tag: title
+#: Concepts.xml:455
+#, no-c-format
+msgid "Interception"
+msgstr "インタセプション"
+
+#. Tag: para
+#: Concepts.xml:456
+#, no-c-format
+msgid ""
+"In order to perform its magic (bijection, context demarcation, validation, "
+"etc), Seam must intercept component invocations. For JavaBeans, Seam is in "
+"full control of instantiation of the component, and no special configuration "
+"is needed. For entity beans, interception is not required since bijection "
+"and context demarcation are not defined. For session beans, we must register "
+"an EJB interceptor for the session bean component. We could use an "
+"annotation, as follows:"
+msgstr ""
+"Seamのマジック (バイジェクション、コンテキスト区分、データ妥当性検証など) を"
+"実行するために、 Seam はコンポーネントの呼び出しをインタセプトしなければなり"
+"ません。 JavaBean では、Seam はコンポーネントのインスタンス化を完全に制御する"
+"ため、特別な設定は不要です。 エンティティ Bean では、バイジェクションとコンテ"
+"キスト区分が指定されていないため、インタセプションは不要です。 セッション "
+"Bean では、EJB インタセプタをセッション Bean コンポーネントのために登録しなけ"
+"ればなりません。 アノテーションは以下のように使用します。"
+
+#. Tag: programlisting
+#: Concepts.xml:464
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Interceptors(SeamInterceptor.class)\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateless\n"
+"@Interceptors(SeamInterceptor.class)\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:466
+#, no-c-format
+msgid ""
+"But a much better way is to define the interceptor in <literal>ejb-jar.xml</"
+"literal>."
+msgstr ""
+"しかし、もっと良い方法は、<literal>ejb-jar.xml</literal> にインタセプタを定義"
+"することです。"
+
+#. Tag: programlisting
+#: Concepts.xml:470
+#, no-c-format
+msgid ""
+"<![CDATA[<interceptors>\n"
+"   <interceptor>\n"
+"      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor>\n"
+"</interceptors>\n"
+"   \n"
+"<assembly-descriptor>\n"
+"   <interceptor-binding>\n"
+"      <ejb-name>*</ejb-name>\n"
+"      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"</assembly-descriptor>]]>"
+msgstr ""
+"<![CDATA[<interceptors>\n"
+"   <interceptor>\n"
+"      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor>\n"
+"</interceptors>\n"
+"   \n"
+"<assembly-descriptor>\n"
+"   <interceptor-binding>\n"
+"      <ejb-name>*</ejb-name>\n"
+"      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"</assembly-descriptor>]]>"
+
+#. Tag: title
+#: Concepts.xml:475
+#, no-c-format
+msgid "Component names"
+msgstr "コンポーネント名"
+
+#. Tag: para
+#: Concepts.xml:476
+#, no-c-format
+msgid ""
+"All seam components need a name. We can assign a name to a component using "
+"the <literal>@Name</literal> annotation:"
+msgstr ""
+"すべての Seam コンポーネントは名前が必要です。 <literal>@Name</literal> アノ"
+"テーションを使用してコンポーネントに名前を割り当てます。"
+
+#. Tag: programlisting
+#: Concepts.xml:481
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:483
+#, no-c-format
+msgid ""
+"This name is the <emphasis>seam component name</emphasis> and is not related "
+"to any other name defined by the EJB specification. However, seam component "
+"names work just like JSF managed bean names and you can think of the two "
+"concepts as identical."
+msgstr ""
+"この名前は、<emphasis>Seam コンポーネント名</emphasis> で、 EJB 標準で定義さ"
+"れた他の名前との関連はありません。 しかし、Seam コンポーネント名はちょうど "
+"JSF 管理 Bean のように動作するため、 2 つのコンセプトは同一と考えることができ"
+"ます。"
+
+#. Tag: para
+#: Concepts.xml:489
+#, no-c-format
+msgid ""
+"<literal>@Name</literal> is not the only way to define a component name, but "
+"we always need to specify the name <emphasis>somewhere</emphasis>. If we "
+"don't, then none of the other Seam annotations will function."
+msgstr ""
+"<literal>@Name</literal> はコンポーネント名を定義する唯一の方法ではありません"
+"が、 いつも、<emphasis>どこか</emphasis>で名前を指定する必要があります。 もし"
+"そうしないと、他の Seam アノテーションはどれも機能しないでしょう。"
+
+#. Tag: para
+#: Concepts.xml:495
+#, fuzzy, no-c-format
+msgid ""
+"Whenever Seam instantiates a component, it binds the new instance to a "
+"variable in the scope configured for the component that matches the "
+"component name. This behavior is identical to how JSF managed beans work, "
+"except that Seam allows you to configure this mapping using annotations "
+"rather than XML. You can also programmatically bind a component to a context "
+"variable. This is useful if a particular component serves more than one role "
+"in the system. For example, the currently logged in <literal>User</literal> "
+"might be bound to the <literal>currentUser</literal> session context "
+"variable, while a <literal>User</literal> that is the subject of some "
+"administration functionality might be bound to the <literal>user</literal> "
+"conversation context variable. Be careful, though, because through a "
+"programmatic assignment, it's possible to overwrite a context variable that "
+"has a reference to a Seam component, potentially confusing matters."
+msgstr ""
+"ちょうど JSF のように、Seam コンポーネントインスタンスは、 通常コンポーネント"
+"名と同じ名前のコンテキスト変数と結合します。 従って、例えば、"
+"<literal>Contexts.getStatelessContext().get(\"loginAction\")</literal> を使っ"
+"て、 <literal>LoginAction</literal> にアクセスできるでしょう。 具体的には、"
+"Seam 自身がコンポーネントをインスタンス化する時はいつでも、 それはコンポーネ"
+"ント名によって新しいインスタンスを変数と結合します。 しかし、この場合も JSF "
+"のように、 アプリケーションはプログラムに基づいた API コールによってコンポー"
+"ネントを他のコンテキスト変数と結合させることも可能です。 特定のコンポーネント"
+"がシステムの中で複数のロールを提供する場合のみ、これは有用です。 例えば、現在"
+"のログイン <literal>User</literal> は <literal>currentUser</literal> セッショ"
+"ンコンテキスト変数に結合されているかもしれませんが、 一方で、ある管理機能を果"
+"たす <literal>User</literal> は <literal>user</literal> 対話コンテキスト変数"
+"に結合されているかもしれません。"
+
+#. Tag: para
+#: Concepts.xml:506
+#, fuzzy, no-c-format
+msgid ""
+"For very large applications, and for built-in seam components, qualified "
+"component names are often used to avoid naming conflicts."
+msgstr ""
+"非常に大規模なアプリケーションのために、そして組み込み Seam コンポーネントの"
+"ために、修飾名はしばしば使われます。"
+
+#. Tag: programlisting
+#: Concepts.xml:511
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"com.jboss.myapp.loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"com.jboss.myapp.loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:513
+#, no-c-format
+msgid ""
+"We may use the qualified component name both in Java code and in JSF's "
+"expression language:"
+msgstr ""
+"Java コード中でも JSF の式言語中でも修飾されたコンポーネント名は使用できま"
+"す。"
+
+#. Tag: programlisting
+#: Concepts.xml:517
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton type=\"submit\" value=\"Login\"\n"
+"                 action=\"#{com.jboss.myapp.loginAction.login}\"/>]]>"
+msgstr ""
+"<![CDATA[<h:commandButton type=\"submit\" value=\"Login\"\n"
+"                 action=\"#{com.jboss.myapp.loginAction.login}\"/>]]>"
+
+#. Tag: para
+#: Concepts.xml:519
+#, no-c-format
+msgid ""
+"Since this is noisy, Seam also provides a means of aliasing a qualified name "
+"to a simple name. Add a line like this to the <literal>components.xml</"
+"literal> file:"
+msgstr ""
+"これはうっとうしいので、Seam は修飾名を簡単な名前にエイリアスする機能も提供し"
+"ます。 以下のような行を <literal>components.xml</literal> ファイルに追加して"
+"ください。"
+
+#. Tag: programlisting
+#: Concepts.xml:524
+#, no-c-format
+msgid ""
+"<![CDATA[<factory name=\"loginAction\" scope=\"STATELESS\" value=\"#{com."
+"jboss.myapp.loginAction}\"/>]]>"
+msgstr ""
+"<![CDATA[<factory name=\"loginAction\" scope=\"STATELESS\" value=\"#{com."
+"jboss.myapp.loginAction}\"/>]]>"
+
+# 2.1
+#. Tag: para
+#: Concepts.xml:526
+#, no-c-format
+msgid ""
+"All of the built-in Seam components have qualified names but can be accessed "
+"through their unqualified names due to the namespace import feature of Seam. "
+"The <literal>components.xml</literal> file included in the Seam JAR defines "
+"the following namespaces."
+msgstr ""
+"すべての組み込み Seam コンポーネントは修飾名を持っていますが、 Seamの名前空間"
+"をインポートする機能によって非修飾名でもアクセスすることができます。Seam JAR"
+"に含まれる <literal>components.xml</literal> ファイルは以下の名前空間を定義し"
+"ます。"
+
+#. Tag: programlisting
+#: Concepts.xml:533
+#, no-c-format
+msgid ""
+"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;"
+"&gt;\n"
+"    \n"
+"    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.transaction&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.framework&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.web&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.faces&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.international&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.theme&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.pageflow&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.bpm&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.jms&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.mail&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security.management&lt;/import&gt;  \n"
+"    &lt;import&gt;org.jboss.seam.security.permission&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.captcha&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.excel.exporter&lt;/import&gt;\n"
+"    &lt;!-- ... ---&gt;\n"
+"&lt;/components&gt;"
+msgstr ""
+"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;"
+"&gt;\n"
+"    \n"
+"    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.transaction&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.framework&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.web&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.faces&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.international&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.theme&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.pageflow&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.bpm&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.jms&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.mail&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security.management&lt;/import&gt;  \n"
+"    &lt;import&gt;org.jboss.seam.security.permission&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.captcha&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.excel.exporter&lt;/import&gt;\n"
+"    &lt;!-- ... ---&gt;\n"
+"&lt;/components&gt;"
+
+# 2.1
+#. Tag: para
+#: Concepts.xml:535
+#, no-c-format
+msgid ""
+"When attempting to resolve an unqualified name, Seam will check each of "
+"those namespaces, in order. You can include additional namespaces in your "
+"application's <literal>components.xml</literal> file for application-"
+"specific namespaces."
+msgstr ""
+"修飾された名前を解決するときは、Seamは順にそれぞれの名前空間を調べます。アプ"
+"リケーション固有の名前空間のためにはアプリケーションの<literal>components."
+"xml</literal>ファイルに追加する名前空間を含めます。"
+
+#. Tag: title
+#: Concepts.xml:543
+#, no-c-format
+msgid "Defining the component scope"
+msgstr "コンポーネントスコープの定義"
+
+#. Tag: para
+#: Concepts.xml:544
+#, no-c-format
+msgid ""
+"We can override the default scope (context) of a component using the "
+"<literal>@Scope</literal> annotation. This lets us define what context a "
+"component instance is bound to, when it is instantiated by Seam."
+msgstr ""
+"<literal>@Scope</literal>アノテーションを使用して、コンポーネントのデフォルト"
+"スコープ (コンテキスト) をオーバーライドすることができます。 これにより Seam "
+"によってインスタンス化される時に、 コンポーネントインスタンスがどんなコンテキ"
+"ストと結合するかを定義ができます。"
+
+#. Tag: programlisting
+#: Concepts.xml:550
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(SESSION)\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(SESSION)\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:552
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.ScopeType</literal> defines an enumeration of "
+"possible scopes."
+msgstr ""
+"<literal>org.jboss.seam.ScopeType</literal> は、可能なスコープの列挙を定義し"
+"ます。"
+
+#. Tag: title
+#: Concepts.xml:559
+#, no-c-format
+msgid "Components with multiple roles"
+msgstr "複数ロールを持つコンポーネント"
+
+#. Tag: para
+#: Concepts.xml:560
+#, fuzzy, no-c-format
+msgid ""
+"Some Seam component classes can fulfill more than one role in the system. "
+"For example, we often have a <literal>User</literal> class which is usually "
+"used as a session-scoped component representing the current user but is used "
+"in user administration screens as a conversation-scoped component. The "
+"<literal>@Role</literal> annotation lets us define an additional named role "
+"for a component, with a different scope &#8212; it lets us bind the same "
+"component class to different context variables. (Any Seam component "
+"<emphasis>instance</emphasis> may be bound to multiple context variables, "
+"but this lets us do it at the class level, and take advantage of auto-"
+"instantiation.)"
+msgstr ""
+"一部の Seam コンポーネントクラスはシステムの中で複数のロールを果たすことがで"
+"きます。 例えば、セッションスコープのコンポーネント <literal>User</literal> "
+"クラスは、 よく現在のユーザーとして使用されますが、ユーザー管理画面では対話ス"
+"コープのコンポーネントとして使用されます。 <literal>@Role</literal> アノテー"
+"ションは、コンポーネントに対して異なったスコープを持つ追加指定のロールの定義"
+"を可能にしています。 これにより、 同じコンポーネントクラスを異なるコンテキス"
+"ト変数にバインドすることができるようになります。 (どの Seam コンポーネント "
+"<emphasis>インスタンス</emphasis> も複数のコンテキスト変数にバインドが可能で"
+"すが、 これはクラスレベルで可能であり自動インスタンス化を利用しています。)"
+
+#. Tag: programlisting
+#: Concepts.xml:570
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(CONVERSATION)\n"
+"@Role(name=\"currentUser\", scope=SESSION)\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(CONVERSATION)\n"
+"@Role(name=\"currentUser\", scope=SESSION)\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:572
+#, no-c-format
+msgid ""
+"The <literal>@Roles</literal> annotation lets us specify as many additional "
+"roles as we like."
+msgstr ""
+"<literal>@Roles</literal> アノテーションは、欲しいだけ多くの追加のロールの指"
+"定を可能にします。"
+
+#. Tag: programlisting
+#: Concepts.xml:576
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(CONVERSATION)\n"
+"@Roles({@Role(name=\"currentUser\", scope=SESSION),\n"
+"        @Role(name=\"tempUser\", scope=EVENT)})\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"user\")\n"
+"@Entity\n"
+"@Scope(CONVERSATION)\n"
+"@Roles({@Role(name=\"currentUser\", scope=SESSION),\n"
+"        @Role(name=\"tempUser\", scope=EVENT)})\n"
+"public class User { \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: title
+#: Concepts.xml:581
+#, no-c-format
+msgid "Built-in components"
+msgstr "組み込みコンポーネント"
+
+#. Tag: para
+#: Concepts.xml:582
+#, no-c-format
+msgid ""
+"Like many good frameworks, Seam eats its own dogfood and is implemented "
+"mostly as a set of built-in Seam interceptors (see later) and Seam "
+"components. This makes it easy for applications to interact with built-in "
+"components at runtime or even customize the basic functionality of Seam by "
+"replacing the built-in components with custom implementations. The built-in "
+"components are defined in the Seam namespace <literal>org.jboss.seam.core</"
+"literal> and the Java package of the same name."
+msgstr ""
+"多くの良いフレームワークのように、 Seam は自分自身が提供している機能を使うこ"
+"とを心掛けています (Eat Your Own Dog Food) 。 組み込みの Seam インタセプタ "
+"(後述) と Seamコンポーネントのセットで実装されています。 これは、アプリケー"
+"ションがランタイムで組み込みのコンポーネントとやり取り行うことを容易にしま"
+"す。 さらに、組み込みのコンポーネントを独自の実装に置き換えることによって "
+"Seam の基本機能をカスタマイズすることさえ容易にします。 組み込みのコンポーネ"
+"ントは Seam の名前空間 <literal>org.jboss.seam.core</literal> と 同じ名前の "
+"Java パッケージにおいて定義されます。"
+
+#. Tag: para
+#: Concepts.xml:589
+#, no-c-format
+msgid ""
+"The built-in components may be injected, just like any Seam components, but "
+"they also provide convenient static <literal>instance()</literal> methods:"
+msgstr ""
+"組み込みコンポーネントは、Seam コンポーネントと同様にインジェクトすることも可"
+"能ですが、 便利なスタティック <literal>instance()</literal> メソッドも提供し"
+"ます。"
+
+#. Tag: programlisting
+#: Concepts.xml:593
+#, no-c-format
+msgid ""
+"<![CDATA[FacesMessages.instance().add(\"Welcome back, #{user.name}!\");]]>"
+msgstr ""
+"<![CDATA[FacesMessages.instance().add(\"Welcome back, #{user.name}!\");]]>"
+
+#. Tag: title
+#: Concepts.xml:599
+#, no-c-format
+msgid "Bijection"
+msgstr "バイジェクション"
+
+#. Tag: para
+#: Concepts.xml:600
+#, no-c-format
+msgid ""
+"<emphasis>Dependency injection</emphasis> or <emphasis>inversion of control</"
+"emphasis> is by now a familiar concept to most Java developers. Dependency "
+"injection allows a component to obtain a reference to another component by "
+"having the container \"inject\" the other component to a setter method or "
+"instance variable. In all dependency injection implementations that we have "
+"seen, injection occurs when the component is constructed, and the reference "
+"does not subsequently change for the lifetime of the component instance. For "
+"stateless components, this is reasonable. From the point of view of a "
+"client, all instances of a particular stateless component are "
+"interchangeable. On the other hand, Seam emphasizes the use of stateful "
+"components. So traditional dependency injection is no longer a very useful "
+"construct. Seam introduces the notion of <emphasis>bijection</emphasis> as a "
+"generalization of injection. In contrast to injection, bijection is:"
+msgstr ""
+"<emphasis>依存性の注入 (dependency injection)</emphasis> あるいは <emphasis>"
+"制御の逆転 (inversion of control)</emphasis> は今ではもう大多数の Java 開発者"
+"によく知られた概念です。 依存性の注入はあるコンポーネントが他のコンポーネント"
+"の参照を持つのを可能にします。 それはコンテナによって setter メソッドあるいは"
+"インスタンス変数に他のコンポーネントを「インジェクト (注入）」させることで実"
+"現します。 これまであったすべての依存性の注入の実装では、 インジェクションは"
+"コンポーネントが生成されたときに起こり、 その後、参照はコンポーネントのライフ"
+"サイクルの間で変化しません。 ステートレスコンポーネントにおいて、これは理にか"
+"なっています。 クライアントの観点から、特定のステートレスなコンポーネントのす"
+"べてのインスタンスは交換可能です。 一方、Seamはステートフルなコンポーネントの"
+"使用に重点を置いています。 従って、典型的な依存性の注入はもはやあまり有用な構"
+"造ではありません。 Seam はインジェクションの一般化として、<emphasis>バイジェ"
+"クション (bijection)</emphasis> の概念を導入しました。 インジェクションと対比"
+"すると、バイジェクションは以下のようになります。"
+
+# 2.0 modified
+#. Tag: para
+#: Concepts.xml:614
+#, no-c-format
+msgid ""
+"<emphasis>contextual</emphasis> - bijection is used to assemble stateful "
+"components from various different contexts (a component from a \"wider\" "
+"context may even have a reference to a component from a \"narrower\" context)"
+msgstr ""
+"<emphasis>コンテキスト依存 (contextual)</emphasis> - バイジェクションはさまざ"
+"まな異なるコンテキストからステートフルなコンポーネントを組み立てるために使用"
+"されます。 (「より広い (wider) 」コンテキストからのコンポーネントは「より狭"
+"い  (narrow) 」コンテキストからの参照も持つかもしれません。)"
+
+# 2.0 modified
+#. Tag: para
+#: Concepts.xml:621
+#, no-c-format
+msgid ""
+"<emphasis>bidirectional</emphasis> - values are injected from context "
+"variables into attributes of the component being invoked, and also "
+"<emphasis>outjected</emphasis> from the component attributes back out to the "
+"context, allowing the component being invoked to manipulate the values of "
+"contextual variables simply by setting its own instance variables"
+msgstr ""
+"<emphasis>双方向性 (bidirectional)</emphasis> - 値はコンテキスト変数から呼ば"
+"れるコンポーネントの属性にインジェクトされ、 また、コンポーネント属性からコン"
+"テキストに<emphasis>アウトジェクト (outject)</emphasis> され戻されます。 イン"
+"スタンス変数そのものを設定することで、呼ばれたコンポーネントが簡単にコンテキ"
+"スト変数の値を操作することを可能にします。"
+
+#. Tag: para
+#: Concepts.xml:629
+#, no-c-format
+msgid ""
+"<emphasis>dynamic</emphasis> - since the value of contextual variables "
+"changes over time, and since Seam components are stateful, bijection takes "
+"place every time a component is invoked"
+msgstr ""
+"<emphasis>動的 (dynamic)</emphasis> - バイジェクションはコンポーネントが呼ば"
+"れるたびに発生します。 なぜなら、コンテキストの値は時間経過で変化し、 Seam コ"
+"ンポーネントがステートフルだからです。"
+
+#. Tag: para
+#: Concepts.xml:636
+#, no-c-format
+msgid ""
+"In essence, bijection lets you alias a context variable to a component "
+"instance variable, by specifying that the value of the instance variable is "
+"injected, outjected, or both. Of course, we use annotations to enable "
+"bijection."
+msgstr ""
+"本質的に、インスタンス変数の値をインジェクト、アウトジェクト、両方により指定"
+"することで、 バイジェクションはコンテキスト変数をコンポーネントのインスタンス"
+"変数にエイリアスを可能にします もちろん、バイジェクションを可能にするためにア"
+"ノテーションが使用されています。"
+
+#. Tag: para
+#: Concepts.xml:642
+#, no-c-format
+msgid ""
+"The <literal>@In</literal> annotation specifies that a value should be "
+"injected, either into an instance variable:"
+msgstr ""
+"<literal>@In</literal> アノテーションは値がインスタンス変数にインジェクトされ"
+"ることを指定しています。"
+
+#. Tag: programlisting
+#: Concepts.xml:647
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In User user;\n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In User user;\n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:649
+#, no-c-format
+msgid "or into a setter method:"
+msgstr "あるいは、setter メソッドにインジェクトされます。"
+
+#. Tag: programlisting
+#: Concepts.xml:653
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @In\n"
+"    public void setUser(User user) {\n"
+"        this.user=user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @In\n"
+"    public void setUser(User user) {\n"
+"        this.user=user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:656
+#, no-c-format
+msgid ""
+"By default, Seam will do a priority search of all contexts, using the name "
+"of the property or instance variable that is being injected. You may wish to "
+"specify the context variable name explicitly, using, for example, "
+"<literal>@In(\"currentUser\")</literal>."
+msgstr ""
+"デフォルトでは、 Seam はプロパティ名あるいはインジェクトされたインスタンス変"
+"数名を使用して、 すべてのコンテキストの優先順位検索を行います。 例えば、 "
+"<literal>@In(\"currentUser\")</literal>を使用することで明示的にコンテキスト変"
+"数を指定することもできます。"
+
+#. Tag: para
+#: Concepts.xml:662
+#, no-c-format
+msgid ""
+"If you want Seam to create an instance of the component when there is no "
+"existing component instance bound to the named context variable, you should "
+"specify <literal>@In(create=true)</literal>. If the value is optional (it "
+"can be null), specify <literal>@In(required=false)</literal>."
+msgstr ""
+"指定されたコンテキスト変数と関連した既存のコンポーネントインスタンスが存在し"
+"ないときに、 Seam にコンポーネントのインスタンスの生成を望むならば、 "
+"<literal>@In(create=true)</literal> を指定する必要があります。 値がオプション"
+"で (null でも可能) であれば、<literal>@In(required=false)</literal> を指定し"
+"てください。"
+
+#. Tag: para
+#: Concepts.xml:668
+#, no-c-format
+msgid ""
+"For some components, it can be repetitive to have to specify <literal>@In"
+"(create=true)</literal> everywhere they are used. In such cases, you can "
+"annotate the component <literal>@AutoCreate</literal>, and then it will "
+"always be created, whenever needed, even without the explicit use of "
+"<literal>create=true</literal>."
+msgstr ""
+"いくつかのコンポーネントでは、 それらが使用されるところではどこでも繰り返し "
+"<literal>@In(create=true)</literal> を指定する必要があるかもしれません。 この"
+"ような場合、 コンポーネントに <literal>@AutoCreate</literal> アノテーションを"
+"付けることが可能で、 <literal>create=true</literal> を明示的に使用しなくて"
+"も、 必要なとき常に作成されるようになります。"
+
+#. Tag: para
+#: Concepts.xml:674
+#, no-c-format
+msgid "You can even inject the value of an expression:"
+msgstr "式の値をインジェクトすることも可能です。"
+
+#. Tag: programlisting
+#: Concepts.xml:678
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In(\"#{user.username}\") String username;\n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In(\"#{user.username}\") String username;\n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:680
+#, fuzzy, no-c-format
+msgid ""
+"Injected values are disinjected (i.e., set to <literal>null</literal>) "
+"immediately after method completion and outjection."
+msgstr ""
+"注入された値はメソッドが終了しアウトジェクトされた後に逆方向に注入されます"
+"( 例えば <literal>null</literal> に設定されます )。"
+
+#. Tag: para
+#: Concepts.xml:685
+#, no-c-format
+msgid ""
+"(There is much more information about component lifecycle and injection in "
+"the next chapter.)"
+msgstr ""
+"(コンポーネントライフサイクルとインジェクションについては次章により多くの情報"
+"があります。)"
+
+#. Tag: para
+#: Concepts.xml:689
+#, no-c-format
+msgid ""
+"The <literal>@Out</literal> annotation specifies that an attribute should be "
+"outjected, either from an instance variable:"
+msgstr ""
+"<literal>@Out</literal>アノテーションは、属性がインスタンス変数からもアウト"
+"ジェクトされるべきことを指定します。"
+
+#. Tag: programlisting
+#: Concepts.xml:694
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @Out User user;\n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @Out User user;\n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:696
+#, no-c-format
+msgid "or from a getter method:"
+msgstr "あるいは getter メソッドからアウトジェクトされます。"
+
+#. Tag: programlisting
+#: Concepts.xml:700
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @Out\n"
+"    public User getUser() {\n"
+"        return user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @Out\n"
+"    public User getUser() {\n"
+"        return user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:702
+#, no-c-format
+msgid "An attribute may be both injected and outjected:"
+msgstr "属性値はインジェクトされることもアウトジェクトされることも可能です。"
+
+#. Tag: programlisting
+#: Concepts.xml:706
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In @Out User user;\n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    @In @Out User user;\n"
+"    ... \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:708
+#, no-c-format
+msgid "<para>or:</para>"
+msgstr "<para>または、</para>"
+
+#. Tag: programlisting
+#: Concepts.xml:712
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @In\n"
+"    public void setUser(User user) {\n"
+"        this.user=user;\n"
+"    }\n"
+"    \n"
+"    @Out\n"
+"    public User getUser() {\n"
+"        return user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"loginAction\")\n"
+"@Stateless\n"
+"public class LoginAction implements Login { \n"
+"    User user;\n"
+"    \n"
+"    @In\n"
+"    public void setUser(User user) {\n"
+"        this.user=user;\n"
+"    }\n"
+"    \n"
+"    @Out\n"
+"    public User getUser() {\n"
+"        return user;\n"
+"    }\n"
+"    \n"
+"    ... \n"
+"}]]>"
+
+#. Tag: title
+#: Concepts.xml:717
+#, no-c-format
+msgid "Lifecycle methods"
+msgstr "ライフサイクルメソッド"
+
+#. Tag: para
+#: Concepts.xml:719
+#, no-c-format
+msgid ""
+"Session bean and entity bean Seam components support all the usual EJB 3.0 "
+"lifecycle callback (<literal>@PostConstruct</literal>, <literal>@PreDestroy</"
+"literal>, etc). But Seam also supports the use of any of these callbacks "
+"with JavaBean components. However, since these annotations are not available "
+"in a J2EE environment, Seam defines two additional component lifecycle "
+"callbacks, equivalent to <literal>@PostConstruct</literal> and "
+"<literal>@PreDestroy</literal>."
+msgstr ""
+"セッション Bean とエンティティ Bean Seam コンポーネントは通常の EJB 3.0 のラ"
+"イフサイクルのコールバック (<literal>@PostConstruct</literal>、"
+"<literal>@PreDestroy</literal> など) のすべてをサポートしています。 しかも、"
+"Seam は JavaBean コンポーネント でのこれらコールバックの使用もサポートしてい"
+"ます。 しかし、これらのアノテーションは J2EE 環境では有効とならないため、"
+"Seam は <literal>@PostConstruct</literal> と <literal>@PreDestroy</literal> "
+"と等価な 2 つの追加コンポーネントライフサイクルコールバックを定義しています。"
+
+# 2.1 modified
+#. Tag: para
+#: Concepts.xml:727
+#, no-c-format
+msgid ""
+"The <literal>@Create</literal> method is called after Seam instantiates a "
+"component. Components may define only one <literal>@Create</literal> method."
+msgstr ""
+" <literal>@Create</literal>  メソッドは Seam がコンポーネントをインスタンス化"
+"した後に呼ばれます。 コンポーネントは 1 つの <literal>@Create</literal >メ"
+"ソッドのみ定義可能です。 "
+
+#. Tag: para
+#: Concepts.xml:732
+#, no-c-format
+msgid ""
+"The <literal>@Destroy</literal> method is called when the context that the "
+"Seam component is bound to ends. Components may define only one "
+"<literal>@Destroy</literal> method."
+msgstr ""
+" <literal>@Destroy</literal> メソッドは Seam コンポーネントがバインドするコン"
+"テキストが終了するときに呼ばれます。 コンポーネントは 1 つの "
+"<literal>@Destroy</literal> メソッドのみ定義可能です。 "
+
+#. Tag: para
+#: Concepts.xml:737
+#, no-c-format
+msgid ""
+"In addition, stateful session bean components <emphasis>must</emphasis> "
+"define a method with no parameters annotated <literal>@Remove</literal>. "
+"This method is called by Seam when the context ends."
+msgstr ""
+"さらに、ステートフルセッション Bean コンポーネントはパラメータ無しの"
+"<literal>@Remove</literal>を付けることが<emphasis>必須</emphasis> です。この"
+"メソッドはコンテキストが終了するときに Seam により呼ばれます。"
+
+#. Tag: para
+#: Concepts.xml:742
+#, no-c-format
+msgid ""
+"Finally, a related annotation is the <literal>@Startup</literal> annotation, "
+"which may be applied to any application or session scoped component. The "
+"<literal>@Startup</literal> annotation tells Seam to instantiate the "
+"component immediately, when the context begins, instead of waiting until it "
+"is first referenced by a client. It is possible to control the order of "
+"instantiation of startup components by specifying <literal>@Startup(depends="
+"{....})</literal>."
+msgstr ""
+"最後に、関連するアノテーションは <literal>@Startup</literal> アノテーションで"
+"す。 それはアプリケーションやセッションスコープコンポーネントで利用可能で"
+"す。 <literal>@Startup</literal> アノテーションは、 コンテキストが開始された"
+"ときにクライアントによる初めての参照を待つのではなく、 Seam に即座にコンポー"
+"ネントをインスタンス化させさせます。 <literal>@Startup(depends={....})</"
+"literal> を指定することで、 スタートアップコンポーネントのインスタンス化する"
+"順序の制御が可能です。"
+
+#. Tag: title
+#: Concepts.xml:753
+#, no-c-format
+msgid "Conditional installation"
+msgstr "条件付きインストール"
+
+#. Tag: para
+#: Concepts.xml:755
+#, no-c-format
+msgid ""
+"The <literal>@Install</literal> annotation lets you control conditional "
+"installation of components that are required in some deployment scenarios "
+"and not in others. This is useful if:"
+msgstr ""
+"<literal>@Install</literal> アノテーションは、 特定のデプロイメントシナリオで"
+"は必須で別の場合はそうでないようなコンポーネントの条件付インストレーションを"
+"可能にします。 これは以下の場合に便利です。"
+
+#. Tag: para
+#: Concepts.xml:762
+#, no-c-format
+msgid "You want to mock out some infrastructural component in tests."
+msgstr "テストで特定のインフラストラクチャのコンポーネントをモックとしたい。"
+
+#. Tag: para
+#: Concepts.xml:767
+#, no-c-format
+msgid ""
+"You want change the implementation of a component in certain deployment "
+"scenarios."
+msgstr "特定のデプロイメントシナリオでコンポーネント実装を変更したい。"
+
+#. Tag: para
+#: Concepts.xml:773
+#, no-c-format
+msgid ""
+"You want to install some components only if their dependencies are available "
+"(useful for framework authors)."
+msgstr ""
+"依存性が有効な場合だけに特定のコンポーネントをインストールしたい (フレーム"
+"ワークの作者に便利)。"
+
+#. Tag: para
+#: Concepts.xml:780
+#, no-c-format
+msgid ""
+"<literal>@Install</literal> works by letting you specify "
+"<emphasis>precedence</emphasis> and <emphasis>dependencies</emphasis>."
+msgstr ""
+"<literal>@Install</literal> は <emphasis>優先順位</emphasis> と <emphasis>依"
+"存性</emphasis> を指定することで動作します。"
+
+#. Tag: para
+#: Concepts.xml:785
+#, no-c-format
+msgid ""
+"The precedence of a component is a number that Seam uses to decide which "
+"component to install when there are multiple classes with the same component "
+"name in the classpath. Seam will choose the component with the higher "
+"precendence. There are some predefined precedence values (in ascending "
+"order):"
+msgstr ""
+"コンポーネントの優先順位は、 クラスパス中に同じコンポーネント名を持つ複数のク"
+"ラスがある場合に、 インストールすべきコンポーネントを決定するために Seam が使"
+"用する番号です。 Seam はより優先順位が高いコンポーネントを選択します。 あらか"
+"じめ決められた優先順位の値があります (昇順)。"
+
+#. Tag: para
+#: Concepts.xml:794
+#, no-c-format
+msgid ""
+"<literal>BUILT_IN</literal> &#8212; the lowest precedece components are the "
+"components built in to Seam."
+msgstr ""
+"<literal>BUILT_IN</literal> &#8212; Seam に組み込まれた最も優先順位が低いコン"
+"ポーネントです。"
+
+# 2.0 modified
+#. Tag: para
+#: Concepts.xml:800
+#, no-c-format
+msgid ""
+"<literal>FRAMEWORK</literal> &#8212; components defined by third-party "
+"frameworks may override built-in components, but are overridden by "
+"application components."
+msgstr ""
+"<literal>FRAMEWORK</literal> &#8212; サードパーティフレームワークによって定義"
+"されたコンポーネントは組み込みコンポーネントをオーバーライドすることが可能で"
+"すが、アプリケーションコンポーネントによってオーバーライドされます。"
+
+#. Tag: para
+#: Concepts.xml:807
+#, no-c-format
+msgid ""
+"<literal>APPLICATION</literal> &#8212; the default precedence. This is "
+"appropriate for most application components."
+msgstr ""
+"<literal>APPLICATION</literal> &#8212; デフォルト優先順位、 これはほとんどの"
+"アプリケーションコンポーネントにおいて適切です。"
+
+#. Tag: para
+#: Concepts.xml:813
+#, no-c-format
+msgid ""
+"<literal>DEPLOYMENT</literal> &#8212; for application components which are "
+"deployment-specific."
+msgstr ""
+"<literal>DEPLOYMENT</literal> &#8212; デプロイメント固有のアプリケーションコ"
+"ンポーネント用です。"
+
+#. Tag: para
+#: Concepts.xml:819
+#, no-c-format
+msgid "<literal>MOCK</literal> &#8212; for mock objects used in testing."
+msgstr ""
+"<literal>MOCK</literal> &#8212; テストに使用されるモックオブジェクト用です。"
+
+# 2.0 modified
+#. Tag: para
+#: Concepts.xml:825
+#, no-c-format
+msgid ""
+"Suppose we have a component named <literal>messageSender</literal> that "
+"talks to a JMS queue."
+msgstr ""
+"JMS キューと対話する <literal>messageSender</literal> という名前のコンポーネ"
+"ントがあるとします。"
+
+#. Tag: programlisting
+#: Concepts.xml:830
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"messageSender\") \n"
+"public class MessageSender {\n"
+"    public void sendMessage() {\n"
+"        //do something with JMS\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"messageSender\") \n"
+"public class MessageSender {\n"
+"    public void sendMessage() {\n"
+"        //do something with JMS\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:832
+#, no-c-format
+msgid ""
+"In our unit tests, we don't have a JMS queue available, so we would like to "
+"stub out this method. We'll create a <emphasis>mock</emphasis> component "
+"that exists in the classpath when unit tests are running, but is never "
+"deployed with the application:"
+msgstr ""
+"ユニットテストでは、 有効なJMS キューがないので、このメソッドをスタブにしてし"
+"まいたくなります。 ユニットテストが実行されるときにクラスパスに存在するけれど"
+"アプリケーションではデプロイされない <emphasis>mock</emphasis> コンポーネント"
+"を作成します。"
+
+#. Tag: programlisting
+#: Concepts.xml:839
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"messageSender\") \n"
+"@Install(precedence=MOCK)\n"
+"public class MockMessageSender extends MessageSender {\n"
+"    public void sendMessage() {\n"
+"        //do nothing!\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"messageSender\") \n"
+"@Install(precedence=MOCK)\n"
+"public class MockMessageSender extends MessageSender {\n"
+"    public void sendMessage() {\n"
+"        //do nothing!\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:841
+#, no-c-format
+msgid ""
+"The <literal>precedence</literal> helps Seam decide which version to use "
+"when it finds both components in the classpath."
+msgstr ""
+"<literal>優先順位</literal> はクラスパスで両方のコンポーネントを発見したと"
+"き、 Seam がどちらのバージョンを使用するかを助けます。"
+
+#. Tag: para
+#: Concepts.xml:846
+#, no-c-format
+msgid ""
+"This is nice if we are able to control exactly which classes are in the "
+"classpath. But if I'm writing a reusable framework with many dependecies, I "
+"don't want to have to break that framework across many jars. I want to be "
+"able to decide which components to install depending upon what other "
+"components are installed, and upon what classes are available in the "
+"classpath. The <literal>@Install</literal> annotation also controls this "
+"functionality. Seam uses this mechanism internally to enable conditional "
+"installation of many of the built-in components. However, you probably won't "
+"need to use it in your application."
+msgstr ""
+"クラスパスにある複数のクラスを正確に制御できるならば、 これはすばらしいことで"
+"す。 しかし、多くの依存性を持つ再利用可能なフレームワークを記述している場"
+"合、 多くの Jar 全体にそのフレームワークを分散させたいとは思わないでしょう。 "
+"他にどのようなコンポーネントがインストールされているか、クラスパス中にどんな"
+"クラスが使用可能であるかに応じて、 インストールすべきコンポーネントを決める方"
+"法の方が好まれるはずです。 <literal>@Install</literal> アノテーションはこの機"
+"能も制御しています。 Seam は多くの組み込みコンポーネントの条件付きインストー"
+"ルを実現するために内部でこのメカニズムを使用します。 しかし、アプリケーション"
+"では恐らく使用する必要がないでしょう。"
+
+#. Tag: title
+#: Concepts.xml:860
+#, no-c-format
+msgid "Logging"
+msgstr "ロギング"
+
+#. Tag: para
+#: Concepts.xml:862
+#, no-c-format
+msgid "Who is not totally fed up with seeing noisy code like this?"
+msgstr "以下のようなうっとうしいコードを見るのに飽き飽きしていませんか。"
+
+#. Tag: programlisting
+#: Concepts.xml:866
+#, no-c-format
+msgid ""
+"<![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction."
+"class);\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    if ( log.isDebugEnabled() ) {\n"
+"        log.debug(\"Creating new order for user: \" + user.username() + \n"
+"            \" product: \" + product.name() \n"
+"            + \" quantity: \" + quantity);\n"
+"    }\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+msgstr ""
+"<![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction."
+"class);\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    if ( log.isDebugEnabled() ) {\n"
+"        log.debug(\"Creating new order for user: \" + user.username() + \n"
+"            \" product: \" + product.name() \n"
+"            + \" quantity: \" + quantity);\n"
+"    }\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:868
+#, no-c-format
+msgid ""
+"It is difficult to imagine how the code for a simple log message could "
+"possibly be more verbose. There is more lines of code tied up in logging "
+"than in the actual business logic! I remain totally astonished that the Java "
+"community has not come up with anything better in 10 years."
+msgstr ""
+"簡単なログメッセージのためのコードをどうしてこんなに冗長にすることができるの"
+"か想像するのは困難です。 実際のビジネスロジックに関連するコード行よりロギング"
+"に関連する方がより多くあります。 Java コミュニティが 10 年の間もっと良いもの"
+"を考え出せなかったことは本当に驚きです。"
+
+#. Tag: para
+#: Concepts.xml:874
+#, no-c-format
+msgid "Seam provides a logging API that simplifies this code significantly:"
+msgstr "Seam はたくさんのコードを簡素化するロギング API を提供します。"
+
+#. Tag: programlisting
+#: Concepts.xml:878
+#, no-c-format
+msgid ""
+"<![CDATA[@Logger private Log log;\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    log.debug(\"Creating new order for user: #0 product: #1 quantity: #2\", "
+"user.username(), product.name(), quantity);\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Logger private Log log;\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    log.debug(\"Creating new order for user: #0 product: #1 quantity: #2\", "
+"user.username(), product.name(), quantity);\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+
+# 2.0 modified
+#. Tag: para
+#: Concepts.xml:880
+#, fuzzy, no-c-format
+msgid ""
+"It doesn't matter if you declare the <literal>log</literal> variable static "
+"or not &#8212; it will work either way, except for entity bean components "
+"which require the <literal>log</literal> variable to be static."
+msgstr ""
+"<literal>log</literal> 変数が静的であると宣言するかどうかは問題ではありませ"
+"ん — <literal>log</literal> 変数が静的である必要があるエンティティ Bean コン"
+"ポーネント以外なら、 どちらの方法でもうまくいくでしょう。"
+
+#. Tag: para
+#: Concepts.xml:886
+#, no-c-format
+msgid ""
+"Note that we don't need the noisy <literal>if ( log.isDebugEnabled() )</"
+"literal> guard, since string concatenation happens <emphasis>inside</"
+"emphasis> the <literal>debug()</literal> method. Note also that we don't "
+"usually need to specify the log category explicitly, since Seam knows what "
+"component it is injecting the <literal>Log</literal> into."
+msgstr ""
+"ストリング連結は、<literal>debug()</literal>  メソッドの <emphasis>内部</"
+"emphasis> で起こるため、 うっとうしい <literal>if ( log.isDebugEnabled() )</"
+"literal> による監視は不要であることに留意してください。 Seam はどのコンポーネ"
+"ントに <literal>Log</literal> をインジェクトしたかを知っているため、 通常、ロ"
+"グカテゴリを明示的に指定する必要ないことも留意してください。"
+
+#. Tag: para
+#: Concepts.xml:901
+#, no-c-format
+msgid ""
+"If <literal>User</literal> and <literal>Product</literal> are Seam "
+"components available in the current contexts, it gets even better:"
+msgstr ""
+"<literal>User</literal> と <literal>Product</literal> が、 現在のコンテキスト"
+"で有効な Seam コンポーネントの場合、それはさらに良くなります。"
+
+#. Tag: programlisting
+#: Concepts.xml:906
+#, no-c-format
+msgid ""
+"<![CDATA[@Logger private Log log;\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    log.debug(\"Creating new order for user: #{user.username} product: #"
+"{product.name} quantity: #0\", quantity);\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Logger private Log log;\n"
+"        \n"
+"public Order createOrder(User user, Product product, int quantity) {\n"
+"    log.debug(\"Creating new order for user: #{user.username} product: #"
+"{product.name} quantity: #0\", quantity);\n"
+"    return new Order(user, product, quantity);\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:908
+#, no-c-format
+msgid ""
+"Seam logging automagically chooses whether to send output to log4j or JDK "
+"logging. If log4j is in the classpath, Seam with use it. If it is not, Seam "
+"will use JDK logging."
+msgstr ""
+"Seam ロギングは自動的に log4j あるいは JDK logging に出力を送付するかを選択し"
+"ます。 log4j がクラスパスに通っていれば、Seam はそれを使用します。 そうでなけ"
+"れば、Seam は JDK logging を使用します。"
+
+#. Tag: title
+#: Concepts.xml:916
+#, no-c-format
+msgid ""
+"The <literal>Mutable</literal> interface and <literal>@ReadOnly</literal>"
+msgstr ""
+"<literal>Mutable</literal> インタフェースと <literal>@ReadOnly</literal>"
+
+#. Tag: para
+#: Concepts.xml:917
+#, no-c-format
+msgid ""
+"Many application servers feature an amazingly broken implementation of "
+"<literal>HttpSession</literal> clustering, where changes to the state of "
+"mutable objects bound to the session are only replicated when the "
+"application calls <literal>setAttribute()</literal> explicitly. This is a "
+"source of bugs that can not effectively be tested for at development time, "
+"since they will only manifest when failover occurs. Furthermore, the actual "
+"replication message contains the entire serialized object graph bound to the "
+"session attribute, which is inefficient."
+msgstr ""
+"アプリケーションが明示的に <literal>setAttribute()</literal> を呼び出すととき"
+"に、 セッションにバインドした可変オブジェクトの状態変化が複製されるだけなの"
+"で、 多くのアプリケーションサーバーの機能は驚くほどいい加減な "
+"<literal>HttpSession</literal> クラスタリングの実装を持っています。 これは"
+"フェイルオーバが発生するときにだけに現れるので、 効果的に開発時にテストされる"
+"ことができないバグの原因です。 さらに実際の複製メッセージはセッション属性とバ"
+"インドしたシリアライズされたオブジェクトグラフ全体を含んでいます。 そして、そ"
+"れは非効率です。"
+
+#. Tag: para
+#: Concepts.xml:926
+#, no-c-format
+msgid ""
+"Of course, EJB stateful session beans must perform automatic dirty checking "
+"and replication of mutable state and a sophisticated EJB container can "
+"introduce optimizations such as attribute-level replication. Unfortunately, "
+"not all Seam users have the good fortune to be working in an environment "
+"that supports EJB 3.0. So, for session and conversation scoped JavaBean and "
+"entity bean components, Seam provides an extra layer of cluster-safe state "
+"management over the top of the web container session clustering."
+msgstr ""
+"もちろん、EJB ステートフルセッション Bean は自動的にダーティなチェックと可変"
+"状態の複製を実行するのが必要であり、 洗練された EJB コンテナは属性レベルの複"
+"製などの最適化を行うことが可能です。 あいにく、すべての Seam ユーザーが EJB "
+"3.0 をサポートする恵まれた環境で作業をしているわけではありません。 そこで、"
+"セッションと対話スコープの JavaBean とエンティティ Bean コンポーネントのため"
+"に、 Seam は Web コンテナセッションクラスタリングの上でクラスタセーフな状態管"
+"理の特別なレイヤを提供します。"
+
+#. Tag: para
+#: Concepts.xml:934
+#, no-c-format
+msgid ""
+"For session or conversation scoped JavaBean components, Seam automatically "
+"forces replication to occur by calling <literal>setAttribute()</literal> "
+"once in every request that the component was invoked by the application. Of "
+"course, this strategy is inefficient for read-mostly components. You can "
+"control this behavior by implementing the <literal>org.jboss.seam.core."
+"Mutable</literal> interface, or by extending <literal>org.jboss.seam.core."
+"AbstractMutable</literal>, and writing your own dirty-checking logic inside "
+"the component. For example,"
+msgstr ""
+"セッションや対話スコープの JavaBean コンポーネントのために、Seam は、 コン"
+"ポーネントがアプリケーションにより呼び出される要求の毎に、 "
+"<literal>setAttribute()</literal> を呼ぶことにより自動的に複製を命じます。 も"
+"ちろん、このストラテジは読み取りばかりするコンポーネントでは不十分です。 この"
+"振る舞いは、 <literal>org.jboss.seam.core.Mutable</literal> インタフェースを"
+"実装するか、 <literal>org.jboss.seam.core.AbstractMutable</literal> を拡張す"
+"るか、 あるいは、コンポーネント中に独自のダーティチェックのロジックを記述する"
+"かにより制御可能です。 以下に例を示します。"
+
+#. Tag: programlisting
+#: Concepts.xml:943
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"account\")\n"
+"public class Account extends AbstractMutable\n"
+"{\n"
+"    private BigDecimal balance;\n"
+"    \n"
+"    public void setBalance(BigDecimal balance)\n"
+"    {\n"
+"        setDirty(this.balance, balance);\n"
+"        this.balance = balance;\n"
+"    }\n"
+"    \n"
+"    public BigDecimal getBalance()\n"
+"    {\n"
+"        return balance;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"account\")\n"
+"public class Account extends AbstractMutable\n"
+"{\n"
+"    private BigDecimal balance;\n"
+"    \n"
+"    public void setBalance(BigDecimal balance)\n"
+"    {\n"
+"        setDirty(this.balance, balance);\n"
+"        this.balance = balance;\n"
+"    }\n"
+"    \n"
+"    public BigDecimal getBalance()\n"
+"    {\n"
+"        return balance;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:945
+#, no-c-format
+msgid ""
+"Or, you can use the <literal>@ReadOnly</literal> annotation to achieve a "
+"similar effect:"
+msgstr ""
+"あるいは、同様の効果を得るために <literal>@ReadOnly</literal> アノテーション"
+"の使用も可能です。"
+
+#. Tag: programlisting
+#: Concepts.xml:949
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"account\")\n"
+"public class Account\n"
+"{\n"
+"    private BigDecimal balance;\n"
+"    \n"
+"    public void setBalance(BigDecimal balance)\n"
+"    {\n"
+"        this.balance = balance;\n"
+"    }\n"
+"    \n"
+"    @ReadOnly\n"
+"    public BigDecimal getBalance()\n"
+"    {\n"
+"        return balance;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"account\")\n"
+"public class Account\n"
+"{\n"
+"    private BigDecimal balance;\n"
+"    \n"
+"    public void setBalance(BigDecimal balance)\n"
+"    {\n"
+"        this.balance = balance;\n"
+"    }\n"
+"    \n"
+"    @ReadOnly\n"
+"    public BigDecimal getBalance()\n"
+"    {\n"
+"        return balance;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:951
+#, no-c-format
+msgid ""
+"For session or conversation scoped entity bean components, Seam "
+"automatically forces replication to occur by calling <literal>setAttribute()"
+"</literal> once in every request, <emphasis>unless the (conversation-scoped) "
+"entity is currently associated with a Seam-managed persistence context, in "
+"which case no replication is needed</emphasis>. This strategy is not "
+"necessarily efficient, so session or conversation scope entity beans should "
+"be used with care. You can always write a stateful session bean or JavaBean "
+"component to \"manage\" the entity bean instance. For example,"
+msgstr ""
+"セッションや対話スコープのエンティティ Bean コンポーネントの場合、 Seam は "
+"<emphasis>(対話スコープの) エンティティが現在の Seam 管理の永続コンテキストに"
+"関連付けられていて、複製が不要ではない場合に限り</emphasis>、 要求毎に "
+"<literal>setAttribute()</literal> を呼ぶことにより自動的に複製の作成を強制し"
+"ます。 このストラテジは必ずしも効率的ではないので、 セッションや対話スコープ"
+"エンティティ Bean は注意して使用してください。 エンティティ Bean インスタンス"
+"を「管理」するために、 ステートフルセッション Bean や JavaBean をいつでも記述"
+"することができます。 以下に例を示します。"
+
+#. Tag: programlisting
+#: Concepts.xml:960
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"account\")\n"
+"public class AccountManager extends AbstractMutable\n"
+"{\n"
+"    private Account account; // an entity bean\n"
+"    \n"
+"    @Unwrap\n"
+"    public Account getAccount()\n"
+"    {\n"
+"        return account;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"account\")\n"
+"public class AccountManager extends AbstractMutable\n"
+"{\n"
+"    private Account account; // an entity bean\n"
+"    \n"
+"    @Unwrap\n"
+"    public Account getAccount()\n"
+"    {\n"
+"        return account;\n"
+"    }\n"
+"    \n"
+"    ...\n"
+"    \n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:962
+#, no-c-format
+msgid ""
+"Note that the <literal>EntityHome</literal> class in the Seam Application "
+"Framework provides a great example of managing an entity bean instance using "
+"a Seam component."
+msgstr ""
+"Seam アプリケーションフレームワークにおいて <literal>EntityHome</literal> ク"
+"ラスは Seam コンポーネントを使用することでエンティティ Bean インスタンスを管"
+"理する優れたサンプルを提供していることに留意してください。 "
+
+#. Tag: title
+#: Concepts.xml:970
+#, no-c-format
+msgid "Factory and manager components"
+msgstr "ファクトリと管理コンポーネント"
+
+#. Tag: para
+#: Concepts.xml:971
+#, no-c-format
+msgid ""
+"We often need to work with objects that are not Seam components. But we "
+"still want to be able to inject them into our components using <literal>@In</"
+"literal> and use them in value and method binding expressions, etc. "
+"Sometimes, we even need to tie them into the Seam context lifecycle "
+"(<literal>@Destroy</literal>, for example). So the Seam contexts can contain "
+"objects which are not Seam components, and Seam provides a couple of nice "
+"features that make it easier to work with non-component objects bound to "
+"contexts."
+msgstr ""
+"Seam コンポーネントではないオブジェクトと連携することもしばしばあります。 し"
+"かし、やはり <literal>@In</literal> を使用して Seam コンポーネントにインジェ"
+"クトし、 値やメソッドのバインディング式などでそれらを使いたいと思うことがあり"
+"ます。 時には、それを Seam コンテキストのライフサイクルに関連付ける必要さえあ"
+"ります (例えば <literal>@Destroy</literal>)。 そこで、Seam コンテキストは "
+"Seam コンポーネントではないオブジェクトを含むことが可能で、 Seam は、コンテキ"
+"ストにバインドする非コンポーネントと連携することを容易にする 2、3 の優れた機"
+"能を提供します。"
+
+#. Tag: para
+#: Concepts.xml:979
+#, no-c-format
+msgid ""
+"The <emphasis>factory component pattern</emphasis> lets a Seam component act "
+"as the instantiator for a non-component object. A <emphasis>factory method</"
+"emphasis> will be called when a context variable is referenced but has no "
+"value bound to it. We define factory methods using the <literal>@Factory</"
+"literal> annotation. The factory method binds a value to the context "
+"variable, and determines the scope of the bound value. There are two styles "
+"of factory method. The first style returns a value, which is bound to the "
+"context by Seam:"
+msgstr ""
+"<emphasis>ファクトリコンポーネントパターン</emphasis> は、 Seam コンポーネン"
+"トをコンポーネントではないオブジェクトのインスタンス化する機能として動作させ"
+"ます。 <emphasis>ファクトリメソッド</emphasis> は、 コンテキスト変数が参照さ"
+"れたときに呼び出されますが、 それとバインドした値は持っていません。 "
+"<literal>@Factory</literal> アノテーションを使用してファクトリメソッドを定義"
+"します。 ファクトリメソッドは値をコンテキスト変数とバインドし、 バインドされ"
+"た値のスコープを決定します。 二種類のファクトリメソッドスタイルがあります。 "
+"最初のスタイルは、Seam によりコンテキストにバインドされた値を返します。"
+
+#. Tag: programlisting
+#: Concepts.xml:988
+#, no-c-format
+msgid ""
+"<![CDATA[@Factory(scope=CONVERSATION)\n"
+"public List<Customer> getCustomerList() { \n"
+"    return ... ;\n"
+"} ]]>"
+msgstr ""
+"<![CDATA[@Factory(scope=CONVERSATION)\n"
+"public List<Customer> getCustomerList() { \n"
+"    return ... ;\n"
+"} ]]>"
+
+#. Tag: para
+#: Concepts.xml:990
+#, no-c-format
+msgid ""
+"The second style is a method of type <literal>void</literal> which binds the "
+"value to the context variable itself:"
+msgstr ""
+"二番目のスタイルは、 値をコンテキスト変数そのものにバインドした "
+"<literal>void</literal> タイプのメソッドです。"
+
+#. Tag: programlisting
+#: Concepts.xml:995
+#, no-c-format
+msgid ""
+"<![CDATA[@DataModel List<Customer> customerList;\n"
+"\n"
+"@Factory(\"customerList\")\n"
+"public void initCustomerList() { \n"
+"    customerList = ...  ;\n"
+"} ]]>"
+msgstr ""
+"<![CDATA[@DataModel List<Customer> customerList;\n"
+"\n"
+"@Factory(\"customerList\")\n"
+"public void initCustomerList() { \n"
+"    customerList = ...  ;\n"
+"} ]]>"
+
+#. Tag: para
+#: Concepts.xml:997
+#, no-c-format
+msgid ""
+"In both cases, the factory method is called when we reference the "
+"<literal>customerList</literal> context variable and its value is null, and "
+"then has no further part to play in the lifecycle of the value. An even more "
+"powerful pattern is the <emphasis>manager component pattern</emphasis>. In "
+"this case, we have a Seam component that is bound to a context variable, "
+"that manages the value of the context variable, while remaining invisible to "
+"clients."
+msgstr ""
+"どちらの場合も、 <literal>customerList</literal> コンテキスト変数を参照してそ"
+"の値が null になり、 その値のライフサイクルで行うことがこれ以上ない場合、 "
+"ファクトリメソッドが呼ばれます。 さらに強力なパターンは <emphasis>管理コン"
+"ポーネントパターン</emphasis> です。 この場合、 コンテキスト変数にバインドす"
+"る Seam コンポーネントがあり、 このコンポーネントがコンテキスト変数の値を管理"
+"し、 残りはクライアントで見えない場合です。"
+
+#. Tag: para
+#: Concepts.xml:1005
+#, no-c-format
+msgid ""
+"A manager component is any component with an <literal>@Unwrap</literal> "
+"method. This method returns the value that will be visable to clients, and "
+"is called <emphasis>every time</emphasis> a context variable is referenced."
+msgstr ""
+"管理コンポーネントは <literal>@Unwrap</literal> メソッドを持つすべてのコン"
+"ポーネントです。 このメソッドは、クライアントに見えなくなる値を返し、 "
+"<emphasis>毎回</emphasis> コンテキスト変数が参照されれば呼び出されます。"
+
+#. Tag: programlisting
+#: Concepts.xml:1013
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"customerList\")\n"
+"@Scope(CONVERSATION)\n"
+"public class CustomerListManager\n"
+"{\n"
+"    ...\n"
+"    \n"
+"    @Unwrap\n"
+"    public List<Customer> getCustomerList() { \n"
+"        return ... ;\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"customerList\")\n"
+"@Scope(CONVERSATION)\n"
+"public class CustomerListManager\n"
+"{\n"
+"    ...\n"
+"    \n"
+"    @Unwrap\n"
+"    public List<Customer> getCustomerList() { \n"
+"        return ... ;\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:1015
+#, no-c-format
+msgid ""
+"The manager component pattern is especially useful if we have an object "
+"where you need more control over the lifecycle of the component. For "
+"example, if you have a heavyweight object that needs a cleanup operation "
+"when the context ends you could <literal>@Unwrap</literal> the object, and "
+"perform cleanup in the <literal>@Destroy</literal> method of the manager "
+"component."
+msgstr ""
+"マネージャコンポーネントパターンはコンポーネントのライフサイクルでより制御を"
+"必要とする場面でオブジェクトがあるとき特に有用です。 例えば、コンテキスト終了"
+"時にクリーンアップを必要とする重量級のオブジェクトがあるとき、オブジェクトを "
+"<literal>@Unwrap</literal> し、マネージャコンポーネントの <literal>@Destroy</"
+"literal> メソッドでクリーンアップすることが可能です。"
+
+#. Tag: programlisting
+#: Concepts.xml:1022
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[@Name(\"hens\")\n"
+"@Scope(APPLICATION) \n"
+"public class HenHouse\n"
+"{\n"
+"    Set<Hen> hens;\n"
+"    \n"
+"    @In(required=false) Hen hen;\n"
+"    \n"
+"    @Unwrap\n"
+"    public List<Hen> getHens()\n"
+"    {\n"
+"        if (hens == null)\n"
+"        {\n"
+"            // Setup our hens\n"
+"        }\n"
+"        return hens;\n"
+"    }\n"
+"    \n"
+"    @Observer({\"chickBorn\", \"chickenBoughtAtMarket\"})\n"
+"    public addHen()\n"
+"    {\n"
+"        hens.add(hen);\n"
+"    }\n"
+"    \n"
+"    @Observer(\"chickenSoldAtMarket\")\n"
+"    public removeHen()\n"
+"    {\n"
+"        hens.remove(hen);\n"
+"    }\n"
+"    \n"
+"    @Observer(\"foxGetsIn\")\n"
+"    public removeAllHens()\n"
+"    {\n"
+"        hens.clear();\n"
+"    }\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Name(\"hens\")\n"
+"@Scope(APPLICATION) \n"
+"public class HenHouse {\n"
+"    \n"
+"    Set<Hen> hens;\n"
+"    \n"
+"    @In(required=false) Hen hen;\n"
+"    \n"
+"    @Unwrap\n"
+"    public List<Hen> getHens() {\n"
+"        if (hens == null) {\n"
+"            // Setup our hens\n"
+"        }\n"
+"        return hens;\n"
+"    }\n"
+"    \n"
+"    @Observer({\"chickBorn\", \"chickenBoughtAtMarket\"})\n"
+"    public addHen() {\n"
+"        hens.add(hen);\n"
+"    }\n"
+"    \n"
+"    @Observer(\"chickenSoldAtMarket\")\n"
+"    public removeHen() {\n"
+"        hens.remove(hen);\n"
+"    }\n"
+"    \n"
+"    @Observer(\"foxGetsIn\")\n"
+"    public removeAllHens() {\n"
+"        hens.clear();\n"
+"    }\n"
+"    ...\n"
+"}]]>"
+
+#. Tag: para
+#: Concepts.xml:1024
+#, no-c-format
+msgid ""
+"Here the managed component observes many events which change the underlying "
+"object. The component manages these actions itself, and because the object "
+"is unwrapped on every access, a consistent view is provided."
+msgstr ""
+"ここでは管理コンポーネントが基礎をなすオブジェクトの多くのイベント監視をして"
+"います。 コンポーネントはこれらのアクションそのものを管理し、オブジェクトはア"
+"クセスごとにアンラップされるために一貫性のあるビューが提供されます。"
+
+#~ msgid "EJB 3.0 entity beans"
+#~ msgstr "EJB 3.0 エンティティ Bean"

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.SelectItems</name>
+		<family>javax.faces.SelectItems</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlSelectItems</classname>
+		<superclass>org.jboss.seam.ui.component.UISelectItems</superclass>
+		<description>
+			<![CDATA[Creates a List<SelectItem> from a List, Set, DataModel or Array.]]>
+		</description>
+		<tag>
+			<name>selectItems</name>
+			<classname>org.jboss.seam.ui.taglib.SelectItemsTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_select_items_attributes;
+		<property required="true">
+			<name>value</name>
+			<classname>java.lang.Object</classname>
+			<defaultvalue>an EL expression specifying the data that backs the List&lt;SelectItem&gt;</defaultvalue>
+		</property>
+		<property required="true" el="false">
+			<name>var</name>
+			<classname>java.lang.String</classname>
+			<description>defines the name of the local variable that holds the current object during iteration</description>
+		</property>
+        <property>
+            <name>itemValue</name>
+            <classname>java.lang.Object</classname>
+            <description>Value to return to the server if this option is selected. Optional, by default the var object is used. Can reference the var variable</description> 
+        </property>
+		<property exist="true">
+			<name>label</name>
+			<classname>java.lang.String</classname>
+			<description>the label to be used when rendering the SelectItem. Can reference the var variable</description>
+            <alias>itemLabel</alias>
+		</property>
+		<property>
+			<name>disabled</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if true the SelectItem will be rendered disabled. Can reference the var variable</description>
+            <alias>itemDisabled</alias>
+		</property>
+		<property>
+			<name>noSelectionLabel</name>
+			<classname>java.lang.String</classname>
+			<description>specifies the (optional) label to place at the top of list (if required="true" is also specified then selecting this value will cause a validation error)</description>
+		</property>
+		<property>
+			<name>hideNoSelectionLabel</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if true, the noSelectionLabel will be hidden when a value is selected</description>
+			<defaultvalue>false</defaultvalue>
+		</property>
+		<property>
+			<name>escape</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if false, characters in the label will not be escaped. Beware that this is a safety issue when the label is in any way derived from input supplied by the application's user. . Can reference the var variable</description>
+			<defaultvalue>true</defaultvalue>
+		</property>
+	</component>
+</components>

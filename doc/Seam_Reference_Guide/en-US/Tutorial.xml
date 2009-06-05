@@ -1,0 +1,3422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<chapter id="tutorial">
+    <title>Seam Tutorial</title>
+
+    <section id="try-examples">
+        <title>Using the Seam examples</title>
+
+        <para>Seam provides a number of example applications demonstrating how to use the various features
+        of Seam.  This tutorial will guide you through a few of those examples to help you get started
+        learning Seam. The Seam examples are located in the <filename>examples</filename> subdirectory
+        of the Seam distribution.  The registration example, which will be the first example we look at,
+        is in the <filename>examples/registration</filename> directory.</para>
+
+        <para>Each example has the same directory structure:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para> The <filename>view</filename> directory contains view-related files such as 
+                    web page templates, images and stylesheets.
+                        
+                </para>
+            </listitem>
+            <listitem>
+                <para> The <filename>resources</filename> directory contains deployment descriptors and
+                    other configuration files.                            
+                </para>
+            </listitem>
+            <listitem>
+                <para> The  <filename>src</filename> directory contains the application source code. </para>
+            </listitem>
+
+        </itemizedlist>
+
+        <para>
+            The example applications run both on JBoss AS and Tomcat with no additional configuration.
+            The following sections will explain the procedure in both cases.  Note that all the examples
+            are built and run from the Ant <filename>build.xml</filename>, so you'll need a recent version
+            of Ant installed before you get started.
+        </para>
+        
+
+ 
+        <section>
+            <title>Running the examples on JBoss AS</title>
+
+            <para>The examples are configured for use on JBoss AS 4.2 or 5.0. You'll need to set <literal>jboss.home</literal>,
+                in the shared <literal>build.properties</literal> file in the root folder of your Seam 
+                installation, to the location of your JBoss AS installation.</para>
+
+            <para>Once you've set the location of JBoss AS and started the application server, you can build and deploy
+                any example by typing <literal>ant explode</literal> in the the directory for that example. Any example
+                that is packaged as an EAR deploys to a URL like
+                <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is
+                the name of the example folder, with one exception. If the example folder begins with seam, the prefix
+                "seam" is ommitted. For instance, if JBoss AS is running on port 8080, the URL for the registration
+                example is <ulink url="http://localhost:8080/seam-registration/">
+                <literal>http://localhost:8080/seam-registration/</literal></ulink>, whereas the URL for the seamspace
+                example is <ulink url="http://localhost:8080/seam-space/">
+                <literal>http://localhost:8080/seam-space/</literal></ulink>.</para>
+                
+            <para>If, on the other hand, the example gets packaged as a WAR, then it deploys to a URL like
+                <literal>/jboss-seam-<replaceable>example</replaceable></literal>. Most of the examples can be deployed as a WAR
+                to Tomcat with Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of the examples
+                can only be deployed as a WAR. Those examples are groovybooking, hibernate, jpa, and spring.
+            </para>
+
+        </section>
+
+        <section>
+            <title>Running the examples on Tomcat</title>
+
+            <para>The examples are also configured for use on Tomcat 6.0.  You will need to follow the
+                instructions in <xref linkend="config.install.embedded"/>
+                for installing JBoss Embedded on Tomcat 6.0.  JBoss Embedded is only required to run the Seam 
+                demos that use EJB3 components on Tomcat. There are also examples of non-EJB3 applications that 
+                can be run on Tomcat without the use of JBoss Embedded.
+            </para>
+            <para>You'll need to
+                set <literal>tomcat.home</literal>, in the shared <literal>build.properties</literal> file in 
+                the root folder of your Seam installation, to the location of your Tomcat installation.
+                make sure you set the location of your Tomcat.  
+            </para>
+
+            <para>You'll need to use a different Ant target when using Tomcat.  Use 
+                <literal>ant tomcat.deploy</literal> in example subdirectory to build and deploy
+                any example for Tomcat.
+            </para>
+
+            <para>On Tomcat, the examples deploy to URLs like 
+                <literal>/jboss-seam-<replaceable>example</replaceable></literal>, so for the registration
+                example the URL would be <ulink url="http://localhost:8080/jboss-seam-registration/">
+                <literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>. The same is true
+                for examples that deploy as a WAR, as mentioned in the previous section.
+            </para>
+
+        </section>
+
+        <section>
+            <title>Running the example tests</title>
+            <para> 
+                Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests is
+                to run <literal>ant test</literal>.  It is also possible to run the tests inside your IDE using the
+                TestNG plugin. Consult the readme.txt in the examples directory of the Seam distribution for more
+                information.
+            </para>
+        </section>
+
+    </section>
+
+    <section id="registration-example">
+        <title>Your first Seam application: the registration example</title>
+
+        <para> The registration example is a simple application that lets a new user store his username, real
+            name and password in the database. The example isn't intended to show off all of the cool functionality of
+            Seam. However, it demonstrates the use of an EJB3 session bean as a JSF action listener, and basic
+            configuration of Seam. </para>
+
+        <para> We'll go slowly, since we realize you might not yet be familiar with EJB 3.0. </para>
+
+        <para> The start page displays a very basic form with three input fields. Try filling them in and then
+            submitting the form. This will save a user object in the database. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/registration.png" align="center" scalefit="1"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/registration.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <section>
+            <title>Understanding the code</title>
+
+            <para> The example is implemented with two Facelets templates, one entity bean and one 
+                stateless session bean.   Let's take a look at the code, starting from the "bottom".
+            </para>
+
+            <section>
+                <title>The entity bean: <literal>User.java</literal></title>
+
+                <para> We need an EJB entity bean for user data. This class defines <emphasis>persistence</emphasis> and
+                        <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra
+                    annotations that define the class as a Seam component. </para>
+                  <!-- Can't use code hightlighting with callouts -->
+                  <example>
+                  <title>User.java</title>
+                  <programlistingco>
+                        <areaspec>
+                            <area id="registration-entity-annotation" coords="1"/>
+                            <area id="registration-name-annotation" coords="2"/>
+                            <area id="registration-scope-annotation" coords="3"/>
+                            <area id="registration-table-annotation" coords="4"/>
+                            <area id="registration-attributes" coords="9"/>
+                            <area id="registration-empty-constructor" coords="20"/>
+                            <area id="registration-notnull" coords="22"/>
+                            <area id="registration-id-annotation" coords="44"/>
+                        </areaspec>
+                        <programlisting role="JAVA"><![CDATA[@Entity
+@Name("user")
+@Scope(SESSION)
+@Table(name="users")
+public class User implements Serializable
+{
+   private static final long serialVersionUID = 1881413500711441951L;
+   
+   private String username;
+   private String password;
+   private String name;
+   
+   public User(String name, String password, String username)
+   {
+      this.name = name;
+      this.password = password;
+      this.username = username;
+   }
+   
+   public User() {}
+   
+   @NotNull @Length(min=5, max=15)
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(String password)
+   {
+      this.password = password;
+   }
+   
+   @NotNull
+   public String getName()
+   {
+      return name;
+   }
+
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+   
+   @Id @NotNull @Length(min=5, max=15)
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public void setUsername(String username)
+   {
+      this.username = username;
+   }
+
+}]]></programlisting>
+                     <calloutlist>
+                            <callout arearefs="registration-entity-annotation">
+                                <para> The EJB3 standard <literal>@Entity</literal> annotation indicates that the
+                                        <literal>User</literal> class is an entity bean. </para>
+                            </callout>
+                            <callout arearefs="registration-name-annotation">
+                                <para> A Seam component needs a <emphasis>component name</emphasis> specified by the
+                                        <link linkend="name-annotation">
+                                        <literal>@Name</literal>
+                                    </link> annotation. This name must be unique within the Seam application. When JSF
+                                    asks Seam to resolve a context variable with a name that is the same as a Seam
+                                    component name, and the context variable is currently undefined (null), Seam will
+                                    instantiate that component, and bind the new instance to the context variable. In
+                                    this case, Seam will instantiate a <literal>User</literal> the first time JSF
+                                    encounters a variable named <literal>user</literal>. </para>
+                            </callout>
+                            <callout arearefs="registration-scope-annotation">
+                                <para> Whenever Seam instantiates a component, it binds the new instance to a context
+                                    variable in the component's <emphasis>default context</emphasis>. The default
+                                    context is specified using the <link linkend="scope-annotation">
+                                        <literal>@Scope</literal>
+                                    </link> annotation. The <literal>User</literal> bean is a session scoped component.
+                                </para>
+                            </callout>
+                            <callout arearefs="registration-table-annotation">
+                                <para> The EJB standard <literal>@Table</literal> annotation indicates that the
+                                        <literal>User</literal> class is mapped to the <literal>users</literal> table.
+                                </para>
+                            </callout>
+                            <callout arearefs="registration-attributes">
+                                <para>
+                                    <literal>name</literal>, <literal>password</literal> and <literal>username</literal>
+                                    are the persistent attributes of the entity bean. All of our persistent attributes
+                                    define accessor methods. These are needed when this component is used by JSF in the
+                                    render response and update model values phases. </para>
+                            </callout>
+                            <callout arearefs="registration-empty-constructor">
+                                <para> An empty constructor is both required by both the EJB specification and by Seam.
+                                </para>
+                            </callout>
+                            <callout arearefs="registration-notnull">
+                                <para> The <literal>@NotNull</literal> and <literal>@Length</literal> annotations are
+                                    part of the Hibernate Validator framework. Seam integrates Hibernate Validator and
+                                    lets you use it for data validation (even if you are not using Hibernate for
+                                    persistence). </para>
+                            </callout>
+                            <callout arearefs="registration-id-annotation">
+                                <para> The EJB standard <literal>@Id</literal> annotation indicates the primary key
+                                    attribute of the entity bean. </para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                    </example>
+                    <para> The most important things to notice in this example are the <literal>@Name</literal> and
+                            <literal>@Scope</literal> annotations. These annotations establish that this class is a Seam component. </para>
+                    <para> We'll see below that the properties of our <literal>User</literal> class are bound
+                        directly to JSF components and are populated by JSF during the update model values phase. We
+                        don't need any tedious glue code to copy data back and forth between the JSP pages and the
+                        entity bean domain model. </para>
+                    <para> However, entity beans shouldn't do transaction management or database access. So we can't use
+                        this component as a JSF action listener. For that we need a session bean. </para>
+
+            </section>
+
+            <section>
+                <title>The stateless session bean class: <literal>RegisterAction.java</literal></title>
+
+                <para> Most Seam application use session beans as JSF action listeners (you can use JavaBeans instead if
+                    you like). </para>
+                <para> We have exactly one JSF action in our application, and one session bean method attached to it. In
+                    this case, we'll use a stateless session bean, since all the state associated with our action is
+                    held by the <literal>User</literal> bean. </para>
+
+                <para> This is the only really interesting code in the example! </para>
+                    <!-- Can't use code hightlighting with callouts -->
+                    <example>
+                    <title>RegisterAction.java</title>
+                    <programlistingco>
+                        <areaspec>
+                            <area id="registration-stateless-annotation" coords="1"/>
+                            <area id="registration-in-annotation" coords="6"/>
+                            <area id="registration-persistencecontext-annotation" coords="9"/>
+                            <area id="registration-logger-annotation" coords="12"/>
+                            <area id="registration-action-listener" coords="15"/>
+                            <area id="registration-query" coords="18"/>
+                            <area id="registration-log" coords="24"/>
+                            <area id="registration-outcome" coords="25"/>
+                            <area id="registration-builtin" coords="29"/>
+                        </areaspec>
+                        <programlisting><![CDATA[@Stateless
+@Name("register")
+public class RegisterAction implements Register
+{
+   @In
+   private User user;
+   
+   @PersistenceContext
+   private EntityManager em;
+   
+   @Logger
+   private Log log;
+   
+   public String register()
+   {
+      List existing = em.createQuery(
+         "select username from User where username = #{user.username}")
+         .getResultList();
+         
+      if (existing.size()==0)
+      {
+         em.persist(user);
+         log.info("Registered new user #{user.username}");
+         return "/registered.xhtml";
+      }
+      else
+      {
+         FacesMessages.instance().add("User #{user.username} already exists");
+         return null;
+      }
+   }
+
+}]]></programlisting>
+
+                        <calloutlist>
+                            <callout arearefs="registration-stateless-annotation">
+                                <para> The EJB <literal>@Stateless</literal> annotation marks this class as
+                                    a stateless session bean. </para>
+                            </callout>
+                            <callout arearefs="registration-in-annotation">
+                                <para> The <link linkend="in-annotation">
+                                        <literal>@In</literal>
+                                    </link> annotation marks an attribute of the bean as injected by Seam. In this case,
+                                    the attribute is injected from a context variable named <literal>user</literal> (the
+                                    instance variable name). </para>
+                            </callout>
+                            <callout arearefs="registration-persistencecontext-annotation">
+                                <para> The EJB standard <literal>@PersistenceContext</literal> annotation is used to
+                                    inject the EJB3 entity manager. </para>
+                            </callout>
+                            <callout arearefs="registration-logger-annotation">
+                                <para> The Seam <literal>@Logger</literal> annotation is used to inject the component's
+                                        <literal>Log</literal> instance. </para>
+                            </callout>
+                            <callout arearefs="registration-action-listener">
+                                <para> The action listener method uses the standard EJB3
+                                    <literal>EntityManager</literal> API to interact with the database, and returns the
+                                    JSF outcome. Note that, since this is a session bean, a transaction is automatically
+                                    begun when the <literal>register()</literal> method is called, and committed when it
+                                    completes. </para>
+                            </callout>
+                            <callout arearefs="registration-query">
+                                <para> Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the
+                                    covers, this results in an ordinary JPA <literal>setParameter()</literal> call on
+                                    the standard JPA <literal>Query</literal> object. Nice, huh? </para>
+                            </callout>
+                            <callout arearefs="registration-log">
+                                <para> The <literal>Log</literal> API lets us easily display templated log messages which
+                                can also make use of JSF EL expressions.
+                                </para>
+                            </callout>
+                            <callout arearefs="registration-outcome">
+                                <para> JSF action listener methods return a string-valued outcome that determines what
+                                    page will be displayed next. A null outcome (or a void action listener method)
+                                    redisplays the previous page. In plain JSF, it is normal to always use a JSF
+                                        <emphasis>navigation rule</emphasis> to determine the JSF view id from the
+                                    outcome. For complex application this indirection is useful and a good practice.
+                                    However, for very simple examples like this one, Seam lets you use the JSF view id
+                                    as the outcome, eliminating the requirement for a navigation rule. <emphasis>Note
+                                        that when you use a view id as an outcome, Seam always performs a browser
+                                        redirect.</emphasis>
+                                </para>
+                            </callout>
+                            <callout arearefs="registration-builtin">
+                                <para> Seam provides a number of <emphasis>built-in components</emphasis> to help solve
+                                    common problems. The <literal>FacesMessages</literal> component makes it easy to
+                                    display templated error or success messages. (As of Seam 2.1, you can use
+                                    <literal>StatusMessages</literal> instead to remove the semantic dependency on JSF).
+                                    Built-in Seam components may be obtained by injection, or by calling the
+                                    <literal>instance()</literal> method on the class of the built-in component.
+                                </para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                    </example>
+
+                    <para> Note that we did not explicitly specify a <literal>@Scope</literal> this time. Each Seam
+                        component type has a default scope if not explicitly specified. For stateless session beans, the
+                        default scope is the stateless context, which is the only sensible value.</para>
+
+                    <para> Our session bean action listener performs the business and persistence logic for our
+                        mini-application. In more complex applications, we might need require a separate service
+                        layer.  This is easy to achieve with Seam, but it's overkill for most web applications. 
+                        Seam does not force you into any particular strategy for application layering, allowing 
+                        your application to be as simple, or as complex, as you want. 
+                    </para>
+                    <para>Note that in this simple
+                        application, we've actually made it far more complex than it needs to be.  If we had
+                        used the Seam application framework controllers, we would have eliminated all of our 
+                        application code.  However, then we wouldn't have had much of an application to explain.
+                    </para>
+
+            </section>
+
+            <section>
+                <title>The session bean local interface: <literal>Register.java</literal></title>
+
+                <para>Naturally, our session bean needs a local interface.</para>
+
+                 <example><title>Register.java</title>
+                 <programlisting role="JAVA"><![CDATA[@Local
+public interface Register
+{
+   public String register();
+}]]></programlisting></example>
+                
+
+                <para> That's the end of the Java code. Now we'll look at the view.</para>
+
+            </section>
+
+            <section>
+                <title>The view: <literal>register.xhtml</literal> and <literal>registered.xhtml</literal></title>
+
+                <para> The view pages for a Seam application could be implemented using any technology that supports
+                    JSF. In this example we use Facelets, because we think it's better than JSP.</para>
+
+                <example>
+                <title>register.xhtml</title>
+                    <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+   <head>
+      <title>Register New User</title>
+   </head>
+   <body>
+      <f:view>
+         <h:form>
+            <s:validateAll>
+               <h:panelGrid columns="2">
+                  Username: <h:inputText value="#{user.username}" required="true"/>
+                  Real Name: <h:inputText value="#{user.name}" required="true"/>
+                  Password: <h:inputSecret value="#{user.password}" required="true"/>
+               </h:panelGrid>
+            </s:validateAll>
+            <h:messages/>
+            <h:commandButton value="Register" action="#{register.register}"/>
+         </h:form>
+      </f:view>
+   </body>
+
+</html>]]></programlisting></example>
+                
+
+                <para> The only thing here that is specific to Seam is the
+                    <literal>&lt;s:validateAll&gt;</literal> tag. This JSF component tells JSF to validate all
+                    the contained input fields against the Hibernate Validator annotations specified on the entity bean. </para>
+
+                <example>
+                  <title>registered.xhtml</title>
+                    <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+    <head>
+        <title>Successfully Registered New User</title>
+    </head>
+    <body>
+        <f:view>
+            Welcome, #{user.name}, you are successfully registered as #{user.username}.
+        </f:view>
+    </body>
+
+</html>
+]]></programlisting>
+                </example>
+
+
+                <para> This is a simple Facelets page using some inline EL. There's nothing specific to Seam here. </para>
+
+            </section>
+            
+            <section>
+                <title>The Seam component deployment descriptor: <literal>components.xml</literal></title>
+
+                <para>Since this is the first Seam app we've seen, we'll take a look at the deployment
+                    descriptors. Before we get into them, it is worth noting that Seam strongly values 
+                    minimal configuration. These configuration files will be created for you when you create a Seam 
+                    application.  You'll never need to touch most of these files.  We're presenting them
+                    now only to help you understand what all the pieces in the example are doing.  
+                </para>
+    
+                <para> If you've used many Java frameworks before, you'll be used to having to declare all your
+                    component classes in some kind of XML file that gradually grows more and more unmanageable as your
+                    project matures. You'll be relieved to know that Seam does not require that application components
+                    be accompanied by XML. Most Seam applications require a very small amount of XML that does not grow
+                    very much as the project gets bigger. </para>
+
+                <para> Nevertheless, it is often useful to be able to provide for <emphasis>some</emphasis> external
+                    configuration of <emphasis>some</emphasis> components (particularly the components built in to
+                    Seam). You have a couple of options here, but the most flexible option is to provide this
+                    configuration in a file called <literal>components.xml</literal>, located in the
+                    <literal>WEB-INF</literal> directory. We'll use the <literal>components.xml</literal> file to tell
+                    Seam how to find our EJB components in JNDI: </para>
+                 <example>
+                 <title>components.xml</title>
+                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+    xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://jboss.com/products/seam/core
+        http://jboss.com/products/seam/core-2.1.xsd 
+        http://jboss.com/products/seam/components
+        http://jboss.com/products/seam/components-2.1.xsd">
+            
+    <core:init jndi-pattern="@jndiPattern@"/>
+     
+</components>]]></programlisting></example>
+
+                <para> This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component
+                    named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are
+                    there because our Ant build script puts the correct JNDI pattern in when we deploy the application,
+                    which it reads from the components.properties file. You learn more about how this process works in
+                    <xref linkend="xml.descriptor"/>.</para>
+
+            </section>
+
+            <section>
+                <title>The web deployment description: <literal>web.xml</literal></title>
+
+                <para> The presentation layer for our mini-application will be deployed in a WAR. So we'll need a web
+                    deployment descriptor. </para>
+                <example>
+                    <title>web.xml</title>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
+
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+              
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+              
+    <session-config>
+        <session-timeout>10</session-timeout>
+    </session-config>
+
+</web-app>]]></programlisting></example>
+                
+
+                <para> This <literal>web.xml</literal> file configures Seam and JSF. The configuration you see here is
+                    pretty much identical in all Seam applications. </para>
+
+            </section>
+
+            <section>
+                <title>The JSF configration: <literal>faces-config.xml</literal></title>
+
+                <para> Most Seam applications use JSF views as the presentation layer. So usually we'll need
+                        <literal>faces-config.xml</literal>. In our case, we are going to use Facelets for
+                        defining our views, so we need to tell JSF to use Facelets as its templating engine. </para>
+            
+                <example>
+                <title>faces-config.xml</title>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    </application>
+    
+</faces-config>]]></programlisting>
+                </example>
+                
+
+                <para> Note that we don't need
+                    any JSF managed bean declarations! Our managed beans are annotated Seam components. In Seam applications,
+                    the <literal>faces-config.xml</literal> is used much less often than in plain JSF. Here, we are simply
+                    using it to enable Facelets as the view handler instead of JSP.</para>
+
+                <para> In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis> XML you
+                    need to write as you add new functionality to a Seam application is orchestration: navigation rules 
+                    or jBPM process definitions. Seam's stand is that <emphasis>process flow</emphasis> and
+                        <emphasis>configuration data</emphasis> are the only things that truly belong in XML. </para>
+
+                <para> In this simple example, we don't even need a navigation rule, since we decided to embed the view
+                    id in our action code. </para>
+
+            </section>
+
+            <section>
+                <title>The EJB deployment descriptor: <literal>ejb-jar.xml</literal></title>
+
+                <para> The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by attaching the
+                        <literal>SeamInterceptor</literal> to all session beans in the archive. </para>
+
+                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+    version="3.0">
+         
+    <interceptors>
+        <interceptor>
+            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+        </interceptor>
+    </interceptors>
+   
+    <assembly-descriptor>
+        <interceptor-binding>
+            <ejb-name>*</ejb-name>
+            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+        </interceptor-binding>
+    </assembly-descriptor>
+   
+</ejb-jar>]]></programlisting>
+
+            </section>
+
+            <section>
+                <title>The EJB persistence deployment descriptor: <literal>persistence.xml</literal></title>
+
+                <para> The <literal>persistence.xml</literal> file tells the EJB persistence provider where to find the
+                    datasource, and contains some vendor-specific settings. In this case, enables automatic schema
+                    export at startup time. </para>
+
+                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+    version="1.0">
+
+    <persistence-unit name="userDatabase">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/DefaultDS</jta-data-source>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
+    
+</persistence>]]></programlisting>
+
+            </section>
+
+            <section>
+                <title>The EAR deployment descriptor: <literal>application.xml</literal></title>
+
+                <para> Finally, since our application is deployed as an EAR, we need a deployment descriptor there, too. </para>
+
+                <example id="registration-application-xml"><title>registration application</title>
+                  <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/application_5.xsd"
+    version="5">
+             
+    <display-name>Seam Registration</display-name>
+
+    <module>
+        <web>
+            <web-uri>jboss-seam-registration.war</web-uri>
+            <context-root>/seam-registration</context-root>
+        </web>
+    </module>
+    <module>
+        <ejb>jboss-seam-registration.jar</ejb>
+    </module>
+    <module>
+        <ejb>jboss-seam.jar</ejb>
+    </module>
+    <module>
+        <java>jboss-el.jar</java>
+    </module>
+
+</application>]]></programlisting>
+                </example>
+
+                <para> This deployment descriptor links modules in the enterprise archive and binds the web application
+                    to the context root <literal>/seam-registration</literal>. </para>
+
+            <para> We've now seen <emphasis>all</emphasis> the files in the entire application! </para>
+
+        </section>
+</section>
+
+        <section>
+            <title>How it works</title>
+
+            <para> When the form is submitted, JSF asks Seam to resolve the variable named <literal>user</literal>.
+                Since there is no value already bound to that name (in any Seam context), Seam instantiates the
+                    <literal>user</literal> component, and returns the resulting <literal>User</literal> entity bean
+                instance to JSF after storing it in the Seam session context. </para>
+            <para> The form input values are now validated against the Hibernate Validator constraints specified on the
+                    <literal>User</literal> entity. If the constraints are violated, JSF redisplays the page. Otherwise,
+                JSF binds the form input values to properties of the <literal>User</literal> entity bean. </para>
+            <para> Next, JSF asks Seam to resolve the variable named <literal>register</literal>. Seam uses the JNDI
+                pattern mentioned earlier to locate the stateless session bean, wraps it as a Seam component, and
+                returns it. Seam then presents this component to JSF and JSF invokes the <literal>register()</literal>
+                action listener method.</para>
+            <para> But Seam is not done yet. Seam intercepts the method call and injects the <literal>User</literal>
+                entity from the Seam session context, before allowing the invocation to continue. </para>
+            <para> The <literal>register()</literal> method checks if a user with the entered username already exists.
+                If so, an error message is queued with the <literal>FacesMessages</literal> component, and a null
+                outcome is returned, causing a page redisplay. The <literal>FacesMessages</literal> component
+                interpolates the JSF expression embedded in the message string and adds a JSF
+                <literal>FacesMessage</literal> to the view. </para>
+            <para> If no user with that username exists, the <literal>"/registered.xhtml"</literal> outcome triggers a
+                browser redirect to the <literal>registered.xhtml</literal> page. When JSF comes to render the page, it
+                asks Seam to resolve the variable named <literal>user</literal> and uses property values of the returned
+                    <literal>User</literal> entity from Seam's session scope. </para>
+
+        </section>
+
+    </section>
+
+    <section id="messages">
+        <title>Clickable lists in Seam: the messages example</title>
+
+        <para> Clickable lists of database search results are such an important part of any online application that Seam
+            provides special functionality on top of JSF to make it easier to query data using EJB-QL or HQL and display
+            it as a clickable list using a JSF <literal>&lt;h:dataTable&gt;</literal>. The messages example
+            demonstrates this functionality. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/messages.png" align="center" scalefit="1"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/messages.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <section>
+            <title>Understanding the code</title>
+            <para> The message list example has one entity bean, <literal>Message</literal>, one session bean,
+                    <literal>MessageListBean</literal> and one JSP. </para>
+
+            <section>
+                <title>The entity bean: <literal>Message.java</literal></title>
+
+                <para> The <literal>Message</literal> entity defines the title, text, date and time of a message, and a
+                    flag indicating whether the message has been read: </para>
+
+                <example>
+                    <title>Message.java</title>
+                    <programlisting role="JAVA"><![CDATA[@Entity
+@Name("message")
+@Scope(EVENT)
+public class Message implements Serializable
+{
+   private Long id;
+   private String title;
+   private String text;
+   private boolean read;
+   private Date datetime;
+   
+   @Id @GeneratedValue
+   public Long getId()
+   {
+      return id;
+   }
+   public void setId(Long id)
+   {
+      this.id = id;
+   }
+   
+   @NotNull @Length(max=100)
+   public String getTitle()
+   {
+      return title;
+   }
+   public void setTitle(String title)
+   {
+      this.title = title;
+   }
+   
+   @NotNull @Lob
+   public String getText()
+   {
+      return text;
+   }
+   public void setText(String text)
+   {
+      this.text = text;
+   }
+   
+   @NotNull
+   public boolean isRead()
+   {
+      return read;
+   }
+   public void setRead(boolean read)
+   {
+      this.read = read;
+   }
+   
+   @NotNull 
+   @Basic @Temporal(TemporalType.TIMESTAMP)
+   public Date getDatetime()
+   {
+      return datetime;
+   }
+   public void setDatetime(Date datetime)
+   {
+      this.datetime = datetime;
+   }
+   
+}]]></programlisting>
+                 </example>
+
+            </section>
+
+            <section>
+                <title>The stateful session bean: <literal>MessageManagerBean.java</literal></title>
+
+                <para> Just like in the previous example, we have a session bean, <literal>MessageManagerBean</literal>,
+                    which defines the action listener methods for the two buttons on our form. One of the buttons
+                    selects a message from the list, and displays that message. The other button deletes a message. So
+                    far, this is not so different to the previous example. </para>
+
+                <para> But <literal>MessageManagerBean</literal> is also responsible for fetching the list of messages
+                    the first time we navigate to the message list page. There are various ways the user could navigate
+                    to the page, and not all of them are preceded by a JSF action &#8212; the user might have
+                    bookmarked the page, for example. So the job of fetching the message list takes place in a Seam
+                        <emphasis>factory method</emphasis>, instead of in an action listener method. </para>
+
+                <para> We want to cache the list of messages in memory between server requests, so we will make this a
+                    stateful session bean. </para>
+                 <!-- Can't use code hightlighting with callouts -->
+                <example>
+                    <title>MessageManagerBean.java</title>
+                    <programlistingco>
+                        <areaspec>
+                            <area id="messages-datamodel" coords="7"/>
+                            <area id="messages-datamodelselection" coords="10"/>
+                            <area id="messages-out" coords="11"/>
+                            <area id="messages-persistencecontext" coords="14"/>
+                            <area id="messages-factory" coords="17"/>
+                            <area id="messages-select" coords="24"/>
+                            <area id="messages-delete" coords="29"/>
+                            <area id="messages-remove" coords="36"/>
+                        </areaspec>
+                        <programlisting><![CDATA[@Stateful
+@Scope(SESSION)
+@Name("messageManager")
+public class MessageManagerBean implements Serializable, MessageManager
+{
+   @DataModel
+   private List<Message> messageList;
+   
+   @DataModelSelection
+   @Out(required=false)
+   private Message message;
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @Factory("messageList")
+   public void findMessages()
+   {
+      messageList = em.createQuery("select msg from Message msg order by msg.datetime desc")
+                      .getResultList();
+   }
+   
+   public void select()
+   {
+      message.setRead(true);
+   }
+   
+   public void delete()
+   {
+      messageList.remove(message);
+      em.remove(message);
+      message=null;
+   }
+   
+   @Remove
+   public void destroy() {}
+
+}]]></programlisting>
+                        <calloutlist>
+                            <callout arearefs="messages-datamodel">
+                                <para> The <literal>@DataModel</literal> annotation exposes an attibute of type
+                                        <literal>java.util.List</literal> to the JSF page as an instance of
+                                        <literal>javax.faces.model.DataModel</literal>. This allows us to use the list
+                                    in a JSF <literal>&lt;h:dataTable&gt;</literal> with clickable links for
+                                    each row. In this case, the <literal>DataModel</literal> is made available in a
+                                    session context variable named <literal>messageList</literal>. </para>
+                            </callout>
+                            <callout arearefs="messages-datamodelselection">
+                                <para> The <literal>@DataModelSelection</literal> annotation tells Seam to inject the
+                                        <literal>List</literal> element that corresponded to the clicked link. </para>
+                            </callout>
+                            <callout arearefs="messages-out">
+                                <para> The <literal>@Out</literal> annotation then exposes the selected value directly
+                                    to the page. So every time a row of the clickable list is selected, the
+                                        <literal>Message</literal> is injected to the attribute of the stateful bean,
+                                    and the subsequently <emphasis>outjected</emphasis> to the event context variable
+                                    named <literal>message</literal>. </para>
+                            </callout>
+                            <callout arearefs="messages-persistencecontext">
+                                <para> This stateful bean has an EJB3 <emphasis>extended persistence context</emphasis>.
+                                    The messages retrieved in the query remain in the managed state as long as the bean
+                                    exists, so any subsequent method calls to the stateful bean can update them without
+                                    needing to make any explicit call to the <literal>EntityManager</literal>. </para>
+                            </callout>
+                            <callout arearefs="messages-factory">
+                                <para> The first time we navigate to the JSP page, there will be no value in the
+                                        <literal>messageList</literal> context variable. The <literal>@Factory</literal>
+                                    annotation tells Seam to create an instance of <literal>MessageManagerBean</literal>
+                                    and invoke the <literal>findMessages()</literal> method to initialize the value. We
+                                    call <literal>findMessages()</literal> a <emphasis>factory method</emphasis> for
+                                        <literal>messages</literal>. </para>
+                            </callout>
+                            <callout arearefs="messages-select">
+                                <para> The <literal>select()</literal> action listener method marks the selected
+                                        <literal>Message</literal> as read, and updates it in the database. </para>
+                            </callout>
+                            <callout arearefs="messages-delete">
+                                <para> The <literal>delete()</literal> action listener method removes the selected
+                                        <literal>Message</literal> from the database. </para>
+                            </callout>
+                            <callout arearefs="messages-remove">
+                                <para> All stateful session bean Seam components <emphasis>must</emphasis> have a method
+                                    with no parameters marked <literal>@Remove</literal> that Seam uses to remove 
+                                    the stateful bean when the Seam context ends, and clean up any server-side state.
+                                </para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                </example>
+
+                <para> Note that this is a session-scoped Seam component. It is associated with the user login session,
+                    and all requests from a login session share the same instance of the component. (In Seam
+                    applications, we usually use session-scoped components sparingly.) </para>
+
+            </section>
+
+            <section>
+                <title>The session bean local interface: <literal>MessageManager.java</literal></title>
+
+                <para> All session beans have a business interface, of course. </para>
+                <example>
+                    <title>MessageManager.java</title>
+     
+                <programlisting role="JAVA"><![CDATA[@Local
+public interface MessageManager
+{
+   public void findMessages();
+   public void select();
+   public void delete();
+   public void destroy();
+}]]></programlisting></example>
+
+                <para> From now on, we won't show local interfaces in our code examples. </para>
+
+                <para> Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</literal>,
+                        <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal>
+                    and <literal>application.xml</literal> since they are much the same as the previous example, and go
+                    straight to the JSP. </para>
+
+            </section>
+
+            <section>
+                <title>The view: <literal>messages.jsp</literal></title>
+
+                <para> The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal>
+                    component. Again, nothing specific to Seam. </para>
+                <example>
+                    <title>messages.jsp</title>
+                    <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+ <head>
+  <title>Messages</title>
+ </head>
+ <body>
+  <f:view>
+   <h:form>
+     <h2>Message List</h2>
+     <h:outputText value="No messages to display" 
+                   rendered="#{messageList.rowCount==0}"/>
+     <h:dataTable var="msg" value="#{messageList}" 
+                  rendered="#{messageList.rowCount>0}">
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Read"/>
+           </f:facet>
+           <h:selectBooleanCheckbox value="#{msg.read}" disabled="true"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Title"/>
+           </f:facet>
+           <h:commandLink value="#{msg.title}" action="#{messageManager.select}"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Date/Time"/>
+           </f:facet>
+           <h:outputText value="#{msg.datetime}">
+              <f:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
+           </h:outputText>
+        </h:column>
+        <h:column>
+           <h:commandButton value="Delete" action="#{messageManager.delete}"/>
+        </h:column>
+     </h:dataTable>
+     <h3><h:outputText value="#{message.title}"/></h3>
+     <div><h:outputText value="#{message.text}"/></div>
+   </h:form>
+  </f:view>
+ </body>
+</html>]]></programlisting>
+                </example>
+                
+
+            </section>
+
+        </section>
+
+        <section>
+            <title>How it works</title>
+
+            <para> The first time we navigate to the <literal>messages.jsp</literal> page, the page will try to resolve the
+                    <literal>messageList</literal> context variable. Since this context variable is not initialized,
+                Seam will call the factory method <literal>findMessages()</literal>, which performs a query against the
+                database and results in a <literal>DataModel</literal> being outjected. This
+                <literal>DataModel</literal> provides the row data needed for rendering the
+                    <literal>&lt;h:dataTable&gt;</literal>. </para>
+
+            <para> When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls the
+                    <literal>select()</literal> action listener. Seam intercepts this call and injects the selected row
+                data into the <literal>message</literal> attribute of the <literal>messageManager</literal> component.
+                The action listener fires, marking the selected <literal>Message</literal> as read. At the end of the
+                call, Seam outjects the selected <literal>Message</literal> to the context variable named
+                    <literal>message</literal>. Next, the EJB container commits the transaction, and the change to the
+                    <literal>Message</literal> is flushed to the database. Finally, the page is re-rendered,
+                redisplaying the message list, and displaying the selected message below it. </para>
+
+            <para> If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the
+                    <literal>delete()</literal> action listener. Seam intercepts this call and injects the selected row
+                data into the <literal>message</literal> attribute of the <literal>messageList</literal> component. The
+                action listener fires, removing the selected <literal>Message</literal> from the list, and also calling
+                    <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end of the call, Seam
+                refreshes the <literal>messageList</literal> context variable and clears the context variable named
+                    <literal>message</literal>. The EJB container commits the transaction, and deletes the
+                    <literal>Message</literal> from the database. Finally, the page is re-rendered, redisplaying the
+                message list. </para>
+
+        </section>
+
+    </section>
+
+    <section id="todo">
+        <title>Seam and jBPM: the todo list example</title>
+
+        <para> jBPM provides sophisticated functionality for workflow and task management. To get a small taste of how
+            jBPM integrates with Seam, we'll show you a simple "todo list" application. Since managing lists of tasks is
+            such core functionality for jBPM, there is hardly any Java code at all in this example. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/todo.png" align="center" scalefit="1"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/todo.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <section>
+            <title>Understanding the code</title>
+            <para> The center of this example is the jBPM process definition. There are also two JSPs and two trivial
+                JavaBeans (There was no reason to use session beans, since they do not access the database, or have any
+                other transactional behavior). Let's start with the process definition: </para>
+             <!-- Can't use code hightlighting with callouts -->
+             <example>
+                 <title>todo.jpdl.xml</title>
+                 <programlistingco>
+                    <areaspec>
+                        <area id="todo-startstate" coords="3"/>
+                        <area id="todo-tasknode" coords="7"/>
+                        <area id="todo-task" coords="8"/>
+                        <area id="todo-assignment" coords="9"/>
+                        <area id="todo-endstate" coords="14"/>
+                    </areaspec>
+                    <programlisting><![CDATA[<process-definition name="todo">
+   
+   <start-state name="start">
+      <transition to="todo"/>
+   </start-state>
+   
+   <task-node name="todo">
+      <task name="todo" description="#{todoList.description}">
+         <assignment actor-id="#{actor.id}"/>
+      </task>
+      <transition to="done"/>
+   </task-node>
+   
+   <end-state name="done"/>
+   
+</process-definition>]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="todo-startstate">
+                            <para> The <literal>&lt;start-state&gt;</literal> node represents the logical start
+                                of the process. When the process starts, it immediately transitions to the
+                                <literal>todo</literal> node. </para>
+                        </callout>
+                        <callout arearefs="todo-tasknode">
+                            <para> The <literal>&lt;task-node&gt;</literal> node represents a <emphasis>wait
+                                    state</emphasis>, where business process execution pauses, waiting for one or more
+                                tasks to be performed. </para>
+                        </callout>
+                        <callout arearefs="todo-task">
+                            <para> The <literal>&lt;task&gt;</literal> element defines a task to be performed by
+                                a user. Since there is only one task defined on this node, when it is complete,
+                                execution resumes, and we transition to the end state. The task gets its description
+                                from a Seam component named <literal>todoList</literal> (one of the JavaBeans). </para>
+                        </callout>
+                        <callout arearefs="todo-assignment">
+                            <para> Tasks need to be assigned to a user or group of users when they are created. In this
+                                case, the task is assigned to the current user, which we get from a built-in Seam
+                                component named <literal>actor</literal>. Any Seam component may be used to perform task
+                                assignment. </para>
+                        </callout>
+                        <callout arearefs="todo-endstate">
+                            <para> The <literal>&lt;end-state&gt;</literal> node defines the logical end of the
+                                business process. When execution reaches this node, the process instance is destroyed.
+                            </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+            <para> If we view this process definition using the process definition editor provided by JBossIDE, this is
+                what it looks like: </para>
+
+            <mediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/todo-process.png" align="center"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="images/todo-process.png" align="center"/>
+                </imageobject>
+            </mediaobject>
+
+            <para> This document defines our <emphasis>business process</emphasis> as a graph of nodes. This is the most
+                trivial possible business process: there is one <emphasis>task</emphasis> to be performed, and when that
+                task is complete, the business process ends. </para>
+
+            <para> The first JavaBean handles the login screen <literal>login.jsp</literal>. Its job is just to
+                initialize the jBPM actor id using the <literal>actor</literal> component. In a real application, it
+                would also need to authenticate the user.</para>
+            <example>
+               <title>Login.java</title>
+               <programlisting role="JAVA"><![CDATA[@Name("login")
+public class Login
+{
+   @In
+   private Actor actor;
+   
+   private String user;
+
+   public String getUser()
+   {
+      return user;
+   }
+
+   public void setUser(String user)
+   {
+      this.user = user;
+   }
+   
+   public String login()
+   {
+      actor.setId(user);
+      return "/todo.jsp";
+   }
+}]]></programlisting>
+            </example>
+            
+
+            <para> Here we see the use of <literal>@In</literal> to inject the built-in <literal>Actor</literal>
+                component. </para>
+
+            <para> The JSP itself is trivial: </para>
+
+            <example>
+                <title>login.jsp</title>
+                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<html>
+<head>
+<title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<f:view>
+    <h:form>
+      <div>
+        <h:inputText value="#{login.user}"/>
+        <h:commandButton value="Login" action="#{login.login}"/>
+      </div>
+    </h:form>
+</f:view>
+</body>
+</html>]]></programlisting></example>
+
+            
+
+            <para> The second JavaBean is responsible for starting business process instances, and ending tasks. </para>
+
+            <!-- Can't use code hightlighting with callouts -->
+            <example>
+               <title>TodoList.java</title>
+               <programlistingco>
+                   <areaspec>
+                       <area id="todo-description" coords="6"/>
+                       <area id="todo-createprocess-annotation" coords="15"/>
+                       <area id="todo-task-annotations" coords="18"/>
+                 </areaspec>
+                 <programlisting><![CDATA[@Name("todoList")
+public class TodoList
+{
+   private String description;
+   
+   public String getDescription()
+   {
+      return description;
+   }
+
+   public void setDescription(String description)
+   {
+      this.description = description;
+   }
+   
+   @CreateProcess(definition="todo")
+   public void createTodo() {}
+   
+   @StartTask @EndTask
+   public void done() {}
+
+}]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="todo-description">
+                            <para> The description property accepts user input from the JSP page, and exposes it to the
+                                process definition, allowing the task description to be set. </para>
+                        </callout>
+                        <callout arearefs="todo-createprocess-annotation">
+                            <para> The Seam <literal>@CreateProcess</literal> annotation creates a new jBPM process
+                                instance for the named process definition. </para>
+                        </callout>
+                        <callout arearefs="todo-task-annotations">
+                            <para> The Seam <literal>@StartTask</literal> annotation starts work on a task. The
+                                    <literal>@EndTask</literal> ends the task, and allows the business process execution
+                                to resume. </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+            <para> In a more realistic example, <literal>@StartTask</literal> and <literal>@EndTask</literal> would not
+                appear on the same method, because there is usually work to be done using the application in order to
+                complete the task. </para>
+
+            <para> Finally, the core of the application is in <literal>todo.jsp</literal>: </para>
+            <example>
+                <title>todo.jsp</title>
+                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
+<html>
+<head>
+<title>Todo List</title>
+</head>
+<body>
+<h1>Todo List</h1>
+<f:view>
+   <h:form id="list">
+      <div>
+         <h:outputText value="There are no todo items." 
+                       rendered="#{empty taskInstanceList}"/>
+         <h:dataTable value="#{taskInstanceList}" var="task" 
+                      rendered="#{not empty taskInstanceList}">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:inputText value="#{task.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Created"/>
+                </f:facet>
+                <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
+                    <f:convertDateTime type="date"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Priority"/>
+                </f:facet>
+                <h:inputText value="#{task.priority}" style="width: 30"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Due Date"/>
+                </f:facet>
+                <h:inputText value="#{task.dueDate}" style="width: 100">
+                    <f:convertDateTime type="date" dateStyle="short"/>
+                </h:inputText>
+            </h:column>
+            <h:column>
+                <s:button value="Done" action="#{todoList.done}" taskInstance="#{task}"/>
+            </h:column>
+         </h:dataTable>
+      </div>
+      <div>
+      <h:messages/>
+      </div>
+      <div>
+         <h:commandButton value="Update Items" action="update"/>
+      </div>
+   </h:form>
+   <h:form id="new">
+      <div>
+         <h:inputText value="#{todoList.description}"/>
+         <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+      </div>
+   </h:form>
+</f:view>
+</body>
+</html>]]></programlisting>
+            </example>
+            
+
+            <para> Let's take this one piece at a time. </para>
+
+            <para> The page renders a list of tasks, which it gets from a built-in Seam component named
+                    <literal>taskInstanceList</literal>. The list is defined inside a JSF form. </para>
+            <example>
+                <title>todo.jsp</title>
+                <programlisting role="XHTML"><![CDATA[<h:form id="list">
+   <div>
+      <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
+      <h:dataTable value="#{taskInstanceList}" var="task" 
+                   rendered="#{not empty taskInstanceList}">
+         ...
+      </h:dataTable>
+   </div>
+</h:form>]]></programlisting>
+            </example>
+
+            <para> Each element of the list is an instance of the jBPM class <literal>TaskInstance</literal>. The
+                following code simply displays the interesting properties of each task in the list. For the description,
+                priority and due date, we use input controls, to allow the user to update these values. </para>
+
+            <programlisting role="XHTML"><![CDATA[<h:column>
+    <f:facet name="header">
+       <h:outputText value="Description"/>
+    </f:facet>
+    <h:inputText value="#{task.description}"/>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Created"/>
+    </f:facet>
+    <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
+        <f:convertDateTime type="date"/>
+    </h:outputText>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Priority"/>
+    </f:facet>
+    <h:inputText value="#{task.priority}" style="width: 30"/>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Due Date"/>
+    </f:facet>
+    <h:inputText value="#{task.dueDate}" style="width: 100">
+        <f:convertDateTime type="date" dateStyle="short"/>
+    </h:inputText>
+</h:column>]]></programlisting>
+
+            <note>Seam provides a default JSF date converter for converting a string to a date (no time).
+            Thus, the converter is not necessary for the field bound to <literal>#{task.dueDate}</literal>.</note>
+
+            <para> This button ends the task by calling the action method annotated <literal>@StartTask
+                @EndTask</literal>. It passes the task id to Seam as a request parameter: </para>
+
+            <programlisting role="XHTML"><![CDATA[<h:column>
+    <s:button value="Done" action="#{todoList.done}" taskInstance="#{task}"/>
+</h:column>]]></programlisting>
+
+            <para> Note that this is using a Seam <literal>&lt;s:button&gt;</literal> JSF control from the
+                <literal>seam-ui.jar</literal> package. This button is used to update the properties of the
+                tasks. When the form is submitted, Seam and jBPM will make any changes to the tasks persistent.
+                There is no need for any action listener method: </para>
+
+            <programlisting role="XHTML"><![CDATA[<h:commandButton value="Update Items" action="update"/>]]></programlisting>
+
+            <para> A second form on the page is used to create new items, by calling the action method annotated
+                    <literal>@CreateProcess</literal>. </para>
+
+            <programlisting role="XHTML"><![CDATA[<h:form id="new">
+    <div>
+        <h:inputText value="#{todoList.description}"/>
+        <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+    </div>
+</h:form>]]></programlisting>
+
+
+        </section>
+
+        
+        <section>
+            <title>How it works</title>
+            <para>After logging in, todo.jsp uses the <literal>taskInstanceList</literal> component to display a table
+            of outstanding todo items for a the current user.  Initially there are none.  It
+            also presents a form to enter a new entry.  When the user types the todo item and
+            hits the "Create New Item" button, <literal>#{todoList.createTodo}</literal> is called.  This starts
+            the todo process, as defined in <literal>todo.jpdl.xml</literal>.  </para>
+            
+            <para>The process instance is created, starting in the start state and immediately transition to
+                the <literal>todo</literal> state, where a new task is created.  The task description is set 
+                based on the user's
+                input, which was saved to <literal>#{todoList.description}</literal>.  Then, the task is 
+                assigned to
+                the current user, which was stored in the seam actor component.  Note that in
+                this example, the process has no extra process state.  All the state in this example
+                is stored in the task definition.  The process and task information is stored in the database
+                at the end of the request.
+            </para>
+            
+            <para>
+                When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</literal> now finds 
+                the task that was just created.
+                The task is shown in an <literal>h:dataTable</literal>.  The internal state of the task is 
+                displayed in 
+                each column: <literal>#{task.description}</literal>, <literal>#{task.priority}</literal>, 
+                <literal>#{task.dueDate}</literal>, etc...  These fields 
+                can all be edited and saved back to the database.
+            </para>
+            
+            <para>Each todo item also has "Done" button, which calls <literal>#{todoList.done}</literal>.  The 
+                <literal>todoList</literal> component
+            knows which task the button is for because each s:button specificies 
+                <literal>taskInstance="#{task}"</literal>, referring
+            to the task for that particular line of of the table.  The <literal>@StartTast</literal> and 
+                <literal>@EndTask</literal> annotations
+            cause seam to make the task active and immediately complete the task.  The original process then
+            transitions into the <literal>done</literal> state, according to the process definition, where it ends.
+            The state of the task and process are both updated in the database.
+            </para>
+            
+            <para>When <literal>todo.jsp</literal> is displayed again, the now-completed task is no longer 
+                displayed in the
+            <literal>taskInstanceList</literal>, since that component only display active tasks for the user.</para>
+        </section>
+
+    </section>
+
+    <section id="numberguess">
+        <title>Seam pageflow: the numberguess example</title>
+
+        <para> For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam navigation rules are a
+            perfectly good way to define the page flow. For applications with a more constrained style of navigation,
+            especially for user interfaces which are more stateful, navigation rules make it difficult to really
+            understand the flow of the system. To understand the flow, you need to piece it together from the view
+            pages, the actions and the navigation rules. </para>
+
+        <para> Seam allows you to use a jPDL process definition to define pageflow. The simple number guessing example
+            shows how this is done. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/numberguess.png" align="center" scalefit="1"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/numberguess.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <section>
+            <title>Understanding the code</title>
+            <para> The example is implemented using one JavaBean, three JSP pages and a jPDL pageflow definition. Let's
+                begin with the pageflow: </para>
+             <!-- Can't use code hightlighting with callouts -->
+             <example>
+                <title>pageflow.jpdl.xml</title>
+             <programlistingco>
+                 <areaspec>
+                     <area id="numberguess-page" coords="8"/>
+                     <area id="numberguess-transition" coords="10"/>
+                     <area id="numberguess-action" coords="11"/>
+                     <area id="numberguess-decision" coords="16"/>
+                 </areaspec>
+                 <programlisting><![CDATA[<pageflow-definition 
+        xmlns="http://jboss.com/products/seam/pageflow"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.com/products/seam/pageflow 
+                            http://jboss.com/products/seam/pageflow-2.1.xsd"
+        name="numberGuess">
+   
+   <start-page name="displayGuess" view-id="/numberGuess.jspx">
+      <redirect/>
+      <transition name="guess" to="evaluateGuess">
+         <action expression="#{numberGuess.guess}"/>
+      </transition>
+      <transition name="giveup" to="giveup"/>
+      <transition name="cheat" to="cheat"/>
+   </start-page>
+   
+   <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+      <transition name="true" to="win"/>
+      <transition name="false" to="evaluateRemainingGuesses"/>
+   </decision>
+   
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}">
+      <transition name="true" to="lose"/>
+      <transition name="false" to="displayGuess"/>
+   </decision>
+   
+   <page name="giveup" view-id="/giveup.jspx">
+      <redirect/>
+      <transition name="yes" to="lose"/>
+      <transition name="no" to="displayGuess"/>
+   </page>
+   
+   <process-state name="cheat">
+      <sub-process name="cheat"/>
+      <transition to="displayGuess"/>
+   </process-state>
+   
+   <page name="win" view-id="/win.jspx">
+      <redirect/>
+      <end-conversation/>
+   </page>
+   
+   <page name="lose" view-id="/lose.jspx">
+      <redirect/>
+      <end-conversation/>
+   </page>
+   
+</pageflow-definition>]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="numberguess-page">
+                            <para> The <literal>&lt;page&gt;</literal> element defines a wait state where the
+                                system displays a particular JSF view and waits for user input. The
+                                <literal>view-id</literal> is the same JSF view id used in plain JSF navigation rules.
+                                The <literal>redirect</literal> attribute tells Seam to use post-then-redirect when
+                                navigating to the page. (This results in friendly browser URLs.) </para>
+                        </callout>
+                        <callout arearefs="numberguess-transition">
+                            <para> The <literal>&lt;transition&gt;</literal> element names a JSF outcome. The
+                                transition is triggered when a JSF action results in that outcome. Execution will then
+                                proceed to the next node of the pageflow graph, after invocation of any jBPM transition
+                                actions. </para>
+                        </callout>
+                        <callout arearefs="numberguess-action">
+                            <para> A transition <literal>&lt;action&gt;</literal> is just like a JSF action,
+                                except that it occurs when a jBPM transition occurs. The transition action can invoke
+                                any Seam component. </para>
+                        </callout>
+                        <callout arearefs="numberguess-decision">
+                            <para> A <literal>&lt;decision&gt;</literal> node branches the pageflow, and
+                                determines the next node to execute by evaluating a JSF EL expression. </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+                
+
+            <para> Here is what the pageflow looks like in the JBoss Developer Studio pageflow editor: </para>
+
+            <mediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/numberguess-pageflow.png" align="center" scalefit="1"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="images/numberguess-pageflow.png" align="center"/>
+                </imageobject>
+            </mediaobject>
+
+            <para> Now that we have seen the pageflow, it is very, very easy to understand the rest of the application! </para>
+
+            <para> Here is the main page of the application, <literal>numberGuess.jspx</literal>: </para>
+
+            <example>
+                <title>numberGuess.jspx</title>
+                <programlisting role="XHTML"><![CDATA[<<?xml version="1.0"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:s="http://jboss.com/products/seam/taglib"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+  <jsp:output doctype-root-element="html" 
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+  <jsp:directive.page contentType="text/html"/>
+  <html>
+  <head>
+    <title>Guess a number...</title>
+    <link href="niceforms.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript" src="niceforms.js" />
+  </head>
+  <body>
+    <h1>Guess a number...</h1>
+    <f:view>
+      <h:form styleClass="niceform">
+        
+        <div>
+        <h:messages globalOnly="true"/>
+        <h:outputText value="Higher!" 
+               rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
+        <h:outputText value="Lower!" 
+               rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
+        </div>
+        
+        <div>
+        I'm thinking of a number between 
+        <h:outputText value="#{numberGuess.smallest}"/> and 
+        <h:outputText value="#{numberGuess.biggest}"/>. You have 
+        <h:outputText value="#{numberGuess.remainingGuesses}"/> guesses.
+        </div>
+        
+        <div>
+        Your guess: 
+        <h:inputText value="#{numberGuess.currentGuess}" id="inputGuess" 
+                     required="true" size="3" 
+                     rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
+          <f:validateLongRange maximum="#{numberGuess.biggest}" 
+                               minimum="#{numberGuess.smallest}"/>
+        </h:inputText>
+        <h:selectOneMenu value="#{numberGuess.currentGuess}" 
+                         id="selectGuessMenu" required="true"
+                         rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and 
+                                     (numberGuess.biggest-numberGuess.smallest) gt 4}">
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneMenu>
+        <h:selectOneRadio value="#{numberGuess.currentGuess}" id="selectGuessRadio" 
+                          required="true"
+                          rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneRadio>
+        <h:commandButton value="Guess" action="guess"/>
+        <s:button value="Cheat" view="/confirm.jspx"/>
+        <s:button value="Give up" action="giveup"/>
+        </div>
+        
+        <div>
+        <h:message for="inputGuess" style="color: red"/>
+        </div>
+        
+      </h:form>
+    </f:view>
+  </body>
+  </html>
+</jsp:root>]]></programlisting>
+            </example>
+            
+
+            <para> Notice how the command button names the <literal>guess</literal> transition instead of calling an
+                action directly. </para>
+
+            <para> The <literal>win.jspx</literal> page is predictable: </para>
+            <example>
+                <title>win.jspx</title>
+                <programlisting role="JSP"><![CDATA[<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+  <jsp:output doctype-root-element="html"
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+  <jsp:directive.page contentType="text/html"/>
+  <html>
+  <head>
+    <title>You won!</title>
+    <link href="niceforms.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>You won!</h1>
+    <f:view>
+      Yes, the answer was <h:outputText value="#{numberGuess.currentGuess}" />.
+      It took you <h:outputText value="#{numberGuess.guessCount}" /> guesses.
+      <h:outputText value="But you cheated, so it doesn't count!" 
+                    rendered="#{numberGuess.cheat}"/>
+      Would you like to <a href="numberGuess.seam">play again</a>?
+    </f:view>
+  </body>
+  </html>
+</jsp:root>
+]]></programlisting>
+            </example>
+            
+
+            <para>The <literal>lose.jspx</literal> looks roughly the same, so we'll skip over it.</para>
+            
+            <para>Finally, we'll look at the actual application code: </para>
+             <!-- Can't use code hightlighting with callouts -->
+             <example>
+                 <title>NumberGuess.java</title>
+                 <programlistingco>
+                 <areaspec>
+                     <area id="numberguess-create" coords="13"/>
+                 </areaspec>
+                 <programlisting><![CDATA[@Name("numberGuess")
+@Scope(ScopeType.CONVERSATION)
+public class NumberGuess implements Serializable {
+   
+   private int randomNumber;
+   private Integer currentGuess;
+   private int biggest;
+   private int smallest;
+   private int guessCount;
+   private int maxGuesses;
+   private boolean cheated;
+   
+   @Create
+   public void begin()
+   {
+      randomNumber = new Random().nextInt(100);
+      guessCount = 0;
+      biggest = 100;
+      smallest = 1;
+   }
+   
+   public void setCurrentGuess(Integer guess)
+   {
+      this.currentGuess = guess;
+   }
+   
+   public Integer getCurrentGuess()
+   {
+      return currentGuess;
+   }
+   
+   public void guess()
+   {
+      if (currentGuess>randomNumber)
+      {
+         biggest = currentGuess - 1;
+      }
+      if (currentGuess<randomNumber)
+      {
+         smallest = currentGuess + 1;
+      }
+      guessCount ++;
+   }
+   
+   public boolean isCorrectGuess()
+   {
+      return currentGuess==randomNumber;
+   }
+   
+   public int getBiggest()
+   {
+      return biggest;
+   }
+   
+   public int getSmallest()
+   {
+      return smallest;
+   }
+   
+   public int getGuessCount()
+   {
+      return guessCount;
+   }
+   
+   public boolean isLastGuess()
+   {
+      return guessCount==maxGuesses;
+   }
+
+   public int getRemainingGuesses() {
+      return maxGuesses-guessCount;
+   }
+
+   public void setMaxGuesses(int maxGuesses) {
+      this.maxGuesses = maxGuesses;
+   }
+
+   public int getMaxGuesses() {
+      return maxGuesses;
+   }
+
+   public int getRandomNumber() {
+      return randomNumber;
+   }
+
+   public void cheated()
+   {
+      cheated = true;
+   }
+   
+   public boolean isCheat() {
+      return cheated;
+   }
+   
+   public List<Integer> getPossibilities()
+   {
+      List<Integer> result = new ArrayList<Integer>();
+      for(int i=smallest; i<=biggest; i++) result.add(i);
+      return result;
+   }
+   
+}
+]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="numberguess-create">
+                            <para> The first time a JSP page asks for a <literal>numberGuess</literal> component, Seam
+                                will create a new one for it, and the <literal>@Create</literal> method will be invoked,
+                                allowing the component to initialize itself. </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+         
+            <para>The <literal>pages.xml</literal> file starts a Seam
+                <emphasis>conversation</emphasis> (much more about that later), and specifies the
+                pageflow definition to use for the conversation's page flow. 
+            </para>
+
+            <example>
+                <title>pages.xml</title>
+            
+            
+            <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+
+  <page view-id="/numberGuess.jspx">
+    <begin-conversation join="true" pageflow="numberGuess"/>
+  </page>
+
+</pages>      
+]]></programlisting>     
+                </example>
+            
+            
+               <para> As you can see, this Seam component is pure business logic! It doesn't need to know anything at all
+                about the user interaction flow. This makes the component potentially more reuseable. </para>
+            
+        </section>
+
+        <section>
+            <title>How it works</title>
+            <para>We'll step through basic flow of the application.  The game starts with the 
+                <literal>numberGuess.jspx</literal> view.  When the page is first displayed, the 
+                <literal>pages.xml</literal> configuration causes conversation to begin and associates
+                the <literal>numberGuess</literal> pageflow 
+                with that conversation.  The pageflow starts with a <literal>start-page</literal> tag, 
+                which is a wait state, so the <literal>numberGuess.xhtml</literal> is rendered.  
+            </para>
+            
+            <para>The view references the <literal>numberGuess</literal> component, causing a new
+                instance to be created and stored in the conversation.  The <literal>@Create</literal> method 
+                is called, initializing the state of the game.  The view displays an <literal>h:form</literal>
+                that allows the user to edit <literal>#{numberGuess.currentGuess}</literal>.  
+            </para>
+            
+            <para>The "Guess" button triggers the <literal>guess</literal> action. Seam defers to the pageflow
+            to handle the action, which says that the pageflow should transition to the <literal>evaluateGuess</literal>
+            state, first invoking <literal>#{numberGuess.guess}</literal>, which updates the guess count
+                and highest/lowest suggestions in the <literal>numberGuess</literal> component.
+            </para>
+            
+            <para> The <literal>evaluateGuess</literal> state checks the value of <literal>#{numberGuess.correctGuess}</literal>
+            and transitions either to the <literal>win</literal> or <literal>evaluatingRemainingGuesses</literal>
+            state.  We'll assume the number was incorrect, in which case the pageflow transitions to 
+            <literal>evaluatingRemainingGuesses</literal>.  That is also a decision state, which
+                tests the <literal>#{numberGuess.lastGuess}</literal> state to determine whether or not the user has 
+                more guesses.  If there are more guesses (<literal>lastGuess</literal> is <literal>false</literal>),
+                we transition back to the original <literal>displayGuess</literal> state.  Finally we've
+                reached a page state, so the associated page <literal>/numberGuess.jspx</literal> is displayed.  
+                Since the page has a redirect element, Seam sends a redirect to the the user's browser, 
+                starting the process over.
+            </para>
+            
+            <para>
+                We won't follow the state any more except to note that if on a future request either the 
+                <literal>win</literal> or the <literal>lose</literal> transition were taken, the user would 
+                be taken to either the <literal>/win.jspx</literal> or <literal>/lose.jspx</literal>. 
+                Both states specify that Seam should end the conversation, tossing away all the game state and 
+                pageflow state, before redirecting the user to the
+                final page.  
+                
+            </para>
+            
+            <para>The numberguess example also contains Giveup and Cheat buttons.  You should be able to 
+                trace the pageflow state for both actions relatively easily.  Pay particular attention
+                to the <literal>cheat</literal> transition, which loads a sub-process to handle that flow.  
+                Although it's 
+                overkill for this application, it does demonstrate how complex pageflows can be broken down into
+                smaller parts to make them easier to understand. 
+                </para>
+        </section>
+
+    </section>
+
+    <section id="booking">
+        <title>A complete Seam application: the Hotel Booking example</title>
+
+        <section>
+            <title>Introduction</title>
+
+            <para> The booking application is a complete hotel room reservation system incorporating the following
+                features: </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>User registration</para>
+                </listitem>
+                <listitem>
+                    <para>Login</para>
+                </listitem>
+                <listitem>
+                    <para>Logout</para>
+                </listitem>
+                <listitem>
+                    <para>Set password</para>
+                </listitem>
+                <listitem>
+                    <para>Hotel search</para>
+                </listitem>
+                <listitem>
+                    <para>Hotel selection</para>
+                </listitem>
+                <listitem>
+                    <para>Room reservation</para>
+                </listitem>
+                <listitem>
+                    <para>Reservation confirmation</para>
+                </listitem>
+                <listitem>
+                    <para>Existing reservation list</para>
+                </listitem>
+            </itemizedlist>
+
+      <screenshot>
+        <screeninfo>Booking example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/booking.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/booking.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+            <para> The booking application uses JSF, EJB 3.0 and Seam, together with Facelets for the view. There is
+                also a port of this application to JSF, Facelets, Seam, JavaBeans and Hibernate3. </para>
+
+            <para> One of the things you'll notice if you play with this application for long enough is that it is
+                extremely <emphasis>robust</emphasis>. You can play with back buttons and browser refresh and opening
+                multiple windows and entering nonsensical data as much as you like and you will find it very difficult
+                to make the application crash. You might think that we spent weeks testing and fixing bugs to achive
+                this. Actually, this is not the case. Seam was designed to make it very straightforward to build robust
+                web applications and a lot of robustness that you are probably used to having to code yourself comes
+                naturally and automatically with Seam. </para>
+            <para> As you browse the sourcecode of the example application, and learn how the application works, observe
+                how the declarative state management and integrated validation has been used to achieve this robustness. </para>
+
+        </section>
+ 
+        <section>
+            <title>Overview of the booking example</title>
+
+            <para> The project structure is identical to the previous one, to install and deploy this application,
+                please refer to <xref linkend="try-examples"/>. Once you've successfully started the application, you
+                can access it by pointing your browser to <ulink url="http://localhost:8080/seam-booking/">
+                    <literal>http://localhost:8080/seam-booking/</literal>
+                </ulink>
+            </para>
+
+            <para>The application uses six session beans for to implement the business logic for the listed features. </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para><literal>AuthenticatorAction</literal> provides the login authentication logic.</para>
+                    </listitem>
+                <listitem>
+                    <para><literal>BookingListAction</literal> retrieves existing bookings for the currently logged in user. </para>
+                </listitem>
+                <listitem>
+                    <para><literal>ChangePasswordAction</literal> updates the password of the currently logged in user.</para>
+                </listitem>
+                <listitem>
+                    <para><literal>HotelBookingAction</literal> implements booking and confirmation
+                        functionality.  This functionality is implemented as a
+                        <emphasis>conversation</emphasis>, so this is one of the most interesting classes in the 
+                        application.</para></listitem>
+                <listitem>
+                    <para><literal>HotelSearchingAction</literal> implements the hotel search functionality. 
+                    </para></listitem>
+                <listitem>
+                    <para><literal>RegisterAction</literal> registers a new system user.</para>
+                </listitem>
+            </itemizedlist>
+
+            <para> Three entity beans implement the application's persistent domain model. </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para><literal>Hotel</literal> is an entity bean that represent a hotel </para></listitem>
+                <listitem>
+                    <para><literal>Booking</literal> is an entity bean that represents an existing booking </para></listitem>
+                <listitem>
+                    <para><literal>User</literal> is an entity bean to represents a user who can make hotel bookings</para>
+                </listitem>
+            </itemizedlist>
+
+        </section>
+
+        <section>
+            <title>Understanding Seam conversations</title>
+            <para> We encourage you browse the sourcecode at your pleasure. In this tutorial we'll concentrate upon one
+                particular piece of functionality: hotel search, selection, booking and confirmation. From the point of
+                view of the user, everything from selecting a hotel to confirming a booking is one continuous unit of
+                work, a <emphasis>conversation</emphasis>. Searching, however, is <emphasis>not</emphasis> part of the
+                conversation. The user can select multiple hotels from the same search results page, in different
+                browser tabs. </para>
+            <para> Most web application architectures have no first class construct to represent a conversation. This
+                causes enormous problems managing conversational state. Usually, Java web applications
+                use a combination of several techniques.  Some state can be transfered in the URL.
+                What can't is either thrown into the
+                <literal>HttpSession</literal>  or flushed to the database after every
+                request, and reconstructed from the database at the beginning of each new request. </para>
+            <para> Since the database is the least scalable tier, this often results in an utterly unacceptable lack of
+                scalability. Added latency is also a problem, due to the extra traffic to and from the database on every
+                request. To reduce this redundant traffic, Java applications often introduce a data (second-level) cache
+                that keeps commonly accessed data between requests. This cache is necessarily inefficient, because
+                invalidation is based upon an LRU policy instead of being based upon when the user has finished working
+                with the data. Furthermore, because the cache is shared between many concurrent transactions, we've
+                introduced a whole raft of problem's associated with keeping the cached state consistent with the
+                database. </para>
+            <para> Now consider the state held in the <literal>HttpSession</literal>.  The HttpSession is great
+                place for true session data, data that is common to all requests that the user has with the application.
+                However, it's a bad place to store data related to individual series of requests.  Using the session of 
+                conversational quickly breaks down when dealing with the back button and multiple windows.  
+                On top of that, without careful
+                programming, data in the HTTP Session can grow quite large, making the HTTP session difficult 
+                to cluster.  Developing mechanisms to isolate session state associated with different concurrent
+                conversations, and incorporating failsafes to ensure that conversation state is destroyed when 
+                the user aborts one of the
+                conversations by closing a browser window or tab is not for the faint hearted. Fortunately, with Seam,
+                you don't have to worry about that.
+            </para>
+
+            <para> Seam introduces the <emphasis>conversation context</emphasis> as a first class construct. You can
+                safely keep conversational state in this context, and be assured that it will have a well-defined
+                lifecycle. Even better, you won't need to be continually pushing data back and forth between the
+                application server and the database, since the conversation context is a natural cache of data that the
+                user is currently working with. </para>
+            <para> In this application, we'll use the conversation context to store stateful session beans.                
+                There is an ancient canard in the Java
+                community that stateful session beans are a scalability killer. This may have been true in the
+                early days of enterprise Java, but it is no longer true today. Modern application servers have 
+                extremely
+                sophisticated mechanisms for stateful session bean state replication. JBoss AS, for example, performs 
+                fine-grained replication, replicating only those bean attribute values which actually
+                changed. Note that all the traditional technical arguments for why stateful beans are inefficient apply
+                equally to the <literal>HttpSession</literal>, so the practice of shifting state from business tier
+                stateful session bean components to the web session to try and improve performance is unbelievably
+                misguided. It is certainly possible to write unscalable applications using stateful session beans, by
+                using stateful beans incorrectly, or by using them for the wrong thing. But that doesn't mean you should
+                <emphasis>never</emphasis> use them. 
+                If you remain unconvinced, Seam allows the use of POJOs instead of stateful session beans.
+                With Seam, the choice is yours. 
+            </para>
+
+
+            <para> The booking example application shows how stateful components with different scopes can collaborate
+                together to achieve complex behaviors. The main page of the booking application allows the user to
+                search for hotels. The search results are kept in the Seam session scope. When the user navigates to one
+                of these hotels, a conversation begins, and a conversation scoped component calls back to the session
+                scoped component to retrieve the selected hotel. </para>
+
+            <para> The booking example also demonstrates the use of RichFaces Ajax to implement rich client behavior without
+                the use of handwritten JavaScript. </para>
+
+            <para> The search functionality is implemented using a session-scope stateful session bean, similar to the
+                one we saw in the message list example. </para>
+                
+            <example>
+                <title>HotelSearchingAction.java</title>
+             <!-- Can't use code hightlighting with callouts -->
+             <programlistingco>
+                 <areaspec>
+                     <area id="booking-stateful-annotation" coords="1"/>
+                     <area id="booking-restrict-annotation" coords="4"/>
+                     <area id="booking-datamodel-annotation" coords="15"/>
+                     <area id="booking-destroy-annotation" coords="70"/>
+                 </areaspec>
+                 <programlisting><![CDATA[@Stateful
+@Name("hotelSearch")
+@Scope(ScopeType.SESSION)
+@Restrict("#{identity.loggedIn}")
+public class HotelSearchingAction implements HotelSearching
+{
+   
+   @PersistenceContext
+   private EntityManager em;
+   
+   private String searchString;
+   private int pageSize = 10;
+   private int page;
+   
+   @DataModel
+   private List<Hotel> hotels;
+   
+   public void find()
+   {
+      page = 0;
+      queryHotels();
+   }
+   public void nextPage()
+   {
+      page++;
+      queryHotels();
+   }
+      
+   private void queryHotels()
+   {
+      hotels = 
+          em.createQuery("select h from Hotel h where lower(h.name) like #{pattern} " + 
+                         "or lower(h.city) like #{pattern} " + 
+                         "or lower(h.zip) like #{pattern} " +
+                         "or lower(h.address) like #{pattern}")
+            .setMaxResults(pageSize)
+            .setFirstResult( page * pageSize )
+            .getResultList();
+   }
+   
+   public boolean isNextPageAvailable()
+   {
+      return hotels!=null && hotels.size()==pageSize;
+   }
+   
+   public int getPageSize() {
+      return pageSize;
+   }
+   
+   public void setPageSize(int pageSize) {
+      this.pageSize = pageSize;
+   }
+   
+   @Factory(value="pattern", scope=ScopeType.EVENT)
+   public String getSearchPattern()
+   {
+      return searchString==null ? 
+            "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+   }
+   
+   public String getSearchString()
+   {
+      return searchString;
+   }
+   
+   public void setSearchString(String searchString)
+   {
+      this.searchString = searchString;
+   }
+   
+   @Remove
+   public void destroy() {}
+}]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="booking-stateful-annotation">
+                            <para> The EJB standard <literal>@Stateful</literal> annotation identifies this class as a
+                                stateful session bean. Stateful session beans are scoped to the conversation context by
+                                default. </para>
+                        </callout>
+                        <callout arearefs="booking-restrict-annotation">
+                            <para> The <literal>@Restrict</literal> annotation applies a security restriction to the
+                                component. It restricts access to the component allowing only logged-in users. The
+                                security chapter explains more about security in Seam. </para>
+                        </callout>
+                        <callout arearefs="booking-datamodel-annotation">
+                            <para> The <link linkend="datamodel-annotation">
+                                    <literal>@DataModel</literal>
+                                </link> annotation exposes a <literal>List</literal> as a JSF
+                                <literal>ListDataModel</literal>. This makes it easy to implement clickable lists for
+                                search screens. In this case, the list of hotels is exposed to the page as a
+                                    <literal>ListDataModel</literal> in the conversation variable named
+                                <literal>hotels</literal>. </para>
+                        </callout>
+                        <callout arearefs="booking-destroy-annotation">
+                            <para> The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
+                                session bean should be removed and its state destroyed after invocation of the annotated
+                                method. In Seam, all stateful session beans must define a method with no parameters marked
+                                    <literal>@Remove</literal>. This method will be
+                                called when Seam destroys the session context.</para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+            <para> The main page of the application is a Facelets page. Let's look at the fragment which relates to
+                searching for hotels: </para>
+            <example>
+               <title>main.xhtml</title>
+             <!-- Can't use code hightlighting with callouts -->
+             <programlistingco>
+                 <areaspec>
+                     <area id="booking-support-element" coords="14"/>
+                     <area id="booking-status-element" coords="20"/>
+                     <area id="booking-outputpanel-element" coords="37"/>
+                     <area id="booking-link-element" coords="61"/>
+                 </areaspec>
+                 <programlisting><![CDATA[<div class="section">
+  
+    <span class="errors">
+       <h:messages globalOnly="true"/>
+    </span>
+    
+    <h1>Search Hotels</h1>
+
+    <h:form id="searchCriteria">
+    <fieldset> 
+       <h:inputText id="searchString" value="#{hotelSearch.searchString}" 
+                    style="width: 165px;">
+         <a:support event="onkeyup" actionListener="#{hotelSearch.find}" 
+                    reRender="searchResults" />
+       </h:inputText>
+       &#160;
+       <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" 
+                        reRender="searchResults"/>
+       &#160;
+       <a:status>
+          <f:facet name="start">
+             <h:graphicImage value="/img/spinner.gif"/>
+          </f:facet>
+       </a:status>
+       <br/>
+       <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
+       <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
+          <f:selectItem itemLabel="5" itemValue="5"/>
+          <f:selectItem itemLabel="10" itemValue="10"/>
+          <f:selectItem itemLabel="20" itemValue="20"/>
+       </h:selectOneMenu>
+    </fieldset>
+    </h:form>
+    
+</div>
+
+<a:outputPanel id="searchResults">
+  <div class="section">
+    <h:outputText value="No Hotels Found"
+                  rendered="#{hotels != null and hotels.rowCount==0}"/>
+    <h:dataTable id="hotels" value="#{hotels}" var="hot" 
+                 rendered="#{hotels.rowCount>0}">
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{hot.name}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Address</f:facet>
+            #{hot.address}
+        </h:column>
+        <h:column>
+            <f:facet name="header">City, State</f:facet>
+            #{hot.city}, #{hot.state}, #{hot.country}
+        </h:column> 
+        <h:column>
+            <f:facet name="header">Zip</f:facet>
+            #{hot.zip}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Action</f:facet>
+            <s:link id="viewHotel" value="View Hotel" 
+                    action="#{hotelBooking.selectHotel(hot)}"/>
+        </h:column>
+    </h:dataTable>
+    <s:link value="More results" action="#{hotelSearch.nextPage}" 
+            rendered="#{hotelSearch.nextPageAvailable}"/>
+  </div>
+</a:outputPanel>    ]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="booking-support-element">
+                            <para> The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF action
+                                event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a
+                                JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
+                                    <literal>reRender</literal> attribute lets us render a fragment of the JSF page and
+                                perform a partial page update when the asynchronous response is received. </para>
+                        </callout>
+                        <callout arearefs="booking-status-element">
+                            <para> The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display an
+                                animated image while we wait for asynchronous requests to return. </para>
+                        </callout>
+                        <callout arearefs="booking-outputpanel-element">
+                            <para> The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
+                                the page which can be re-rendered by an asynchronous request. </para>
+                        </callout>
+                        <callout arearefs="booking-link-element">
+                            <para> The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action
+                                listener to an ordinary (non-JavaScript) HTML link. The advantage of this over the
+                                standard JSF <literal>&lt;h:commandLink&gt;</literal> is that it preserves the
+                                operation of "open in new window" and "open in new tab". Also notice that we use a
+                                method binding with a parameter: <literal>#{hotelBooking.selectHotel(hot)}</literal>.
+                                This is not possible in the standard Unified EL, but Seam provides an extension to the
+                                EL that lets you use parameters on any method binding expression. </para>
+                            <para> If you're wondering how navigation occurs,
+                                you can find all the rules in <literal>WEB-INF/pages.xml</literal>;
+                                this is discussed in <xref linkend="events.pageaction.navigation"/>. </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+            <para> This page displays the search results dynamically as we type, and lets us choose a hotel and pass it
+                to the <literal>selectHotel()</literal> method of the <literal>HotelBookingAction</literal>, which is
+                where the <emphasis>really</emphasis> interesting stuff is going to happen. </para>
+
+
+            <para> Now let's see how the booking example application uses a conversation-scoped stateful session bean to
+                achieve a natural cache of persistent data related to the conversation. The following code example is
+                pretty long. But if you think of it as a list of scripted actions that implement the various steps of
+                the conversation, it's understandable. Read the class from top to bottom, as if it were a story. </para>
+            <example>
+               <title>HotelBookingAction.java</title>
+             <!-- Can't use code hightlighting with callouts -->
+             <programlistingco>
+                 <areaspec>
+                     <area id="booking-extendedpersistencecontext-annotation" coords="7"/>
+                     <area id="booking-out-annotation" coords="17"/>
+                     <area id="booking-begin-annotation" coords="31"/>
+                     <area id="booking-end-annotation" coords="72"/>
+                     <area id="booking-dest-annotation" coords="85"/>
+                 </areaspec>
+                 <programlisting><![CDATA[@Stateful
+@Name("hotelBooking")
+@Restrict("#{identity.loggedIn}")
+public class HotelBookingAction implements HotelBooking
+{
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @In 
+   private User user;
+   
+   @In(required=false) @Out
+   private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   private Booking booking;
+     
+   @In
+   private FacesMessages facesMessages;
+      
+   @In
+   private Events events;
+   
+   @Logger 
+   private Log log;
+   
+   private boolean bookingValid;
+   
+   @Begin
+   public void selectHotel(Hotel selectedHotel)
+   {
+      hotel = em.merge(selectedHotel);
+   }
+   
+   public void bookHotel()
+   {      
+      booking = new Booking(hotel, user);
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
+   }
+   
+   public void setBookingDetails()
+   {
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+      if ( booking.getCheckinDate().before( calendar.getTime() ) )
+      {
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+         bookingValid=false;
+      }
+      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         facesMessages.addToControl("checkoutDate", 
+                                    "Check out date must be later than check in date");
+         bookingValid=false;
+      }
+      else
+      {
+         bookingValid=true;
+      }
+   }
+   
+   public boolean isBookingValid()
+   {
+      return bookingValid;
+   }
+   
+   @End
+   public void confirm()
+   {
+      em.persist(booking);
+      facesMessages.add("Thank you, #{user.name}, your confimation number " + 
+                        " for #{hotel.name} is #{booki g.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
+   }
+   
+   @End
+   public void cancel() {}
+   
+   @Remove
+   public void destroy() {}
+]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="booking-extendedpersistencecontext-annotation">
+                            <para> This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that any
+                                entity instances remain managed for the whole lifecycle of the stateful session bean.
+                            </para>
+                        </callout>
+                        <callout arearefs="booking-out-annotation">
+                            <para> The <link linkend="out-annotation">
+                                    <literal>@Out</literal>
+                                </link> annotation declares that an attribute value is <emphasis>outjected</emphasis> to
+                                a context variable after method invocations. In this case, the context variable named
+                                    <literal>hotel</literal> will be set to the value of the <literal>hotel</literal>
+                                instance variable after every action listener invocation completes. </para>
+                        </callout>
+                        <callout arearefs="booking-begin-annotation">
+                            <para> The <link linkend="begin-annotation">
+                                    <literal>@Begin</literal>
+                                </link> annotation specifies that the annotated method begins a <emphasis>long-running
+                                    conversation</emphasis>, so the current conversation context will not be destroyed
+                                at the end of the request. Instead, it will be reassociated with every request from the
+                                current window, and destroyed either by timeout due to conversation inactivity or
+                                invocation of a matching <literal>@End</literal> method. </para>
+                        </callout>
+                        <callout arearefs="booking-end-annotation">
+                            <para> The <link linkend="end-annotation">
+                                    <literal>@End</literal>
+                                </link> annotation specifies that the annotated method ends the current long-running
+                                conversation, so the current conversation context will be destroyed at the end of the
+                                request. </para>
+                        </callout>
+                        <callout arearefs="booking-dest-annotation">
+                            <para> This EJB remove method will be called when Seam destroys the conversation context.
+                                Don't forget to define this method! </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+
+            <para>
+                <literal>HotelBookingAction</literal> contains all the action listener methods that implement selection,
+                booking and booking confirmation, and holds state related to this work in its instance variables. We
+                think you'll agree that this code is much cleaner and simpler than getting and setting
+                    <literal>HttpSession</literal> attributes. </para>
+
+            <para> Even better, a user can have multiple isolated conversations per login session. Try it! Log in, run a
+                search, and navigate to different hotel pages in multiple browser tabs. You'll be able to work on
+                creating two different hotel reservations at the same time. If you leave any one conversation inactive
+                for long enough, Seam will eventually time out that conversation and destroy its state. If, after ending
+                a conversation, you backbutton to a page of that conversation and try to perform an action, Seam will
+                detect that the conversation was already ended, and redirect you to the search page. </para>
+
+        </section>
+
+        <section>
+            <title>The Seam Debug Page</title>
+
+            <para> The WAR also includes <literal>seam-debug.jar</literal>.  The Seam debug page will be available
+                if this jar is deployed in
+                    <literal>WEB-INF/lib</literal>, along with the Facelets, and if you set the debug property
+                of the <literal>init</literal> component:</para>
+            
+            <programlisting role="XML"><![CDATA[<core:init jndi-pattern="@jndiPattern@" debug="true"/>]]></programlisting>                            
+
+            <para>  This page lets you browse and inspect the Seam components
+                in any of the Seam contexts associated with your current login session. Just point your browser at
+                    <ulink url="http://localhost:8080/seam-booking/debug.seam">
+                    <literal>http://localhost:8080/seam-booking/debug.seam</literal>
+                </ulink>. </para>
+
+            <mediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/debug.png" align="center" scalefit="1"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="images/debug.png" align="center"/>
+                </imageobject>
+            </mediaobject>
+
+        </section>
+
+    </section>
+
+    <section id="nestedbooking">
+        <title>Nested conversations: extending the Hotel Booking example</title>
+        
+        <section>
+            <title>Introduction</title>
+            
+            <para>Long-running conversations make it simple to maintain consistency of state in an application
+even in the face of multi-window operation and back-buttoning. Unfortunately, simply beginning and ending a 
+long-running conversation is not always enough. Depending on the requirements of the application, inconsistencies 
+between what the user's expectations and the reality of the application’s state can still result.</para>
+
+            <para>The nested booking application extends the features of the hotel booking application to incorporate 
+the selection of rooms.  Each hotel has available rooms with descriptions for a user to select from.  This requires
+the addition of a room selection page in the hotel reservation flow.</para>
+        
+            <mediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/nested-booking.png" align="center" scalefit="1"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="images/nested-booking.png" align="center"/>
+                </imageobject>
+            </mediaobject>
+        
+            <para>The user now has the option to select any available room to be included in the booking.  As with the
+hotel booking application we saw previously, this can lead to issues with state consistency.  As with storing state
+in the <varname>HTTPSession</varname>, if a conversation variable changes it affects all windows operating within
+the same conversation context.</para>
+
+            <para>To demonstrate this, let’s suppose the user clones the room selection screen in a new window.  The 
+user then selects the <emphasis>Wonderful Room</emphasis> and proceeds to the confirmation screen. To see just how much
+it would cost to live the high-life, the user returns to the original window, selects the <emphasis>Fantastic 
+Suite</emphasis> for booking, and again proceeds to confirmation. After reviewing the total cost, the user decides
+that practicality wins out and returns to the window showing <emphasis>Wonderful Room</emphasis> to confirm.</para>
+
+            <para>In this scenario, if we simply store all state in the conversation, we are not protected from 
+multi-window operation within the same conversation.  Nested conversations allow us to achieve correct behavior even 
+when context can vary within the same conversation.</para>
+        </section>
+        
+        <section>
+            <title>Understanding Nested Conversations</title>
+        
+            <para>Now let's see how the nested booking example extends the behavior of the hotel booking application through
+use of nested conversations.  Again, we can read the class from top to bottom, as if it were a story.</para>
+
+            <example>
+              <title>RoomPreferenceAction.java</title>
+              <!-- Can't use code hightlighting with callouts -->
+              <programlistingco>
+                <areaspec>
+                    <area id="nested-booking-load-rooms" coords="25"/>
+                    <area id="nested-booking-nested-conversation" coords="38"/>
+                    <area id="nested-booking-select-preference" coords="43"/>
+                    <area id="nested-booking-end-annotation" coords="58"/>
+                </areaspec>
+                <programlisting><![CDATA[@Stateful
+@Name("roomPreference")
+@Restrict("#{identity.loggedIn}")
+public class RoomPreferenceAction implements RoomPreference 
+{
+
+   @Logger 
+   private Log log;
+
+   @In private Hotel hotel;
+   
+   @In private Booking booking;
+
+   @DataModel(value="availableRooms")
+   private List<Room> availableRooms;
+
+   @DataModelSelection(value="availableRooms")
+   private Room roomSelection;
+    
+   @In(required=false, value="roomSelection")
+   @Out(required=false, value="roomSelection")
+   private Room room;
+
+   @Factory("availableRooms")
+   public void loadAvailableRooms()
+   {
+      availableRooms = hotel.getAvailableRooms(booking.getCheckinDate(), booking.getCheckoutDate());
+      log.info("Retrieved #0 available rooms", availableRooms.size());
+   }
+
+   public BigDecimal getExpectedPrice()
+   {
+      log.info("Retrieving price for room #0", roomSelection.getName());
+      
+      return booking.getTotal(roomSelection);
+   }
+
+   @Begin(nested=true)
+   public String selectPreference()
+   {
+      log.info("Room selected");
+      
+      this.room = this.roomSelection;
+      
+      return "payment";
+   }
+
+   public String requestConfirmation()
+   {
+      // all validations are performed through the s:validateAll, so checks are already
+      // performed
+      log.info("Request confirmation from user");
+      
+      return "confirm";
+   }
+
+   @End(beforeRedirect=true)
+   public String cancel()
+   {
+      log.info("ending conversation");
+
+      return "cancel";
+   }
+
+   @Destroy @Remove                                                                      
+   public void destroy() {}    
+}
+]]></programlisting>
+                        <calloutlist>
+                            <callout arearefs="nested-booking-load-rooms">
+                                <para> The <varname>hotel</varname> instance is injected from the conversation context.  The hotel 
+                                    is loaded through an <emphasis>extended persistence context</emphasis> so that the entity 
+                                    remains managed throughout the conversation.  This allows us to lazily load the 
+                                    <varname>availableRooms</varname> through an <varname>@Factory</varname> method by
+                                    simply walking the association.
+                                </para>
+                            </callout>
+                            <callout arearefs="nested-booking-nested-conversation">
+                                <para> When <link linkend="begin-annotation">
+                                        <literal>@Begin(nested=true)</literal>
+                                    </link> is encountered, a nested conversation is pushed onto the conversation stack.  When 
+                                    executing within a nested conversation, components still have access to all outer conversation 
+                                    state, but setting any values in the nested conversation’s state container does not affect 
+                                    the outer conversation. In addition, nested conversations can exist concurrently stacked on the 
+                                    same outer conversation, allowing independent state for each.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-select-preference">
+                                <para>The <varname>roomSelection</varname> is outjected to the conversation based on the 
+                                    <varname>@DataModelSelection</varname>.  Note that because the nested conversation has an
+                                    independent context, the <varname>roomSelection</varname> is only set into the new nested
+                                    conversation.  Should the user select a different preference in another window or tab a new 
+                                    nested conversation would be started.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-end-annotation">
+                                <para> The <link linkend="end-annotation">
+                                        <literal>@End</literal>
+                                    </link> annotation pops the conversation stack and resumes the outer conversation.  The
+                                    <varname>roomSelection</varname> is destroyed along with the conversation context.</para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                </example>
+            
+                <para>When we begin a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> 
+example, the conversation stack consists of the outer long-running conversation (the booking) and each of the nested conversations (room 
+selections).</para>
+
+                <example>
+                  <title>rooms.xhtml</title>
+                  <!-- Can't use code hightlighting with callouts -->
+                  <programlistingco>
+                    <areaspec>
+                        <area id="nested-booking-available-rooms" coords="19"/>
+                        <area id="nested-booking-selection-action" coords="36"/>
+                        <area id="nested-booking-cancel-action" coords="45"/>
+                    </areaspec>
+                    <programlisting><![CDATA[<div class="section">
+    <h1>Room Preference</h1>
+</div>
+
+<div class="section">
+    <h:form id="room_selections_form">
+        <div class="section">
+            <h:outputText styleClass="output" 
+                value="No rooms available for the dates selected: " 
+                rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+            <h:outputText styleClass="output" 
+                value="Rooms available for the dates selected: " 
+                rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
+                
+            <h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
+            <h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
+            
+            <br/><br/>
+            
+            <h:dataTable value="#{availableRooms}" var="room" 
+                    rendered="#{availableRooms.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{room.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Description</f:facet>
+                    #{room.description}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Per Night</f:facet>
+                    <h:outputText value="#{room.price}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandLink id="selectRoomPreference" 
+                        action="#{roomPreference.selectPreference}">Select</h:commandLink>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <div class="entry">
+            <div class="label">&#160;</div>
+            <div class="input">
+                <s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
+            </div>
+        </div>    
+    </h:form>
+</div>
+]]></programlisting>
+                        <calloutlist>
+                            <callout arearefs="nested-booking-available-rooms">
+                                <para>When requested from EL, the <varname>#{availableRooms}</varname> are loaded by the <varname>@Factory</varname>
+method defined in <varname>RoomPreferenceAction</varname>.  The <varname>@Factory</varname> method will only be executed once to load the values
+into the current context as a <link linkend="datamodel-annotation">
+  <varname>@DataModel</varname>
+</link> instance.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-selection-action">
+                                <para>Invoking the <varname>#{roomPreference.selectPreference}</varname> action results in the row being selected
+and set into the <varname>@DataModelSelection</varname>.  This value is then outjected to the nested conversation context.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-cancel-action">
+                                <para>Revising the dates simply returns to the <varname>/book.xhtml</varname>.  Note that we have not yet nested 
+a conversation (no room preference has been selected), so the current conversation can simply be resumed.  The <varname>&lt;s:button></varname>
+component simply propagates the current conversation when displaying the <varname>/book.xhtml</varname> view.</para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                </example>
+
+                <para>Now that we have seen how to nest a conversation, let's see how we can confirm the booking once a room has been selected.  This 
+can be achieved by simply extending the behavior of the <varname>HotelBookingAction</varname>.</para>
+                
+                <example>
+                  <title>HotelBookingAction.java</title>
+                  <!-- Can't use code hightlighting with callouts -->
+                  <programlistingco>
+                    <areaspec>
+                        <area id="nested-booking-end-root" coords="77"/>
+                        <area id="nested-booking-confirm" coords="82"/>
+                        <area id="nested-booking-cancel" coords="89" />
+                    </areaspec>
+                    <programlisting><![CDATA[@Stateful
+@Name("hotelBooking")
+@Restrict("#{identity.loggedIn}")
+public class HotelBookingAction implements HotelBooking
+{
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @In 
+   private User user;
+   
+   @In(required=false) @Out
+   private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   private Booking booking;
+   
+   @In(required=false)
+   private Room roomSelection;
+   
+   @In
+   private FacesMessages facesMessages;
+      
+   @In
+   private Events events;
+   
+   @Logger 
+   private Log log;
+   
+   @Begin
+   public void selectHotel(Hotel selectedHotel)
+   {
+      log.info("Selected hotel #0", selectedHotel.getName());
+      hotel = em.merge(selectedHotel);
+   }
+   
+   public String setBookingDates()
+   {
+      // the result will indicate whether or not to begin the nested conversation
+      // as well as the navigation.  if a null result is returned, the nested
+      // conversation will not begin, and the user will be returned to the current
+      // page to fix validation issues
+      String result = null;
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+      // validate what we have received from the user so far
+      if ( booking.getCheckinDate().before( calendar.getTime() ) )
+      {
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+      }
+      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+      }
+      else
+      {
+         result = "rooms";
+      }
+
+      return result;
+   }
+   
+   public void bookHotel()
+   {      
+      booking = new Booking(hotel, user);
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
+   }
+   
+   @End(root=true)
+   public void confirm()
+   {
+      // on confirmation we set the room preference in the booking.  the room preference
+      // will be injected based on the nested conversation we are in.
+      booking.setRoomPreference(roomSelection);
+
+      em.persist(booking);
+      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
+   }
+   
+   @End(root=true, beforeRedirect=true)
+   public void cancel() {}
+   
+   @Destroy @Remove
+   public void destroy() {}
+}
+]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="nested-booking-end-root">
+                            <para>Annotating an action with  <link linkend="end-annotation">
+                                <varname>@End(root=true)</varname> 
+                            </link> ends the root conversation which effectively destroys the entire conversation stack.  
+                            When any conversation is ended, its nested conversations are ended as well.  As the root is 
+                            the conversation that started it all, this is a simple way to destroy and release all state 
+                            associated with a workspace once the booking is confirmed.</para>
+                        </callout>
+                        <callout arearefs="nested-booking-confirm">
+                            <para>The <varname>roomSelection</varname> is only associated with the <varname>booking</varname>
+                            on user confirmation.  While outjecting values to the nested conversation context will not
+                            impact the outer conversation, any objects injected from the outer conversation are injected
+                            by reference.  This means that any changing to these objects will be reflected in the parent 
+                            conversation as well as other concurrent nested conversations.</para>
+                        </callout>
+                        <callout arearefs="nested-booking-cancel">
+                            <para>By simply annotating the cancellation action with  <link linkend="end-annotation">
+                                <varname>@End(root=true, beforeRedirect=true)</varname> 
+                            </link>
+                            we can easily destroy and release all state associated with the 
+                            workspace prior to redirecting the user back to the hotel selection view.</para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+            <para>Feel free to deploy the application, open many windows or tabs and attempt combinations of various hotels with
+various room preferences.  Confirming a booking always results in the correct hotel and room preference thanks to the nested 
+conversation model.</para>
+        </section>
+    </section>
+    
+    <section id="dvdstore">
+        <title>A complete application featuring Seam and jBPM: the DVD Store example</title>
+
+        <para> The DVD Store demo application shows the practical usage of jBPM for both task management and pageflow. </para>
+
+        <para> The user screens take advantage of a jPDL pageflow to implement searching and shopping cart
+            functionality. </para>
+
+        <screenshot>
+        <screeninfo>DVD Store example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/dvdsearch.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/dvdsearch.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+        <para> The administration screens take use jBPM to manage the approval and shipping cycle for orders. The
+            business process may even be changed dynamically, by selecting a different process definition! </para>
+
+        <screenshot>
+        <screeninfo>DVD Store example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/dvdtasks.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/dvdtasks.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+
+        <para>The Seam DVD Store demo can be run from <literal>dvdstore</literal> directory,
+        just like the other demo applications.</para>
+
+    </section>
+
+
+    <section id="blog">
+        <title>Bookmarkable URLs with the Blog example</title>
+
+        <para> Seam makes it very easy to implement applications which keep state on the server-side. However,
+            server-side state is not always appropriate, especially in for functionality that serves up
+            <emphasis>content</emphasis>. For this kind of problem we often want to keep
+            application state in the URL so that any page can be accessed at any time through
+            a bookmark.  The blog example shows how to a implement an 
+            application that supports bookmarking throughout, even on the search results page. This
+            example
+            demonstrates how Seam can manage application state in the URL as well as how Seam can rewrite 
+            those URLs to be even
+        
+        </para>
+
+        <screenshot>
+        <screeninfo>Blog example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/blog.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/blog.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+        <para> The Blog example demonstrates the use of "pull"-style MVC, where instead of using action listener methods
+            to retrieve data and prepare the data for the view, the view pulls data from components as it is being
+            rendered. </para>
+
+        <section>
+            <title>Using "pull"-style MVC</title>
+
+            <para> This snippet from the <literal>index.xhtml</literal> facelets page displays a list of recent blog
+                entries: </para>
+            <example>
+               <title></title>
+            <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+ <h:column>
+    <div class="blogEntry">
+       <h3>#{blogEntry.title}</h3>
+       <div>
+          <s:formattedText value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+       </div>
+       <p>
+          <s:link view="/entry.xhtml" rendered="#{blogEntry.excerpt!=null}" propagation="none"
+              value="Read more...">
+             <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+          </s:link>
+       </p>
+       <p>
+          [Posted on&#160;
+          <h:outputText value="#{blogEntry.date}">
+              <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+          </h:outputText>]
+          &#160;
+          <s:link view="/entry.xhtml" propagation="none" value="[Link]">
+             <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+          </s:link>
+       </p>
+    </div>
+ </h:column>
+</h:dataTable>]]></programlisting>
+</example>
+            
+
+            <para> If we navigate to this page from a bookmark, how does the <literal>#{blog.recentBlogEntries}</literal>
+                data used by the <literal>&lt;h:dataTable&gt;</literal> actually get initialized? 
+                The <literal>Blog</literal> is retrieved lazily &#8212; "pulled" &#8212; when needed, by a Seam
+                component named <literal>blog</literal>. This is the opposite flow of control to what is used in
+                traditional action-based web frameworks like Struts. </para>
+             <example>
+               <title></title>
+             <!-- Can't use code hightlighting with callouts -->
+             <programlistingco>
+                 <areaspec>
+                     <area id="blog-seampc" coords="7"/>
+                     <area id="blog-unwrap" coords="9"/>
+                 </areaspec>
+                 <programlisting><![CDATA[@Name("blog")
+@Scope(ScopeType.STATELESS)
+@AutoCreate
+public class BlogService 
+{
+   
+   @In EntityManager entityManager;
+  
+   @Unwrap
+   public Blog getBlog()
+   {
+      return (Blog) entityManager.createQuery("select distinct b from Blog b left join fetch b.blogEntries")
+            .setHint("org.hibernate.cacheable", true)
+            .getSingleResult();
+   }
+
+}]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="blog-seampc">
+                            <para> This component uses a <emphasis>seam-managed persistence context</emphasis>. Unlike
+                                the other examples we've seen, this persistence context is managed by Seam, instead of
+                                by the EJB3 container. The persistence context spans the entire web request, allowing us
+                                to avoid any exceptions that occur when accessing unfetched associations in the view.
+                            </para>
+                        </callout>
+                        <callout arearefs="blog-unwrap">
+                            <para> The <literal>@Unwrap</literal> annotation tells Seam to provide the return value of
+                                the method &#8212; the <literal>Blog</literal> &#8212; instead of the actual
+                                    <literal>BlogService</literal> component to clients. This is the Seam
+                                    <emphasis>manager component pattern</emphasis>. </para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+               </example>
+            
+
+            <para> This is good so far, but what about bookmarking the result of form submissions, such as a search
+                results page? </para>
+
+        </section>
+
+        <section>
+            <title>Bookmarkable search results page</title>
+
+            <para> The blog example has a tiny form in the top right of each page that allows the user to search for
+                blog entries. This is defined in a file, <literal>menu.xhtml</literal>, included by the facelets
+                template, <literal>template.xhtml</literal>: </para>
+            <example>
+               <title></title>
+            <programlisting role="XHTML"><![CDATA[<div id="search">
+   <h:form>
+      <h:inputText value="#{searchAction.searchPattern}"/>
+      <h:commandButton value="Search" action="/search.xhtml"/>
+   </h:form>
+</div>]]></programlisting>
+            
+
+            <para> To implement a bookmarkable search results page, we need to perform a browser redirect after
+                processing the search form submission. Because we used the JSF view id as the action outcome, Seam
+                automatically redirects to the view id when the form is submitted. Alternatively, we could have defined
+                a navigation rule like this: </para>
+                
+    <programlisting role="XML"><![CDATA[<navigation-rule>
+   <navigation-case>
+      <from-outcome>searchResults</from-outcome>
+      <to-view-id>/search.xhtml</to-view-id>
+      <redirect/>
+   </navigation-case>
+</navigation-rule>]]></programlisting>
+            </example>
+
+            <para> Then the form would have looked like this: </para>
+            
+        <programlisting role="XHTML"><![CDATA[<div id="search">
+   <h:form>
+      <h:inputText value="#{searchAction.searchPattern}"/>
+      <h:commandButton value="Search" action="searchResults"/>
+   </h:form>
+</div>]]></programlisting>
+            
+
+            <para> But when we redirect, we need to include the values submitted with the form
+                in the URL to get a bookmarkable URL like
+                <literal>http://localhost:8080/seam-blog/search/</literal>. JSF does not provide
+                an easy way to do this, but Seam does. We use two Seam features
+                to accomplish this: <emphasis>page parameters</emphasis> and <emphasis>URL rewriting</emphasis>.
+                Both are defined in <literal>WEB-INF/pages.xml</literal>: </para>
+            <example>
+            <title></title>
+            <programlisting role="XML"><![CDATA[<pages>
+   <page view-id="/search.xhtml">
+      <rewrite pattern="/search/{searchPattern}"/> 
+      <rewrite pattern="/search"/>
+      
+      <param name="searchPattern" value="#{searchService.searchPattern}"/>
+
+   </page>
+   ...
+</pages>]]></programlisting>
+</example>            
+
+            <para>
+                The page parameter instructs Seam to link the request parameter named <literal>searchPattern</literal>
+                to the value of <literal>#{searchService.searchPattern}</literal>, both whenever a request for 
+                the Search page comes in and whenever a link to the search page is generated. Seam
+                takes responsibility for maintaining the link between URL state and application state, and you,
+                the developer, don't have to worry about it.</para>
+            
+            <para>Without URL rewriting, the URL for a search on the term <literal>book</literal>
+                would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>.
+                This is nice, but Seam can make the URL even simpler using a rewrite rule.  The first
+                rewrite rule, for the pattern <literal>/search/{searchPattern}</literal>, says that 
+                any time we have a URL for search.xhtml with a searchPattern request parameter, we can 
+                fold that URL into the simpler URL.  So,the URL we saw earlier, 
+                <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> 
+                can be written instead as <literal>http://localhost:8080/seam-blog/search/book</literal>.
+            </para>
+    
+            <para>Just like with page parameters, URL rewriting is bi-directional.  That means that Seam 
+                forwards requests for the simpler URL to the the right view, and it also automatically generates
+                the simpler view for you.  You never need to worry about constructing URLs.  It's 
+                all handled transparently behind the scenes.  The only requirement is that to use URL rewriting, 
+                the rewrite filter needs to be enabled in <literal>components.xml</literal>.         
+                </para>
+    
+              
+            <programlisting>&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;</programlisting>
+
+            <para> The redirect takes us to the <literal>search.xhtml</literal> page: </para>
+            
+            <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{searchResults}" var="blogEntry">
+  <h:column>
+     <div>
+        <s:link view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
+           <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+        </s:link>
+        posted on 
+        <h:outputText value="#{blogEntry.date}">
+            <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+        </h:outputText>
+     </div>
+  </h:column>
+</h:dataTable>]]></programlisting>
+            
+
+            <para> Which again uses "pull"-style MVC to retrieve the actual search results using 
+            Hibernate Search.</para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("searchService")
+public class SearchService 
+{
+   
+   @In
+   private FullTextEntityManager entityManager;
+   
+   private String searchPattern;
+   
+   @Factory("searchResults")
+   public List<BlogEntry> getSearchResults()
+   {
+      if (searchPattern==null || "".equals(searchPattern) ) {
+         searchPattern = null;
+         return entityManager.createQuery("select be from BlogEntry be order by date desc").getResultList();
+      }
+      else
+      {
+         Map<String,Float> boostPerField = new HashMap<String,Float>();
+         boostPerField.put( "title", 4f );
+         boostPerField.put( "body", 1f );
+         String[] productFields = {"title", "body"};
+         QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
+         parser.setAllowLeadingWildcard(true);
+         org.apache.lucene.search.Query luceneQuery;
+         try
+         {
+            luceneQuery = parser.parse(searchPattern);
+         }
+         catch (ParseException e)
+         {
+            return null;
+         }
+
+         return entityManager.createFullTextQuery(luceneQuery, BlogEntry.class)
+               .setMaxResults(100)
+               .getResultList();
+      }
+   }
+
+   public String getSearchPattern()
+   {
+      return searchPattern;
+   }
+
+   public void setSearchPattern(String searchPattern)
+   {
+      this.searchPattern = searchPattern;
+   }
+
+}
+]]></programlisting>
+            
+
+        </section>
+
+        <section>
+            <title>Using "push"-style MVC in a RESTful application</title>
+
+            <para> Very occasionally, it makes more sense to use push-style MVC for processing RESTful pages, and so
+                Seam provides the notion of a <emphasis>page action</emphasis>. The Blog example uses a page action for
+                the blog entry page, <literal>entry.xhtml</literal>. Note that this is a little bit contrived, it would
+                have been easier to use pull-style MVC here as well. </para>
+
+            <para> The <literal>entryAction</literal> component works much like an action class in a traditional
+                push-MVC action-oriented framework like Struts: </para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("entryAction")
+@Scope(STATELESS)
+public class EntryAction
+{
+   @In Blog blog;
+   
+   @Out BlogEntry blogEntry;
+   
+   public void loadBlogEntry(String id) throws EntryNotFoundException
+   {
+      blogEntry = blog.getBlogEntry(id);
+      if (blogEntry==null) throw new EntryNotFoundException(id);
+   }
+   
+}]]></programlisting>
+            
+
+            <para> Page actions are also declared in <literal>pages.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<pages>
+   ...
+
+    <page view-id="/entry.xhtml"> 
+        <rewrite pattern="/entry/{blogEntryId}" />
+        <rewrite pattern="/entry" />
+        
+        <param name="blogEntryId" 
+               value="#{blogEntry.id}"/>
+        
+        <action execute="#{entryAction.loadBlogEntry(blogEntry.id)}"/>
+    </page>
+    
+    <page view-id="/post.xhtml" login-required="true">
+        <rewrite pattern="/post" />
+        
+        <action execute="#{postAction.post}"
+                if="#{validation.succeeded}"/>
+        
+        <action execute="#{postAction.invalid}"
+                if="#{validation.failed}"/>
+        
+        <navigation from-action="#{postAction.post}">
+            <redirect view-id="/index.xhtml"/>
+        </navigation>
+    </page>
+
+    <page view-id="*">
+        <action execute="#{blog.hitCount.hit}"/>
+    </page>
+
+</pages>]]></programlisting>
+            
+
+            <para> Notice that the example is using page actions for post validation 
+                and the pageview counter. Also notice the use of a parameter in the page action method
+                binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just 
+                for page actions but also in JSF method bindings. </para>
+
+            <para> When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter
+                    <literal>blogEntryId</literal> to the model.  Keep in mind that because of the URL rewriting,
+                the blogEntryId parameter name won't show up in the URL.  Seam then runs the page action, which retrieves 
+                the needed
+                data &#8212; the <literal>blogEntry</literal> &#8212; and places it in the Seam event context.
+                Finally, the following is rendered: </para>
+
+            <programlisting role="XHTML"><![CDATA[<div class="blogEntry">
+    <h3>#{blogEntry.title}</h3>
+    <div>
+        <s:formattedText value="#{blogEntry.body}"/>
+    </div>
+    <p>
+    [Posted on&#160;
+    <h:outputText value="#{blogEntry.date}">
+       <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+    </h:outputText>]
+    </p>
+</div>]]></programlisting>
+            
+
+            <para> If the blog entry is not found in the database, the <literal>EntryNotFoundException</literal>
+                exception is thrown. We want this exception to result in a 404 error, not a 505, so we annotate the
+                exception class: </para>
+        
+            <programlisting role="JAVA"><![CDATA[@ApplicationException(rollback=true)
+@HttpError(errorCode=HttpServletResponse.SC_NOT_FOUND)
+public class EntryNotFoundException extends Exception
+{
+   EntryNotFoundException(String id)
+   {
+      super("entry not found: " + id);
+   }
+}]]></programlisting>
+            
+
+            <para> An alternative implementation of the example does not use the parameter in the method binding: </para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("entryAction")
+@Scope(STATELESS)
+public class EntryAction
+{
+   @In(create=true) 
+   private Blog blog;
+   
+   @In @Out
+   private BlogEntry blogEntry;
+   
+   public void loadBlogEntry() throws EntryNotFoundException
+   {
+      blogEntry = blog.getBlogEntry( blogEntry.getId() );
+      if (blogEntry==null) throw new EntryNotFoundException(id);
+   }
+}]]></programlisting>
+
+                <programlisting role="XML"><![CDATA[<pages>
+   ...
+
+   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry}">
+      <param name="blogEntryId" value="#{blogEntry.id}"/>
+   </page>
+   
+   ...
+</pages>]]></programlisting>
+            
+
+            <para> It is a matter of taste which implementation you prefer. </para>
+
+
+            <para>
+                The blog demo also demonstrates very simple password authentication, posting to
+                the blog, page fragment caching and atom feed generation.  
+            </para>
+        </section>
+
+    </section>
+
+</chapter>

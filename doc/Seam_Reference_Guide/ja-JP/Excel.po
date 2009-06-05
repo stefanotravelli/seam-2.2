@@ -1,0 +1,3925 @@
+# translation of Tools.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tools\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"PO-Revision-Date: 2009-02-25 16:25+0900\n"
+"Last-Translator: Daisuke Sano <d-sano@nri.co.jp>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Excel.xml:8
+#, no-c-format
+msgid "&Excel;"
+msgstr "Microsoft® Excel® スプレッドアプリケーション"
+
+#. Tag: para
+#: Excel.xml:9
+#, no-c-format
+msgid ""
+"Seam also supports generation of &excel; spreadsheets through the excellent "
+"<ulink url=\"http://jexcelapi.sourceforge.net/\">JExcelAPI </ulink> library. "
+"The generated document is compatible with &excel; versions 95, 97, 2000, XP "
+"and 2003. Currently a limited subset of the library functionality is exposed "
+"but the ultimate goal is to be able to do everything the library allows for. "
+"Please refer to the JExcelAPI documentation for more information on "
+"capabilities and limitations."
+msgstr ""
+"Seamでは素晴らしい<ulink url=\"http://jexcelapi.sourceforge.net/\">JExcelAPI "
+"</ulink>ライブラリを通じて、Microsoft® Excel® スプレッドアプリケーションのス"
+"プレッドシートを作成することもできます。作成されたドキュメントは&excel;の95、"
+"97、2000、XP、2003の各バージョンと互換性があります。現在のところは、ライブラ"
+"リの機能の内、限定的にいくつかの機能が使えるのみですが、ライブラリで可能なす"
+"べてのことをSeamでも可能にすることが最終的な目標です。Seamで可能な操作、今の"
+"ところ不可能な操作について詳しく知りたい場合は、JExcelAPIのドキュメントを参照"
+"して下さい。"
+
+#. Tag: title
+#: Excel.xml:21
+#, no-c-format
+msgid "&Excel; support"
+msgstr "Microsoft® Excel® スプレッドアプリケーションを利用する"
+
+#. Tag: para
+#: Excel.xml:22
+#, fuzzy, no-c-format
+msgid ""
+"&Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains the "
+"&excel; JSF controls, which are used to construct views that can render the "
+"document, and the DocumentStore component, which serves the rendered "
+"document to the user. To include &excel; support in your application, "
+"include <literal>jboss-seam-excel.jar</literal> in your <literal>WEB-INF/"
+"lib</literal> directory along with the <literal>jxl.jar</literal> JAR file. "
+"Furthermore, you need to configure the DocumentStore servlet in your web.xml"
+msgstr ""
+"Microsoft® Excel® スプレッドアプリケーションは<literal>jboss-seam-excel.jar</"
+"literal>によって提供されます。このJARはドキュメント出力のためのビューと、出力"
+"済みのドキュメントを保持するためのDocumentStoreコンポーネントを構築するために"
+"利用されます。Microsoft® Excel® スプレッドアプリケーションを有効にするために"
+"は、<literal>jboss-seam-excel.jar</literal>を<literal>jxl.jar</literal>と共に"
+"<literal>WEB-INF/lib</literal>へ配置し、web.xmlにDocumentStoreサーブレットの"
+"設定を行います。"
+
+#. Tag: para
+#: Excel.xml:32
+#, no-c-format
+msgid ""
+"&Excel; Seam module requires the use of Facelets as the view technology. "
+"Additionally, it requires the use of the seam-ui package."
+msgstr ""
+"Microsoft® Excel® スプレッドアプリケーションのためのSeamモジュールではビュー"
+"テクノロジーとして Facelets を使用する必要があります。また、 seam-ui パッケー"
+"ジの使用も必要となります。"
+
+#. Tag: para
+#: Excel.xml:36
+#, no-c-format
+msgid ""
+"The <literal>examples/excel</literal> project contains an example of &excel; "
+"support in action. It demonstrates proper deployment packaging, and it shows "
+"the exposed functionality."
+msgstr ""
+"<literal>examples/excel</literal> プロジェクトには実行可能なMicrosoft® "
+"Excel® スプレッドアプリケーションのサンプルが含まれています。 サンプルを用い"
+"て、適切なデプロイメントや主要な機能を体験することができます。"
+
+#. Tag: para
+#: Excel.xml:41
+#, no-c-format
+msgid ""
+"Customizing the module to support other kinds of &excel; spreadsheet API's "
+"has been made very easy. Implement the <literal>ExcelWorkbook </literal> "
+"interface, and register in components.xml."
+msgstr ""
+"Microsoft® Excel® スプレッドアプリケーションのスプレッドシートAPIのさまざまな"
+"機能を使用するためにモジュールをカスタマイズすることが簡単にできます。"
+"<literal>ExcelWorkbook</literal>インタフェースを実装し、それをcomponents.xml"
+"に登録して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:46
+#, no-c-format
+msgid ""
+"<![CDATA[<excel:excelFactory>\n"
+"   <property name=\"implementations\">\n"
+"      <key>myExcelExporter</key>\n"
+"      <value>my.excel.exporter.ExcelExport</value>\n"
+"   </property>\n"
+"</excel:excelFactory>]]>"
+msgstr ""
+"<![CDATA[<excel:excelFactory>\n"
+"   <property name=\"implementations\">\n"
+"      <key>myExcelExporter</key>\n"
+"      <value>my.excel.exporter.ExcelExport</value>\n"
+"   </property>\n"
+"</excel:excelFactory>]]>"
+
+#. Tag: para
+#: Excel.xml:47
+#, no-c-format
+msgid "and register the excel namespace in the components tag with"
+msgstr "そして、excel名前空間をcomponentsタグに登録して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:50
+#, no-c-format
+msgid "<![CDATA[xmlns:excel=\"http://jboss.com/products/seam/excel\"]]>"
+msgstr "<![CDATA[xmlns:excel=\"http://jboss.com/products/seam/excel\"]]>"
+
+#. Tag: para
+#: Excel.xml:51
+#, no-c-format
+msgid ""
+"Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your "
+"own exporter will be used. Default is \"jxl\", but support for CSV has also "
+"been added, using the type \"csv\"."
+msgstr ""
+"あとは、<literal>myExcelExporter</literal>オブジェクトにUIWorkbook型を設定す"
+"ると、作成した出力モジュールが使用されます。デフォルトは\"jxl\"ですが、\"csv"
+"\"を指定することによって、CSV出力を使用することもできます。"
+
+#. Tag: para
+#: Excel.xml:56
+#, no-c-format
+msgid ""
+"See <xref linkend=\"itext.configuration\"/> for information on how to "
+"configure the document servlet for serving the documents with an .xls "
+"extension."
+msgstr ""
+"ドキュメントを.xls拡張子とともに出力するためのサーブレットの設定の仕方につい"
+"ては<xref linkend=\"itext.configuration\"/>を参照して下さい。"
+
+#. Tag: para
+#: Excel.xml:60
+#, no-c-format
+msgid ""
+"If you are having problems accessing the generated file under IE (especially "
+"with https), make sure you are not using too strict restrictions in the "
+"browser (see <ulink url=\"http://www.nwnetworks.com/iezones.htm/\"></"
+"ulink>), too strict security constraint in web.xml or a combination of both."
+msgstr ""
+"もし、IEで（特にhttpsで）、作成されたファイルを開いた際に問題が発生した場合"
+"は、ブラウザの制限が厳しすぎないか（<ulink url=\"http://www.nwnetworks.com/"
+"iezones.htm/\"></ulink>を参照）、web.xmlでのセキュリティ制約が厳しすぎない"
+"か、またはその両方を確認して下さい。"
+
+#. Tag: title
+#: Excel.xml:68
+#, no-c-format
+msgid "Creating a simple workbook"
+msgstr "簡単なブックを作成する"
+
+#. Tag: para
+#: Excel.xml:69
+#, no-c-format
+msgid ""
+"Basic usage of the worksheet support is simple; it is used like a familiar "
+"<literal>&lt;h:dataTable&gt;</literal> and you can bind to a <literal>List</"
+"literal>, <literal>Set</literal>, <literal>Map</literal>, <literal>Array</"
+"literal> or <literal>DataModel</literal>."
+msgstr ""
+"シートを利用するための基本は簡単です。それは、使いなれた<literal>&lt;h:"
+"dataTable&gt;</literal>に似ており、<literal>List</literal>、<literal>Set</"
+"literal>、<literal>Map</literal>、<literal>Array</literal>、"
+"<literal>DataModel</literal>に結びつけることができます。"
+
+#. Tag: programlisting
+#: Excel.xml:76
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"               <e:worksheet>\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"Hello world!\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"        ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"               <e:worksheet>\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"Hello world!\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"        ]]>"
+
+#. Tag: para
+#: Excel.xml:77
+#, no-c-format
+msgid "That's not terribly useful, so lets have a look at a more common case:"
+msgstr ""
+"これはあまり使える例ではありません。もう少し一般的な例を見てみましょう。"
+
+#. Tag: programlisting
+#: Excel.xml:80
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"               <e:worksheet value=\"#{data}\" var=\"item\">\n"
+"                  <e:column>\n"
+"                     <e:cell value=\"#{item.value}\"/>\n"
+"                  </e:column>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"               <e:worksheet value=\"#{data}\" var=\"item\">\n"
+"                  <e:column>\n"
+"                     <e:cell value=\"#{item.value}\"/>\n"
+"                  </e:column>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:81
+#, no-c-format
+msgid ""
+"First we have the top-level workbook element which serves as the container "
+"and it doesn't have any attributes. The child-element worksheet has two "
+"attributes; value=&quot;#{data}&quot; is the EL-binding to the data and "
+"var=&quot;item&quot; is the name of the current item. Nested inside the "
+"worksheet is a single column and within it you see the cell which is the "
+"final bind to the data within the currently iterated item"
+msgstr ""
+"はじめに、一番外側にはworkbook要素を置きます。これは、箱の役割を果たし、なん"
+"の属性も持ちません。その子要素として、worksheet要素を置きます。worksheet要素"
+"は二つの属性を持ちます。value=&quot;#{data}&quot;はデータを結びつけるためのEL"
+"式であり、var=&quot;item&quot;は現在のアイテムの名前です。worksheet要素の中に"
+"は、一つだけcolumn要素があり、その中にはcell要素があります。cell要素はデータ"
+"の中の列挙されたアイテムの内、現在のアイテムを、最終的に結び付けます。"
+
+#. Tag: para
+#: Excel.xml:90
+#, no-c-format
+msgid "This is all you know to get started dumping your data to worksheets!"
+msgstr "データをシートに出力するための手始めはこれですべてです。"
+
+#. Tag: title
+#: Excel.xml:96
+#, no-c-format
+msgid "Workbooks"
+msgstr "workbook要素"
+
+#. Tag: para
+#: Excel.xml:97
+#, no-c-format
+msgid "Workbooks are the top-level parents of worksheets and stylesheet links."
+msgstr ""
+"workbook要素は、一番外側の要素であり、worksheet要素やスタイルシートのための"
+"link要素の親となります。"
+
+#. Tag: literal
+#: Excel.xml:108
+#, no-c-format
+msgid "&lt;e:workbook&gt;"
+msgstr "&lt;e:workbook&gt;"
+
+#. Tag: emphasis
+#: Excel.xml:113 Excel.xml:792 Excel.xml:903 Excel.xml:1001 Excel.xml:1123
+#: Excel.xml:1199 Excel.xml:1252 Excel.xml:1389 Excel.xml:1483 Excel.xml:1581
+#: Excel.xml:1644 Excel.xml:1894 Excel.xml:1982 Excel.xml:2047 Excel.xml:2123
+#: Excel.xml:2178 Excel.xml:2303
+#, no-c-format
+msgid "Attributes"
+msgstr "属性"
+
+#. Tag: para
+#: Excel.xml:117
+#, fuzzy, no-c-format
+msgid ""
+"<literal>type</literal> &#8212; Defines which export module to be used. The "
+"value is a string and can be either \"jxl\" or \"csv\". The default is \"jxl"
+"\"."
+msgstr ""
+"<literal>type</literal> &#8212;出力に使用するモジュールの種類を定義します。値"
+"は文字列で、\"jxl\"か\"csv\"のどちらかになります。デフォルトは\"jxl\"です。"
+
+#. Tag: para
+#: Excel.xml:125
+#, fuzzy, no-c-format
+msgid ""
+"<literal>templateURI</literal> &#8212; A template that should be used as a "
+"basis for the workbook. The value is a string (URI)."
+msgstr ""
+"<literal>templateURI</literal> &#8212;ブックの基本となるテンプレートを指定し"
+"ます。値はURI文字列です。"
+
+#. Tag: para
+#: Excel.xml:132
+#, fuzzy, no-c-format
+msgid ""
+"<literal>arrayGrowSize</literal> &#8212; The amount of memory by which to "
+"increase the amount of memory allocated to storing the workbook data. For "
+"processes reading many small workbooks inside a WAS it might be necessary to "
+"reduce the default size. Default value is 1 megabyte. The value is a number "
+"(bytes)."
+msgstr ""
+"<literal>arrayGrowSize</literal> &#8212;ブックを保存する際に割り当てられるメ"
+"モリ量を増加させる際に使用する値です。アプリケーションサーバーの中に、小さな"
+"ブックを読み込んだプロセスがたくさん存在するような場合は、この値をデフォルト"
+"より下げる必要があるかもしれません。デフォルトは1メガバイトです。値はバイト値"
+"です。"
+
+#. Tag: para
+#: Excel.xml:143
+#, fuzzy, no-c-format
+msgid ""
+"<literal>autoFilterDisabled</literal> &#8212; Should autofiltering be "
+"disabled?. The value is a boolean."
+msgstr ""
+"<literal>autoFilterDisabled</literal> &#8212;オートフィルタリングを無効にする"
+"かどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:150
+#, fuzzy, no-c-format
+msgid ""
+"<literal>cellValidationDisabled</literal> &#8212; Should cell validation be "
+"ignored? The value is a boolean."
+msgstr ""
+"<literal>cellValidationDisabled</literal> &#8212;セルのバリデーションを無効に"
+"するかどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:157
+#, fuzzy, no-c-format
+msgid ""
+"<literal>characterSet</literal> &#8212; The character set. This is only used "
+"when the spreadsheet is read, and has no effect when the spreadsheet is "
+"written. The value is a string (character set encoding)."
+msgstr ""
+"<literal>characterSet</literal> &#8212;文字セットです。これは、スプレッドシー"
+"トが読み込まれる時にのみ使用され、書き込まれる時には影響ありません。値は文字"
+"セットを表す文字列です。"
+
+#. Tag: para
+#: Excel.xml:166
+#, fuzzy, no-c-format
+msgid ""
+"<literal>drawingsDisabled</literal> &#8212; Should drawings be disabled? The "
+"value is a boolean."
+msgstr ""
+"<literal>drawingsDisabled</literal> &#8212;図を無効にするかどうかを設定しま"
+"す。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:173
+#, fuzzy, no-c-format
+msgid ""
+"<literal>excelDisplayLanguage</literal> &#8212; The language in which the "
+"generated file will display. The value is a string (two character ISO 3166 "
+"country code)."
+msgstr ""
+"<literal>excelDisplayLanguage</literal> &#8212;作成されたファイルが表示される"
+"際に使用される言語です。値は文字列です（ISO3166の国コードを示す二文字）。"
+
+#. Tag: para
+#: Excel.xml:181
+#, fuzzy, no-c-format
+msgid ""
+"<literal>excelRegionalSettings</literal> &#8212; The regional settings for "
+"the generated excel file. The value is a string (two character ISO 3166 "
+"country code)."
+msgstr ""
+"<literal>excelRegionalSettings</literal> &#8212;作成されたファイルが表示され"
+"る際に使用される地域情報です。値は文字列です（ISO3166の国コードを示す二文"
+"字）。"
+
+#. Tag: para
+#: Excel.xml:189
+#, fuzzy, no-c-format
+msgid ""
+"<literal>formulaAdjust</literal> &#8212; Should formulas be adjusted? The "
+"value is a boolean."
+msgstr ""
+"<literal>formulaAdjust</literal> &#8212;数式を補正するかどうかを設定します。"
+"値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:196
+#, fuzzy, no-c-format
+msgid ""
+"<literal>gcDisabled</literal> &#8212; Should garbage collection be disabled? "
+"The value is a boolean."
+msgstr ""
+"<literal>gcDisabled</literal> &#8212;ガベージコレクションを無効にするかどうか"
+"を設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:203
+#, fuzzy, no-c-format
+msgid ""
+"<literal>ignoreBlanks</literal> &#8212; Should blanks be ignored? The value "
+"is a boolean."
+msgstr ""
+"<literal>ignoreBlanks</literal> &#8212;空白を無視するかどうかを設定します。値"
+"は論理値です。"
+
+#. Tag: para
+#: Excel.xml:210
+#, fuzzy, no-c-format
+msgid ""
+"<literal>initialFileSize</literal> &#8212; The initial amount of memory "
+"allocated to store the workbook data when reading a worksheet. For processes "
+"reading many small workbooks inside a WAS it might be necessary to reduce "
+"the default size. Default value is 5 megabytes. The value is a number "
+"(bytes)."
+msgstr ""
+"<literal>initialFileSize</literal> &#8212;シートが読み込まれた際に、ブックを"
+"保存するために割り当てられるメモリ量の初期値です。アプリケーションサーバーの"
+"中に、小さなブックを読み込んだプロセスがたくさん存在するような場合は、この値"
+"をデフォルトより下げる必要があるかもしれません。デフォルトは5メガバイトです。"
+"値はバイト値です。"
+
+#. Tag: para
+#: Excel.xml:221
+#, fuzzy, no-c-format
+msgid ""
+"<literal>locale</literal> &#8212; The locale used by JExcelApi to generate "
+"the spreadsheet. Setting this value has no effect on the language or region "
+"of the generated excel file. The value is a string."
+msgstr ""
+"<literal>locale</literal> &#8212;JExcelApiがスプレッドシートを作成する際に使"
+"用するロケールです。この値を設定することは、作成されたファイルの言語や地域情"
+"報自体には影響ありません。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:230
+#, fuzzy, no-c-format
+msgid ""
+"<literal>mergedCellCheckingDisabled</literal> &#8212; Should merged cell "
+"checking be disabled? The value is a boolean."
+msgstr ""
+"<literal>mergedCellCheckingDisabled</literal> &#8212;結合されたセルのチェック"
+"を無効にするかどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:237
+#, fuzzy, no-c-format
+msgid ""
+"<literal>namesDisabled</literal> &#8212; Should handling of names be "
+"disabled? The value is a boolean."
+msgstr ""
+"<literal>namesDisabled</literal> &#8212;名前の操作を無効にします。値は論理値"
+"です。"
+
+#. Tag: para
+#: Excel.xml:244
+#, fuzzy, no-c-format
+msgid ""
+"<literal>propertySets</literal> &#8212; Should any property sets be enabled "
+"(such as macros) to be copied along with the workbook? Leaving this feature "
+"enabled will result in the JXL process using more memory. The value is a "
+"boolean."
+msgstr ""
+"<literal>propertySets</literal> &#8212;ブックにコピーするために、すべてのプロ"
+"パティを有効にする（マクロのようなものも含めて）かどうかを設定します。この値"
+"を変更しないと、JXLプロセスがより多くのメモリを消費する結果になります。値は論"
+"理値です。"
+
+#. Tag: para
+#: Excel.xml:254
+#, fuzzy, no-c-format
+msgid ""
+"<literal>rationalization</literal> &#8212; Should the cell formats be "
+"rationalized before writing out the sheet? The value is a boolean. Default "
+"is true."
+msgstr ""
+"<literal>rationalization</literal> &#8212;シートを書き出す際にセルの書式を合"
+"理化するかどうかを設定します。値は論理値です。デフォルトはtrueです。"
+
+#. Tag: para
+#: Excel.xml:262
+#, fuzzy, no-c-format
+msgid ""
+"<literal>supressWarnings</literal> &#8212; Should warnings be suppressed?. "
+"Due to the change in logging in version 2.4, this will now set the warning "
+"behaviour across the JVM (depending on the type of logger used). The value "
+"is a boolean."
+msgstr ""
+"<literal>supressWarnings</literal> &#8212;警告を抑えるかどうかを設定します。"
+"バージョン2.4でのロギングの変更により、この値はJVMを通じた警告の振る舞いを設"
+"定することになります（使用しているロガーの種類に依存します）。値は論理値で"
+"す。"
+
+#. Tag: para
+#: Excel.xml:272
+#, fuzzy, no-c-format
+msgid ""
+"<literal> temporaryFileDuringWriteDirectory </literal> &#8212; Used in "
+"conjunction with the <literal>useTemporaryFileDuringWrite</literal> setting "
+"to set the target directory for the temporary files. This value can be NULL, "
+"in which case the normal system default temporary directory is used instead. "
+"The value is a string (the directory to which temporary files should be "
+"written)."
+msgstr ""
+"<literal>temporaryFileDuringWriteDirectory</literal> &#8212;"
+"<literal>useTemporaryFileDuringWrite</literal>の値によっては、テンポラリファ"
+"イルが作成されるディレクトリを設定します。この値がNULLの場合は、システムのテ"
+"ンポラリディレクトリが使用されます。値は文字列です（テンポラリファイルが作成"
+"されるディレクトリ）。"
+
+#. Tag: para
+#: Excel.xml:287
+#, fuzzy, no-c-format
+msgid ""
+"<literal>useTemporaryFileDuringWrite</literal> &#8212; Should a temporary "
+"file is used during the generation of the workbook. If not set, the workbook "
+"will take place entirely in memory. Setting this flag involves an assessment "
+"of the trade-offs between memory usage and performance. The value is a "
+"boolean."
+msgstr ""
+"<literal>useTemporaryFileDuringWrite</literal> &#8212;ブックが作成される際に"
+"テンポラリファイルを使用するかどうかを設定します。設定されていない場合は、"
+"ブックはすべてメモリに展開されます。このフラグを設定する際には、メモリとパ"
+"フォーマンスのトレードオフを検討する必要があります。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:298
+#, fuzzy, no-c-format
+msgid ""
+"<literal>workbookProtected</literal> &#8212; Should the workbook be "
+"protected? The value is a boolean."
+msgstr ""
+"<literal>workbookProtected</literal> &#8212;ブックを保護するかどうかを設定し"
+"ます。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:305
+#, fuzzy, no-c-format
+msgid ""
+"<literal>filename</literal> &#8212; The filename to use for the download. "
+"The value is a string. Please note that if you map the DocumentServlet to "
+"some pattern, this file extension must also match."
+msgstr ""
+"<literal>filename</literal> &#8212;ダウンロードの際に使用されるファイル名で"
+"す。値は文字列です。もしドキュメントサーブレットをなんらかのパターンにマッピ"
+"ングしている場合は、このファイル名の拡張子がマッチしなければならない点に注意"
+"して下さい。"
+
+#. Tag: para
+#: Excel.xml:313
+#, fuzzy, no-c-format
+msgid ""
+"<literal>exportKey</literal> &#8212; A key under which to store the "
+"resulting data in a DocumentData object under the event scope. If used, "
+"there is no redirection."
+msgstr ""
+"<literal>exportKey</literal> &#8212;データをDocumentDataオブジェクトの中に、"
+"eventスコープで格納する際に使われるキーです。これが使われた場合、リダイレクト"
+"は起こりません。"
+
+#. Tag: emphasis
+#: Excel.xml:322 Excel.xml:2010 Excel.xml:2075 Excel.xml:2135 Excel.xml:2214
+#, no-c-format
+msgid "Child elements"
+msgstr "子要素"
+
+#. Tag: para
+#: Excel.xml:326
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:link/&gt;</literal> &#8212; Zero or more stylesheet links "
+"(see <xref linkend=\"excel.fontsandlayout.link\"/> )."
+msgstr ""
+"<literal>&lt;e:link/&gt;</literal> &#8212;0個以上のスタイルシートへのリンク"
+"（<xref linkend=\"excel.fontsandlayout.link\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:334
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:worksheet/&gt;</literal> &#8212; Zero or more worksheets (see "
+"<xref linkend=\"excel.worksheet\"/> )."
+msgstr ""
+"<literal>&lt;e:worksheet/&gt;</literal> &#8212;0個以上のシート（<xref "
+"linkend=\"excel.worksheet\"/>を参照して下さい）。"
+
+#. Tag: emphasis
+#: Excel.xml:343 Excel.xml:745 Excel.xml:839 Excel.xml:966 Excel.xml:1091
+#: Excel.xml:1167 Excel.xml:1221 Excel.xml:1273 Excel.xml:1443 Excel.xml:1543
+#: Excel.xml:1601 Excel.xml:1664 Excel.xml:1941 Excel.xml:2020 Excel.xml:2085
+#: Excel.xml:2145 Excel.xml:2224 Excel.xml:2324
+#, no-c-format
+msgid "Facets"
+msgstr "ファセット"
+
+#. Tag: literal
+#: Excel.xml:348 Excel.xml:797 Excel.xml:971 Excel.xml:1086 Excel.xml:1096
+#: Excel.xml:1162 Excel.xml:1172 Excel.xml:1204 Excel.xml:1226 Excel.xml:1268
+#: Excel.xml:1278 Excel.xml:1438 Excel.xml:1448 Excel.xml:1538 Excel.xml:1548
+#: Excel.xml:1586 Excel.xml:1596 Excel.xml:1649 Excel.xml:1659 Excel.xml:1936
+#: Excel.xml:1946 Excel.xml:2015 Excel.xml:2025 Excel.xml:2080 Excel.xml:2090
+#: Excel.xml:2140 Excel.xml:2150 Excel.xml:2219 Excel.xml:2229 Excel.xml:2319
+#: Excel.xml:2329
+#, no-c-format
+msgid "none"
+msgstr "なし"
+
+#. Tag: programlisting
+#: Excel.xml:357
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:cell value=\"Hello World\" row=\"0\" column=\"0\"/>\n"
+"               </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:cell value=\"Hello World\" row=\"0\" column=\"0\"/>\n"
+"               </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:358
+#, no-c-format
+msgid "defines a workbook with a worksheet and a greeting at A1"
+msgstr ""
+"これは、一つシートを持ち、そのA1セルに挨拶が書かれたブックを定義します。"
+
+#. Tag: title
+#: Excel.xml:362
+#, no-c-format
+msgid "Worksheets"
+msgstr "worksheet要素"
+
+#. Tag: para
+#: Excel.xml:363
+#, fuzzy, no-c-format
+msgid ""
+"Worksheets are the children of workbooks and the parent of columns and "
+"worksheet commands. They can also contain explicitly placed cells, formulas, "
+"images and hyperlinks. They are the pages that make up the workbook."
+msgstr ""
+"worksheet要素はworkbook要素の子要素であり、column要素やワークシートコマンドの"
+"親要素です。worksheet要素はセルや式や画像やハイパーリンクなどの表示要素を含"
+"み、workbook要素を構成するページに相当します。"
+
+#. Tag: literal
+#: Excel.xml:377
+#, no-c-format
+msgid "&lt;e:worksheet&gt;"
+msgstr "&lt;e:worksheet&gt;"
+
+#. Tag: para
+#: Excel.xml:383
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; An EL-expression to the backing data. The "
+"value is a string. The target of this expression is examined for an "
+"Iterable. Note that if the target is a Map, the iteration is done over the "
+"Map.Entry entrySet(), so you should use a .key or .value to target in your "
+"references."
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:393
+#, fuzzy, no-c-format
+msgid ""
+"<literal>var</literal> &#8212; The current row iterator variable name that "
+"can later be referenced in cell value attributes. The value is a string."
+msgstr ""
+"<literal>var</literal> &#8212;現在の行のための変数名で、後にcell要素のvalue属"
+"性で参照されます。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:401
+#, fuzzy, no-c-format
+msgid ""
+"<literal>name</literal> &#8212; The name of the worksheet. The value is a "
+"string. Defaults to Sheet# where # is the worksheet index. If the given "
+"worksheet name exists, that sheet is selected. This can be used for merging "
+"several data sets into a single worksheet, just define the same name for "
+"them (using <literal>startRow</literal> and <literal>startCol</literal> to "
+"make sure that they don't occupy the same space)."
+msgstr ""
+"<literal>name</literal> &#8212;ワークシートの名前です。値は文字列です。デフォ"
+"ルトはSheet#になります。#はワークシートの通し番号が入ります。与えられたワーク"
+"シート名が既に存在する場合は、存在するワークシートが選択されます。これは、い"
+"くつかのデータ集合を一つのワークシートにマージする際に使われる場合があり、こ"
+"のような場合にそれらのデータ集合に同じワークシート名を指定するだけで、実現で"
+"きます（この場合、<literal>startRow</literal>や<literal>startCol</literal>を"
+"使って、データの位置がかぶらないようにします）。"
+
+#. Tag: para
+#: Excel.xml:418
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; Defines the starting row for the data. "
+"The value is a number. Used for placing the data in other places than the "
+"upper-left corner (especially useful if having multiple data sets for a "
+"single worksheet). The defaults is 0."
+msgstr ""
+"<literal>startRow</literal> &#8212;データの表示が開始される行を定義します。値"
+"は数値です。データを左上の隅以外の場所に表示する場合に使われます（特に複数の"
+"データ集合を一つのワークシートに表示させる場合に有効です）。デフォルトは0で"
+"す。"
+
+#. Tag: para
+#: Excel.xml:428
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; Defines the starting column for the "
+"data. The value is a number. Used for placing the data in other places than "
+"the upper-left corner (especially useful if having multiple data sets for a "
+"single worksheet). The default is 0."
+msgstr ""
+"<literal>startColumn</literal> &#8212;データの表示が開始される列を定義しま"
+"す。値は数値です。データを左上の隅以外の場所に表示する場合に使われます（特に"
+"複数のデータ集合を一つのワークシートに表示させる場合に有効です）。デフォルト"
+"は0です。"
+
+#. Tag: para
+#: Excel.xml:438
+#, fuzzy, no-c-format
+msgid ""
+"<literal>automaticFormulaCalculation</literal> &#8212; Should formulas be "
+"automatically calculated? The value is a boolean."
+msgstr ""
+"<literal>automaticFormulaCalculation</literal> &#8212;式の自動計算を行うかど"
+"うかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:445
+#, fuzzy, no-c-format
+msgid ""
+"<literal>bottomMargin</literal> &#8212; The bottom margin. The value is a "
+"number (inches)."
+msgstr ""
+"<literal>bottomMargin</literal> &#8212;下マージンです。値は数値です（単位はイ"
+"ンチ）。"
+
+#. Tag: para
+#: Excel.xml:452
+#, fuzzy, no-c-format
+msgid ""
+"<literal>copies</literal> &#8212; The number of copies. The value is a "
+"number."
+msgstr "<literal>copies</literal> &#8212;複製の数です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:459
+#, fuzzy, no-c-format
+msgid ""
+"<literal>defaultColumnWidth</literal> &#8212; The default column width. The "
+"value is a number (characters * 256)."
+msgstr ""
+"<literal>defaultColumnWidth</literal> &#8212;セルの列幅のデフォルトです。値は"
+"数値です（単位は文字数で、値は256倍になります）。"
+
+#. Tag: para
+#: Excel.xml:466
+#, fuzzy, no-c-format
+msgid ""
+"<literal>defaultRowHeight</literal> &#8212; The default row height. The "
+"value is a number (1/20ths of a point)."
+msgstr ""
+"<literal>defaultRowHeight</literal> &#8212;セルの行高のデフォルトです。値は数"
+"値です（単位はポイントで、値は1/20になります）。"
+
+#. Tag: para
+#: Excel.xml:473
+#, fuzzy, no-c-format
+msgid ""
+"<literal>displayZeroValues</literal> &#8212; Should zero-values be "
+"displayed? The value is a boolean."
+msgstr ""
+"<literal>displayZeroValues</literal> &#8212;0を表示するかしないかを設定しま"
+"す。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:480
+#, fuzzy, no-c-format
+msgid ""
+"<literal>fitHeight</literal> &#8212; The number of pages vertically that "
+"this sheet will be printed into. The value is a number."
+msgstr ""
+"<literal>fitHeight</literal> &#8212;シートが印刷される際の縦方向のページ数で"
+"す。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:487
+#, fuzzy, no-c-format
+msgid ""
+"<literal>fitToPages</literal> &#8212; Should printing be fit to pages? The "
+"value is a boolean."
+msgstr ""
+"<literal>fitToPages</literal> &#8212;印刷を指定されたページ数丁度にあわせるか"
+"どうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:494
+#, fuzzy, no-c-format
+msgid ""
+"<literal>fitWidth</literal> &#8212; The number of pages widthwise which this "
+"sheet should be printed into. The value is a number."
+msgstr ""
+"<literal>fitWidth</literal> &#8212;シートが印刷される際の横方向のページ数で"
+"す。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:502
+#, fuzzy, no-c-format
+msgid ""
+"<literal>footerMargin</literal> &#8212; The margin for any page footer. The "
+"value is a number (inches)."
+msgstr ""
+"<literal>footerMargin</literal> &#8212;印刷の際のそれぞれのページフッターの"
+"マージンです。値は数値です（単位はインチ）。"
+
+#. Tag: para
+#: Excel.xml:509
+#, fuzzy, no-c-format
+msgid ""
+"<literal>headerMargin</literal> &#8212; The margin for any page headers. The "
+"value is a number (inches)."
+msgstr ""
+"<literal>headerMargin</literal> &#8212;印刷の際のそれぞれのページヘッダーの"
+"マージンです。値は数値です（単位はインチ）。"
+
+#. Tag: para
+#: Excel.xml:516
+#, fuzzy, no-c-format
+msgid ""
+"<literal>hidden</literal> &#8212; Should the worksheet be hidden? The value "
+"is a boolean."
+msgstr ""
+"<literal>hidden</literal> &#8212;ワークシートを非表示にするかどうかを設定しま"
+"す。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:523
+#, fuzzy, no-c-format
+msgid ""
+"<literal>horizontalCentre</literal> &#8212; Should the worksheet be centered "
+"horizontally? The value is a boolean."
+msgstr ""
+"<literal>horizontalCentre</literal> &#8212;ワークシートを水平方向にセンタリン"
+"グするかどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:530
+#, fuzzy, no-c-format
+msgid ""
+"<literal>horizontalFreeze</literal> &#8212; The row at which the pane is "
+"frozen vertically. The value is a number."
+msgstr ""
+"<literal>horizontalFreeze</literal> &#8212;水平方向にウィンドウ枠を固定するた"
+"めの列を指定します。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:537
+#, fuzzy, no-c-format
+msgid ""
+"<literal>horizontalPrintResolution</literal> &#8212; The horizontal print "
+"resolution. The value is a number."
+msgstr ""
+"<literal>horizontalPrintResolution</literal> &#8212;水平方向の解像度です。値"
+"は数値です。"
+
+#. Tag: para
+#: Excel.xml:544
+#, fuzzy, no-c-format
+msgid ""
+"<literal>leftMargin</literal> &#8212; The left margin. The value is a number "
+"(inches)."
+msgstr ""
+"<literal>leftMargin</literal> &#8212;左マージンです。値は数値です（単位はイン"
+"チ）。"
+
+#. Tag: para
+#: Excel.xml:551
+#, fuzzy, no-c-format
+msgid ""
+"<literal>normalMagnification</literal> &#8212; The normal magnification "
+"factor (not zoom or scale factor). The value is a number (percentage)."
+msgstr ""
+"<literal>normalMagnification</literal> &#8212;標準表示の拡大率（ズーム倍率や"
+"印刷倍率ではなく）です。値は数値です（単位はパーセント）。"
+
+#. Tag: para
+#: Excel.xml:558
+#, fuzzy, no-c-format
+msgid ""
+"<literal>orientation</literal> &#8212; The paper orientation for printing "
+"this sheet. The value is a string that can be either \"landscape\" or "
+"\"portrait\"."
+msgstr ""
+"<literal>orientation</literal> &#8212;印刷の向きです。値は文字列で、"
+"\"landscape\"（横向き）、あるいは\"portrait\"（縦向き）です。"
+
+#. Tag: para
+#: Excel.xml:566
+#, fuzzy, no-c-format
+msgid ""
+"<literal>pageBreakPreviewMagnification</literal> &#8212; The page break "
+"preview magnification factor (not zoom or scale factors). The value is a "
+"number (percentage)."
+msgstr ""
+"<literal>pageBreakPreviewMagnification</literal> &#8212;改ページプレビュー表"
+"示の拡大率（ズームや倍率を設定した状態ではなく）です。値は数値です（単位は"
+"パーセント）。"
+
+#. Tag: para
+#: Excel.xml:574
+#, fuzzy, no-c-format
+msgid ""
+"<literal>pageBreakPreviewMode</literal> &#8212; Show page in preview mode? "
+"The value is a boolean."
+msgstr ""
+"<literal>pageBreakPreviewMode</literal> &#8212;改ページプレビュー表示を行うか"
+"どうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:581
+#, fuzzy, no-c-format
+msgid ""
+"<literal>pageStart</literal> &#8212; The page number at which to commence "
+"printing. The value is a number."
+msgstr ""
+"<literal>pageStart</literal> &#8212;印刷を開始するページです。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:588
+#, fuzzy, no-c-format
+msgid ""
+"<literal>paperSize</literal> &#8212; The paper size to be used when printing "
+"this sheet. The value is a string that can be one of \"a4\", \"a3\", \"letter"
+"\", \"legal\" etc (see <ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/PaperSize.html\"> jxl.format."
+"PaperSize </ulink> )."
+msgstr ""
+"<literal>paperSize</literal> &#8212;シートを印刷する際の用紙サイズです。値は"
+"文字列で、\"a4\"、\"a3\"、\"letter\"、\"legal\"あるいはその他です（<ulink "
+"url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/"
+"format/PaperSize.html\"> jxl.format.PaperSize </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:601
+#, fuzzy, no-c-format
+msgid ""
+"<literal>password</literal> &#8212; The password for this sheet. The value "
+"is a string."
+msgstr ""
+"<literal>password</literal> &#8212;シートのパスワードです。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:608
+#, fuzzy, no-c-format
+msgid ""
+"<literal>passwordHash</literal> &#8212; The password hash - used only when "
+"copying sheets. The value is a string."
+msgstr ""
+"<literal>passwordHash</literal> &#8212;パスワードのハッシュです。シートが複製"
+"される時のみに使われます。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:615
+#, fuzzy, no-c-format
+msgid ""
+"<literal>printGridLines</literal> &#8212; Should grid lines be printed? The "
+"value is a boolean."
+msgstr ""
+"<literal>printGridLines</literal> &#8212;枠線を印刷するかどうかを設定します。"
+"値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:622
+#, fuzzy, no-c-format
+msgid ""
+"<literal>printHeaders</literal> &#8212; Should headers be printed? The value "
+"is a boolean."
+msgstr ""
+"<literal>printHeaders</literal> &#8212;ヘッダーを印刷するかどうかを設定しま"
+"す。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:629
+#, fuzzy, no-c-format
+msgid ""
+"<literal>sheetProtected</literal> &#8212; Should the sheet be protected "
+"(read-only)? The value is a boolean."
+msgstr ""
+"<literal>sheetProtected</literal> &#8212;シートを保護（読み取り専用）するかど"
+"うかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:636
+#, fuzzy, no-c-format
+msgid ""
+"<literal>recalculateFormulasBeforeSave</literal> &#8212; Should the formulas "
+"be re-calculated when the sheet is saved? The value is a boolean. Default "
+"value is false."
+msgstr ""
+"<literal>recalculateFormulasBeforeSave</literal> &#8212;シートが保存される際"
+"に式を再計算するかどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:643
+#, fuzzy, no-c-format
+msgid ""
+"<literal>rightMargin</literal> &#8212; The right margin. The value is a "
+"number (inches)."
+msgstr ""
+"<literal>rightMargin</literal> &#8212;右マージンです。値は数値です（単位はイ"
+"ンチ）。"
+
+#. Tag: para
+#: Excel.xml:650
+#, fuzzy, no-c-format
+msgid ""
+"<literal>scaleFactor</literal> &#8212; The scale factor for this sheet to be "
+"used when printing. The value is a number (percent)."
+msgstr ""
+"<literal>scaleFactor</literal> &#8212;シートの印刷倍率です。値は数値です（単"
+"位はパーセント）。"
+
+#. Tag: para
+#: Excel.xml:657
+#, fuzzy, no-c-format
+msgid ""
+"<literal>selected</literal> &#8212; Should the sheet be selected when the "
+"workbook opens? The value is a boolean."
+msgstr ""
+"<literal>selected</literal> &#8212;ブックが開かれた際に、シートが選択されるか"
+"どうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:664
+#, fuzzy, no-c-format
+msgid ""
+"<literal>showGridLines</literal> &#8212; Should gridlines be shown? The "
+"value is a boolean."
+msgstr ""
+"<literal>showGridLines</literal> &#8212;枠線を表示するかどうかを設定します。"
+"値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:671
+#, fuzzy, no-c-format
+msgid ""
+"<literal>topMargin</literal> &#8212; The top margin. The value is a number "
+"(inches)."
+msgstr ""
+"<literal>topMargin</literal> &#8212;上マージンです。値は数値です（単位はイン"
+"チ）。"
+
+#. Tag: para
+#: Excel.xml:678
+#, fuzzy, no-c-format
+msgid ""
+"<literal>verticalCentre</literal> &#8212; Center verically? The value is a "
+"boolean."
+msgstr ""
+"<literal>verticalCentre</literal> &#8212;ワークシートを垂直方向にセンタリング"
+"するかどうかを設定します。値は論理値です。"
+
+#. Tag: para
+#: Excel.xml:684
+#, fuzzy, no-c-format
+msgid ""
+"<literal>verticalFreeze</literal> &#8212; The row at which the pane is "
+"frozen vertically. The value is a number."
+msgstr ""
+"<literal>verticalFreeze</literal> &#8212;垂直方向にウィンドウ枠を固定するため"
+"の列を指定します。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:691
+#, fuzzy, no-c-format
+msgid ""
+"<literal>verticalPrintResolution</literal> &#8212; The vertical print "
+"resolution. The value is a number."
+msgstr ""
+"<literal>verticalPrintResolution</literal> &#8212;垂直方向の解像度です。値は"
+"数値です。"
+
+#. Tag: para
+#: Excel.xml:698
+#, fuzzy, no-c-format
+msgid ""
+"<literal>zoomFactor</literal> &#8212; The zoom factor. Do not confuse zoom "
+"factor (which relates to the on screen view) with scale factor (which refers "
+"to the scale factor when printing). The value is a number (percentage)."
+msgstr ""
+"<literal>zoomFactor</literal> &#8212;ズーム倍率です。ズーム倍率（スクリーン表"
+"示時の倍率）と印刷倍率（印刷時の倍率）を混同しないようにして下さい。値は数値"
+"です（単位はパーセント）。"
+
+#. Tag: emphasis
+#: Excel.xml:708 Excel.xml:802 Excel.xml:954 Excel.xml:1081 Excel.xml:1157
+#: Excel.xml:1209 Excel.xml:1263 Excel.xml:1433 Excel.xml:1533 Excel.xml:1591
+#: Excel.xml:1654 Excel.xml:1931 Excel.xml:2314
+#, no-c-format
+msgid "Child elemenents"
+msgstr "子要素"
+
+#. Tag: para
+#: Excel.xml:712
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:printArea/&gt;</literal> &#8212; Zero or more print area "
+"definitions (see <xref linkend=\"excel.printareatitles\"/> )."
+msgstr ""
+"<literal>&lt;e:printArea/&gt;</literal> &#8212;0個以上の印刷範囲設定です"
+"(<xref linkend=\"excel.printareatitles\"/>を参照して下さい)。"
+
+#. Tag: para
+#: Excel.xml:720
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:printTitle/&gt;</literal> &#8212; Zero or more print title "
+"definitions (see <xref linkend=\"excel.printareatitles\"/> )."
+msgstr ""
+"<literal>&lt;e:printTitle/&gt;</literal> &#8212;0個以上の印刷タイトル設定です"
+"（<xref linkend=\"excel.printareatitles\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:728
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero or more header/"
+"footer definitions (see <xref linkend=\"excel.headersfooters\"/> )."
+msgstr ""
+"<literal>&lt;e:headerFooter/&gt;</literal> &#8212;0個以上のヘッダー/フッター"
+"設定です（<xref linkend=\"excel.headersfooters\"/>）。"
+
+#. Tag: para
+#: Excel.xml:737
+#, no-c-format
+msgid ""
+"Zero or more worksheet commands (see <xref linkend=\"excel.worksheetcommands"
+"\"/> )."
+msgstr ""
+"0個以上のワークシートコマンドです（<xref linkend=\"excel.worksheetcommands\"/"
+">を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:749
+#, fuzzy, no-c-format
+msgid ""
+"<literal>header</literal>&#8212; Contents that will be placed at the top of "
+"the data block, above the column headers (if any)."
+msgstr ""
+"<literal>header</literal>&#8212;データ領域の一番上に表示され、列ヘッダー（も"
+"しあれば）の上に表示されるコンテンツです。"
+
+#. Tag: para
+#: Excel.xml:756
+#, fuzzy, no-c-format
+msgid ""
+"<literal>footer</literal>&#8212; Contents that will be placed at the bottom "
+"of the data block, below the column footers (if any)."
+msgstr ""
+"<literal>footer</literal>&#8212;データ領域の一番下に表示され、列フッター（も"
+"しあれば）の下に表示されるコンテンツです。"
+
+#. Tag: programlisting
+#: Excel.xml:768
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet name=\"foo\" startColumn=\"1\" startRow=\"1\">\n"
+"                      <e:column value=\"#{personList}\" var=\"person\">\n"
+"                         <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                     <e:cell value=\"#{person.lastName}\"/>\n"
+"                  </e:column>\n"
+"               </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet name=\"foo\" startColumn=\"1\" startRow=\"1\">\n"
+"                      <e:column value=\"#{personList}\" var=\"person\">\n"
+"                         <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                     <e:cell value=\"#{person.lastName}\"/>\n"
+"                  </e:column>\n"
+"               </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:769
+#, no-c-format
+msgid "defines a worksheet with the name \"foo\", starting at B2."
+msgstr ""
+"これはB2セルから表示が開始される、\"foo\"という名前のワークシートを定義しま"
+"す。"
+
+#. Tag: title
+#: Excel.xml:772
+#, no-c-format
+msgid "Columns"
+msgstr "column要素"
+
+#. Tag: para
+#: Excel.xml:773
+#, no-c-format
+msgid ""
+"Columns are the children of worksheets and the parents of cells, images, "
+"formulas and hyperlinks. They are the structure that control the iteration "
+"of the worksheet data. See <xref linkend=\"excel.fontsandlayout."
+"columnsettings\"/> for formatting."
+msgstr ""
+"column要素は、worksheet要素の子要素で、cell要素、image要素、formula要素、"
+"hyperlink要素の親要素です。これらはワークシートのデータ列挙を制御するためのタ"
+"グになります。書式の制御については<xref linkend=\"excel.fontsandlayout."
+"columnsettings\"/>を参照して下さい。"
+
+#. Tag: literal
+#: Excel.xml:787
+#, no-c-format
+msgid "&lt;e:column&gt;"
+msgstr "&lt;e:column&gt;"
+
+#. Tag: para
+#: Excel.xml:806
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:cell/&gt;</literal> &#8212; Zero or more cells (see <xref "
+"linkend=\"excel.cells\"/> )."
+msgstr ""
+"<literal>&lt;e:cell/&gt;</literal> &#8212;0個以上のセルです（<xref linkend="
+"\"excel.cells\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:814
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:formula/&gt;</literal> &#8212; Zero or more formulas (see "
+"<xref linkend=\"excel.formulas\"/> )."
+msgstr ""
+"<literal>&lt;e:formula/&gt;</literal> &#8212;0個以上の式です（<xref linkend="
+"\"excel.formulas\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:822
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:image/&gt;</literal> &#8212; Zero or more images (see <xref "
+"linkend=\"excel.images\"/> )."
+msgstr ""
+"<literal>&lt;e:image/&gt;</literal> &#8212;0個以上の画像です（<xref linkend="
+"\"excel.images\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:830
+#, fuzzy, no-c-format
+msgid ""
+"<literal>&lt;e:hyperLink/&gt;</literal> &#8212; Zero or more hyperlinks (see "
+"<xref linkend=\"excel.hyperlinks\"/> )."
+msgstr ""
+"<literal>&lt;e:hyperLink/&gt;</literal> &#8212;0個以上のハイパーリンクです"
+"（<xref linkend=\"excel.hyperlinks\"/>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:843
+#, fuzzy, no-c-format
+msgid ""
+"<literal>header</literal> &#8212; This facet can/will contain one "
+"<literal>&lt;e:cell&gt;</literal> , <literal>&lt;e:formula&gt;</literal> , "
+"<literal>&lt;e:image&gt;</literal> or <literal>&lt;e:hyperLink&gt;</literal> "
+"that will be used as header for the column."
+msgstr ""
+"<literal>header</literal> &#8212;このファセットは一つの<literal>&lt;e:"
+"cell&gt;</literal>あるいは<literal>&lt;e:formula&gt;</literal>あるいは"
+"<literal>&lt;e:image&gt;</literal>あるいは<literal>&lt;e:hyperLink&gt;</"
+"literal>を含み、列ヘッダーとして使用されます。"
+
+#. Tag: para
+#: Excel.xml:857
+#, fuzzy, no-c-format
+msgid ""
+"<literal>footer</literal> &#8212; This facet can/will contain one "
+"<literal>&lt;e:cell&gt;</literal> , <literal>&lt;e:formula&gt;</literal> , "
+"<literal>&lt;e:image&gt;</literal> or <literal>&lt;e:hyperLink&gt;</literal> "
+"that will be used as footer for the column."
+msgstr ""
+"<literal>footer</literal> &#8212;このファセットは一つの<literal>&lt;e:"
+"cell&gt;</literal>あるいは<literal>&lt;e:formula&gt;</literal>あるいは"
+"<literal>&lt;e:image&gt;</literal>あるいは<literal>&lt;e:hyperLink&gt;</"
+"literal>を含み、列フッターとして使用されます。"
+
+#. Tag: programlisting
+#: Excel.xml:876
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"                   <e:worksheet>\n"
+"                      <e:column value=\"#{personList}\" var=\"person\">\n"
+"                         <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                         <e:cell value=\"#{person.lastName}\"/>\n"
+"                      </e:column>\n"
+"                   </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"                   <e:worksheet>\n"
+"                      <e:column value=\"#{personList}\" var=\"person\">\n"
+"                         <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                         <e:cell value=\"#{person.lastName}\"/>\n"
+"                      </e:column>\n"
+"                   </e:worksheet>\n"
+"            <e:workbook>\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:877 Excel.xml:981
+#, no-c-format
+msgid "defines a column with a header and an iterated output"
+msgstr "これは、ヘッダーと値の列挙からなる列を定義します。"
+
+#. Tag: title
+#: Excel.xml:881
+#, no-c-format
+msgid "Cells"
+msgstr "cell要素"
+
+#. Tag: para
+#: Excel.xml:882
+#, fuzzy, no-c-format
+msgid ""
+"Cells are nested within columns (for iteration) or inside worksheets (for "
+"direct placement using the <literal>column</literal> and <literal>row</"
+"literal> attributes) and are responsible for outputting the value (usually "
+"through an EL-expression involving the <literal>var</literal>-attribute of "
+"the datatable. See"
+msgstr ""
+"cell要素は、column要素の中（値の列挙のため）、あるいはworksheet要素の中"
+"（<literal>column</literal>属性と<literal>row</literal>属性を用いた直接的な配"
+"置のため）に置かれ、値の出力する役割を担います（通常データテーブルの"
+"<literal>var</literal>属性を含むEL式を通じて出力されます）。"
+
+#. Tag: literal
+#: Excel.xml:898
+#, no-c-format
+msgid "&lt;e:cell&gt;"
+msgstr "&lt;e:cell&gt;"
+
+#. Tag: para
+#: Excel.xml:907
+#, fuzzy, no-c-format
+msgid ""
+"<literal>column</literal> &#8212; The column where to place the cell. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>column</literal> &#8212;セルが配置される列です。デフォルトは内部カウ"
+"ンタの値になります。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:915
+#, fuzzy, no-c-format
+msgid ""
+"<literal>row</literal> &#8212; The row where to place the cell. The default "
+"is the internal counter. The value is number. Note that the value is 0-based."
+msgstr ""
+"<literal>row</literal> &#8212;セルが配置される行です。デフォルトは内部カウン"
+"タの値になります。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:923
+#, fuzzy, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; The value to display. Usually an EL-"
+"expression referencing the var-attribute of the containing datatable. The "
+"value is a string."
+msgstr ""
+"<literal>value</literal> &#8212;表示される値です。通常保持するデータテーブル"
+"のvar属性を参照するEL式です。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:931
+#, fuzzy, no-c-format
+msgid ""
+"<literal>comment</literal> &#8212; A comment to add to the cell. The value "
+"is a string."
+msgstr ""
+"<literal>comment</literal> &#8212;セルに付加されるコメントです。値は文字列で"
+"す。"
+
+#. Tag: para
+#: Excel.xml:938
+#, fuzzy, no-c-format
+msgid ""
+"<literal>commentHeight</literal> &#8212; The height of the comment. The "
+"value is a number (in pixels)."
+msgstr ""
+"<literal>commentHeight</literal> &#8212;コメントの高さです。値は数値です（単"
+"位はピクセル）。"
+
+#. Tag: para
+#: Excel.xml:945
+#, fuzzy, no-c-format
+msgid ""
+"<literal>commentWidth</literal> &#8212; A width of the comment. The value is "
+"a number (in pixels)."
+msgstr ""
+"<literal>commentWidth</literal> &#8212;コメントの幅です。値は数値です（単位は"
+"ピクセル）。"
+
+#. Tag: para
+#: Excel.xml:958
+#, no-c-format
+msgid ""
+"Zero or more validation conditions (see <xref linkend=\"excel.cells."
+"validation\"/> )."
+msgstr ""
+"0個以上のバリデーション条件です（<xref linkend=\"excel.cells.validation\"/>を"
+"ご参照下さい）。"
+
+#. Tag: programlisting
+#: Excel.xml:980
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>         \n"
+"                  <e:column value=\"#{personList}\" var=\"person\">\n"
+"                     <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                         <e:cell value=\"#{person.lastName}\"/>\n"
+"                      </e:column>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>     \n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>         \n"
+"                  <e:column value=\"#{personList}\" var=\"person\">\n"
+"                     <f:facet name=\"header\">\n"
+"                            <e:cell value=\"Last name\"/>\n"
+"                         </f:facet>\n"
+"                         <e:cell value=\"#{person.lastName}\"/>\n"
+"                      </e:column>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>     \n"
+"         ]]>"
+
+#. Tag: title
+#: Excel.xml:983
+#, no-c-format
+msgid "Validation"
+msgstr "validation要素"
+
+#. Tag: para
+#: Excel.xml:984
+#, fuzzy, no-c-format
+msgid ""
+"Validations are nested inside cells or formulas. They add constrains for the "
+"cell data."
+msgstr ""
+"validation要素はcell要素、formula要素、あるいはセルのテンプレートの中に置かれ"
+"ます。validation要素は、セルの値に制約を付加します。"
+
+#. Tag: literal
+#: Excel.xml:996
+#, no-c-format
+msgid "&lt;e:numericValidation&gt;"
+msgstr "&lt;e:numericValidation&gt;"
+
+#. Tag: para
+#: Excel.xml:1005
+#, fuzzy, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; The limit (or lower limit where applicable) "
+"of the validation. The value is a number."
+msgstr ""
+"<literal>value</literal> &#8212;バリデーションのための値です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:1013
+#, fuzzy, no-c-format
+msgid ""
+"<literal>value2</literal> &#8212; The upper limit (where applicable) of the "
+"validation. The value is a number."
+msgstr ""
+"<literal>value2</literal> &#8212;バリデーションのための値の上限（場合によって"
+"必要）です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:1020
+#, fuzzy, no-c-format
+msgid ""
+"<literal>condition</literal> &#8212; The validation condition. The value is "
+"a string."
+msgstr ""
+"<literal>condition</literal> &#8212;バリデーション条件です。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:1026
+#, no-c-format
+msgid ""
+"\"equal\" - requires the cell value to match the one defined in the value-"
+"attribute"
+msgstr "\"equal\" - セルの値はvalue属性で指定された値と等しい必要があります。"
+
+#. Tag: para
+#: Excel.xml:1033
+#, no-c-format
+msgid ""
+"\"greater_equal\" - requires the cell value to be greater than or equal to "
+"the value defined in the value-attribute"
+msgstr ""
+"\"greater_equal\" - セルの値はvalue属性で指定された値より大きい、もしくは等し"
+"い必要があります。"
+
+#. Tag: para
+#: Excel.xml:1041
+#, no-c-format
+msgid ""
+"\"less_equal\" - requires the cell value to be less than or equal to the "
+"value defined in the value-attribute"
+msgstr ""
+"\"less_equal\" - セルの値はvalue属性で指定された値より小さい、もしくは等しい"
+"必要があります。"
+
+#. Tag: para
+#: Excel.xml:1048
+#, no-c-format
+msgid ""
+"\"less_than\" - requires the cell value to be less than the value defined in "
+"the value-attribute"
+msgstr ""
+"\"less_than\" - セルの値はvalue属性で指定された値より小さい必要があります。"
+
+#. Tag: para
+#: Excel.xml:1055
+#, no-c-format
+msgid ""
+"\"not_equal\" - requires the cell value to not match the one defined in the "
+"value-attribute"
+msgstr ""
+"\"not_equal\" - セルの値はvalue属性で指定された値とひとしくない必要がありま"
+"す。"
+
+#. Tag: para
+#: Excel.xml:1062
+#, no-c-format
+msgid ""
+"\"between\" - requires the cell value to be between the values defined in "
+"the value- and value2 attributes"
+msgstr ""
+"\"between\" - セルの値はvalue属性で指定された値とvalue2で指定された値の間の値"
+"である必要があります。"
+
+#. Tag: para
+#: Excel.xml:1069
+#, no-c-format
+msgid ""
+"\"not_between\" - requires the cell value not to be between the values "
+"defined in the value- and value2 attributes"
+msgstr ""
+"\"not_between\" - セルの値はvalue属性で指定された値とvalue2で指定された値の間"
+"の値でない必要があります。"
+
+#. Tag: programlisting
+#: Excel.xml:1105
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">                   \n"
+"                        <e:cell value=\"#{person.age\">\n"
+"                           <e:numericValidation condition=\"between\" value="
+"\"4\" \n"
+"                              value2=\"18\"/>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">                   \n"
+"                        <e:cell value=\"#{person.age\">\n"
+"                           <e:numericValidation condition=\"between\" value="
+"\"4\" \n"
+"                              value2=\"18\"/>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:1106
+#, no-c-format
+msgid ""
+"adds numeric validation to a cell specifying that the value must be between "
+"4 and 18."
+msgstr ""
+"これは、値が4と18の間の値でなければならないというバリデーション条件をセルに付"
+"加します。"
+
+#. Tag: literal
+#: Excel.xml:1118
+#, no-c-format
+msgid "&lt;e:rangeValidation&gt;"
+msgstr "&lt;e:rangeValidation&gt;"
+
+#. Tag: para
+#: Excel.xml:1127
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; The starting column of the range of "
+"values to validate against. The value is a number."
+msgstr ""
+"<literal>startColumn</literal> &#8212;バリデーションのための値の範囲を示すた"
+"めの開始列です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:1135
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; The starting row of the range of values "
+"to validate against. The value is a number."
+msgstr ""
+"<literal>startRow</literal> &#8212;バリデーションのための値の範囲を示すための"
+"開始行です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:1142
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endColumn</literal> &#8212; The ending column of the range of "
+"values to validate against. The value is a number."
+msgstr ""
+"<literal>endColumn</literal> &#8212;バリデーションのための値の範囲を示すため"
+"の終了列です。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:1149
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endRow</literal> &#8212; The ending row of the range of values to "
+"validate against. The value is a number."
+msgstr ""
+"<literal>endRow</literal> &#8212;バリデーションのための値の範囲を示すための終"
+"了行です。値は数値です。"
+
+#. Tag: programlisting
+#: Excel.xml:1181
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">                   \n"
+"                            <e:cell value=\"#{person.position\">\n"
+"                           <e:rangeValidation startColumn=\"0\" startRow=\"0"
+"\" \n"
+"                              endColumn=\"0\" endRow=\"10\"/>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">                   \n"
+"                            <e:cell value=\"#{person.position\">\n"
+"                           <e:rangeValidation startColumn=\"0\" startRow=\"0"
+"\" \n"
+"                              endColumn=\"0\" endRow=\"10\"/>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:1182
+#, no-c-format
+msgid ""
+"adds validation to a cell specifying that the value must be in the values "
+"specified in range A1:A10."
+msgstr ""
+"これは、値がA1:A10の範囲にある値のどれかでなければならないというバリデーショ"
+"ン条件をセルに付加します。"
+
+#. Tag: literal
+#: Excel.xml:1194
+#, no-c-format
+msgid "&lt;e:listValidation&gt;"
+msgstr "&lt;e:listValidation&gt;"
+
+#. Tag: literal
+#: Excel.xml:1214
+#, no-c-format
+msgid "Zero or more list validation items."
+msgstr "0個以上のlistValidationItem要素"
+
+#. Tag: para
+#: Excel.xml:1235
+#, no-c-format
+msgid ""
+"e:listValidation is a just a container for holding multiple e:"
+"listValidationItem tags."
+msgstr ""
+"e:listValidation要素は、複数のe:listValidationItem要素を保持するための、ただ"
+"の入れ物です。"
+
+#. Tag: literal
+#: Excel.xml:1247
+#, no-c-format
+msgid "&lt;e:listValidationItem&gt;"
+msgstr "&lt;e:listValidationItem&gt;"
+
+#. Tag: para
+#: Excel.xml:1256
+#, fuzzy, no-c-format
+msgid "<literal>value</literal> &#8212; A values to validate against."
+msgstr "<literal>value</literal> &#8212;バリデーションのための値です。"
+
+#. Tag: programlisting
+#: Excel.xml:1287
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">            \n"
+"                        <e:cell value=\"#{person.position\">\n"
+"                           <e:listValidation>\n"
+"                              <e:listValidationItem value=\"manager\"/>\n"
+"                              <e:listValidationItem value=\"employee\"/>\n"
+"                           </e:listValidation>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>              \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:column value=\"#{personList}\" var=\"person"
+"\">            \n"
+"                        <e:cell value=\"#{person.position\">\n"
+"                           <e:listValidation>\n"
+"                              <e:listValidationItem value=\"manager\"/>\n"
+"                              <e:listValidationItem value=\"employee\"/>\n"
+"                           </e:listValidation>\n"
+"                        </e:cell>\n"
+"                     </e:column>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>              \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:1288
+#, no-c-format
+msgid ""
+"adds validation to a cell specifying that the value must be \"manager\" or "
+"\"employee\"."
+msgstr ""
+"これは、セルの値が\"manager\"もしくは\"employee\"でなければならないというバリ"
+"デーション条件をセルに付加します。"
+
+#. Tag: title
+#: Excel.xml:1294
+#, no-c-format
+msgid "Format masks"
+msgstr "書式マスク"
+
+#. Tag: para
+#: Excel.xml:1295
+#, no-c-format
+msgid ""
+"Format masks are defined in the mask attribute in cells or formulas. There "
+"are two types of format masks, one for numbers and one for dates"
+msgstr ""
+
+#. Tag: title
+#: Excel.xml:1301
+#, no-c-format
+msgid "Number masks"
+msgstr "数値マスク"
+
+#. Tag: para
+#: Excel.xml:1302
+#, no-c-format
+msgid ""
+"When encountering a format mask, first it is checked if it is in internal "
+"form, e.g \"format1\", \"accounting_float\" and so on (see <ulink url="
+"\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/"
+"NumberFormats.html\"> jxl.write.NumberFormats </ulink> )."
+msgstr ""
+"書式マスクがあった場合、まずそれが組み込みの形式であるかどうかがチェックされ"
+"ます。組み込みの形式は例えば、\"format1\"や\"accounting_float\"のようなもので"
+"す（<ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/"
+"docs/jxl/write/NumberFormats.html\"> jxl.write.NumberFormats </ulink>を参照し"
+"て下さい。）"
+
+#. Tag: para
+#: Excel.xml:1311
+#, no-c-format
+msgid ""
+"if the mask is not in the list, it is treated as a custom mask (see <ulink "
+"url=\"http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html\"> "
+"java.text.DecimalFormat </ulink> ). e.g \"0.00\" and automatically converted "
+"to the closest match."
+msgstr ""
+"マスクがリストになかった場合は、カスタムマスクとして扱われます（<ulink url="
+"\"http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html\"> java."
+"text.DecimalFormat </ulink>を参照下さい）。例えば\"0.00\"であったり、自動的に"
+"一番近いものに変換された書式が採用されます。"
+
+#. Tag: title
+#: Excel.xml:1322
+#, no-c-format
+msgid "Date masks"
+msgstr "日付マスク"
+
+#. Tag: para
+#: Excel.xml:1323
+#, no-c-format
+msgid ""
+"When encountering a format mask, first it is checked if it is in internal "
+"form, e.g \"format1\", \"format2\" and so on (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/"
+"DecimalFormats.html\"> jxl.write.DecimalFormats </ulink> )."
+msgstr ""
+"書式マスクがあった場合、まずそれが組み込みの形式であるかどうかがチェックされ"
+"ます。組み込みの形式は例えば、\"format1\"や\"format2\"のようなものです"
+"（<ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/"
+"docs/jxl/write/DecimalFormats.html\"> jxl.write.DecimalFormats </ulink>を参照"
+"して下さい）。"
+
+#. Tag: para
+#: Excel.xml:1332
+#, no-c-format
+msgid ""
+"if the mask is not in the list, it is treated as a custom mask (see <ulink "
+"url=\"http://java.sun.com/javase/6/docs/api/java/text/DateFormat.html\"> "
+"java.text.DateFormat </ulink> )., e.g \"dd.MM.yyyy\" and automatically "
+"converted to the closest match."
+msgstr ""
+"マスクがリストになかった場合は、カスタムマスクとして扱われます（<ulink url="
+"\"http://java.sun.com/javase/6/docs/api/java/text/DateFormat.html\"> java."
+"text.DateFormat </ulink>を参照して下さい）。例えば\"dd.MM.yyyy\"であったり、"
+"自動的に一番近いものに変換された書式が採用されます。"
+
+#. Tag: title
+#: Excel.xml:1346
+#, no-c-format
+msgid "Formulas"
+msgstr "formula要素"
+
+#. Tag: para
+#: Excel.xml:1347
+#, no-c-format
+msgid ""
+"Formulas are nested within columns (for iteration) or inside worksheets (for "
+"direct placement using the <literal>column</literal> and <literal>row</"
+"literal> attributes) and add calculations or functions to ranges of cells. "
+"They are essentially cells, see <xref linkend=\"excel.cells\"/> for "
+"available attributes. Note that they can apply templates and have own font "
+"definitions etc just as normal cells."
+msgstr ""
+"formula要素は、column要素の中（値の列挙のため）、あるいはworksheet要素の中"
+"（<literal>column</literal>属性と<literal>row</literal>属性を用いた直接的な配"
+"置のため）に置かれ、ある範囲のセル値の計算や関数の適用を行います。formula要素"
+"は本質的にセルなので、利用可能な属性を見るためには<xref linkend=\"excel.cells"
+"\"/>を参照して下さい。formula要素は、テンプレートにも適用することができ、通常"
+"のセルと同様、独自のフォントなどの定義を持つこともできることに注意して下さ"
+"い。"
+
+#. Tag: para
+#: Excel.xml:1356
+#, fuzzy, no-c-format
+msgid ""
+"The formula of the cell is placed in the <literal>value</literal> -attribute "
+"as a normal &excel; notation. Note that when doing cross-sheet formulas, the "
+"worksheets must exist before referencing a formula against them. The value "
+"is a string."
+msgstr ""
+"セルの式は、<literal>value</literal>属性の中に、通常のMicrosoft® Excel® スプ"
+"レッドアプリケーションと同じ書き方で記述します。複数のシートを横断する式を使"
+"用する場合は、その式が参照される前に、その式に登場するワークシートが存在しな"
+"ければならないことに注意して下さい。値は文字列です。"
+
+#. Tag: programlisting
+#: Excel.xml:1362
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet name=\"fooSheet\">\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"1\"/>\n"
+"               </e:worksheet>\n"
+"               <e:worksheet name=\"barSheet\">\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"2\"/>\n"
+"                  <e:formula column=\"0\" row=\"1\" \n"
+"                     value=\"fooSheet!A1+barSheet1!A1\">\n"
+"                     <e:font fontSize=\"12\"/>\n"
+"                  </e:formula>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>         \n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:cellTemplate name=\"fooTemplate\">\n"
+"                  <e:font color=\"red\"/>\n"
+"               </e:cellTemplate>\n"
+"               <e:worksheet name=\"fooSheet\">\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"1\"/>\n"
+"               </e:worksheet>\n"
+"               <e:worksheet name=\"barSheet\">\n"
+"                  <e:cell column=\"0\" row=\"0\" value=\"2\"/>\n"
+"                  <e:formula column=\"0\" row=\"1\" \n"
+"                     value=\"fooSheet!A1+barSheet1!A1\" \n"
+"                     templates=\"fooTemplate\">\n"
+"                     <e:font fontSize=\"12\"/>\n"
+"                  </e:formula>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>         \n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:1363
+#, no-c-format
+msgid ""
+"defines an formula in B2 summing cells A1 in worksheets FooSheet and BarSheet"
+msgstr ""
+"これは、BarSheetのB1セルに、FooSheetとBarSheetのA1セル同士を加算する式を定義"
+"します。"
+
+#. Tag: title
+#: Excel.xml:1369
+#, no-c-format
+msgid "Images"
+msgstr "image要素"
+
+#. Tag: para
+#: Excel.xml:1370
+#, no-c-format
+msgid ""
+"Images are nested within columns (for iteration) or inside worksheets (for "
+"direct placement using the <literal>startColumn/startRow</literal> and "
+"<literal>rowSpan/columnSpan</literal> attributes). The spans are optional "
+"and if omitted, the image will be inserted without resizing."
+msgstr ""
+"image要素は、column要素の中（値の列挙のため）、あるいはworksheet要素の中"
+"（<literal>startColumn/startRow</literal>属性と<literal>rowSpan/columnSpan</"
+"literal>属性を用いた直接的な配置のため）に置かれます。spanはオプションであ"
+"り、省略された場合は、画像はリサイズされずに挿入されます。"
+
+#. Tag: literal
+#: Excel.xml:1384
+#, no-c-format
+msgid "&lt;e:image&gt;"
+msgstr "&lt;e:image&gt;"
+
+#. Tag: para
+#: Excel.xml:1393
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; The starting column of the image. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>startColumn</literal> &#8212;画像を表示させる開始列です。デフォルト"
+"は、内部カウンタの値です。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1401
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; The starting row of the image. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>startRow</literal> &#8212;画像を表示させる開始行です。デフォルトは内"
+"部カウンタの値です。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1409
+#, fuzzy, no-c-format
+msgid ""
+"<literal>columnSpan</literal> &#8212; The column span of the image. The "
+"default is one resulting in the default width of the image. The value is a "
+"float."
+msgstr ""
+"<literal>columnSpan</literal> &#8212;画像領域の列幅です。デフォルトは画像の幅"
+"です。値は浮動小数点数です。"
+
+#. Tag: para
+#: Excel.xml:1417
+#, fuzzy, no-c-format
+msgid ""
+"<literal>rowSpan</literal> &#8212; The row span of the image. The default is "
+"the one resulting in the default height of the image. The value is a float."
+msgstr ""
+"<literal>rowSpan</literal> &#8212;画像領域の行高です。デフォルトは画像の高さ"
+"です。値は浮動小数点数です。"
+
+#. Tag: para
+#: Excel.xml:1425
+#, fuzzy, no-c-format
+msgid ""
+"<literal>URI</literal> &#8212; The URI to the image. The value is a string."
+msgstr "<literal>URI</literal> &#8212;画像のURIです。値は文字列です。"
+
+#. Tag: programlisting
+#: Excel.xml:1457
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:image startRow=\"0\" startColumn=\"0\" rowSpan=\"4\" \n"
+"                     columnSpan=\"4\" URI=\"http://foo.org/logo.jpg\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>           \n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:image startRow=\"0\" startColumn=\"0\" rowSpan=\"4\" \n"
+"                     columnSpan=\"4\" URI=\"http://foo.org/logo.jpg\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>           \n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:1458
+#, no-c-format
+msgid "defines an image in A1:E5 based on the given data"
+msgstr "これは、与えられたURIの画像をA1:E5の領域に表示します。"
+
+#. Tag: title
+#: Excel.xml:1462
+#, no-c-format
+msgid "Hyperlinks"
+msgstr "hyperlink要素"
+
+#. Tag: para
+#: Excel.xml:1463
+#, no-c-format
+msgid ""
+"Hyperlinks are nested within columns (for iteration) or inside worksheets "
+"(for direct placement using the <literal>startColumn/startRow</literal> and "
+"<literal>endColumn/endRow</literal> attributes). They add link navigation to "
+"URIs"
+msgstr ""
+"hyperlink要素は、column要素の中（値の列挙のため）、あるいはworksheet要素の中"
+"（<literal>startColumn/startRow</literal>属性と<literal>endColumn/endRow</"
+"literal>属性を用いた直接的な配置のため）に置かれます。これらは、URIに対するリ"
+"ンクを追加します。"
+
+#. Tag: literal
+#: Excel.xml:1478
+#, no-c-format
+msgid "&lt;e:hyperlink&gt;"
+msgstr "&lt;e:hyperlink&gt;"
+
+#. Tag: para
+#: Excel.xml:1487
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; The starting column of the hyperlink. "
+"The default is the internal counter. The value is a number. Note that the "
+"value is 0-based."
+msgstr ""
+"<literal>startColumn</literal> &#8212;リンクを表示させる開始列です。デフォル"
+"トは、内部カウンタの値です。値は数値です。値は0から始まることに注意して下さ"
+"い。"
+
+#. Tag: para
+#: Excel.xml:1495
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; The starting row of the hyperlink. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>startRow</literal> &#8212;リンクを表示させる開始行です。デフォルトは"
+"内部カウンタの値です。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1503
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endColumn</literal> &#8212; The ending column of the hyperlink. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>endColumn</literal> &#8212;リンクを表示させる終了列です。デフォルト"
+"は内部カウンタの値です。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1511
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endRow</literal> &#8212; The ending row of the hyperlink. The "
+"default is the internal counter. The value is a number. Note that the value "
+"is 0-based."
+msgstr ""
+"<literal>endRow</literal> &#8212;リンクを表示させる終了行です。デフォルトは内"
+"部カウンタの値です。値は数値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1519
+#, fuzzy, no-c-format
+msgid "<literal>URL</literal> &#8212; The URL to link. The value is a string."
+msgstr "<literal>URL</literal> &#8212;リンク先URLです。値は文字列です。"
+
+#. Tag: para
+#: Excel.xml:1525
+#, fuzzy, no-c-format
+msgid ""
+"<literal>description</literal> &#8212; The description of the link. The "
+"value is a string."
+msgstr ""
+"<literal>description</literal> &#8212;リンクとして表示するメッセージです。値"
+"は文字列です。"
+
+#. Tag: programlisting
+#: Excel.xml:1557
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:hyperLink startRow=\"0\" startColumn=\"0\" endRow=\"4"
+"\" \n"
+"                     endColumn=\"4\" URL=\"http://seamframework.org\" \n"
+"                     description=\"The Seam Framework\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>          \n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>\n"
+"                  <e:hyperLink startRow=\"0\" startColumn=\"0\" endRow=\"4"
+"\" \n"
+"                     endColumn=\"4\" URL=\"http://seamframework.org\" \n"
+"                     description=\"The Seam Framework\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>          \n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:1558
+#, no-c-format
+msgid "defines a described hyperlink pointing to SFWK in the area A1:E5"
+msgstr ""
+"これは、seamframework.orgのページを指すメッセージ付きリンクを、A1:E5の領域に"
+"表示します。"
+
+#. Tag: title
+#: Excel.xml:1563
+#, no-c-format
+msgid "Headers and footers"
+msgstr "header要素とfooter要素"
+
+#. Tag: para
+#: Excel.xml:1564
+#, no-c-format
+msgid ""
+"Headers and footers are childrens of worksheets and contain facets which in "
+"turn contains a string with commands that are parsed."
+msgstr ""
+"header要素とfooter要素はworksheet要素の子要素であり、facet要素を含み、facet要"
+"素は、コマンドの埋め込まれた文字列を含みます。文字列は構文解析され、コマンド"
+"の結果を含んだ文字列として表示されます。"
+
+#. Tag: literal
+#: Excel.xml:1576
+#, no-c-format
+msgid "&lt;e:header&gt;"
+msgstr "&lt;e:header&gt;"
+
+#. Tag: para
+#: Excel.xml:1605 Excel.xml:1668
+#, fuzzy, no-c-format
+msgid ""
+"<literal>left</literal> &#8212; The contents of the left header/footer part."
+msgstr "<literal>left</literal> &#8212;左ヘッダー/フッターの内容です。"
+
+#. Tag: para
+#: Excel.xml:1612 Excel.xml:1675
+#, fuzzy, no-c-format
+msgid ""
+"<literal>center</literal> &#8212; The contents of the center header/footer "
+"part."
+msgstr "<literal>center</literal> &#8212;中央ヘッダー/フッターの内容です。"
+
+#. Tag: para
+#: Excel.xml:1619 Excel.xml:1682
+#, fuzzy, no-c-format
+msgid ""
+"<literal>right</literal> &#8212; The contents of the right header/footer "
+"part."
+msgstr "<literal>right</literal> &#8212;右ヘッダー/フッターの内容です。"
+
+#. Tag: literal
+#: Excel.xml:1639
+#, no-c-format
+msgid "&lt;e:footer&gt;"
+msgstr "&lt;e:footer&gt;"
+
+#. Tag: para
+#: Excel.xml:1694
+#, no-c-format
+msgid ""
+"The content of the facets is a string that can contain various #-delimited "
+"commands as follows:"
+msgstr ""
+"facet要素の内容には、以下のように#で区切られたさまざまなコマンドを含めること"
+"ができます。"
+
+#. Tag: para
+#: Excel.xml:1705
+#, no-c-format
+msgid "#date#"
+msgstr "#date#"
+
+#. Tag: para
+#: Excel.xml:1708
+#, no-c-format
+msgid "Inserts the current date"
+msgstr "現在の日付を挿入します。"
+
+#. Tag: para
+#: Excel.xml:1713
+#, no-c-format
+msgid "#page_number#"
+msgstr "#page_number#"
+
+#. Tag: para
+#: Excel.xml:1716
+#, no-c-format
+msgid "Inserts the current page number"
+msgstr "現在のページを挿入します。"
+
+#. Tag: para
+#: Excel.xml:1721
+#, no-c-format
+msgid "#time#"
+msgstr "#time#"
+
+#. Tag: para
+#: Excel.xml:1724
+#, no-c-format
+msgid "Inserts the current time"
+msgstr "現在の時刻を挿入します。"
+
+#. Tag: para
+#: Excel.xml:1729
+#, no-c-format
+msgid "#total_pages#"
+msgstr "#total_pages#"
+
+#. Tag: para
+#: Excel.xml:1732
+#, no-c-format
+msgid "Inserts the total page count"
+msgstr "総ページ数を挿入します。"
+
+#. Tag: para
+#: Excel.xml:1737
+#, no-c-format
+msgid "#worksheet_name#"
+msgstr "#worksheet_name#"
+
+#. Tag: para
+#: Excel.xml:1740
+#, no-c-format
+msgid "Inserts the worksheet name"
+msgstr "シート名を挿入します。"
+
+#. Tag: para
+#: Excel.xml:1745
+#, no-c-format
+msgid "#workbook_name#"
+msgstr "#workbook_name#"
+
+#. Tag: para
+#: Excel.xml:1748
+#, no-c-format
+msgid "Inserts the workbook name"
+msgstr "ブック名を挿入します。"
+
+#. Tag: para
+#: Excel.xml:1753
+#, no-c-format
+msgid "#bold#"
+msgstr "#bold#"
+
+#. Tag: para
+#: Excel.xml:1756
+#, no-c-format
+msgid "Toggles bold font, use another #bold# to turn it off"
+msgstr "強調文字に切り替えます。次の#bold#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1764
+#, no-c-format
+msgid "#italics#"
+msgstr "#italics#"
+
+#. Tag: para
+#: Excel.xml:1767
+#, no-c-format
+msgid "Toggles italic font, use another #italic# to turn it off"
+msgstr "斜体文字に切り替えます。次の#italic#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1775
+#, no-c-format
+msgid "#underline#"
+msgstr "#underline#"
+
+#. Tag: para
+#: Excel.xml:1778
+#, no-c-format
+msgid "Toggles underlining, use another #underline# to turn it off"
+msgstr "下線を引きます。次の#underline#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1786
+#, no-c-format
+msgid "#double_underline#"
+msgstr "#double_underline#"
+
+#. Tag: para
+#: Excel.xml:1789
+#, no-c-format
+msgid ""
+"Toggles double underlining, use another #double_underline# to turn it off"
+msgstr "二重下線を引きます。次の#double_underline#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1797
+#, no-c-format
+msgid "#outline#"
+msgstr "#outline#"
+
+#. Tag: para
+#: Excel.xml:1800
+#, no-c-format
+msgid "Toggles outlined font, use another #outline# to turn it off"
+msgstr "アウトラインフォントに切り替えます。次の#outline#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1808
+#, no-c-format
+msgid "#shadow#"
+msgstr "#shadow#"
+
+#. Tag: para
+#: Excel.xml:1811
+#, no-c-format
+msgid "Toggles shadowed font, use another #shadow# to turn it off"
+msgstr "影付き文字に切り替えます。次の#shadow#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1819
+#, no-c-format
+msgid "#strikethrough#"
+msgstr "#strikethrough#"
+
+#. Tag: para
+#: Excel.xml:1822
+#, no-c-format
+msgid "Toggles strikethrough font, use another #strikethrough# to turn it off"
+msgstr "取り消し線を引きます。次の#strikethrough#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1830
+#, no-c-format
+msgid "#subscript#"
+msgstr "#subscript#"
+
+#. Tag: para
+#: Excel.xml:1833
+#, no-c-format
+msgid "Toggles subscripted font, use another #subscript# to turn it off"
+msgstr "下付き文字に切り替えます。次の#subscript#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1841
+#, no-c-format
+msgid "#superscript#"
+msgstr "#superscript#"
+
+#. Tag: para
+#: Excel.xml:1844
+#, no-c-format
+msgid "Toggles superscript font, use another #superscript# to turn it off"
+msgstr "上付き文字に切り替えます。次の#superscript#まで有効となります。"
+
+#. Tag: para
+#: Excel.xml:1852
+#, no-c-format
+msgid "#font_name#"
+msgstr "#superscript#"
+
+#. Tag: para
+#: Excel.xml:1855
+#, no-c-format
+msgid "Sets font name, used like #font_name=Verdana\""
+msgstr "フォント名を設定します。#font_name=Verdana#のように設定します。"
+
+#. Tag: para
+#: Excel.xml:1862
+#, no-c-format
+msgid "#font_size#"
+msgstr "#font_size#"
+
+#. Tag: para
+#: Excel.xml:1865
+#, no-c-format
+msgid "Sets font size, use like #font_size=12#"
+msgstr "フォントサイズを設定します。#font_size=12#のように設定します。"
+
+#. Tag: programlisting
+#: Excel.xml:1873
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>         \n"
+"                  <e:header>\n"
+"                     <f:facet name=\"left\">\n"
+"                        This document was made on #date# and has "
+"#total_pages# pages\n"
+"                     </f:facet>\n"
+"                     <f:facet name=\"right\">\n"
+"                        #time#\n"
+"                     </f:facet>\n"
+"                  </e:header>\n"
+"               <e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>         \n"
+"                  <e:header>\n"
+"                     <f:facet name=\"left\">\n"
+"                        This document was made on #date# and has "
+"#total_pages# pages\n"
+"                     </f:facet>\n"
+"                     <f:facet name=\"right\">\n"
+"                        #time#\n"
+"                     </f:facet>\n"
+"                  </e:header>\n"
+"               <e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+
+#. Tag: title
+#: Excel.xml:1876
+#, no-c-format
+msgid "Print areas and titles"
+msgstr "printArea要素とprintTitle要素"
+
+#. Tag: para
+#: Excel.xml:1877
+#, no-c-format
+msgid ""
+"Print areas and titles childrens of worksheets and worksheet templates and "
+"provide... print areas and titles."
+msgstr ""
+"printArea要素とprintTitle要素はワークシートやワークシートテンプレートの子要素"
+"であり、印刷範囲や印刷タイトルを設定します。"
+
+#. Tag: literal
+#: Excel.xml:1889
+#, no-c-format
+msgid "&lt;e:printArea&gt;"
+msgstr "&lt;e:printArea&gt;"
+
+#. Tag: para
+#: Excel.xml:1898
+#, fuzzy, no-c-format
+msgid ""
+"<literal>firstColumn</literal> &#8212; The column of the top-left corner of "
+"the area. The parameter is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>firstColumn</literal> &#8212;印刷範囲の左上角の列です。値は数値で"
+"す。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1906
+#, fuzzy, no-c-format
+msgid ""
+"<literal>firstRow</literal> &#8212; The row of the top-left corner of the "
+"area. The parameter is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>firstRow</literal> &#8212;印刷範囲の左上角の行です。値は数値です。値"
+"は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1914
+#, fuzzy, no-c-format
+msgid ""
+"<literal>lastColumn</literal> &#8212; The column of the bottom-right corner "
+"of the area. The parameter is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>lastColumn</literal> &#8212;印刷範囲の右下角の列です。値は数値です。"
+"値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1922
+#, fuzzy, no-c-format
+msgid ""
+"<literal>lastRow</literal> &#8212; The row of the bottom-right corner of the "
+"area. The parameter is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>lastRow</literal> &#8212;印刷範囲の右下角の行です。値は数値です。値"
+"は0から始まることに注意して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:1955
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>            \n"
+"                  <e:printTitles firstRow=\"0\" firstColumn=\"0\" \n"
+"                     lastRow=\"0\" lastColumn=\"9\"/>\n"
+"                  <e:printArea firstRow=\"1\" firstColumn=\"0\" \n"
+"                     lastRow=\"9\" lastColumn=\"9\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <e:workbook>\n"
+"               <e:worksheet>            \n"
+"                  <e:printTitles firstRow=\"0\" firstColumn=\"0\" \n"
+"                     lastRow=\"0\" lastColumn=\"9\"/>\n"
+"                  <e:printArea firstRow=\"1\" firstColumn=\"0\" \n"
+"                     lastRow=\"9\" lastColumn=\"9\"/>\n"
+"               </e:worksheet>\n"
+"            </e:workbook>\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:1956
+#, no-c-format
+msgid "defines a print title between A1:A10 and a print area between B2:J10."
+msgstr ""
+"これは、A1:A10の領域を印刷タイトルとし、B2:J10の領域を印刷範囲とします。"
+
+#. Tag: title
+#: Excel.xml:1961
+#, no-c-format
+msgid "Worksheet Commands"
+msgstr "ワークシートコマンド要素"
+
+#. Tag: para
+#: Excel.xml:1962
+#, no-c-format
+msgid ""
+"Worksheet commands are children of workbooks and are usually executed only "
+"once."
+msgstr ""
+"ワークシートコマンド要素はworkbook要素の子要素であり、通常一回だけ実行されま"
+"す。"
+
+#. Tag: title
+#: Excel.xml:1967
+#, no-c-format
+msgid "Grouping"
+msgstr "グルーピング"
+
+#. Tag: para
+#: Excel.xml:1968
+#, no-c-format
+msgid "Provides grouping of columns and rows."
+msgstr "行や列のグルーピングを行います。"
+
+#. Tag: literal
+#: Excel.xml:1977
+#, no-c-format
+msgid "&lt;e:groupRows&gt;"
+msgstr "&lt;e:groupRows&gt;"
+
+#. Tag: para
+#: Excel.xml:1986
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; The row to start the grouping at. The "
+"value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>startRow</literal> &#8212;グルーピングの範囲の開始行です。値は数値で"
+"す。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:1994
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endRow</literal> &#8212; The row to end the grouping at. The value "
+"is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>endRow</literal> &#8212;グルーピングの範囲の終了行です。値は数値で"
+"す。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:2002 Excel.xml:2067
+#, fuzzy, no-c-format
+msgid ""
+"<literal>collapse</literal> &#8212; Should the grouping be collapsed "
+"initially? The value is a boolean."
+msgstr ""
+"<literal>collapse</literal> &#8212;初期状態で、グルーピングの範囲を折りたたむ"
+"かどうかを設定します。値は論理値です。"
+
+#. Tag: literal
+#: Excel.xml:2042
+#, no-c-format
+msgid "&lt;e:groupColumns&gt;"
+msgstr "&lt;e:groupColumns&gt;"
+
+#. Tag: para
+#: Excel.xml:2051
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; The column to start the grouping at. "
+"The value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>startColumn</literal> &#8212;グルーピングの範囲の開始列です。値は数"
+"値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:2059
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endColumn</literal> &#8212; The column to end the grouping at. The "
+"value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>endColumn</literal> &#8212;グルーピングの範囲の終了列です。値は数値"
+"です。値は0から始まることに注意して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:2100
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>            \n"
+"                     <e:groupRows startRow=\"4\" endRow=\"9\" collapse=\"true"
+"\"/>\n"
+"                     <e:groupColumns startColumn=\"0\" endColumn=\"9\" "
+"collapse=\"false\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>\n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>            \n"
+"                     <e:groupRows startRow=\"4\" endRow=\"9\" collapse=\"true"
+"\"/>\n"
+"                     <e:groupColumns startColumn=\"0\" endColumn=\"9\" "
+"collapse=\"false\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>\n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:2101
+#, fuzzy, no-c-format
+msgid ""
+"groups rows 5 through 10 and columns 5 through 10 so that the rows are "
+"initially collapsed (but not the columns)."
+msgstr ""
+"これは、5行目から10行目まで、5列目から10列目までの範囲をグルーピングし、初期"
+"状態で列を折りたたみます（行は折りたたみません）。"
+
+#. Tag: title
+#: Excel.xml:2108
+#, no-c-format
+msgid "Page breaks"
+msgstr "改ページ要素"
+
+#. Tag: para
+#: Excel.xml:2109
+#, no-c-format
+msgid "Provides page breaks"
+msgstr "改ページを行います。"
+
+#. Tag: literal
+#: Excel.xml:2118
+#, no-c-format
+msgid "&lt;e:rowPageBreak&gt;"
+msgstr "&lt;e:rowPageBreak&gt;"
+
+#. Tag: para
+#: Excel.xml:2127
+#, fuzzy, no-c-format
+msgid ""
+"<literal>row</literal> &#8212; The row to break at. The value is a number. "
+"Note that the value is 0-based."
+msgstr ""
+"<literal>row</literal> &#8212;改ページする行です。値は数値です。値は0から始ま"
+"ることに注意して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:2159
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>            \n"
+"                     <e:rowPageBreak row=\"4\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>            \n"
+"                     <e:rowPageBreak row=\"4\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:2160
+#, no-c-format
+msgid "breaks page at row 5."
+msgstr "これは、5行目で改ページを行います。"
+
+#. Tag: title
+#: Excel.xml:2163
+#, no-c-format
+msgid "Merging"
+msgstr "結合要素"
+
+#. Tag: para
+#: Excel.xml:2164
+#, no-c-format
+msgid "Provides cell merging"
+msgstr "セルを結合します。"
+
+#. Tag: literal
+#: Excel.xml:2173
+#, no-c-format
+msgid "&lt;e:mergeCells&gt;"
+msgstr "&lt;e:mergeCells&gt;"
+
+#. Tag: para
+#: Excel.xml:2182
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startRow</literal> &#8212; The row to start the merging from. The "
+"value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>startRow</literal> &#8212;セルを結合する範囲の開始行です。値は数値で"
+"す。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:2190
+#, fuzzy, no-c-format
+msgid ""
+"<literal>startColumn</literal> &#8212; The column to start the merging from. "
+"The value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>startColumn</literal> &#8212;セルを結合する範囲の開始列です。値は数"
+"値です。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:2198
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endRow</literal> &#8212; The row to end the merging at. The value "
+"is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>endRow</literal> &#8212;セルを結合する範囲の終了行です。値は数値で"
+"す。値は0から始まることに注意して下さい。"
+
+#. Tag: para
+#: Excel.xml:2205
+#, fuzzy, no-c-format
+msgid ""
+"<literal>endColumn</literal> &#8212; The column to end the merging at. The "
+"value is a number. Note that the value is 0-based."
+msgstr ""
+"<literal>endColumn</literal> &#8212;セルを結合する範囲の終了列です。値は数値"
+"です。値は0から始まることに注意して下さい。"
+
+#. Tag: programlisting
+#: Excel.xml:2238
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:mergeCells startRow=\"0\" startColumn=\"0\" endRow="
+"\"9\" endColumn=\"9\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:worksheet>\n"
+"                     <e:mergeCells startRow=\"0\" startColumn=\"0\" endRow="
+"\"9\" endColumn=\"9\"/>\n"
+"                  </e:worksheet>\n"
+"               </e:workbook>            \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:2239
+#, no-c-format
+msgid "merges the cells in the range A1:J10"
+msgstr "これは、A1:J10の範囲のセルを結合します。"
+
+#. Tag: title
+#: Excel.xml:2243
+#, no-c-format
+msgid "Datatable exporter"
+msgstr "データテーブルへの出力"
+
+#. Tag: para
+#: Excel.xml:2244
+#, no-c-format
+msgid ""
+"If you prefer to export an existing JSF datatable instead of writing a "
+"dedicated XHTML document, this can also be achieved easily by executing the "
+"<literal>org.jboss.seam.excel.excelExporter.export</literal> component, "
+"passing in the id of the datatable as an Seam EL parameter. Consider you "
+"have a data table"
+msgstr ""
+"もし、専用のXHMLドキュメントを作成する代わりに、既存のJSFデータテーブルを出力"
+"したい場合は、<literal>org.jboss.seam.excel.excelExporter.export</literal>コ"
+"ンポーネントを使い、データテーブルのIDをSeamのEL式として渡すことで、簡単に実"
+"現することができます。このようなテーブルがあり、"
+
+#. Tag: programlisting
+#: Excel.xml:2251
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <h:form id=\"theForm\">\n"
+"               <h:dataTable id=\"theDataTable\" value=\"#{personList."
+"personList}\" \n"
+"                  var=\"person\">\n"
+"                  ...\n"
+"               </h:dataTable>\n"
+"            </h:form>\n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <h:form id=\"theForm\">\n"
+"               <h:dataTable id=\"theDataTable\" value=\"#{personList."
+"personList}\" \n"
+"                  var=\"person\">\n"
+"                  ...\n"
+"               </h:dataTable>\n"
+"            </h:form>\n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:2252
+#, no-c-format
+msgid ""
+"that you want to view as an <trademark class=\"registered\">Microsoft</"
+"trademark> <trademark class=\"registered\">Excel</trademark> spreadsheet. "
+"Place a"
+msgstr ""
+"これを<trademark class=\"registered\">Microsoft</trademark> <trademark class="
+"\"registered\">Excel</trademark>のスプレッドシートとして表示させたい場合は、"
+
+#. Tag: programlisting
+#: Excel.xml:2258
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <h:commandLink \n"
+"               value=\"Export\" \n"
+"               action=\"#{excelExporter.export('theForm:theDataTable')}\"\n"
+"            />\n"
+"         ]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <h:commandLink \n"
+"               value=\"Export\" \n"
+"               action=\"#{excelExporter.export('theForm:theDataTable')}\"\n"
+"            />\n"
+"         ]]>"
+
+#. Tag: para
+#: Excel.xml:2259
+#, no-c-format
+msgid ""
+"in the form and you're done. You can of course execute the exporter with a "
+"button, s:link or other preferred method. There are also plans for a "
+"dedicated export tag that can be placed inside the datatable tag so you "
+"won't have to refer to the datatable by ID."
+msgstr ""
+"のように、フォームの中に記述します。もちろん、ボタンや、s:linkやその他の手段"
+"によって、出力を実行することもできます。データテーブルの中に専用の出力用のタ"
+"グを記述できるようにする計画もあり、そうするとデータテーブルのIDを渡さなくて"
+"も済むようになります。"
+
+#. Tag: para
+#: Excel.xml:2265
+#, no-c-format
+msgid "See <xref linkend=\"excel.fontsandlayout\"/> for formatting."
+msgstr ""
+"フォーマット処理については<xref linkend=\"excel.fontsandlayout\"/>を参照して"
+"下さい。"
+
+#. Tag: title
+#: Excel.xml:2270
+#, no-c-format
+msgid "Fonts and layout"
+msgstr "フォントとレイアウト"
+
+#. Tag: para
+#: Excel.xml:2271
+#, no-c-format
+msgid ""
+"Controlling how the output look is done with a combination of CSSish style "
+"attributes and tag attributes. The most common ones (fonts, borders, "
+"backgrounds etc) are CSS and some more general settings are in tag "
+"attributes."
+msgstr ""
+"CSS風のスタイル属性とタグ属性を組み合わせて、出力の見た目を制御することができ"
+"ます。最も汎用的なもの（font、border、backgroundなど）はCSSで記述でき、そうで"
+"ないものはタグ属性で記述できます。"
+
+#. Tag: para
+#: Excel.xml:2276
+#, fuzzy, no-c-format
+msgid ""
+"The CSS attributes cascade down from parent to children and within one tag "
+"cascades over the CSS classes referenced in the <literal>styleClass</"
+"literal> attributes and finally over the CSS attributes defined in the "
+"<literal>style</literal> attribute. You can place them pretty much anywhere "
+"but e.g. placing a column width setting in a cell nested within that column "
+"makes little sense."
+msgstr ""
+"CSS属性は、<literal>styleClass</literal>で指定されるCSSクラスのタグの中で、親"
+"クラスから子クラスへと波及し、適用されます。CSS属性は、最終的には"
+"<literal>style</literal>属性によって定義されます。それらは、ほぼどこにでも配"
+"置することができますが、列幅を入れ子の中のセルで設定するようなことは意味があ"
+"りません。"
+
+#. Tag: title
+#: Excel.xml:2285
+#, no-c-format
+msgid "Stylesheet links"
+msgstr "スタイルシートへのリンク"
+
+#. Tag: para
+#: Excel.xml:2286
+#, no-c-format
+msgid ""
+"External stylesheets are references with the e:link tag. They are placed as "
+"children of the workbook."
+msgstr ""
+"外部スタイルシートはe:linkタグによって参照されます。e:linkタグは、workbook要"
+"素の子要素となります。"
+
+#. Tag: literal
+#: Excel.xml:2298
+#, no-c-format
+msgid "&lt;e:link&gt;"
+msgstr "&lt;e:link&gt;"
+
+#. Tag: para
+#: Excel.xml:2307
+#, fuzzy, no-c-format
+msgid "<literal>URL</literal> &#8212; The URL to the stylesheet"
+msgstr "<literal>URL</literal> &#8212;スタイルシートのURLです。"
+
+#. Tag: programlisting
+#: Excel.xml:2338
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:link URL=\"/css/excel.css\"/>\n"
+"               </e:workbook>           \n"
+"            ]]>"
+msgstr ""
+"<![CDATA[\n"
+"               <e:workbook>\n"
+"                  <e:link URL=\"/css/excel.css\"/>\n"
+"               </e:workbook>           \n"
+"            ]]>"
+
+#. Tag: para
+#: Excel.xml:2339
+#, no-c-format
+msgid "References a stylesheet that can be found at /css/excel.css"
+msgstr "これは、\"/css/excel.css\"で示されるスタイルシートを参照します。"
+
+#. Tag: title
+#: Excel.xml:2343
+#, no-c-format
+msgid "Fonts"
+msgstr "フォント"
+
+#. Tag: para
+#: Excel.xml:2344
+#, no-c-format
+msgid "This group of XLS-CSS attributes define a font and its attributes"
+msgstr "以下のXLS-CSS属性のグループは、フォントとその属性を定義します。"
+
+#. Tag: para
+#: Excel.xml:2354
+#, no-c-format
+msgid "xls-font-family"
+msgstr "xls-font-family"
+
+#. Tag: para
+#: Excel.xml:2357
+#, no-c-format
+msgid ""
+"The name of the font. Make sure that it's one that is supported by your "
+"system."
+msgstr ""
+"フォント名です。フォントがOSによってサポートされていることを確認して下さい。"
+
+#. Tag: para
+#: Excel.xml:2365
+#, no-c-format
+msgid "xls-font-size"
+msgstr "xls-font-size"
+
+#. Tag: para
+#: Excel.xml:2368
+#, no-c-format
+msgid "The font size. Use a plain number"
+msgstr "フォントサイズです。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:2373
+#, no-c-format
+msgid "xls-font-color"
+msgstr "xls-font-color"
+
+#. Tag: para
+#: Excel.xml:2376
+#, no-c-format
+msgid ""
+"The color of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour "
+"</ulink> )."
+msgstr ""
+"フォントの色です（<ulink url=\"http://jexcelapi.sourceforge.net/resources/"
+"javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink>を"
+"参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2388
+#, no-c-format
+msgid "xls-font-bold"
+msgstr "xls-font-bold"
+
+#. Tag: para
+#: Excel.xml:2391
+#, no-c-format
+msgid "Should the font be bold? Valid values are \"true\" and \"false\""
+msgstr ""
+"フォントを強調文字にするかどうかを設定します。\"true\"もしくは\"false\"を設定"
+"して下さい。"
+
+#. Tag: para
+#: Excel.xml:2399
+#, no-c-format
+msgid "xls-font-italic"
+msgstr "xls-font-italic"
+
+#. Tag: para
+#: Excel.xml:2402
+#, no-c-format
+msgid "Should the font be italic? Valid values are \"true\" and \"false\""
+msgstr ""
+"フォントを斜体文字にするかどうかを設定します。\"true\"もしくは\"false\"を設定"
+"して下さい。"
+
+#. Tag: para
+#: Excel.xml:2410
+#, no-c-format
+msgid "xls-font-script-style"
+msgstr "xls-font-script-style"
+
+#. Tag: para
+#: Excel.xml:2413
+#, no-c-format
+msgid ""
+"The script style of the font (see <ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/ScriptStyle.html\"> jxl."
+"format.ScriptStyle </ulink> )."
+msgstr ""
+"フォントの上付きや下付きを設定します（<ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/ScriptStyle.html"
+"\"> jxl.format.ScriptStyle </ulink>を参照して下さい。）"
+
+#. Tag: para
+#: Excel.xml:2425
+#, no-c-format
+msgid "xls-font-underline-style"
+msgstr "xls-font-underline-style"
+
+#. Tag: para
+#: Excel.xml:2428
+#, no-c-format
+msgid ""
+"The underline style of the font (see <ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/UnderlineStyle."
+"html\"> jxl.format.UnderlineStyle </ulink> )."
+msgstr ""
+"フォントの下線を設定します（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/UnderlineStyle.html\"> jxl.format."
+"UnderlineStyle </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2440
+#, no-c-format
+msgid "xls-font-struck-out"
+msgstr "xls-font-struck-out"
+
+#. Tag: para
+#: Excel.xml:2443
+#, no-c-format
+msgid "Should the font be struck out? Valid values are \"true\" and \"false\""
+msgstr ""
+"フォントに取り消し線をつけるかどうかを設定します。\"true\"もしくは\"false\"を"
+"設定して下さい。"
+
+#. Tag: para
+#: Excel.xml:2451
+#, no-c-format
+msgid "xls-font"
+msgstr "xls-font"
+
+#. Tag: para
+#: Excel.xml:2454
+#, no-c-format
+msgid ""
+"A shorthand notation for setting all the values. Place the font name last "
+"and use tick marks for fonts with spaces in them, e.g. 'Times New Roman'. "
+"Use \"italic\", \"bold\" and \"struckout\"."
+msgstr ""
+"すべてのフォント設定を略記で行います。フォント名は'Times New Roman'のようにス"
+"ペース区切りにして、記述の一番最後に置きます。\"italic\"や\"bold\"や"
+"\"struckout\"などを使用することができます。"
+
+#. Tag: para
+#: Excel.xml:2460
+#, no-c-format
+msgid "Example style=\"xls-font: red bold italic 22 Verdana\""
+msgstr "Example style=\"xls-font: red bold italic 22 Verdana\""
+
+#. Tag: title
+#: Excel.xml:2470
+#, no-c-format
+msgid "Borders"
+msgstr "ボーダー"
+
+#. Tag: para
+#: Excel.xml:2471
+#, fuzzy, no-c-format
+msgid "This group of XLS-CSS attributes defines the borders of the cell"
+msgstr "以下のXLS-CSS属性のグループは、セルのボーダーを定義します。"
+
+#. Tag: para
+#: Excel.xml:2481
+#, no-c-format
+msgid "xls-border-left-color"
+msgstr "xls-border-left-color"
+
+#. Tag: para
+#: Excel.xml:2484
+#, no-c-format
+msgid ""
+"The border color of the left edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour."
+"html\"> jxl.format.Colour </ulink> )."
+msgstr ""
+"セルの左ボーダーの色です（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour "
+"</ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2497
+#, no-c-format
+msgid "xls-border-left-line-style"
+msgstr "xls-border-left-line-style"
+
+#. Tag: para
+#: Excel.xml:2500
+#, no-c-format
+msgid ""
+"The border line style of the left edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/"
+"LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr ""
+"セルの左ボーダーのスタイルです（<ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format."
+"LineStyle </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2512
+#, no-c-format
+msgid "xls-border-left"
+msgstr "xls-border-left"
+
+#. Tag: para
+#: Excel.xml:2515
+#, no-c-format
+msgid ""
+"A shorthand for setting line style and color of the left edge of the cell, e."
+"g style=\"xls-border-left: thick red\""
+msgstr ""
+"セルの左ボーダーの色とスタイルの設定を略記で行います。例えばstyle=\"xls-"
+"border-left: thick red\"のようになります。"
+
+#. Tag: para
+#: Excel.xml:2523
+#, no-c-format
+msgid "xls-border-top-color"
+msgstr "xls-border-top-color"
+
+#. Tag: para
+#: Excel.xml:2526
+#, no-c-format
+msgid ""
+"The border color of the top edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour."
+"html\"> jxl.format.Colour </ulink> )."
+msgstr ""
+"セルの上ボーダーの色です（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour "
+"</ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2539
+#, no-c-format
+msgid "xls-border-top-line-style"
+msgstr "xls-border-top-line-style"
+
+#. Tag: para
+#: Excel.xml:2542
+#, no-c-format
+msgid ""
+"The border line style of the top edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/"
+"LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr ""
+"セルの上ボーダーのスタイルです（<ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format."
+"LineStyle </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2554
+#, no-c-format
+msgid "xls-border-top"
+msgstr "xls-border-top"
+
+#. Tag: para
+#: Excel.xml:2557
+#, fuzzy, no-c-format
+msgid ""
+"A shorthand for setting line style and color of the top edge of the cell, e."
+"g style=\"xls-border-top: red thick\""
+msgstr ""
+"セルの上ボーダーの色とスタイルの設定を略記で行います。例えばstyle=\"xls-"
+"border-top: thick red\"のようになります。"
+
+#. Tag: para
+#: Excel.xml:2565
+#, no-c-format
+msgid "xls-border-right-color"
+msgstr "xls-border-right-color"
+
+#. Tag: para
+#: Excel.xml:2568
+#, no-c-format
+msgid ""
+"The border color of the right edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour."
+"html\"> jxl.format.Colour </ulink> )."
+msgstr ""
+"セルの右ボーダーの色です（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour "
+"</ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2581
+#, no-c-format
+msgid "xls-border-right-line-style"
+msgstr "xls-border-right-line-style"
+
+#. Tag: para
+#: Excel.xml:2584
+#, no-c-format
+msgid ""
+"The border line style of the right edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/"
+"LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr ""
+"セルの右ボーダーのスタイルです（<ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format."
+"LineStyle </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2596
+#, no-c-format
+msgid "xls-border-right"
+msgstr "xls-border-right"
+
+#. Tag: para
+#: Excel.xml:2599
+#, no-c-format
+msgid ""
+"A shorthand for setting line style and color of the right edge of the cell, "
+"e.g style=\"xls-border-right: thick red\""
+msgstr ""
+"セルの右ボーダーの色とスタイルの設定を略記で行います。例えばstyle=\"xls-"
+"border-right: thick red\"のようになります。"
+
+#. Tag: para
+#: Excel.xml:2607
+#, no-c-format
+msgid "xls-border-bottom-color"
+msgstr "xls-border-bottom-color"
+
+#. Tag: para
+#: Excel.xml:2610
+#, no-c-format
+msgid ""
+"The border color of the bottom edge of the cell (see <ulink url=\"http://"
+"jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour."
+"html\"> jxl.format.Colour </ulink> )."
+msgstr ""
+"セルの下ボーダーの色です（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour "
+"</ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2623
+#, no-c-format
+msgid "xls-border-bottom-line-style"
+msgstr "xls-border-bottom-line-style"
+
+#. Tag: para
+#: Excel.xml:2626
+#, no-c-format
+msgid ""
+"The border line style of the bottom edge of the cell (see <ulink url="
+"\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/"
+"format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr ""
+"セルの下ボーダーのスタイルです（<ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format."
+"LineStyle </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2638
+#, no-c-format
+msgid "xls-border-bottom"
+msgstr "xls-border-bottom"
+
+#. Tag: para
+#: Excel.xml:2641
+#, no-c-format
+msgid ""
+"A shorthand for setting line style and color of the bottom edge of the cell, "
+"e.g style=\"xls-border-bottom: thick red\""
+msgstr ""
+"セルの下ボーダーの色とスタイルの設定を略記で行います。例えばstyle=\"xls-"
+"border-bottom: thick red\"のようになります。"
+
+#. Tag: para
+#: Excel.xml:2649
+#, no-c-format
+msgid "xls-border"
+msgstr "xls-border"
+
+#. Tag: para
+#: Excel.xml:2652
+#, no-c-format
+msgid ""
+"A shorthand for setting line style and color for all edges of the cell, e.g "
+"style=\"xls-border: thick red\""
+msgstr ""
+"セルの上下左右のボーダーの色とスタイルの設定を略記で行います。例えばstyle="
+"\"xls-border: thick red\"のようになります。"
+
+#. Tag: title
+#: Excel.xml:2663
+#, no-c-format
+msgid "Background"
+msgstr "背景"
+
+#. Tag: para
+#: Excel.xml:2664
+#, fuzzy, no-c-format
+msgid "This group of XLS-CSS attributes defines the background of the cell"
+msgstr "以下のXLS-CSS属性のグループは、セルの背景を定義します。"
+
+#. Tag: para
+#: Excel.xml:2674
+#, no-c-format
+msgid "xls-background-color"
+msgstr "xls-background-color"
+
+#. Tag: para
+#: Excel.xml:2677
+#, no-c-format
+msgid ""
+"The color of the background (see <ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format."
+"LineStyle </ulink> )."
+msgstr ""
+"背景の色です（<ulink url=\"http://jexcelapi.sourceforge.net/resources/"
+"javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </"
+"ulink>）を参照して下さい。"
+
+#. Tag: para
+#: Excel.xml:2689
+#, no-c-format
+msgid "xls-background-pattern"
+msgstr "xls-background-pattern"
+
+#. Tag: para
+#: Excel.xml:2692
+#, no-c-format
+msgid ""
+"The pattern of the background (see <ulink url=\"http://jexcelapi.sourceforge."
+"net/resources/javadocs/current/docs/jxl/format/Pattern.html\"> jxl.format."
+"Pattern </ulink> )."
+msgstr ""
+"背景のパターンです（<ulink url=\"http://jexcelapi.sourceforge.net/resources/"
+"javadocs/current/docs/jxl/format/Pattern.html\"> jxl.format.Pattern </ulink>"
+"を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2704
+#, no-c-format
+msgid "xls-background"
+msgstr "xls-background"
+
+#. Tag: para
+#: Excel.xml:2707
+#, no-c-format
+msgid ""
+"A shorthand for setting the background color and pattern. See above for "
+"rules."
+msgstr ""
+"背景の色とパターンの設定を略記で行います。記述のルールについては上を参照して"
+"下さい。"
+
+#. Tag: title
+#: Excel.xml:2717
+#, no-c-format
+msgid "Column settings"
+msgstr "列の設定"
+
+#. Tag: para
+#: Excel.xml:2718
+#, fuzzy, no-c-format
+msgid "This group of XLS-CSS attributes defines the column widths etc."
+msgstr "以下のXLS-CSS属性のグループは、列幅等を定義します。"
+
+#. Tag: para
+#: Excel.xml:2728
+#, no-c-format
+msgid "xls-column-width"
+msgstr "xls-column-width"
+
+#. Tag: para
+#: Excel.xml:2731
+#, no-c-format
+msgid ""
+"The width of the column. Use largeish values (~5000) to start with. Used by "
+"the e:column in xhtml mode."
+msgstr ""
+"列幅です。最初は大きめの値（5000まで）を使って下さい。XHTMLモードで使用され、"
+"e:columnタグで適用されます。"
+
+#. Tag: para
+#: Excel.xml:2739
+#, no-c-format
+msgid "xls-column-widths"
+msgstr "xls-column-widths"
+
+#. Tag: para
+#: Excel.xml:2742
+#, no-c-format
+msgid ""
+"The width of the column. Use largeish values (~5000) to start with. Used by "
+"the excel exporter, placed in the datatable style attribute. Use numerical "
+"values or * to bypass a column."
+msgstr ""
+"列幅です。最初は大きめの値（5000まで）を使って下さい。データテーブルの出力時"
+"に使用され、データテーブルのスタイル属性で適用されます。数値、あるいは、元の"
+"設定を有効にするためには\"*\"を指定して下さい。"
+
+#. Tag: para
+#: Excel.xml:2747
+#, no-c-format
+msgid "Example style=\"xls-column-widths: 5000, 5000, *, 10000\""
+msgstr "Example style=\"xls-column-widths: 5000, 5000, *, 10000\""
+
+#. Tag: para
+#: Excel.xml:2754
+#, no-c-format
+msgid "xls-column-autosize"
+msgstr "xls-column-autosize"
+
+#. Tag: para
+#: Excel.xml:2757
+#, no-c-format
+msgid ""
+"Should an attempt be made to autosize the column? Valid values are \"true\" "
+"and \"false\"."
+msgstr ""
+"列幅の自動調整を行うかどうかを設定します。\"true\"もしくは\"false\"を設定して"
+"下さい。"
+
+#. Tag: para
+#: Excel.xml:2765
+#, no-c-format
+msgid "xls-column-hidden"
+msgstr "xls-column-hidden"
+
+#. Tag: para
+#: Excel.xml:2768
+#, no-c-format
+msgid "Should the column be hidden? Valid values are \"true\" and \"false\"."
+msgstr ""
+"列を非表示にするかどうかを設定します。\"true\"もしくは\"false\"を設定して下さ"
+"い。"
+
+#. Tag: para
+#: Excel.xml:2775
+#, fuzzy, no-c-format
+msgid "xls-column-export"
+msgstr "xls-column-width"
+
+#. Tag: para
+#: Excel.xml:2778
+#, fuzzy, no-c-format
+msgid ""
+"Should the column be shown in export? Valid values are \"true\" and \"false"
+"\". Default is \"true\"."
+msgstr ""
+"列を非表示にするかどうかを設定します。\"true\"もしくは\"false\"を設定して下さ"
+"い。"
+
+#. Tag: title
+#: Excel.xml:2788
+#, no-c-format
+msgid "Cell settings"
+msgstr "セルの設定"
+
+#. Tag: para
+#: Excel.xml:2789
+#, fuzzy, no-c-format
+msgid "This group of XLS-CSS attributes defines the cell properties"
+msgstr "以下のXLS-CSS属性のグループは、セルのプロパティを定義します。"
+
+#. Tag: para
+#: Excel.xml:2799
+#, no-c-format
+msgid "xls-alignment"
+msgstr "xls-alignment"
+
+#. Tag: para
+#: Excel.xml:2802
+#, no-c-format
+msgid ""
+"The alignment of the cell value (see <ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/Alignment.html\"> "
+"jxl.format.Alignment </ulink> )."
+msgstr ""
+"セル値の水平方向の配置を設定します（<ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/Alignment.html\"> "
+"jxl.format.Alignment </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2814
+#, no-c-format
+msgid "xls-force-type"
+msgstr "xls-force-type"
+
+#. Tag: para
+#: Excel.xml:2817
+#, no-c-format
+msgid ""
+"The forced type of the cell data. The value is a string that can be one of "
+"\"general\", \"number\", \"text\", \"date\", \"formula\" or \"bool\". The "
+"type is automatically detected so there is rarely any use for this attribute."
+msgstr ""
+"セルのデータ型を強制します。値は文字列で、\"general\"、\"number\"、\"text\"、"
+"\"date\"、\"formula\"、\"bool\"のどれかです。データ型は自動的に検出されるの"
+"で、この属性を使うことはまれです。"
+
+#. Tag: para
+#: Excel.xml:2826
+#, no-c-format
+msgid "xls-format-mask"
+msgstr "xls-format-mask"
+
+#. Tag: para
+#: Excel.xml:2829
+#, no-c-format
+msgid "The format mask of the cell, see"
+msgstr ""
+"セルの書式マスクを設定します。<xref linkend=\"excel.cells.formatmasks\"/>を参"
+"照して下さい。"
+
+#. Tag: para
+#: Excel.xml:2836
+#, no-c-format
+msgid "xls-indentation"
+msgstr "xls-indentation"
+
+#. Tag: para
+#: Excel.xml:2839
+#, no-c-format
+msgid "The indentation of the cell value. The value is numeric."
+msgstr "セル値のインデントを設定します。値は数値です。"
+
+#. Tag: para
+#: Excel.xml:2846
+#, no-c-format
+msgid "xls-locked"
+msgstr "xls-locked"
+
+#. Tag: para
+#: Excel.xml:2849
+#, no-c-format
+msgid ""
+"Should the cell be locked. Use with workbook level locked. Valid values are "
+"\"true\" and \"false\"."
+msgstr ""
+"セルをロックするかどうかを設定します。ブックレベルでのロックとともに使用しま"
+"す。\"true\"もしくは\"false\"を設定して下さい。"
+
+#. Tag: para
+#: Excel.xml:2857
+#, no-c-format
+msgid "xls-orientation"
+msgstr "xls-orientation"
+
+#. Tag: para
+#: Excel.xml:2860
+#, no-c-format
+msgid ""
+"The orientation of the cell value (see <ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/Orientation.html"
+"\"> jxl.format.Orientation </ulink> )."
+msgstr ""
+"セル値の方向を設定します（<ulink url=\"http://jexcelapi.sourceforge.net/"
+"resources/javadocs/current/docs/jxl/format/Orientation.html\"> jxl.format."
+"Orientation </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2872
+#, no-c-format
+msgid "xls-vertical-alignment"
+msgstr "xls-vertical-alignment"
+
+#. Tag: para
+#: Excel.xml:2875
+#, no-c-format
+msgid ""
+"The vertical alignment of the cell value (see <ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment."
+"html\"> jxl.format.VerticalAlignment </ulink> )."
+msgstr ""
+"セル値の垂直方向の配置を設定します（<ulink url=\"http://jexcelapi."
+"sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment."
+"html\"> jxl.format.VerticalAlignment </ulink>を参照して下さい）。"
+
+#. Tag: para
+#: Excel.xml:2887
+#, no-c-format
+msgid "xls-shrink-to-fit"
+msgstr "xls-shrink-to-fit"
+
+#. Tag: para
+#: Excel.xml:2890
+#, no-c-format
+msgid ""
+"Should the cell values shrink to fit? Valid values are \"true\" and \"false"
+"\"."
+msgstr ""
+"セル値をセルに合わせて縮小するかどうかを設定します。\"true\"もしくは\"false"
+"\"を設定して下さい。"
+
+#. Tag: para
+#: Excel.xml:2898
+#, no-c-format
+msgid "xls-wrap"
+msgstr "xls-wrap"
+
+#. Tag: para
+#: Excel.xml:2901
+#, no-c-format
+msgid ""
+"Should the cell wrap with newlines? Valid values are \"true\" and \"false\"."
+msgstr ""
+"セル値を折り返すかどうかを設定します。\"true\"もしくは\"false\"を設定して下さ"
+"い。"
+
+#. Tag: title
+#: Excel.xml:2912
+#, no-c-format
+msgid "The datatable exporter"
+msgstr "データテーブル出力"
+
+#. Tag: para
+#: Excel.xml:2913
+#, no-c-format
+msgid ""
+"The datatable exporter uses the same xls-css attributes as the xhtml "
+"document with the exception that column widths are defined with the "
+"<literal>xls-column-widths</literal> attribute on the datatable (since the "
+"UIColumn doesn't support the style or styleClass attributes)."
+msgstr ""
+"データテーブル出力においても、XHTMLモードの場合と同じXLS-CSS属性が適用されま"
+"すが、列幅については例外的にデータテーブルの<literal>xls-column-widths</"
+"literal>属性が適用されます（UIColumnがstyleやstyleClass属性をサポートしないか"
+"らです）。"
+
+#. Tag: title
+#: Excel.xml:2921
+#, no-c-format
+msgid "Layout examples"
+msgstr "レイアウト例"
+
+#. Tag: para
+#: Excel.xml:2922
+#, no-c-format
+msgid "TODO"
+msgstr "TODO"
+
+#. Tag: title
+#: Excel.xml:2927
+#, no-c-format
+msgid "Limitations"
+msgstr "制限"
+
+#. Tag: para
+#: Excel.xml:2928
+#, no-c-format
+msgid ""
+"In the current version there are some known limitations regarding CSS support"
+msgstr "現在のバージョンでは、CSSサポートについていくつかの制限があります。"
+
+#. Tag: para
+#: Excel.xml:2934
+#, fuzzy, no-c-format
+msgid ""
+"When using .xhtml documents, stylesheets must be referenced through the "
+"<literal>&lt;e:link&gt;</literal> tag"
+msgstr ""
+"XHTMLモードの場合は、スタイルシートは<literal>&lt;e:link&gt; tag</literal>を"
+"通じて参照されなければならない。"
+
+#. Tag: para
+#: Excel.xml:2940
+#, no-c-format
+msgid ""
+"When using the datatable exporter, CSS must be entered through style-"
+"attributes, external stylesheets are not supported"
+msgstr ""
+"データテーブル出力の場合は、CSSはXLS-CSS属性を通じて定義されなければならず、"
+"外部スタイルシートはサポートされません。"
+
+#. Tag: title
+#: Excel.xml:2949
+#, no-c-format
+msgid "Internationalization"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2950
+#, no-c-format
+msgid ""
+"There are only two resources bundle keys used, both for invalid data format "
+"and both take a parameter (the invalid value)"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2956
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.excel.not_a_number</literal> &#8212; When a value "
+"thought to be a number could not be treated as such"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2962
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.excel.not_a_date</literal> &#8212; When a value "
+"thought to be a date could not be treated as such"
+msgstr ""
+
+#. Tag: title
+#: Excel.xml:2970
+#, no-c-format
+msgid "Links and further documentation"
+msgstr "関連リンクと詳細なドキュメント"
+
+#. Tag: para
+#: Excel.xml:2971
+#, fuzzy, no-c-format
+msgid ""
+"The core of the &excel; functionality is based on the excellent JExcelAPI "
+"library which can be found on <ulink url=\"http://jexcelapi.sourceforge.net"
+"\">http://jexcelapi.sourceforge.net/</ulink> and most features and possible "
+"limitations are inherited from here."
+msgstr ""
+"Microsoft® Excel® スプレッドアプリケーションのコア機能は、素晴らしいJExcelAPI"
+"ライブラリに基づいており、そのほとんどの特徴や制限を、そのまま引き継いでいま"
+"す。JExcelAPIライブラリに関する情報はhttp://jexcelapi.sourceforge.net/で見つ"
+"けることができます。"
+
+#. Tag: para
+#: Excel.xml:2977
+#, no-c-format
+msgid ""
+"If you use the forum or mailing list, please remember that they don't know "
+"anything about Seam and the usage of their library, any issues are best "
+"reported in the JBoss Seam JIRA under the \"excel\" module."
+msgstr ""
+"フォーラムやメーリングリストに参加する場合は、そこでの参加者がSeamやライブラ"
+"リの使い方に関するすべてを知っているわけではないということ、また、そこでのす"
+"べての問題はJBoss Seam JIRAの\"excel\"モジュール以下にもレポート済みであると"
+"いうことを気にとめておいて下さい。"
+
+#~ msgid ""
+#~ "<literal>value</literal> &#8212;An EL-expression to the backing data. The "
+#~ "value is a string."
+#~ msgstr ""
+#~ "<literal>value</literal> &#8212;データ受け渡しのためのEL式です。値は文字列"
+#~ "です。"
+
+#~ msgid ""
+#~ "Format masks are defined in the mask attribute in cell templates, cells "
+#~ "or formulas. <emphasis>Note that when using templates, the format mask "
+#~ "must be placed in the first template</emphasis> to be cascaded since the "
+#~ "constructor hierarchy in <literal>JExcelAPI</literal> used for copying "
+#~ "cell formats makes it hard to change the format mask at a later stage. "
+#~ "There are two types of format masks, one for numbers and one for dates"
+#~ msgstr ""
+#~ "書式マスクはセルテンプレートや、cell要素、あるいはformula要素にマスク属性"
+#~ "を定義します。<emphasis>テンプレートを使う場合は、マスクは最初のテンプレー"
+#~ "トに施されなければならないということに注意して下さい。</emphasis>これはマ"
+#~ "スクを連鎖させるためであり、セル書式のコピー時に使用される"
+#~ "<literal>JExcelAPI</literal>のコンストラクタ階層が、後段での書式マスクの変"
+#~ "更を難しくしているためです。書式マスクには、数値と日付の二つのタイプがあり"
+#~ "ます。"

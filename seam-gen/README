@@ -1,0 +1,141 @@
+NAME
+   seam (aka seam-gen) - Execute seam code generation.
+
+   The seam.bat (Windows) and seam (Linux/Unix) scripts support
+   commands that use Ant build targets to set up a Seam project and
+   generate source code. Ant is not required to be on your path to
+   use this script.
+   
+   JBoss AS must be installed to deploy the project. If you use EJB3
+   components, the JBoss server must have EJB 3 capabilities.
+   (JBoss AS 4.2 is strongly recommended)
+
+SYNOPSIS
+   seam COMMAND
+
+SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
+   setup
+      Run the wizard used to set various properties in the
+      seam-gen/build.properties file. This task establishes the
+      location of your project workspace and your JBoss AS home
+      directory. It also captures settings for code generation, such
+      as the Java packages used for the model, action, and test
+      classes, and database connection information.
+
+      You can hand edit the seam-gen/build.properties file instead of
+      using this command.
+
+      Example: seam setup
+
+   create-project
+      Create a new Seam project workspace that includes all the
+      required dependencies, a build script, and two configuration
+      profiles (dev and prod). Uses the project attributes defined in
+      seam-gen/build.properties. Also generates Eclipse, NetBeans and
+      IDEA project files, allowing the project to be quickly imported.
+
+      Example: seam create-project
+
+   update-project
+      Update the project workspace with the latest library
+      dependencies.
+
+      Example: seam update-project
+
+   delete-project
+      Delete the project workspace. Also undeploys the project from
+      the JBoss server.
+
+      WARNING: This command is permanent! There is no undo!
+
+      Example: seam delete-project
+
+   archive
+      Build the project archive (packaged EAR or WAR) and place
+      it in the dist folder in the root of the project.
+
+      Example: seam archive
+
+   deploy
+      Deploy the project archive (packaged EAR or WAR) and the
+      datasource to the JBoss server.
+
+      Example: seam deploy
+
+   undeploy
+      Undeploy the project archive (packaged EAR or WAR) and the
+      datasource from the JBoss server.
+
+      Example: seam undeploy
+
+   explode
+      Deploy the project archive (exploded EAR or WAR directory
+      structure) and the datasource to the JBoss server.
+
+      Example: seam explode
+
+   restart
+      Restart the project archive that was previously deployed as an
+      exploded directory structure.
+
+      Example: seam restart
+
+   unexplode
+      Undeploy the project archive (exploded EAR or WAR directory
+      structure) and the datasource from the JBoss server.
+
+      Example: seam unexplode
+
+SEAM CODE GENERATION COMMANDS
+   new-action
+      Create a new Java interface and SLSB with key Seam/EJB3
+      annotations.
+
+      Example: seam new-action
+
+   new-form
+      Create a new Java interface and SFSB with key Seam/EJB3
+      annotations, and associated xhtml view. Also, create a new
+      TestNG test case that can be used to simulate a JSF
+      request/response and standard JUnit type tests.
+
+      Example: seam new-form
+
+   new-conversation
+      Create a new Java interface and SFSB with key Seam/EJB3
+      annotations. Adds annotations and stub methods for @Begin and
+      @End.
+
+      Example: seam new-conversation
+
+   new-entity
+      Create a new entity bean with key Seam/EJB3 annotations with
+      example attributes.
+
+      Example: seam new-entity
+
+   generate-model
+	  Generate JPA-compliant entity classes from an existing database
+	  schema. Uses the Hibernate reverse engineering hbmtemplate task
+	  to generate the entity classes. The reverse engineering process
+	  can be customized using the resources/seam-gen.reveng.xml file
+	  in the project directory.
+
+      Example: seam generate-model
+
+   generate-ui
+	  Generate CRUD pages and controllers for existing JPA entity classes.
+	  Uses the Hibernate reverse engineering hbmtemplate task to
+	  create EntityHome and EntityQuery JavaBean components and
+	  Facelet view templates for browsing, searching, and managing the
+	  database tables mapped by the entity classes.
+
+      Example: seam generate-ui
+	  
+   generate
+	  Generate CRUD pages and controllers for an existing database
+	  schema.  Combines the generate-model and generate-ui commands to
+	  create the JPA entity classes and then the pages and controllers
+	  that allow them to be managed.
+
+      Example: seam generate

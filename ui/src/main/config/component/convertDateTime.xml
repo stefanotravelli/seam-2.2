@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<converter generate="false">
+		<id>org.jboss.seam.ui.DateTimeConverter</id>
+		<classname>org.jboss.seam.ui.converter.DateTimeConverter</classname>
+		<description>
+			<![CDATA[Perform date or time conversions in the Seam timezone.]]>
+		</description>
+		<tag>
+			<name>convertDateTime</name>
+			<classname>org.jboss.seam.ui.taglib.ConvertDateTimeTag</classname>
+			<superclass>
+				javax.faces.webapp.ConverterELTag
+			</superclass>
+		</tag>
+		<property>
+			<name>timeStyle</name>
+			<classname>java.lang.String</classname>
+            <description>Predefined formatting style which determines how the time component of a date string is to be formatted and parsed. Applied only if type is "time" or "both". Valid values are "default", "short", "medium", "long", and "full". Default value is "default".</description>
+		</property>
+		<property>
+			<name>dateStyle</name>
+			<classname>java.lang.String</classname>
+            <description>Predefined formatting style which determines how the date component of a date string is to be formatted and parsed. Applied only if type is "date" or "both". Valid values are "default", "short", "medium", "long", and "full". Default value is "default".</description>
+		</property>
+		<property>
+			<name>pattern</name>
+			<classname>java.lang.String</classname>
+            <description>Custom formatting pattern which determines how the date/time string should be formatted and parsed.</description>
+		</property>
+		<property elonly="true">
+			<name>locale</name>
+			<classname>java.util.Locale</classname>
+            <description>Locale whose predefined styles for dates and times are used during formatting or parsing. If not specified, the Locale returned by FacesContext.getViewRoot().getLocale() will be used. Value must be either a VB expression that evaluates to a java.util.Locale instance, or a String that is valid to pass as the first argument to the constructor java.util.Locale(String language, String country). The empty string is passed as the second argument.</description>
+		</property>
+		<property elonly="true">
+			<name>timeZone</name>
+			<classname>java.util.TimeZone</classname>
+            <description>Time zone in which to interpret any time information in the date String. Value must be either a VB expression that evaluates to a java.util.TimeZone instance, or a String that is a timezone ID as described in the javadocs for java.util.TimeZone.getTimeZone().</description>
+		</property>
+		<property>
+			<name>type</name>
+			<classname>java.lang.String</classname>
+            <description>Specifies what contents the string value will be formatted to include, or parsed expecting. Valid values are "date", "time", and "both". Default value is "date".</description>
+			<defaultvalue>"date"</defaultvalue>
+		</property>
+	</converter>
+</components>

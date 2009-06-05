@@ -1,0 +1,42 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:ice="http://www.icesoft.com/icefaces/component"  
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+
+    <ice:form id="@componentName@Form">
+
+     <ice:panelGroup  id="formSearchGroupId" styleClass="formBorderHighlight">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td class="iceDatTblColHdr2">		
+				<ice:outputText id="formSearchTextId" value="@pageName@"/>
+                 </td>
+              </tr>
+          </table> 
+            <s:decorate id="valueField" template="layout/edit.xhtml">
+                <ui:define name="label">Value</ui:define>
+                <h:inputText id="value" required="true"
+                             value="#{@componentName@.value}"/>
+            </s:decorate>
+            
+            <div style="clear:both"/>
+
+        </ice:panelGroup>
+
+        <div class="actionButtons">
+            <ice:commandButton id="@methodName@" value="@methodName@" 
+                action="#{@componentName@.@methodName@}"/>     			  
+        </div>
+    </ice:form>
+    
+</ui:define>
+
+</ui:composition>
+

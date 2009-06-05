@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+             version="1.0">
+             
+   <persistence-unit name="@projectName@">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/@projectName@Datasource</jta-data-source>
+      <!-- The <jar-file> element is necessary if you put the persistence.xml in the WAR and the classes in the JAR -->
+      <!--
+      <jar-file>../../vehicles.jar</jar-file>
+      -->
+      <properties>
+         <property name="hibernate.dialect" value="@hibernate.dialect@"/>
+         <property name="hibernate.hbm2ddl.auto" value="@hbm2ddl@"/>
+         <property name="hibernate.show_sql" value="true"/>
+         <property name="hibernate.format_sql" value="true"/>@catalogProperty@@schemaProperty@
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>
+      </properties>
+   </persistence-unit>
+    
+</persistence>

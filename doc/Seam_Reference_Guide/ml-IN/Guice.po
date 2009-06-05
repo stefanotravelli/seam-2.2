@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Guice.xml:6
+#, no-c-format
+msgid "Guice integration"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:8
+#, no-c-format
+msgid ""
+"Google Guice is a library that provides lightweight dependency injection "
+"through type-safe resolution. The Guice integration (part of the Seam IoC "
+"module) allows use of Guice injection for all Seam components annotated with "
+"the <literal>@Guice</literal> annotation. In addition to the regular "
+"bijection that Seam performs (which becomes optional), Seam also delegates "
+"to known Guice injectors to satisify the dependencies of the component. "
+"Guice may be useful to tie non-Seam parts of large or legacy applications "
+"together with Seam."
+msgstr ""
+
+#. Tag: note
+#: Guice.xml:17
+#, no-c-format
+msgid ""
+"The Guice integration is bundled in the jboss-seam-ioc library. This "
+"dependency is required for all integration techniques covered in this "
+"chapter. You will also need the Guice JAR file on the classpath."
+msgstr ""
+
+#. Tag: title
+#: Guice.xml:24
+#, no-c-format
+msgid "Creating a hybrid Seam-Guice component"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:26
+#, no-c-format
+msgid ""
+"The goal is to create a hybrid Seam-Guice component. The rule for how to do "
+"this is very simple. If you want to use Guice injection in your Seam "
+"component, annotate it with the <literal>@Guice</literal> annotation (after "
+"importing the type <literal>org.jboss.seam.ioc.guice.Guice</literal>)."
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:33
+#, no-c-format
+msgid ""
+"@Name(\"myGuicyComponent\")\n"
+"@Guice public class MyGuicyComponent\n"
+"{\n"
+"   @Inject MyObject myObject;\n"
+"   @Inject @Special MyObject mySpecialObject;\n"
+"   ...\n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:35
+#, no-c-format
+msgid ""
+"This Guice injection will happen on every method call, just like with "
+"bijection. Guice injects based on type and binding. To satisify the "
+"dependencies in the previous example, you might have bound the following "
+"implementations in a Guice module, where <literal>@Special</literal> is an "
+"annotation you define in your application."
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:42
+#, no-c-format
+msgid ""
+"public class MyGuicyModule implements Module\n"
+"{\n"
+"   public void configure(Binder binder)\n"
+"   {\n"
+"      binder.bind(MyObject.class)\n"
+"         .toInstance(new MyObject(\"regular\"));\n"
+"\n"
+"      binder.bind(MyObject.class).annotatedWith(Special.class)\n"
+"         .toInstance(new MyObject(\"special\"));\n"
+"   }\n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:44
+#, no-c-format
+msgid ""
+"Great, but which Guice injector will be used to inject the dependencies? "
+"Well, you need to perform some setup first."
+msgstr ""
+
+#. Tag: title
+#: Guice.xml:53
+#, no-c-format
+msgid "Configuring an injector"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:55
+#, no-c-format
+msgid ""
+"You tell Seam which Guice injector to use by hooking it into the injection "
+"property of the Guice initization component in the Seam component descriptor "
+"(components.xml):"
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:60
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"   xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"   xmlns:guice=\"http://jboss.org/products/seam/guice\"\n"
+"   xsi:schemaLocation=\"\n"
+"      http://jboss.com/products/seam/guice\n"
+"      http://jboss.com/products/seam/guice-2.1.xsd\n"
+"      http://jboss.com/products/seam/components\n"
+"      http://jboss.com/products/seam/components-2.1.xsd\">\n"
+"\n"
+"   <guice:init injector=\"#{myGuiceInjector}\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:62
+#, no-c-format
+msgid ""
+"<literal>myGuiceInjector</literal> must resolve to a Seam component that "
+"implements the Guice <literal>Injector</literal> interface."
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:67
+#, no-c-format
+msgid ""
+"Having to create an injector is boiler-plate code, though. What you really "
+"want to be able to do is simply hook up Seam to your Guice modules. "
+"Fortunately, there is a built-in Seam component that implements the "
+"<literal>Injector</literal> interface to do exactly that. You can configure "
+"it in the Seam component descriptor with this additional stanza."
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:74
+#, no-c-format
+msgid ""
+"<![CDATA[<guice:injector name=\"myGuiceInjector\">\n"
+"   <guice:modules>  \n"
+"      <value>com.example.guice.GuiceModule1</value>  \n"
+"      <value>com.example.guice.GuiceModule2</value>  \n"
+"   </guice:modules>  \n"
+"</guice:injector>]]>"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:76
+#, no-c-format
+msgid ""
+"Of course you can also use an injector that is already used in other, "
+"possibly non-Seam part of you application. That's one of the main "
+"motivations for creating this integration. Since the injector is defined "
+"with EL expression, you can obtain it in whatever way you like. For "
+"instance, you may use the Seam factory component pattern to provide injector."
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:83
+#, no-c-format
+msgid ""
+"@Name(\"myGuiceInjectorFactory\")\n"
+"public InjectorFactory\n"
+"{\n"
+"   @Factory(name = \"myGuiceInjector\", scope = APPLICATION, create = true)\n"
+"   public Injector getInjector()\n"
+"   {\n"
+"      // Your code that returns injector    \n"
+"   }\n"
+"}"
+msgstr ""
+
+#. Tag: title
+#: Guice.xml:88
+#, no-c-format
+msgid "Using multiple injectors"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:90
+#, no-c-format
+msgid ""
+"By default, an injector configured in the Seam component descriptor is used. "
+"If you really need to use multiple injectors (AFAIK, you should use multiple "
+"modules instead), you can specify different injector for every Seam "
+"component in the <literal>@Guice</literal> annotation."
+msgstr ""
+
+#. Tag: programlisting
+#: Guice.xml:97
+#, no-c-format
+msgid ""
+"@Name(\"myGuicyComponent\")\n"
+"@Guice(\"myGuiceInjector\")\n"
+"public class MyGuicyComponent\n"
+"{\n"
+"   @Inject MyObject myObject;\n"
+"   ...\n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Guice.xml:101
+#, no-c-format
+msgid ""
+"That's all there is to it! Check out the guice example in the Seam "
+"distribution to see the Seam Guice integration in action!"
+msgstr ""

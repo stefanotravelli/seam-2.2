@@ -1,0 +1,4812 @@
+# Language ml-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-04-15 13:52+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Tutorial.xml:4
+#, no-c-format
+msgid "Seam Tutorial"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:7
+#, no-c-format
+msgid "Using the Seam examples"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:9
+#, no-c-format
+msgid ""
+"Seam provides a number of example applications demonstrating how to use the "
+"various features of Seam. This tutorial will guide you through a few of "
+"those examples to help you get started learning Seam. The Seam examples are "
+"located in the <filename>examples</filename> subdirectory of the Seam "
+"distribution. The registration example, which will be the first example we "
+"look at, is in the <filename>examples/registration</filename> directory."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:15
+#, no-c-format
+msgid "Each example has the same directory structure:"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:19
+#, no-c-format
+msgid ""
+"The <filename>view</filename> directory contains view-related files such as "
+"web page templates, images and stylesheets."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:25
+#, no-c-format
+msgid ""
+"The <filename>resources</filename> directory contains deployment descriptors "
+"and other configuration files."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:30
+#, no-c-format
+msgid ""
+"The <filename>src</filename> directory contains the application source code."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:35
+#, no-c-format
+msgid ""
+"The example applications run both on JBoss AS and Tomcat with no additional "
+"configuration. The following sections will explain the procedure in both "
+"cases. Note that all the examples are built and run from the Ant "
+"<filename>build.xml</filename>, so you'll need a recent version of Ant "
+"installed before you get started."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:45
+#, no-c-format
+msgid "Running the examples on JBoss AS"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:47
+#, no-c-format
+msgid ""
+"The examples are configured for use on JBoss AS 4.2 or 5.0. You'll need to "
+"set <literal>jboss.home</literal>, in the shared <literal>build.properties</"
+"literal> file in the root folder of your Seam installation, to the location "
+"of your JBoss AS installation."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:51
+#, no-c-format
+msgid ""
+"Once you've set the location of JBoss AS and started the application server, "
+"you can build and deploy any example by typing <literal>ant explode</"
+"literal> in the the directory for that example. Any example that is packaged "
+"as an EAR deploys to a URL like <literal>/seam-<replaceable>example</"
+"replaceable></literal>, where <replaceable>example</replaceable> is the name "
+"of the example folder, with one exception. If the example folder begins with "
+"seam, the prefix \"seam\" is ommitted. For instance, if JBoss AS is running "
+"on port 8080, the URL for the registration example is <ulink url=\"http://"
+"localhost:8080/seam-registration/\"> <literal>http://localhost:8080/seam-"
+"registration/</literal></ulink>, whereas the URL for the seamspace example "
+"is <ulink url=\"http://localhost:8080/seam-space/\"> <literal>http://"
+"localhost:8080/seam-space/</literal></ulink>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:62
+#, no-c-format
+msgid ""
+"If, on the other hand, the example gets packaged as a WAR, then it deploys "
+"to a URL like <literal>/jboss-seam-<replaceable>example</replaceable></"
+"literal>. Most of the examples can be deployed as a WAR to Tomcat with "
+"Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of "
+"the examples can only be deployed as a WAR. Those examples are "
+"groovybooking, hibernate, jpa, and spring."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:71
+#, no-c-format
+msgid "Running the examples on Tomcat"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:73
+#, no-c-format
+msgid ""
+"The examples are also configured for use on Tomcat 6.0. You will need to "
+"follow the instructions in <xref linkend=\"config.install.embedded\"/> for "
+"installing JBoss Embedded on Tomcat 6.0. JBoss Embedded is only required to "
+"run the Seam demos that use EJB3 components on Tomcat. There are also "
+"examples of non-EJB3 applications that can be run on Tomcat without the use "
+"of JBoss Embedded."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:79
+#, no-c-format
+msgid ""
+"You'll need to set <literal>tomcat.home</literal>, in the shared "
+"<literal>build.properties</literal> file in the root folder of your Seam "
+"installation, to the location of your Tomcat installation. make sure you set "
+"the location of your Tomcat."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:85
+#, no-c-format
+msgid ""
+"You'll need to use a different Ant target when using Tomcat. Use "
+"<literal>ant tomcat.deploy</literal> in example subdirectory to build and "
+"deploy any example for Tomcat."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:90
+#, no-c-format
+msgid ""
+"On Tomcat, the examples deploy to URLs like <literal>/jboss-seam-"
+"<replaceable>example</replaceable></literal>, so for the registration "
+"example the URL would be <ulink url=\"http://localhost:8080/jboss-seam-"
+"registration/\"> <literal>http://localhost:8080/jboss-seam-registration/</"
+"literal></ulink>. The same is true for examples that deploy as a WAR, as "
+"mentioned in the previous section."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:100
+#, no-c-format
+msgid "Running the example tests"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:101
+#, no-c-format
+msgid ""
+"Most of the examples come with a suite of TestNG integration tests. The "
+"easiest way to run the tests is to run <literal>ant test</literal>. It is "
+"also possible to run the tests inside your IDE using the TestNG plugin. "
+"Consult the readme.txt in the examples directory of the Seam distribution "
+"for more information."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:112
+#, no-c-format
+msgid "Your first Seam application: the registration example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:114
+#, no-c-format
+msgid ""
+"The registration example is a simple application that lets a new user store "
+"his username, real name and password in the database. The example isn't "
+"intended to show off all of the cool functionality of Seam. However, it "
+"demonstrates the use of an EJB3 session bean as a JSF action listener, and "
+"basic configuration of Seam."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:119
+#, no-c-format
+msgid ""
+"We'll go slowly, since we realize you might not yet be familiar with EJB 3.0."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:121
+#, no-c-format
+msgid ""
+"The start page displays a very basic form with three input fields. Try "
+"filling them in and then submitting the form. This will save a user object "
+"in the database."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:134 Tutorial.xml:533 Tutorial.xml:722 Tutorial.xml:957
+#, no-c-format
+msgid "Understanding the code"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:136
+#, no-c-format
+msgid ""
+"The example is implemented with two Facelets templates, one entity bean and "
+"one stateless session bean. Let's take a look at the code, starting from the "
+"\"bottom\"."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:141
+#, no-c-format
+msgid "The entity bean: <literal>User.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:143
+#, no-c-format
+msgid ""
+"We need an EJB entity bean for user data. This class defines "
+"<emphasis>persistence</emphasis> and <emphasis>validation</emphasis> "
+"declaratively, via annotations. It also needs some extra annotations that "
+"define the class as a Seam component."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:148
+#, no-c-format
+msgid "User.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:160
+#, no-c-format
+msgid ""
+"<![CDATA[@Entity\n"
+"@Name(\"user\")\n"
+"@Scope(SESSION)\n"
+"@Table(name=\"users\")\n"
+"public class User implements Serializable\n"
+"{\n"
+"   private static final long serialVersionUID = 1881413500711441951L;\n"
+"   \n"
+"   private String username;\n"
+"   private String password;\n"
+"   private String name;\n"
+"   \n"
+"   public User(String name, String password, String username)\n"
+"   {\n"
+"      this.name = name;\n"
+"      this.password = password;\n"
+"      this.username = username;\n"
+"   }\n"
+"   \n"
+"   public User() {}\n"
+"   \n"
+"   @NotNull @Length(min=5, max=15)\n"
+"   public String getPassword()\n"
+"   {\n"
+"      return password;\n"
+"   }\n"
+"\n"
+"   public void setPassword(String password)\n"
+"   {\n"
+"      this.password = password;\n"
+"   }\n"
+"   \n"
+"   @NotNull\n"
+"   public String getName()\n"
+"   {\n"
+"      return name;\n"
+"   }\n"
+"\n"
+"   public void setName(String name)\n"
+"   {\n"
+"      this.name = name;\n"
+"   }\n"
+"   \n"
+"   @Id @NotNull @Length(min=5, max=15)\n"
+"   public String getUsername()\n"
+"   {\n"
+"      return username;\n"
+"   }\n"
+"\n"
+"   public void setUsername(String username)\n"
+"   {\n"
+"      this.username = username;\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:163
+#, no-c-format
+msgid ""
+"The EJB3 standard <literal>@Entity</literal> annotation indicates that the "
+"<literal>User</literal> class is an entity bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:167
+#, no-c-format
+msgid ""
+"A Seam component needs a <emphasis>component name</emphasis> specified by "
+"the <link linkend=\"name-annotation\"> <literal>@Name</literal> </link> "
+"annotation. This name must be unique within the Seam application. When JSF "
+"asks Seam to resolve a context variable with a name that is the same as a "
+"Seam component name, and the context variable is currently undefined (null), "
+"Seam will instantiate that component, and bind the new instance to the "
+"context variable. In this case, Seam will instantiate a <literal>User</"
+"literal> the first time JSF encounters a variable named <literal>user</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:178
+#, no-c-format
+msgid ""
+"Whenever Seam instantiates a component, it binds the new instance to a "
+"context variable in the component's <emphasis>default context</emphasis>. "
+"The default context is specified using the <link linkend=\"scope-annotation"
+"\"> <literal>@Scope</literal> </link> annotation. The <literal>User</"
+"literal> bean is a session scoped component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:186
+#, no-c-format
+msgid ""
+"The EJB standard <literal>@Table</literal> annotation indicates that the "
+"<literal>User</literal> class is mapped to the <literal>users</literal> "
+"table."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:191
+#, no-c-format
+msgid ""
+"<literal>name</literal>, <literal>password</literal> and <literal>username</"
+"literal> are the persistent attributes of the entity bean. All of our "
+"persistent attributes define accessor methods. These are needed when this "
+"component is used by JSF in the render response and update model values "
+"phases."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:198
+#, no-c-format
+msgid ""
+"An empty constructor is both required by both the EJB specification and by "
+"Seam."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:202
+#, no-c-format
+msgid ""
+"The <literal>@NotNull</literal> and <literal>@Length</literal> annotations "
+"are part of the Hibernate Validator framework. Seam integrates Hibernate "
+"Validator and lets you use it for data validation (even if you are not using "
+"Hibernate for persistence)."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:208
+#, no-c-format
+msgid ""
+"The EJB standard <literal>@Id</literal> annotation indicates the primary key "
+"attribute of the entity bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:214
+#, no-c-format
+msgid ""
+"The most important things to notice in this example are the <literal>@Name</"
+"literal> and <literal>@Scope</literal> annotations. These annotations "
+"establish that this class is a Seam component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:216
+#, no-c-format
+msgid ""
+"We'll see below that the properties of our <literal>User</literal> class are "
+"bound directly to JSF components and are populated by JSF during the update "
+"model values phase. We don't need any tedious glue code to copy data back "
+"and forth between the JSP pages and the entity bean domain model."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:220
+#, no-c-format
+msgid ""
+"However, entity beans shouldn't do transaction management or database "
+"access. So we can't use this component as a JSF action listener. For that we "
+"need a session bean."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:226
+#, no-c-format
+msgid ""
+"The stateless session bean class: <literal>RegisterAction.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:228
+#, no-c-format
+msgid ""
+"Most Seam application use session beans as JSF action listeners (you can use "
+"JavaBeans instead if you like)."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:230
+#, no-c-format
+msgid ""
+"We have exactly one JSF action in our application, and one session bean "
+"method attached to it. In this case, we'll use a stateless session bean, "
+"since all the state associated with our action is held by the <literal>User</"
+"literal> bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:234
+#, no-c-format
+msgid "This is the only really interesting code in the example!"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:237
+#, no-c-format
+msgid "RegisterAction.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:250
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"register\")\n"
+"public class RegisterAction implements Register\n"
+"{\n"
+"   @In\n"
+"   private User user;\n"
+"   \n"
+"   @PersistenceContext\n"
+"   private EntityManager em;\n"
+"   \n"
+"   @Logger\n"
+"   private Log log;\n"
+"   \n"
+"   public String register()\n"
+"   {\n"
+"      List existing = em.createQuery(\n"
+"         \"select username from User where username = #{user.username}\")\n"
+"         .getResultList();\n"
+"         \n"
+"      if (existing.size()==0)\n"
+"      {\n"
+"         em.persist(user);\n"
+"         log.info(\"Registered new user #{user.username}\");\n"
+"         return \"/registered.xhtml\";\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         FacesMessages.instance().add(\"User #{user.username} already exists"
+"\");\n"
+"         return null;\n"
+"      }\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:254
+#, no-c-format
+msgid ""
+"The EJB <literal>@Stateless</literal> annotation marks this class as a "
+"stateless session bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:258
+#, no-c-format
+msgid ""
+"The <link linkend=\"in-annotation\"> <literal>@In</literal> </link> "
+"annotation marks an attribute of the bean as injected by Seam. In this case, "
+"the attribute is injected from a context variable named <literal>user</"
+"literal> (the instance variable name)."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:265
+#, no-c-format
+msgid ""
+"The EJB standard <literal>@PersistenceContext</literal> annotation is used "
+"to inject the EJB3 entity manager."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:269
+#, no-c-format
+msgid ""
+"The Seam <literal>@Logger</literal> annotation is used to inject the "
+"component's <literal>Log</literal> instance."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:273
+#, no-c-format
+msgid ""
+"The action listener method uses the standard EJB3 <literal>EntityManager</"
+"literal> API to interact with the database, and returns the JSF outcome. "
+"Note that, since this is a session bean, a transaction is automatically "
+"begun when the <literal>register()</literal> method is called, and committed "
+"when it completes."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:280
+#, no-c-format
+msgid ""
+"Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the "
+"covers, this results in an ordinary JPA <literal>setParameter()</literal> "
+"call on the standard JPA <literal>Query</literal> object. Nice, huh?"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:285
+#, no-c-format
+msgid ""
+"The <literal>Log</literal> API lets us easily display templated log messages "
+"which can also make use of JSF EL expressions."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:290
+#, no-c-format
+msgid ""
+"JSF action listener methods return a string-valued outcome that determines "
+"what page will be displayed next. A null outcome (or a void action listener "
+"method) redisplays the previous page. In plain JSF, it is normal to always "
+"use a JSF <emphasis>navigation rule</emphasis> to determine the JSF view id "
+"from the outcome. For complex application this indirection is useful and a "
+"good practice. However, for very simple examples like this one, Seam lets "
+"you use the JSF view id as the outcome, eliminating the requirement for a "
+"navigation rule. <emphasis>Note that when you use a view id as an outcome, "
+"Seam always performs a browser redirect.</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:302
+#, no-c-format
+msgid ""
+"Seam provides a number of <emphasis>built-in components</emphasis> to help "
+"solve common problems. The <literal>FacesMessages</literal> component makes "
+"it easy to display templated error or success messages. (As of Seam 2.1, you "
+"can use <literal>StatusMessages</literal> instead to remove the semantic "
+"dependency on JSF). Built-in Seam components may be obtained by injection, "
+"or by calling the <literal>instance()</literal> method on the class of the "
+"built-in component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:314
+#, no-c-format
+msgid ""
+"Note that we did not explicitly specify a <literal>@Scope</literal> this "
+"time. Each Seam component type has a default scope if not explicitly "
+"specified. For stateless session beans, the default scope is the stateless "
+"context, which is the only sensible value."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:318
+#, no-c-format
+msgid ""
+"Our session bean action listener performs the business and persistence logic "
+"for our mini-application. In more complex applications, we might need "
+"require a separate service layer. This is easy to achieve with Seam, but "
+"it's overkill for most web applications. Seam does not force you into any "
+"particular strategy for application layering, allowing your application to "
+"be as simple, or as complex, as you want."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:324
+#, no-c-format
+msgid ""
+"Note that in this simple application, we've actually made it far more "
+"complex than it needs to be. If we had used the Seam application framework "
+"controllers, we would have eliminated all of our application code. However, "
+"then we wouldn't have had much of an application to explain."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:333
+#, no-c-format
+msgid "The session bean local interface: <literal>Register.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:335
+#, no-c-format
+msgid "Naturally, our session bean needs a local interface."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:337
+#, no-c-format
+msgid "Register.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:338
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface Register\n"
+"{\n"
+"   public String register();\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:341
+#, no-c-format
+msgid "That's the end of the Java code. Now we'll look at the view."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:346
+#, no-c-format
+msgid ""
+"The view: <literal>register.xhtml</literal> and <literal>registered.xhtml</"
+"literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:348
+#, no-c-format
+msgid ""
+"The view pages for a Seam application could be implemented using any "
+"technology that supports JSF. In this example we use Facelets, because we "
+"think it's better than JSP."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:352
+#, no-c-format
+msgid "register.xhtml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:353
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \n"
+"    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
+"<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"    xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
+"    xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"    xmlns:f=\"http://java.sun.com/jsf/core\">\n"
+"\n"
+"   <head>\n"
+"      <title>Register New User</title>\n"
+"   </head>\n"
+"   <body>\n"
+"      <f:view>\n"
+"         <h:form>\n"
+"            <s:validateAll>\n"
+"               <h:panelGrid columns=\"2\">\n"
+"                  Username: <h:inputText value=\"#{user.username}\" required="
+"\"true\"/>\n"
+"                  Real Name: <h:inputText value=\"#{user.name}\" required="
+"\"true\"/>\n"
+"                  Password: <h:inputSecret value=\"#{user.password}\" "
+"required=\"true\"/>\n"
+"               </h:panelGrid>\n"
+"            </s:validateAll>\n"
+"            <h:messages/>\n"
+"            <h:commandButton value=\"Register\" action=\"#{register.register}"
+"\"/>\n"
+"         </h:form>\n"
+"      </f:view>\n"
+"   </body>\n"
+"\n"
+"</html>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:356
+#, no-c-format
+msgid ""
+"The only thing here that is specific to Seam is the <literal>&lt;s:"
+"validateAll&gt;</literal> tag. This JSF component tells JSF to validate all "
+"the contained input fields against the Hibernate Validator annotations "
+"specified on the entity bean."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:361
+#, no-c-format
+msgid "registered.xhtml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:362
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \n"
+"    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
+"<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"    xmlns:f=\"http://java.sun.com/jsf/core\">\n"
+"\n"
+"    <head>\n"
+"        <title>Successfully Registered New User</title>\n"
+"    </head>\n"
+"    <body>\n"
+"        <f:view>\n"
+"            Welcome, #{user.name}, you are successfully registered as #{user."
+"username}.\n"
+"        </f:view>\n"
+"    </body>\n"
+"\n"
+"</html>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:366
+#, no-c-format
+msgid ""
+"This is a simple Facelets page using some inline EL. There's nothing "
+"specific to Seam here."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:371
+#, no-c-format
+msgid ""
+"The Seam component deployment descriptor: <literal>components.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:373
+#, no-c-format
+msgid ""
+"Since this is the first Seam app we've seen, we'll take a look at the "
+"deployment descriptors. Before we get into them, it is worth noting that "
+"Seam strongly values minimal configuration. These configuration files will "
+"be created for you when you create a Seam application. You'll never need to "
+"touch most of these files. We're presenting them now only to help you "
+"understand what all the pieces in the example are doing."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:380
+#, no-c-format
+msgid ""
+"If you've used many Java frameworks before, you'll be used to having to "
+"declare all your component classes in some kind of XML file that gradually "
+"grows more and more unmanageable as your project matures. You'll be relieved "
+"to know that Seam does not require that application components be "
+"accompanied by XML. Most Seam applications require a very small amount of "
+"XML that does not grow very much as the project gets bigger."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:386
+#, no-c-format
+msgid ""
+"Nevertheless, it is often useful to be able to provide for <emphasis>some</"
+"emphasis> external configuration of <emphasis>some</emphasis> components "
+"(particularly the components built in to Seam). You have a couple of options "
+"here, but the most flexible option is to provide this configuration in a "
+"file called <literal>components.xml</literal>, located in the <literal>WEB-"
+"INF</literal> directory. We'll use the <literal>components.xml</literal> "
+"file to tell Seam how to find our EJB components in JNDI:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:393
+#, no-c-format
+msgid "components.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:394
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://jboss.com/products/seam/core\n"
+"        http://jboss.com/products/seam/core-2.1.xsd \n"
+"        http://jboss.com/products/seam/components\n"
+"        http://jboss.com/products/seam/components-2.1.xsd\">\n"
+"            \n"
+"    <core:init jndi-pattern=\"@jndiPattern@\"/>\n"
+"     \n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:396
+#, no-c-format
+msgid ""
+"This code configures a property named <literal>jndiPattern</literal> of a "
+"built-in Seam component named <literal>org.jboss.seam.core.init</literal>. "
+"The funny <literal>@</literal> symbols are there because our Ant build "
+"script puts the correct JNDI pattern in when we deploy the application, "
+"which it reads from the components.properties file. You learn more about how "
+"this process works in <xref linkend=\"xml.descriptor\"/>."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:405
+#, no-c-format
+msgid "The web deployment description: <literal>web.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:407
+#, no-c-format
+msgid ""
+"The presentation layer for our mini-application will be deployed in a WAR. "
+"So we'll need a web deployment descriptor."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:410
+#, no-c-format
+msgid "web.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:411
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\"\n"
+"    version=\"2.5\">\n"
+"\n"
+"    <listener>\n"
+"        <listener-class>org.jboss.seam.servlet.SeamListener</listener-"
+"class>\n"
+"    </listener>\n"
+"    \n"
+"    <context-param>\n"
+"        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>\n"
+"        <param-value>.xhtml</param-value>\n"
+"    </context-param>\n"
+"              \n"
+"    <servlet>\n"
+"        <servlet-name>Faces Servlet</servlet-name>\n"
+"        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>\n"
+"        <load-on-startup>1</load-on-startup>\n"
+"    </servlet>\n"
+"\n"
+"    <servlet-mapping>\n"
+"        <servlet-name>Faces Servlet</servlet-name>\n"
+"        <url-pattern>*.seam</url-pattern>\n"
+"    </servlet-mapping>\n"
+"              \n"
+"    <session-config>\n"
+"        <session-timeout>10</session-timeout>\n"
+"    </session-config>\n"
+"\n"
+"</web-app>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:414
+#, no-c-format
+msgid ""
+"This <literal>web.xml</literal> file configures Seam and JSF. The "
+"configuration you see here is pretty much identical in all Seam applications."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:420
+#, no-c-format
+msgid "The JSF configration: <literal>faces-config.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:422
+#, no-c-format
+msgid ""
+"Most Seam applications use JSF views as the presentation layer. So usually "
+"we'll need <literal>faces-config.xml</literal>. In our case, we are going to "
+"use Facelets for defining our views, so we need to tell JSF to use Facelets "
+"as its templating engine."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:427
+#, no-c-format
+msgid "faces-config.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:428
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<faces-config xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd\"\n"
+"    version=\"1.2\">\n"
+"\n"
+"    <application>\n"
+"        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>\n"
+"    </application>\n"
+"    \n"
+"</faces-config>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:432
+#, no-c-format
+msgid ""
+"Note that we don't need any JSF managed bean declarations! Our managed beans "
+"are annotated Seam components. In Seam applications, the <literal>faces-"
+"config.xml</literal> is used much less often than in plain JSF. Here, we are "
+"simply using it to enable Facelets as the view handler instead of JSP."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:437
+#, no-c-format
+msgid ""
+"In fact, once you have all the basic descriptors set up, the <emphasis>only</"
+"emphasis> XML you need to write as you add new functionality to a Seam "
+"application is orchestration: navigation rules or jBPM process definitions. "
+"Seam's stand is that <emphasis>process flow</emphasis> and "
+"<emphasis>configuration data</emphasis> are the only things that truly "
+"belong in XML."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:442
+#, no-c-format
+msgid ""
+"In this simple example, we don't even need a navigation rule, since we "
+"decided to embed the view id in our action code."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:448
+#, no-c-format
+msgid "The EJB deployment descriptor: <literal>ejb-jar.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:450
+#, no-c-format
+msgid ""
+"The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by "
+"attaching the <literal>SeamInterceptor</literal> to all session beans in the "
+"archive."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:453
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<ejb-jar xmlns=\"http://java.sun.com/xml/ns/javaee\" \n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" \n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd\"\n"
+"    version=\"3.0\">\n"
+"         \n"
+"    <interceptors>\n"
+"        <interceptor>\n"
+"            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</"
+"interceptor-class>\n"
+"        </interceptor>\n"
+"    </interceptors>\n"
+"   \n"
+"    <assembly-descriptor>\n"
+"        <interceptor-binding>\n"
+"            <ejb-name>*</ejb-name>\n"
+"            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</"
+"interceptor-class>\n"
+"        </interceptor-binding>\n"
+"    </assembly-descriptor>\n"
+"   \n"
+"</ejb-jar>]]>"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:458
+#, no-c-format
+msgid ""
+"The EJB persistence deployment descriptor: <literal>persistence.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:460
+#, no-c-format
+msgid ""
+"The <literal>persistence.xml</literal> file tells the EJB persistence "
+"provider where to find the datasource, and contains some vendor-specific "
+"settings. In this case, enables automatic schema export at startup time."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:464
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<persistence xmlns=\"http://java.sun.com/xml/ns/persistence\" \n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/persistence\n"
+"        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd\" \n"
+"    version=\"1.0\">\n"
+"\n"
+"    <persistence-unit name=\"userDatabase\">\n"
+"        <provider>org.hibernate.ejb.HibernatePersistence</provider>\n"
+"        <jta-data-source>java:/DefaultDS</jta-data-source>\n"
+"        <properties>\n"
+"            <property name=\"hibernate.hbm2ddl.auto\" value=\"create-drop\"/"
+">\n"
+"        </properties>\n"
+"    </persistence-unit>\n"
+"    \n"
+"</persistence>]]>"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:469
+#, no-c-format
+msgid "The EAR deployment descriptor: <literal>application.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:471
+#, no-c-format
+msgid ""
+"Finally, since our application is deployed as an EAR, we need a deployment "
+"descriptor there, too."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:473
+#, no-c-format
+msgid "registration application"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:474
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<application xmlns=\"http://java.sun.com/xml/ns/javaee\" \n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/application_5.xsd\"\n"
+"    version=\"5\">\n"
+"             \n"
+"    <display-name>Seam Registration</display-name>\n"
+"\n"
+"    <module>\n"
+"        <web>\n"
+"            <web-uri>jboss-seam-registration.war</web-uri>\n"
+"            <context-root>/seam-registration</context-root>\n"
+"        </web>\n"
+"    </module>\n"
+"    <module>\n"
+"        <ejb>jboss-seam-registration.jar</ejb>\n"
+"    </module>\n"
+"    <module>\n"
+"        <ejb>jboss-seam.jar</ejb>\n"
+"    </module>\n"
+"    <module>\n"
+"        <java>jboss-el.jar</java>\n"
+"    </module>\n"
+"\n"
+"</application>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:477
+#, no-c-format
+msgid ""
+"This deployment descriptor links modules in the enterprise archive and binds "
+"the web application to the context root <literal>/seam-registration</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:480
+#, no-c-format
+msgid ""
+"We've now seen <emphasis>all</emphasis> the files in the entire application!"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:486 Tutorial.xml:673 Tutorial.xml:889 Tutorial.xml:1072
+#, no-c-format
+msgid "How it works"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:488
+#, no-c-format
+msgid ""
+"When the form is submitted, JSF asks Seam to resolve the variable named "
+"<literal>user</literal>. Since there is no value already bound to that name "
+"(in any Seam context), Seam instantiates the <literal>user</literal> "
+"component, and returns the resulting <literal>User</literal> entity bean "
+"instance to JSF after storing it in the Seam session context."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:492
+#, no-c-format
+msgid ""
+"The form input values are now validated against the Hibernate Validator "
+"constraints specified on the <literal>User</literal> entity. If the "
+"constraints are violated, JSF redisplays the page. Otherwise, JSF binds the "
+"form input values to properties of the <literal>User</literal> entity bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:495
+#, no-c-format
+msgid ""
+"Next, JSF asks Seam to resolve the variable named <literal>register</"
+"literal>. Seam uses the JNDI pattern mentioned earlier to locate the "
+"stateless session bean, wraps it as a Seam component, and returns it. Seam "
+"then presents this component to JSF and JSF invokes the <literal>register()</"
+"literal> action listener method."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:499
+#, no-c-format
+msgid ""
+"But Seam is not done yet. Seam intercepts the method call and injects the "
+"<literal>User</literal> entity from the Seam session context, before "
+"allowing the invocation to continue."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:501
+#, no-c-format
+msgid ""
+"The <literal>register()</literal> method checks if a user with the entered "
+"username already exists. If so, an error message is queued with the "
+"<literal>FacesMessages</literal> component, and a null outcome is returned, "
+"causing a page redisplay. The <literal>FacesMessages</literal> component "
+"interpolates the JSF expression embedded in the message string and adds a "
+"JSF <literal>FacesMessage</literal> to the view."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:506
+#, no-c-format
+msgid ""
+"If no user with that username exists, the <literal>\"/registered.xhtml\"</"
+"literal> outcome triggers a browser redirect to the <literal>registered."
+"xhtml</literal> page. When JSF comes to render the page, it asks Seam to "
+"resolve the variable named <literal>user</literal> and uses property values "
+"of the returned <literal>User</literal> entity from Seam's session scope."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:516
+#, no-c-format
+msgid "Clickable lists in Seam: the messages example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:518
+#, no-c-format
+msgid ""
+"Clickable lists of database search results are such an important part of any "
+"online application that Seam provides special functionality on top of JSF to "
+"make it easier to query data using EJB-QL or HQL and display it as a "
+"clickable list using a JSF <literal>&lt;h:dataTable&gt;</literal>. The "
+"messages example demonstrates this functionality."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:534
+#, no-c-format
+msgid ""
+"The message list example has one entity bean, <literal>Message</literal>, "
+"one session bean, <literal>MessageListBean</literal> and one JSP."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:538
+#, no-c-format
+msgid "The entity bean: <literal>Message.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:540
+#, no-c-format
+msgid ""
+"The <literal>Message</literal> entity defines the title, text, date and time "
+"of a message, and a flag indicating whether the message has been read:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:544
+#, no-c-format
+msgid "Message.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:545
+#, no-c-format
+msgid ""
+"<![CDATA[@Entity\n"
+"@Name(\"message\")\n"
+"@Scope(EVENT)\n"
+"public class Message implements Serializable\n"
+"{\n"
+"   private Long id;\n"
+"   private String title;\n"
+"   private String text;\n"
+"   private boolean read;\n"
+"   private Date datetime;\n"
+"   \n"
+"   @Id @GeneratedValue\n"
+"   public Long getId()\n"
+"   {\n"
+"      return id;\n"
+"   }\n"
+"   public void setId(Long id)\n"
+"   {\n"
+"      this.id = id;\n"
+"   }\n"
+"   \n"
+"   @NotNull @Length(max=100)\n"
+"   public String getTitle()\n"
+"   {\n"
+"      return title;\n"
+"   }\n"
+"   public void setTitle(String title)\n"
+"   {\n"
+"      this.title = title;\n"
+"   }\n"
+"   \n"
+"   @NotNull @Lob\n"
+"   public String getText()\n"
+"   {\n"
+"      return text;\n"
+"   }\n"
+"   public void setText(String text)\n"
+"   {\n"
+"      this.text = text;\n"
+"   }\n"
+"   \n"
+"   @NotNull\n"
+"   public boolean isRead()\n"
+"   {\n"
+"      return read;\n"
+"   }\n"
+"   public void setRead(boolean read)\n"
+"   {\n"
+"      this.read = read;\n"
+"   }\n"
+"   \n"
+"   @NotNull \n"
+"   @Basic @Temporal(TemporalType.TIMESTAMP)\n"
+"   public Date getDatetime()\n"
+"   {\n"
+"      return datetime;\n"
+"   }\n"
+"   public void setDatetime(Date datetime)\n"
+"   {\n"
+"      this.datetime = datetime;\n"
+"   }\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:551
+#, no-c-format
+msgid "The stateful session bean: <literal>MessageManagerBean.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:553
+#, no-c-format
+msgid ""
+"Just like in the previous example, we have a session bean, "
+"<literal>MessageManagerBean</literal>, which defines the action listener "
+"methods for the two buttons on our form. One of the buttons selects a "
+"message from the list, and displays that message. The other button deletes a "
+"message. So far, this is not so different to the previous example."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:558
+#, no-c-format
+msgid ""
+"But <literal>MessageManagerBean</literal> is also responsible for fetching "
+"the list of messages the first time we navigate to the message list page. "
+"There are various ways the user could navigate to the page, and not all of "
+"them are preceded by a JSF action &#8212; the user might have bookmarked the "
+"page, for example. So the job of fetching the message list takes place in a "
+"Seam <emphasis>factory method</emphasis>, instead of in an action listener "
+"method."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:564
+#, no-c-format
+msgid ""
+"We want to cache the list of messages in memory between server requests, so "
+"we will make this a stateful session bean."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:568
+#, no-c-format
+msgid "MessageManagerBean.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:580
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Scope(SESSION)\n"
+"@Name(\"messageManager\")\n"
+"public class MessageManagerBean implements Serializable, MessageManager\n"
+"{\n"
+"   @DataModel\n"
+"   private List<Message> messageList;\n"
+"   \n"
+"   @DataModelSelection\n"
+"   @Out(required=false)\n"
+"   private Message message;\n"
+"   \n"
+"   @PersistenceContext(type=EXTENDED)\n"
+"   private EntityManager em;\n"
+"   \n"
+"   @Factory(\"messageList\")\n"
+"   public void findMessages()\n"
+"   {\n"
+"      messageList = em.createQuery(\"select msg from Message msg order by "
+"msg.datetime desc\")\n"
+"                      .getResultList();\n"
+"   }\n"
+"   \n"
+"   public void select()\n"
+"   {\n"
+"      message.setRead(true);\n"
+"   }\n"
+"   \n"
+"   public void delete()\n"
+"   {\n"
+"      messageList.remove(message);\n"
+"      em.remove(message);\n"
+"      message=null;\n"
+"   }\n"
+"   \n"
+"   @Remove\n"
+"   public void destroy() {}\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:583
+#, no-c-format
+msgid ""
+"The <literal>@DataModel</literal> annotation exposes an attibute of type "
+"<literal>java.util.List</literal> to the JSF page as an instance of "
+"<literal>javax.faces.model.DataModel</literal>. This allows us to use the "
+"list in a JSF <literal>&lt;h:dataTable&gt;</literal> with clickable links "
+"for each row. In this case, the <literal>DataModel</literal> is made "
+"available in a session context variable named <literal>messageList</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:591
+#, no-c-format
+msgid ""
+"The <literal>@DataModelSelection</literal> annotation tells Seam to inject "
+"the <literal>List</literal> element that corresponded to the clicked link."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:595
+#, no-c-format
+msgid ""
+"The <literal>@Out</literal> annotation then exposes the selected value "
+"directly to the page. So every time a row of the clickable list is selected, "
+"the <literal>Message</literal> is injected to the attribute of the stateful "
+"bean, and the subsequently <emphasis>outjected</emphasis> to the event "
+"context variable named <literal>message</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:602
+#, no-c-format
+msgid ""
+"This stateful bean has an EJB3 <emphasis>extended persistence context</"
+"emphasis>. The messages retrieved in the query remain in the managed state "
+"as long as the bean exists, so any subsequent method calls to the stateful "
+"bean can update them without needing to make any explicit call to the "
+"<literal>EntityManager</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:608
+#, no-c-format
+msgid ""
+"The first time we navigate to the JSP page, there will be no value in the "
+"<literal>messageList</literal> context variable. The <literal>@Factory</"
+"literal> annotation tells Seam to create an instance of "
+"<literal>MessageManagerBean</literal> and invoke the <literal>findMessages()"
+"</literal> method to initialize the value. We call <literal>findMessages()</"
+"literal> a <emphasis>factory method</emphasis> for <literal>messages</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:616
+#, no-c-format
+msgid ""
+"The <literal>select()</literal> action listener method marks the selected "
+"<literal>Message</literal> as read, and updates it in the database."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:620
+#, no-c-format
+msgid ""
+"The <literal>delete()</literal> action listener method removes the selected "
+"<literal>Message</literal> from the database."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:624
+#, no-c-format
+msgid ""
+"All stateful session bean Seam components <emphasis>must</emphasis> have a "
+"method with no parameters marked <literal>@Remove</literal> that Seam uses "
+"to remove the stateful bean when the Seam context ends, and clean up any "
+"server-side state."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:633
+#, no-c-format
+msgid ""
+"Note that this is a session-scoped Seam component. It is associated with the "
+"user login session, and all requests from a login session share the same "
+"instance of the component. (In Seam applications, we usually use session-"
+"scoped components sparingly.)"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:640
+#, no-c-format
+msgid ""
+"The session bean local interface: <literal>MessageManager.java</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:642
+#, no-c-format
+msgid "All session beans have a business interface, of course."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:644
+#, no-c-format
+msgid "MessageManager.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:646
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface MessageManager\n"
+"{\n"
+"   public void findMessages();\n"
+"   public void select();\n"
+"   public void delete();\n"
+"   public void destroy();\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:648
+#, no-c-format
+msgid "From now on, we won't show local interfaces in our code examples."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:650
+#, no-c-format
+msgid ""
+"Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</"
+"literal>, <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, "
+"<literal>faces-config.xml</literal> and <literal>application.xml</literal> "
+"since they are much the same as the previous example, and go straight to the "
+"JSP."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:658
+#, no-c-format
+msgid "The view: <literal>messages.jsp</literal>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:660
+#, no-c-format
+msgid ""
+"The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;"
+"</literal> component. Again, nothing specific to Seam."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:663
+#, no-c-format
+msgid "messages.jsp"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:664
+#, no-c-format
+msgid ""
+"<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\" %>\n"
+"<%@ taglib uri=\"http://java.sun.com/jsf/core\" prefix=\"f\" %>\n"
+"<html>\n"
+" <head>\n"
+"  <title>Messages</title>\n"
+" </head>\n"
+" <body>\n"
+"  <f:view>\n"
+"   <h:form>\n"
+"     <h2>Message List</h2>\n"
+"     <h:outputText value=\"No messages to display\" \n"
+"                   rendered=\"#{messageList.rowCount==0}\"/>\n"
+"     <h:dataTable var=\"msg\" value=\"#{messageList}\" \n"
+"                  rendered=\"#{messageList.rowCount>0}\">\n"
+"        <h:column>\n"
+"           <f:facet name=\"header\">\n"
+"              <h:outputText value=\"Read\"/>\n"
+"           </f:facet>\n"
+"           <h:selectBooleanCheckbox value=\"#{msg.read}\" disabled=\"true\"/"
+">\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"           <f:facet name=\"header\">\n"
+"              <h:outputText value=\"Title\"/>\n"
+"           </f:facet>\n"
+"           <h:commandLink value=\"#{msg.title}\" action=\"#{messageManager."
+"select}\"/>\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"           <f:facet name=\"header\">\n"
+"              <h:outputText value=\"Date/Time\"/>\n"
+"           </f:facet>\n"
+"           <h:outputText value=\"#{msg.datetime}\">\n"
+"              <f:convertDateTime type=\"both\" dateStyle=\"medium\" "
+"timeStyle=\"short\"/>\n"
+"           </h:outputText>\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"           <h:commandButton value=\"Delete\" action=\"#{messageManager."
+"delete}\"/>\n"
+"        </h:column>\n"
+"     </h:dataTable>\n"
+"     <h3><h:outputText value=\"#{message.title}\"/></h3>\n"
+"     <div><h:outputText value=\"#{message.text}\"/></div>\n"
+"   </h:form>\n"
+"  </f:view>\n"
+" </body>\n"
+"</html>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:675
+#, no-c-format
+msgid ""
+"The first time we navigate to the <literal>messages.jsp</literal> page, the "
+"page will try to resolve the <literal>messageList</literal> context "
+"variable. Since this context variable is not initialized, Seam will call the "
+"factory method <literal>findMessages()</literal>, which performs a query "
+"against the database and results in a <literal>DataModel</literal> being "
+"outjected. This <literal>DataModel</literal> provides the row data needed "
+"for rendering the <literal>&lt;h:dataTable&gt;</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:682
+#, no-c-format
+msgid ""
+"When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls "
+"the <literal>select()</literal> action listener. Seam intercepts this call "
+"and injects the selected row data into the <literal>message</literal> "
+"attribute of the <literal>messageManager</literal> component. The action "
+"listener fires, marking the selected <literal>Message</literal> as read. At "
+"the end of the call, Seam outjects the selected <literal>Message</literal> "
+"to the context variable named <literal>message</literal>. Next, the EJB "
+"container commits the transaction, and the change to the <literal>Message</"
+"literal> is flushed to the database. Finally, the page is re-rendered, "
+"redisplaying the message list, and displaying the selected message below it."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:691
+#, no-c-format
+msgid ""
+"If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls "
+"the <literal>delete()</literal> action listener. Seam intercepts this call "
+"and injects the selected row data into the <literal>message</literal> "
+"attribute of the <literal>messageList</literal> component. The action "
+"listener fires, removing the selected <literal>Message</literal> from the "
+"list, and also calling <literal>remove()</literal> on the "
+"<literal>EntityManager</literal>. At the end of the call, Seam refreshes the "
+"<literal>messageList</literal> context variable and clears the context "
+"variable named <literal>message</literal>. The EJB container commits the "
+"transaction, and deletes the <literal>Message</literal> from the database. "
+"Finally, the page is re-rendered, redisplaying the message list."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:706
+#, no-c-format
+msgid "Seam and jBPM: the todo list example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:708
+#, no-c-format
+msgid ""
+"jBPM provides sophisticated functionality for workflow and task management. "
+"To get a small taste of how jBPM integrates with Seam, we'll show you a "
+"simple \"todo list\" application. Since managing lists of tasks is such core "
+"functionality for jBPM, there is hardly any Java code at all in this example."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:723
+#, no-c-format
+msgid ""
+"The center of this example is the jBPM process definition. There are also "
+"two JSPs and two trivial JavaBeans (There was no reason to use session "
+"beans, since they do not access the database, or have any other "
+"transactional behavior). Let's start with the process definition:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:728
+#, no-c-format
+msgid "todo.jpdl.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:737
+#, no-c-format
+msgid ""
+"<![CDATA[<process-definition name=\"todo\">\n"
+"   \n"
+"   <start-state name=\"start\">\n"
+"      <transition to=\"todo\"/>\n"
+"   </start-state>\n"
+"   \n"
+"   <task-node name=\"todo\">\n"
+"      <task name=\"todo\" description=\"#{todoList.description}\">\n"
+"         <assignment actor-id=\"#{actor.id}\"/>\n"
+"      </task>\n"
+"      <transition to=\"done\"/>\n"
+"   </task-node>\n"
+"   \n"
+"   <end-state name=\"done\"/>\n"
+"   \n"
+"</process-definition>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:740
+#, no-c-format
+msgid ""
+"The <literal>&lt;start-state&gt;</literal> node represents the logical start "
+"of the process. When the process starts, it immediately transitions to the "
+"<literal>todo</literal> node."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:745
+#, no-c-format
+msgid ""
+"The <literal>&lt;task-node&gt;</literal> node represents a <emphasis>wait "
+"state</emphasis>, where business process execution pauses, waiting for one "
+"or more tasks to be performed."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:750
+#, no-c-format
+msgid ""
+"The <literal>&lt;task&gt;</literal> element defines a task to be performed "
+"by a user. Since there is only one task defined on this node, when it is "
+"complete, execution resumes, and we transition to the end state. The task "
+"gets its description from a Seam component named <literal>todoList</literal> "
+"(one of the JavaBeans)."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:756
+#, no-c-format
+msgid ""
+"Tasks need to be assigned to a user or group of users when they are created. "
+"In this case, the task is assigned to the current user, which we get from a "
+"built-in Seam component named <literal>actor</literal>. Any Seam component "
+"may be used to perform task assignment."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:762
+#, no-c-format
+msgid ""
+"The <literal>&lt;end-state&gt;</literal> node defines the logical end of the "
+"business process. When execution reaches this node, the process instance is "
+"destroyed."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:771
+#, no-c-format
+msgid ""
+"If we view this process definition using the process definition editor "
+"provided by JBossIDE, this is what it looks like:"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:783
+#, no-c-format
+msgid ""
+"This document defines our <emphasis>business process</emphasis> as a graph "
+"of nodes. This is the most trivial possible business process: there is one "
+"<emphasis>task</emphasis> to be performed, and when that task is complete, "
+"the business process ends."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:787
+#, no-c-format
+msgid ""
+"The first JavaBean handles the login screen <literal>login.jsp</literal>. "
+"Its job is just to initialize the jBPM actor id using the <literal>actor</"
+"literal> component. In a real application, it would also need to "
+"authenticate the user."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:791
+#, no-c-format
+msgid "Login.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:792
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"login\")\n"
+"public class Login\n"
+"{\n"
+"   @In\n"
+"   private Actor actor;\n"
+"   \n"
+"   private String user;\n"
+"\n"
+"   public String getUser()\n"
+"   {\n"
+"      return user;\n"
+"   }\n"
+"\n"
+"   public void setUser(String user)\n"
+"   {\n"
+"      this.user = user;\n"
+"   }\n"
+"   \n"
+"   public String login()\n"
+"   {\n"
+"      actor.setId(user);\n"
+"      return \"/todo.jsp\";\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:796
+#, no-c-format
+msgid ""
+"Here we see the use of <literal>@In</literal> to inject the built-in "
+"<literal>Actor</literal> component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:799
+#, no-c-format
+msgid "The JSP itself is trivial:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:802
+#, no-c-format
+msgid "login.jsp"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:803
+#, no-c-format
+msgid ""
+"<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\"%>\n"
+"<%@ taglib uri=\"http://java.sun.com/jsf/core\" prefix=\"f\"%>\n"
+"<html>\n"
+"<head>\n"
+"<title>Login</title>\n"
+"</head>\n"
+"<body>\n"
+"<h1>Login</h1>\n"
+"<f:view>\n"
+"    <h:form>\n"
+"      <div>\n"
+"        <h:inputText value=\"#{login.user}\"/>\n"
+"        <h:commandButton value=\"Login\" action=\"#{login.login}\"/>\n"
+"      </div>\n"
+"    </h:form>\n"
+"</f:view>\n"
+"</body>\n"
+"</html>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:807
+#, no-c-format
+msgid ""
+"The second JavaBean is responsible for starting business process instances, "
+"and ending tasks."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:811
+#, no-c-format
+msgid "TodoList.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:818
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"todoList\")\n"
+"public class TodoList\n"
+"{\n"
+"   private String description;\n"
+"   \n"
+"   public String getDescription()\n"
+"   {\n"
+"      return description;\n"
+"   }\n"
+"\n"
+"   public void setDescription(String description)\n"
+"   {\n"
+"      this.description = description;\n"
+"   }\n"
+"   \n"
+"   @CreateProcess(definition=\"todo\")\n"
+"   public void createTodo() {}\n"
+"   \n"
+"   @StartTask @EndTask\n"
+"   public void done() {}\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:821
+#, no-c-format
+msgid ""
+"The description property accepts user input from the JSP page, and exposes "
+"it to the process definition, allowing the task description to be set."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:825
+#, no-c-format
+msgid ""
+"The Seam <literal>@CreateProcess</literal> annotation creates a new jBPM "
+"process instance for the named process definition."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:829
+#, no-c-format
+msgid ""
+"The Seam <literal>@StartTask</literal> annotation starts work on a task. The "
+"<literal>@EndTask</literal> ends the task, and allows the business process "
+"execution to resume."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:838
+#, no-c-format
+msgid ""
+"In a more realistic example, <literal>@StartTask</literal> and "
+"<literal>@EndTask</literal> would not appear on the same method, because "
+"there is usually work to be done using the application in order to complete "
+"the task."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:842
+#, no-c-format
+msgid "Finally, the core of the application is in <literal>todo.jsp</literal>:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:844 Tutorial.xml:854
+#, no-c-format
+msgid "todo.jsp"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:845
+#, no-c-format
+msgid ""
+"<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\" %>\n"
+"<%@ taglib uri=\"http://java.sun.com/jsf/core\" prefix=\"f\" %>\n"
+"<%@ taglib uri=\"http://jboss.com/products/seam/taglib\" prefix=\"s\" %>\n"
+"<html>\n"
+"<head>\n"
+"<title>Todo List</title>\n"
+"</head>\n"
+"<body>\n"
+"<h1>Todo List</h1>\n"
+"<f:view>\n"
+"   <h:form id=\"list\">\n"
+"      <div>\n"
+"         <h:outputText value=\"There are no todo items.\" \n"
+"                       rendered=\"#{empty taskInstanceList}\"/>\n"
+"         <h:dataTable value=\"#{taskInstanceList}\" var=\"task\" \n"
+"                      rendered=\"#{not empty taskInstanceList}\">\n"
+"            <h:column>\n"
+"                <f:facet name=\"header\">\n"
+"                    <h:outputText value=\"Description\"/>\n"
+"                </f:facet>\n"
+"                <h:inputText value=\"#{task.description}\"/>\n"
+"            </h:column>\n"
+"            <h:column>\n"
+"                <f:facet name=\"header\">\n"
+"                    <h:outputText value=\"Created\"/>\n"
+"                </f:facet>\n"
+"                <h:outputText value=\"#{task.taskMgmtInstance."
+"processInstance.start}\">\n"
+"                    <f:convertDateTime type=\"date\"/>\n"
+"                </h:outputText>\n"
+"            </h:column>\n"
+"            <h:column>\n"
+"                <f:facet name=\"header\">\n"
+"                    <h:outputText value=\"Priority\"/>\n"
+"                </f:facet>\n"
+"                <h:inputText value=\"#{task.priority}\" style=\"width: 30\"/"
+">\n"
+"            </h:column>\n"
+"            <h:column>\n"
+"                <f:facet name=\"header\">\n"
+"                    <h:outputText value=\"Due Date\"/>\n"
+"                </f:facet>\n"
+"                <h:inputText value=\"#{task.dueDate}\" style=\"width: 100"
+"\">\n"
+"                    <f:convertDateTime type=\"date\" dateStyle=\"short\"/>\n"
+"                </h:inputText>\n"
+"            </h:column>\n"
+"            <h:column>\n"
+"                <s:button value=\"Done\" action=\"#{todoList.done}\" "
+"taskInstance=\"#{task}\"/>\n"
+"            </h:column>\n"
+"         </h:dataTable>\n"
+"      </div>\n"
+"      <div>\n"
+"      <h:messages/>\n"
+"      </div>\n"
+"      <div>\n"
+"         <h:commandButton value=\"Update Items\" action=\"update\"/>\n"
+"      </div>\n"
+"   </h:form>\n"
+"   <h:form id=\"new\">\n"
+"      <div>\n"
+"         <h:inputText value=\"#{todoList.description}\"/>\n"
+"         <h:commandButton value=\"Create New Item\" action=\"#{todoList."
+"createTodo}\"/>\n"
+"      </div>\n"
+"   </h:form>\n"
+"</f:view>\n"
+"</body>\n"
+"</html>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:849
+#, no-c-format
+msgid "Let's take this one piece at a time."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:851
+#, no-c-format
+msgid ""
+"The page renders a list of tasks, which it gets from a built-in Seam "
+"component named <literal>taskInstanceList</literal>. The list is defined "
+"inside a JSF form."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:855
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form id=\"list\">\n"
+"   <div>\n"
+"      <h:outputText value=\"There are no todo items.\" rendered=\"#{empty "
+"taskInstanceList}\"/>\n"
+"      <h:dataTable value=\"#{taskInstanceList}\" var=\"task\" \n"
+"                   rendered=\"#{not empty taskInstanceList}\">\n"
+"         ...\n"
+"      </h:dataTable>\n"
+"   </div>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:858
+#, no-c-format
+msgid ""
+"Each element of the list is an instance of the jBPM class "
+"<literal>TaskInstance</literal>. The following code simply displays the "
+"interesting properties of each task in the list. For the description, "
+"priority and due date, we use input controls, to allow the user to update "
+"these values."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:862
+#, no-c-format
+msgid ""
+"<![CDATA[<h:column>\n"
+"    <f:facet name=\"header\">\n"
+"       <h:outputText value=\"Description\"/>\n"
+"    </f:facet>\n"
+"    <h:inputText value=\"#{task.description}\"/>\n"
+"</h:column>\n"
+"<h:column>\n"
+"    <f:facet name=\"header\">\n"
+"        <h:outputText value=\"Created\"/>\n"
+"    </f:facet>\n"
+"    <h:outputText value=\"#{task.taskMgmtInstance.processInstance.start}\">\n"
+"        <f:convertDateTime type=\"date\"/>\n"
+"    </h:outputText>\n"
+"</h:column>\n"
+"<h:column>\n"
+"    <f:facet name=\"header\">\n"
+"        <h:outputText value=\"Priority\"/>\n"
+"    </f:facet>\n"
+"    <h:inputText value=\"#{task.priority}\" style=\"width: 30\"/>\n"
+"</h:column>\n"
+"<h:column>\n"
+"    <f:facet name=\"header\">\n"
+"        <h:outputText value=\"Due Date\"/>\n"
+"    </f:facet>\n"
+"    <h:inputText value=\"#{task.dueDate}\" style=\"width: 100\">\n"
+"        <f:convertDateTime type=\"date\" dateStyle=\"short\"/>\n"
+"    </h:inputText>\n"
+"</h:column>]]>"
+msgstr ""
+
+#. Tag: note
+#: Tutorial.xml:864
+#, no-c-format
+msgid ""
+"Seam provides a default JSF date converter for converting a string to a date "
+"(no time). Thus, the converter is not necessary for the field bound to "
+"<literal>#{task.dueDate}</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:867
+#, no-c-format
+msgid ""
+"This button ends the task by calling the action method annotated "
+"<literal>@StartTask @EndTask</literal>. It passes the task id to Seam as a "
+"request parameter:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:870
+#, no-c-format
+msgid ""
+"<![CDATA[<h:column>\n"
+"    <s:button value=\"Done\" action=\"#{todoList.done}\" taskInstance=\"#"
+"{task}\"/>\n"
+"</h:column>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:872
+#, no-c-format
+msgid ""
+"Note that this is using a Seam <literal>&lt;s:button&gt;</literal> JSF "
+"control from the <literal>seam-ui.jar</literal> package. This button is used "
+"to update the properties of the tasks. When the form is submitted, Seam and "
+"jBPM will make any changes to the tasks persistent. There is no need for any "
+"action listener method:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:877
+#, no-c-format
+msgid "<![CDATA[<h:commandButton value=\"Update Items\" action=\"update\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:879
+#, no-c-format
+msgid ""
+"A second form on the page is used to create new items, by calling the action "
+"method annotated <literal>@CreateProcess</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:882
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form id=\"new\">\n"
+"    <div>\n"
+"        <h:inputText value=\"#{todoList.description}\"/>\n"
+"        <h:commandButton value=\"Create New Item\" action=\"#{todoList."
+"createTodo}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:890
+#, no-c-format
+msgid ""
+"After logging in, todo.jsp uses the <literal>taskInstanceList</literal> "
+"component to display a table of outstanding todo items for a the current "
+"user. Initially there are none. It also presents a form to enter a new "
+"entry. When the user types the todo item and hits the \"Create New Item\" "
+"button, <literal>#{todoList.createTodo}</literal> is called. This starts the "
+"todo process, as defined in <literal>todo.jpdl.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:896
+#, no-c-format
+msgid ""
+"The process instance is created, starting in the start state and immediately "
+"transition to the <literal>todo</literal> state, where a new task is "
+"created. The task description is set based on the user's input, which was "
+"saved to <literal>#{todoList.description}</literal>. Then, the task is "
+"assigned to the current user, which was stored in the seam actor component. "
+"Note that in this example, the process has no extra process state. All the "
+"state in this example is stored in the task definition. The process and task "
+"information is stored in the database at the end of the request."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:907
+#, no-c-format
+msgid ""
+"When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</"
+"literal> now finds the task that was just created. The task is shown in an "
+"<literal>h:dataTable</literal>. The internal state of the task is displayed "
+"in each column: <literal>#{task.description}</literal>, <literal>#{task."
+"priority}</literal>, <literal>#{task.dueDate}</literal>, etc... These fields "
+"can all be edited and saved back to the database."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:917
+#, no-c-format
+msgid ""
+"Each todo item also has \"Done\" button, which calls <literal>#{todoList."
+"done}</literal>. The <literal>todoList</literal> component knows which task "
+"the button is for because each s:button specificies <literal>taskInstance=\"#"
+"{task}\"</literal>, referring to the task for that particular line of of the "
+"table. The <literal>@StartTast</literal> and <literal>@EndTask</literal> "
+"annotations cause seam to make the task active and immediately complete the "
+"task. The original process then transitions into the <literal>done</literal> "
+"state, according to the process definition, where it ends. The state of the "
+"task and process are both updated in the database."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:928
+#, no-c-format
+msgid ""
+"When <literal>todo.jsp</literal> is displayed again, the now-completed task "
+"is no longer displayed in the <literal>taskInstanceList</literal>, since "
+"that component only display active tasks for the user."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:936
+#, no-c-format
+msgid "Seam pageflow: the numberguess example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:938
+#, no-c-format
+msgid ""
+"For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam "
+"navigation rules are a perfectly good way to define the page flow. For "
+"applications with a more constrained style of navigation, especially for "
+"user interfaces which are more stateful, navigation rules make it difficult "
+"to really understand the flow of the system. To understand the flow, you "
+"need to piece it together from the view pages, the actions and the "
+"navigation rules."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:944
+#, no-c-format
+msgid ""
+"Seam allows you to use a jPDL process definition to define pageflow. The "
+"simple number guessing example shows how this is done."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:958
+#, no-c-format
+msgid ""
+"The example is implemented using one JavaBean, three JSP pages and a jPDL "
+"pageflow definition. Let's begin with the pageflow:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:962
+#, no-c-format
+msgid "pageflow.jpdl.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:970
+#, no-c-format
+msgid ""
+"<![CDATA[<pageflow-definition \n"
+"        xmlns=\"http://jboss.com/products/seam/pageflow\"\n"
+"        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"        xsi:schemaLocation=\"http://jboss.com/products/seam/pageflow \n"
+"                            http://jboss.com/products/seam/pageflow-2.1.xsd"
+"\"\n"
+"        name=\"numberGuess\">\n"
+"   \n"
+"   <start-page name=\"displayGuess\" view-id=\"/numberGuess.jspx\">\n"
+"      <redirect/>\n"
+"      <transition name=\"guess\" to=\"evaluateGuess\">\n"
+"         <action expression=\"#{numberGuess.guess}\"/>\n"
+"      </transition>\n"
+"      <transition name=\"giveup\" to=\"giveup\"/>\n"
+"      <transition name=\"cheat\" to=\"cheat\"/>\n"
+"   </start-page>\n"
+"   \n"
+"   <decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}"
+"\">\n"
+"      <transition name=\"true\" to=\"win\"/>\n"
+"      <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <decision name=\"evaluateRemainingGuesses\" expression=\"#{numberGuess."
+"lastGuess}\">\n"
+"      <transition name=\"true\" to=\"lose\"/>\n"
+"      <transition name=\"false\" to=\"displayGuess\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <page name=\"giveup\" view-id=\"/giveup.jspx\">\n"
+"      <redirect/>\n"
+"      <transition name=\"yes\" to=\"lose\"/>\n"
+"      <transition name=\"no\" to=\"displayGuess\"/>\n"
+"   </page>\n"
+"   \n"
+"   <process-state name=\"cheat\">\n"
+"      <sub-process name=\"cheat\"/>\n"
+"      <transition to=\"displayGuess\"/>\n"
+"   </process-state>\n"
+"   \n"
+"   <page name=\"win\" view-id=\"/win.jspx\">\n"
+"      <redirect/>\n"
+"      <end-conversation/>\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"lose\" view-id=\"/lose.jspx\">\n"
+"      <redirect/>\n"
+"      <end-conversation/>\n"
+"   </page>\n"
+"   \n"
+"</pageflow-definition>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:973
+#, no-c-format
+msgid ""
+"The <literal>&lt;page&gt;</literal> element defines a wait state where the "
+"system displays a particular JSF view and waits for user input. The "
+"<literal>view-id</literal> is the same JSF view id used in plain JSF "
+"navigation rules. The <literal>redirect</literal> attribute tells Seam to "
+"use post-then-redirect when navigating to the page. (This results in "
+"friendly browser URLs.)"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:980
+#, no-c-format
+msgid ""
+"The <literal>&lt;transition&gt;</literal> element names a JSF outcome. The "
+"transition is triggered when a JSF action results in that outcome. Execution "
+"will then proceed to the next node of the pageflow graph, after invocation "
+"of any jBPM transition actions."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:986
+#, no-c-format
+msgid ""
+"A transition <literal>&lt;action&gt;</literal> is just like a JSF action, "
+"except that it occurs when a jBPM transition occurs. The transition action "
+"can invoke any Seam component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:991
+#, no-c-format
+msgid ""
+"A <literal>&lt;decision&gt;</literal> node branches the pageflow, and "
+"determines the next node to execute by evaluating a JSF EL expression."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:999
+#, no-c-format
+msgid ""
+"Here is what the pageflow looks like in the JBoss Developer Studio pageflow "
+"editor:"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1010
+#, no-c-format
+msgid ""
+"Now that we have seen the pageflow, it is very, very easy to understand the "
+"rest of the application!"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1012
+#, no-c-format
+msgid ""
+"Here is the main page of the application, <literal>numberGuess.jspx</"
+"literal>:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1015
+#, no-c-format
+msgid "numberGuess.jspx"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1016
+#, no-c-format
+msgid ""
+"<![CDATA[<<?xml version=\"1.0\"?>\n"
+"<jsp:root xmlns:jsp=\"http://java.sun.com/JSP/Page\" \n"
+"          xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"          xmlns:f=\"http://java.sun.com/jsf/core\"\n"
+"          xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
+"          xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"          version=\"2.0\">\n"
+"  <jsp:output doctype-root-element=\"html\" \n"
+"              doctype-public=\"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
+"              doctype-system=\"http://www.w3c.org/TR/xhtml1/DTD/xhtml1-"
+"transitional.dtd\"/>\n"
+"  <jsp:directive.page contentType=\"text/html\"/>\n"
+"  <html>\n"
+"  <head>\n"
+"    <title>Guess a number...</title>\n"
+"    <link href=\"niceforms.css\" rel=\"stylesheet\" type=\"text/css\" />\n"
+"    <script language=\"javascript\" type=\"text/javascript\" src=\"niceforms."
+"js\" />\n"
+"  </head>\n"
+"  <body>\n"
+"    <h1>Guess a number...</h1>\n"
+"    <f:view>\n"
+"      <h:form styleClass=\"niceform\">\n"
+"        \n"
+"        <div>\n"
+"        <h:messages globalOnly=\"true\"/>\n"
+"        <h:outputText value=\"Higher!\" \n"
+"               rendered=\"#{numberGuess.randomNumber gt numberGuess."
+"currentGuess}\"/>\n"
+"        <h:outputText value=\"Lower!\" \n"
+"               rendered=\"#{numberGuess.randomNumber lt numberGuess."
+"currentGuess}\"/>\n"
+"        </div>\n"
+"        \n"
+"        <div>\n"
+"        I'm thinking of a number between \n"
+"        <h:outputText value=\"#{numberGuess.smallest}\"/> and \n"
+"        <h:outputText value=\"#{numberGuess.biggest}\"/>. You have \n"
+"        <h:outputText value=\"#{numberGuess.remainingGuesses}\"/> guesses.\n"
+"        </div>\n"
+"        \n"
+"        <div>\n"
+"        Your guess: \n"
+"        <h:inputText value=\"#{numberGuess.currentGuess}\" id=\"inputGuess"
+"\" \n"
+"                     required=\"true\" size=\"3\" \n"
+"                     rendered=\"#{(numberGuess.biggest-numberGuess.smallest) "
+"gt 20}\">\n"
+"          <f:validateLongRange maximum=\"#{numberGuess.biggest}\" \n"
+"                               minimum=\"#{numberGuess.smallest}\"/>\n"
+"        </h:inputText>\n"
+"        <h:selectOneMenu value=\"#{numberGuess.currentGuess}\" \n"
+"                         id=\"selectGuessMenu\" required=\"true\"\n"
+"                         rendered=\"#{(numberGuess.biggest-numberGuess."
+"smallest) le 20 and \n"
+"                                     (numberGuess.biggest-numberGuess."
+"smallest) gt 4}\">\n"
+"          <s:selectItems value=\"#{numberGuess.possibilities}\" var=\"i\" "
+"label=\"#{i}\"/>\n"
+"        </h:selectOneMenu>\n"
+"        <h:selectOneRadio value=\"#{numberGuess.currentGuess}\" id="
+"\"selectGuessRadio\" \n"
+"                          required=\"true\"\n"
+"                          rendered=\"#{(numberGuess.biggest-numberGuess."
+"smallest) le 4}\">\n"
+"          <s:selectItems value=\"#{numberGuess.possibilities}\" var=\"i\" "
+"label=\"#{i}\"/>\n"
+"        </h:selectOneRadio>\n"
+"        <h:commandButton value=\"Guess\" action=\"guess\"/>\n"
+"        <s:button value=\"Cheat\" view=\"/confirm.jspx\"/>\n"
+"        <s:button value=\"Give up\" action=\"giveup\"/>\n"
+"        </div>\n"
+"        \n"
+"        <div>\n"
+"        <h:message for=\"inputGuess\" style=\"color: red\"/>\n"
+"        </div>\n"
+"        \n"
+"      </h:form>\n"
+"    </f:view>\n"
+"  </body>\n"
+"  </html>\n"
+"</jsp:root>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1020
+#, no-c-format
+msgid ""
+"Notice how the command button names the <literal>guess</literal> transition "
+"instead of calling an action directly."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1023
+#, no-c-format
+msgid "The <literal>win.jspx</literal> page is predictable:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1025
+#, no-c-format
+msgid "win.jspx"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1026
+#, no-c-format
+msgid ""
+"<![CDATA[<jsp:root xmlns:jsp=\"http://java.sun.com/JSP/Page\" \n"
+"          xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"          xmlns:f=\"http://java.sun.com/jsf/core\"\n"
+"          xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"          version=\"2.0\">\n"
+"  <jsp:output doctype-root-element=\"html\"\n"
+"              doctype-public=\"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
+"              doctype-system=\"http://www.w3c.org/TR/xhtml1/DTD/xhtml1-"
+"transitional.dtd\"/>\n"
+"  <jsp:directive.page contentType=\"text/html\"/>\n"
+"  <html>\n"
+"  <head>\n"
+"    <title>You won!</title>\n"
+"    <link href=\"niceforms.css\" rel=\"stylesheet\" type=\"text/css\" />\n"
+"  </head>\n"
+"  <body>\n"
+"    <h1>You won!</h1>\n"
+"    <f:view>\n"
+"      Yes, the answer was <h:outputText value=\"#{numberGuess.currentGuess}"
+"\" />.\n"
+"      It took you <h:outputText value=\"#{numberGuess.guessCount}\" /> "
+"guesses.\n"
+"      <h:outputText value=\"But you cheated, so it doesn't count!\" \n"
+"                    rendered=\"#{numberGuess.cheat}\"/>\n"
+"      Would you like to <a href=\"numberGuess.seam\">play again</a>?\n"
+"    </f:view>\n"
+"  </body>\n"
+"  </html>\n"
+"</jsp:root>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1030
+#, no-c-format
+msgid ""
+"The <literal>lose.jspx</literal> looks roughly the same, so we'll skip over "
+"it."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1032
+#, no-c-format
+msgid "Finally, we'll look at the actual application code:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1035
+#, no-c-format
+msgid "NumberGuess.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1040
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"numberGuess\")\n"
+"@Scope(ScopeType.CONVERSATION)\n"
+"public class NumberGuess implements Serializable {\n"
+"   \n"
+"   private int randomNumber;\n"
+"   private Integer currentGuess;\n"
+"   private int biggest;\n"
+"   private int smallest;\n"
+"   private int guessCount;\n"
+"   private int maxGuesses;\n"
+"   private boolean cheated;\n"
+"   \n"
+"   @Create\n"
+"   public void begin()\n"
+"   {\n"
+"      randomNumber = new Random().nextInt(100);\n"
+"      guessCount = 0;\n"
+"      biggest = 100;\n"
+"      smallest = 1;\n"
+"   }\n"
+"   \n"
+"   public void setCurrentGuess(Integer guess)\n"
+"   {\n"
+"      this.currentGuess = guess;\n"
+"   }\n"
+"   \n"
+"   public Integer getCurrentGuess()\n"
+"   {\n"
+"      return currentGuess;\n"
+"   }\n"
+"   \n"
+"   public void guess()\n"
+"   {\n"
+"      if (currentGuess>randomNumber)\n"
+"      {\n"
+"         biggest = currentGuess - 1;\n"
+"      }\n"
+"      if (currentGuess<randomNumber)\n"
+"      {\n"
+"         smallest = currentGuess + 1;\n"
+"      }\n"
+"      guessCount ++;\n"
+"   }\n"
+"   \n"
+"   public boolean isCorrectGuess()\n"
+"   {\n"
+"      return currentGuess==randomNumber;\n"
+"   }\n"
+"   \n"
+"   public int getBiggest()\n"
+"   {\n"
+"      return biggest;\n"
+"   }\n"
+"   \n"
+"   public int getSmallest()\n"
+"   {\n"
+"      return smallest;\n"
+"   }\n"
+"   \n"
+"   public int getGuessCount()\n"
+"   {\n"
+"      return guessCount;\n"
+"   }\n"
+"   \n"
+"   public boolean isLastGuess()\n"
+"   {\n"
+"      return guessCount==maxGuesses;\n"
+"   }\n"
+"\n"
+"   public int getRemainingGuesses() {\n"
+"      return maxGuesses-guessCount;\n"
+"   }\n"
+"\n"
+"   public void setMaxGuesses(int maxGuesses) {\n"
+"      this.maxGuesses = maxGuesses;\n"
+"   }\n"
+"\n"
+"   public int getMaxGuesses() {\n"
+"      return maxGuesses;\n"
+"   }\n"
+"\n"
+"   public int getRandomNumber() {\n"
+"      return randomNumber;\n"
+"   }\n"
+"\n"
+"   public void cheated()\n"
+"   {\n"
+"      cheated = true;\n"
+"   }\n"
+"   \n"
+"   public boolean isCheat() {\n"
+"      return cheated;\n"
+"   }\n"
+"   \n"
+"   public List<Integer> getPossibilities()\n"
+"   {\n"
+"      List<Integer> result = new ArrayList<Integer>();\n"
+"      for(int i=smallest; i<=biggest; i++) result.add(i);\n"
+"      return result;\n"
+"   }\n"
+"   \n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1043
+#, no-c-format
+msgid ""
+"The first time a JSP page asks for a <literal>numberGuess</literal> "
+"component, Seam will create a new one for it, and the <literal>@Create</"
+"literal> method will be invoked, allowing the component to initialize itself."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1053
+#, no-c-format
+msgid ""
+"The <literal>pages.xml</literal> file starts a Seam <emphasis>conversation</"
+"emphasis> (much more about that later), and specifies the pageflow "
+"definition to use for the conversation's page flow."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1059
+#, no-c-format
+msgid "pages.xml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1062
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<pages xmlns=\"http://jboss.com/products/seam/pages\"\n"
+"       xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"       xsi:schemaLocation=\"http://jboss.com/products/seam/pages http://"
+"jboss.com/products/seam/pages-2.1.xsd\">\n"
+"\n"
+"  <page view-id=\"/numberGuess.jspx\">\n"
+"    <begin-conversation join=\"true\" pageflow=\"numberGuess\"/>\n"
+"  </page>\n"
+"\n"
+"</pages>      \n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1066
+#, no-c-format
+msgid ""
+"As you can see, this Seam component is pure business logic! It doesn't need "
+"to know anything at all about the user interaction flow. This makes the "
+"component potentially more reuseable."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1073
+#, no-c-format
+msgid ""
+"We'll step through basic flow of the application. The game starts with the "
+"<literal>numberGuess.jspx</literal> view. When the page is first displayed, "
+"the <literal>pages.xml</literal> configuration causes conversation to begin "
+"and associates the <literal>numberGuess</literal> pageflow with that "
+"conversation. The pageflow starts with a <literal>start-page</literal> tag, "
+"which is a wait state, so the <literal>numberGuess.xhtml</literal> is "
+"rendered."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1081
+#, no-c-format
+msgid ""
+"The view references the <literal>numberGuess</literal> component, causing a "
+"new instance to be created and stored in the conversation. The "
+"<literal>@Create</literal> method is called, initializing the state of the "
+"game. The view displays an <literal>h:form</literal> that allows the user to "
+"edit <literal>#{numberGuess.currentGuess}</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1087
+#, no-c-format
+msgid ""
+"The \"Guess\" button triggers the <literal>guess</literal> action. Seam "
+"defers to the pageflow to handle the action, which says that the pageflow "
+"should transition to the <literal>evaluateGuess</literal> state, first "
+"invoking <literal>#{numberGuess.guess}</literal>, which updates the guess "
+"count and highest/lowest suggestions in the <literal>numberGuess</literal> "
+"component."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1093
+#, no-c-format
+msgid ""
+"The <literal>evaluateGuess</literal> state checks the value of <literal>#"
+"{numberGuess.correctGuess}</literal> and transitions either to the "
+"<literal>win</literal> or <literal>evaluatingRemainingGuesses</literal> "
+"state. We'll assume the number was incorrect, in which case the pageflow "
+"transitions to <literal>evaluatingRemainingGuesses</literal>. That is also a "
+"decision state, which tests the <literal>#{numberGuess.lastGuess}</literal> "
+"state to determine whether or not the user has more guesses. If there are "
+"more guesses (<literal>lastGuess</literal> is <literal>false</literal>), we "
+"transition back to the original <literal>displayGuess</literal> state. "
+"Finally we've reached a page state, so the associated page <literal>/"
+"numberGuess.jspx</literal> is displayed. Since the page has a redirect "
+"element, Seam sends a redirect to the the user's browser, starting the "
+"process over."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1105
+#, no-c-format
+msgid ""
+"We won't follow the state any more except to note that if on a future "
+"request either the <literal>win</literal> or the <literal>lose</literal> "
+"transition were taken, the user would be taken to either the <literal>/win."
+"jspx</literal> or <literal>/lose.jspx</literal>. Both states specify that "
+"Seam should end the conversation, tossing away all the game state and "
+"pageflow state, before redirecting the user to the final page."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1115
+#, no-c-format
+msgid ""
+"The numberguess example also contains Giveup and Cheat buttons. You should "
+"be able to trace the pageflow state for both actions relatively easily. Pay "
+"particular attention to the <literal>cheat</literal> transition, which loads "
+"a sub-process to handle that flow. Although it's overkill for this "
+"application, it does demonstrate how complex pageflows can be broken down "
+"into smaller parts to make them easier to understand."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1127
+#, no-c-format
+msgid "A complete Seam application: the Hotel Booking example"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1130 Tutorial.xml:1508
+#, no-c-format
+msgid "Introduction"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1132
+#, no-c-format
+msgid ""
+"The booking application is a complete hotel room reservation system "
+"incorporating the following features:"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1137
+#, no-c-format
+msgid "User registration"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1140
+#, no-c-format
+msgid "Login"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1143
+#, no-c-format
+msgid "Logout"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1146
+#, no-c-format
+msgid "Set password"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1149
+#, no-c-format
+msgid "Hotel search"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1152
+#, no-c-format
+msgid "Hotel selection"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1155
+#, no-c-format
+msgid "Room reservation"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1158
+#, no-c-format
+msgid "Reservation confirmation"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1161
+#, no-c-format
+msgid "Existing reservation list"
+msgstr ""
+
+#. Tag: screeninfo
+#: Tutorial.xml:1166
+#, no-c-format
+msgid "Booking example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1177
+#, no-c-format
+msgid ""
+"The booking application uses JSF, EJB 3.0 and Seam, together with Facelets "
+"for the view. There is also a port of this application to JSF, Facelets, "
+"Seam, JavaBeans and Hibernate3."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1180
+#, no-c-format
+msgid ""
+"One of the things you'll notice if you play with this application for long "
+"enough is that it is extremely <emphasis>robust</emphasis>. You can play "
+"with back buttons and browser refresh and opening multiple windows and "
+"entering nonsensical data as much as you like and you will find it very "
+"difficult to make the application crash. You might think that we spent weeks "
+"testing and fixing bugs to achive this. Actually, this is not the case. Seam "
+"was designed to make it very straightforward to build robust web "
+"applications and a lot of robustness that you are probably used to having to "
+"code yourself comes naturally and automatically with Seam."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1187
+#, no-c-format
+msgid ""
+"As you browse the sourcecode of the example application, and learn how the "
+"application works, observe how the declarative state management and "
+"integrated validation has been used to achieve this robustness."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1193
+#, no-c-format
+msgid "Overview of the booking example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1195
+#, no-c-format
+msgid ""
+"The project structure is identical to the previous one, to install and "
+"deploy this application, please refer to <xref linkend=\"try-examples\"/>. "
+"Once you've successfully started the application, you can access it by "
+"pointing your browser to <ulink url=\"http://localhost:8080/seam-booking/\"> "
+"<literal>http://localhost:8080/seam-booking/</literal> </ulink>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1202
+#, no-c-format
+msgid ""
+"The application uses six session beans for to implement the business logic "
+"for the listed features."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1206
+#, no-c-format
+msgid ""
+"<literal>AuthenticatorAction</literal> provides the login authentication "
+"logic."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1209
+#, no-c-format
+msgid ""
+"<literal>BookingListAction</literal> retrieves existing bookings for the "
+"currently logged in user."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1212
+#, no-c-format
+msgid ""
+"<literal>ChangePasswordAction</literal> updates the password of the "
+"currently logged in user."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1215
+#, no-c-format
+msgid ""
+"<literal>HotelBookingAction</literal> implements booking and confirmation "
+"functionality. This functionality is implemented as a "
+"<emphasis>conversation</emphasis>, so this is one of the most interesting "
+"classes in the application."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1220
+#, no-c-format
+msgid ""
+"<literal>HotelSearchingAction</literal> implements the hotel search "
+"functionality."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1223
+#, no-c-format
+msgid "<literal>RegisterAction</literal> registers a new system user."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1227
+#, no-c-format
+msgid "Three entity beans implement the application's persistent domain model."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1231
+#, no-c-format
+msgid "<literal>Hotel</literal> is an entity bean that represent a hotel"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1233
+#, no-c-format
+msgid ""
+"<literal>Booking</literal> is an entity bean that represents an existing "
+"booking"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1235
+#, no-c-format
+msgid ""
+"<literal>User</literal> is an entity bean to represents a user who can make "
+"hotel bookings"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1242
+#, no-c-format
+msgid "Understanding Seam conversations"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1243
+#, no-c-format
+msgid ""
+"We encourage you browse the sourcecode at your pleasure. In this tutorial "
+"we'll concentrate upon one particular piece of functionality: hotel search, "
+"selection, booking and confirmation. From the point of view of the user, "
+"everything from selecting a hotel to confirming a booking is one continuous "
+"unit of work, a <emphasis>conversation</emphasis>. Searching, however, is "
+"<emphasis>not</emphasis> part of the conversation. The user can select "
+"multiple hotels from the same search results page, in different browser tabs."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1249
+#, no-c-format
+msgid ""
+"Most web application architectures have no first class construct to "
+"represent a conversation. This causes enormous problems managing "
+"conversational state. Usually, Java web applications use a combination of "
+"several techniques. Some state can be transfered in the URL. What can't is "
+"either thrown into the <literal>HttpSession</literal> or flushed to the "
+"database after every request, and reconstructed from the database at the "
+"beginning of each new request."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1255
+#, no-c-format
+msgid ""
+"Since the database is the least scalable tier, this often results in an "
+"utterly unacceptable lack of scalability. Added latency is also a problem, "
+"due to the extra traffic to and from the database on every request. To "
+"reduce this redundant traffic, Java applications often introduce a data "
+"(second-level) cache that keeps commonly accessed data between requests. "
+"This cache is necessarily inefficient, because invalidation is based upon an "
+"LRU policy instead of being based upon when the user has finished working "
+"with the data. Furthermore, because the cache is shared between many "
+"concurrent transactions, we've introduced a whole raft of problem's "
+"associated with keeping the cached state consistent with the database."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1263
+#, no-c-format
+msgid ""
+"Now consider the state held in the <literal>HttpSession</literal>. The "
+"HttpSession is great place for true session data, data that is common to all "
+"requests that the user has with the application. However, it's a bad place "
+"to store data related to individual series of requests. Using the session of "
+"conversational quickly breaks down when dealing with the back button and "
+"multiple windows. On top of that, without careful programming, data in the "
+"HTTP Session can grow quite large, making the HTTP session difficult to "
+"cluster. Developing mechanisms to isolate session state associated with "
+"different concurrent conversations, and incorporating failsafes to ensure "
+"that conversation state is destroyed when the user aborts one of the "
+"conversations by closing a browser window or tab is not for the faint "
+"hearted. Fortunately, with Seam, you don't have to worry about that."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1276
+#, no-c-format
+msgid ""
+"Seam introduces the <emphasis>conversation context</emphasis> as a first "
+"class construct. You can safely keep conversational state in this context, "
+"and be assured that it will have a well-defined lifecycle. Even better, you "
+"won't need to be continually pushing data back and forth between the "
+"application server and the database, since the conversation context is a "
+"natural cache of data that the user is currently working with."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1281
+#, no-c-format
+msgid ""
+"In this application, we'll use the conversation context to store stateful "
+"session beans. There is an ancient canard in the Java community that "
+"stateful session beans are a scalability killer. This may have been true in "
+"the early days of enterprise Java, but it is no longer true today. Modern "
+"application servers have extremely sophisticated mechanisms for stateful "
+"session bean state replication. JBoss AS, for example, performs fine-grained "
+"replication, replicating only those bean attribute values which actually "
+"changed. Note that all the traditional technical arguments for why stateful "
+"beans are inefficient apply equally to the <literal>HttpSession</literal>, "
+"so the practice of shifting state from business tier stateful session bean "
+"components to the web session to try and improve performance is unbelievably "
+"misguided. It is certainly possible to write unscalable applications using "
+"stateful session beans, by using stateful beans incorrectly, or by using "
+"them for the wrong thing. But that doesn't mean you should <emphasis>never</"
+"emphasis> use them. If you remain unconvinced, Seam allows the use of POJOs "
+"instead of stateful session beans. With Seam, the choice is yours."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1299
+#, no-c-format
+msgid ""
+"The booking example application shows how stateful components with different "
+"scopes can collaborate together to achieve complex behaviors. The main page "
+"of the booking application allows the user to search for hotels. The search "
+"results are kept in the Seam session scope. When the user navigates to one "
+"of these hotels, a conversation begins, and a conversation scoped component "
+"calls back to the session scoped component to retrieve the selected hotel."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1305
+#, no-c-format
+msgid ""
+"The booking example also demonstrates the use of RichFaces Ajax to implement "
+"rich client behavior without the use of handwritten JavaScript."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1308
+#, no-c-format
+msgid ""
+"The search functionality is implemented using a session-scope stateful "
+"session bean, similar to the one we saw in the message list example."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1312
+#, no-c-format
+msgid "HotelSearchingAction.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1321
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"hotelSearch\")\n"
+"@Scope(ScopeType.SESSION)\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class HotelSearchingAction implements HotelSearching\n"
+"{\n"
+"   \n"
+"   @PersistenceContext\n"
+"   private EntityManager em;\n"
+"   \n"
+"   private String searchString;\n"
+"   private int pageSize = 10;\n"
+"   private int page;\n"
+"   \n"
+"   @DataModel\n"
+"   private List<Hotel> hotels;\n"
+"   \n"
+"   public void find()\n"
+"   {\n"
+"      page = 0;\n"
+"      queryHotels();\n"
+"   }\n"
+"   public void nextPage()\n"
+"   {\n"
+"      page++;\n"
+"      queryHotels();\n"
+"   }\n"
+"      \n"
+"   private void queryHotels()\n"
+"   {\n"
+"      hotels = \n"
+"          em.createQuery(\"select h from Hotel h where lower(h.name) like #"
+"{pattern} \" + \n"
+"                         \"or lower(h.city) like #{pattern} \" + \n"
+"                         \"or lower(h.zip) like #{pattern} \" +\n"
+"                         \"or lower(h.address) like #{pattern}\")\n"
+"            .setMaxResults(pageSize)\n"
+"            .setFirstResult( page * pageSize )\n"
+"            .getResultList();\n"
+"   }\n"
+"   \n"
+"   public boolean isNextPageAvailable()\n"
+"   {\n"
+"      return hotels!=null && hotels.size()==pageSize;\n"
+"   }\n"
+"   \n"
+"   public int getPageSize() {\n"
+"      return pageSize;\n"
+"   }\n"
+"   \n"
+"   public void setPageSize(int pageSize) {\n"
+"      this.pageSize = pageSize;\n"
+"   }\n"
+"   \n"
+"   @Factory(value=\"pattern\", scope=ScopeType.EVENT)\n"
+"   public String getSearchPattern()\n"
+"   {\n"
+"      return searchString==null ? \n"
+"            \"%\" : '%' + searchString.toLowerCase().replace('*', '%') + "
+"'%';\n"
+"   }\n"
+"   \n"
+"   public String getSearchString()\n"
+"   {\n"
+"      return searchString;\n"
+"   }\n"
+"   \n"
+"   public void setSearchString(String searchString)\n"
+"   {\n"
+"      this.searchString = searchString;\n"
+"   }\n"
+"   \n"
+"   @Remove\n"
+"   public void destroy() {}\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1324
+#, no-c-format
+msgid ""
+"The EJB standard <literal>@Stateful</literal> annotation identifies this "
+"class as a stateful session bean. Stateful session beans are scoped to the "
+"conversation context by default."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1329
+#, no-c-format
+msgid ""
+"The <literal>@Restrict</literal> annotation applies a security restriction "
+"to the component. It restricts access to the component allowing only logged-"
+"in users. The security chapter explains more about security in Seam."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1334
+#, no-c-format
+msgid ""
+"The <link linkend=\"datamodel-annotation\"> <literal>@DataModel</literal> </"
+"link> annotation exposes a <literal>List</literal> as a JSF "
+"<literal>ListDataModel</literal>. This makes it easy to implement clickable "
+"lists for search screens. In this case, the list of hotels is exposed to the "
+"page as a <literal>ListDataModel</literal> in the conversation variable "
+"named <literal>hotels</literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1343
+#, no-c-format
+msgid ""
+"The EJB standard <literal>@Remove</literal> annotation specifies that a "
+"stateful session bean should be removed and its state destroyed after "
+"invocation of the annotated method. In Seam, all stateful session beans must "
+"define a method with no parameters marked <literal>@Remove</literal>. This "
+"method will be called when Seam destroys the session context."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1354
+#, no-c-format
+msgid ""
+"The main page of the application is a Facelets page. Let's look at the "
+"fragment which relates to searching for hotels:"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1357
+#, no-c-format
+msgid "main.xhtml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1366
+#, no-c-format
+msgid ""
+"<![CDATA[<div class=\"section\">\n"
+"  \n"
+"    <span class=\"errors\">\n"
+"       <h:messages globalOnly=\"true\"/>\n"
+"    </span>\n"
+"    \n"
+"    <h1>Search Hotels</h1>\n"
+"\n"
+"    <h:form id=\"searchCriteria\">\n"
+"    <fieldset> \n"
+"       <h:inputText id=\"searchString\" value=\"#{hotelSearch.searchString}"
+"\" \n"
+"                    style=\"width: 165px;\">\n"
+"         <a:support event=\"onkeyup\" actionListener=\"#{hotelSearch.find}"
+"\" \n"
+"                    reRender=\"searchResults\" />\n"
+"       </h:inputText>\n"
+"       &#160;\n"
+"       <a:commandButton id=\"findHotels\" value=\"Find Hotels\" action=\"#"
+"{hotelSearch.find}\" \n"
+"                        reRender=\"searchResults\"/>\n"
+"       &#160;\n"
+"       <a:status>\n"
+"          <f:facet name=\"start\">\n"
+"             <h:graphicImage value=\"/img/spinner.gif\"/>\n"
+"          </f:facet>\n"
+"       </a:status>\n"
+"       <br/>\n"
+"       <h:outputLabel for=\"pageSize\">Maximum results:</h:"
+"outputLabel>&#160;\n"
+"       <h:selectOneMenu value=\"#{hotelSearch.pageSize}\" id=\"pageSize\">\n"
+"          <f:selectItem itemLabel=\"5\" itemValue=\"5\"/>\n"
+"          <f:selectItem itemLabel=\"10\" itemValue=\"10\"/>\n"
+"          <f:selectItem itemLabel=\"20\" itemValue=\"20\"/>\n"
+"       </h:selectOneMenu>\n"
+"    </fieldset>\n"
+"    </h:form>\n"
+"    \n"
+"</div>\n"
+"\n"
+"<a:outputPanel id=\"searchResults\">\n"
+"  <div class=\"section\">\n"
+"    <h:outputText value=\"No Hotels Found\"\n"
+"                  rendered=\"#{hotels != null and hotels.rowCount==0}\"/>\n"
+"    <h:dataTable id=\"hotels\" value=\"#{hotels}\" var=\"hot\" \n"
+"                 rendered=\"#{hotels.rowCount>0}\">\n"
+"        <h:column>\n"
+"            <f:facet name=\"header\">Name</f:facet>\n"
+"            #{hot.name}\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"            <f:facet name=\"header\">Address</f:facet>\n"
+"            #{hot.address}\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"            <f:facet name=\"header\">City, State</f:facet>\n"
+"            #{hot.city}, #{hot.state}, #{hot.country}\n"
+"        </h:column> \n"
+"        <h:column>\n"
+"            <f:facet name=\"header\">Zip</f:facet>\n"
+"            #{hot.zip}\n"
+"        </h:column>\n"
+"        <h:column>\n"
+"            <f:facet name=\"header\">Action</f:facet>\n"
+"            <s:link id=\"viewHotel\" value=\"View Hotel\" \n"
+"                    action=\"#{hotelBooking.selectHotel(hot)}\"/>\n"
+"        </h:column>\n"
+"    </h:dataTable>\n"
+"    <s:link value=\"More results\" action=\"#{hotelSearch.nextPage}\" \n"
+"            rendered=\"#{hotelSearch.nextPageAvailable}\"/>\n"
+"  </div>\n"
+"</a:outputPanel>    ]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1369
+#, no-c-format
+msgid ""
+"The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF "
+"action event listener to be called by asynchronous <literal>XMLHttpRequest</"
+"literal> when a JavaScript event like <literal>onkeyup</literal> occurs. "
+"Even better, the <literal>reRender</literal> attribute lets us render a "
+"fragment of the JSF page and perform a partial page update when the "
+"asynchronous response is received."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1376
+#, no-c-format
+msgid ""
+"The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display "
+"an animated image while we wait for asynchronous requests to return."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1380
+#, no-c-format
+msgid ""
+"The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a "
+"region of the page which can be re-rendered by an asynchronous request."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1384
+#, no-c-format
+msgid ""
+"The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action "
+"listener to an ordinary (non-JavaScript) HTML link. The advantage of this "
+"over the standard JSF <literal>&lt;h:commandLink&gt;</literal> is that it "
+"preserves the operation of \"open in new window\" and \"open in new tab\". "
+"Also notice that we use a method binding with a parameter: <literal>#"
+"{hotelBooking.selectHotel(hot)}</literal>. This is not possible in the "
+"standard Unified EL, but Seam provides an extension to the EL that lets you "
+"use parameters on any method binding expression."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1391
+#, no-c-format
+msgid ""
+"If you're wondering how navigation occurs, you can find all the rules in "
+"<literal>WEB-INF/pages.xml</literal>; this is discussed in <xref linkend="
+"\"events.pageaction.navigation\"/>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1400
+#, no-c-format
+msgid ""
+"This page displays the search results dynamically as we type, and lets us "
+"choose a hotel and pass it to the <literal>selectHotel()</literal> method of "
+"the <literal>HotelBookingAction</literal>, which is where the "
+"<emphasis>really</emphasis> interesting stuff is going to happen."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1405
+#, no-c-format
+msgid ""
+"Now let's see how the booking example application uses a conversation-scoped "
+"stateful session bean to achieve a natural cache of persistent data related "
+"to the conversation. The following code example is pretty long. But if you "
+"think of it as a list of scripted actions that implement the various steps "
+"of the conversation, it's understandable. Read the class from top to bottom, "
+"as if it were a story."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1410 Tutorial.xml:1635
+#, no-c-format
+msgid "HotelBookingAction.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1420
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"hotelBooking\")\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class HotelBookingAction implements HotelBooking\n"
+"{\n"
+"   \n"
+"   @PersistenceContext(type=EXTENDED)\n"
+"   private EntityManager em;\n"
+"   \n"
+"   @In \n"
+"   private User user;\n"
+"   \n"
+"   @In(required=false) @Out\n"
+"   private Hotel hotel;\n"
+"   \n"
+"   @In(required=false) \n"
+"   @Out(required=false)\n"
+"   private Booking booking;\n"
+"     \n"
+"   @In\n"
+"   private FacesMessages facesMessages;\n"
+"      \n"
+"   @In\n"
+"   private Events events;\n"
+"   \n"
+"   @Logger \n"
+"   private Log log;\n"
+"   \n"
+"   private boolean bookingValid;\n"
+"   \n"
+"   @Begin\n"
+"   public void selectHotel(Hotel selectedHotel)\n"
+"   {\n"
+"      hotel = em.merge(selectedHotel);\n"
+"   }\n"
+"   \n"
+"   public void bookHotel()\n"
+"   {      \n"
+"      booking = new Booking(hotel, user);\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      booking.setCheckinDate( calendar.getTime() );\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, 1);\n"
+"      booking.setCheckoutDate( calendar.getTime() );\n"
+"   }\n"
+"   \n"
+"   public void setBookingDetails()\n"
+"   {\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, -1);\n"
+"      if ( booking.getCheckinDate().before( calendar.getTime() ) )\n"
+"      {\n"
+"         facesMessages.addToControl(\"checkinDate\", \"Check in date must be "
+"a future date\");\n"
+"         bookingValid=false;\n"
+"      }\n"
+"      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate"
+"() ) )\n"
+"      {\n"
+"         facesMessages.addToControl(\"checkoutDate\", \n"
+"                                    \"Check out date must be later than "
+"check in date\");\n"
+"         bookingValid=false;\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         bookingValid=true;\n"
+"      }\n"
+"   }\n"
+"   \n"
+"   public boolean isBookingValid()\n"
+"   {\n"
+"      return bookingValid;\n"
+"   }\n"
+"   \n"
+"   @End\n"
+"   public void confirm()\n"
+"   {\n"
+"      em.persist(booking);\n"
+"      facesMessages.add(\"Thank you, #{user.name}, your confimation number "
+"\" + \n"
+"                        \" for #{hotel.name} is #{booki g.id}\");\n"
+"      log.info(\"New booking: #{booking.id} for #{user.username}\");\n"
+"      events.raiseTransactionSuccessEvent(\"bookingConfirmed\");\n"
+"   }\n"
+"   \n"
+"   @End\n"
+"   public void cancel() {}\n"
+"   \n"
+"   @Remove\n"
+"   public void destroy() {}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1423
+#, no-c-format
+msgid ""
+"This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so "
+"that any entity instances remain managed for the whole lifecycle of the "
+"stateful session bean."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1428
+#, no-c-format
+msgid ""
+"The <link linkend=\"out-annotation\"> <literal>@Out</literal> </link> "
+"annotation declares that an attribute value is <emphasis>outjected</"
+"emphasis> to a context variable after method invocations. In this case, the "
+"context variable named <literal>hotel</literal> will be set to the value of "
+"the <literal>hotel</literal> instance variable after every action listener "
+"invocation completes."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1436
+#, no-c-format
+msgid ""
+"The <link linkend=\"begin-annotation\"> <literal>@Begin</literal> </link> "
+"annotation specifies that the annotated method begins a <emphasis>long-"
+"running conversation</emphasis>, so the current conversation context will "
+"not be destroyed at the end of the request. Instead, it will be reassociated "
+"with every request from the current window, and destroyed either by timeout "
+"due to conversation inactivity or invocation of a matching <literal>@End</"
+"literal> method."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1445
+#, no-c-format
+msgid ""
+"The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> "
+"annotation specifies that the annotated method ends the current long-running "
+"conversation, so the current conversation context will be destroyed at the "
+"end of the request."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1452
+#, no-c-format
+msgid ""
+"This EJB remove method will be called when Seam destroys the conversation "
+"context. Don't forget to define this method!"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1460
+#, no-c-format
+msgid ""
+"<literal>HotelBookingAction</literal> contains all the action listener "
+"methods that implement selection, booking and booking confirmation, and "
+"holds state related to this work in its instance variables. We think you'll "
+"agree that this code is much cleaner and simpler than getting and setting "
+"<literal>HttpSession</literal> attributes."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1466
+#, no-c-format
+msgid ""
+"Even better, a user can have multiple isolated conversations per login "
+"session. Try it! Log in, run a search, and navigate to different hotel pages "
+"in multiple browser tabs. You'll be able to work on creating two different "
+"hotel reservations at the same time. If you leave any one conversation "
+"inactive for long enough, Seam will eventually time out that conversation "
+"and destroy its state. If, after ending a conversation, you backbutton to a "
+"page of that conversation and try to perform an action, Seam will detect "
+"that the conversation was already ended, and redirect you to the search page."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1476
+#, no-c-format
+msgid "The Seam Debug Page"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1478
+#, no-c-format
+msgid ""
+"The WAR also includes <literal>seam-debug.jar</literal>. The Seam debug page "
+"will be available if this jar is deployed in <literal>WEB-INF/lib</literal>, "
+"along with the Facelets, and if you set the debug property of the "
+"<literal>init</literal> component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1483
+#, no-c-format
+msgid "<![CDATA[<core:init jndi-pattern=\"@jndiPattern@\" debug=\"true\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1485
+#, no-c-format
+msgid ""
+"This page lets you browse and inspect the Seam components in any of the Seam "
+"contexts associated with your current login session. Just point your browser "
+"at <ulink url=\"http://localhost:8080/seam-booking/debug.seam\"> "
+"<literal>http://localhost:8080/seam-booking/debug.seam</literal> </ulink>."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1505
+#, no-c-format
+msgid "Nested conversations: extending the Hotel Booking example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1510
+#, no-c-format
+msgid ""
+"Long-running conversations make it simple to maintain consistency of state "
+"in an application even in the face of multi-window operation and back-"
+"buttoning. Unfortunately, simply beginning and ending a long-running "
+"conversation is not always enough. Depending on the requirements of the "
+"application, inconsistencies between what the user's expectations and the "
+"reality of the application’s state can still result."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1515
+#, no-c-format
+msgid ""
+"The nested booking application extends the features of the hotel booking "
+"application to incorporate the selection of rooms. Each hotel has available "
+"rooms with descriptions for a user to select from. This requires the "
+"addition of a room selection page in the hotel reservation flow."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1528
+#, no-c-format
+msgid ""
+"The user now has the option to select any available room to be included in "
+"the booking. As with the hotel booking application we saw previously, this "
+"can lead to issues with state consistency. As with storing state in the "
+"<varname>HTTPSession</varname>, if a conversation variable changes it "
+"affects all windows operating within the same conversation context."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1533
+#, no-c-format
+msgid ""
+"To demonstrate this, let’s suppose the user clones the room selection screen "
+"in a new window. The user then selects the <emphasis>Wonderful Room</"
+"emphasis> and proceeds to the confirmation screen. To see just how much it "
+"would cost to live the high-life, the user returns to the original window, "
+"selects the <emphasis>Fantastic Suite</emphasis> for booking, and again "
+"proceeds to confirmation. After reviewing the total cost, the user decides "
+"that practicality wins out and returns to the window showing "
+"<emphasis>Wonderful Room</emphasis> to confirm."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1539
+#, no-c-format
+msgid ""
+"In this scenario, if we simply store all state in the conversation, we are "
+"not protected from multi-window operation within the same conversation. "
+"Nested conversations allow us to achieve correct behavior even when context "
+"can vary within the same conversation."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1545
+#, no-c-format
+msgid "Understanding Nested Conversations"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1547
+#, no-c-format
+msgid ""
+"Now let's see how the nested booking example extends the behavior of the "
+"hotel booking application through use of nested conversations. Again, we can "
+"read the class from top to bottom, as if it were a story."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1551
+#, no-c-format
+msgid "RoomPreferenceAction.java"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1560
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"roomPreference\")\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class RoomPreferenceAction implements RoomPreference \n"
+"{\n"
+"\n"
+"   @Logger \n"
+"   private Log log;\n"
+"\n"
+"   @In private Hotel hotel;\n"
+"   \n"
+"   @In private Booking booking;\n"
+"\n"
+"   @DataModel(value=\"availableRooms\")\n"
+"   private List<Room> availableRooms;\n"
+"\n"
+"   @DataModelSelection(value=\"availableRooms\")\n"
+"   private Room roomSelection;\n"
+"    \n"
+"   @In(required=false, value=\"roomSelection\")\n"
+"   @Out(required=false, value=\"roomSelection\")\n"
+"   private Room room;\n"
+"\n"
+"   @Factory(\"availableRooms\")\n"
+"   public void loadAvailableRooms()\n"
+"   {\n"
+"      availableRooms = hotel.getAvailableRooms(booking.getCheckinDate(), "
+"booking.getCheckoutDate());\n"
+"      log.info(\"Retrieved #0 available rooms\", availableRooms.size());\n"
+"   }\n"
+"\n"
+"   public BigDecimal getExpectedPrice()\n"
+"   {\n"
+"      log.info(\"Retrieving price for room #0\", roomSelection.getName());\n"
+"      \n"
+"      return booking.getTotal(roomSelection);\n"
+"   }\n"
+"\n"
+"   @Begin(nested=true)\n"
+"   public String selectPreference()\n"
+"   {\n"
+"      log.info(\"Room selected\");\n"
+"      \n"
+"      this.room = this.roomSelection;\n"
+"      \n"
+"      return \"payment\";\n"
+"   }\n"
+"\n"
+"   public String requestConfirmation()\n"
+"   {\n"
+"      // all validations are performed through the s:validateAll, so checks "
+"are already\n"
+"      // performed\n"
+"      log.info(\"Request confirmation from user\");\n"
+"      \n"
+"      return \"confirm\";\n"
+"   }\n"
+"\n"
+"   @End(beforeRedirect=true)\n"
+"   public String cancel()\n"
+"   {\n"
+"      log.info(\"ending conversation\");\n"
+"\n"
+"      return \"cancel\";\n"
+"   }\n"
+"\n"
+"   @Destroy "
+"@Remove                                                                      \n"
+"   public void destroy() {}    \n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1563
+#, no-c-format
+msgid ""
+"The <varname>hotel</varname> instance is injected from the conversation "
+"context. The hotel is loaded through an <emphasis>extended persistence "
+"context</emphasis> so that the entity remains managed throughout the "
+"conversation. This allows us to lazily load the <varname>availableRooms</"
+"varname> through an <varname>@Factory</varname> method by simply walking the "
+"association."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1571
+#, no-c-format
+msgid ""
+"When <link linkend=\"begin-annotation\"> <literal>@Begin(nested=true)</"
+"literal> </link> is encountered, a nested conversation is pushed onto the "
+"conversation stack. When executing within a nested conversation, components "
+"still have access to all outer conversation state, but setting any values in "
+"the nested conversation’s state container does not affect the outer "
+"conversation. In addition, nested conversations can exist concurrently "
+"stacked on the same outer conversation, allowing independent state for each."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1580
+#, no-c-format
+msgid ""
+"The <varname>roomSelection</varname> is outjected to the conversation based "
+"on the <varname>@DataModelSelection</varname>. Note that because the nested "
+"conversation has an independent context, the <varname>roomSelection</"
+"varname> is only set into the new nested conversation. Should the user "
+"select a different preference in another window or tab a new nested "
+"conversation would be started."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1587
+#, no-c-format
+msgid ""
+"The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> "
+"annotation pops the conversation stack and resumes the outer conversation. "
+"The <varname>roomSelection</varname> is destroyed along with the "
+"conversation context."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1596
+#, no-c-format
+msgid ""
+"When we begin a nested conversation it is pushed onto the conversation "
+"stack. In the <varname>nestedbooking</varname> example, the conversation "
+"stack consists of the outer long-running conversation (the booking) and each "
+"of the nested conversations (room selections)."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1601
+#, no-c-format
+msgid "rooms.xhtml"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1609
+#, no-c-format
+msgid ""
+"<![CDATA[<div class=\"section\">\n"
+"    <h1>Room Preference</h1>\n"
+"</div>\n"
+"\n"
+"<div class=\"section\">\n"
+"    <h:form id=\"room_selections_form\">\n"
+"        <div class=\"section\">\n"
+"            <h:outputText styleClass=\"output\" \n"
+"                value=\"No rooms available for the dates selected: \" \n"
+"                rendered=\"#{availableRooms != null and availableRooms."
+"rowCount == 0}\"/>\n"
+"            <h:outputText styleClass=\"output\" \n"
+"                value=\"Rooms available for the dates selected: \" \n"
+"                rendered=\"#{availableRooms != null and availableRooms."
+"rowCount > 0}\"/>\n"
+"                \n"
+"            <h:outputText styleClass=\"output\" value=\"#{booking."
+"checkinDate}\"/> -\n"
+"            <h:outputText styleClass=\"output\" value=\"#{booking."
+"checkoutDate}\"/>\n"
+"            \n"
+"            <br/><br/>\n"
+"            \n"
+"            <h:dataTable value=\"#{availableRooms}\" var=\"room\" \n"
+"                    rendered=\"#{availableRooms.rowCount > 0}\">\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Name</f:facet>\n"
+"                    #{room.name}\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Description</f:facet>\n"
+"                    #{room.description}\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Per Night</f:facet>\n"
+"                    <h:outputText value=\"#{room.price}\">\n"
+"                        <f:convertNumber type=\"currency\" currencySymbol=\"$"
+"\"/>\n"
+"                    </h:outputText>\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Action</f:facet>\n"
+"                    <h:commandLink id=\"selectRoomPreference\" \n"
+"                        action=\"#{roomPreference.selectPreference}"
+"\">Select</h:commandLink>\n"
+"                </h:column>\n"
+"            </h:dataTable>\n"
+"        </div>\n"
+"        <div class=\"entry\">\n"
+"            <div class=\"label\">&#160;</div>\n"
+"            <div class=\"input\">\n"
+"                <s:button id=\"cancel\" value=\"Revise Dates\" view=\"/book."
+"xhtml\"/>\n"
+"            </div>\n"
+"        </div>    \n"
+"    </h:form>\n"
+"</div>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1612
+#, no-c-format
+msgid ""
+"When requested from EL, the <varname>#{availableRooms}</varname> are loaded "
+"by the <varname>@Factory</varname> method defined in "
+"<varname>RoomPreferenceAction</varname>. The <varname>@Factory</varname> "
+"method will only be executed once to load the values into the current "
+"context as a <link linkend=\"datamodel-annotation\"> <varname>@DataModel</"
+"varname> </link> instance."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1619
+#, no-c-format
+msgid ""
+"Invoking the <varname>#{roomPreference.selectPreference}</varname> action "
+"results in the row being selected and set into the "
+"<varname>@DataModelSelection</varname>. This value is then outjected to the "
+"nested conversation context."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1623
+#, no-c-format
+msgid ""
+"Revising the dates simply returns to the <varname>/book.xhtml</varname>. "
+"Note that we have not yet nested a conversation (no room preference has been "
+"selected), so the current conversation can simply be resumed. The "
+"<varname>&lt;s:button></varname> component simply propagates the current "
+"conversation when displaying the <varname>/book.xhtml</varname> view."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1631
+#, no-c-format
+msgid ""
+"Now that we have seen how to nest a conversation, let's see how we can "
+"confirm the booking once a room has been selected. This can be achieved by "
+"simply extending the behavior of the <varname>HotelBookingAction</varname>."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1643
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"hotelBooking\")\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class HotelBookingAction implements HotelBooking\n"
+"{\n"
+"   \n"
+"   @PersistenceContext(type=EXTENDED)\n"
+"   private EntityManager em;\n"
+"   \n"
+"   @In \n"
+"   private User user;\n"
+"   \n"
+"   @In(required=false) @Out\n"
+"   private Hotel hotel;\n"
+"   \n"
+"   @In(required=false) \n"
+"   @Out(required=false)\n"
+"   private Booking booking;\n"
+"   \n"
+"   @In(required=false)\n"
+"   private Room roomSelection;\n"
+"   \n"
+"   @In\n"
+"   private FacesMessages facesMessages;\n"
+"      \n"
+"   @In\n"
+"   private Events events;\n"
+"   \n"
+"   @Logger \n"
+"   private Log log;\n"
+"   \n"
+"   @Begin\n"
+"   public void selectHotel(Hotel selectedHotel)\n"
+"   {\n"
+"      log.info(\"Selected hotel #0\", selectedHotel.getName());\n"
+"      hotel = em.merge(selectedHotel);\n"
+"   }\n"
+"   \n"
+"   public String setBookingDates()\n"
+"   {\n"
+"      // the result will indicate whether or not to begin the nested "
+"conversation\n"
+"      // as well as the navigation.  if a null result is returned, the "
+"nested\n"
+"      // conversation will not begin, and the user will be returned to the "
+"current\n"
+"      // page to fix validation issues\n"
+"      String result = null;\n"
+"\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, -1);\n"
+"\n"
+"      // validate what we have received from the user so far\n"
+"      if ( booking.getCheckinDate().before( calendar.getTime() ) )\n"
+"      {\n"
+"         facesMessages.addToControl(\"checkinDate\", \"Check in date must be "
+"a future date\");\n"
+"      }\n"
+"      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate"
+"() ) )\n"
+"      {\n"
+"         facesMessages.addToControl(\"checkoutDate\", \"Check out date must "
+"be later than check in date\");\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         result = \"rooms\";\n"
+"      }\n"
+"\n"
+"      return result;\n"
+"   }\n"
+"   \n"
+"   public void bookHotel()\n"
+"   {      \n"
+"      booking = new Booking(hotel, user);\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      booking.setCheckinDate( calendar.getTime() );\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, 1);\n"
+"      booking.setCheckoutDate( calendar.getTime() );\n"
+"   }\n"
+"   \n"
+"   @End(root=true)\n"
+"   public void confirm()\n"
+"   {\n"
+"      // on confirmation we set the room preference in the booking.  the "
+"room preference\n"
+"      // will be injected based on the nested conversation we are in.\n"
+"      booking.setRoomPreference(roomSelection);\n"
+"\n"
+"      em.persist(booking);\n"
+"      facesMessages.add(\"Thank you, #{user.name}, your confimation number "
+"for #{hotel.name} is #{booking.id}\");\n"
+"      log.info(\"New booking: #{booking.id} for #{user.username}\");\n"
+"      events.raiseTransactionSuccessEvent(\"bookingConfirmed\");\n"
+"   }\n"
+"   \n"
+"   @End(root=true, beforeRedirect=true)\n"
+"   public void cancel() {}\n"
+"   \n"
+"   @Destroy @Remove\n"
+"   public void destroy() {}\n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1646
+#, no-c-format
+msgid ""
+"Annotating an action with <link linkend=\"end-annotation\"> <varname>@End"
+"(root=true)</varname> </link> ends the root conversation which effectively "
+"destroys the entire conversation stack. When any conversation is ended, its "
+"nested conversations are ended as well. As the root is the conversation that "
+"started it all, this is a simple way to destroy and release all state "
+"associated with a workspace once the booking is confirmed."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1654
+#, no-c-format
+msgid ""
+"The <varname>roomSelection</varname> is only associated with the "
+"<varname>booking</varname> on user confirmation. While outjecting values to "
+"the nested conversation context will not impact the outer conversation, any "
+"objects injected from the outer conversation are injected by reference. This "
+"means that any changing to these objects will be reflected in the parent "
+"conversation as well as other concurrent nested conversations."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1661
+#, no-c-format
+msgid ""
+"By simply annotating the cancellation action with <link linkend=\"end-"
+"annotation\"> <varname>@End(root=true, beforeRedirect=true)</varname> </"
+"link> we can easily destroy and release all state associated with the "
+"workspace prior to redirecting the user back to the hotel selection view."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1671
+#, no-c-format
+msgid ""
+"Feel free to deploy the application, open many windows or tabs and attempt "
+"combinations of various hotels with various room preferences. Confirming a "
+"booking always results in the correct hotel and room preference thanks to "
+"the nested conversation model."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1678
+#, no-c-format
+msgid "A complete application featuring Seam and jBPM: the DVD Store example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1680
+#, no-c-format
+msgid ""
+"The DVD Store demo application shows the practical usage of jBPM for both "
+"task management and pageflow."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1682
+#, no-c-format
+msgid ""
+"The user screens take advantage of a jPDL pageflow to implement searching "
+"and shopping cart functionality."
+msgstr ""
+
+#. Tag: screeninfo
+#: Tutorial.xml:1686 Tutorial.xml:1701
+#, no-c-format
+msgid "DVD Store example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1697
+#, no-c-format
+msgid ""
+"The administration screens take use jBPM to manage the approval and shipping "
+"cycle for orders. The business process may even be changed dynamically, by "
+"selecting a different process definition!"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1713
+#, no-c-format
+msgid ""
+"The Seam DVD Store demo can be run from <literal>dvdstore</literal> "
+"directory, just like the other demo applications."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1720
+#, no-c-format
+msgid "Bookmarkable URLs with the Blog example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1722
+#, no-c-format
+msgid ""
+"Seam makes it very easy to implement applications which keep state on the "
+"server-side. However, server-side state is not always appropriate, "
+"especially in for functionality that serves up <emphasis>content</emphasis>. "
+"For this kind of problem we often want to keep application state in the URL "
+"so that any page can be accessed at any time through a bookmark. The blog "
+"example shows how to a implement an application that supports bookmarking "
+"throughout, even on the search results page. This example demonstrates how "
+"Seam can manage application state in the URL as well as how Seam can rewrite "
+"those URLs to be even"
+msgstr ""
+
+#. Tag: screeninfo
+#: Tutorial.xml:1735
+#, no-c-format
+msgid "Blog example"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1746
+#, no-c-format
+msgid ""
+"The Blog example demonstrates the use of \"pull\"-style MVC, where instead "
+"of using action listener methods to retrieve data and prepare the data for "
+"the view, the view pulls data from components as it is being rendered."
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1751
+#, no-c-format
+msgid "Using \"pull\"-style MVC"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1753
+#, no-c-format
+msgid ""
+"This snippet from the <literal>index.xhtml</literal> facelets page displays "
+"a list of recent blog entries:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1757
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{blog.recentBlogEntries}\" var=\"blogEntry\" "
+"rows=\"3\">\n"
+" <h:column>\n"
+"    <div class=\"blogEntry\">\n"
+"       <h3>#{blogEntry.title}</h3>\n"
+"       <div>\n"
+"          <s:formattedText value=\"#{blogEntry.excerpt==null ? blogEntry."
+"body : blogEntry.excerpt}\"/>\n"
+"       </div>\n"
+"       <p>\n"
+"          <s:link view=\"/entry.xhtml\" rendered=\"#{blogEntry.excerpt!=null}"
+"\" propagation=\"none\"\n"
+"              value=\"Read more...\">\n"
+"             <f:param name=\"blogEntryId\" value=\"#{blogEntry.id}\"/>\n"
+"          </s:link>\n"
+"       </p>\n"
+"       <p>\n"
+"          [Posted on&#160;\n"
+"          <h:outputText value=\"#{blogEntry.date}\">\n"
+"              <f:convertDateTime timeZone=\"#{blog.timeZone}\" locale=\"#"
+"{blog.locale}\" type=\"both\"/>\n"
+"          </h:outputText>]\n"
+"          &#160;\n"
+"          <s:link view=\"/entry.xhtml\" propagation=\"none\" value=\"[Link]"
+"\">\n"
+"             <f:param name=\"blogEntryId\" value=\"#{blogEntry.id}\"/>\n"
+"          </s:link>\n"
+"       </p>\n"
+"    </div>\n"
+" </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1761
+#, no-c-format
+msgid ""
+"If we navigate to this page from a bookmark, how does the <literal>#{blog."
+"recentBlogEntries}</literal> data used by the <literal>&lt;h:dataTable&gt;</"
+"literal> actually get initialized? The <literal>Blog</literal> is retrieved "
+"lazily &#8212; \"pulled\" &#8212; when needed, by a Seam component named "
+"<literal>blog</literal>. This is the opposite flow of control to what is "
+"used in traditional action-based web frameworks like Struts."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1774
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"blog\")\n"
+"@Scope(ScopeType.STATELESS)\n"
+"@AutoCreate\n"
+"public class BlogService \n"
+"{\n"
+"   \n"
+"   @In EntityManager entityManager;\n"
+"  \n"
+"   @Unwrap\n"
+"   public Blog getBlog()\n"
+"   {\n"
+"      return (Blog) entityManager.createQuery(\"select distinct b from Blog "
+"b left join fetch b.blogEntries\")\n"
+"            .setHint(\"org.hibernate.cacheable\", true)\n"
+"            .getSingleResult();\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1777
+#, no-c-format
+msgid ""
+"This component uses a <emphasis>seam-managed persistence context</emphasis>. "
+"Unlike the other examples we've seen, this persistence context is managed by "
+"Seam, instead of by the EJB3 container. The persistence context spans the "
+"entire web request, allowing us to avoid any exceptions that occur when "
+"accessing unfetched associations in the view."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1784
+#, no-c-format
+msgid ""
+"The <literal>@Unwrap</literal> annotation tells Seam to provide the return "
+"value of the method &#8212; the <literal>Blog</literal> &#8212; instead of "
+"the actual <literal>BlogService</literal> component to clients. This is the "
+"Seam <emphasis>manager component pattern</emphasis>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1794
+#, no-c-format
+msgid ""
+"This is good so far, but what about bookmarking the result of form "
+"submissions, such as a search results page?"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1800
+#, no-c-format
+msgid "Bookmarkable search results page"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1802
+#, no-c-format
+msgid ""
+"The blog example has a tiny form in the top right of each page that allows "
+"the user to search for blog entries. This is defined in a file, "
+"<literal>menu.xhtml</literal>, included by the facelets template, "
+"<literal>template.xhtml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1807
+#, no-c-format
+msgid ""
+"<![CDATA[<div id=\"search\">\n"
+"   <h:form>\n"
+"      <h:inputText value=\"#{searchAction.searchPattern}\"/>\n"
+"      <h:commandButton value=\"Search\" action=\"/search.xhtml\"/>\n"
+"   </h:form>\n"
+"</div>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1810
+#, no-c-format
+msgid ""
+"To implement a bookmarkable search results page, we need to perform a "
+"browser redirect after processing the search form submission. Because we "
+"used the JSF view id as the action outcome, Seam automatically redirects to "
+"the view id when the form is submitted. Alternatively, we could have defined "
+"a navigation rule like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1815
+#, no-c-format
+msgid ""
+"<![CDATA[<navigation-rule>\n"
+"   <navigation-case>\n"
+"      <from-outcome>searchResults</from-outcome>\n"
+"      <to-view-id>/search.xhtml</to-view-id>\n"
+"      <redirect/>\n"
+"   </navigation-case>\n"
+"</navigation-rule>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1818
+#, no-c-format
+msgid "Then the form would have looked like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1820
+#, no-c-format
+msgid ""
+"<![CDATA[<div id=\"search\">\n"
+"   <h:form>\n"
+"      <h:inputText value=\"#{searchAction.searchPattern}\"/>\n"
+"      <h:commandButton value=\"Search\" action=\"searchResults\"/>\n"
+"   </h:form>\n"
+"</div>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1823
+#, no-c-format
+msgid ""
+"But when we redirect, we need to include the values submitted with the form "
+"in the URL to get a bookmarkable URL like <literal>http://localhost:8080/"
+"seam-blog/search/</literal>. JSF does not provide an easy way to do this, "
+"but Seam does. We use two Seam features to accomplish this: <emphasis>page "
+"parameters</emphasis> and <emphasis>URL rewriting</emphasis>. Both are "
+"defined in <literal>WEB-INF/pages.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1831
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"   <page view-id=\"/search.xhtml\">\n"
+"      <rewrite pattern=\"/search/{searchPattern}\"/> \n"
+"      <rewrite pattern=\"/search\"/>\n"
+"      \n"
+"      <param name=\"searchPattern\" value=\"#{searchService.searchPattern}\"/"
+">\n"
+"\n"
+"   </page>\n"
+"   ...\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1834
+#, no-c-format
+msgid ""
+"The page parameter instructs Seam to link the request parameter named "
+"<literal>searchPattern</literal> to the value of <literal>#{searchService."
+"searchPattern}</literal>, both whenever a request for the Search page comes "
+"in and whenever a link to the search page is generated. Seam takes "
+"responsibility for maintaining the link between URL state and application "
+"state, and you, the developer, don't have to worry about it."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1841
+#, no-c-format
+msgid ""
+"Without URL rewriting, the URL for a search on the term <literal>book</"
+"literal> would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?"
+"searchPattern=book</literal>. This is nice, but Seam can make the URL even "
+"simpler using a rewrite rule. The first rewrite rule, for the pattern "
+"<literal>/search/{searchPattern}</literal>, says that any time we have a URL "
+"for search.xhtml with a searchPattern request parameter, we can fold that "
+"URL into the simpler URL. So,the URL we saw earlier, <literal>http://"
+"localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> can "
+"be written instead as <literal>http://localhost:8080/seam-blog/search/book</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1851
+#, no-c-format
+msgid ""
+"Just like with page parameters, URL rewriting is bi-directional. That means "
+"that Seam forwards requests for the simpler URL to the the right view, and "
+"it also automatically generates the simpler view for you. You never need to "
+"worry about constructing URLs. It's all handled transparently behind the "
+"scenes. The only requirement is that to use URL rewriting, the rewrite "
+"filter needs to be enabled in <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1859
+#, no-c-format
+msgid "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1861
+#, no-c-format
+msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1863
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{searchResults}\" var=\"blogEntry\">\n"
+"  <h:column>\n"
+"     <div>\n"
+"        <s:link view=\"/entry.xhtml\" propagation=\"none\" value=\"#"
+"{blogEntry.title}\">\n"
+"           <f:param name=\"blogEntryId\" value=\"#{blogEntry.id}\"/>\n"
+"        </s:link>\n"
+"        posted on \n"
+"        <h:outputText value=\"#{blogEntry.date}\">\n"
+"            <f:convertDateTime timeZone=\"#{blog.timeZone}\" locale=\"#{blog."
+"locale}\" type=\"both\"/>\n"
+"        </h:outputText>\n"
+"     </div>\n"
+"  </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1866
+#, no-c-format
+msgid ""
+"Which again uses \"pull\"-style MVC to retrieve the actual search results "
+"using Hibernate Search."
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1869
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"searchService\")\n"
+"public class SearchService \n"
+"{\n"
+"   \n"
+"   @In\n"
+"   private FullTextEntityManager entityManager;\n"
+"   \n"
+"   private String searchPattern;\n"
+"   \n"
+"   @Factory(\"searchResults\")\n"
+"   public List<BlogEntry> getSearchResults()\n"
+"   {\n"
+"      if (searchPattern==null || \"\".equals(searchPattern) ) {\n"
+"         searchPattern = null;\n"
+"         return entityManager.createQuery(\"select be from BlogEntry be "
+"order by date desc\").getResultList();\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         Map<String,Float> boostPerField = new HashMap<String,Float>();\n"
+"         boostPerField.put( \"title\", 4f );\n"
+"         boostPerField.put( \"body\", 1f );\n"
+"         String[] productFields = {\"title\", \"body\"};\n"
+"         QueryParser parser = new MultiFieldQueryParser(productFields, new "
+"StandardAnalyzer(), boostPerField);\n"
+"         parser.setAllowLeadingWildcard(true);\n"
+"         org.apache.lucene.search.Query luceneQuery;\n"
+"         try\n"
+"         {\n"
+"            luceneQuery = parser.parse(searchPattern);\n"
+"         }\n"
+"         catch (ParseException e)\n"
+"         {\n"
+"            return null;\n"
+"         }\n"
+"\n"
+"         return entityManager.createFullTextQuery(luceneQuery, BlogEntry."
+"class)\n"
+"               .setMaxResults(100)\n"
+"               .getResultList();\n"
+"      }\n"
+"   }\n"
+"\n"
+"   public String getSearchPattern()\n"
+"   {\n"
+"      return searchPattern;\n"
+"   }\n"
+"\n"
+"   public void setSearchPattern(String searchPattern)\n"
+"   {\n"
+"      this.searchPattern = searchPattern;\n"
+"   }\n"
+"\n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: title
+#: Tutorial.xml:1875
+#, no-c-format
+msgid "Using \"push\"-style MVC in a RESTful application"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1877
+#, no-c-format
+msgid ""
+"Very occasionally, it makes more sense to use push-style MVC for processing "
+"RESTful pages, and so Seam provides the notion of a <emphasis>page action</"
+"emphasis>. The Blog example uses a page action for the blog entry page, "
+"<literal>entry.xhtml</literal>. Note that this is a little bit contrived, it "
+"would have been easier to use pull-style MVC here as well."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1882
+#, no-c-format
+msgid ""
+"The <literal>entryAction</literal> component works much like an action class "
+"in a traditional push-MVC action-oriented framework like Struts:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1885
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"entryAction\")\n"
+"@Scope(STATELESS)\n"
+"public class EntryAction\n"
+"{\n"
+"   @In Blog blog;\n"
+"   \n"
+"   @Out BlogEntry blogEntry;\n"
+"   \n"
+"   public void loadBlogEntry(String id) throws EntryNotFoundException\n"
+"   {\n"
+"      blogEntry = blog.getBlogEntry(id);\n"
+"      if (blogEntry==null) throw new EntryNotFoundException(id);\n"
+"   }\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1888
+#, no-c-format
+msgid "Page actions are also declared in <literal>pages.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1890
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"   ...\n"
+"\n"
+"    <page view-id=\"/entry.xhtml\"> \n"
+"        <rewrite pattern=\"/entry/{blogEntryId}\" />\n"
+"        <rewrite pattern=\"/entry\" />\n"
+"        \n"
+"        <param name=\"blogEntryId\" \n"
+"               value=\"#{blogEntry.id}\"/>\n"
+"        \n"
+"        <action execute=\"#{entryAction.loadBlogEntry(blogEntry.id)}\"/>\n"
+"    </page>\n"
+"    \n"
+"    <page view-id=\"/post.xhtml\" login-required=\"true\">\n"
+"        <rewrite pattern=\"/post\" />\n"
+"        \n"
+"        <action execute=\"#{postAction.post}\"\n"
+"                if=\"#{validation.succeeded}\"/>\n"
+"        \n"
+"        <action execute=\"#{postAction.invalid}\"\n"
+"                if=\"#{validation.failed}\"/>\n"
+"        \n"
+"        <navigation from-action=\"#{postAction.post}\">\n"
+"            <redirect view-id=\"/index.xhtml\"/>\n"
+"        </navigation>\n"
+"    </page>\n"
+"\n"
+"    <page view-id=\"*\">\n"
+"        <action execute=\"#{blog.hitCount.hit}\"/>\n"
+"    </page>\n"
+"\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1893
+#, no-c-format
+msgid ""
+"Notice that the example is using page actions for post validation and the "
+"pageview counter. Also notice the use of a parameter in the page action "
+"method binding. This is not a standard feature of JSF EL, but Seam lets you "
+"use it, not just for page actions but also in JSF method bindings."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1898
+#, no-c-format
+msgid ""
+"When the <literal>entry.xhtml</literal> page is requested, Seam first binds "
+"the page parameter <literal>blogEntryId</literal> to the model. Keep in mind "
+"that because of the URL rewriting, the blogEntryId parameter name won't show "
+"up in the URL. Seam then runs the page action, which retrieves the needed "
+"data &#8212; the <literal>blogEntry</literal> &#8212; and places it in the "
+"Seam event context. Finally, the following is rendered:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1905
+#, no-c-format
+msgid ""
+"<![CDATA[<div class=\"blogEntry\">\n"
+"    <h3>#{blogEntry.title}</h3>\n"
+"    <div>\n"
+"        <s:formattedText value=\"#{blogEntry.body}\"/>\n"
+"    </div>\n"
+"    <p>\n"
+"    [Posted on&#160;\n"
+"    <h:outputText value=\"#{blogEntry.date}\">\n"
+"       <f:convertDateTime timeZone=\"#{blog.timeZone}\" locale=\"#{blog."
+"locale}\" type=\"both\"/>\n"
+"    </h:outputText>]\n"
+"    </p>\n"
+"</div>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1908
+#, no-c-format
+msgid ""
+"If the blog entry is not found in the database, the "
+"<literal>EntryNotFoundException</literal> exception is thrown. We want this "
+"exception to result in a 404 error, not a 505, so we annotate the exception "
+"class:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1912
+#, no-c-format
+msgid ""
+"<![CDATA[@ApplicationException(rollback=true)\n"
+"@HttpError(errorCode=HttpServletResponse.SC_NOT_FOUND)\n"
+"public class EntryNotFoundException extends Exception\n"
+"{\n"
+"   EntryNotFoundException(String id)\n"
+"   {\n"
+"      super(\"entry not found: \" + id);\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1915
+#, no-c-format
+msgid ""
+"An alternative implementation of the example does not use the parameter in "
+"the method binding:"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1917
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"entryAction\")\n"
+"@Scope(STATELESS)\n"
+"public class EntryAction\n"
+"{\n"
+"   @In(create=true) \n"
+"   private Blog blog;\n"
+"   \n"
+"   @In @Out\n"
+"   private BlogEntry blogEntry;\n"
+"   \n"
+"   public void loadBlogEntry() throws EntryNotFoundException\n"
+"   {\n"
+"      blogEntry = blog.getBlogEntry( blogEntry.getId() );\n"
+"      if (blogEntry==null) throw new EntryNotFoundException(id);\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Tutorial.xml:1919
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"   ...\n"
+"\n"
+"   <page view-id=\"/entry.xhtml\" action=\"#{entryAction.loadBlogEntry}\">\n"
+"      <param name=\"blogEntryId\" value=\"#{blogEntry.id}\"/>\n"
+"   </page>\n"
+"   \n"
+"   ...\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1922
+#, no-c-format
+msgid "It is a matter of taste which implementation you prefer."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:1925
+#, no-c-format
+msgid ""
+"The blog demo also demonstrates very simple password authentication, posting "
+"to the blog, page fragment caching and atom feed generation."
+msgstr ""

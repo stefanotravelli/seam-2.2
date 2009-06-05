@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Download</name>
+		<family>org.jboss.seam.ui.Download</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlDownload</classname>
+		<superclass>org.jboss.seam.ui.component.UIDownload</superclass>
+		<description>
+			<![CDATA[Link for downloading a file]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.DownloadRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.DownloadRendererBase</classname>
+		</renderer>		
+		<tag>
+			<name>download</name>
+			<classname>org.jboss.seam.ui.taglib.DownloadTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&html_style_attributes;
+		<property>
+			<name>src</name>
+			<classname>java.lang.String</classname>
+			<description>Source xhtml file that acts as resource holder</description>
+		</property>
+		<property>
+			<name>rendered</name>
+			<classname>boolean</classname>
+			<description>true iff this component should be rendered</description>
+			<defaultvalue>true</defaultvalue>
+		</property>		
+	</component>
+</components>

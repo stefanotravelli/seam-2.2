@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.graphicImage.TransformImageSize</name>
+		<family>org.jboss.seam.ui.graphicImage.TransformImageSize</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlTransformImageSize</classname>
+		<superclass>org.jboss.seam.ui.graphicImage.UITransformImageSize</superclass>
+		<description>
+			<![CDATA[Nested in a s:graphicImage. Transform an image by altering the size]]>
+		</description>
+		<tag>
+			<name>transformImageSize</name>
+			<classname>org.jboss.seam.ui.taglib.TransformImageSizeTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		<property>
+			<name>maintainRatio</name>
+			<classname>boolean</classname>
+			<description>If true, don't alter the ratio of the image. In this case only height or width should be specificed.</description>
+		</property>		
+		<property>
+			<name>width</name>
+			<classname>java.lang.Integer</classname>
+			<description>The new width of the image</description>
+		</property>  	
+   		<property>
+   			<name>height</name>
+   			<classname>java.lang.Integer</classname>
+   			<description>The new height of the image</description>
+   		</property>
+   		<property>
+   			<name>factor</name>
+   			<classname>java.lang.Double</classname>
+   			<description>Change the size of the image by a fraction. If factor is specified, height, width and maintainRatio should not be specified</description>
+   		</property>
+	</component>
+</components>

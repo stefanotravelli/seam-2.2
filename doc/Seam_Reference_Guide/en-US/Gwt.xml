@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="gwt">
+  <title>Seam and the Google Web Toolkit</title>
+
+  <para>
+    For those that prefer to use the Google Web Toolkit (GWT) to develop dynamic AJAX applications, Seam provides
+    an integration layer that allows GWT widgets to interact directly with Seam components.
+  </para>
+  
+  <para>
+    To use GWT, we assume that you are already familiar with the GWT tools - more information can be found at
+    <ulink url="http://code.google.com/webtoolkit/">http://code.google.com/webtoolkit/</ulink>.  This chapter 
+    does not attempt to explain how GWT works or how to use it.
+  </para>
+  
+  <section>
+    <title>Configuration</title>
+    
+    <para>
+      There is no special configuration required to use GWT in a Seam application, however the Seam resource servlet 
+      must be installed.  See <xref linkend="configuration"/> for details.
+    </para>
+  
+  </section>
+  
+  <section>
+    <title>Preparing your component</title>
+    
+    <para>
+      The first step in preparing a Seam component to be called via GWT, is to create both synchronous and
+      asynchronous service interfaces for the methods you wish to call.  Both of these interfaces should extend the
+      GWT interface <literal>com.google.gwt.user.client.rpc.RemoteService</literal>:
+    </para> 
+  
+    <programlisting role="JAVA"><![CDATA[public interface MyService extends RemoteService {
+    public String askIt(String question);      
+ }]]></programlisting>
+  
+    <para>
+      The asynchronous interface should be identical, except that it also contains an additional 
+      <literal>AsyncCallback</literal> parameter for each of the methods it declares:    
+    </para>
+    
+    <programlisting role="JAVA"><![CDATA[public interface MyServiceAsync extends RemoteService {
+   public void askIt(String question, AsyncCallback callback);
+}]]></programlisting>
+
+    <para>
+      The asynchronous interface, in this example <literal>MyServiceAsync</literal>, will be implemented by GWT and
+      should never be implemented directly.
+    </para>
+    
+    <para>
+      The next step, is to create a Seam component that implements the synchronous interface:
+    </para>
+    
+    <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.example.remoting.gwt.client.MyService")
+public class ServiceImpl implements MyService {
+
+   @WebRemote
+   public String askIt(String question) {
+   
+      if (!validate(question)) {
+         throw new IllegalStateException("Hey, this shouldn't happen, I checked on the client, " +
+         "but its always good to double check.");
+      }
+      return "42. Its the real question that you seek now.";
+   }
+   
+   public boolean validate(String q) {
+      ValidationUtility util = new ValidationUtility();
+      return util.isValid(q);
+   }
+}]]></programlisting>
+
+    <para>     
+      The name of the seam component <emphasis>must</emphasis> match the fully
+      qualified name of the GWT client interface (as shown), or the seam
+      resource servlet will not be able to find it when a client makes a GWT
+      call. The methods that are to be made accessible via GWT also need to be
+      annotated with the <literal>@WebRemote</literal> annotation.      
+    </para>
+  </section>
+  
+  <section>
+    <title>Hooking up a GWT widget to the Seam component</title>
+    
+    <para>
+      The next step, is to write a method that returns the asynchronous interface to the component.  This method
+      can be located inside the widget class, and will be used by the widget to obtain a reference to the
+      asynchronous client stub:
+    </para>
+    
+    <programlisting role="JAVA"><![CDATA[private MyServiceAsync getService() {       
+   String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
+      
+   MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
+   ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);
+   return svc;     
+}]]></programlisting>
+   
+    <para>
+       The final step is to write the widget code that invokes the method on the client stub.  The following example
+       creates a simple user interface with a label, text input and a button:
+    </para>
+    
+    <programlisting role="JAVA"><![CDATA[
+public class AskQuestionWidget extends Composite {
+   private AbsolutePanel panel = new AbsolutePanel();
+   
+   public AskQuestionWidget() {      
+      Label lbl = new Label("OK, what do you want to know?");
+      panel.add(lbl);
+      final TextBox box = new TextBox();
+      box.setText("What is the meaning of life?");
+      panel.add(box);
+      Button ok = new Button("Ask");
+      ok.addClickListener(new ClickListener() {
+         public void onClick(Widget w) {
+            ValidationUtility valid = new ValidationUtility();
+            if (!valid.isValid(box.getText())) {
+               Window.alert("A question has to end with a '?'");
+            } else {
+               askServer(box.getText());
+            } 
+         }
+      });
+      panel.add(ok);
+      
+      initWidget(panel);
+   }
+
+   private void askServer(String text) {
+      getService().askIt(text, new AsyncCallback() {
+         public void onFailure(Throwable t) {
+            Window.alert(t.getMessage());
+         }
+
+         public void onSuccess(Object data) {
+            Window.alert((String) data);
+         }         
+      });      
+   }
+   
+   ...]]></programlisting>
+    
+    
+    <para>
+      When clicked, the button invokes the <literal>askServer()</literal> method passing the contents of the input text (in this
+      example, validation is also performed to ensure that the input is a valid question).  The <literal>askServer()</literal>
+      method acquires a reference to the asynchronous client stub (returned by the <literal>getService()</literal> method)
+      and invokes the <literal>askIt()</literal> method.  The result (or error message if the call fails) is shown in an alert window.      
+    </para>
+    
+    <mediaobject>
+      <imageobject role="fo">
+        <imagedata fileref="images/gwt-helloworld.png" align="center" scalefit="1"/>
+      </imageobject>
+      <imageobject role="html">
+        <imagedata fileref="images/gwt-helloworld.png" align="center"/>
+      </imageobject>
+    </mediaobject>    
+    
+    
+    <para>
+      The complete code for this example can be found in the Seam distribution in the <literal>examples/remoting/gwt</literal>
+      directory.
+    </para>
+  </section>
+  
+  <section>
+    <title>GWT Ant Targets</title>
+  
+    <para>
+      For deployment of GWT apps, there is a compile-to-Javascript step (which compacts and obfuscates the code).  There is an
+      ant utility which can be used instead of the command line or GUI utility that GWT provides.  To use this, you will need
+      to have the ant task jar in your ant classpath, as well as GWT downloaded (which you will need for hosted mode anyway).
+    </para>
+    
+    <para>
+      Then, in your ant file, place (near the top of your ant file):
+    </para>
+    
+    <programlisting role="XML"><![CDATA[<taskdef uri="antlib:de.samaflost.gwttasks"
+   resource="de/samaflost/gwttasks/antlib.xml"
+   classpath="./lib/gwttasks.jar"/>
+   
+   <property file="build.properties"/>]]></programlisting>
+  
+    <para>
+      Create a <literal>build.properties</literal> file, which has the contents:
+    </para>
+    
+    <programlisting><![CDATA[gwt.home=/gwt_home_dir]]></programlisting>
+    
+    <para>
+      This of course should point to the directory where GWT is installed.  Then to use it, create a target:
+    </para>
+    
+    <programlisting role="XML"><![CDATA[<!-- the following are are handy utilities for doing GWT development.
+   To use GWT, you will of course need to download GWT seperately -->
+   <target name="gwt-compile">
+      <!-- in this case, we are "re homing" the gwt generated stuff, so in this case
+      we can only have one GWT module - we are doing this deliberately to keep the URL short -->
+      <delete>
+         <fileset dir="view"/>
+      </delete>
+      <gwt:compile outDir="build/gwt"
+         gwtHome="${gwt.home}"
+         classBase="${gwt.module.name}"
+         sourceclasspath="src"/>
+      <copy todir="view">
+         <fileset dir="build/gwt/${gwt.module.name}"/>
+      </copy>
+   </target>]]></programlisting>
+  
+    <para>
+      This target when called will compile the GWT application, and copy it to the specified directory (which would be
+      in the <literal>webapp</literal> part of your war - remember GWT generates HTML and Javascript artifacts).  You
+      never edit the resulting code that <literal>gwt-compile</literal> generates - you always edit in the GWT source
+      directory.
+    </para>
+    
+    <para>
+      Remember that GWT comes with a hosted mode browser - you should be using that if you are developing with GWT.  If you
+      aren't using that, and are just compiling it each time, you aren't getting the most out of the toolkit (in fact, if
+      you can't or won't use the hosted mode browser, I would go far as to say you should NOT be using GWT at all - it's
+      that valuable!).
+    </para>
+    
+  </section>
+</chapter>

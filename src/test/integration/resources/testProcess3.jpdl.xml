@@ -1,0 +1,14 @@
+<process-definition name="TestProcess3"
+                    xmlns="urn:jbpm.org:jpdl-3.2"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/xsd/jpdl-3.2.xsd">
+
+    <start-state name="start">
+        <transition to="done">
+          <action expression="#{seamExpressionEvaluatorTestController.nonExistentMethod}" />
+        </transition>
+    </start-state>
+    
+    <end-state name="done"/>
+    
+</process-definition>

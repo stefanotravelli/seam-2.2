@@ -1,0 +1,56 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+		        xmlns:ice="http://www.icesoft.com/icefaces/component" 
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+  <ice:form id="listFormId">  
+     <ice:panelGroup  id="listSearchGroupId" styleClass="formBorderHighlight">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td class="iceDatTblColHdr2">		
+		          <ice:outputText id="list@masterPageName@Id" value="@masterPageName@"/>
+                  </td>
+              </tr>
+          </table>
+        
+        <div class="results">
+        
+    		<h:outputText id="list@componentName@ExistsId" value="No @componentName@ exists" 
+            	rendered="#{empty @listName@.resultList}"/>
+    		<ice:dataTable id="@listName@TableId" var="@componentName@"
+           			 value="#{@listName@.resultList}" 
+                        resizable="true"
+				columnClasses="allCols"
+           			rendered="#{not empty @listName@.resultList}">
+        		<ice:column id="list@componentName@.id">
+            		<f:facet name="header">Id</f:facet>
+            		#{@componentName@.id}
+        		</ice:column>
+        		<ice:column id="list@componentName@.name">
+                    <f:facet name="header">Name</f:facet>
+                    <s:link id="@componentName@" 
+                         value="#{@componentName@.name}" 
+                         view="/@pageName@.xhtml">
+                        <f:param name="@componentName@Id" 
+                                value="#{@componentName@.id}"/>
+                    </s:link>
+        		</ice:column>
+    		</ice:dataTable>
+      </div>
+   </ice:panelGroup>
+   <div class="actionButtons">
+        <s:button id="listCreateId" value="Create @componentName@" styleClass="iceCmdBtn"
+            view="/@pageName@.xhtml"/>			  
+   </div>
+ </ice:form>   
+</ui:define>
+
+</ui:composition>
+

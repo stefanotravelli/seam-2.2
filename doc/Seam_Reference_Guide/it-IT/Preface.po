@@ -1,0 +1,263 @@
+# Language it-IT translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:22+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Preface.xml:7
+#, no-c-format
+msgid "Introduction to JBoss Seam"
+msgstr "Introduzione a JBoss Seam"
+
+#. Tag: para
+#: Preface.xml:9
+#, no-c-format
+msgid "Seam is an application framework for Enterprise Java. It is inspired by the following principles:"
+msgstr "Seam è un'application framework per Java Enterprise. Si ispira ai seguenti principi:"
+
+#. Tag: emphasis
+#: Preface.xml:16
+#, no-c-format
+msgid "One kind of \"stuff\""
+msgstr "Unico tipo di \"cosa\""
+
+#. Tag: para
+#: Preface.xml:18
+#, no-c-format
+msgid "Seam defines a uniform component model for all business logic in your application. A Seam component may be stateful, with the state associated with any one of several well-defined contexts, including the long-running, persistent, <emphasis>business process context</emphasis> and the <emphasis>conversation context</emphasis>, which is preserved across multiple web requests in a user interaction."
+msgstr "Seam definisce un modello uniforme a componenti per tutte le business logic dell'applicazione. Un componente Seam può essere stateful, con uno stato associato ad uno dei tanti contesti ben-definiti, che includono long-running, persistenza, <emphasis>contesto del processo di business</emphasis> e il <emphasis>contesto conversazionale</emphasis>, che viene preservato lungo le diverse richieste web durante l'interazione dell'utente."
+
+#. Tag: para
+#: Preface.xml:25
+#, no-c-format
+msgid "There is no distinction between presentation tier components and business logic components in Seam. You can layer your application according to whatever architecture you devise, rather than being forced to shoehorn your application logic into an unnatural layering scheme forced upon you by whatever combination of stovepipe frameworks you're using today."
+msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello presentazione ed i componenti di business logic. Si può stratificare l'applicazione secondo una qualsiasi architettura a proprio piacimento, piuttosto che essere forzati a modellare la logica dell'applicazione in uno schema innaturale con una qualsiasi combinazione di framework aggrovigliati come avviene oggi."
+
+#. Tag: para
+#: Preface.xml:32
+#, no-c-format
+msgid "Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam &#8212; the difference is that <emphasis>you</emphasis> get to architect your own application and decide what the layers are and how they work together."
+msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione imposta dalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente vieta di creare un'architettura a strati equivalente usando Seam &#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura dell'applicazione e decidi quali sono i layer e come lavorano assieme"
+
+#. Tag: emphasis
+#: Preface.xml:45
+#, no-c-format
+msgid "Integrate JSF with EJB 3.0"
+msgstr "Integrazione di JSF con EJB 3.0"
+
+#. Tag: para
+#: Preface.xml:47
+#, no-c-format
+msgid "JSF and EJB 3.0 are two of the best new features of Java EE 5. EJB3 is a brand new component model for server side business and persistence logic. Meanwhile, JSF is a great component model for the presentation tier. Unfortunately, neither component model is able to solve all problems in computing by itself. Indeed, JSF and EJB3 work best used together. But the Java EE 5 specification provides no standard way to integrate the two component models. Fortunately, the creators of both models foresaw this situation and provided standard extension points to allow extension and integration with other frameworks."
+msgstr "JSF e EJB 3.0 sono due delle migliori caratteristiche di Java EE 5. EJB3 è nuovo modello a componenti per la logica di business e di persistenza lato server. Mentre JSF è un eccezionale modello a componenti per il livello di presentazione. Sfortunatamente, nessuno dei due componenti da solo è capace di risolvere tutti i problemi. Invece JSE e EJB3 utilizzati assieme funzionano meglio. Ma la specifica Java EE 5 non fornisce alcuno standard per integrare i due modelli a componenti. Fortunatamente, i creatori di entrambi i modelli hanno previsto questa situazione ed hanno elaborato delle estensioni allo standard per consentire un ampiamento ed un'integrazione con altri framework."
+
+#. Tag: para
+#: Preface.xml:57
+#, no-c-format
+msgid "Seam unifies the component models of JSF and EJB3, eliminating glue code, and letting the developer think about the business problem."
+msgstr "Seam unifica i modelli a componenti di JSF e EJB3, eliminando il codice colla, e consentendo allo sviluppatore di pensare al problema di business."
+
+#. Tag: para
+#: Preface.xml:61
+#, no-c-format
+msgid "It is possible to write Seam applications where \"everything\" is an EJB. This may come as a surprise if you're used to thinking of EJBs as coarse-grained, so-called \"heavyweight\" objects. However, version 3.0 has completely changed the nature of EJB from the point of view of the developer. An EJB is a fine-grained object &#8212; nothing more complex than an annotated JavaBean. Seam even encourages you to use session beans as JSF action listeners!"
+msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere sorprendente, se si è abituati a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine &#8212; non più complesso di un JavaBean con annotazioni. Seam incoraggia ad usare i session bean come action listener JSF! "
+
+#. Tag: para
+#: Preface.xml:69
+#, no-c-format
+msgid "On the other hand, if you prefer not to adopt EJB 3.0 at this time, you don't have to. Virtually any Java class may be a Seam component, and Seam provides all the functionality that you expect from a \"lightweight\" container, and more, for any component, EJB or otherwise."
+msgstr "Dall'altro lato, se si preferisce non adottare EJB 3.0 adesso, è possibile non farlo. Virtualmente ogni classe java può essere un componente Seam, e Seam fornisce tutte le funzionalità che ci si attende da un \"lightweight\" container, ed in più, per ogni componente, EJB o altro."
+
+#. Tag: emphasis
+#: Preface.xml:79
+#, no-c-format
+msgid "Integrated AJAX"
+msgstr "AJAX integrato"
+
+#. Tag: para
+#: Preface.xml:81
+#, no-c-format
+msgid "Seam supports the best open source JSF-based AJAX solutions: JBoss RichFaces and ICEfaces. These solutions let you add AJAX capability to your user interface without the need to write any JavaScript code."
+msgstr "Seam supporta le migliori soluzioni open source AJAX basate su JSF: JBoss RichFaces e ICEFaces. Queste soluzioni ti permettono di aggiungere funzionalità AJAX all'interfaccia utente senza il bisogno di scrivere codice JavaScript."
+
+#. Tag: para
+#: Preface.xml:86
+#, no-c-format
+msgid "Alternatively, Seam provides a built-in JavaScript remoting layer that lets you call components asynchronously from client-side JavaScript without the need for an intermediate action layer. You can even subscribe to server-side JMS topics and receive messages via AJAX push."
+msgstr "In alternativa Seam fornisce al suo interno uno strato remoto di JavaScript che ti consente di chiamare i componenti in modo asincrono da JavaScript lato client senza il bisogno di uno strato di azione intermedio. Si può anche sottoscrivere topic JMS lato server e ricevere messaggi tramite push AJAX."
+
+#. Tag: para
+#: Preface.xml:92
+#, no-c-format
+msgid "Neither of these approaches would work well, were it not for Seam's built-in concurrency and state management, which ensures that many concurrent fine-grained, asynchronous AJAX requests are handled safely and efficiently on the server side."
+msgstr "Nessuno di questi approcci funzionerebbe bene, se non fosse per la gestione interna di Seam della concorrenza e dello stato, la quale assicura che molte richieste AJAX a grana fine (fine-grained) concorrenti e asincrone vengano gestite in modo sicuro ed efficiente lato server."
+
+# da rivedere FIRST CLASS CONSTRUCT
+#. Tag: emphasis
+#: Preface.xml:101
+#, no-c-format
+msgid "Business process as a first class construct"
+msgstr "Processo di business come primo costrutto di classe"
+
+#. Tag: para
+#: Preface.xml:103
+#, no-c-format
+msgid "Optionally, Seam provides transparent business process management via jBPM. You won't believe how easy it is to implement complex workflows, collaboration and and task management using jBPM and Seam."
+msgstr "Opzionalmente Seam può fornire una gestione trasparente del processo di business tramite jBPM. Non ci crederai quanto è facile implementare workflow complessi, collaborazioni ed una gestione dei compiti utilizzando jBPM e Seam."
+
+#. Tag: para
+#: Preface.xml:108
+#, no-c-format
+msgid "Seam even allows you to define presentation tier pageflow using the same language (jPDL) that jBPM uses for business process definition."
+msgstr "Seam consente pure di definire il pageflow del livello di presentazione utilizzando lo stesso linguaggio (jPDL) che jBPM utilizza per la definizione dei processi di business."
+
+#. Tag: para
+#: Preface.xml:112
+#, no-c-format
+msgid "JSF provides an incredibly rich event model for the presentation tier. Seam enhances this model by exposing jBPM's business process related events via exactly the same event handling mechanism, providing a uniform event model for Seam's uniform component model."
+msgstr "JSF fornisce un ricco ed incredibile modello a eventi per il livello di presentazione. Seam migliora questo modello esponendo gli eventi del processo di business jBPM attraverso lo stesso identico meccanismo di gestione eventi, dando un modello a eventi uniforme per l'intero modello a componenti di Seam."
+
+#. Tag: emphasis
+#: Preface.xml:121
+#, no-c-format
+msgid "Declarative state management"
+msgstr "Gestione dichiarativa dello stato"
+
+#. Tag: para
+#: Preface.xml:123
+#, no-c-format
+msgid "We're all used to the concept of declarative transaction management and declarative security from the early days of EJB. EJB 3.0 even introduces declarative persistence context management. These are three examples of a broader problem of managing state that is associated with a particular <emphasis>context</emphasis>, while ensuring that all needed cleanup occurs when the context ends. Seam takes the concept of declarative state management much further and applies it to <emphasis>application state</emphasis>. Traditionally, J2EE applications implement state management manually, by getting and setting servlet session and request attributes. This approach to state management is the source of many bugs and memory leaks when applications fail to clean up session attributes, or when session data associated with different workflows collides in a multi-window application. Seam has the potential to almost entirely eliminate this class of bugs."
+msgstr "Siamo tutti abituati al concetto di gestione dichiarativa delle transazioni e sicurezza dichiarativa fin dai primi giorni di EJB. EJB3 introduce anche la gestione dichiarativa del contesto di persistenza. Ci sono tre esempi di un ampio problema di gestione dello stato che è associato ad un particolare <emphasis>contesto</emphasis>, mentre tutte i dovuti cleanup avvengono quando il contesto termina. Seam porta oltre il concetto di gestione dichiarativa dello stato e lo applica allo <emphasis>stato dell'applicazione</emphasis>. Tradizionalmente le applicazioni J2EE implementano manualmente la gestione dello stato con il get e set della sessione servlet e degli attributi di richiesta. Questo approccio alla gestione dello stato è l'origine di molti bug e problemi di memoria (memory leak) quando l'applicazione non riesce a pulire gli attributi di sessione, o quando i dati di sessione associati a diversi workflow collidono all'interno di un'applicazione multi-finestra. Seam ha il potenziale per eliminare quasi interamente questa classe di bug."
+
+#. Tag: para
+#: Preface.xml:136
+#, no-c-format
+msgid "Declarative application state management is made possible by the richness of the <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined by the servlet spec &#8212; request, session, application &#8212; with two new contexts &#8212; conversation and business process &#8212; that are more meaningful from the point of view of the business logic."
+msgstr "La gestione dichiarativa dello stato dell''applicazione è resa possibile grazie alla ricchezza del <emphasis>modello di contesto</emphasis> definito da Seam. Seam estende il modello di contesto definito dalla specifica servlet &#8212; richiesta, sessione, applicazione &#8212; con due nuovi contesti &#8212; conversazione e processo di business &#8212; che sono più significatici dal punto di vista della logica di business."
+
+#. Tag: para
+#: Preface.xml:143
+#, no-c-format
+msgid "You'll be amazed at how many things become easier once you start using conversations. Have you ever suffered pain dealing with lazy association fetching in an ORM solution like Hibernate or JPA? Seam's conversation-scoped persistence contexts mean you'll rarely have to see a <literal>LazyInitializationException</literal>. Have you ever had problems with the refresh button? The back button? With duplicate form submission? With propagating messages across a post-then-redirect? Seam's conversation management solves these problems without you even needing to really think about them. They're all symptoms of the broken state management architecture that has been prevalent since the earliest days of the web."
+msgstr "Resterai stupito di come molte cose divengano più semplici non appena inizia ad usare le conversazioni. Hai mai sofferto nell'utilizzo dell'associazione lazy in una soluzione ORM come Hibernate o JPA? I contesti di Seam di persistenza basati sulle conversazioni ti consentiranno di vedere raramente una <literal>LazyInitializationException</literal>. Hai mai avuto problemi con il pulsante di aggiornamento? Con il pulsante indietro? Con una form inviata due volte? Con la propagazione di messaggi attraverso un post-then-redirect? La gestione delle conversazioni di Seam risolve questi problemi senza che tu debba pensarci. Questi sono tutti sintomi di un'architettura errata di gestione dello stato che è stata prevalente fin dai primi giorni della comparsa del web."
+
+#. Tag: emphasis
+#: Preface.xml:158
+#, no-c-format
+msgid "Bijection"
+msgstr "Bijection"
+
+#. Tag: para
+#: Preface.xml:160
+#, no-c-format
+msgid "The notion of <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis> exists in both JSF and EJB3, as well as in numerous so-called \"lightweight containers\". Most of these containers emphasize injection of components that implement <emphasis>stateless services</emphasis>. Even when injection of stateful components is supported (such as in JSF), it is virtually useless for handling application state because the scope of the stateful component cannot be defined with sufficient flexibility, and because components belonging to wider scopes may not be injected into components belonging to narrower scopes."
+msgstr "La nozione di <emphasis>Inversione del Controllo</emphasis> o <emphasis>dependency injection</emphasis> esiste in entrambi JSF e EJB3, così come in numerosi così chiamati lightweight container. La maggior parte di questi container predilige l'injection di componenti che implementano <emphasis>servizi stateless</emphasis>.  Anche quando l'injection di componenti stateful è supportata (come in JSF), è virtualmente inutile per la gestione dello stato dell'applicazione poiché lo scope del componente stateful non può essere definita con sufficiente flessibilità e poiché i componenti appartenenti a scope più ampi potrebbero non essere iniettati nei componenti appartenenti a scope più ristretti."
+
+#. Tag: para
+#: Preface.xml:169
+#, no-c-format
+msgid "<emphasis>Bijection</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a mechanism for aliasing contextual variables (names in the various contexts bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component."
+msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. E' possibile pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati al thread corrente) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
+
+#. Tag: emphasis
+#: Preface.xml:181
+#, no-c-format
+msgid "Workspace management and multi-window browsing"
+msgstr "Gestione del workspace e navigazione multi-finestra"
+
+#. Tag: para
+#: Preface.xml:183
+#, no-c-format
+msgid "Seam applications let the user freely switch between multiple browser tabs, each associated with a different, safely isolated, conversation. Applications may even take advantage of <emphasis>workspace management</emphasis>, allowing the user to switch between conversations (workspaces) in a single browser tab. Seam provides not only correct multi-window operation, but also multi-window-like operation in a single window!"
+msgstr "Le applicazioni Seam consentono all'utente di passare liberamente a più tab del browser, ciascuno associato ad una conversazione differente ed isolata. Le applicazioni possono addirittura avvantaggiarsi della <emphasis>gestione del workspace</emphasis>, consentendo all'utente di spostarsi fra le varie conversazioni (workspace) all'interno del singolo tab del browser. Seam fornisce non solo una corretta funzionalità multi-finestra, ma anche funzionalità multi-finestra in una singola finestra!"
+
+#. Tag: emphasis
+#: Preface.xml:194
+#, no-c-format
+msgid "Prefer annotations to XML"
+msgstr "Preferenza delle annotazioni all'XML"
+
+# rivedere la frase, migliorarla.
+#. Tag: para
+#: Preface.xml:196
+#, no-c-format
+msgid "Traditionally, the Java community has been in a state of deep confusion about precisely what kinds of meta-information counts as configuration. J2EE and popular \"lightweight\" containers have provided XML-based deployment descriptors both for things which are truly configurable between different deployments of the system, and for any other kinds or declaration which can not easily be expressed in Java. Java 5 annotations changed all this."
+msgstr "Tradizionalmente la comunità Java è sempre stata in uno stato di profonda confusione su quali tipologie di meta-informazione debbano essere considerate configurazione. J2EE ed i più noti lightweight container hanno entrambi fornito descrittori per il deploy basati su XML per cose che sono configurabili tra differenti deploy del sistema e per altri tipi di cose o dichiarazioni che non sono facilmente esprimibili in Java. Le annotazioni Java 5 hanno cambiato tutto questo."
+
+#. Tag: para
+#: Preface.xml:204
+#, no-c-format
+msgid "EJB 3.0 embraces annotations and \"configuration by exception\" as the easiest way to provide information to the container in a declarative form. Unfortunately, JSF is still heavily dependent on verbose XML configuration files. Seam extends the annotations provided by EJB 3.0 with a set of annotations for declarative state management and declarative context demarcation. This lets you eliminate the noisy JSF managed bean declarations and reduce the required XML to just that information which truly belongs in XML (the JSF navigation rules)."
+msgstr "EJB 3.0 sceglie le annotazioni e la \"configurazione tramite eccezione\" come il miglior modo per fornire informazioni al container in una forma dichiarativa. Sfortunatamente JSF è fortemente dipendente da file XML di configurazione molto lunghi. Seam estende le annotazioni fornite da EJB 3.0 con un set di annotazioni per la gestione dichiarativa dello stato e la demarcazione dichiarativa del contesto. Questo consente di eliminare le noiose dichiarazioni JSF dei bean gestiti e riduce l'XML richiesto alla sola informazione che veramente appartiene a XML (le regole di navigazione JSF)."
+
+#. Tag: emphasis
+#: Preface.xml:217
+#, no-c-format
+msgid "Integration testing is easy"
+msgstr "I test d'integrazione sono facili"
+
+#. Tag: para
+#: Preface.xml:219
+#, no-c-format
+msgid "Seam components, being plain Java classes, are by nature unit testable. But for complex applications, unit testing alone is insufficient. Integration testing has traditionally been a messy and difficult task for Java web applications. Therefore, Seam provides for testability of Seam applications as a core feature of the framework. You can easily write JUnit or TestNG tests that reproduce a whole interaction with a user, exercising all components of the system apart from the view (the JSP or Facelets page). You can run these tests directly inside your IDE, where Seam will automatically deploy EJB components using JBoss Embedded."
+msgstr "I componenti Seam, essendo semplici classi Java, sono per natura unità testabili. Ma per le applicazioni complesse, il test dell'unità (testing unit) da solo è insufficiente. Il test d'integrazione (integration testing) è tradizionalmente stato complicato e difficile per le applicazioni web Java. Seam fornisce la testabilità delle applicazioni come caratteristica essenziale del framework. Si potranno facilmente scrivere test JUnit o TestNG che riproducano tutta l'interazione con l'utente, provando tutti i componenti del sistema separati dalla vista (pagina JSP o Facelet). Si potranno eseguire questi test direttamente dentro il proprio IDE, dove Seam automaticamente eseguirà il deploy dei componenti EJB usando JBoss Embedded."
+
+#. Tag: emphasis
+#: Preface.xml:232
+#, no-c-format
+msgid "The specs ain't perfect"
+msgstr "Le specifiche non sono perfette"
+
+#. Tag: para
+#: Preface.xml:234
+#, no-c-format
+msgid "We think the latest incarnation of Java EE is great. But we know it's never going to be perfect. Where there are holes in the specifications (for example, limitations in the JSF lifecycle for GET requests), Seam fixes them. And the authors of Seam are working with the JCP expert groups to make sure those fixes make their way back into the next revision of the standards."
+msgstr "Pensiamo che l'ultima incarnazione di Java EE sia ottima. Ma sappiamo che non sarà mai perfetta. Dove ci sono dei buchi nella specifica (per esempio limitazioni nel ciclo di vita JSF per le richieste GET), Seam li risolve. E gli autori di Seam stanno lavorando con i gruppi esperti JCP per assicurare che queste soluzioni siano incorporate nelle prossime revisioni degli standard."
+
+#. Tag: emphasis
+#: Preface.xml:245
+#, no-c-format
+msgid "There's more to a web application than serving HTML pages"
+msgstr "Una web application non genera soltanto pagine html ma fa molto di più"
+
+#. Tag: para
+#: Preface.xml:247
+#, no-c-format
+msgid "Today's web frameworks think too small. They let you get user input off a form and into your Java objects. And then they leave you hanging. A truly complete web application framework should address problems like persistence, concurrency, asynchronicity, state management, security, email, messaging, PDF and chart generation, workflow, wikitext rendering, webservices, caching and more. Once you scratch the surface of Seam, you'll be amazed at how many problems become simpler..."
+msgstr "I web framework di oggi pensano troppo poco. Ti consentono di estrarre gli input dell'utente da una form e di metterlo in un oggetto Java. E poi ti abbandonano. Un vero web framework dovrebbe indirizzarsi verso problemi come la persistenza, la concorrenza, l'asincronicità, la gestione dello stato, la sicurezza, le email, la messaggistica, la generazione di PDF e grafici, il workflow, il rendering di wikitext, i web service, il caching e altro ancora. Dopo aver provato Seam, si resterà stupiti di come questi problemi vengano semplificati..."
+
+#. Tag: para
+#: Preface.xml:255
+#, no-c-format
+msgid "Seam integrates JPA and Hibernate3 for persistence, the EJB Timer Service and Quartz for lightweight asychronicity, jBPM for workflow, JBoss Rules for business rules, Meldware Mail for email, Hibernate Search and Lucene for full text search, JMS for messaging and JBoss Cache for page fragment caching. Seam layers an innovative rule-based security framework over JAAS and JBoss Rules. There's even JSF tag libraries for rendering PDF, outgoing email, charts and wikitext. Seam components may be called synchronously as a Web Service, asynchronously from client-side JavaScript or Google Web Toolkit or, of course, directly from JSF."
+msgstr "Seam integra JPA e Hibernate3 per la persistenza, EJB Timer Service e Quartz per l'asincronicità, jBPM per i workflow, JBoss Rules per le regole di business, Meldware Mail per le email, Hibernate Search e Lucene per la ricerca full text, JMS per la messaggistica e JBoss Cache per il caching delle pagine. Seam pone un framework di sicurezza basato sulle regole sopra JAAS JBoss Rules. Ci sono anche le librerie JSP per la creazione dei PDF, le mail in uscita, i grafici ed il testo wiki. I componenti Seam possono essere chiamati in modo sincrono come un Web Service, oppure in modo asincrono da JavaScript lato client o da Google Web Toolkit o, sicuramente, direttamente da JSF."
+
+#. Tag: emphasis
+#: Preface.xml:268
+#, no-c-format
+msgid "Get started now!"
+msgstr "Inizia ora!"
+
+#. Tag: para
+#: Preface.xml:270
+#, no-c-format
+msgid "Seam works in any Java EE application server, and even works in Tomcat. If your environment supports EJB 3.0, great! If it doesn't, no problem, you can use Seam's built-in transaction management with JPA or Hibernate3 for persistence. Or, you can deploy JBoss Embedded in Tomcat, and get full support for EJB 3.0."
+msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomcat. Se il proprio ambiente supporta EJB 3.0, benissimo! Altrimenti, nessun problema, si può utilizzare la gestione delle transazioni interna a Seam con JPA o Hibernate3 per la persistenza. Oppure si può fare il deploy di JBoss Embedded in Tomcat, ed ottenere pieno supporto per EJB 3.0."
+
+#. Tag: para
+#: Preface.xml:286
+#, no-c-format
+msgid "It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way to write a complex web application in Java. You won't believe how little code is required!"
+msgstr "La combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere una complessa applicazione web in Java. Ci si stupirà di quanto poco codice viene richiesto!"
+

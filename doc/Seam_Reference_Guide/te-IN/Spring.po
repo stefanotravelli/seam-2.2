@@ -1,0 +1,875 @@
+# Language te-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-04-15 13:52+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Spring.xml:6
+#, no-c-format
+msgid "Spring Framework integration"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:8
+#, no-c-format
+msgid ""
+"The Spring integration (part of the Seam IoC module) allows easy migration "
+"of Spring-based projects to Seam and allows Spring applications to take "
+"advantage of key Seam features like conversations and Seam's more "
+"sophisticated persistence context management."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:12
+#, no-c-format
+msgid ""
+"Note! The Spring integration code is included in the jboss-seam-ioc library. "
+"This dependency is required for all seam-spring integration techniques "
+"covered in this chapter."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:15
+#, no-c-format
+msgid "Seam's support for Spring provides the ability to:"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:19
+#, no-c-format
+msgid "inject Seam component instances into Spring beans"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:22
+#, no-c-format
+msgid "inject Spring beans into Seam components"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:25
+#, no-c-format
+msgid "turn Spring beans into Seam components"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:28
+#, no-c-format
+msgid "allow Spring beans to live in any Seam context"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:31
+#, no-c-format
+msgid "start a spring WebApplicationContext with a Seam component"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:34
+#, no-c-format
+msgid "Support for Spring PlatformTransactionManagement"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:37
+#, no-c-format
+msgid ""
+"provides a Seam managed replacement for Spring's "
+"<literal>OpenEntityManagerInViewFilter</literal> and "
+"<literal>OpenSessionInViewFilter</literal>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:40
+#, no-c-format
+msgid ""
+"Support for Spring <literal>TaskExecutors</literal> to back "
+"<literal>@Asynchronous</literal> calls"
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:45
+#, no-c-format
+msgid "Injecting Seam components into Spring beans"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:47
+#, no-c-format
+msgid ""
+"Injecting Seam component instances into Spring beans is accomplished using "
+"the <literal>&lt;seam:instance/&gt;</literal> namespace handler. To enable "
+"the Seam namespace handler, the Seam namespace must be added to the Spring "
+"beans definition file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:51
+#, no-c-format
+msgid ""
+"<![CDATA[<beans xmlns=\"http://www.springframework.org/schema/beans\"\n"
+"    xmlns:seam=\"http://jboss.com/products/seam/spring-seam\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"http://www.springframework.org/schema/beans\n"
+"                        http://www.springframework.org/schema/beans/spring-"
+"beans-2.0.xsd\n"
+"                        http://jboss.com/products/seam/spring-seam\n"
+"                        http://jboss.com/products/seam/spring-seam-2.1.xsd"
+"\">]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:53
+#, no-c-format
+msgid "Now any Seam component may be injected into any Spring bean:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:55
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <property name=\"someProperty\">\n"
+"        <seam:instance name=\"someComponent\"/>\n"
+"    </property>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:57
+#, no-c-format
+msgid "An EL expression may be used instead of a component name:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:59
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <property name=\"someProperty\">\n"
+"        <seam:instance name=\"#{someExpression}\"/>\n"
+"    </property>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:61
+#, no-c-format
+msgid ""
+"Seam component instances may even be made available for injection into "
+"Spring beans by a Spring bean id."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:63
+#, no-c-format
+msgid ""
+"<![CDATA[<seam:instance name=\"someComponent\" id=\"someSeamComponentInstance"
+"\"/>\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope=\"prototype"
+"\">\n"
+"    <property name=\"someProperty\" ref=\"someSeamComponentInstance\">\n"
+"</bean>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:65
+#, no-c-format
+msgid "Now for the caveat!"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:67
+#, no-c-format
+msgid ""
+"Seam was designed from the ground up to support a stateful component model "
+"with multiple contexts. Spring was not. Unlike Seam bijection, Spring "
+"injection does not occur at method invocation time. Instead, injection "
+"happens only when the Spring bean is instantiated. So the instance available "
+"when the bean is instantiated will be the same instance that the bean uses "
+"for the entire life of the bean. For example, if a Seam "
+"<literal>CONVERSATION</literal>-scoped component instance is directly "
+"injected into a singleton Spring bean, that singleton will hold a reference "
+"to the same instance long after the conversation is over! We call this "
+"problem <emphasis>scope impedance</emphasis>. Seam bijection ensures that "
+"scope impedance is maintained naturally as an invocation flows through the "
+"system. In Spring, we need to inject a proxy of the Seam component, and "
+"resolve the reference when the proxy is invoked."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:77
+#, no-c-format
+msgid ""
+"The <literal>&lt;seam:instance/&gt;</literal> tag lets us automatically "
+"proxy the Seam component."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:79
+#, no-c-format
+msgid ""
+"<![CDATA[<seam:instance id=\"seamManagedEM\" name=\"someManagedEMComponent\" "
+"proxy=\"true\"/>\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\">\n"
+"    <property name=\"entityManager\" ref=\"seamManagedEM\">\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:81
+#, no-c-format
+msgid ""
+"This example shows one way to use a Seam-managed persistence context from a "
+"Spring bean. (For a more robust way to use Seam-managed persistence contexts "
+"as a replacement for the Spring <literal>OpenEntityManagerInView</literal> "
+"filter see section on <link linkend=\"spring-persistence\">Using a Seam "
+"Managed Persistence Context in Spring</link>)"
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:88
+#, no-c-format
+msgid "Injecting Spring beans into Seam components"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:90
+#, no-c-format
+msgid ""
+"It is even easier to inject Spring beans into Seam component instances. "
+"Actually, there are two possible approaches:"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:95
+#, no-c-format
+msgid "inject a Spring bean using an EL expression"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:98
+#, no-c-format
+msgid "make the Spring bean a Seam component"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:102
+#, no-c-format
+msgid ""
+"We'll discuss the second option in the next section. The easiest approach is "
+"to access the Spring beans via EL."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:105
+#, no-c-format
+msgid ""
+"The Spring <literal>DelegatingVariableResolver</literal> is an integration "
+"point Spring provides for integrating Spring with JSF. This "
+"<literal>VariableResolver</literal> makes all Spring beans available in EL "
+"by their bean id. You'll need to add the "
+"<literal>DelegatingVariableResolver</literal> to <literal>faces-config.xml</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:110
+#, no-c-format
+msgid ""
+"<![CDATA[<application>\n"
+"    <variable-resolver>\n"
+"        org.springframework.web.jsf.DelegatingVariableResolver\n"
+"    </variable-resolver>\n"
+"</application>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:112
+#, no-c-format
+msgid "Then you can inject Spring beans using <literal>@In</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:114
+#, no-c-format
+msgid ""
+"<![CDATA[@In(\"#{bookingService}\")\n"
+"private BookingService bookingService;]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:116
+#, no-c-format
+msgid ""
+"The use of Spring beans in EL is not limited to injection. Spring beans may "
+"be used anywhere that EL expressions are used in Seam: process and pageflow "
+"definitions, working memory assertions, etc..."
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:122
+#, no-c-format
+msgid "Making a Spring bean into a Seam component"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:124
+#, no-c-format
+msgid ""
+"The <literal>&lt;seam:component/&gt;</literal> namespace handler can be used "
+"to make any Spring bean a Seam component. Just place the <literal>&lt;seam:"
+"component/&gt;</literal> tag within the declaration of the bean that you "
+"wish to be a Seam component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:128
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <seam:component/>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:130
+#, no-c-format
+msgid ""
+"By default, <literal>&lt;seam:component/&gt;</literal> will create a "
+"<literal>STATELESS</literal> Seam component with class and name provided in "
+"the bean definition. Occasionally, such as when a <literal>FactoryBean</"
+"literal> is used, the class of the Spring bean may not be the class "
+"appearing in the bean definition. In such cases the <literal>class</literal> "
+"should be explicitly specified. A Seam component name may be explicitly "
+"specified in cases where there is potential for a naming conflict."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:136
+#, no-c-format
+msgid ""
+"The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</"
+"literal> may be used if you wish the Spring bean to be managed in a "
+"particular Seam scope. The Spring bean must be scoped to <literal>prototype</"
+"literal> if the Seam scope specified is anything other than "
+"<literal>STATELESS</literal>. Pre-existing Spring beans usually have a "
+"fundamentally stateless character, so this attribute is not usually needed."
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:145
+#, no-c-format
+msgid "Seam-scoped Spring beans"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:147
+#, no-c-format
+msgid ""
+"The Seam integration package also lets you use Seam's contexts as Spring 2.0 "
+"style custom scopes. This lets you declare any Spring bean in any of Seam's "
+"contexts. However, note once again that Spring's component model was never "
+"architected to support statefulness, so please use this feature with great "
+"care. In particular, clustering of session or conversation scoped Spring "
+"beans is deeply problematic, and care must be taken when injecting a bean or "
+"component from a wider scope into a bean of a narrower scope."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:153
+#, no-c-format
+msgid ""
+"By specifying <literal>&lt;seam:configure-scopes/&gt;</literal> once in a "
+"Spring bean factory configuration, all of the Seam scopes will be available "
+"to Spring beans as custom scopes. To associate a Spring bean with a "
+"particular Seam scope, specify the Seam scope in the <literal>scope</"
+"literal> attribute of the bean definition."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:158
+#, no-c-format
+msgid ""
+"<![CDATA[<!-- Only needs to be specified once per bean factory-->\n"
+"<seam:configure-scopes/>\n"
+"\n"
+"...\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope=\"seam."
+"CONVERSATION\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:160
+#, no-c-format
+msgid ""
+"The prefix of the scope name may be changed by specifying the "
+"<literal>prefix</literal> attribute in the <literal>configure-scopes</"
+"literal> definition. (The default prefix is <literal>seam.</literal>)"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:163
+#, no-c-format
+msgid ""
+"By default an instance of a Spring Component registered in this way is not "
+"automatically created when referenced using <literal>@In</literal>. To have "
+"an instance auto-created you must either specify <literal>@In(create=true)</"
+"literal> at the injection point to identify a specific bean to be auto "
+"created or you can use the <literal>default-auto-create</literal> attribute "
+"of <literal>configure-scopes</literal> to make all spring beans who use a "
+"seam scope auto created."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:168
+#, no-c-format
+msgid ""
+"Seam-scoped Spring beans defined this way can be injected into other Spring "
+"beans without the use of <literal>&lt;seam:instance/&gt;</literal>. However, "
+"care must be taken to ensure scope impedance is maintained. The normal "
+"approach used in Spring is to specify <literal>&lt;aop:scoped-proxy/&gt;</"
+"literal> in the bean definition. However, Seam-scoped Spring beans are "
+"<emphasis>not</emphasis> compatible with <literal>&lt;aop:scoped-proxy/&gt;</"
+"literal>. So if you need to inject a Seam-scoped Spring bean into a "
+"singleton, <literal>&lt;seam:instance/&gt;</literal> must be used:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:176
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"seam.CONVERSATION\"/>\n"
+"\n"
+"...\n"
+"\n"
+"<bean id=\"someSingleton\">\n"
+"    <property name=\"someSeamScopedSpringBean\">\n"
+"        <seam:instance name=\"someSpringBean\" proxy=\"true\"/>\n"
+"    </property>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:180
+#, no-c-format
+msgid "Using Spring PlatformTransactionManagement"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:182
+#, no-c-format
+msgid ""
+"Spring provides an extensible transaction management abstraction with "
+"support for many transaction APIs (JPA, Hibernate, JDO, and JTA) Spring also "
+"provides tight integrations with many application server TransactionManagers "
+"such as Websphere and Weblogic. Spring transaction management exposes "
+"support for many advanced features such as nested transactions and supports "
+"full Java EE transaction propagation rules like REQUIRES_NEW and "
+"NOT_SUPPORTED. For more information see the spring documentation <ulink url="
+"\"http://static.springframework.org/spring/docs/2.0.x/reference/transaction."
+"html\">here</ulink>."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:190
+#, no-c-format
+msgid ""
+"To configure Seam to use Spring transactions enable the SpringTransaction "
+"component like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:192
+#, no-c-format
+msgid ""
+"<![CDATA[<spring:spring-transaction platform-transaction-manager=\"#"
+"{transactionManager}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:194
+#, no-c-format
+msgid ""
+"The <literal>spring:spring-transaction</literal> component will utilize "
+"Springs transaction synchronization capabilities for synchronization "
+"callbacks."
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:200
+#, no-c-format
+msgid "Using a Seam Managed Persistence Context in Spring"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:202
+#, no-c-format
+msgid ""
+"One of the most powerful features of Seam is its conversation scope and the "
+"ability to have an EntityManager open for the life of a conversation. This "
+"eliminates many of the problems associated with the detachment and re-"
+"attachment of entities as well as mitigates occurrences of the dreaded "
+"<literal>LazyInitializationException</literal>. Spring does not provide a "
+"way to manage an persistence context beyond the scope of a single web "
+"request (<literal>OpenEntityManagerInViewFilter</literal>). So, it would be "
+"nice if Spring developers could have access to a Seam managed persistence "
+"context using all of the same tools Spring provides for integration with JPA"
+"(e.g. <literal>PersistenceAnnotationBeanPostProcessor</literal>, "
+"<literal>JpaTemplate</literal>, etc.)"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:212
+#, no-c-format
+msgid ""
+"Seam provides a way for Spring to access a Seam managed persistence context "
+"with Spring's provided JPA tools bringing conversation scoped persistence "
+"context capabilities to Spring applications."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:216
+#, no-c-format
+msgid "This integration work provides the following functionality:"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:220
+#, no-c-format
+msgid ""
+"transparent access to a Seam managed persistence context using Spring "
+"provided tools"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:223
+#, no-c-format
+msgid ""
+"access to Seam conversation scoped persistence contexts in a non web request "
+"(e.g. asynchronous quartz job)"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:227
+#, no-c-format
+msgid ""
+"allows for using Seam managed persistence contexts with Spring managed "
+"transactions (will need to flush the persistence context manually)"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:232
+#, no-c-format
+msgid ""
+"Spring's persistence context propagation model allows only one open "
+"EntityManager per EntityManagerFactory so the Seam integration works by "
+"wrapping an EntityManagerFactory around a Seam managed persistence context."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:236
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
+"spring.SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:238
+#, no-c-format
+msgid ""
+"Where 'persistenceContextName' is the name of the Seam managed persistence "
+"context component. By default this EntityManagerFactory has a unitName equal "
+"to the Seam component name or in this case 'entityManager'. If you wish to "
+"provide a different unitName you can do so by providing a "
+"persistenceUnitName like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:243
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
+"spring.SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase:"
+"extended\"/>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:245
+#, no-c-format
+msgid ""
+"This EntityManagerFactory can then be used in any Spring provided tools. For "
+"example, using Spring's <literal>PersistenceAnnotationBeanPostProcessor</"
+"literal> is the exact same as before."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:248
+#, no-c-format
+msgid ""
+"<![CDATA[<bean class=\"org.springframework.orm.jpa.support."
+"PersistenceAnnotationBeanPostProcessor\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:250
+#, no-c-format
+msgid ""
+"If you define your real EntityManagerFactory in Spring but wish to use a "
+"Seam managed persistence context you can tell the "
+"<literal>PersistenceAnnotationBeanPostProcessor</literal> which "
+"persistenctUnitName you wish to use by default by specifying the "
+"<literal>defaultPersistenceUnitName</literal> property."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:255
+#, no-c-format
+msgid "The <literal>applicationContext.xml</literal> might look like:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:256
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"entityManagerFactory\" class=\"org.springframework.orm."
+"jpa.LocalEntityManagerFactoryBean\">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase\"/>\n"
+"</bean>\n"
+"<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc.spring."
+"SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase:"
+"extended\"/>\n"
+"</bean>\n"
+"<bean class=\"org.springframework.orm.jpa.support."
+"PersistenceAnnotationBeanPostProcessor\">\n"
+"        <property name=\"defaultPersistenceUnitName\" value="
+"\"bookingDatabase:extended\"/>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:258
+#, no-c-format
+msgid "The <literal>component.xml</literal> might look like:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:259
+#, no-c-format
+msgid ""
+"<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
+"        auto-create=\"true\" entity-manager-factory=\"#{entityManagerFactory}"
+"\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:262
+#, no-c-format
+msgid ""
+"<literal>JpaTemplate</literal> and <literal>JpaDaoSupport</literal> are "
+"configured the same way for a Seam managed persistence context as they would "
+"be fore a Seam managed persistence context."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:265
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"bookingService\" class=\"org.jboss.seam.example.spring."
+"BookingService\">\n"
+"        <property name=\"entityManagerFactory\" ref="
+"\"seamEntityManagerFactory\"/>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:268
+#, no-c-format
+msgid "Using a Seam Managed Hibernate Session in Spring"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:270
+#, no-c-format
+msgid ""
+"The Seam Spring integration also provides support for complete access to a "
+"Seam managed Hibernate session using spring's tools. This integration is "
+"very similar to the <link linkend=\"spring-persistence\">JPA integration</"
+"link>."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:273
+#, no-c-format
+msgid ""
+"Like Spring's JPA integration spring's propagation model allows only one "
+"open EntityManager per EntityManagerFactory per transaction??? to be "
+"available to spring tools. So, the Seam Session integration works by "
+"wrapping a proxy SessionFactory around a Seam managed Hibernate session "
+"context."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:278
+#, no-c-format
+msgid ""
+"<![CDATA[<bean id=\"seamSessionFactory\" class=\"org.jboss.seam.ioc.spring."
+"SeamManagedSessionFactoryBean\">\n"
+"        <property name=\"sessionName\" value=\"hibernateSession\"/>\n"
+"</bean>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:280
+#, no-c-format
+msgid ""
+"Where 'sessionName' is the name of the <literal>persistence:managed-"
+"hibernate-session</literal> component. This SessionFactory can then be used "
+"in any Spring provided tools. The integration also provides support for "
+"calls to <literal>SessionFactory.getCurrentInstance()</literal> as long as "
+"you call getCurrentInstance() on the <literal>SeamManagedSessionFactory</"
+"literal>."
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:286
+#, no-c-format
+msgid "Spring Application Context as a Seam Component"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:288
+#, no-c-format
+msgid ""
+"Although it is possible to use the Spring <literal>ContextLoaderListener</"
+"literal> to start your application's Spring ApplicationContext there are a "
+"couple of limitations."
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:293
+#, no-c-format
+msgid ""
+"the Spring ApplicationContext must be started <emphasis>after</emphasis> the "
+"<literal>SeamListener</literal>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:297
+#, no-c-format
+msgid ""
+"it can be tricky starting a Spring ApplicationContext for use in Seam unit "
+"and integration tests"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:302
+#, no-c-format
+msgid ""
+"To overcome these two limitations the Spring integration includes a Seam "
+"component that will start a Spring ApplicationContext. To use this Seam "
+"component place the <literal>&lt;spring:context-loader/&gt;</literal> "
+"definition in the <literal>components.xml</literal>. Specify your Spring "
+"context file location in the <literal>config-locations</literal> attribute. "
+"If more than one config file is needed you can place them in the nested "
+"<literal>&lt;spring:config-locations/&gt;</literal> element following "
+"standard <literal>components.xml</literal> multi value practices."
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:310
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:spring=\"http://jboss.com/products/seam/spring\"\n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xsi:schemaLocation=\"http://jboss.com/products/seam/components\n"
+"                                http://jboss.com/products/seam/components-"
+"2.1.xsd\n"
+"                                http://jboss.com/products/seam/spring\n"
+"                                http://jboss.com/products/seam/spring-2.1.xsd"
+"\">\n"
+"\n"
+"        <spring:context-loader config-locations=\"/WEB-INF/"
+"applicationContext.xml\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: title
+#: Spring.xml:313
+#, no-c-format
+msgid "Using a Spring TaskExecutor for @Asynchronous"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:315
+#, no-c-format
+msgid ""
+"Spring provides an abstraction for executing code asynchronously called a "
+"<literal>TaskExecutor</literal>. The Spring Seam integration allows for the "
+"use of a Spring <literal>TaskExecutor</literal> for executing immediate "
+"<literal>@Asynchronous</literal> method calls. To enable this functionality "
+"install the <literal>SpringTaskExecutorDispatchor</literal> and provide a "
+"spring bean defined taskExecutor like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:320
+#, no-c-format
+msgid ""
+"<![CDATA[<spring:task-executor-dispatcher task-executor=\"#"
+"{springThreadPoolTaskExecutor}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Spring.xml:322
+#, no-c-format
+msgid ""
+"Because a Spring <literal>TaskExecutor</literal> does not support scheduling "
+"of an asynchronous event a fallback Seam <literal>Dispatcher</literal> can "
+"be provided to handle scheduled asynchronous event like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Spring.xml:325
+#, no-c-format
+msgid ""
+"<![CDATA[<!-- Install a ThreadPoolDispatcher to handle scheduled "
+"asynchronous event -->\n"
+"<core:thread-pool-dispatcher name=\"threadPoolDispatcher\"/>\n"
+"\n"
+"<!-- Install the SpringDispatcher as default -->\n"
+"<spring:task-executor-dispatcher task-executor=\"#"
+"{springThreadPoolTaskExecutor}\" schedule-dispatcher=\"#"
+"{threadPoolDispatcher}\"/>]]>"
+msgstr ""

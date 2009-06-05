@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Resource</name>
+		<family>org.jboss.seam.ui.Resource</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlResource</classname>
+		<superclass>org.jboss.seam.ui.component.UIResource</superclass>
+		<description>
+			<![CDATA[Given a data in form of an inputstream, java.util.File or byte[] and a content-type, this tag sends the data to the browser]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.ResourceRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.ResourceRendererBase</classname>
+		</renderer>		
+		<tag>
+			<name>resource</name>
+			<classname>org.jboss.seam.ui.taglib.ResourceTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		<property>
+			<name>data</name>
+			<classname>java.lang.Object</classname>
+			<description>Inputstream, File or byte[].</description>
+		</property>
+		<property>
+			<name>contentType</name>
+			<classname>java.lang.String</classname>
+			<description>Content-type of given data</description>
+		</property>
+		<property>
+			<name>fileName</name>
+			<classname>java.lang.String</classname>
+			<description>file name to send to browser (default: name of view)</description>
+		</property>
+		<property>
+			<name>disposition</name>
+			<classname>java.lang.String</classname>
+			<description>Content-Disposition for file (default: inline)</description>
+		</property>				
+	</component>
+</components>

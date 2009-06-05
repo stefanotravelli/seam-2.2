@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="elenhancements">
+   <title>JBoss EL</title>
+   
+   <para>
+      Seam uses JBoss EL which provides an extension to the standard Unified 
+      Expression Language (EL). JBoss EL provides a number of enhancements that 
+      increase the expressiveness and power of EL expressions. 
+   </para>
+   
+   <section>
+      <title>Parameterized Expressions</title>
+   
+      <para>
+         Standard EL does not allow you to use a method with user defined 
+         parameters &#8212; of course, JSF listener methods (e.g. a 
+         <literal>valueChangeListener</literal>) take parameters provided by JSF. 
+      </para>
+      
+      <para> 
+         JBoss EL removes this restriction. For example: 
+      </para>
+      
+      <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
+      
+      <programlisting role="JAVA"><![CDATA[@Name("hotelBooking")
+public class HotelBooking {
+   
+   public String bookHotel(Hotel hotel) {
+      // Book the hotel
+   }
+}]]></programlisting>
+      
+      <section>
+         <title>Usage</title>
+      
+         <para>
+            Just as in calls to method from Java, parameters are surrounded by 
+            parentheses, and separated by commas: 
+         </para>
+         
+         <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/>]]></programlisting>
+         
+         <para> 
+            The parameters <literal>hotel</literal> and <literal>user</literal> 
+            will be evaluated as value expressions and passed to the 
+            <literal>bookHotel()</literal> method of the component. 
+         </para>
+         <para>
+            Any value expression may be used as a parameter: 
+         </para>
+         
+         <programlisting role="XHTML"><![CDATA[<h:commandButton 
+   action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
+   value="Book Hotel"/>]]></programlisting>
+         
+         <para>
+            It's important to fully understand how this extension to EL works. 
+            When the page is rendered, the parameter <emphasis>names</emphasis> 
+            are stored (for example, <literal>hotel.id</literal> and 
+            <literal>user.username</literal>), and evaluated (as value 
+            expressions) when the page is submitted. You can't pass objects as
+            parameters! 
+         </para>
+         
+         <para>
+            You must ensure that the parameters are available not only when the 
+            page is rendered, but also when it is submittedIf the arguments can 
+            not be resolved when the page is submitted the action method will be
+            called with <literal>null</literal> arguments! 
+         </para>
+         
+         <para>
+            You can also pass literal strings using single quotes: 
+         </para>
+         
+         <programlisting role="XHTML"><![CDATA[<h:commandLink action="#{printer.println('Hello world!')}" value="Hello"/>]]></programlisting>
+         
+         <para> 
+            Unified EL also supports value expressions, used to bind a field to 
+            a backing bean. Value expressions use JavaBean naming conventions 
+            and expect a getter/setter pair. Often JSF expects a value 
+            expression where only retrieval (get) is needed (e.g. the 
+            <literal>rendered</literal> attribute). Many objects, however, don't 
+            have appropriately named property accessors or require parameters. 
+         </para>
+         
+         <para>
+            JBoss EL removes this restriction by allowing values to be retrieved
+            using the method syntax. For example: 
+         </para>
+         
+         <programlisting role="XHTML"><![CDATA[<h:outputText value="#{person.name}" rendered="#{person.name.length() > 5}" />]]></programlisting>
+         
+         <para>
+            You can access the size of a collection in a similar manner: 
+         </para>
+         
+         <programlisting>#{searchResults.size()}</programlisting>
+         
+         <para>
+            In general any expression of the form #{obj.property} would be 
+            identical to the expression #{obj.getProperty()}. 
+         </para>
+         <para>
+            Parameters are also allowed. The following example calls the
+            <literal>productsByColorMethod</literal> with a literal string 
+            argument: 
+         </para>
+         
+         <programlisting>#{controller.productsByColor('blue')}</programlisting>
+         
+      </section>
+      
+      <section>
+         <title>Limitations and Hints</title>
+         
+         <para> 
+            When using JBoss EL you should keep the following points in mind: 
+         </para>
+         
+         <itemizedlist>
+            <listitem>
+               <para>
+                  <emphasis>Incompatibility with JSP 2.1</emphasis> &#8212; 
+                  JBoss EL can't currently be used with JSP 2.1 as the compiler 
+                  rejects expressions with parameters in. So, if you want to use
+                  this extension with JSF 1.2, you will need to use Facelets. 
+                  The extension works correctly with JSP 2.0. 
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  <emphasis>Use inside iterative components</emphasis> &#8212; 
+                  Components like <literal>&lt;c:forEach /&gt;</literal> and 
+                  <literal>&lt;ui:repeat /&gt;</literal>iterate over a List or 
+                  array, exposing each item in the list to nested components. 
+                  This works great if you are selecting a row using a 
+                  <literal>&lt;h:commandButton /&gt;</literal> or 
+                  <literal>&lt;h:commandLink /&gt;</literal>: 
+               </para>
+               <programlisting role="JAVA"><![CDATA[@Factory("items")
+public List<Item> getItems() {
+   return entityManager.createQuery("select ...").getResultList();
+}]]></programlisting>
+               <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{items}" var="item">
+   <h:column>
+      <h:commandLink value="Select #{item.name}" action="#{itemSelector.select(item})" />
+   </h:column>
+</h:dataTable>]]></programlisting>
+               <para>
+                  However if you want to use <literal>&lt;s:link /&gt;</literal>
+                  or <literal>&lt;s:button /&gt;</literal> you 
+                  <emphasis>must</emphasis> expose the items as a 
+                  <literal>DataModel</literal>, and use a 
+                  <literal>&lt;dataTable /&gt;</literal> (or equivalent from a 
+                  component set like <literal>&lt;rich:dataTable /&gt;</literal>
+                  ). Neither <literal>&lt;s:link /&gt;</literal> or 
+                  <literal>&lt;s:button /&gt;</literal> submit the form (and
+                  therefore produce a bookmarkable link) so a "magic" parameter
+                  is needed to recreate the item when the action method is 
+                  called. This magic parameter can only be added when a 
+                  data table backed by a <literal>DataModel</literal> is used.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  <emphasis>Calling a <literal>MethodExpression</literal> from 
+                  Java code</emphasis> &#8212; Normally, when a 
+                  <literal>MethodExpression</literal> is created, the parameter 
+                  types are passed in by JSF. In the case of a method binding, 
+                  JSF assumes that there are no parameters to pass. With this
+                  extension, we can't know the parameter types until after the 
+                  expression has been evaluated. This has two minor 
+                  consequences: 
+               </para>
+               
+               <itemizedlist>
+                  <listitem>
+                     <para> 
+                        When you invoke a <literal>MethodExpression</literal> in
+                        Java code, parameters you pass may be ignored. 
+                        Parameters defined in the expression will take 
+                        precedence. 
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        Ordinarily, it is safe to call 
+                        <literal>methodExpression.getMethodInfo().getParamTypes()</literal>
+                        at any time. For an expression with parameters, you must 
+                        first invoke the <literal>MethodExpression</literal> 
+                        before calling <literal>getParamTypes()</literal>. 
+                     </para>
+                  </listitem>
+               </itemizedlist>
+               
+               <para>
+                  Both of these cases are exceedingly rare and only apply when 
+                  you want to invoke the <literal>MethodExpression</literal> by 
+                  hand in Java code. 
+               </para>
+            </listitem>
+         </itemizedlist>
+      </section>
+   </section>
+   
+   <section>
+      <title>Projection</title>
+   
+      <para>
+         JBoss EL supports a limited projection syntax. A projection expression 
+         maps a sub-expression across a multi-valued (list, set, etc...) 
+         expression. For instance, the expression: 
+      </para>
+      
+      <programlisting>#{company.departments}</programlisting>
+      
+      <para>
+         might return a list of departments. If you only need a list of 
+         department names, your only option is to iterate over the list to 
+         retrieve the values. JBoss EL allows this with a projection expression: 
+      </para>
+      
+      <programlisting>#{company.departments.{d|d.name}}</programlisting>
+      
+      <para>
+         The subexpression is enclosed in braces. In this example, the 
+         expression <literal>d.name</literal> is evaluated for each department, 
+         using <literal>d</literal> as an alias to the department object. The 
+         result of this expression will be a list of String values. 
+      </para>
+      
+      <para>
+         Any valid expression can be used in an expression, so it would be 
+         perfectly valid to write the following, assuming you had a use for the 
+         lengths of all the department names in a company: 
+      </para>
+      
+      <programlisting>#{company.departments.{d|d.size()}}</programlisting>
+      
+      <para>
+         Projections can be nested. The following expression returns the last 
+         names of every employee in every department: 
+      </para>
+      
+      <programlisting>#{company.departments.{d|d.employees.{emp|emp.lastName}}}</programlisting>
+      
+      <para> 
+         Nested projections can be slightly tricky, however. The following 
+         expression looks like it returns a list of all the employees in all the 
+         departments:
+      </para>
+      
+      <programlisting>#{company.departments.{d|d.employees}}</programlisting>
+      
+      <para>
+         However, it actually returns a list containing a list of the employees 
+         for each individual department. To combine the values, it is necessary 
+         to use a slightly longer expression: 
+      </para>
+      
+      <programlisting>#{company.departments.{d|d.employees.{e|e}}}</programlisting>
+      
+      <para> 
+         It is important to note that this syntax cannot be parsed by Facelets
+         or JSP and thus cannot be used in xhtml or JSP files. We anticipate 
+         that the projection syntax will change in future versions of JBoss EL. 
+      </para>
+      
+   </section>
+</chapter>

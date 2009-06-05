@@ -1,0 +1,1255 @@
+# Language hi-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-03-31 09:07+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Jbpm.xml:2
+#, no-c-format
+msgid "Pageflows and business processes"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:4
+#, no-c-format
+msgid ""
+"JBoss jBPM is a business process management engine for any Java SE or EE "
+"environment. jBPM lets you represent a business process or user interaction "
+"as a graph of nodes representing wait states, decisions, tasks, web pages, "
+"etc. The graph is defined using a simple, very readable, XML dialect called "
+"jPDL, and may be edited and visualised graphically using an eclipse plugin. "
+"jPDL is an extensible language, and is suitable for a range of problems, "
+"from defining web application page flow, to traditional workflow management, "
+"all the way up to orchestration of services in a SOA environment."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:16
+#, no-c-format
+msgid "Seam applications use jBPM for two different problems:"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:22
+#, no-c-format
+msgid ""
+"Defining the pageflow involved in complex user interactions. A jPDL process "
+"definition defines the page flow for a single conversation. A Seam "
+"conversation is considered to be a relatively short-running interaction with "
+"a single user."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:30
+#, no-c-format
+msgid ""
+"Defining the overarching business process. The business process may span "
+"multiple conversations with multiple users. Its state is persistent in the "
+"jBPM database, so it is considered long-running. Coordination of the "
+"activities of multiple users is a much more complex problem than scripting "
+"an interaction with a single user, so jBPM offers sophisticated facilities "
+"for task management and dealing with multiple concurrent paths of execution."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:42
+#, no-c-format
+msgid ""
+"Don't get these two things confused! They operate at very different levels "
+"or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</"
+"emphasis> and <emphasis>task</emphasis> all refer to a single interaction "
+"with a single user. A business process spans many tasks. Futhermore, the two "
+"applications of jBPM are totally orthogonal. You can use them together or "
+"independently or not at all."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:51
+#, no-c-format
+msgid ""
+"You don't have to know jDPL to use Seam. If you're perfectly happy defining "
+"pageflow using JSF or Seam navigation rules, and if your application is more "
+"data-driven that process-driven, you probably don't need jBPM. But we're "
+"finding that thinking of user interaction in terms of a well-defined "
+"graphical representation is helping us build more robust applications."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:60
+#, no-c-format
+msgid "Pageflow in Seam"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:61
+#, no-c-format
+msgid "There are two ways to define pageflow in Seam:"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:67
+#, no-c-format
+msgid ""
+"Using JSF or Seam navigation rules - the <emphasis>stateless navigation "
+"model</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:73
+#, no-c-format
+msgid "Using jPDL - the <emphasis>stateful navigation model</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:79
+#, no-c-format
+msgid ""
+"Very simple applications will only need the stateless navigation model. Very "
+"complex applications will use both models in different places. Each model "
+"has its strengths and weaknesses!"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:86
+#, no-c-format
+msgid "The two navigation models"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:88
+#, no-c-format
+msgid ""
+"The stateless model defines a mapping from a set of named, logical outcomes "
+"of an event directly to the resulting page of the view. The navigation rules "
+"are entirely oblivious to any state held by the application other than what "
+"page was the source of the event. This means that your action listener "
+"methods must sometimes make decisions about the page flow, since only they "
+"have access to the current state of the application."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:98
+#, no-c-format
+msgid "Here is an example page flow definition using JSF navigation rules:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:103
+#, no-c-format
+msgid ""
+"<![CDATA[<navigation-rule>\n"
+"    <from-view-id>/numberGuess.jsp</from-view-id>\n"
+"        \n"
+"    <navigation-case>\n"
+"        <from-outcome>guess</from-outcome>\n"
+"        <to-view-id>/numberGuess.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"\n"
+"    <navigation-case>\n"
+"        <from-outcome>win</from-outcome>\n"
+"        <to-view-id>/win.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"        \n"
+"    <navigation-case>\n"
+"        <from-outcome>lose</from-outcome>\n"
+"        <to-view-id>/lose.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"\n"
+"</navigation-rule>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:105
+#, no-c-format
+msgid ""
+"Here is the same example page flow definition using Seam navigation rules:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:110
+#, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/numberGuess.jsp\">\n"
+"        \n"
+"    <navigation>\n"
+"        <rule if-outcome=\"guess\">\n"
+"            <redirect view-id=\"/numberGuess.jsp\"/>\n"
+"        </rule>\n"
+"        <rule if-outcome=\"win\">\n"
+"            <redirect view-id=\"/win.jsp\"/>\n"
+"        </rule>\n"
+"        <rule if-outcome=\"lose\">\n"
+"            <redirect view-id=\"/lose.jsp\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:112
+#, no-c-format
+msgid ""
+"If you find navigation rules overly verbose, you can return view ids "
+"directly from your action listener methods:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:117
+#, no-c-format
+msgid ""
+"<![CDATA[public String guess() {\n"
+"    if (guess==randomNumber) return \"/win.jsp\";\n"
+"    if (++guessCount==maxGuesses) return \"/lose.jsp\";\n"
+"    return null;\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:119
+#, no-c-format
+msgid ""
+"Note that this results in a redirect. You can even specify parameters to be "
+"used in the redirect:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:124
+#, no-c-format
+msgid ""
+"<![CDATA[public String search() {\n"
+"    return \"/searchResults.jsp?searchPattern=#{searchAction.searchPattern}"
+"\";\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:126
+#, no-c-format
+msgid ""
+"The stateful model defines a set of transitions between a set of named, "
+"logical application states. In this model, it is possible to express the "
+"flow of any user interaction entirely in the jPDL pageflow definition, and "
+"write action listener methods that are completely unaware of the flow of the "
+"interaction."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:134
+#, no-c-format
+msgid "Here is an example page flow definition using jPDL:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:138
+#, no-c-format
+msgid ""
+"<![CDATA[<pageflow-definition name=\"numberGuess\">\n"
+"    \n"
+"   <start-page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"      <redirect/>\n"
+"      <transition name=\"guess\" to=\"evaluateGuess\">\n"
+"              <action expression=\"#{numberGuess.guess}\" />\n"
+"      </transition>\n"
+"   </start-page>\n"
+"   \n"
+"   <decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}"
+"\">\n"
+"      <transition name=\"true\" to=\"win\"/>\n"
+"      <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <decision name=\"evaluateRemainingGuesses\" expression=\"#{numberGuess."
+"lastGuess}\">\n"
+"      <transition name=\"true\" to=\"lose\"/>\n"
+"      <transition name=\"false\" to=\"displayGuess\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <page name=\"win\" view-id=\"/win.jsp\">\n"
+"      <redirect/>\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"lose\" view-id=\"/lose.jsp\">\n"
+"      <redirect/>\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"</pageflow-definition>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:149
+#, no-c-format
+msgid "There are two things we notice immediately here:"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:155
+#, no-c-format
+msgid ""
+"The JSF/Seam navigation rules are <emphasis>much</emphasis> simpler. "
+"(However, this obscures the fact that the underlying Java code is more "
+"complex.)"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:162
+#, no-c-format
+msgid ""
+"The jPDL makes the user interaction immediately understandable, without us "
+"needing to even look at the JSP or Java code."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:169
+#, no-c-format
+msgid ""
+"In addition, the stateful model is more <emphasis>constrained</emphasis>. "
+"For each logical state (each step in the page flow), there are a constrained "
+"set of possible transitions to other states. The stateless model is an "
+"<emphasis>ad hoc</emphasis> model which is suitable to relatively "
+"unconstrained, freeform navigation where the user decides where he/she wants "
+"to go next, not the application."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:178
+#, no-c-format
+msgid ""
+"The stateful/stateless navigation distinction is quite similar to the "
+"traditional view of modal/modeless interaction. Now, Seam applications are "
+"not usually modal in the simple sense of the word - indeed, avoiding "
+"application modal behavior is one of the main reasons for having "
+"conversations! However, Seam applications can be, and often are, modal at "
+"the level of a particular conversation. It is well-known that modal behavior "
+"is something to avoid as much as possible; it is very difficult to predict "
+"the order in which your users are going to want to do things! However, there "
+"is no doubt that the stateful model has its place."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:191
+#, no-c-format
+msgid ""
+"The biggest contrast between the two models is the back-button behavior."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:199
+#, no-c-format
+msgid "Seam and the back button"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:201
+#, no-c-format
+msgid ""
+"When JSF or Seam navigation rules are used, Seam lets the user freely "
+"navigate via the back, forward and refresh buttons. It is the responsibility "
+"of the application to ensure that conversational state remains internally "
+"consistent when this occurs. Experience with the combination of web "
+"application frameworks like Struts or WebWork - that do not support a "
+"conversational model - and stateless component models like EJB stateless "
+"session beans or the Spring framework has taught many developers that this "
+"is close to impossible to do! However, our experience is that in the context "
+"of Seam, where there is a well-defined conversational model, backed by "
+"stateful session beans, it is actually quite straightforward. Usually it is "
+"as simple as combining the use of <literal>no-conversation-view-id</literal> "
+"with null checks at the beginning of action listener methods. We consider "
+"support for freeform navigation to be almost always desirable."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:219
+#, no-c-format
+msgid ""
+"In this case, the <literal>no-conversation-view-id</literal> declaration "
+"goes in <literal>pages.xml</literal>. It tells Seam to redirect to a "
+"different page if a request originates from a page rendered during a "
+"conversation, and that conversation no longer exists:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:227
+#, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/checkout.xhtml\" \n"
+"        no-conversation-view-id=\"/main.xhtml\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:229
+#, no-c-format
+msgid ""
+"On the other hand, in the stateful model, using the back button is "
+"interpreted as an undefined transition back to a previous state. Since the "
+"stateful model enforces a defined set of transitions from the current state, "
+"the back button is not permitted by default in the stateful model! Seam "
+"transparently detects the use of the back button, and blocks any attempt to "
+"perform an action from a previous, \"stale\" page, and simply redirects the "
+"user to the \"current\" page (and displays a faces message). Whether you "
+"consider this a feature or a limitation of the stateful model depends upon "
+"your point of view: as an application developer, it is a feature; as a user, "
+"it might be frustrating! You can enable backbutton navigation from a "
+"particular page node by setting <literal>back=\"enabled\"</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:245
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"checkout\" \n"
+"        view-id=\"/checkout.xhtml\" \n"
+"        back=\"enabled\">\n"
+"    <redirect/>\n"
+"    <transition to=\"checkout\"/>\n"
+"    <transition name=\"complete\" to=\"complete\"/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:247
+#, no-c-format
+msgid ""
+"This allows navigation via the back button <emphasis>from</emphasis> the "
+"<literal>checkout</literal> state to <emphasis>any previous state!</emphasis>"
+msgstr ""
+
+#. Tag: note
+#: Jbpm.xml:253
+#, no-c-format
+msgid ""
+"If a page is set to redirect after a transition, it is not possible to use "
+"the back button to return to that page even when back is enabled on a page "
+"later in the flow. The reason is because Seam stores information about the "
+"pageflow in the page scope and the back button must result in a POST for "
+"that information to be restored (i.e., a Faces request). A redirect severs "
+"this linkage."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:262
+#, no-c-format
+msgid ""
+"Of course, we still need to define what happens if a request originates from "
+"a page rendered during a pageflow, and the conversation with the pageflow no "
+"longer exists. In this case, the <literal>no-conversation-view-id</literal> "
+"declaration goes into the pageflow definition:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:270
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"checkout\" \n"
+"        view-id=\"/checkout.xhtml\" \n"
+"        back=\"enabled\" \n"
+"        no-conversation-view-id=\"/main.xhtml\">\n"
+"    <redirect/>\n"
+"    <transition to=\"checkout\"/>\n"
+"    <transition name=\"complete\" to=\"complete\"/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:273
+#, no-c-format
+msgid ""
+"In practice, both navigation models have their place, and you'll quickly "
+"learn to recognize when to prefer one model over the other."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:282
+#, no-c-format
+msgid "Using jPDL pageflows"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:285
+#, no-c-format
+msgid "Installing pageflows"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:287
+#, no-c-format
+msgid ""
+"We need to install the Seam jBPM-related components, and place the pageflow "
+"definitions (using the standard <literal>.jpdl.xml</literal> extension) "
+"inside a Seam archive (an archive which contains a <literal>seam.properties</"
+"literal> file):"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:294
+#, no-c-format
+msgid "<![CDATA[<bpm:jbpm />]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:296
+#, no-c-format
+msgid ""
+"We can also explicitly tell Seam where to find our pageflow definition. We "
+"specify this in <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:301
+#, no-c-format
+msgid ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:pageflow-definitions>\n"
+"        <value>pageflow.jpdl.xml</value>\n"
+"    </bpm:pageflow-definitions>\n"
+"</bpm:jbpm>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:306
+#, no-c-format
+msgid "Starting pageflows"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:308
+#, no-c-format
+msgid ""
+"We \"start\" a jPDL-based pageflow by specifying the name of the process "
+"definition using a <literal>@Begin</literal>, <literal>@BeginTask</literal> "
+"or <literal>@StartTask</literal> annotation:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:315
+#, no-c-format
+msgid ""
+"<![CDATA[@Begin(pageflow=\"numberguess\")\n"
+"public void begin() { ... }]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:317
+#, no-c-format
+msgid "Alternatively we can start a pageflow using pages.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:319
+#, no-c-format
+msgid ""
+"<![CDATA[<page>\n"
+"        <begin-conversation pageflow=\"numberguess\"/>\n"
+"    </page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:321
+#, no-c-format
+msgid ""
+"If we are beginning the pageflow during the <literal>RENDER_RESPONSE</"
+"literal> phase &#8212; during a <literal>@Factory</literal> or "
+"<literal>@Create</literal> method, for example &#8212; we consider ourselves "
+"to be already at the page being rendered, and use a <literal>&lt;start-"
+"page&gt;</literal> node as the first node in the pageflow, as in the example "
+"above."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:329
+#, no-c-format
+msgid ""
+"But if the pageflow is begun as the result of an action listener invocation, "
+"the outcome of the action listener determines which is the first page to be "
+"rendered. In this case, we use a <literal>&lt;start-state&gt;</literal> as "
+"the first node in the pageflow, and declare a transition for each possible "
+"outcome:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:337
+#, no-c-format
+msgid ""
+"<![CDATA[<pageflow-definition name=\"viewEditDocument\">\n"
+"\n"
+"    <start-state name=\"start\">\n"
+"        <transition name=\"documentFound\" to=\"displayDocument\"/>\n"
+"        <transition name=\"documentNotFound\" to=\"notFound\"/>\n"
+"    </start-state>\n"
+"    \n"
+"    <page name=\"displayDocument\" view-id=\"/document.jsp\">\n"
+"        <transition name=\"edit\" to=\"editDocument\"/>\n"
+"        <transition name=\"done\" to=\"main\"/>\n"
+"    </page>\n"
+"    \n"
+"    ...\n"
+"    \n"
+"    <page name=\"notFound\" view-id=\"/404.jsp\">\n"
+"        <end-conversation/>\n"
+"    </page>\n"
+"    \n"
+"</pageflow-definition>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:342
+#, no-c-format
+msgid "Page nodes and transitions"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:344
+#, no-c-format
+msgid ""
+"Each <literal>&lt;page&gt;</literal> node represents a state where the "
+"system is waiting for user input:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:349
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <redirect/>\n"
+"    <transition name=\"guess\" to=\"evaluateGuess\">\n"
+"        <action expression=\"#{numberGuess.guess}\" />\n"
+"    </transition>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:351
+#, no-c-format
+msgid ""
+"The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/"
+"&gt;</literal> element has the same effect as <literal>&lt;redirect/&gt;</"
+"literal> in a JSF navigation rule: namely, a post-then-redirect behavior, to "
+"overcome problems with the browser's refresh button. (Note that Seam "
+"propagates conversation contexts over these browser redirects. So there is "
+"no need for a Ruby on Rails style \"flash\" construct in Seam!)"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:360
+#, no-c-format
+msgid ""
+"The transition name is the name of a JSF outcome triggered by clicking a "
+"command button or command link in <literal>numberGuess.jsp</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:365
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess\"/"
+">]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:367
+#, no-c-format
+msgid ""
+"When the transition is triggered by clicking this button, jBPM will activate "
+"the transition action by calling the <literal>guess()</literal> method of "
+"the <literal>numberGuess</literal> component. Notice that the syntax used "
+"for specifying actions in the jPDL is just a familiar JSF EL expression, and "
+"that the transition action handler is just a method of a Seam component in "
+"the current Seam contexts. So we have exactly the same event model for jBPM "
+"events that we already have for JSF events! (The <emphasis>One Kind of "
+"Stuff</emphasis> principle.)"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:378
+#, no-c-format
+msgid ""
+"In the case of a null outcome (for example, a command button with no "
+"<literal>action</literal> defined), Seam will signal the transition with no "
+"name if one exists, or else simply redisplay the page if all transitions "
+"have names. So we could slightly simplify our example pageflow and this "
+"button:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:385
+#, no-c-format
+msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:387
+#, no-c-format
+msgid "Would fire the following un-named transition:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:391
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <redirect/>\n"
+"    <transition to=\"evaluateGuess\">\n"
+"        <action expression=\"#{numberGuess.guess}\" />\n"
+"    </transition>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:393
+#, no-c-format
+msgid ""
+"It is even possible to have the button call an action method, in which case "
+"the action outcome will determine the transition to be taken:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:398
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"#"
+"{numberGuess.guess}\"/>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:400
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <transition name=\"correctGuess\" to=\"win\"/>\n"
+"    <transition name=\"incorrectGuess\" to=\"evaluateGuess\"/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:402
+#, no-c-format
+msgid ""
+"However, this is considered an inferior style, since it moves responsibility "
+"for controlling the flow out of the pageflow definition and back into the "
+"other components. It is much better to centralize this concern in the "
+"pageflow itself."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:411
+#, no-c-format
+msgid "Controlling the flow"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:413
+#, no-c-format
+msgid ""
+"Usually, we don't need the more powerful features of jPDL when defining "
+"pageflows. We do need the <literal>&lt;decision&gt;</literal> node, however:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:418
+#, no-c-format
+msgid ""
+"<![CDATA[<decision name=\"evaluateGuess\" expression=\"#{numberGuess."
+"correctGuess}\">\n"
+"    <transition name=\"true\" to=\"win\"/>\n"
+"    <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
+"</decision>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:420
+#, no-c-format
+msgid ""
+"A decision is made by evaluating a JSF EL expression in the Seam contexts."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:427
+#, no-c-format
+msgid "Ending the flow"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:429
+#, no-c-format
+msgid ""
+"We end the conversation using <literal>&lt;end-conversation&gt;</literal> or "
+"<literal>@End</literal>. (In fact, for readability, use of <emphasis>both</"
+"emphasis> is encouraged.)"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:435
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
+"    <redirect/>\n"
+"    <end-conversation/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:437
+#, no-c-format
+msgid ""
+"Optionally, we can end a task, specify a jBPM <literal>transition</literal> "
+"name. In this case, Seam will signal the end of the current task in the "
+"overarching business process."
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:443
+#, no-c-format
+msgid ""
+"<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
+"    <redirect/>\n"
+"    <end-task transition=\"success\"/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:448
+#, no-c-format
+msgid "Pageflow composition"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:449
+#, no-c-format
+msgid ""
+"It is possible to compose pageflows and have one pageflow pause pause while "
+"another pageflow executes. The <literal>&lt;process-state&gt;</literal> node "
+"pauses the outer pageflow, and begins execution of a named pageflow:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:456
+#, no-c-format
+msgid ""
+"<![CDATA[<process-state name=\"cheat\">\n"
+"    <sub-process name=\"cheat\"/>\n"
+"    <transition to=\"displayGuess\"/>\n"
+"</process-state>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:458
+#, no-c-format
+msgid ""
+"The inner flow begins executing at a <literal>&lt;start-state&gt;</literal> "
+"node. When it reaches an <literal>&lt;end-state&gt;</literal> node, "
+"execution of the inner flow ends, and execution of the outer flow resumes "
+"with the transition defined by the <literal>&lt;process-state&gt;</literal> "
+"element."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:471
+#, no-c-format
+msgid "Business process management in Seam"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:472
+#, no-c-format
+msgid ""
+"A business process is a well-defined set of tasks that must be performed by "
+"users or software systems according to well-defined rules about "
+"<emphasis>who</emphasis> can perform a task, and <emphasis>when</emphasis> "
+"it should be performed. Seam's jBPM integration makes it easy to display "
+"lists of tasks to users and let them manage their tasks. Seam also lets the "
+"application store state associated with the business process in the "
+"<literal>BUSINESS_PROCESS</literal> context, and have that state made "
+"persistent via jBPM variables."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:484
+#, no-c-format
+msgid ""
+"A simple business process definition looks much the same as a page flow "
+"definition (<emphasis>One Kind of Stuff</emphasis>), except that instead of "
+"<literal>&lt;page&gt;</literal> nodes, we have <literal>&lt;task-node&gt;</"
+"literal> nodes. In a long-running business process, the wait states are "
+"where the system is waiting for some user to log in and perform a task."
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:493
+#, no-c-format
+msgid ""
+"<![CDATA[<process-definition name=\"todo\">\n"
+"   \n"
+"   <start-state name=\"start\">\n"
+"      <transition to=\"todo\"/>\n"
+"   </start-state>\n"
+"   \n"
+"   <task-node name=\"todo\">\n"
+"      <task name=\"todo\" description=\"#{todoList.description}\">\n"
+"         <assignment actor-id=\"#{actor.id}\"/>\n"
+"      </task>\n"
+"      <transition to=\"done\"/>\n"
+"   </task-node>\n"
+"   \n"
+"   <end-state name=\"done\"/>\n"
+"   \n"
+"</process-definition>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:505
+#, no-c-format
+msgid ""
+"It is perfectly possible that we might have both jPDL business process "
+"definitions and jPDL pageflow definitions in the same project. If so, the "
+"relationship between the two is that a single <literal>&lt;task&gt;</"
+"literal> in a business process corresponds to a whole pageflow <literal>&lt;"
+"pageflow-definition&gt;</literal>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:516
+#, no-c-format
+msgid "Using jPDL business process definitions"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:519
+#, no-c-format
+msgid "Installing process definitions"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:521
+#, no-c-format
+msgid ""
+"We need to install jBPM, and tell it where to find the business process "
+"definitions:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:526
+#, no-c-format
+msgid ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:process-definitions>\n"
+"        <value>todo.jpdl.xml</value>\n"
+"    </bpm:process-definitions>\n"
+"</bpm:jbpm>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:528
+#, no-c-format
+msgid ""
+"As jBPM processes are persistent across application restarts, when using "
+"Seam in a production environment you won't want to install the process "
+"definition every time the application starts. Therefore, in a production "
+"environment, you'll need to deploy the process to jBPM outside of Seam. In "
+"other words, only install process definitions from <literal>components.xml</"
+"literal> when developing your application."
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:541
+#, no-c-format
+msgid "Initializing actor ids"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:543
+#, no-c-format
+msgid ""
+"We always need to know what user is currently logged in. jBPM \"knows\" "
+"users by their <emphasis>actor id</emphasis> and <emphasis>group actor ids</"
+"emphasis>. We specify the current actor ids using the built in Seam "
+"component named <literal>actor</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:551
+#, no-c-format
+msgid ""
+"<![CDATA[@In Actor actor;\n"
+"\n"
+"public String login() {\n"
+"    ...\n"
+"    actor.setId( user.getUserName() );\n"
+"    actor.getGroupActorIds().addAll( user.getGroupNames() );\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:556
+#, no-c-format
+msgid "Initiating a business process"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:558
+#, no-c-format
+msgid ""
+"To initiate a business process instance, we use the <literal>@CreateProcess</"
+"literal> annotation:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:563
+#, no-c-format
+msgid ""
+"<![CDATA[@CreateProcess(definition=\"todo\")\n"
+"public void createTodo() { ... }]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:565
+#, no-c-format
+msgid "Alternatively we can initiate a business process using pages.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:567
+#, no-c-format
+msgid ""
+"<![CDATA[<page>\n"
+"    <create-process definition=\"todo\" />\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:572
+#, no-c-format
+msgid "Task assignment"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:574
+#, no-c-format
+msgid ""
+"When a process reaches a task node, task instances are created. These must "
+"be assigned to users or user groups. We can either hardcode our actor ids, "
+"or delegate to a Seam component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:580
+#, no-c-format
+msgid ""
+"<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
+"    <assignment actor-id=\"#{actor.id}\"/>\n"
+"</task>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:582
+#, no-c-format
+msgid ""
+"In this case, we have simply assigned the task to the current user. We can "
+"also assign tasks to a pool:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:587
+#, no-c-format
+msgid ""
+"<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
+"    <assignment pooled-actors=\"employees\"/>\n"
+"</task>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:592
+#, no-c-format
+msgid "Task lists"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:594
+#, no-c-format
+msgid ""
+"Several built-in Seam components make it easy to display task lists. The "
+"<literal>pooledTaskInstanceList</literal> is a list of pooled tasks that "
+"users may assign to themselves:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:600
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{pooledTaskInstanceList}\" var=\"task\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Description</f:facet>\n"
+"        <h:outputText value=\"#{task.description}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <s:link action=\"#{pooledTask.assignToCurrentActor}\" value=\"Assign"
+"\" taskInstance=\"#{task}\"/>\n"
+"    </h:column>                    \n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:602
+#, no-c-format
+msgid ""
+"Note that instead of <literal>&lt;s:link&gt;</literal> we could have used a "
+"plain JSF <literal>&lt;h:commandLink&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:607
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandLink action=\"#{pooledTask.assignToCurrentActor}\"> \n"
+"    <f:param name=\"taskId\" value=\"#{task.id}\"/>\n"
+"</h:commandLink>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:609
+#, no-c-format
+msgid ""
+"The <literal>pooledTask</literal> component is a built-in component that "
+"simply assigns the task to the current user."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:614
+#, no-c-format
+msgid ""
+"The <literal>taskInstanceListForType</literal> component includes tasks of a "
+"particular type that are assigned to the current user:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:619
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{taskInstanceListForType['todo']}\" var=\"task"
+"\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Description</f:facet>\n"
+"        <h:outputText value=\"#{task.description}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <s:link action=\"#{todoList.start}\" value=\"Start Work\" "
+"taskInstance=\"#{task}\"/>\n"
+"    </h:column>                    \n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jbpm.xml:624
+#, no-c-format
+msgid "Performing a task"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:626
+#, no-c-format
+msgid ""
+"To begin work on a task, we use either <literal>@StartTask</literal> or "
+"<literal>@BeginTask</literal> on the listener method:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:631
+#, no-c-format
+msgid ""
+"<![CDATA[@StartTask\n"
+"public String start() { ... }]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:633
+#, no-c-format
+msgid "Alternatively we can begin work on a task using pages.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:635
+#, no-c-format
+msgid ""
+"<![CDATA[<page>\n"
+"    <start-task />\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:637
+#, no-c-format
+msgid ""
+"These annotations begin a special kind of conversation that has significance "
+"in terms of the overarching business process. Work done by this conversation "
+"has access to state held in the business process context."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:644
+#, no-c-format
+msgid ""
+"If we end the conversation using <literal>@EndTask</literal>, Seam will "
+"signal the completion of the task:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:649
+#, no-c-format
+msgid ""
+"<![CDATA[@EndTask(transition=\"completed\")\n"
+"public String completed() { ... }]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:651
+#, no-c-format
+msgid "Alternatively we can use pages.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jbpm.xml:653
+#, no-c-format
+msgid ""
+"<![CDATA[<page>\n"
+"    <end-task transition=\"completed\" />\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:655
+#, no-c-format
+msgid "You can also use EL to specify the transition in pages.xml."
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:659
+#, no-c-format
+msgid ""
+"At this point, jBPM takes over and continues executing the business process "
+"definition. (In more complex processes, several tasks might need to be "
+"completed before process execution can resume.)"
+msgstr ""
+
+#. Tag: para
+#: Jbpm.xml:665
+#, no-c-format
+msgid ""
+"Please refer to the jBPM documentation for a more thorough overview of the "
+"sophisticated features that jBPM provides for managing complex business "
+"processes."
+msgstr ""

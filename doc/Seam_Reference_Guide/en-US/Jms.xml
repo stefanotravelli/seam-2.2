@@ -1,0 +1,521 @@
+<chapter id="jms">
+    <title>Asynchronicity and messaging</title>
+    <para>
+        Seam makes it very easy to perform work asynchronously from a web request. When most people
+        think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to
+        approach the problem in Seam, and is the right way when you have strict and well-defined
+        quality of service requirements. Seam makes it easy to send and receive JMS messages using
+        Seam components.
+    </para>
+    
+    <para>
+        But for many use cases, JMS is overkill. Seam layers a simple asynchronous method and event
+        facility over your choice of <emphasis>dispatchers</emphasis>:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>
+                <literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (by default)
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                the EJB timer service (for EJB 3.0 environments)
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Quartz
+            </para>
+        </listitem>
+    </itemizedlist>
+            
+    <sect1>
+        <title>Asynchronicity</title>
+
+        <para>
+            Asynchronous events and method calls have the same quality of service expectations as  
+            the underlying dispatcher mechanism. The default dispatcher, based upon a 
+            <literal>ScheduledThreadPoolExecutor</literal> performs efficiently but provides no
+            support for persistent asynchronous tasks, and hence no guarantee that a task
+            will ever actually be executed. If you're working in an environment that supports
+            EJB 3.0, and add the following line to <literal>components.xml</literal>:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<async:timer-service-dispatcher/>]]></programlisting>
+        
+        <para>
+            then your asynchronous tasks will be processed by the container's EJB timer service. If 
+            you're not familiar with the Timer service, don't worry, you don't need to interact with 
+            it directly if you want to use asynchronous methods in Seam. The important thing to know
+            is that any good EJB 3.0 implementation will have the option of using persistent timers, 
+            which gives some guarantee that the tasks will eventually be processed.
+        </para>
+        
+        <para>
+            Another alternative is to use the open source Quartz library to manage asynchronous method. 
+            You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) 
+            in your EAR and declare it as a Java module in <literal>application.xml</literal>.
+            The Quartz dispatcher may be configured by adding a Quartz property file to the classpath. 
+           	It must be named <literal>seam.quartz.properties</literal>.  In addition, 
+            you need to add the following line to <literal>components.xml</literal> to install the 
+            Quartz dispatcher. 
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<async:quartz-dispatcher/>]]></programlisting>
+            
+        <para>
+            The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 
+            <literal>Timer</literal>, and the Quartz <literal>Scheduler</literal> are largely the 
+            same. They can just "plug and play" by adding a line to <literal>components.xml</literal>.
+        </para>
+        
+        <sect2>
+        <title>Asynchronous methods</title>
+        
+        <para>
+            In simplest form, an asynchronous call just lets a method call be processed asynchronously 
+            (in a different thread) from the caller. We usually use an asynchronous call when we want 
+            to return an immediate response to the client, and let some expensive work be processed in
+            the background. This pattern works very well in applications which use AJAX, where the
+            client can automatically poll the server for the result of the work.
+        </para>
+        
+        <para>
+            For EJB components, we annotate the local interface to specify that a method is processed
+            asynchronously.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Local
+public interface PaymentHandler
+{
+    @Asynchronous
+    public void processPayment(Payment payment);
+}]]></programlisting>
+
+        <para>
+            (For JavaBean components we can annotate the component implementation class if we like.)
+        </para>
+        
+        <para>
+            The use of asynchronicity is transparent to the bean class:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandlerBean implements PaymentHandler
+{
+    public void processPayment(Payment payment)
+    {
+        //do some work!
+    }
+}]]></programlisting>
+        
+        <para>
+            And also transparent to the client:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String pay()
+    {
+        paymentHandler.processPayment( new Payment(bill) );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            The asynchronous method is processed in a completely new event context and does
+            not have access to the session or conversation context state of the caller. However,
+            the business process context <emphasis>is</emphasis> propagated.
+        </para>
+        
+        <para>
+            Asynchronous method calls may be scheduled for later execution using the
+            <literal>@Duration</literal>, <literal>@Expiration</literal> and
+            <literal>@IntervalDuration</literal> annotations.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Local
+public interface PaymentHandler
+{
+    @Asynchronous
+    public void processScheduledPayment(Payment payment, @Expiration Date date);
+
+    @Asynchronous
+    public void processRecurringPayment(Payment payment, 
+                                        @Expiration Date date, 
+                                        @IntervalDuration Long interval)'
+}]]></programlisting>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        return "success";
+    }
+
+    public String scheduleRecurringPayment()
+    {
+        paymentHandler.processRecurringPayment( new Payment(bill), bill.getDueDate(), 
+                                                ONE_MONTH );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Both client and server may access the <literal>Timer</literal> object associated with
+            the invocation. The <literal>Timer</literal> object shown below is the EJB3 timer when you use the EJB3 dispatcher. For the default <literal>ScheduledThreadPoolExecutor</literal>, the returned object is <literal>Future</literal> from the JDK. For the Quartz dispatcher, it returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the next section.
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@Local
+public interface PaymentHandler
+{
+    @Asynchronous
+    public Timer processScheduledPayment(Payment payment, @Expiration Date date);
+}]]></programlisting>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandlerBean implements PaymentHandler
+{
+    @In Timer timer;
+    
+    public Timer processScheduledPayment(Payment payment, @Expiration Date date)
+    {
+        //do some work!
+        
+        return timer; //note that return value is completely ignored
+    }
+
+}]]></programlisting>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        Timer timer = paymentHandler.processScheduledPayment( new Payment(bill), 
+                                                              bill.getDueDate() );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Asynchronous methods cannot return any other value to the caller.
+        </para>
+
+        </sect2>
+        
+        <sect2>
+        <title>Asynchronous methods with the Quartz Dispatcher</title>
+        
+        <para>
+            The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports three new annotations.
+        </para>
+        
+        <para>The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task. Note that you can inject the <code>QuartzTriggerHandle</code>.</para>
+        
+        <programlisting role="JAVA"><![CDATA[
+        @In QuartzTriggerHandle timer;
+        
+    // Defines the method in the "processor" component
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalDuration Long interval,
+                                 @FinalExpiration Date endDate, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task until endDate
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    // Starts now, repeats every hour, and ends on May 10th, 2010
+    Calendar cal = Calendar.getInstance ();
+    cal.set (2010, Calendar.MAY, 10);
+    processor.schedulePayment(new Date(), 60*60*1000, cal.getTime(), payment);
+]]></programlisting>
+
+        <para>Note that the method returns the <literal>QuartzTriggerHandle</literal> object, which you can use later to stop, pause, and resume the scheduler. The <literal>QuartzTriggerHandle</literal> object is serializable, so you can save it into the database if you need to keep it around for extended period of time.</para>
+        
+        <programlisting role="JAVA"><![CDATA[QuartzTriggerHandle handle =
+         processor.schedulePayment(payment.getPaymentDate(), 
+                                   payment.getPaymentCron(), 
+                                   payment);
+        payment.setQuartzTriggerHandle( handle );
+        // Save payment to DB
+        
+        // later ...
+        
+        // Retrieve payment from DB
+        // Cancel the remaining scheduled tasks
+        payment.getQuartzTriggerHandle().cancel();
+]]></programlisting>
+            
+        <para>The <literal>@IntervalCron</literal> annotation supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalCron String cron, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), "0 10,44 14 ? 3 WED", payment);
+]]></programlisting>
+
+        <para>The <literal>@IntervalBusinessDay</literal> annotation supports invocation on the "nth Business Day" scenario. For instance, the following asynchronous method runs at 14:00 on the 2nd business day of each month. By default, it excludes all weekends and US federal holidays until 2010 from the business days.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalBusinessDay NthBusinessDay nth, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), 
+          new NthBusinessDay(2, "14:00", WEEKLY), payment);
+]]></programlisting>
+
+        <para>The <literal>NthBusinessDay</literal> object contains the configuration of the invocation trigger. You can specify more holidays (e.g., company holidays, non-US holidays etc.) via the <literal>additionalHolidays</literal> property.</para>
+        
+        <programlisting role="JAVA"><![CDATA[
+public class NthBusinessDay implements Serializable
+{
+      int n;
+      String fireAtTime;
+      List <Date> additionalHolidays;
+      BusinessDayIntervalType interval;
+      boolean excludeWeekends;
+      boolean excludeUsFederalHolidays;
+
+      public enum BusinessDayIntervalType { WEEKLY, MONTHLY, YEARLY }
+
+      public NthBusinessDay ()
+      {
+        n = 1;
+        fireAtTime = "12:00";
+        additionalHolidays = new ArrayList <Date> ();
+        interval = BusinessDayIntervalType.WEEKLY;
+        excludeWeekends = true;
+        excludeUsFederalHolidays = true;
+      }     
+      ... ...
+}
+]]></programlisting>
+
+        <para>The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, and <literal>@IntervalNthBusinessDay</literal> annotations are mutually exclusive. If they are used in the same method, a <literal>RuntimeException</literal> will be thrown.</para>
+        
+        </sect2>
+        
+        <sect2>
+            <title>Asynchronous events</title>
+            <para>
+                Component-driven events may also be asynchronous. To raise an event for asynchronous
+                processing, simply call the <literal>raiseAsynchronousEvent()</literal> method of 
+                the <literal>Events</literal> class. To schedule a timed event, call the
+                <literal>raiseTimedEvent()</literal> method, passing a <emphasis>schedule</emphasis>
+                object (for the default dispatcher or timer service dispatcher, use <literal>TimerSchedule</literal>). 
+                Components may observe asynchronous events in the usual way, but remember that only the 
+                business process context is propagated to the asynchronous thread.
+            </para>
+        </sect2>
+        
+        <sect2>
+            <title>Handling exceptions from asynchronous calls</title>
+            
+            <para>
+                Each asynchronous dispatcher behaves differently when an
+                exception propagates through it. For example, the 
+                <literal>java.util.concurrent</literal> dispatcher will suspend
+                further executions of a call which repeats, and the EJB3 timer
+                service will swallow the exception. Seam therefore catches any
+                exception which propagates out of the asynchronous call before
+                it reaches the dispatcher.
+            </para>
+            
+            <para>
+                By default, any exception which propagates out from an 
+                asynchronous execution will be caught and logged at error level.
+                You can customize this behavior globally by overriding the
+                <literal>org.jboss.seam.async.asynchronousExceptionHandler</literal>
+                component: 
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Scope(ScopeType.STATELESS)
+@Name("org.jboss.seam.async.asynchronousExceptionHandler")
+public class MyAsynchronousExceptionHandler extends AsynchronousExceptionHandler { 
+
+   @Logger Log log;
+   
+   @In Future timer;
+   
+   @Override
+   public void handleException(Exception exception) {
+      log.debug(exception);
+      timer.cancel(false);
+   }
+   
+}]]></programlisting>
+
+            <para>
+                Here, for example, using <literal>java.util.concurrent</literal>
+                dispatcher, we inject its control object and cancel all future
+                invocations when an exception is encountered
+            </para>
+            
+            <para>
+                You can also alter this behavior for an individual component by
+                implementing the method 
+                <literal>public void handleAsynchronousException(Exception exception);</literal>
+                on the component. For example: 
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[   public void handleAsynchronousException(Exception exception) {
+      log.fatal(exception);
+   }]]></programlisting>
+
+        </sect2>
+
+    </sect1>
+    
+    <sect1>
+    <title>Messaging in Seam</title>
+    
+    <para>
+        Seam makes it easy to send and receive JMS messages to and from
+        Seam components.
+    </para>
+    
+    <sect2>
+        <title>Configuration</title>
+        <para>
+            To configure Seam's infrastructure for sending JMS messages,
+            you need to tell Seam about any topics and queues you want to
+            send messages to, and also tell Seam where to find the
+            <literal>QueueConnectionFactory</literal> and/or
+            <literal>TopicConnectionFactory</literal>.
+        </para>
+        
+        <para>
+            Seam defaults to using <literal>UIL2ConnectionFactory</literal>
+            which is the usual connection factory for use with JBossMQ. If
+            you are using some other JMS provider, you need to set one or
+            both of <literal>queueConnection.queueConnectionFactoryJndiName</literal>
+            and <literal>topicConnection.topicConnectionFactoryJndiName</literal>
+            in <literal>seam.properties</literal>, <literal>web.xml</literal>
+            or <literal>components.xml</literal>.
+        </para>
+        
+        <para>
+            You also need to list topics and queues in <literal>components.xml</literal>
+            to install Seam managed <literal>TopicPublisher</literal>s and
+            <literal>QueueSender</literal>s:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
+                             auto-create="true" 
+                             topic-jndi-name="topic/stockTickerTopic"/>
+
+<jms:managed-queue-sender name="paymentQueueSender" 
+                          auto-create="true" 
+                          queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
+
+    </sect2>
+
+    <sect2>
+        <title>Sending messages</title>
+        <para>
+            Now, you can inject a JMS <literal>TopicPublisher</literal> and
+            <literal>TopicSession</literal> into any component:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@In 
+private TopicPublisher stockTickerPublisher;   
+@In 
+private TopicSession topicSession;
+
+public void publish(StockPrice price) {
+      try
+      {
+         stockTickerPublisher.publish( topicSession.createObjectMessage(price) );
+      } 
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      } 
+}]]></programlisting>
+
+        <para>Or, for working with a queue:</para>
+
+        <programlisting role="JAVA"><![CDATA[@In
+private QueueSender paymentQueueSender;   
+@In
+private QueueSession queueSession;
+
+public void publish(Payment payment) {
+      try
+      {
+         paymentQueueSender.send( queueSession.createObjectMessage(payment) );
+      } 
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      } 
+}]]></programlisting>
+
+    </sect2>
+    
+    <sect2>
+        <title>Receiving messages using a message-driven bean</title>
+        <para>
+            You can process messages using any EJB3 message driven bean. Message-driven
+            beans may even be Seam components, in which case it is possible to inject
+            other event and application scoped Seam components.
+        </para>
+    </sect2>
+    
+    <sect2>
+        <title>Receiving messages in the client</title>
+        <para>
+            Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is
+            described in <xref linkend="remoting"/>.
+        </para>
+    </sect2>
+    
+    </sect1>
+</chapter>

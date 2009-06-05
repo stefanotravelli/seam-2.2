@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="seam-gen RichFaces suite" parallel="false" verbose="3">
+	<listeners>
+		<listener
+			class-name="org.jboss.seam.test.functional.seamgen.utils.SeleniumTestListener" />
+	</listeners>
+	<parameter name="suffix" value="001" />
+	<test name="RichFaces exploded Ear Test">
+		<parameter name="type" value="ear" />
+		<classes>
+			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
+			<class
+				name="org.jboss.seam.test.functional.seamgen.HotDeploymentStaticTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
+		</classes>
+	</test>
+	<test name="RichFaces exploded War Test">
+		<parameter name="type" value="war" />
+		<classes>
+			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
+			<class
+				name="org.jboss.seam.test.functional.seamgen.HotDeploymentNewFormTest" />
+			<class
+				name="org.jboss.seam.test.functional.seamgen.HotDeploymentStaticTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
+		</classes>
+	</test>
+	<test name="RichFaces Ear Test">
+		<parameter name="type" value="ear" />
+		<parameter name="explode" value="false" />
+		<classes>
+			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
+		</classes>
+	</test>
+	<test name="RichFaces War Test">
+		<parameter name="type" value="war" />
+		<parameter name="explode" value="false" />
+		<classes>
+			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
+			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
+		</classes>
+	</test>
+</suite>

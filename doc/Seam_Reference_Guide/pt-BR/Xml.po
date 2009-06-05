@@ -1,0 +1,1033 @@
+# Language pt-BR translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-01-18 15:01+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Xml.xml:6
+#, no-c-format
+msgid "Configuring Seam components"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:8
+#, no-c-format
+msgid ""
+"The philosophy of minimizing XML-based configuration is extremely strong in "
+"Seam. Nevertheless, there are various reasons why we might want to configure "
+"a Seam component using XML: to isolate deployment-specific information from "
+"the Java code, to enable the creation of re-usable frameworks, to configure "
+"Seam's built-in functionality, etc. Seam provides two basic approaches to "
+"configuring components: configuration via property settings in a properties "
+"file or in <literal>web.xml</literal>, and configuration via "
+"<literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: title
+#: Xml.xml:18
+#, no-c-format
+msgid "Configuring components via property settings"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:19
+#, no-c-format
+msgid ""
+"Seam components may be provided with configuration properties either via "
+"servlet context parameters, via system properties, or via a properties file "
+"named <literal>seam.properties</literal> in the root of the classpath."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:23
+#, no-c-format
+msgid ""
+"The configurable Seam component must expose JavaBeans-style property setter "
+"methods for the configurable attributes. If a Seam component named "
+"<literal>com.jboss.myapp.settings</literal> has a setter method named "
+"<literal>setLocale()</literal>, we can provide a property named <literal>com."
+"jboss.myapp.settings.locale</literal> in the <literal>seam.properties</"
+"literal> file, a system property named <literal>org.jboss.seam.properties."
+"com.jboss.myapp.settings.locale</literal> via -D at startup, or as a servlet "
+"context parameter, and Seam will set the value of the <literal>locale</"
+"literal> attribute whenever it instantiates the component."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:32
+#, no-c-format
+msgid ""
+"The same mechanism is used to configure Seam itself. For example, to set the "
+"conversation timeout, we provide a value for <literal>org.jboss.seam.core."
+"manager.conversationTimeout</literal> in <literal>web.xml</literal>, "
+"<literal>seam.properties</literal>, or via a system property prefixed with "
+"<literal>org.jboss.seam.properties</literal>. (There is a built-in Seam "
+"component named <literal>org.jboss.seam.core.manager</literal> with a setter "
+"method named <literal>setConversationTimeout()</literal>.)"
+msgstr ""
+
+#. Tag: title
+#: Xml.xml:43
+#, no-c-format
+msgid "Configuring components via <literal>components.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:45
+#, no-c-format
+msgid ""
+"The <literal>components.xml</literal> file is a bit more powerful than "
+"property settings. It lets you:"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:52
+#, no-c-format
+msgid ""
+"Configure components that have been installed automatically &#8212; "
+"including both built-in components, and application components that have "
+"been annotated with the <literal>@Name</literal> annotation and picked up by "
+"Seam's deployment scanner."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:57
+#, no-c-format
+msgid ""
+"Install classes with no <literal>@Name</literal> annotation as Seam "
+"components &#8212; this is most useful for certain kinds of infrastructural "
+"components which can be installed multiple times with different names (for "
+"example Seam-managed persistence contexts)."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:62
+#, no-c-format
+msgid ""
+"Install components that <emphasis>do</emphasis> have a <literal>@Name</"
+"literal> annotation but are not installed by default because of an "
+"<literal>@Install</literal> annotation that indicates the component should "
+"not be installed."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:67
+#, no-c-format
+msgid "Override the scope of a component."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:71
+#, no-c-format
+msgid ""
+"A <literal>components.xml</literal> file may appear in one of three "
+"different places:"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:77
+#, no-c-format
+msgid "The <literal>WEB-INF</literal> directory of a <literal>war</literal>."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:80
+#, no-c-format
+msgid "The <literal>META-INF</literal> directory of a <literal>jar</literal>."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:83
+#, no-c-format
+msgid ""
+"Any directory of a <literal>jar</literal> that contains classes with an "
+"<literal>@Name</literal> annotation."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:90
+#, no-c-format
+msgid ""
+"Usually, Seam components are installed when the deployment scanner discovers "
+"a class with a <literal>@Name</literal> annotation sitting in an archive "
+"with a <literal>seam.properties</literal> file or a <literal>META-INF/"
+"components.xml</literal> file. (Unless the component has an "
+"<literal>@Install</literal> annotation indicating it should not be installed "
+"by default.) The <literal>components.xml</literal> file lets us handle "
+"special cases where we need to override the annotations."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:99
+#, no-c-format
+msgid ""
+"For example, the following <literal>components.xml</literal> file installs "
+"jBPM:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:103
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xmlns:bpm=\"http://jboss.com/products/seam/bpm\">\n"
+"    <bpm:jbpm/>\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:105
+#, no-c-format
+msgid "This example does the same thing:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:109
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"    <component class=\"org.jboss.seam.bpm.Jbpm\"/>\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:111
+#, no-c-format
+msgid ""
+"This one installs and configures two different Seam-managed persistence "
+"contexts:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:115
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.com/products/seam/persistence"
+"\"\n"
+"\n"
+"    <persistence:managed-persistence-context name=\"customerDatabase\"\n"
+"                       persistence-unit-jndi-name=\"java:/"
+"customerEntityManagerFactory\"/>\n"
+"        \n"
+"    <persistence:managed-persistence-context name=\"accountingDatabase\"\n"
+"                       persistence-unit-jndi-name=\"java:/"
+"accountingEntityManagerFactory\"/>            \n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:117
+#, no-c-format
+msgid "As does this one:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:121
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"    <component name=\"customerDatabase\" \n"
+"              class=\"org.jboss.seam.persistence.ManagedPersistenceContext"
+"\">\n"
+"        <property name=\"persistenceUnitJndiName\">java:/"
+"customerEntityManagerFactory</property>\n"
+"    </component>\n"
+"    \n"
+"    <component name=\"accountingDatabase\"\n"
+"              class=\"org.jboss.seam.persistence.ManagedPersistenceContext"
+"\">\n"
+"        <property name=\"persistenceUnitJndiName\">java:/"
+"accountingEntityManagerFactory</property>\n"
+"    </component>\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:123
+#, no-c-format
+msgid ""
+"This example creates a session-scoped Seam-managed persistence context (this "
+"is not recommended in practice):"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:128
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.com/products/seam/persistence"
+"\"\n"
+"\n"
+"  <persistence:managed-persistence-context name=\"productDatabase\" \n"
+"                                          scope=\"session\"\n"
+"                     persistence-unit-jndi-name=\"java:/"
+"productEntityManagerFactory\"/>        \n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:130
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"            \n"
+"    <component name=\"productDatabase\"\n"
+"              scope=\"session\"\n"
+"              class=\"org.jboss.seam.persistence.ManagedPersistenceContext"
+"\">\n"
+"        <property name=\"persistenceUnitJndiName\">java:/"
+"productEntityManagerFactory</property>\n"
+"    </component>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:132
+#, no-c-format
+msgid ""
+"It is common to use the <literal>auto-create</literal> option for "
+"infrastructural objects like persistence contexts, which saves you from "
+"having to explicitly specify <literal>create=true</literal> when you use the "
+"<literal>@In</literal> annotation."
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:139
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.com/products/seam/persistence"
+"\"\n"
+"\n"
+"  <persistence:managed-persistence-context name=\"productDatabase\" \n"
+"                                    auto-create=\"true\"\n"
+"                     persistence-unit-jndi-name=\"java:/"
+"productEntityManagerFactory\"/>        \n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:141
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"            \n"
+"    <component name=\"productDatabase\"\n"
+"        auto-create=\"true\"\n"
+"              class=\"org.jboss.seam.persistence.ManagedPersistenceContext"
+"\">\n"
+"        <property name=\"persistenceUnitJndiName\">java:/"
+"productEntityManagerFactory</property>\n"
+"    </component>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:143
+#, no-c-format
+msgid ""
+"The <literal>&lt;factory&gt;</literal> declaration lets you specify a value "
+"or method binding expression that will be evaluated to initialize the value "
+"of a context variable when it is first referenced."
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:149
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"\n"
+"    <factory name=\"contact\" method=\"#{contactManager.loadContact}\" scope="
+"\"CONVERSATION\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:151
+#, no-c-format
+msgid ""
+"You can create an \"alias\" (a second name) for a Seam component like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:155
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"\n"
+"    <factory name=\"user\" value=\"#{actor}\" scope=\"STATELESS\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:157
+#, no-c-format
+msgid "You can even create an \"alias\" for a commonly used expression:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:161
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"\n"
+"    <factory name=\"contact\" value=\"#{contactManager.contact}\" scope="
+"\"STATELESS\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:163
+#, no-c-format
+msgid ""
+"It is especially common to see the use of <literal>auto-create=\"true\"</"
+"literal> with the <literal>&lt;factory&gt;</literal> declaration:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:168
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"\n"
+"    <factory name=\"session\" value=\"#{entityManager.delegate}\" scope="
+"\"STATELESS\" auto-create=\"true\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:170
+#, no-c-format
+msgid ""
+"Sometimes we want to reuse the same <literal>components.xml</literal> file "
+"with minor changes during both deployment and testing. Seam lets you place "
+"wildcards of the form <literal>@wildcard@</literal> in the "
+"<literal>components.xml</literal> file which can be replaced either by your "
+"Ant build script (at deployment time) or by providing a file named "
+"<literal>components.properties</literal> in the classpath (at development "
+"time). You'll see this approach used in the Seam examples."
+msgstr ""
+
+#. Tag: title
+#: Xml.xml:181
+#, no-c-format
+msgid "Fine-grained configuration files"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:182
+#, no-c-format
+msgid ""
+"If you have a large number of components that need to be configured in XML, "
+"it makes much more sense to split up the information in <literal>components."
+"xml</literal> into many small files. Seam lets you put configuration for a "
+"class named, for example, <literal>com.helloworld.Hello</literal> in a "
+"resource named <literal>com/helloworld/Hello.component.xml</literal>. (You "
+"might be familiar with this pattern, since it is the same one we use in "
+"Hibernate.) The root element of the file may be either a <literal>&lt;"
+"components&gt;</literal> or <literal>&lt;component&gt;</literal> element."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:191
+#, no-c-format
+msgid "The first option lets you define multiple components in the file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:195
+#, no-c-format
+msgid ""
+"<![CDATA[<components>\n"
+"    <component class=\"com.helloworld.Hello\" name=\"hello\">\n"
+"        <property name=\"name\">#{user.name}</property>\n"
+"    </component>\n"
+"    <factory name=\"message\" value=\"#{hello.message}\"/>\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:197
+#, no-c-format
+msgid ""
+"The second option only lets you define or configure one component, but is "
+"less noisy:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:201
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"hello\">\n"
+"    <property name=\"name\">#{user.name}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:203
+#, no-c-format
+msgid ""
+"In the second option, the class name is implied by the file in which the "
+"component definition appears."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:208
+#, no-c-format
+msgid ""
+"Alternatively, you may put configuration for all classes in the <literal>com."
+"helloworld</literal> package in <literal>com/helloworld/components.xml</"
+"literal>."
+msgstr ""
+
+#. Tag: title
+#: Xml.xml:215
+#, no-c-format
+msgid "Configurable property types"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:216
+#, no-c-format
+msgid ""
+"Properties of string, primitive or primitive wrapper type may be configured "
+"just as you would expect:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:220
+#, no-c-format
+msgid "<![CDATA[org.jboss.seam.core.manager.conversationTimeout 60000]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:222
+#, no-c-format
+msgid "<![CDATA[<core:manager conversation-timeout=\"60000\"/>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:224
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.core.manager\">\n"
+"    <property name=\"conversationTimeout\">60000</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:226
+#, no-c-format
+msgid "Arrays, sets and lists of strings or primitives are also supported:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:230
+#, no-c-format
+msgid ""
+"<![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return."
+"jpdl.xml, inventory.jpdl.xml]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:232
+#, no-c-format
+msgid ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:process-definitions>\n"
+"        <value>order.jpdl.xml</value>\n"
+"        <value>return.jpdl.xml</value>\n"
+"        <value>inventory.jpdl.xml</value>\n"
+"    </bpm:process-definitions>\n"
+"</bpm:jbpm>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:234
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.bpm.jbpm\">\n"
+"    <property name=\"processDefinitions\">\n"
+"        <value>order.jpdl.xml</value>\n"
+"        <value>return.jpdl.xml</value>\n"
+"        <value>inventory.jpdl.xml</value>\n"
+"    </property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:236
+#, no-c-format
+msgid ""
+"Even maps with String-valued keys and string or primitive values are "
+"supported:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:240
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"issueEditor\">\n"
+"    <property name=\"issueStatuses\">\n"
+"        <key>open</key> <value>open issue</value>\n"
+"        <key>resolved</key> <value>issue resolved by developer</value>\n"
+"        <key>closed</key> <value>resolution accepted by user</value>\n"
+"    </property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:242
+#, no-c-format
+msgid ""
+"When configuring multi-valued properties, by default, Seam will preserve the "
+"order in which you place the attributes in <literal>components.xml</literal> "
+"(unless you use a <literal>SortedSet</literal>/<literal>SortedMap</literal> "
+"then Seam will use <literal>TreeMap</literal>/<literal>TreeSet</literal>). "
+"If the property has a concrete type (for example <literal>LinkedList</"
+"literal>) Seam will use that type."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:248
+#, no-c-format
+msgid ""
+"You can also override the type by specifying a fully qualified class name:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:252
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"issueEditor\">\n"
+"   <property name=\"issueStatusOptions\" type=\"java.util.LinkedHashMap\">\n"
+"      <key>open</key> <value>open issue</value>\n"
+"      <key>resolved</key> <value>issue resolved by developer</value>\n"
+"      <key>closed</key> <value>resolution accepted by user</value>\n"
+"   </property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:254
+#, no-c-format
+msgid ""
+"Finally, you may wire together components using a value-binding expression. "
+"Note that this is quite different to injection using <literal>@In</literal>, "
+"since it happens at component instantiation time instead of invocation time. "
+"It is therefore much more similar to the dependency injection facilities "
+"offered by traditional IoC containers like JSF or Spring."
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:262
+#, no-c-format
+msgid ""
+"<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\"\n"
+"    rule-base=\"#{policyPricingRules}\"/>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:264
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"policyPricingWorkingMemory\"\n"
+"    class=\"org.jboss.seam.drools.ManagedWorkingMemory\">\n"
+"    <property name=\"ruleBase\">#{policyPricingRules}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:266
+#, no-c-format
+msgid ""
+"Seam also resolves an EL expression string prior to assigning the initial "
+"value to the bean property of the component. So you can inject some "
+"contextual data into your components."
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:271
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"greeter\" class=\"com.example.action.Greeter\">\n"
+"    <property name=\"message\">Nice to see you, #{identity.username}!</"
+"property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:273
+#, no-c-format
+msgid ""
+"However, there is one important exception. If the type of the property to "
+"which the initial value is being assigned is either a Seam "
+"<literal>ValueExpression</literal> or <literal>MethodExpression</literal>, "
+"then the evaluation of the EL is deferred. Instead, the appropriate "
+"expression wrapper is created and assigned to the property. The message "
+"templates on the Home component from the Seam Application Framework serve as "
+"an example."
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:281
+#, no-c-format
+msgid ""
+"<![CDATA[<framework:entity-home name=\"myEntityHome\"\n"
+"    class=\"com.example.action.MyEntityHome\" entity-class=\"com.example."
+"model.MyEntity\"\n"
+"    created-message=\"'#{myEntityHome.instance.name}' has been successfully "
+"added.\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:283
+#, no-c-format
+msgid ""
+"Inside the component, you can access the expression string by calling "
+"<literal>getExpressionString()</literal> on the <literal>ValueExpression</"
+"literal> or <literal>MethodExpression</literal>. If the property is a "
+"<literal>ValueExpression</literal>, you can resolve the value using "
+"<literal>getValue()</literal> and if the property is a "
+"<literal>MethodExpression</literal>, you can invoke the method using "
+"<literal>invoke(Object args...)</literal>. Obviously, to assign a value to a "
+"<literal>MethodExpression</literal> property, the entire initial value must "
+"be a single EL expression."
+msgstr ""
+
+#. Tag: title
+#: Xml.xml:296
+#, no-c-format
+msgid "Using XML Namespaces"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:297
+#, no-c-format
+msgid ""
+"Throughout the examples, there have been two competing ways of declaring "
+"components: with and without the use of XML namespaces. The following shows "
+"a typical <literal>components.xml</literal> file without namespaces:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:303
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xsi:schemaLocation=\"http://jboss.com/products/seam/components "
+"http://jboss.com/products/seam/components-2.1.xsd\">\n"
+"\n"
+"    <component class=\"org.jboss.seam.core.init\">\n"
+"        <property name=\"debug\">true</property>\n"
+"        <property name=\"jndiPattern\">@jndiPattern@</property>\n"
+"    </component>\n"
+"    \n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:305
+#, no-c-format
+msgid ""
+"As you can see, this is somewhat verbose. Even worse, the component and "
+"attribute names cannot be validated at development time."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:310
+#, no-c-format
+msgid "The namespaced version looks like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:312
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xsi:schemaLocation=\n"
+"                \"http://jboss.com/products/seam/core http://jboss.com/"
+"products/seam/core-2.1.xsd \n"
+"                 http://jboss.com/products/seam/components http://jboss.com/"
+"products/seam/components-2.1.xsd\">\n"
+"\n"
+"    <core:init debug=\"true\" jndi-pattern=\"@jndiPattern@\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:314
+#, no-c-format
+msgid ""
+"Even though the schema declarations are verbose, the actual XML content is "
+"lean and easy to understand. The schemas provide detailed information about "
+"each component and the attributes available, allowing XML editors to offer "
+"intelligent autocomplete. The use of namespaced elements makes generating "
+"and maintaining correct <literal>components.xml</literal> files much simpler."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:321
+#, no-c-format
+msgid ""
+"Now, this works great for the built-in Seam components, but what about user "
+"components? There are two options. First, Seam supports mixing the two "
+"models, allowing the use of the generic <literal>&lt;component&gt;</literal> "
+"declarations for user components, along with namespaced declarations for "
+"built-in components. But even better, Seam allows you to quickly declare "
+"namespaces for your own components."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:328
+#, no-c-format
+msgid ""
+"Any Java package can be associated with an XML namespace by annotating the "
+"package with the <literal>@Namespace</literal> annotation. (Package-level "
+"annotations are declared in a file named <literal>package-info.java</"
+"literal> in the package directory.) Here is an example from the seampay demo:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:334
+#, no-c-format
+msgid ""
+"@Namespace(value=\"http://jboss.com/products/seam/examples/seampay\")\n"
+"package org.jboss.seam.example.seampay;\n"
+"\n"
+"import org.jboss.seam.annotations.Namespace;"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:336
+#, no-c-format
+msgid ""
+"That is all you need to do to use the namespaced style in "
+"<literal>components.xml</literal>! Now we can write:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:341
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"            ... >\n"
+"\n"
+"    <pay:payment-home new-instance=\"#{newPayment}\"\n"
+"                      created-message=\"Created a new payment to #"
+"{newPayment.payee}\" />\n"
+"\n"
+"    <pay:payment name=\"newPayment\"\n"
+"                 payee=\"Somebody\"\n"
+"                 account=\"#{selectedAccount}\"\n"
+"                 payment-date=\"#{currentDatetime}\"\n"
+"                 created-date=\"#{currentDatetime}\" />\n"
+"     ...\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:343
+#, no-c-format
+msgid "<para>Or:</para>"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:345
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"            ... >\n"
+"\n"
+"    <pay:payment-home>\n"
+"        <pay:new-instance>\"#{newPayment}\"</pay:new-instance>\n"
+"        <pay:created-message>Created a new payment to #{newPayment.payee}</"
+"pay:created-message>\n"
+"    </pay:payment-home>\n"
+"    \n"
+"    <pay:payment name=\"newPayment\">\n"
+"        <pay:payee>Somebody\"</pay:payee>\n"
+"        <pay:account>#{selectedAccount}</pay:account>\n"
+"        <pay:payment-date>#{currentDatetime}</pay:payment-date>\n"
+"        <pay:created-date>#{currentDatetime}</pay:created-date>\n"
+"     </pay:payment>\n"
+"     ...\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:347
+#, no-c-format
+msgid ""
+"These examples illustrate the two usage models of a namespaced element. In "
+"the first declaration, the <literal>&lt;pay:payment-home&gt;</literal> "
+"references the <literal>paymentHome</literal> component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:353
+#, no-c-format
+msgid ""
+"<![CDATA[package org.jboss.seam.example.seampay;\n"
+"...\n"
+"@Name(\"paymentHome\")\n"
+"public class PaymentController\n"
+"    extends EntityHome<Payment>\n"
+"{\n"
+"    ... \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:355
+#, no-c-format
+msgid ""
+"The element name is the hyphenated form of the component name. The "
+"attributes of the element are the hyphenated form of the property names."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:360
+#, no-c-format
+msgid ""
+"In the second declaration, the <literal>&lt;pay:payment&gt;</literal> "
+"element refers to the <literal>Payment</literal> class in the <literal>org."
+"jboss.seam.example.seampay</literal> package. In this case <literal>Payment</"
+"literal> is an entity that is being declared as a Seam component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Xml.xml:366
+#, no-c-format
+msgid ""
+"<![CDATA[package org.jboss.seam.example.seampay;\n"
+"...\n"
+"@Entity\n"
+"public class Payment\n"
+"    implements Serializable\n"
+"{\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:368
+#, no-c-format
+msgid ""
+"If we want validation and autocompletion to work for user-defined "
+"components, we will need a schema. Seam does not yet provide a mechanism to "
+"automatically generate a schema for a set of components, so it is necessary "
+"to generate one manually. The schema definitions for the standard Seam "
+"packages can be used for guidance."
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:375
+#, no-c-format
+msgid "The following are the the namespaces used by Seam:"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:379
+#, no-c-format
+msgid ""
+"components &#8212; <literal>http://jboss.com/products/seam/components</"
+"literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:382
+#, no-c-format
+msgid "core &#8212; <literal>http://jboss.com/products/seam/core</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:385
+#, no-c-format
+msgid "drools &#8212; <literal>http://jboss.com/products/seam/drools</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:388
+#, no-c-format
+msgid ""
+"framework &#8212; <literal>http://jboss.com/products/seam/framework</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:391
+#, no-c-format
+msgid "jms &#8212; <literal>http://jboss.com/products/seam/jms</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:394
+#, no-c-format
+msgid ""
+"remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:397
+#, no-c-format
+msgid "theme &#8212; <literal>http://jboss.com/products/seam/theme</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:400
+#, no-c-format
+msgid ""
+"security &#8212; <literal>http://jboss.com/products/seam/security</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:403
+#, no-c-format
+msgid "mail &#8212; <literal>http://jboss.com/products/seam/mail</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:406
+#, no-c-format
+msgid "web &#8212; <literal>http://jboss.com/products/seam/web</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:409
+#, no-c-format
+msgid "pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal>"
+msgstr ""
+
+#. Tag: para
+#: Xml.xml:412
+#, no-c-format
+msgid "spring &#8212; <literal>http://jboss.com/products/seam/spring</literal>"
+msgstr ""

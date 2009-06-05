@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.FileUpload</name>
+		<family>org.jboss.seam.ui.FileUpload</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlFileUpload</classname>
+		<superclass>org.jboss.seam.ui.component.UIFileUpload</superclass>
+		<description>
+			<![CDATA[Renders a file upload control. This control must be used within a form with an encoding type of multipart/form-data, i.e:
+
+<h:form enctype="multipart/form-data">
+                                    
+For multipart requests, the Seam Multipart servlet filter must also be configured in web.xml:                          
+    
+<filter>
+  <filter-name>Seam Filter</filter-name>
+  <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+</filter>
+
+<filter-mapping>
+  <filter-name>Seam Filter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping> 
+    
+The following configuration options for multipart requests may be configured in components.xml:
+
+* createTempFiles - if this option is set to true, uploaded files are streamed to a temporary file instead of in memory.
+* maxRequestSize - the maximum size of a file upload request, in bytes. 
+
+Here's an example:
+          
+<component class="org.jboss.seam.servlet.MultipartConfig">
+    <property name="createTempFiles">true</property>
+    <property name="maxRequestSize">1000000</property>
+</component>]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.FileUploadRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.FileUploadRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlFileUpload.jspx</template>-->
+		</renderer>
+		<tag>
+			<name>fileUpload</name>
+			<classname>org.jboss.seam.ui.taglib.FileUploadTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_input_attributes;
+		&html_style_attributes;
+		&html_input_attributes;
+		&html_events;
+		&html_input_events;
+		<property transient="true">
+			<name>accept</name>
+			<classname>java.lang.String</classname>
+			<description>a comma-separated list of content types to accept, may not be supported by the browser. E.g. "images/png,images/jpg", "images/*".</description>
+		</property>
+		<property elonly="true">
+			<name>data</name>
+			<classname>java.lang.Object</classname>
+			<description>this value binding receives the file's content type (optional).</description>
+		</property>
+		<property elonly="true">
+			<name>contentType</name>
+			<classname>java.lang.String</classname>
+			<description>the property to receive the contentType</description>
+		</property>
+		<property elonly="true">
+			<name>fileName</name>
+			<classname>java.lang.String</classname>
+			<description>this value binding receives the filename (optional).</description>
+		</property>
+		<property elonly="true">
+			<name>fileSize</name>
+			<classname>java.lang.Integer</classname>
+			<description>this value binding receives the file size (optional).</description>
+		</property>
+	</component>
+</components>

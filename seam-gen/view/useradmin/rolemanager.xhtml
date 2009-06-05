@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template.xhtml">
+
+    <ui:define name="head">
+        <link href="../stylesheet/useradmin.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript">
+function confirmDelete()
+{
+    return confirm("Are you sure you wish to delete this role? This action cannot be undone.");
+}
+        </script>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h1>Role Manager</h1>
+
+        <s:button id="newRole" action="#{roleAction.createRole}" styleClass="newrole" rendered="#{s:hasPermission('seam.role', 'create', null)}"/>
+
+        <h:form id="rolesCmdForm" prependId="false">
+            <rich:dataTable id="roles" var="_role" value="#{roles}"
+                styleClass="useradmin" headerClass="header" rowClasses="odd,even" columnClasses=",,action">
+                <h:column id="role">
+                    <f:facet name="header">Role</f:facet>
+                    #{_role}
+                </h:column>
+                <h:column id="groups">
+                    <f:facet name="header">Member of groups</f:facet>
+                    #{roleSearch.getRoleGroups(_role)}
+                </h:column>
+                <h:column id="action">
+                    <f:facet name="header">Action</f:facet>
+                    <ui:remove>
+                        <!-- There is incompatibility between RichFaces 3.3.0.GA and the version of JSF that ships with JBoss AS 4.2 and GlassFish V2 that
+                             prevents UICommand components in a RichFaces dataTable from firing on the first attempt. If you have upgraded to JSF >= 1.2_12
+                             you can use the h:commandLink components instead of the s:link compoennts
+                        -->
+                        <s:fragment rendered="#{s:hasPermission('seam.role', 'update')}">
+                            <h:commandLink id="edit" value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
+                        </s:fragment>
+                        <h:commandLink id="delete" value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
+                            rendered="#{s:hasPermission('seam.role', 'delete')}" onclick="return confirmDelete()"/>
+                    </ui:remove>
+                    <s:fragment rendered="#{s:hasPermission('seam.role', 'update')}">
+                        <s:link id="edit" value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
+                    </s:fragment>
+                    <s:link id="delete" value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
+                        rendered="#{s:hasPermission('seam.role', 'delete')}" onclick="return confirmDelete()"/>
+                </h:column>
+            </rich:dataTable>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

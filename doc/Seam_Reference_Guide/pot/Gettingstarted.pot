@@ -1,0 +1,873 @@
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-06-05 18:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-xml2pot; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Gettingstarted.xml:5
+#, no-c-format
+msgid "Getting started with Seam, using seam-gen"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:7
+#, no-c-format
+msgid ""
+"The Seam distribution includes a command line utility that makes it really "
+"easy to set up an Eclipse project, generate some simple Seam skeleton code, "
+"and reverse engineer an application from a preexisting database."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:10
+#, no-c-format
+msgid ""
+"This is the easy way to get your feet wet with Seam, and gives you some "
+"ammunition for next time you find yourself trapped in an elevator with one "
+"of those tedious Ruby guys ranting about how great and wonderful his new toy "
+"is for building totally trivial applications that put things in databases."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:14
+#, no-c-format
+msgid ""
+"In this release, seam-gen works best for people with JBoss AS. You can use "
+"the generated project with other J2EE or Java EE 5 application servers by "
+"making a few manual changes to the project configuration."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:17
+#, no-c-format
+msgid ""
+"You <emphasis>can</emphasis> use seam-gen without Eclipse, but in this "
+"tutorial, we want to show you how to use it in conjunction with Eclipse for "
+"debugging and integration testing. If you don't want to install Eclipse, you "
+"can still follow along with this tutorial—all steps can be performed from "
+"the command line."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:21
+#, no-c-format
+msgid ""
+"seam-gen is basically just an intricate Ant script wrapped around Hibernate "
+"Tools, together with some templates. That makes it easy to customize if you "
+"need to."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:25
+#, no-c-format
+msgid "Before you start"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:27
+#, no-c-format
+msgid ""
+"Make sure you have JDK 5 or JDK 6 (see <xref linkend=\"jdk_dependencies\"/> "
+"for details), JBoss AS 4.2 or 5.0 and Ant 1.7.0, along with recent versions "
+"of Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for "
+"Eclipse correctly installed before starting. Add your JBoss installation to "
+"the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start "
+"a command prompt in the directory where you unzipped the Seam distribution."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:33
+#, no-c-format
+msgid ""
+"JBoss has sophisticated support for hot re-deployment of WARs and EARs. "
+"Unfortunately, due to bugs in the JVM, repeated redeployment of an EAR—which "
+"is common during development—eventually causes the JVM to run out of perm "
+"gen space. For this reason, we recommend running JBoss in a JVM with a large "
+"perm gen space at development time. If you're running JBoss from JBoss IDE, "
+"you can configure this in the server launch configuration, under \"VM "
+"arguments\". We suggest the following values:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:39
+#, no-c-format
+msgid "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:41
+#, no-c-format
+msgid ""
+"If you don't have so much memory available, the following is our minimum "
+"recommendation:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:43
+#, no-c-format
+msgid "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:45
+#, no-c-format
+msgid ""
+"If you're running JBoss from the command line, you can configure the JVM "
+"options in <literal>bin/run.conf</literal>."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:48
+#, no-c-format
+msgid ""
+"If you don't want to bother with this stuff now, you don't have to—come back "
+"to it later, when you get your first <literal>OutOfMemoryException</literal>."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:53
+#, no-c-format
+msgid "Setting up a new project"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:55
+#, no-c-format
+msgid ""
+"The first thing we need to do is configure seam-gen for your environment: "
+"JBoss AS installation directory, project workspace, and database connection. "
+"It's easy, just type:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:58
+#, no-c-format
+msgid ""
+"cd jboss-seam-2.0.x\n"
+"seam setup"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:60
+#, no-c-format
+msgid "And you will be prompted for the needed information:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:62
+#, no-c-format
+msgid ""
+"~/workspace/jboss-seam$ ./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"     [echo] Welcome to seam-gen :-)\n"
+"    [input] Enter your project workspace (the directory that contains your "
+"Seam projects) [C:/Projects] [C:/Projects]\n"
+"/Users/pmuir/workspace\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
+"GA] [C:/Program Files/jboss-4.2.3.GA]\n"
+"/Applications/jboss-4.2.3.GA\n"
+"    [input] Enter the project name [myproject] [myproject]\n"
+"helloworld\n"
+"     [echo] Accepted project name as: helloworld\n"
+"    [input] Select a RichFaces skin (not applicable if using ICEFaces) "
+"[blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, "
+"DEFAULT)\n"
+"\n"
+"    [input] Is this project deployed as an EAR (with EJB components) or a "
+"WAR (with no EJB support) [ear]  ([ear], war, )\n"
+"\n"
+"    [input] Enter the Java package name for your session beans [com.mydomain."
+"helloworld] [com.mydomain.helloworld]\n"
+"org.jboss.helloworld\n"
+"    [input] Enter the Java package name for your entity beans [org.jboss."
+"helloworld] [org.jboss.helloworld]\n"
+"\n"
+"    [input] Enter the Java package name for your test cases [org.jboss."
+"helloworld.test] [org.jboss.helloworld.test]\n"
+"\n"
+"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
+"oracle, postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"mysql\n"
+"    [input] Enter the Hibernate dialect for your database [org.hibernate."
+"dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]\n"
+"\n"
+"    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb."
+"jar] [lib/hsqldb.jar]\n"
+"/Users/pmuir/java/mysql.jar\n"
+"    [input] Enter JDBC driver class for your database [com.mysql.jdbc."
+"Driver] [com.mysql.jdbc.Driver]\n"
+"\n"
+"    [input] Enter the JDBC URL for your database [jdbc:mysql:///test] [jdbc:"
+"mysql:///test]\n"
+"jdbc:mysql:///helloworld\n"
+"    [input] Enter database username [sa] [sa]\n"
+"pmuir\n"
+"    [input] Enter database password [] []\n"
+"\n"
+"    [input] skipping input as property hibernate.default_schema.new has "
+"already been set.\n"
+"    [input] Enter the database catalog name (it is OK to leave this blank) "
+"[] []\n"
+"\n"
+"    [input] Are you working with tables that already exist in the database? "
+"[n]  (y, [n], )\n"
+"y\n"
+"    [input] Do you want to drop and recreate the database tables and data in "
+"import.sql each time you deploy? [n]  (y, [n], )\n"
+"n\n"
+"    [input] Enter your ICEfaces home directory (leave blank to omit "
+"ICEfaces) [] []\n"
+"\n"
+"[propertyfile] Creating new property file: /Users/pmuir/workspace/jboss-seam/"
+"seam-gen/build.properties\n"
+"     [echo] Installing JDBC driver jar to JBoss server\n"
+"     [echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 1 minute 32 seconds\n"
+"~/workspace/jboss-seam $"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:64
+#, no-c-format
+msgid ""
+"The tool provides sensible defaults, which you can accept by just pressing "
+"enter at the prompt."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:66
+#, no-c-format
+msgid ""
+"The most important choice you need to make is between EAR deployment and WAR "
+"deployment of your project. EAR projects support EJB 3.0 and require Java EE "
+"5. WAR projects do not support EJB 3.0, but may be deployed to a J2EE "
+"environment. The packaging of a WAR is also simpler to understand. If you "
+"installed an EJB3-ready application server like JBoss, choose <literal>ear</"
+"literal>. Otherwise, choose <literal>war</literal>. We'll assume that you've "
+"chosen an EAR deployment for the rest of the tutorial, but you can follow "
+"exactly the same steps for a WAR deployment."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:73
+#, no-c-format
+msgid ""
+"If you are working with an existing data model, make sure you tell seam-gen "
+"that the tables already exist in the database."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:76
+#, no-c-format
+msgid ""
+"The settings are stored in <literal>seam-gen/build.properties</literal>, but "
+"you can also modify them simply by running <literal>seam setup</literal> a "
+"second time."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:79
+#, no-c-format
+msgid ""
+"Now we can create a new project in our Eclipse workspace directory, by "
+"typing:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:81
+#, no-c-format
+msgid "seam new-project"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:83
+#, no-c-format
+msgid ""
+"C:\\Projects\\jboss-seam&gt;seam new-project\n"
+"Buildfile: build.xml\n"
+"\n"
+"...\n"
+"\n"
+"new-project:\n"
+"     [echo] A new Seam project named 'helloworld' was created in the C:"
+"\\Projects directory\n"
+"     [echo] Type 'seam explode' and go to http://localhost:8080/helloworld\n"
+"     [echo] Eclipse Users: Add the project into Eclipse using File &gt; New "
+"&gt; Project and select General &gt; Project (not Java Project)\n"
+"     [echo] NetBeans Users: Open the project in NetBeans\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 7 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:85
+#, no-c-format
+msgid ""
+"This copies the Seam jars, dependent jars and the JDBC driver jar to a new "
+"Eclipse project, and generates all needed resources and configuration files, "
+"a facelets template file and stylesheet, along with Eclipse metadata and an "
+"Ant build script. The Eclipse project will be automatically deployed to an "
+"exploded directory structure in JBoss AS as soon as you add the project "
+"using <literal>New -&gt; Project... -&gt; General -&gt; Project -&gt; Next</"
+"literal>, typing the <literal>Project name</literal> (<literal>helloworld</"
+"literal> in this case), and then clicking <literal>Finish</literal>. Do not "
+"select <literal>Java Project</literal> from the New Project wizard."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:93
+#, no-c-format
+msgid ""
+"If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will "
+"need to select a Java SE 5 compliant JDK using <literal>Project -&gt; "
+"Properties -&gt; Java Compiler</literal>."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:96
+#, no-c-format
+msgid ""
+"Alternatively, you can deploy the project from outside Eclipse by typing "
+"<literal>seam explode</literal>."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:98
+#, no-c-format
+msgid ""
+"Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome "
+"page. This is a facelets page, <literal>view/home.xhtml</literal>, using the "
+"template <literal>view/layout/template.xhtml</literal>. You can edit this "
+"page, or the template, in Eclipse, and see the results "
+"<emphasis>immediately</emphasis>, by clicking refresh in your browser."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:103
+#, no-c-format
+msgid ""
+"Don't get scared by the XML configuration documents that were generated into "
+"the project directory. They are mostly standard Java EE stuff, the stuff you "
+"need to create once and then never look at again, and they are 90% the same "
+"between all Seam projects. (They are so easy to write that even seam-gen can "
+"do it.)"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:107
+#, no-c-format
+msgid ""
+"The generated project includes three database and persistence "
+"configurations. The <literal>persistence-test.xml</literal> and "
+"<literal>import-test.sql</literal> files are used when running the TestNG "
+"unit tests against HSQLDB. The database schema and the test data in "
+"<literal>import-test.sql</literal> is always exported to the database before "
+"running tests. The <literal>myproject-dev-ds.xml</literal>, "
+"<literal>persistence-dev.xml</literal>and <literal>import-dev.sql</literal> "
+"files are for use when deploying the application to your development "
+"database. The schema might be exported automatically at deployment, "
+"depending upon whether you told seam-gen that you are working with an "
+"existing database. The <literal>myproject-prod-ds.xml</literal>, "
+"<literal>persistence-prod.xml</literal>and <literal>import-prod.sql</"
+"literal> files are for use when deploying the application to your production "
+"database. The schema is not exported automatically at deployment."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:121
+#, no-c-format
+msgid "Creating a new action"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:123
+#, no-c-format
+msgid ""
+"If you're used to traditional action-style web frameworks, you're probably "
+"wondering how you can create a simple web page with a stateless action "
+"method in Java. If you type:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:126
+#, no-c-format
+msgid "seam new-action"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:128
+#, no-c-format
+msgid ""
+"Seam will prompt for some information, and generate a new facelets page and "
+"Seam component for your project."
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:131
+#, no-c-format
+msgid ""
+"C:\\Projects\\jboss-seam&gt;seam new-action\n"
+"Buildfile: build.xml\n"
+"\n"
+"validate-workspace:\n"
+"\n"
+"validate-project:\n"
+"\n"
+"action-input:\n"
+"    [input] Enter the Seam component name\n"
+"ping\n"
+"    [input] Enter the local interface name [Ping]\n"
+"\n"
+"    [input] Enter the bean class name [PingBean]\n"
+"\n"
+"    [input] Enter the action method name [ping]\n"
+"\n"
+"    [input] Enter the page name [ping]\n"
+"\n"
+"\n"
+"setup-filters:\n"
+"\n"
+"new-action:\n"
+"     [echo] Creating a new stateless session bean component with an action "
+"method\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\view\n"
+"     [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/"
+"ping.seam\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 13 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:133
+#, no-c-format
+msgid ""
+"Because we've added a new Seam component, we need to restart the exploded "
+"directory deployment. You can do this by typing <literal>seam restart</"
+"literal>, or by running the <literal>restart</literal> target in the "
+"generated project <literal>build.xml</literal> file from inside Eclipse. "
+"Another way to force a restart is to edit the file <literal>resources/META-"
+"INF/application.xml</literal> in Eclipse. <emphasis>Note that you do not "
+"need to restart JBoss each time you change the application.</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:139
+#, no-c-format
+msgid ""
+"Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and "
+"click the button. You can see the code behind this action by looking in the "
+"project <literal>src</literal> directory. Put a breakpoint in the "
+"<literal>ping()</literal> method, and click the button again."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:143
+#, no-c-format
+msgid ""
+"Finally, locate the <literal>PingTest.xml</literal> file in the test package "
+"and run the integration tests using the TestNG plugin for Eclipse. "
+"Alternatively, run the tests using <literal>seam test</literal> or the "
+"<literal>test</literal> target of the generated build."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:149
+#, no-c-format
+msgid "Creating a form with an action"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:151
+#, no-c-format
+msgid "The next step is to create a form. Type:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:153
+#, no-c-format
+msgid "seam new-form"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:155
+#, no-c-format
+msgid ""
+"C:\\Projects\\jboss-seam&gt;seam new-form\n"
+"Buildfile: C:\\Projects\\jboss-seam\\seam-gen\\build.xml\n"
+"\n"
+"validate-workspace:\n"
+"\n"
+"validate-project:\n"
+"\n"
+"action-input:\n"
+"    [input] Enter the Seam component name\n"
+"hello\n"
+"    [input] Enter the local interface name [Hello]\n"
+"\n"
+"    [input] Enter the bean class name [HelloBean]\n"
+"\n"
+"    [input] Enter the action method name [hello]\n"
+"\n"
+"    [input] Enter the page name [hello]\n"
+"\n"
+"\n"
+"setup-filters:\n"
+"\n"
+"new-form:\n"
+"     [echo] Creating a new stateful session bean component with an action "
+"method\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello"
+"\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\view\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello"
+"\\test\n"
+"     [echo] Type 'seam restart' and go to http://localhost:8080/hello/hello."
+"seam\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 5 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:157
+#, no-c-format
+msgid ""
+"Restart the application again, and go to <literal>http://localhost:8080/"
+"helloworld/hello.seam</literal>. Then take a look at the generated code. Run "
+"the test. Try adding some new fields to the form and Seam component "
+"(remember to restart the deployment each time you change the Java code)."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:163
+#, no-c-format
+msgid "Generating an application from an existing database"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:165
+#, no-c-format
+msgid ""
+"Manually create some tables in your database. (If you need to switch to a "
+"different database, just run <literal>seam setup</literal> again.) Now type:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:168
+#, no-c-format
+msgid "seam generate-entities"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:170
+#, no-c-format
+msgid ""
+"Restart the deployment, and go to <literal>http://localhost:8080/helloworld</"
+"literal>. You can browse the database, edit existing objects, and create new "
+"objects. If you look at the generated code, you'll probably be amazed how "
+"simple it is! Seam was designed so that data access code is easy to write by "
+"hand, even for people who don't want to cheat by using seam-gen."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:177
+#, no-c-format
+msgid "Generating an application from existing JPA/EJB3 entities"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:179
+#, no-c-format
+msgid ""
+"Place your existing, valid entity classes inside the <literal>src/main</"
+"literal>. Now type"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:181
+#, no-c-format
+msgid "seam generate-ui"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:183
+#, no-c-format
+msgid ""
+"Restart the deployment, and go to <literal>http://localhost:8080/helloworld</"
+"literal>."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:187
+#, no-c-format
+msgid "Deploying the application as an EAR"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:189
+#, no-c-format
+msgid ""
+"Finally, we want to be able to deploy the application using standard Java EE "
+"5 packaging. First, we need to remove the exploded directory by running "
+"<literal>seam unexplode</literal>. To deploy the EAR, we can type "
+"<literal>seam deploy</literal> at the command prompt, or run the "
+"<literal>deploy</literal> target of the generated project build script. You "
+"can undeploy using <literal>seam undeploy</literal> or the "
+"<literal>undeploy</literal> target."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:195
+#, no-c-format
+msgid ""
+"By default, the application will be deployed with the <emphasis>dev profile</"
+"emphasis>. The EAR will include the <literal>persistence-dev.xml</literal> "
+"and <literal>import-dev.sql</literal> files, and the <literal>myproject-dev-"
+"ds.xml</literal> file will be deployed. You can change the profile, and use "
+"the <emphasis>prod profile</emphasis>, by typing"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:200
+#, no-c-format
+msgid "seam -Dprofile=prod deploy"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:202
+#, no-c-format
+msgid ""
+"You can even define new deployment profiles for your application. Just add "
+"appropriately named files to your project—for example, <literal>persistence-"
+"staging.xml</literal>, <literal>import-staging.sql</literal> and "
+"<literal>myproject-staging-ds.xml</literal>—and select the name of the "
+"profile using <literal>-Dprofile=staging</literal>."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:209
+#, no-c-format
+msgid "Seam and incremental hot deployment"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:211
+#, no-c-format
+msgid ""
+"When you deploy your Seam application as an exploded directory, you'll get "
+"some support for incremental hot deployment at development time. You need to "
+"enable debug mode in both Seam and Facelets, by adding this line to "
+"<literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gettingstarted.xml:215
+#, no-c-format
+msgid "<![CDATA[<core:init debug=\"true\">]]>"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:217
+#, no-c-format
+msgid ""
+"Now, the following files may be redeployed without requiring a full restart "
+"of the web application:"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:221
+#, no-c-format
+msgid "any facelets page"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:225
+#, no-c-format
+msgid "any <literal>pages.xml</literal> file"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:229
+#, no-c-format
+msgid ""
+"But if we want to change any Java code, we still need to do a full restart "
+"of the application. (In JBoss this may be accomplished by touching the top "
+"level deployment descriptor: <literal>application.xml</literal> for an EAR "
+"deployment, or <literal>web.xml</literal> for a WAR deployment.)"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:233
+#, no-c-format
+msgid ""
+"But if you really want a fast edit/compile/test cycle, Seam supports "
+"incremental redeployment of JavaBean components. To make use of this "
+"functionality, you must deploy the JavaBean components into the <literal>WEB-"
+"INF/dev</literal> directory, so that they will be loaded by a special Seam "
+"classloader, instead of by the WAR or EAR classloader."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:238
+#, no-c-format
+msgid "You need to be aware of the following limitations:"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:242
+#, no-c-format
+msgid ""
+"the components must be JavaBean components, they cannot be EJB3 beans (we "
+"are working on fixing this limitation)"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:247
+#, no-c-format
+msgid "entities can never be hot-deployed"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:251
+#, no-c-format
+msgid ""
+"components deployed via <literal>components.xml</literal> may not be hot-"
+"deployed"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:255
+#, no-c-format
+msgid ""
+"the hot-deployable components will not be visible to any classes deployed "
+"outside of <literal>WEB-INF/dev</literal>"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:260
+#, no-c-format
+msgid ""
+"Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal> "
+"must be in <literal>WEB-INF/lib</literal>"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:265
+#, no-c-format
+msgid "You must have the Seam filter installed in web.xml"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:269
+#, no-c-format
+msgid ""
+"You may see errors if the system is placed under any load and debug is "
+"enabled."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:274
+#, no-c-format
+msgid ""
+"If you create a WAR project using seam-gen, incremental hot deployment is "
+"available out of the box for classes in the <literal>src/hot</literal> "
+"source directory. However, seam-gen does not support incremental hot "
+"deployment for EAR projects."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:280
+#, no-c-format
+msgid "Using Seam with JBoss 4.0"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:282
+#, no-c-format
+msgid ""
+"Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we "
+"recommend using JBoss 4.2 or JBoss 5.0, both of which bundle the JSF 1.2 "
+"reference implementation. However, it is still possible to use Seam 2.0 on "
+"the JBoss 4.0 platform. There are two basic steps required to do this: "
+"install an EJB3-enabled version of JBoss 4.0 and replace MyFaces with the "
+"JSF 1.2 reference implementation. Once you complete these steps, Seam 2.0 "
+"applications can be deployed to JBoss 4.0."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:289
+#, no-c-format
+msgid "Install JBoss 4.0"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:290
+#, no-c-format
+msgid ""
+"JBoss 4.0 does not ship a default configuration compatible with Seam. To run "
+"Seam, you must install JBoss 4.0.5 using the JEMS 1.2 installer with the "
+"ejb3 profile selected. Seam will not run with an installation that doesn't "
+"include EJB3 support. The JEMS installer can be downloaded from <ulink url="
+"\"http://labs.jboss.com/jemsinstaller/downloads\">http://labs.jboss.com/"
+"jemsinstaller/downloads</ulink>."
+msgstr ""
+
+#. Tag: title
+#: Gettingstarted.xml:297
+#, no-c-format
+msgid "Install the JSF 1.2 RI"
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:299
+#, no-c-format
+msgid ""
+"The web configuration for JBoss 4.0 can be found in the <literal>server/"
+"default/deploy/jbossweb-tomcat55.sar</literal>. You'll need to delete "
+"<literal>myfaces-api.jar</literal> any <literal>myfaces-impl.jar</literal> "
+"from the <literal>jsf-libs </literal>directory. Then, you'll need to copy "
+"<literal>jsf-api.jar</literal>, <literal>jsf-impl.jar</literal>, <literal>el-"
+"api.jar</literal>, and <literal>el-ri.jar</literal> to that directory. The "
+"JSF JARs can be found in the Seam <literal>lib</literal> directory. The el "
+"JARs can be obtained from the Seam 1.2 release."
+msgstr ""
+
+#. Tag: para
+#: Gettingstarted.xml:307
+#, no-c-format
+msgid ""
+"You'll also need to edit the <literal>conf/web.xml</literal>, replacing "
+"<literal>myfaces-impl.jar</literal> with <literal>jsf-impl.jar</literal>."
+msgstr ""

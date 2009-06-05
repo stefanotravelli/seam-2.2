@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+JBoss, Home of Professional Open Source
+Copyright 2008, Red Hat Middleware LLC, and individual contributors
+by the @authors tag. See the copyright.txt in the distribution for a
+full listing of individual contributors.
+
+This is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+This software is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this software; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+<project name="ftest.seamgen" basedir="." default="build" xmlns:server="http://jboss.org/ns/test/ant/server">
+
+	<!-- Location of Seam -->
+	<dirname property="seam.dir" file="${ant.file.ftest.seamgen}/../../../../" />
+	
+	<!-- default property setup -->
+	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
+	<property name="common.src.dir" value="${ftest.dir}/src/main" />
+	<property name="src.dir" value="src/main" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="test.output.dir" value="${seam.dir}/test-output" />
+	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
+
+	<property file="${seam.dir}/${ftest.config.location}" />
+	
+	<!-- common path setup -->
+
+	<path id="classpath.build">
+		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<path id="classpath.test">
+		<path refid="classpath.build" />
+		<path location="${classes.dir}" />
+		<fileset dir="${seam.dir}/lib/gen" includes="*.jar" />
+		<fileset file="${java.home}/../lib/tools.jar"/>
+		<fileset file="${driver.jar}"/>
+		<!-- TODO why do we need this? -->
+		<fileset dir="${seam.dir}/lib" includes="*.jar" />
+	</path>
+
+	<target name="clean" description="Delete all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${test.output.dir}" />
+		<delete dir="${report.dir}" />
+		<delete dir="${log.dir}" />
+	</target>
+
+	<target name="build" depends="build.common" description="Compiles the Test">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.common" description="Compiles the common selenium test code">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/SeamSelenium.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="seam-gen.richfaces.testsuite" depends="build" description="Run Richfaces testsuite">
+		<run.selenium.test suite="richfaces" />
+	</target>
+
+	<target name="seam-gen.icefaces.testsuite" depends="build" description="Run Icefaces testsuite">
+		<run.selenium.test suite="icefaces" />
+	</target>
+
+	<target name="seam-gen.smoke.testsuite" depends="build" description="Run smoke testsuite">
+		<run.selenium.test suite="smoke" />
+	</target>
+
+	<macrodef name="run.selenium.test">
+		<attribute name="suite" />
+		<sequential>
+			<!--<ant antfile="${seam.dir}/build.xml" target="copyseam"/>
+			<ant antfile="${seam.dir}/build.xml" target="copyseamdependencies"/>-->
+			<taskdef resource="testngtasks" classpathref="classpath.test" />
+			<!-- execute testng tests -->
+			<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
+				<xmlfileset file="@{suite}.xml" />
+				<sysproperty key="seam.dir" value="${seam.dir}" />
+				<sysproperty key="ftest.config.location" value="${ftest.config.location}" />
+			</testng>
+		</sequential>
+	</macrodef>
+
+</project>

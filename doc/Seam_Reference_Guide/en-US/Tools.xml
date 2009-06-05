@@ -1,0 +1,623 @@
+<chapter id="tools">
+  <title>Seam tools</title>
+  
+  <section>
+    <title>jBPM designer and viewer</title>
+  
+     <para>
+       The jBPM designer and viewer will let you design and view in a nice way your business processes and your pageflows.
+       This convenient tool is part of JBoss Eclipse IDE and more details can be found in the jBPM's <ulink url="http://docs.jboss.com/jbpm/v3/gpd/">documentation</ulink>        
+     </para> 
+     
+     <section>
+       <title>Business process designer</title>
+       
+       <para>
+         This tool lets you design your own business process in a graphical way.
+       </para>
+       
+       <screenshot>
+         <screeninfo>Business process designer</screeninfo>
+         <mediaobject>
+           <imageobject role="fo">
+             <imagedata fileref="images/bpmd.png" align="center" scalefit="1"/>
+           </imageobject>
+           <imageobject role="html">
+             <imagedata fileref="images/bpmd.png" align="center"/>
+           </imageobject>
+         </mediaobject>
+       </screenshot>
+       
+     </section>
+     
+     <section>
+       <title>Pageflow viewer</title>
+       
+       <para>
+         This tool let you design to some extend your pageflows and let you build graphical views of them so you can
+         easily share and compare ideas on how it should be designed.
+       </para>
+       
+       <screenshot>
+         <screeninfo>Business process designer</screeninfo>
+         <mediaobject>
+           <imageobject role="fo">
+             <imagedata fileref="images/bpmpfv.png" align="center" scalefit="1"/>
+           </imageobject>
+           <imageobject role="html">
+             <imagedata fileref="images/bpmpfv.png" align="center"/>
+           </imageobject>
+         </mediaobject>
+       </screenshot>
+
+      </section>
+
+    </section>
+    
+    <!--
+  <section>
+    <title>CRUD-application generator</title>
+    
+    <para>
+      This chapter, will give you a short overview of the support for Seam that is available in the Hibernate Tools.
+      Hibernate Tools is a set of tools for working with Hibernate and related technologies, such as JBoss Seam and EJB3.
+      The tools are available as a set of eclipse plugins and Ant tasks. You can download the Hibernate Tools from the JBoss Eclipse IDE or Hibernate Tools websites.
+    </para>
+    
+    <para>
+      The specific support for Seam that is currently available is generation of a fully functional Seam based CRUD-application.
+      The CRUD-application can be generated based on your existing Hibernate mapping files or EJB3 annotated POJO's or even fully
+      reverse engineered from your existing database schema.
+    </para>
+    
+    <para>
+      The following sections is focused on the features required to understand for usage with Seam. The content is derived from the the Hibernate Tools reference documentation. Thus if you
+      need more detailed information please refer to the Hibernate Tools documentation.
+    </para>
+    
+    <section>
+      <title>Creating a Hibernate configuration file</title>
+
+      <para>
+        To be able to reverse engineer and generate code a hibernate.properties 
+        or hibernate.cfg.xml file is needed. The Hibernate Tools provide a wizard for generating the
+        hibernate.cfg.xml file if you do not already have such file.
+      </para>
+
+      <para>
+        Start the wizard by clicking "New Wizard" (Ctrl+N), select the
+        Hibernate/Hibernate Configuration file (cfg.xml) wizard and press "Next".
+        After selecting the wanted location for the hibernate.cfg.xml file, you
+        will see the following page:
+      </para>
+
+      <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="/images/hibernatecfgwizard.gif" format="gif" contentwidth="5cm" />
+        </imageobject>
+
+        <imageobject role="html">
+          <imagedata align="center"
+                     fileref="/images/hibernatecfgwizard.gif"
+                     format="gif" />
+        </imageobject>
+      </mediaobject>
+
+      <para>
+        Tip: The contents in the combo boxes for the JDBC driver class and
+        JDBC URL change automatically, depending on the Dialect and actual driver
+        you have chosen.
+      </para>
+
+      <para>
+        Enter your configuration information in this dialog. Details about
+        the configuration options can be found in Hibernate reference
+        documentation.
+      </para>
+
+      <para>
+        Press "Finish" to create the configuration file, after optionally
+        creating a Console onfiguration, the hibernate.cfg.xml will be
+        automatically opened in an editor. The last option "Create Console
+        Configuration" is enabled by default and when enabled i will automatically
+        use the hibernate.cfg.xml for the basis of a "Console
+        Configuration"
+      </para>
+    </section>
+
+    <section>
+      <title>Creating a Hibernate Console configuration</title>
+
+      <para>
+        A Console Configuration describes to the Hibernate plugin which configuration files
+        should be used to configure hibernate, including which classpath is needed to load the POJO's,
+        JDBC drivers etc. It is required to make usage of query prototyping, reverse engineering and
+        code generation. You can have multiple named console configurations. Normally you would just
+        need one per project, but more (or less) is definitly possible.
+      </para>  
+
+      <para>
+        You create a console configuration by running the Console
+        Configuration wizard, shown in the following screenshot. The same wizard
+        will also be used if you are coming from the hibernate.cfg.xml wizard and
+        had enabled "Create Console Configuration".
+      </para>
+
+      <mediaobject>
+        <title>Creating a Hibernate Console configuration</title>
+
+        <imageobject role="fo">
+          <imagedata fileref="/images/consolecfgwizard.gif" format="GIF" />
+        </imageobject>
+
+        <imageobject role="html">
+          <imagedata align="center"
+                     fileref="/images/consolecfgwizard.gif"
+                     format="gif" />
+        </imageobject>
+      </mediaobject>
+
+      <para>
+        The following table describes the relevant settings. The wizard can
+        automatically detect default values for most of these if you started the
+        Wizard with the relevant java project selected
+      </para>
+
+      <table>
+        <title>Hibernate Console Configuration Parameters</title>
+  
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="1*" />
+
+          <colspec colnum="2" colwidth="3*" />
+
+          <colspec colnum="3" colwidth="1*" />
+
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Parameter</para>
+              </entry>
+
+              <entry align="center">
+                <para>Description</para>
+              </entry>
+
+              <entry align="center">
+                <para>Auto detected value</para>
+              </entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>
+                <para>Name</para>
+              </entry>
+
+              <entry>
+                <para>The unique name of the configuration</para>
+              </entry>
+
+              <entry>
+                <para>Name of the selected project</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>Property file</para>
+              </entry>
+  
+              <entry>
+                <para>Path to a hibernate.properties file</para>
+              </entry>
+
+              <entry>
+                <para>First hibernate.properties file found in the selected
+                project</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>Configuration file</para>
+              </entry>
+
+              <entry>
+                <para>Path to a hibernate.cfg.xml file</para>
+              </entry>
+
+              <entry>
+                <para>First hibernate.cfg.xml file found in the selected
+                project</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>Enable Hibernate ejb3/annotations</para>
+              </entry>
+
+              <entry>
+                <para>Selecting this option enables usage of annotated classes.
+                hbm.xml files are of course still possible to use too. This
+                feature requires running the Eclipse IDE with a JDK 5 runtime,
+                otherwise you will get classloading and/or version
+                errors.</para>
+              </entry>
+
+              <entry>
+                <para>Not enabled</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>Mapping files</para>
+              </entry>
+
+              <entry>
+                <para>List of additional mapping files that should be loaded.
+                Note: A hibernate.cfg.xml can also contain mappings. Thus if
+                these a duplicated here, you will get "Duplicate mapping" errors
+                when using the console configuration.</para>
+              </entry>
+
+              <entry>
+                <para>If no hibernate.cfg.xml file is found, all hbm.xml files
+                found in the selected project</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>Classpath</para>
+              </entry>
+
+              <entry>
+                <para>The classpath for loading POJO and JDBC drivers. Do not
+                add Hibernate core libraries or dependencies, they are already
+                included. If you get ClassNotFound errors then check this list
+                for possible missing or redundant directories/jars.</para>
+              </entry>
+
+              <entry>
+                <para>The default build output directory and any JARs with a
+                class implementing java.sql.Driver in the selected
+                project</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>Clicking "Finish" creates the configuration and shows it in the
+      "Hibernate Configurations" view</para>
+
+      <mediaobject>
+        <title>Console overview</title>
+
+        <imageobject role="fo">
+          <imagedata align="center" 
+                     fileref="/images/consoleoutline-before-reveng.gif"
+                     format="GIF" />
+        </imageobject>
+
+        <imageobject role="html">
+          <imagedata align="center"
+                     fileref="/images/consoleoutline-before-reveng.gif"
+                     format="gif" />
+        </imageobject>
+      </mediaobject>
+
+    </section>
+
+    <section>
+      <title>Reverse engineering and code generation</title>
+
+      <para>
+        A very simple "click-and-generate" reverse engineering and code
+        generation facility is available. It is this facility that allows you to
+        generate the skeleton for a full Seam CRUD application.
+      </para>
+
+      <para>
+        To start working with this process, start the "Hibernate Code
+        Generation" which is available in the toolbar via the Hibernate icon or
+        via the "Run/Hibernate Code Generation" menu item.
+      </para>
+
+      <section>
+        <title>Code Generation Launcher</title>
+
+        <para>When you click on "Hibernate Code Generation" the standard Eclipse
+        launcher dialog will appear. In this dialog you can create, edit and
+        delete named Hibernate code generation "launchers".</para>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="/images/codegendropdown.gif" format="GIF" />
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata align="center"
+                       fileref="/images/codegendropdown.gif"
+                       format="gif" />
+          </imageobject>
+        </mediaobject>
+
+        <para>The dialog has the standard tabs "Refresh" and "Common" that can
+        be used to configure which directories should be automatically refreshed
+        and various general settings launchers, such as saving them in a project
+        for sharing the launcher within a team.</para>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="/images/codegenmaintab.gif" format="GIF" />
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata align="center"
+                       fileref="/images/codegenmaintab.gif"
+                       format="gif" />
+          </imageobject>
+        </mediaobject>
+
+        <para>The first time you create a code generation launcher you should
+        give it a meaningfull name, otherwise the default prefix
+        "New_Generation" will be used.</para>
+
+        <para>Note: The "At least one exporter option must be selected" is just
+        a warning stating that for this launch to work you need to select an
+        exporter on the Exporter tab. When an exporter has been selected the
+        warning will disappear.</para>
+
+        <para>On the "Main" tab you the following fields:</para>
+
+        <table>
+          <title>Code generation "Main" tab fields</title>
+
+          <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+
+            <colspec colnum="2" colwidth="3*" />
+
+            <colspec colnum="3" colwidth="0.5*" />
+
+            <thead>
+              <row>
+                <entry align="center"><para>Field</para></entry>
+
+                <entry align="center"><para>Description</para></entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry><para>Console Configuration</para></entry>
+
+                <entry><para>The name of the console configuration which should
+                be used when code generating.</para></entry>
+              </row>
+
+              <row>
+                <entry><para>Output directory</para></entry>
+
+                <entry><para>Path to a directory into where all output will be
+                written by default. Be aware that existing files will be
+                overwritten, so be sure to specify the correct
+                directory.</para></entry>
+              </row>
+	
+	            <row>
+	              <entry><para>Reverse engineer from JDBC
+	              Connection</para></entry>
+	
+	              <entry><para>If enabled the tools will reverse engineer the
+	              database available via the connection information in the
+	              selected Hibernate Console Configuration and generate code based
+	              on the database schema. If not enabled the code generation will
+	              just be based on the mappings already specified in the Hibernate
+	              Console configuration.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Package</para></entry>
+	
+	              <entry><para>The package name here is used as the default
+	              package name for any entities found when reverse
+	              engineering.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>reveng.xml</para></entry>
+	
+	              <entry><para>Path to a reveng.xml file. A reveng.xml file allows
+	              you to control certain aspects of the reverse engineering. e.g.
+	              how jdbc types are mapped to hibernate types and especially
+	              important which tables are included/excluded from the process.
+	              Clicking "setup" allows you to select an existing reveng.xml
+	              file or create a new one..</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>reveng. strategy</para></entry>
+	
+	              <entry><para>If reveng.xml does not provide enough customization
+	              you can provide your own implementation of an
+	              ReverseEngineeringStrategy. The class need to be in the claspath
+	              of the Console Configuration, otherwise you will get class not
+	              found exceptions.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate basic typed composite ids</para></entry>
+	
+	              <entry><para>This field should always be enabled when generating the Seam CRUD application.
+	              A table that has a multi-colum primary key a
+	              &lt;composite-id&gt; mapping will always be created. If this
+	              option is enabled and there are matching foreign-keys each key
+	              column is still considered a 'basic' scalar (string, long, etc.)
+	              instead of a reference to an entity. If you disable this option
+	              a &lt;key-many-to-one&gt; instead. Note: a &lt;many-to-one&gt;
+	              property is still created, but is simply marked as non-updatable
+	              and non-insertable.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Use custom templates</para></entry>
+	
+	              <entry><para>If enabled, the Template directory will be searched
+	              first when looking up the velocity templates, allowing you to
+	              redefine how the individual templates process the hibernate
+	              mapping model.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Template directory</para></entry>
+	
+	              <entry><para>A path to a directory with custom velocity
+	              templates.</para></entry>
+	            </row>
+	          </tbody>
+	        </tgroup>
+	      </table>
+	    </section>
+	
+	    <section>
+	      <title>Exporters</title>
+	
+	      <para>The exporters tab is used to specify which type of code that
+	      should be generated. Each selection represents an "Exporter" that are
+	      responsible for generating the code, hence the name.</para>
+	
+	      <mediaobject>
+	        <imageobject role="fo">
+	          <imagedata fileref="/images/codegenselectseam.gif" format="GIF" />
+	        </imageobject>
+	
+	        <imageobject role="html">
+	          <imagedata align="center"
+	                     fileref="/images/codegenselectseam.gif"
+	                     format="gif" />
+	        </imageobject>
+	      </mediaobject>
+	
+	      <para>
+	        The following table describes in short the various
+	        exporters. The most relevant for Seam is of course the "JBoss Seam Skeleton app".
+	      </para>
+	
+	      <table>
+	        <title>Code generation "Exporter" tab fields</title>
+	
+	        <tgroup cols="2">
+	          <colspec colnum="1" colwidth="1*" />
+	
+	          <colspec colnum="2" colwidth="3*" />
+	
+	          <colspec colnum="3" colwidth="0.5*" />
+	
+	          <thead>
+	            <row>
+	              <entry align="center"><para>Field</para></entry>
+	
+	              <entry align="center"><para>Description</para></entry>
+	            </row>
+	          </thead>
+	
+	          <tbody>
+	            <row>
+	              <entry><para>Generate domain code</para></entry>
+	
+	              <entry><para>Generates POJO's for all the persistent classes and
+	              components found in the given Hibernate
+	              configuration.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>JDK 1.5 constructs</para></entry>
+	
+	              <entry><para>When enabled the POJO's will use JDK 1.5
+	              constructs.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>EJB3/JSR-220 annotations</para></entry>
+	
+	              <entry><para>When enabled the POJO's will be annotated according
+	              to the EJB3/JSR-220 persistency specification.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate DAO code</para></entry>
+	
+	              <entry><para>Generates a set of DAO's for each entity
+	              found.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate Mappings</para></entry>
+	
+	              <entry><para>Generate mapping (hbm.xml) files for each
+	              entity</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate hibernate configuration
+	              file</para></entry>
+	
+	              <entry><para>Generate a hibernate.cfg.xml file. Used to keep the
+	              hibernate.cfg.xml uptodate with any new found mapping
+	              files.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate schema html-documentation</para></entry>
+	
+	              <entry><para>Generates set of html pages that documents the
+	              database schema and some of the mappings.</para></entry>
+	            </row>
+	
+	            <row>
+	              <entry><para>Generate JBoss Seam skeleton app
+	              (beta)</para></entry>
+	
+	              <entry><para>Generates a complete JBoss Seam skeleton app. The
+	              generation will include annotated POJO's, Seam controller beans
+	              and a JSP for the presentation layer. See the generated
+	              readme.txt for how to use it. </para><para>Note: this exporter
+	              generates a full application, including a build.xml thus you
+	              will get the best results if you use an output directory which
+	              is the root of your project.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      
+      </section>
+    
+      <section>
+        <title>Generating and using the code</title>
+      
+        <para>
+          When you have finished filling out the settings, simply press "Run" to start the generation of code.
+          This might take a little while if you are reverse engineering from a database.
+        </para>
+      
+        <para>
+	      When the generation have finished you should now have a complete skeleton Seam application in the output directory.
+	      In the output directory there is a <literal>readme.txt</literal> file describing the steps needed to deploy and run the example.
+        </para>
+      
+        <para>
+          If you want to regenerate/update the skeleton code then simply run the code generation again by selecting the "Hibernate Code Generation" in the toolbar or "Run" menu. Enjoy.
+        </para>
+      </section>
+    
+    </section>
+    
+  </section>  
+  -->
+</chapter>

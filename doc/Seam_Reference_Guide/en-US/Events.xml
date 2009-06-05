@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="events">
+    <title>Events, interceptors and exception handling</title>
+
+    <para>
+        Complementing the contextual component model, there are two further basic concepts
+        that facilitate the extreme loose-coupling that is the distinctive feature of Seam 
+        applications. The first is a strong event model where events may be mapped to event 
+        listeners via JSF-like method binding expressions. The second is the pervasive use 
+        of annotations and interceptors to apply cross-cutting concerns to components which 
+        implement business logic.
+    </para>
+
+    <section>
+        <title>Seam events</title>
+        <para>
+            The Seam component model was developed for use with <emphasis>event-driven 
+            applications</emphasis>, specifically to enable the development of fine-grained, 
+            loosely-coupled components in a fine-grained eventing model. Events in Seam come
+            in several types, most of which we have already seen:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>JSF events</para>
+            </listitem>
+            <listitem>
+                <para>jBPM transition events</para>
+            </listitem>
+            <listitem>
+                <para>Seam page actions</para>
+            </listitem>
+            <listitem>
+                <para>Seam component-driven events</para>
+            </listitem>
+            <listitem>
+                <para>Seam contextual events</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            All of these various kinds of events are mapped to Seam components via JSF EL
+            method binding expressions. For a JSF event, this is defined in the JSF template:
+        </para>        
+        
+        <programlisting role="XHTML"><![CDATA[<h:commandButton value="Click me!" action="#{helloWorld.sayHello}"/>]]></programlisting>
+        
+
+
+        <para>
+            For a jBPM transition event, it is specified in the jBPM process definition or
+            pageflow definition:
+        </para>
+                
+        <programlisting role="XML"><![CDATA[<start-page name="hello" view-id="/hello.jsp">
+    <transition to="hello">
+        <action expression="#{helloWorld.sayHello}"/>
+    </transition>
+</start-page>]]></programlisting>
+
+        <para>
+            You can find out more information about JSF events and jBPM events elsewhere. 
+            Let's concentrate for now upon the two additional kinds of events defined by Seam.
+    </para>
+</section>
+
+        <section>
+            <title>Page actions</title>
+
+        <para>
+            A Seam page action is an event that occurs just before we render a page. 
+            We declare page actions in <literal>WEB-INF/pages.xml</literal>. We
+            can define a page action for either a particular JSF view id:
+        </para>
+       
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
+</pages>]]></programlisting>
+
+        <para>
+            Or we can use a <literal>*</literal> wildcard as a suffix to the
+            <literal>view-id</literal> to specify an action that applies to all 
+            view ids that match the pattern:
+        </para>
+       
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/hello/*" action="#{helloWorld.sayHello}"/>
+</pages>]]></programlisting>
+
+        <para>
+            Keep in mind that if the <literal>&lt;page&gt;</literal> element is defined in
+            a fine-grained page descriptor, the <literal>view-id</literal> attribute
+            can be left off since it is implied.
+        </para>
+
+        <para>
+            If multiple wildcarded page actions match the current view-id, Seam
+            will call all the actions, in order of least-specific to most-specific.
+        </para>
+
+        <para>
+            The page action method can return a JSF outcome. If the outcome is
+            non-null, Seam will use the defined navigation rules to navigate to a view.
+        </para>
+        
+        <para>
+            Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal>
+            element need not correspond to a real JSP or Facelets page! So, we can
+            reproduce the functionality of a traditional action-oriented framework
+            like Struts or WebWork using page actions. This is quite useful if you want
+            to do complex things in response to non-faces requests (for example, HTTP GET
+            requests).
+        </para>
+        
+        <para>
+            Multiple or conditional page actions my be specified using the <literal>&lt;action&gt;</literal>
+            tag:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/hello.jsp">
+        <action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
+        <action execute="#{hitCount.increment}"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            Page actions are executed on both an initial (non-faces) request and a postback (faces) request.
+            If you are using the page action to load data, this operation may conflict with the standard JSF
+            action(s) being executed on a postback. One way to disable the page action is to setup a condition
+            that resolves to true only on an initial request.
+        </para> 
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/dashboard.xhtml">
+        <action execute="#{dashboard.loadData}"
+            if="#{not facesContext.renderKit.responseStateManager.isPostback(facesContext)}"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to
+            determine if the request is a postback. The ResponseStateManager is accessed using
+            <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>.
+        </para>
+
+        <para>
+            To save you from the verbosity of JSF's API, Seam offers a built-in condition that allows you to
+            accomplish the same result with a heck of a lot less typing. You can disable a page action on postback
+            by simply setting the <literal>on-postback</literal> to <literal>false</literal>:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/dashboard.xhtml">
+        <action execute="#{dashboard.loadData}" on-postback="false"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            For backwards compatibility reasons, the default value of the <literal>on-postback</literal> attribute
+            is true, though likely you will end up using the opposite setting more often.
+        </para>
+
+</section>
+	
+        <section>
+            <title>Page parameters</title>
+            
+            <para>
+                A JSF faces request (a form submission) encapsulates both an "action"
+                (a method binding) and "parameters" (input value bindings). A page 
+                action might also needs parameters!
+            </para>
+            
+            <para>
+                Since GET requests are bookmarkable, page parameters are passed as 
+                human-readable request parameters. (Unlike JSF form inputs, which are
+                anything but!) 
+            </para>
+            
+            <para>
+                You can use page parameters with or without an action method.
+            </para>
+            
+            <section>
+                <title>Mapping request parameters to the model</title>
+            
+              <para>
+                  Seam lets us provide a value binding that maps a named request parameter 
+                  to an attribute of a model object.
+              </para>
+              
+          <programlisting role="XML"><![CDATA[<pages>
+      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+          <param name="firstName" value="#{person.firstName}"/>
+          <param name="lastName" value="#{person.lastName}"/>
+      </page>
+  </pages>]]></programlisting>
+
+              <para>
+                  The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
+                  like a value binding for a JSF input:
+              </para>
+              
+              <itemizedlist>
+                  <listitem>
+                      <para>
+                          When a non-faces (GET) request for the view id occurs, Seam sets 
+                          the value of the named request parameter onto the model object, 
+                          after performing appropriate type conversions.
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                          transparently includes the request parameter. The value of the parameter is 
+                          determined by evaluating the value binding during the render phase (when the 
+                          <literal>&lt;s:link&gt;</literal> is rendered).
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to
+                          the view id transparently includes the request parameter. The value 
+                          of the parameter is determined by evaluating the value binding at
+                          the end of the invoke application phase.
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          The value is transparently propagated with any JSF form submission
+                          for the page with the given view id. This means that view parameters
+                          behave like <literal>PAGE</literal>-scoped context variables for
+                          faces requests.
+                      </para>
+                  </listitem>
+              </itemizedlist>
+              
+              <para>
+                  The essential idea behind all this is that <emphasis>however</emphasis>
+                  we get from any other page to <literal>/hello.jsp</literal> (or from 
+                  <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), 
+                  the value of the model attribute referred to in the value binding is
+                  "remembered", without the need for a conversation (or other server-side
+                  state).
+              </para>
+
+            </section>
+    </section>
+    
+            <section>
+                <title>Propagating request parameters</title>
+                
+                <para>
+                    If just the <literal>name</literal> attribute is specified then the
+                    request parameter is propagated using the <literal>PAGE</literal> context
+                    (it isn't mapped to model property).
+                </para>       
+              
+          <programlisting role="XML"><![CDATA[<pages>
+      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+          <param name="firstName" />
+          <param name="lastName" />
+      </page>
+  </pages>]]></programlisting>
+  
+
+		<para>
+                  Propagation of page parameters is especially useful if you want to build multi-layer 
+                  master-detail CRUD pages.  You can use it to "remember" which view you were previously
+                  on (e.g. when pressing the Save button), and which entity you were editing.
+        </para>
+      <itemizedlist>
+         <listitem>
+             <para>
+                 Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                 transparently propagates the request parameter if that parameter is listed
+                 as a page parameter for the view.
+             </para>
+         </listitem>
+         <listitem>
+             <para>
+                 The value is transparently propagated with any JSF form submission
+                 for the page with the given view id. (This means that view parameters
+                 behave like <literal>PAGE</literal>-scoped context variables for
+                 faces requests.
+             </para>
+         </listitem>
+      </itemizedlist>
+	      
+      <para>
+	      This all sounds pretty complex, and you're probably wondering if such an
+	      exotic construct is really worth the effort. Actually, the idea is very
+	      natural once you "get it". It is definitely worth taking the time to 
+	      understand this stuff. Page parameters are the most elegant way to 
+	      propagate state across a non-faces request. They are especially cool for 
+	      problems like search screens with bookmarkable results pages, where we 
+	      would like to be able to write our application code to handle both POST 
+	      and GET requests with the same code. Page parameters eliminate repetitive 
+	      listing of request parameters in the view definition and make redirects
+	      much easier to code.
+      </para>
+        
+      </section>
+            
+    <section>
+        <title>URL rewriting with page parameters</title>
+        <para>
+            Rewriting occurs based on rewrite patterns found for views in <literal>pages.xml</literal>. 
+            Seam URL rewriting does both incoming and outgoing URL rewriting based on the same pattern.
+            Here's a simple pattern:
+        </para>
+        
+        
+        <programlisting role="XML"><![CDATA[
+<page view-id="/home.xhtml">
+    <rewrite pattern="/home" />
+</page>
+]]></programlisting>
+        
+        <para>
+            In this case, any incoming request for <literal>/home</literal> will be sent to 
+            <literal>/home.xhtml</literal>.  More interestingly,
+            any link generated that would normally point to <literal>/home.seam</literal> will 
+            instead be rewritten as <literal>/home</literal>.  Rewrite patterns only match the portion of the URL 
+            before the query parameters.  So, <literal>/home.seam?conversationId=13</literal> and 
+            <literal>/home.seam?color=red</literal>
+            will both be matched by this rewrite rule.
+        </para>
+        
+        <para>
+            Rewrite rules can take these query paramters into consideration, as shown with the following rules.                  
+        </para>
+        <programlisting role="XML"><![CDATA[
+<page view-id="/home.xhtml">
+    <rewrite pattern="/home/{color}" />
+    <rewrite pattern="/home" />
+</page>
+]]></programlisting>
+        
+        <para>
+            In this case, an incoming request for <literal>/home/red</literal> will be served as 
+            if it were a request
+            for <literal>/home.seam?color=red</literal>.  Similarly, if color is a page parameter an outgoing 
+            URL that would normally show as <literal>/home.seam?color=blue</literal> would instead 
+            be output as
+            <literal>/home/blue</literal>.  Rules are processed in order, so it is important to list
+            more specific rules before more general rules.
+        </para>
+        
+        <para>Default Seam query parameters can also be mapped using URL rewriting, allowing for another
+            option for hiding Seam's fingerprints.
+            In the following example, <literal>/search.seam?conversationId=13</literal> would 
+            be written as <literal>/search-13</literal>. 
+        </para>
+        <programlisting role="XML"><![CDATA[
+<page view-id="/search.xhtml">
+    <rewrite pattern="/search-{conversationId}" />
+    <rewrite pattern="/search" />
+</page>
+]]></programlisting>
+        
+        <para>
+            Seam URL rewriting provides simple, bidirectional rewriting on a per-view basis.  For more
+            complex rewriting rules that cover non-seam components, Seam applications can continue to
+            use the <literal>org.tuckey URLRewriteFilter </literal>or apply rewriting rules at the web server.
+        </para>
+        
+        <para>
+            URL rewriting requires the Seam rewrite filter to be enable.  Rewrite filter 
+            configuration is discussed in <xref linkend="configuration.filters.rewrite"/>.
+        </para>
+        
+    </section>
+            
+      <section>
+         <title>Conversion and Validation</title>
+
+         <para>
+            You can specify a JSF converter for complex model propreties:
+         </para>
+         
+         <programlisting role="XML"><![CDATA[<pages>
+   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+      <param name="x" value="#{calculator.lhs}"/>
+      <param name="y" value="#{calculator.rhs}"/>
+      <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
+   </page>
+</pages>]]></programlisting>
+ 
+         <para>
+            Alternatively:
+         </para>
+                
+         <programlisting role="XML"><![CDATA[<pages>
+   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+      <param name="x" value="#{calculator.lhs}"/>
+      <param name="y" value="#{calculator.rhs}"/>
+      <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
+   </page>
+</pages>]]></programlisting>
+
+
+         <para>
+            JSF validators, and <literal>required="true"</literal> may
+            also be used:
+         </para>
+         <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/blog.xhtml">
+        <param name="date" 
+               value="#{blog.date}" 
+               validatorId="com.my.blog.PastDate" 
+               required="true"/>
+    </page>
+</pages>]]></programlisting>
+
+         <para>
+            Alternatively:
+         </para>
+  
+         <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/blog.xhtml">
+        <param name="date" 
+               value="#{blog.date}" 
+               validator="#{pastDateValidator}" 
+               required="true"/>
+    </page>
+</pages>]]></programlisting>
+
+         <para>
+            Even better, model-based Hibernate validator annotations are automatically
+            recognized and validated. Seam also provides a default date converter to
+            convert a string parameter value to a date and back.
+         </para>
+
+         <para>
+            When type conversion or validation fails, a global <literal>FacesMessage</literal>
+            is added to the <literal>FacesContext</literal>.
+         </para>
+
+      </section>
+
+      <section id="events.pageaction.navigation">
+         <title>Navigation</title>
+            
+         <para>
+            You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal>
+            in a Seam application. However, JSF navigation rules have a number of annoying
+            limitations:
+         </para>
+            
+         <itemizedlist>
+            <listitem>
+               <para>
+                  It is not possible to specify request parameters to be used when redirecting.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  It is not possible to begin or end conversations from a rule.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  Rules work by evaluating the return value of the action method; it is not
+                  possible to evaluate an arbitrary EL expression.
+               </para>
+            </listitem>
+         </itemizedlist>
+            
+         <para>
+            A further problem is that "orchestration" logic gets scattered between <literal>pages.xml</literal>
+            and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>.
+         </para>
+            
+         <para>
+            This JSF navigation rule:
+         </para>
+            
+         <programlisting role="XML"><![CDATA[<navigation-rule>
+   <from-view-id>/editDocument.xhtml</from-view-id>
+    
+   <navigation-case>
+      <from-action>#{documentEditor.update}</from-action>
+      <from-outcome>success</from-outcome>
+      <to-view-id>/viewDocument.xhtml</to-view-id>
+      <redirect/>
+   </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+        
+         <para>
+            Can be rewritten as follows:
+         </para>
+            
+         <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if-outcome="success">
+            <redirect view-id="/viewDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+        
+            <para>
+                But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> 
+                component with string-valued return values (the JSF outcomes). So Seam lets us write:
+            </para>
+        
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}" 
+                   evaluate="#{documentEditor.errors.size}">
+        <rule if-outcome="0">
+            <redirect view-id="/viewDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                Or even:
+            </para>
+        
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <redirect view-id="/viewDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                The first form evaluates a value binding to determine the outcome value
+                to be used by the subsequent rules.
+                The second approach ignores the outcome and evaluates a value binding
+                for each possible rule.
+            </para>
+            
+            <para>
+                Of course, when an update succeeds, we probably want to end the current
+                conversation. We can do that like this:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <end-conversation/>
+            <redirect view-id="/viewDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                As we've ended conversation any subsequent requests won't know
+                which document we are interested in.  We can pass the document 
+                id as a request parameter which also makes the view bookmarkable:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <end-conversation/>
+            <redirect view-id="/viewDocument.xhtml">
+                <param name="documentId" value="#{documentEditor.documentId}"/>
+            </redirect>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                Null outcomes are a special case in JSF. The null outcome is interpreted to
+                mean "redisplay the page". The following navigation rule matches any non-null
+                outcome, but <emphasis>not</emphasis> the null outcome:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule>
+            <render view-id="/viewDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                If you want to perform navigation when a null outcome occurs, use the
+                following form instead:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <render view-id="/viewDocument.xhtml"/>
+    </navigation>
+    
+</page>]]></programlisting>
+
+            <para>
+                The view-id may be given as a JSF EL expression:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
+
+    <navigation>
+        <rule if-outcome="success">
+            <redirect view-id="/#{userAgent}/displayDocument.xhtml"/>
+        </rule>
+    </navigation>
+    
+</page>]]></programlisting>
+
+        </section>
+
+        <section>
+            <title>Fine-grained files for definition of navigation, page actions and parameters</title>
+            
+            <para>
+                If you have a lot of different page actions and page parameters,
+                or even just a lot of navigation rules,
+                you will almost certainly want to split the declarations up over
+                multiple files. You can define actions and parameters for a page
+                with the view id <literal>/calc/calculator.jsp</literal> in a 
+                resource named <literal>calc/calculator.page.xml</literal>. The
+                root element in this case is the <literal>&lt;page&gt;</literal>
+                element, and the view id is implied:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<page action="#{calculator.calculate}">
+    <param name="x" value="#{calculator.lhs}"/>
+    <param name="y" value="#{calculator.rhs}"/>
+    <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
+</page>]]></programlisting>
+
+        </section>
+        
+        
+        
+        <section>
+            <title>Component-driven events</title>
+            
+            <para>
+                Seam components can interact by simply calling each others methods.
+                Stateful components may even implement the observer/observable pattern.
+                But to enable components to interact in a more loosely-coupled fashion
+                than is possible when the components call each others methods directly,
+                Seam provides <emphasis>component-driven events</emphasis>.
+            </para>
+            
+            <para>
+                We specify event listeners (observers) in <literal>components.xml</literal>.
+            </para>
+            
+        <programlisting role="XML"><![CDATA[<components>
+    <event type="hello">
+        <action execute="#{helloListener.sayHelloBack}"/>
+        <action execute="#{logger.logHello}"/>
+    </event>
+</components>]]></programlisting>
+
+            <para>
+                Where the <emphasis>event type</emphasis> is just an arbitrary string.
+            </para>
+            
+            <para>
+                When an event occurs, the actions registered for that event will be called
+                in the order they appear in <literal>components.xml</literal>. How does a
+                component raise an event? Seam provides a built-in component for this.
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+        Events.instance().raiseEvent("hello");
+    }
+}]]></programlisting>
+
+            <para>
+                Or you can use an annotation.
+            </para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    @RaiseEvent("hello")
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+    }
+}]]></programlisting>
+
+            <para>
+                Notice that this event producer has no dependency upon event consumers.
+                The event listener may now be implemented with absolutely no dependency
+                upon the producer:
+            </para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
+public class HelloListener {
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
+                The method binding defined in <literal>components.xml</literal> above 
+                takes care of mapping the event to the consumer.
+                If you don't like futzing about in the <literal>components.xml</literal> 
+                file, you can use an annotation instead:
+            </para>
+
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
+                You might wonder why I've not mentioned anything about event objects in
+                this discussion. In Seam, there is no need for an event object to propagate
+                state between event producer and listener. State is held in the Seam
+                contexts, and is shared between components. However, if you really want
+                to pass an event object, you can:
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    private String name;
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World, my name is #0.", name);
+        Events.instance().raiseEvent("hello", name);
+    }
+}]]></programlisting>
+
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack(String name) {
+        FacesMessages.instance().add("Hello #0!", name);
+    }
+}]]></programlisting>
+
+        </section>
+        
+        <section>
+            <title>Contextual events</title>
+            <para>
+                Seam defines a number of built-in events that the application can use to
+                perform special kinds of framework integration. The events are:
+            </para>
+            
+            <itemizedlist>
+            <listitem><para><literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF validation fails</para></listitem>
+            <listitem><para><literal>org.jboss.seam.noConversation</literal> &#8212; called when there is no long running conversation and a long running conversation is required</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called before the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever a long-running conversation begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a long-running conversation ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter.</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a pageflow begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow </literal> &#8212; called when a pageflow ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is started</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is ended</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beforePhase </literal> &#8212; called before the start of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postInitialization </literal> &#8212; called when Seam has initialized and started up all components</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postReInitialization </literal> &#8212; called when Seam has re-initialized and started up all components after a redeploy</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal></para></listitem>
+            <listitem><para><literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a user logs out</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a user authentication attempt fails</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called when a user is successfully authenticated</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when an authorization check fails</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called after a user is authenticated</para></listitem>
+            <listitem><para><literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called before attempting to authenticate a user</para></listitem>
+            </itemizedlist>
+            
+             <para>
+                 Seam components may observe any of these events in just the same way they
+                 observe any other component-driven events.
+             </para>
+        </section>
+        
+   
+    
+    <section>
+      <title>Seam interceptors</title>
+      
+      <para>
+        EJB 3.0 introduced a standard interceptor model for session bean components. To add an
+        interceptor to a bean, you need to write a class with a method annotated 
+        <literal>@AroundInvoke</literal> and annotate the bean with an
+        <literal>@Interceptors</literal> annotation that specifies the name of the interceptor
+        class. For example, the following interceptor checks that the user is logged in before
+        allowing invoking an action listener method:
+      </para>
+      
+      <programlisting role="JAVA"><![CDATA[public class LoggedInInterceptor {
+
+   @AroundInvoke
+   public Object checkLoggedIn(InvocationContext invocation) throws Exception {
+   
+      boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
+      if (isLoggedIn) {
+         //the user is already logged in
+         return invocation.proceed();
+      }
+      else {
+         //the user is not logged in, fwd to login page
+         return "login";
+      }
+   }
+
+}]]></programlisting>
+
+    <para>
+        To apply this interceptor to a session bean which acts as an action listener, we must
+        annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>.
+        This is a somewhat ugly annotation. Seam builds upon the interceptor framework in
+        EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation for class
+        level interceptors (those annotated <literal>@Target(TYPE)</literal>). In
+        our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
+    </para>
+      
+      <programlisting role="JAVA"><![CDATA[@Target(TYPE)
+@Retention(RUNTIME)
+@Interceptors(LoggedInInterceptor.class)
+public @interface LoggedIn {}]]></programlisting>
+
+        <para>
+            We can now simply annotate our action listener bean with <literal>@LoggedIn</literal>
+            to apply the interceptor.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("changePasswordAction")
+@LoggedIn
+@Interceptors(SeamInterceptor.class)
+public class ChangePasswordAction implements ChangePassword { 
+    
+    ...
+    
+    public String changePassword() { ... }
+    
+}]]></programlisting>
+
+        <para>
+            If interceptor ordering is important (it usually is), you can add
+            <literal>@Interceptor</literal> annotations to your interceptor 
+            classes to specify a partial order of interceptors.
+        </para>
+        
+<programlisting role="JAVA"><![CDATA[@Interceptor(around={BijectionInterceptor.class,
+                     ValidationInterceptor.class,
+                     ConversationInterceptor.class},
+             within=RemoveInterceptor.class)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            You can even have a "client-side" interceptor, that runs around any of the built-in
+            functionality of EJB3:
+        </para>
+
+<programlisting role="JAVA"><![CDATA[@Interceptor(type=CLIENT)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            EJB interceptors are stateful, with a lifecycle that is the same as the component
+            they intercept. For interceptors which do not need to maintain state, Seam lets
+            you get a performance optimization by specifying 
+            <literal>@Interceptor(stateless=true)</literal>.
+        </para>
+
+        <para>
+            Much of the functionality of Seam is implemented as a set of built-in Seam interceptors,
+            including the interceptors named in the previous example. You don't have to explicitly 
+            specify these interceptors by annotating your components; they exist for all interceptable 
+            Seam components.
+        </para>
+        
+        <para>
+            You can even use Seam interceptors with JavaBean components, not just EJB3 beans!
+        </para>
+        
+        <para>
+            EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>),
+            but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>,
+            <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these
+            lifecycle methods on both component and interceptor not only for EJB3 beans, but also for
+            JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean
+            components).
+        </para>
+
+    </section>
+      
+    <section>
+        <title>Managing exceptions</title>
+        
+        <para>
+            JSF is surprisingly limited when it comes to exception handling. As a partial 
+            workaround for this problem, Seam lets you define how a particular class of 
+            exception is to be treated by annotating the exception class, or declaring
+            the exception class in an XML file. This facility is meant to be combined with 
+            the EJB 3.0-standard <literal>@ApplicationException</literal> annotation which 
+            specifies whether the exception should cause a transaction rollback.
+        </para>
+        
+        <section>
+            <title>Exceptions and transactions</title>
+            
+            <para>
+                EJB specifies well-defined rules that let us control whether an exception 
+                immediately marks the current transaction for rollback when it is thrown by 
+                a business method of the bean: <emphasis>system exceptions</emphasis> always 
+                cause a transaction rollback, <emphasis>application exceptions</emphasis> do 
+                not cause a rollback by default, but they do if 
+                <literal>@ApplicationException(rollback=true)</literal>
+                is specified. (An application exception is any checked exception, or any
+                unchecked exception annotated <literal>@ApplicationException</literal>.
+                A system exception is any unchecked exception without an 
+                <literal>@ApplicationException</literal> annotation.)
+            </para>
+            
+            <para>
+                Note that there is a difference between marking a transaction for rollback,
+                and actually rolling it back. The exception rules say that the transaction
+                should be marked rollback only, but it may still be active after the 
+                exception is thrown.
+            </para>
+        
+            <para>
+                Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean 
+                components.
+            </para>
+        
+            <para>
+                But these rules only apply in the Seam component layer. What about an exception 
+                that is uncaught and propagates out of the Seam component layer, and out of the JSF 
+                layer? Well, it is always wrong to leave a dangling transaction open, so Seam
+                rolls back any active transaction when an exception occurs and is uncaught
+                in the Seam component layer.
+            </para>
+        </section>
+        
+        <section>
+            <title>Enabling Seam exception handling</title>
+        
+        <para>
+            To enable Seam's exception handling, we need to make sure we have the master servlet 
+            filter declared in <literal>web.xml</literal>:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>*.seam</url-pattern>
+</filter-mapping>]]></programlisting>
+
+        <para>
+            You need to disable Facelets development mode in <literal>web.xml</literal> and
+            Seam debug mode in <literal>components.xml</literal> if you want your exception handlers
+            to fire.
+        </para>
+
+        </section>
+        
+        <section>
+            <title>Using annotations for exception handling</title>
+            
+        <para>
+            The following exception results in a HTTP 404 error whenever it propagates out of the
+            Seam component layer. It does not roll back the current transaction immediately when 
+            thrown, but the transaction will be rolled back if it the exception is not caught by
+            another Seam component.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@HttpError(errorCode=404)
+public class ApplicationException extends Exception { ... }]]></programlisting>
+
+        <para>
+            This exception results in a browser redirect whenever it propagates out of the
+            Seam component layer. It also ends the current conversation. It causes an immediate 
+            rollback of the current transaction.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Redirect(viewId="/failure.xhtml", end=true)
+@ApplicationException(rollback=true)
+public class UnrecoverableApplicationException extends RuntimeException { ... }]]></programlisting>
+
+        <note>
+          It is important to note that Seam cannot handle exceptions that occur during JSF's
+          RENDER_RESPONSE phase, as it is not possible to perform a redirect once the response
+          has started being written to.  
+        </note>
+                
+        <para>
+            You can also use EL to specify the <literal>viewId</literal> to redirect to.
+        </para>
+
+        <para>
+            This exception results in a redirect, along with a message to the user, when it 
+            propagates out of the Seam component layer. It also immediately rolls back the 
+            current transaction.
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Redirect(viewId="/error.xhtml", message="Unexpected error")
+public class SystemException extends RuntimeException { ... }]]></programlisting>
+
+        </section>
+        
+        <section>
+            <title>Using XML for exception handling</title>
+
+        <para>
+            Since we can't add annotations to all the exception classes we are interested in,
+            Seam also lets us specify this functionality in <literal>pages.xml</literal>.
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<pages>
+   
+   <exception class="javax.persistence.EntityNotFoundException">
+      <http-error error-code="404"/>
+   </exception>
+   
+   <exception class="javax.persistence.PersistenceException">
+      <end-conversation/>
+      <redirect view-id="/error.xhtml">
+          <message>Database access failed</message>
+      </redirect>
+   </exception>
+   
+   <exception>
+      <end-conversation/>
+      <redirect view-id="/error.xhtml">
+          <message>Unexpected failure</message>
+      </redirect>
+   </exception>
+   
+</pages>]]></programlisting>
+
+        <para>
+            The last <literal>&lt;exception&gt;</literal> declaration does not specify a class,
+            and is a catch-all for any exception for which handling is not otherwise specified
+            via annotations or in <literal>pages.xml</literal>.
+        </para>
+        
+        <para>
+            You can also use EL to specify the <literal>view-id</literal> to redirect to.
+        </para>
+        
+        <para>
+           You can also access the handled exception instance through EL, Seam places it in the
+           conversation context, e.g. to access the message of the exception:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[...
+throw new AuthorizationException("You are not allowed to do this!");
+
+<pages>
+
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/error.xhtml">
+            <message severity="WARN">#{org.jboss.seam.handledException.message}</message>
+        </redirect>
+    </exception>
+
+</pages>]]></programlisting>
+         
+         <para>
+           <literal>org.jboss.seam.handledException</literal> holds the nested exception that
+           was actually handled by an exception handler. The outermost (wrapper) exception is 
+           also available, as <literal>org.jboss.seam.caughtException</literal>.
+         </para>
+         
+         <section>
+             <title>Suppressing exception logging</title>
+             
+             <para>
+                 For the exception handlers defined in <literal>pages.xml</literal>, it is possible
+                 to declare the logging level at which the exception will be logged, or to even
+                 suppress the exception being logged altogether.  The attributes <literal>log</literal>
+                 and <literal>log-level</literal> can be used to control exception logging.  By setting 
+                 <literal>log="false"</literal> as per the following example, then no log message will
+                 be generated when the specified exception occurs:
+             </para>
+             
+             <programlisting role="XML"><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
+        <redirect view-id="/register.xhtml">
+            <message severity="warn">You must be a member to use this feature</message>
+        </redirect>
+    </exception>]]></programlisting>
+    
+             <para>
+                 If the <literal>log</literal> attribute is not specified, then it defaults to <literal>true</literal>
+                 (i.e. the exception will be logged).  Alternatively, you can specify the <literal>log-level</literal>
+                 to control at which log level the exception will be logged:             
+             </para>
+
+             <programlisting role="XML"><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" log-level="info">
+        <redirect view-id="/register.xhtml">
+            <message severity="warn">You must be a member to use this feature</message>
+        </redirect>
+    </exception>]]></programlisting>
+    
+              <para>
+                  The acceptable values for <literal>log-level</literal> are: <literal>fatal, error, warn, info, debug</literal> 
+                  or <literal>trace</literal>.  If the <literal>log-level</literal> is not specified, or if an invalid value is
+                  configured, then it will default to <literal>error</literal>.              
+              </para>
+         
+         </section>
+
+        </section>
+        
+        <section>
+            <title>Some common exceptions</title>
+            
+            <para>
+                If you are using JPA:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<exception class="javax.persistence.EntityNotFoundException">
+   <redirect view-id="/error.xhtml">
+      <message>Not found</message>
+   </redirect>
+</exception>
+
+<exception class="javax.persistence.OptimisticLockException">
+   <end-conversation/>
+   <redirect view-id="/error.xhtml">
+      <message>Another user changed the same data, please try again</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+                If you are using the Seam Application Framework:
+            </para>
+            
+            <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.framework.EntityNotFoundException">
+   <redirect view-id="/error.xhtml">
+      <message>Not found</message>
+   </redirect>
+</exception>]]></programlisting>
+    
+            <para>
+                If you are using Seam Security:
+            </para>
+    
+            <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.security.AuthorizationException">
+   <redirect>
+      <message>You don't have permission to do this</message>
+   </redirect>
+</exception>
+    
+<exception class="org.jboss.seam.security.NotLoggedInException">
+   <redirect view-id="/login.xhtml">
+      <message>Please log in first</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+               And, for JSF:
+            </para>
+    
+            <programlisting role="XML"><![CDATA[<exception class="javax.faces.application.ViewExpiredException">
+   <redirect view-id="/error.xhtml">
+      <message>Your session has timed out, please try again</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+                A <literal>ViewExpiredException</literal> occurs if the user posts back to a page once their session has
+                expired. The <literal>conversation-required</literal> and <literal>no-conversation-view-id</literal>
+                settings in the Seam page descriptor, discussed in <xref linkend="conversations.required"/>, give you
+                finer-grained control over session expiration if you are accessing a page used within a conversation.
+            </para>
+        </section>
+      </section>
+    
+</chapter>

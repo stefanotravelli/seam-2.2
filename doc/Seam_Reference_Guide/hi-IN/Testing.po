@@ -1,0 +1,927 @@
+# Language hi-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-06-05 18:37+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Testing.xml:2
+#, no-c-format
+msgid "Testing Seam applications"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:3
+#, no-c-format
+msgid ""
+"Most Seam applications will need at least two kinds of automated tests: "
+"<emphasis>unit tests</emphasis>, which test a particular Seam component in "
+"isolation, and scripted <emphasis>integration tests</emphasis> which "
+"exercise all Java layers of the application (that is, everything except the "
+"view pages)."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:10
+#, no-c-format
+msgid "Both kinds of tests are very easy to write."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:15
+#, no-c-format
+msgid "Unit testing Seam components"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:16
+#, no-c-format
+msgid ""
+"All Seam components are POJOs. This is a great place to start if you want "
+"easy unit testing. And since Seam emphasises the use of bijection for inter-"
+"component interactions and access to contextual objects, it's very easy to "
+"test a Seam component outside of its normal runtime environment."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:23
+#, no-c-format
+msgid ""
+"Consider the following Seam Component which creates a statement of account "
+"for a customer:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:28
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Scope(EVENT)\n"
+"@Name(\"statementOfAccount\")\n"
+"public class StatementOfAccount {\n"
+"   \n"
+"   @In(create=true) EntityManager entityManager\n"
+"   \n"
+"   private double statementTotal;\n"
+"   \n"
+"   @In\n"
+"   private Customer customer;\n"
+"   \n"
+"   @Create\n"
+"   public void create() {\n"
+"      List<Invoice> invoices = entityManager\n"
+"         .createQuery(\"select invoice from Invoice invoice where invoice."
+"customer = :customer\")\n"
+"         .setParameter(\"customer\", customer)\n"
+"         .getResultList();\n"
+"      statementTotal = calculateTotal(invoices);\n"
+"   }\n"
+"   \n"
+"   public double calculateTotal(List<Invoice> invoices) {\n"
+"      double total = 0.0;\n"
+"      for (Invoice invoice: invoices)\n"
+"      {\n"
+"         double += invoice.getTotal();\n"
+"      }\n"
+"      return total;\n"
+"   }\n"
+"   \n"
+"   // getter and setter for statementTotal\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:30
+#, no-c-format
+msgid ""
+"We could write a unit test for the calculateTotal method (which tests the "
+"business logic of the component) as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:35
+#, no-c-format
+msgid ""
+"<![CDATA[public class StatementOfAccountTest {\n"
+"    \n"
+"    @Test\n"
+"    public testCalculateTotal {\n"
+"       List<Invoice> invoices = generateTestInvoices(); // A test data "
+"generator\n"
+"       double statementTotal = new StatementOfAccount().calculateTotal"
+"(invoices);\n"
+"       assert statementTotal = 123.45;\n"
+"    }   \n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:37
+#, no-c-format
+msgid ""
+"You'll notice we aren't testing retrieving data from or persisting data to "
+"the database; nor are we testing any functionality provided by Seam. We are "
+"just testing the logic of our POJOs. Seam components don't usually depend "
+"directly upon container infrastructure, so most unit testing are as easy as "
+"that!"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:44
+#, no-c-format
+msgid "However, if you want to test the entire application, read on."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:51
+#, no-c-format
+msgid "Integration testing Seam components"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:53
+#, no-c-format
+msgid ""
+"Integration testing is slightly more difficult. In this case, we can't "
+"eliminate the container infrastructure; indeed, that is part of what is "
+"being tested! At the same time, we don't want to be forced to deploy our "
+"application to an application server to run the automated tests. We need to "
+"be able to reproduce just enough of the container infrastructure inside our "
+"testing environment to be able to exercise the whole application, without "
+"hurting performance too much."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:62
+#, no-c-format
+msgid ""
+"The approach taken by Seam is to let you write tests that exercise your "
+"components while running inside a pruned down container environment (Seam, "
+"together with the JBoss Embedded container; see <xref linkend=\"config."
+"install.embedded\"/> for configuration details)"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:69
+#, no-c-format
+msgid ""
+"<![CDATA[public class RegisterTest extends SeamTest\n"
+"{\n"
+"   \n"
+"   @Test\n"
+"   public void testRegisterComponent() throws Exception\n"
+"   {\n"
+"            \n"
+"      new ComponentTest() {\n"
+"\n"
+"         protected void testComponents() throws Exception\n"
+"         {\n"
+"            setValue(\"#{user.username}\", \"1ovthafew\");\n"
+"            setValue(\"#{user.name}\", \"Gavin King\");\n"
+"            setValue(\"#{user.password}\", \"secret\");\n"
+"            assert invokeMethod(\"#{register.register}\").equals(\"success"
+"\");\n"
+"            assert getValue(\"#{user.username}\").equals(\"1ovthafew\");\n"
+"            assert getValue(\"#{user.name}\").equals(\"Gavin King\");\n"
+"            assert getValue(\"#{user.password}\").equals(\"secret\");\n"
+"         }\n"
+"         \n"
+"      }.run();\n"
+"      \n"
+"   }\n"
+"\n"
+"   ...\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:73
+#, no-c-format
+msgid "Using mocks in integration tests"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:75
+#, no-c-format
+msgid ""
+"Occasionally, we need to be able to replace the implementation of some Seam "
+"component that depends upon resources which are not available in the "
+"integration test environment. For example, suppose we have some Seam "
+"component which is a facade to some payment processing system:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:82
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"paymentProcessor\")\n"
+"public class PaymentProcessor {\n"
+"    public boolean processPayment(Payment payment) { .... }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:84
+#, no-c-format
+msgid "For integration tests, we can mock out this component as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:88
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"paymentProcessor\")\n"
+"@Install(precedence=MOCK)\n"
+"public class MockPaymentProcessor extends PaymentProcessor {\n"
+"    public boolean processPayment(Payment payment) {\n"
+"        return true;\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:90
+#, no-c-format
+msgid ""
+"Since the <literal>MOCK</literal> precedence is higher than the default "
+"precedence of application components, Seam will install the mock "
+"implementation whenever it is in the classpath. When deployed into "
+"production, the mock implementation is absent, so the real component will be "
+"installed."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:103
+#, no-c-format
+msgid "Integration testing Seam application user interactions"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:105
+#, no-c-format
+msgid ""
+"An even harder problem is emulating user interactions. A third problem is "
+"where to put our assertions. Some test frameworks let us test the whole "
+"application by reproducing user interactions with the web browser. These "
+"frameworks have their place, but they are not appropriate for use at "
+"development time."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:112
+#, no-c-format
+msgid ""
+"<literal>SeamTest</literal> lets you write <emphasis>scripted</emphasis> "
+"tests, in a simulated JSF environment. The role of a scripted test is to "
+"reproduce the interaction between the view and the Seam components. In other "
+"words, you get to pretend you are the JSF implementation!"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:119
+#, no-c-format
+msgid "This approach tests everything except the view."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:123
+#, no-c-format
+msgid "Let's consider a JSP view for the component we unit tested above:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:127
+#, no-c-format
+msgid ""
+"<![CDATA[<html>\n"
+" <head>\n"
+"  <title>Register New User</title>\n"
+" </head>\n"
+" <body>\n"
+"  <f:view>\n"
+"   <h:form>\n"
+"     <table border=\"0\">\n"
+"       <tr>\n"
+"         <td>Username</td>\n"
+"         <td><h:inputText value=\"#{user.username}\"/></td>\n"
+"       </tr>\n"
+"       <tr>\n"
+"         <td>Real Name</td>\n"
+"         <td><h:inputText value=\"#{user.name}\"/></td>\n"
+"       </tr>\n"
+"       <tr>\n"
+"         <td>Password</td>\n"
+"         <td><h:inputSecret value=\"#{user.password}\"/></td>\n"
+"       </tr>\n"
+"     </table>\n"
+"     <h:messages/>\n"
+"     <h:commandButton type=\"submit\" value=\"Register\" action=\"#{register."
+"register}\"/>\n"
+"   </h:form>\n"
+"  </f:view>\n"
+" </body>\n"
+"</html>]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:129
+#, no-c-format
+msgid ""
+"We want to test the registration functionality of our application (the stuff "
+"that happens when the user clicks the Register button). We'll reproduce the "
+"JSF request lifecycle in an automated TestNG test:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:135
+#, no-c-format
+msgid ""
+"<![CDATA[public class RegisterTest extends SeamTest\n"
+"{\n"
+"   \n"
+"   @Test\n"
+"   public void testRegister() throws Exception\n"
+"   {\n"
+"            \n"
+"      new FacesRequest() {\n"
+"\n"
+"         @Override\n"
+"         protected void processValidations() throws Exception\n"
+"         {\n"
+"            validateValue(\"#{user.username}\", \"1ovthafew\");\n"
+"            validateValue(\"#{user.name}\", \"Gavin King\");\n"
+"            validateValue(\"#{user.password}\", \"secret\");\n"
+"            assert !isValidationFailure();\n"
+"         }\n"
+"         \n"
+"         @Override\n"
+"         protected void updateModelValues() throws Exception\n"
+"         {\n"
+"            setValue(\"#{user.username}\", \"1ovthafew\");\n"
+"            setValue(\"#{user.name}\", \"Gavin King\");\n"
+"            setValue(\"#{user.password}\", \"secret\");\n"
+"         }\n"
+"\n"
+"         @Override\n"
+"         protected void invokeApplication()\n"
+"         {\n"
+"            assert invokeMethod(\"#{register.register}\").equals(\"success"
+"\");\n"
+"         }\n"
+"\n"
+"         @Override\n"
+"         protected void renderResponse()\n"
+"         {\n"
+"            assert getValue(\"#{user.username}\").equals(\"1ovthafew\");\n"
+"            assert getValue(\"#{user.name}\").equals(\"Gavin King\");\n"
+"            assert getValue(\"#{user.password}\").equals(\"secret\");\n"
+"         }\n"
+"         \n"
+"      }.run();\n"
+"      \n"
+"   }\n"
+"\n"
+"   ...\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:137
+#, no-c-format
+msgid ""
+"Notice that we've extended <literal>SeamTest</literal>, which provides a "
+"Seam environment for our components, and written our test script as an "
+"anonymous class that extends <literal>SeamTest.FacesRequest</literal>, which "
+"provides an emulated JSF request lifecycle. (There is also a "
+"<literal>SeamTest.NonFacesRequest</literal> for testing GET requests.) We've "
+"written our code in methods which are named for the various JSF phases, to "
+"emulate the calls that JSF would make to our components. Then we've thrown "
+"in various assertions."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:148
+#, no-c-format
+msgid ""
+"You'll find plenty of integration tests for the Seam example applications "
+"which demonstrate more complex cases. There are instructions for running "
+"these tests using Ant, or using the TestNG plugin for eclipse:"
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:164
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:166
+#, no-c-format
+msgid ""
+"If you used seam-gen to create your project you are ready to start writing "
+"tests. Otherwise you'll need to setup the testing environment in your "
+"favorite build tool (e.g. ant, maven, eclipse)."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:173
+#, no-c-format
+msgid "First, lets look at the dependencies you need at a minimum:"
+msgstr ""
+
+#. Tag: entry
+#: Testing.xml:182
+#, no-c-format
+msgid "Group Id"
+msgstr ""
+
+#. Tag: entry
+#: Testing.xml:185
+#, no-c-format
+msgid "Artifact Id"
+msgstr ""
+
+#. Tag: entry
+#: Testing.xml:188
+#, no-c-format
+msgid "Location in Seam"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:196 Testing.xml:207 Testing.xml:218 Testing.xml:229
+#, no-c-format
+msgid "org.jboss.seam.embedded"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:199
+#, no-c-format
+msgid "hibernate-all"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:202
+#, no-c-format
+msgid "lib/test/hibernate-all.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:210
+#, no-c-format
+msgid "jboss-embedded-all"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:213
+#, no-c-format
+msgid "lib/test/jboss-embedded-all.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:221
+#, no-c-format
+msgid "thirdparty-all"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:224
+#, no-c-format
+msgid "lib/test/thirdparty-all.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:232
+#, no-c-format
+msgid "jboss-embedded-api"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:235
+#, no-c-format
+msgid "lib/jboss-embedded-api.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:240
+#, no-c-format
+msgid "org.jboss.seam"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:243
+#, no-c-format
+msgid "jboss-seam"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:246
+#, no-c-format
+msgid "lib/jboss-seam.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:251
+#, no-c-format
+msgid "org.jboss.el"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:254
+#, no-c-format
+msgid "jboss-el"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:257
+#, no-c-format
+msgid "lib/jboss-el.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:262
+#, no-c-format
+msgid "javax.faces"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:265
+#, no-c-format
+msgid "jsf-api"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:268
+#, no-c-format
+msgid "lib/jsf-api.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:273
+#, no-c-format
+msgid "javax.el"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:276
+#, no-c-format
+msgid "el-api"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:279
+#, no-c-format
+msgid "lib/el-api.jar"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:284 Testing.xml:287
+#, no-c-format
+msgid "javax.activation"
+msgstr ""
+
+#. Tag: literal
+#: Testing.xml:290
+#, no-c-format
+msgid "lib/activation.jar"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:297
+#, no-c-format
+msgid ""
+"It's very important you don't put the compile time JBoss AS dependencies "
+"from <literal>lib/</literal> (e.g. <literal>jboss-system.jar</literal>) on "
+"the classpath, these will cause Embedded JBoss to not boot. So, just add the "
+"dependencies (e.g. Drools, jBPM)you need as you go."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:305
+#, no-c-format
+msgid ""
+"You also need to include the <literal>bootstrap/</literal> directory on the "
+"classpath; <literal>bootstrap/</literal> contains the configuration for "
+"Embedded JBoss."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:311
+#, no-c-format
+msgid ""
+"And, of course you need to put your built project and tests onto the "
+"classpath as well as jar for your test framework. Don't forget to put all "
+"the correct configuration files for JPA and Seam onto the classpath as well."
+"Seam asks Embedded JBoss to deploy any resource (jar or directory) which has "
+"<literal>seam.properties</literal> in it's root. Therefore, if you don't "
+"assemble a directory structure that resembles a deployable archive "
+"containing your built project, you must put a <literal>seam.properties</"
+"literal> in each resource."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:323
+#, no-c-format
+msgid ""
+"By default, a generated project will use the <literal>java:/DefaultDS</"
+"literal> (a built in HSQL datasource in Embedded JBoss) for testing. If you "
+"want to use another datasource place the <literal>foo-ds.xml</literal> into "
+"<literal>bootstrap/deploy</literal> directory."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:334
+#, no-c-format
+msgid "Using SeamTest with another test framework"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:336
+#, no-c-format
+msgid ""
+"Seam provides TestNG support out of the box, but you can also use another "
+"test framework, such as JUnit, if you want."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:341
+#, no-c-format
+msgid ""
+"You'll need to provide an implementation of <literal>AbstractSeamTest</"
+"literal> which does the following:"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:348
+#, no-c-format
+msgid "Calls <literal>super.begin()</literal> before every test method."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:354
+#, no-c-format
+msgid "Calls <literal>super.end()</literal> after every test method."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:360
+#, no-c-format
+msgid ""
+"Calls <literal>super.setupClass()</literal> to setup integration test "
+"environment. This should be called before any test methods are called."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:367
+#, no-c-format
+msgid ""
+"Calls <literal>super.cleanupClass()</literal> to clean up the integration "
+"test environment."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:373
+#, no-c-format
+msgid ""
+"Calls <literal>super.startSeam()</literal> to start Seam at the start of "
+"integration testing."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:379
+#, no-c-format
+msgid ""
+"Calls <literal>super.stopSeam()</literal> to cleanly shut down Seam at the "
+"end of integration testing."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:388
+#, no-c-format
+msgid "Integration Testing with Mock Data"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:390
+#, no-c-format
+msgid ""
+"If you need to insert or clean data in your database before each test you "
+"can use Seam's integration with DBUnit. To do this, extend "
+"<literal>DBUnitSeamTest</literal> rather than SeamTest."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:396
+#, no-c-format
+msgid "You need to provide a dataset for DBUnit."
+msgstr ""
+
+#. Tag: caution
+#: Testing.xml:400
+#, no-c-format
+msgid ""
+"DBUnit supports two formats for dataset files, flat and XML. Seam's "
+"<literal>DBUnitSeamTest</literal> assumes the flat format is used, so make "
+"sure that your dataset is in this format."
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:406
+#, no-c-format
+msgid ""
+"<![CDATA[<dataset>\n"
+"   \n"
+"   <ARTIST \n"
+"      id=\"1\"\n"
+"      dtype=\"Band\"\n"
+"      name=\"Pink Floyd\" />\n"
+"      \n"
+"   <DISC\n"
+"      id=\"1\"\n"
+"      name=\"Dark Side of the Moon\"\n"
+"      artist_id=\"1\" />\n"
+"      \n"
+"</dataset>]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:408
+#, no-c-format
+msgid ""
+"and tell Seam about it by overriding <literal>prepareDBUnitOperations()</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:412
+#, no-c-format
+msgid ""
+"<![CDATA[protected void prepareDBUnitOperations() {\n"
+"    beforeTestOperations.add(\n"
+"       new DataSetOperation(\"my/datasets/BaseData.xml\")\n"
+"    );\n"
+" }]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:414
+#, no-c-format
+msgid ""
+"<literal>DataSetOperation</literal> defaults to <literal>DatabaseOperation."
+"CLEAN_INSERT</literal> if no other operation is specified as a constructor "
+"argument. The above example cleans all tables defined <literal>BaseData.xml</"
+"literal>, then inserts all rows declared in <literal>BaseData.xml</literal> "
+"before each <literal>@Test</literal> method is invoked."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:422
+#, no-c-format
+msgid ""
+"If you require extra cleanup after a test method executes, add operations to "
+"<literal>afterTestOperations</literal> list."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:427
+#, no-c-format
+msgid ""
+"You need to tell DBUnit about the datasource you are using by setting a "
+"TestNG test parameter named <literal>datasourceJndiName</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:432
+#, no-c-format
+msgid ""
+"<![CDATA[<parameter name=\"datasourceJndiName\" value=\"java:/"
+"seamdiscsDatasource\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:434
+#, no-c-format
+msgid ""
+"DBUnitSeamTest has support for MySQL and HSQL - you need to tell it which "
+"database is being used:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:439
+#, no-c-format
+msgid "<![CDATA[<parameter name=\"database\" value=\"HSQL\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:441
+#, no-c-format
+msgid ""
+"It also allows you to insert binary data into the test data set (n.b. this "
+"is untested on Windows). You need to tell it where to locate these resources:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:447
+#, no-c-format
+msgid "<![CDATA[<parameter name=\"binaryDir\" value=\"images/\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:449
+#, no-c-format
+msgid ""
+"You <emphasis>must</emphasis> specify these three parameters in your "
+"<literal>testng.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:454
+#, no-c-format
+msgid ""
+"If you want to use DBUnitSeamTest with another database, you'll need to "
+"implement some methods. Read the javadoc of <literal>AbstractDBUnitSeamTest</"
+"literal> for more."
+msgstr ""
+
+#. Tag: title
+#: Testing.xml:463
+#, no-c-format
+msgid "Integration Testing Seam Mail"
+msgstr ""
+
+#. Tag: caution
+#: Testing.xml:465
+#, no-c-format
+msgid "Warning! This feature is still under development."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:469
+#, no-c-format
+msgid "It's very easy to integration test your Seam Mail:"
+msgstr ""
+
+#. Tag: programlisting
+#: Testing.xml:473
+#, no-c-format
+msgid ""
+"<![CDATA[public class MailTest extends SeamTest {\n"
+"    \n"
+"   @Test\n"
+"   public void testSimpleMessage() throws Exception {\n"
+"        \n"
+"      new FacesRequest() {\n"
+"\n"
+"         @Override\n"
+"         protected void updateModelValues() throws Exception {\n"
+"            setValue(\"#{person.firstname}\", \"Pete\");\n"
+"            setValue(\"#{person.lastname}\", \"Muir\");\n"
+"            setValue(\"#{person.address}\", \"test@example.com\");\n"
+"         }\n"
+"            \n"
+"         @Override\n"
+"         protected void invokeApplication() throws Exception {\n"
+"            MimeMessage renderedMessage = getRenderedMailMessage(\"/simple."
+"xhtml\");\n"
+"            assert renderedMessage.getAllRecipients().length == 1;\n"
+"            InternetAddress to = (InternetAddress) renderedMessage."
+"getAllRecipients()[0];\n"
+"            assert to.getAddress().equals(\"test@example.com\");\n"
+"         }\n"
+"            \n"
+"      }.run();       \n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:475
+#, no-c-format
+msgid ""
+"We create a new <literal>FacesRequest</literal> as normal. Inside the "
+"invokeApplication hook we render the message using "
+"<literal>getRenderedMailMessage(viewId);</literal>, passing the viewId of "
+"the message to render. The method returns the rendered message on which you "
+"can do your tests. You can of course also use any of the standard JSF "
+"lifecycle methods."
+msgstr ""
+
+#. Tag: para
+#: Testing.xml:484
+#, no-c-format
+msgid ""
+"There is no support for rendering standard JSF components so you can't test "
+"the content body of the mail message easily."
+msgstr ""

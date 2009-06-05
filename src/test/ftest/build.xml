@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<!--
+JBoss, Home of Professional Open Source
+Copyright 2008, Red Hat Middleware LLC, and individual contributors
+by the @authors tag. See the copyright.txt in the distribution for a
+full listing of individual contributors.
+
+This is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+This software is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this software; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<!-- core build file for executing and managing Seam functional tests -->
+<project name="ftest.base.build" default="testall" basedir=".">
+
+	<!-- Location of Seam -->
+	<dirname property="seam.dir" file="${ant.file.ftest.base.build}/../../../" />
+
+	<!--Import properties -->
+	<property file="ftest.properties" />
+
+	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
+
+	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
+	<property name="lib.dir" value="${ftest.dir}/lib" />
+	<property name="log.dir" value="${ftest.dir}/log" />
+
+	<path id="selenium.server.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="selenium-server-standalone.jar" />
+		</fileset>
+	</path>
+
+	<target name="testall" description="Run functional testsuite based on container property">
+		<fail unless="container">Please set container property.</fail>
+		<antcall target="testall.${container}" />
+	</target>
+
+	<target name="testall.jboss4" description="Run functional testsuite for JBoss 4">
+		<property name="container" value="jboss4" />
+		<antcall target="start.container.before.suite" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples jboss-->
+		<testexample name="blog" />
+		<testexample name="booking" />
+		<testexample name="drools" />
+		<testexample name="dvdstore" />
+		<testexample name="contactlist" />
+		<testexample name="excel" />
+		<testexample name="groovybooking" />
+		<testexample name="hibernate" />
+		<testexample name="icefaces" />
+		<testexample name="itext" />
+		<testexample name="jpa" />
+		<testexample name="mail" />
+		<testexample name="messages" />
+		<testexample name="nestedbooking" />
+		<testexample name="numberguess" />
+		<testexample name="openid" />
+		<testexample name="quartz" />
+		<testexample name="registration" />
+		<testexample name="remoting/chatroom" />
+		<testexample name="rss" />
+		<testexample name="seambay" />
+		<testexample name="seamdiscs" />
+		<testexample name="seampay" />
+		<testexample name="seamspace" />
+		<testexample name="spring" />
+		<testexample name="todo" />
+		<testexample name="ui" />
+		<testexample name="wicket" />
+		<testexample name="wicket-runtime" />
+		<antcall target="stop.selenium.server" />
+	</target>
+	
+	<target name="testall.jboss5" description="Run functional testsuite for JBoss 5">
+		<property name="container" value="jboss5" />
+		<antcall target="start.container.before.suite" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples jboss-->
+		<testexample name="blog" />
+		<testexample name="booking" />
+		<testexample name="drools" />
+		<testexample name="dvdstore" />
+		<testexample name="contactlist" />
+		<testexample name="excel" />
+		<testexample name="groovybooking" />
+		<testexample name="hibernate" />
+		<testexample name="icefaces" />
+		<testexample name="itext" />
+		<testexample name="jee5/booking" />
+		<testexample name="jpa" />
+		<testexample name="mail" />
+		<testexample name="messages" />
+		<testexample name="nestedbooking" />
+		<testexample name="numberguess" />
+		<testexample name="openid" />
+		<testexample name="quartz" />
+		<testexample name="registration" />
+		<testexample name="remoting/chatroom" />
+		<testexample name="rss" />
+		<testexample name="seambay" />
+		<testexample name="seampay" />
+		<testexample name="seamspace" />
+		<testexample name="spring" />
+		<testexample name="todo" />
+		<testexample name="ui" />
+		<testexample name="wicket" />
+		<testexample name="wicket-runtime" />
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="testall.jboss-embedded" description="Run functional testsuite for JBoss Embedded">
+		<property name="container" value="jboss-embedded" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples on jboss-embedded -->
+		<testexample name="blog" />
+		<testexample name="dvdstore" />
+		<testexample name="messages" />
+		<testexample name="numberguess" />
+		<testexample name="registration" />
+		<testexample name="seambay" />
+		<testexample name="seampay" />
+		<testexample name="todo" />
+		<testexample name="booking" />
+		<testexample name="jpa" />
+		<testexample name="hibernate" />
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="testall.tomcat6" description="Run functional testsuite for Tomcat 6">
+
+		<property name="container" value="tomcat6" />
+		<antcall target="start.selenium.server" />
+
+		<testexample name="jpa" />
+		<testexample name="hibernate" />
+
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="test" description="Run tests for single example. Container selection is based on the value of container property">
+		<fail unless="container">Please set container property.</fail>
+		<antcall target="test.${container}" />
+	</target>
+
+	<target name="test.jboss4" description="Run tests for single example on JBoss 4">
+		<property name="container" value="jboss4" />
+		<antcall target="test.single.example" />
+	</target>
+	
+	<target name="test.jboss5" description="Run tests for single example on JBoss 5">
+		<property name="container" value="jboss5" />
+		<antcall target="test.single.example" />
+	</target>
+
+	<target name="test.tomcat6" description="Run tests for single example on Tomcat 6">
+		<property name="container" value="tomcat6" />
+		<antcall target="test.single.example" />
+	</target>
+
+	<target name="test.jboss-embedded" description="Run tests for single example on JBoss Embedded">
+		<property name="container" value="jboss-embedded" />
+		<antcall target="test.single.example" />
+	</target>
+
+	<target name="test.single.example">
+		<antcall target="start.selenium.server" />
+
+		<!-- Execute tests for a specific example-->
+		<testexample name="${test}" />
+
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="cleanall">
+		<cleanexample name="blog" />
+		<cleanexample name="booking" />
+		<cleanexample name="drools" />
+		<cleanexample name="dvdstore" />
+		<cleanexample name="contactlist" />
+		<cleanexample name="excel" />
+		<cleanexample name="groovybooking" />
+		<cleanexample name="hibernate" />
+		<cleanexample name="icefaces" />
+		<cleanexample name="itext" />
+		<cleanexample name="jee5/booking" />
+		<cleanexample name="jpa" />
+		<cleanexample name="mail" />
+		<cleanexample name="messages" />
+		<cleanexample name="nestedbooking" />
+		<cleanexample name="numberguess" />
+		<cleanexample name="openid" />
+		<cleanexample name="quartz" />
+		<cleanexample name="registration" />
+		<cleanexample name="remoting/chatroom" />
+		<cleanexample name="rss" />
+		<cleanexample name="seambay" />
+		<cleanexample name="seamdiscs" />
+		<cleanexample name="seampay" />
+		<cleanexample name="seamspace" />
+		<cleanexample name="spring" />
+		<cleanexample name="todo" />
+		<cleanexample name="ui" />
+		<cleanexample name="wicket" />
+		<cleanexample name="wicket-runtime" />
+	</target>
+
+	<target name="undeployall">
+		<property name="container" value="jboss5" />
+		<undeployexample name="blog" />
+		<undeployexample name="booking" />
+		<undeployexample name="drools" />
+		<undeployexample name="dvdstore" />
+		<undeployexample name="contactlist" />
+		<undeployexample name="excel" />
+		<undeployexample name="groovybooking" />
+		<undeployexample name="hibernate" />
+		<undeployexample name="icefaces" />
+		<undeployexample name="itext" />
+		<undeployexample name="jee5/booking" />
+		<undeployexample name="jpa" />
+		<undeployexample name="mail" />
+		<undeployexample name="messages" />
+		<undeployexample name="nestedbooking" />
+		<undeployexample name="numberguess" />
+		<undeployexample name="openid" />
+		<undeployexample name="quartz" />
+		<undeployexample name="registration" />
+		<undeployexample name="rss" />
+		<undeployexample name="remoting/chatroom" />
+		<undeployexample name="seambay" />
+		<undeployexample name="seamdiscs" />
+		<undeployexample name="seampay" />
+		<undeployexample name="seamspace" />
+		<undeployexample name="spring" />
+		<undeployexample name="todo" />
+		<undeployexample name="ui" />
+		<undeployexample name="wicket" />
+	</target>
+
+
+	<target name="start.selenium.server">
+		<java classpathref="selenium.server.classpath" classname="org.openqa.selenium.server.SeleniumServer" fork="true" spawn="true">
+			<arg line="-port ${selenium.server.port}" />
+			<arg line="${selenium.server.cmd.args}" />
+		</java>
+
+		<waitfor maxwait="30" maxwaitunit="second">
+			<and>
+				<socket server="${selenium.host}" port="${selenium.server.port}" />
+				<!-- this url will 403, so we say that it should start counting errors at 404 to skip -->
+				<http url="http://${selenium.host}:${selenium.server.port}/selenium-server/core/index.html" errorsBeginAt="404" />
+			</and>
+		</waitfor>
+	</target>
+
+	<target name="stop.selenium.server">
+		<get taskname="selenium-shutdown" src="http://${selenium.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDown" dest="${log.dir}/server.shutdown.dest.log" ignoreerrors="true" />
+		<echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
+	</target>
+
+
+	<!-- duplicated from ${seam.dir}/build.xml -->
+	<!-- TODO can we avoid duplication -->
+	<macrodef name="testexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Running functional tests on @{name} example" />
+		<sequential>
+			<echo>@{message}</echo>
+			<callExample path="@{path}" target="test" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cleanexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Cleaning @{name} example" />
+		<sequential>
+			<echo>@{message}</echo>
+			<callExample path="@{path}" target="clean" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="undeployexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<sequential>
+			<callExample path="@{path}" target="undeploy.example" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="callExample">
+		<attribute name="path" />
+		<attribute name="target" />
+		<sequential>
+			<ant dir="@{path}" target="@{target}" inheritall="false">
+				<property name="container" value="${container}">
+				</property>
+			</ant>
+		</sequential>
+	</macrodef>
+	
+	<target name="start.container.before.suite" if="run.container.per.suite">
+		<echo>Starting container</echo>
+		<ant antfile="examples/build.xml" target="start.container.jboss" inheritall="false">
+			<property name="container" value="${container}" />
+		</ant>	
+	</target>
+	
+</project>
+

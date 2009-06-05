@@ -1,0 +1,19 @@
+# Bash completion for the seam-gen from the JBoss Seam project
+# Load this file in bash by running
+#   source seam-completion
+# You can then get tab completion for the Seam commands by running
+#   ./seam <TAB>
+_seam()
+{
+    local cur
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    local invalid=$( ./seam validate-project 2>&1 | grep -c FAILED ) 
+    if [ $invalid != 0 ]; then
+        COMPREPLY=( $( compgen -W 'help setup' -- $cur ) )
+    else
+        COMPREPLY=( $( compgen -W 'help setup create-project update-project update-seam delete-project deploy undeploy redeploy explode unexplode reexplode restart archive clean test new-action new-form new-conversation new-entity new-query new-test generate generate-model generate-ui settings reset add-ivy add-identity-management' -- $cur ) )
+    fi
+}
+complete -F _seam seam

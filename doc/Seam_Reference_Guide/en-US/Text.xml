@@ -1,0 +1,229 @@
+<chapter id="text">
+    <title>Seam Text</title>
+    
+    <para>
+        Collaboration-oriented websites require a human-friendly markup language for easy entry
+        of formatted text in forum posts, wiki pages, blogs, comments, etc. Seam provides the
+        <literal>&lt;s:formattedText/&gt;</literal> control for display of formatted text that
+        conforms to the <emphasis>Seam Text</emphasis> language. Seam Text is implemented using
+        an ANTLR-based parser. You don't need to know anything about ANTLR to use it, however.
+    </para>
+    
+    <section>
+        <title>Basic fomatting</title>
+        <para>
+            Here is a simple example:
+        </para>
+        
+        <programlisting><![CDATA[It's easy to make *emphasis*, |monospace|,
+~deleted text~, super^scripts^ or _underlines_.]]></programlisting>
+    
+        <para>
+            If we display this using <literal>&lt;s:formattedText/&gt;</literal>, we will get
+            the following HTML produced:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[<p>
+It's easy to make <i>emphasis</i>, <tt>monospace</tt>
+<del>deleted text</del>, super<sup>scripts</sup> or <u>underlines</u>.
+</p>]]></programlisting>
+
+        <para>
+            We can use a blank line to indicate a new paragraph, and <literal>+</literal> to
+            indicate a heading:
+        </para>
+
+        <programlisting><![CDATA[+This is a big heading
+You /must/ have some text following a heading!
+ 
+++This is a smaller heading
+This is the first paragraph. We can split it across multiple 
+lines, but we must end it with a blank line.
+
+This is the second paragraph.]]></programlisting>
+
+        <para>
+            (Note that a simple newline is ignored, you need an additional blank line to wrap text into a new paragraph.)
+           This is the HTML that results:
+        </para>
+    
+        <programlisting role="XHTML"><![CDATA[<h1>This is a big heading</h1>
+<p>
+You <i>must</i> have some text following a heading!
+</p>
+ 
+<h2>This is a smaller heading</h2>
+<p>
+This is the first paragraph. We can split it across multiple 
+lines, but we must end it with a blank line.
+</p>
+
+<p>
+This is the second paragraph.
+</p>]]></programlisting>
+
+        <para>
+            Ordered lists are created using the <literal>#</literal> character. Unordered lists
+            use the <literal>=</literal> character:
+        </para>
+
+        <programlisting><![CDATA[An ordered list:
+        
+#first item
+#second item
+#and even the /third/ item
+
+An unordered list:
+
+=an item
+=another item]]></programlisting>
+
+        <programlisting role="XHTML"><![CDATA[<p>
+An ordered list:
+</p>
+ 
+<ol>       
+<li>first item</li>
+<li>second item</li>
+<li>and even the <i>third</i> item</li>
+</ol>
+
+<p>
+An unordered list:
+</p>
+
+<ul>
+<li>an item</li>
+<li>another item</li>
+</ul>]]></programlisting>
+        
+        <para>
+            Quoted sections should be surrounded in double quotes:
+        </para>
+
+        <programlisting><![CDATA[The other guy said:
+        
+"Nyeah nyeah-nee 
+/nyeah/ nyeah!"
+
+But what do you think he means by "nyeah-nee"?]]></programlisting>
+        
+        <programlisting role="XHTML"><![CDATA[<p>
+The other guy said:
+</p>
+        
+<q>Nyeah nyeah-nee
+<i>nyeah</i> nyeah!</q>
+
+<p>
+But what do you think he means by <q>nyeah-nee</q>?
+</p>]]></programlisting>
+
+    </section>
+    
+    <section>
+        <title>Entering code and text with special characters</title>
+        <para>
+            Special characters such as <literal>*</literal>, <literal>|</literal>
+            and <literal>#</literal>, along with HTML characters such as
+            <literal>&lt;</literal>, <literal>&gt;</literal> and <literal>&amp;</literal> 
+            may be escaped using <literal>\</literal>:
+        </para>
+        
+        <programlisting><![CDATA[You can write down equations like 2\*3\=6 and HTML tags
+like \<body\> using the escape character: \\.]]></programlisting>
+        
+        <programlisting role="XHTML"><![CDATA[<p>
+You can write down equations like 2*3=6 and HTML tags
+like &lt;body&gt; using the escape character: \.
+</p>]]></programlisting>
+
+        <para>
+            And we can quote code blocks using backticks:
+        </para>
+        
+        <programlisting><![CDATA[My code doesn't work:
+
+`for (int i=0; i<100; i--)
+{
+    doSomething();
+}`
+
+Any ideas?]]></programlisting>
+
+        <programlisting role="XHTML"><![CDATA[<p>
+My code doesn't work:
+</p>
+
+<pre>for (int i=0; i&lt;100; i--)
+{
+    doSomething();
+}</pre>
+
+<p>
+Any ideas?
+</p>]]></programlisting>
+
+       <para>
+          Note that inline monospace formatting always escapes (most monospace formatted text is in fact
+          code or tags with many special characters). So you can, for example, write:
+       </para>
+
+       <programlisting><![CDATA[This is a |<tag attribute="value"/>| example.]]></programlisting>
+
+       <para>
+          without escaping any of the characters inside the monospace bars. The downside is that
+          you can't format inline monospace text in any other way (italics, underscore, and so on).
+       </para>
+
+    </section>
+    
+    <section>
+        <title>Links</title>
+        
+        <para>
+            A link may be created using the following syntax:
+        </para>
+
+        <programlisting><![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]></programlisting>
+        
+        <para>
+            Or, if you want to specify the text of the link:
+        </para>
+
+        <programlisting><![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]></programlisting>
+        
+        <para>
+            For advanced users, it is even possible to customize the Seam Text parser to understand
+            wikiword links written using this syntax.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Entering HTML</title>
+        
+        <para>
+            Text may even include a certain limited subset of HTML (don't worry, the subset is chosen
+            to be safe from cross-site scripting attacks). This is useful for creating links:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[You might want to link to <a href="http://jboss.com/products/seam">something
+cool</a>, or even include an image: <img src="/logo.jpg"/>]]></programlisting>
+        
+        <para>
+           And for creating tables:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[<table>
+    <tr><td>First name:</td><td>Gavin</td></tr>
+    <tr><td>Last name:</td><td>King</td></tr>
+</table>]]></programlisting>
+
+        <para>
+            But you can do much more if you want!
+        </para>
+         
+    </section>
+    
+</chapter>

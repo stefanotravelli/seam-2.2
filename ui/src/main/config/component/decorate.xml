@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Decorate</name>
+		<family>org.jboss.seam.ui.Decorate</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlDecorate</classname>
+		<superclass>org.jboss.seam.ui.component.UIDecorate</superclass>
+		<description>
+			<![CDATA["Decorate" a JSF input field when validation fails or when required="true" is set.]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.DecorateRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.DecorateRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlDecorate.jspx</template>-->
+			
+		</renderer>
+		<tag>
+			<name>decorate</name>
+			<classname>org.jboss.seam.ui.taglib.DecorateTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		
+		<taghandler>
+			<classname>org.jboss.seam.ui.handler.DecorateHandler</classname>
+		</taghandler>
+		
+		&ui_component_attributes;
+      &html_style_attributes;
+		<property el="false">
+			<name>for</name>
+			<classname>java.lang.String</classname>
+			<description>Id of the input field to decorate</description>
+		</property>
+	    
+	    <property existintag="false">	        
+	        <name>template</name>
+	        <classname>java.lang.String</classname>
+	        <description>XHTML template to use to decorate the input field</description>
+	    </property>
+	    
+	    <property el="false">
+			<name>enclose</name>
+			<classname>boolean</classname>
+			<description>if true, the template used to decorate the input field is
+			             enclosed by the element specified with the "element"
+			             attribute. By default this is a div element.
+			</description>
+			<defaultvalue>true</defaultvalue>
+		</property>
+		
+		<property el="false">
+			<name>element</name>
+			<classname>java.lang.String</classname>
+			<description>the element to enclose the template used to decorate the input field.
+			             By default, the template is enclosed with a div element.</description>
+			<defaultvalue>"div"</defaultvalue>
+		</property>
+	    
+	</component>
+    
+</components>

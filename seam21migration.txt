@@ -1,0 +1,238 @@
+Seam 2.1 Migration Guide
+========================
+Before you get started with Seam 2.1, there are a few things you should be aware
+of. This process should not be too painful - if you get stuck, just refer back
+to the updated Seam examples.
+
+This migration guide assumes you are using Seam 2.0, if you are migrating from
+Seam 1.2, see the seam2migration guide as well.
+
+
+Testing
+-------
+
+SeamTest now boots Seam at the start of each suite, rather than the start of
+each class. This is much faster. See the reference manual for how to alter the
+default.
+
+DTDs and Schemas
+----------------
+The DTDs for Seam XML files are no longer supported.  Please use the XML schemas
+for validation.  Files that use the Seam 2.0 XSDs should be updated to refer to 
+the 2.1 XSDs
+
+Exception Handling
+------------------
+
+The caught exception is now available in EL as #{org.jboss.seam.caughtException}
+rather than #{org.jboss.seam.exception}
+
+
+EntityConverter configuration
+-----------------------------
+
+If you need to configure which entity manager to use, this is now done on the
+entity-loader component. See the documentation for details. 
+
+Assumed name for managed Hibernate session
+------------------------------------------
+
+Several areas of Seam, including the Seam Application Framework, rely on a
+naming convention for the Seam-managed persistence context (JPA) and Hibernate
+session. Prior to Seam 2.1, the assumed name of the managed Hibernate session
+was "session". However, session is a very overloaded name in Seam and the Java
+Servlet API. To make it less ambigous, the default was changed to
+"hibernateSession".
+
+The benefit now is that when you inject or resolve the Hibernate session, you
+know that is the refernece you are getting (rather than the HTTP session, mail
+session, or some other "session").
+
+You would inject it as follows:
+
+@In private Session hibernateSession;
+
+or
+
+@In(name = "hibernateSession") private Session session;
+
+If the name of your Seam-managed Hibernate session is "session", you can still
+inject this reference explictly using the session property:
+
+<framework:hibernate-entity-home session="#{session}".../>
+<transaction:entity-transaction session="#{session}".../>
+
+The alternative is to override the getPersistenceContextName() method on any
+persistence controller in the Seam Application Framework:
+
+public String getPersistenceContextName() {
+   "session";
+}
+
+Security
+--------
+
+If you are using rule-based security in your project, the configuration for the 
+security rules in components.xml has changed. Previously, the rules were configured
+as a property of the identity component as such:
+
+  <security:identity security-rules="#{securityRules}" authenticate-method="#{authenticator.authenticate}"/>
+  
+In Seam 2.1, rule-based permission checks are now carried out by the ruleBasedPermissionResolver
+component. You must activate this component and register the security rules with it instead of the
+identity component:
+
+  <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+
+IMPORTANT! The definition of a permission has also changed. Prior to Seam 2.1, a permission
+consisted of three elements:
+
+ * name
+ * action
+ * contextual object (optional)
+
+The name would typically be the Seam component name, entity class, or view ID. The action would be
+the method name, the JSF phase (restore or render), or an assigned term representing the intent of
+the activity. Finally, one or more contextual objects could be inserted directly into the working
+memory to help make the decision, typically the target of the activity.
+
+For example: s:hasPermission('userManager', 'edit', user)
+
+In Seam 2.1, a permission has been simplified to just two elements:
+
+ * target
+ * action
+
+In place of the nebulous name element, the target becomes the focus of the permission. The action
+continues to communicate the intent of the activity being secured. Inside the rules file, most of the
+checking now revolves around the target object.
+
+For example: s:hasPermission(user, 'edit')
+
+This change makes the rules more generally applicable. It also allows Seam to consult a persistent
+permission resolver (ACL) in addition to the rule-based resolver.
+
+Be aware that existing rules may behave oddly. That's because given the following permission check:
+
+  s:hasPermission('userManager', 'edit', user)
+
+Seam will transpose as follows to bring it inline with the new design.
+
+  s:hasPemrission(user, 'edit')
+
+Please read the new chapter on security for all the details about this new design.
+  
+Identity.isLoggedIn()
+---------------------
+
+This method has been modified so that it doesn't attempt to perform an authentication if credentials
+have been set.  Instead, it will simply return true if the user is currently authenticated.  If you
+require the previous behaviour, then please use Identity.tryLogin() instead.  
+
+If you are using the token-based "Remember Me" feature of Seam Security, you will need to add the following 
+section to components.xml to ensure that the user is automatically logged in when first accessing the
+application:
+
+  <event type="org.jboss.seam.security.notLoggedIn">
+    <action execute="#{redirect.captureCurrentView}"/>
+    <action execute="#{identity.tryLogin}"/>
+  </event>
+  <event type="org.jboss.seam.security.loginSuccessful">
+    <action execute="#{redirect.returnToCapturedView}"/>
+  </event> 
+
+PDF (iText)
+--------
+
+The documentStore component has been moved from the pdf/itext module into Seam proper.  Any 
+references to pdf:document-store in components.xml should be replaced with document:document-store.
+Similary, if you are currently referencing org.jboss.seam.pdf.DocumentStoreServlet in your web.xml, 
+you should now use org.jboss.seam.document.DocumentStoreServlet.
+
+
+Clustering
+----------
+
+Seam's ManagedEntityInterceptor (formally ManagedEntityIdentityInterceptor) is now disabled by
+default. If you need the ManagedEntityInterceptor for clustered failover of conversations, you can
+enable it components.xml:
+
+<core:init>
+   <core:interceptors>
+      <value>org.jboss.seam.core.SynchronizationInterceptor</value>
+      <value>org.jboss.seam.async.AsynchronousInterceptor</value>
+      <value>org.jboss.seam.ejb.RemoveInterceptor</value>
+      <value>org.jboss.seam.persistence.HibernateSessionProxyInterceptor</value>
+      <value>org.jboss.seam.persistence.EntityManagerProxyInterceptor</value>
+      <value>org.jboss.seam.core.MethodContextInterceptor</value>
+      <value>org.jboss.seam.core.EventInterceptor</value>
+      <value>org.jboss.seam.core.ConversationalInterceptor</value>
+      <value>org.jboss.seam.bpm.BusinessProcessInterceptor</value>
+      <value>org.jboss.seam.core.ConversationInterceptor</value>
+      <value>org.jboss.seam.core.BijectionInterceptor</value>
+      <value>org.jboss.seam.transaction.RollbackInterceptor</value>
+      <value>org.jboss.seam.transaction.TransactionInterceptor</value>
+      <value>org.jboss.seam.webservice.WSSecurityInterceptor</value>
+      <value>org.jboss.seam.security.SecurityInterceptor</value>
+      <value>org.jboss.seam.persistence.ManagedEntityInterceptor</value>
+   </core:interceptors>
+</core:init>
+
+
+Asynchronous Exception Handling
+----------------------
+
+All asynchronous invocations are now wrapped in exception handling. By default, any
+exceptions which propagate out of the asynchronous call are caught and logged at
+error level. The reference manual describes how to customize this behaviour. 
+
+
+Redeploy
+--------
+
+The org.jboss.seam.postInitialization event is no longer called on redeploy,
+instead org.jboss.seam.postReInitialization is called.
+
+
+Cache Support
+-------------
+
+Cache support has be rewritten to support JBoss Cache, JBoss POJO Cache, JBoss
+Cache 2 and EHCache. If you are running on JBoss AS 4.2.x JBoss Cache 1.x will 
+be used or on JBoss 5.x JBoss Cache 2 will be installed. You can find more about
+how to configure the cache provider in the reference manual.
+
+The use <s:cache /> is unchanged, but you can no longer inject the pojoCache
+component. Instead you should configure JBoss POJO cache as your cache provider 
+in components.xml:
+
+<cache:jboss-pojo-cache-provider />
+
+and inject it using
+
+@In CacheProvider<PojoCache> cacheProvider;
+
+The CacheProvider provides a Map like interface, and the getDelegate() method
+can be used to retrieve the underling cache. 
+
+
+Dependency changes (Maven)
+--------------------------
+
+The "provided" platform is now JBoss AS 4.2.3, therefore javasisst:javassist and
+dom4j:dom4j are now marked as provided.
+
+
+Seam Application Framework Changes
+----------------------------------
+
+Seam now expects value expressions for a number of properties 
+(entityHome.createdMessage, entityHome.updatedMessage, entityHome.deletedMessage
+and entityQuery.restrictions); if you are using components.xml to configure your
+objects, you don't need to make any changes. If you are extending the objects in
+Java, you just need to create a value expression; for example:
+
+public ValueExpression getCreatedMessage() {
+   return createValueExpression("New person #{person.firstName} #{person.lastName} created");
+}
+

@@ -1,0 +1,3202 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY excel 'the Microsoft&#x00ae; Excel&#x00ae; spreadsheet application'>
+<!ENTITY Excel 'The Microsoft&#x00ae; Excel&#x00ae; spreadsheet application'>
+]>
+
+<chapter id="excel">
+   <title>&Excel;</title>
+   <para>
+      Seam also supports generation of &excel; spreadsheets through the 
+      excellent <ulink url="http://jexcelapi.sourceforge.net/">JExcelAPI
+      </ulink> library. The generated document is compatible with
+      &excel; versions 95, 97, 2000, XP and 2003. Currently a limited 
+      subset of the library functionality is exposed but the ultimate 
+      goal is to be able to do everything the library allows for. Please 
+      refer to the JExcelAPI documentation for more information on 
+      capabilities and limitations.
+   </para>
+
+   <section id="excel.intro">
+      <title>&Excel; support</title>
+      <para>
+         &Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains 
+         the &excel; JSF controls, which are used to construct views that can 
+         render the document, and the DocumentStore component, which serves 
+         the rendered document to the user. To include &excel; support in 
+         your application, include <literal>jboss-seam-excel.jar</literal>
+         in your <literal>WEB-INF/lib</literal> directory along with the
+         <literal>jxl.jar</literal> JAR file. Furthermore, you need to 
+         configure the DocumentStore servlet in your web.xml
+      </para>
+      <para>
+         &Excel; Seam module requires the use of Facelets as the view 
+         technology. Additionally, it requires the use of the seam-ui package.
+      </para>
+      <para>
+         The <literal>examples/excel</literal> project contains an example of
+         &excel; support in action. It demonstrates proper deployment 
+         packaging, and it shows the exposed functionality.
+      </para>
+      <para>
+         Customizing the module to support other kinds of &excel; spreadsheet
+         API's has been made very easy. Implement the <literal>ExcelWorkbook
+         </literal> interface, and register in components.xml.
+	   </para>
+      <programlisting role="XML"><![CDATA[<excel:excelFactory>
+   <property name="implementations">
+      <key>myExcelExporter</key>
+      <value>my.excel.exporter.ExcelExport</value>
+   </property>
+</excel:excelFactory>]]>
+      </programlisting>
+	   <para>
+         and register the excel namespace in the components tag with
+	   </para>
+      <programlisting role="XML"><![CDATA[xmlns:excel="http://jboss.com/products/seam/excel"]]></programlisting>
+	   <para>
+         Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your 
+         own exporter will be used. Default is "jxl", but support for CSV has also been 
+         added, using the type "csv".
+      </para>
+      <para>
+         See <xref linkend="itext.configuration" /> for information on how to configure
+         the document servlet for serving the documents with an .xls extension. 
+      </para>
+      <para>
+         If you are having problems accessing the generated file under IE (especially
+         with https), make sure you are not using too strict restrictions in the browser 
+         (see <ulink url="http://www.nwnetworks.com/iezones.htm/"/>), too strict security
+         constraint in web.xml or a combination of both.
+      </para>
+   </section>
+   <section id="excel.usage">
+      <title>Creating a simple workbook</title>
+      <para>
+         Basic usage of the worksheet support is simple; it is used like a
+         familiar <literal>&lt;h:dataTable&gt;</literal> and you can bind to a
+         <literal>List</literal>, <literal>Set</literal>, 
+         <literal>Map</literal>, <literal>Array</literal> or
+         <literal>DataModel</literal>.
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook xmlns:e="http://jboss.com/products/seam/excel">
+               <e:worksheet>
+                  <e:cell column="0" row="0" value="Hello world!"/>
+               </e:worksheet>
+            </e:workbook>
+        ]]>
+      </programlisting>
+      <para>
+         That's not terribly useful, so lets have a look at a more common case:
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook xmlns:e="http://jboss.com/products/seam/excel">
+               <e:worksheet value="#{data}" var="item">
+                  <e:column>
+                     <e:cell value="#{item.value}"/>
+                  </e:column>
+               </e:worksheet>
+            </e:workbook>
+         ]]>
+      </programlisting>
+      <para>
+         First we have the top-level workbook element which serves as the
+         container and it doesn't have any attributes. The child-element
+         worksheet has two attributes; value=&quot;#{data}&quot; is the
+         EL-binding to the data and var=&quot;item&quot; is the name of the
+         current item. Nested inside the worksheet is a single column and within
+         it you see the cell which is the final bind to the data within the
+         currently iterated item
+      </para>
+      <para>
+         This is all you know to get started dumping your data to worksheets!
+      </para>
+
+   </section>
+   <section id="excel.workbook">
+      <title>Workbooks</title>
+      <para>
+         Workbooks are the top-level parents of worksheets and stylesheet links.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:workbook&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>type</literal>
+                              &#8212; Defines which export module to be used. The
+                              value is a string and can be either "jxl" or
+                              "csv". The default is "jxl".
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>templateURI</literal>
+                              &#8212; A template that should be used as a basis
+                              for the workbook. The value is a string (URI).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>arrayGrowSize</literal>
+                              &#8212; The amount of memory by which to increase
+                              the amount of memory allocated to storing the
+                              workbook data. For processes reading many small
+                              workbooks inside a WAS it might be necessary to
+                              reduce the default size. Default value is 1
+                              megabyte. The value is a number (bytes).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>autoFilterDisabled</literal>
+                              &#8212; Should autofiltering be disabled?. The
+                              value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>cellValidationDisabled</literal>
+                              &#8212; Should cell validation be ignored? The
+                              value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>characterSet</literal>
+                              &#8212; The character set. This is only used when
+                              the spreadsheet is read, and has no effect when
+                              the spreadsheet is written. The value is a string
+                              (character set encoding).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>drawingsDisabled</literal>
+                              &#8212; Should drawings be disabled? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>excelDisplayLanguage</literal>
+                              &#8212; The language in which the generated file
+                              will display. The value is a string (two character
+                              ISO 3166 country code).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>excelRegionalSettings</literal>
+                              &#8212; The regional settings for the generated
+                              excel file. The value is a string (two character
+                              ISO 3166 country code).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>formulaAdjust</literal>
+                              &#8212; Should formulas be adjusted? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>gcDisabled</literal>
+                              &#8212; Should garbage collection be disabled? The
+                              value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>ignoreBlanks</literal>
+                              &#8212; Should blanks be ignored? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>initialFileSize</literal>
+                              &#8212; The initial amount of memory allocated to
+                              store the workbook data when reading a worksheet.
+                              For processes reading many small workbooks
+                              inside a WAS it might be necessary to reduce the
+                              default size. Default value is 5 megabytes. The
+                              value is a number (bytes).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>locale</literal>
+                              &#8212; The locale used by JExcelApi to generate
+                              the spreadsheet. Setting this value has no effect
+                              on the language or region of the generated excel
+                              file. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>mergedCellCheckingDisabled</literal>
+                              &#8212; Should merged cell checking be disabled?
+                              The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>namesDisabled</literal>
+                              &#8212; Should handling of names be disabled? The
+                              value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>propertySets</literal>
+                              &#8212; Should any property sets be enabled (such
+                              as macros) to be copied along with the workbook?
+                              Leaving this feature enabled will result in the
+                              JXL process using more memory. The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>rationalization</literal>
+                              &#8212; Should the cell formats be rationalized
+                              before writing out the sheet? The value is a
+                              boolean. Default is true.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>supressWarnings</literal>
+                              &#8212; Should warnings be suppressed?. Due to the
+                              change in logging in version 2.4, this will now
+                              set the warning behaviour across the JVM
+                              (depending on the type of logger used). The value
+                              is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>
+                                 temporaryFileDuringWriteDirectory
+                              </literal>
+                              &#8212; Used in conjunction with the
+                              <literal>useTemporaryFileDuringWrite</literal>
+                              setting to set the target directory for the
+                              temporary files. This value can be NULL, in which
+                              case the normal system default temporary directory
+                              is used instead. The value is a string (the
+                              directory to which temporary files should be
+                              written).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>useTemporaryFileDuringWrite</literal>
+                              &#8212; Should a temporary file is used during the
+                              generation of the workbook. If not set, the
+                              workbook will take place entirely in memory.
+                              Setting this flag involves an assessment of the
+                              trade-offs between memory usage and performance.
+                              The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>workbookProtected</literal>
+                              &#8212; Should the workbook be protected? The value
+                              is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>filename</literal>
+                              &#8212; The filename to use for the download. The value
+                              is a string. Please note that if you map the DocumentServlet
+                              to some pattern, this file extension must also match.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>exportKey</literal>
+                              &#8212; A key under which to store the resulting data
+                              in a DocumentData object under the event scope. If used,
+                              there is no redirection.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elements</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:link/&gt;</literal>
+                              &#8212; Zero or more stylesheet links (see
+                              <xref linkend="excel.fontsandlayout.link" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:worksheet/&gt;</literal>
+                              &#8212; Zero or more worksheets (see
+                              <xref linkend="excel.worksheet" />
+                              ).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>
+                  <e:cell value="Hello World" row="0" column="0"/>
+               </e:worksheet>
+            <e:workbook>
+         ]]>
+      </programlisting>
+      <para>defines a workbook with a worksheet and a greeting at A1</para>
+
+   </section>
+   <section id="excel.worksheet">
+      <title>Worksheets</title>
+      <para>
+         Worksheets are the children of workbooks and the parent of columns and
+         worksheet commands. They can also contain explicitly placed cells,
+         formulas, images and hyperlinks. They are the pages that make up the
+         workbook.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:worksheet&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>value</literal>
+                              &#8212; An EL-expression to the backing data. The
+                              value is a string. The target of this expression is
+                              examined for an Iterable. Note that if the target is a Map,
+                              the iteration is done over the Map.Entry entrySet(), so you
+                              should use a .key or .value to target in your references. 
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>var</literal>
+                              &#8212; The current row iterator variable name that
+                              can later be referenced in cell value attributes.
+                              The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>name</literal>
+                              &#8212; The name of the worksheet. The value is a
+                              string. Defaults to Sheet# where # is the
+                              worksheet index. If the given worksheet name
+                              exists, that sheet is selected. This can be used
+                              for merging several data sets into a single
+                              worksheet, just define the same name for them
+                              (using
+                              <literal>startRow</literal>
+                              and
+                              <literal>startCol</literal>
+                              to make sure that they don't occupy the same
+                              space).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>startRow</literal>
+                              &#8212; Defines the starting row for the data. The
+                              value is a number. Used for placing the data in
+                              other places than the upper-left corner
+                              (especially useful if having multiple data sets
+                              for a single worksheet). The defaults is 0.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>startColumn</literal>
+                              &#8212; Defines the starting column for the data.
+                              The value is a number. Used for placing the data
+                              in other places than the upper-left corner
+                              (especially useful if having multiple data sets
+                              for a single worksheet). The default is 0.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>automaticFormulaCalculation</literal>
+                              &#8212; Should formulas be automatically
+                              calculated? The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>bottomMargin</literal>
+                              &#8212; The bottom margin. The value is a number
+                              (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>copies</literal>
+                              &#8212; The number of copies. The value is a
+                              number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>defaultColumnWidth</literal>
+                              &#8212; The default column width. The value is a
+                              number (characters * 256).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>defaultRowHeight</literal>
+                              &#8212; The default row height. The value is a
+                              number (1/20ths of a point).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>displayZeroValues</literal>
+                              &#8212; Should zero-values be displayed? The value
+                              is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>fitHeight</literal>
+                              &#8212; The number of pages vertically that this
+                              sheet will be printed into. The value is a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>fitToPages</literal>
+                              &#8212; Should printing be fit to pages? The value
+                              is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>fitWidth</literal>
+                              &#8212; The number of pages widthwise which this
+                              sheet should be printed into. The value is a
+                              number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>footerMargin</literal>
+                              &#8212; The margin for any page footer. The value
+                              is a number (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>headerMargin</literal>
+                              &#8212; The margin for any page headers. The value
+                              is a number (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>hidden</literal>
+                              &#8212; Should the worksheet be hidden? The value
+                              is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>horizontalCentre</literal>
+                              &#8212; Should the worksheet be centered
+                              horizontally? The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>horizontalFreeze</literal>
+                              &#8212; The row at which the pane is frozen
+                              vertically. The value is a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>horizontalPrintResolution</literal>
+                              &#8212; The horizontal print resolution. The value
+                              is a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>leftMargin</literal>
+                              &#8212; The left margin. The value is a number
+                              (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>normalMagnification</literal>
+                              &#8212; The normal magnification factor (not zoom or
+                              scale factor). The value is a number (percentage).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>orientation</literal>
+                              &#8212; The paper orientation for printing this
+                              sheet. The value is a string that can be either
+                              "landscape" or "portrait".
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>pageBreakPreviewMagnification</literal>
+                              &#8212; The page break preview magnification factor
+                              (not zoom or scale factors). The value is a number
+                              (percentage).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>pageBreakPreviewMode</literal>
+                              &#8212; Show page in preview mode? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>pageStart</literal>
+                              &#8212; The page number at which to commence
+                              printing. The value is a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>paperSize</literal>
+                              &#8212; The paper size to be used when printing
+                              this sheet. The value is a string that can be one
+                              of "a4", "a3", "letter", "legal" etc (see
+                              <ulink
+                                 url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/PaperSize.html">
+                                 jxl.format.PaperSize
+                              </ulink>
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>password</literal>
+                              &#8212; The password for this sheet. The value is a
+                              string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>passwordHash</literal>
+                              &#8212; The password hash - used only when copying
+                              sheets. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>printGridLines</literal>
+                              &#8212; Should grid lines be printed? The value is
+                              a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>printHeaders</literal>
+                              &#8212; Should headers be printed? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>sheetProtected</literal>
+                              &#8212; Should the sheet be protected (read-only)?
+                              The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>recalculateFormulasBeforeSave</literal>
+                              &#8212; Should the formulas be re-calculated when
+                              the sheet is saved? The value is a boolean. Default value is false.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>rightMargin</literal>
+                              &#8212; The right margin. The value is a number
+                              (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>scaleFactor</literal>
+                              &#8212; The scale factor for this sheet to be used
+                              when printing. The value is a number (percent).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>selected</literal>
+                              &#8212; Should the sheet be selected when the
+                              workbook opens? The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>showGridLines</literal>
+                              &#8212; Should gridlines be shown? The value is a
+                              boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>topMargin</literal>
+                              &#8212; The top margin. The value is a number
+                              (inches).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>verticalCentre</literal>
+                              &#8212; Center verically? The value is a boolean.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>verticalFreeze</literal>
+                              &#8212; The row at which the pane is frozen
+                              vertically. The value is a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>verticalPrintResolution</literal>
+                              &#8212; The vertical print resolution. The value is
+                              a number.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>zoomFactor</literal>
+                              &#8212; The zoom factor. Do not confuse zoom factor
+                              (which relates to the on screen view) with scale
+                              factor (which refers to the scale factor when
+                              printing). The value is a number (percentage).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:printArea/&gt;</literal>
+                              &#8212; Zero or more print area definitions (see
+                              <xref linkend="excel.printareatitles" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:printTitle/&gt;</literal>
+                              &#8212; Zero or more print title definitions (see
+                              <xref linkend="excel.printareatitles" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:headerFooter/&gt;</literal>
+                              &#8212; Zero or more header/footer definitions
+                              (see
+                              <xref linkend="excel.headersfooters" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Zero or more worksheet commands (see
+                              <xref linkend="excel.worksheetcommands" />
+                              ).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>header</literal>&#8212; Contents that will
+                              be placed at the top of the data block, above the 
+                              column headers (if any).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>footer</literal>&#8212; Contents that will
+                              be placed at the bottom of the data block, below the 
+                              column footers (if any).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet name="foo" startColumn="1" startRow="1">
+	              <e:column value="#{personList}" var="person">
+	                 <f:facet name="header">
+	                    <e:cell value="Last name"/>
+	                 </f:facet>
+                     <e:cell value="#{person.lastName}"/>
+                  </e:column>
+               </e:worksheet>
+            <e:workbook>
+         ]]>
+      </programlisting>
+      <para>defines a worksheet with the name "foo", starting at B2.</para>
+   </section>
+   <section id="excel.columns">
+      <title>Columns</title>
+      <para>
+         Columns are the children of worksheets and the parents of cells,
+         images, formulas and hyperlinks. They are the structure that control
+         the iteration of the worksheet data. See <xref linkend="excel.fontsandlayout.columnsettings"/>
+         for formatting.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:column&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:cell/&gt;</literal>
+                              &#8212; Zero or more cells (see
+                              <xref linkend="excel.cells" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:formula/&gt;</literal>
+                              &#8212; Zero or more formulas (see
+                              <xref linkend="excel.formulas" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:image/&gt;</literal>
+                              &#8212; Zero or more images (see
+                              <xref linkend="excel.images" />
+                              ).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>&lt;e:hyperLink/&gt;</literal>
+                              &#8212; Zero or more hyperlinks (see
+                              <xref linkend="excel.hyperlinks" />
+                              ).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>header</literal>
+                              &#8212; This facet can/will contain one
+                              <literal>&lt;e:cell&gt;</literal>
+                              ,
+                              <literal>&lt;e:formula&gt;</literal>
+                              ,
+                              <literal>&lt;e:image&gt;</literal>
+                              or
+                              <literal>&lt;e:hyperLink&gt;</literal>
+                              that will be used as header for the column.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>footer</literal>
+                              &#8212; This facet can/will contain one
+                              <literal>&lt;e:cell&gt;</literal>
+                              ,
+                              <literal>&lt;e:formula&gt;</literal>
+                              ,
+                              <literal>&lt;e:image&gt;</literal>
+                              or
+                              <literal>&lt;e:hyperLink&gt;</literal>
+                              that will be used as footer for the column.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+	           <e:worksheet>
+	              <e:column value="#{personList}" var="person">
+	                 <f:facet name="header">
+	                    <e:cell value="Last name"/>
+	                 </f:facet>
+	                 <e:cell value="#{person.lastName}"/>
+	              </e:column>
+	           </e:worksheet>
+            <e:workbook>
+         ]]>
+      </programlisting>
+      <para>defines a column with a header and an iterated output</para>
+
+   </section>
+   <section id="excel.cells">
+      <title>Cells</title>
+      <para>
+         Cells are nested within columns (for iteration) or inside worksheets
+         (for direct placement using the <literal>column</literal> and
+         <literal>row</literal> attributes) and are responsible for outputting 
+         the value (usually through an EL-expression involving the
+         <literal>var</literal>-attribute of the datatable. See 
+         <xref linkend="excel.fontsandlayout.cells"/>
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:cell&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>column</literal>
+                              &#8212; The column where to place the cell. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>row</literal>
+                              &#8212; The row where to place the cell. The
+                              default is the internal counter. The value is
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>value</literal>
+                              &#8212; The value to display. Usually an
+                              EL-expression referencing the var-attribute of the
+                              containing datatable. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>comment</literal>
+                              &#8212; A comment to add to the cell. The value is
+                              a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>commentHeight</literal>
+                              &#8212; The height of the comment. The value is a
+                              number (in pixels).
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>commentWidth</literal>
+                              &#8212; A width of the comment. The value is a
+                              number (in pixels).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Zero or more validation conditions (see
+                              <xref linkend="excel.cells.validation" />
+                              ).
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>         
+                  <e:column value="#{personList}" var="person">
+                     <f:facet name="header">
+	                    <e:cell value="Last name"/>
+	                 </f:facet>
+	                 <e:cell value="#{person.lastName}"/>
+	              </e:column>
+               </e:worksheet>
+            </e:workbook>     
+         ]]>
+      </programlisting>
+      <para>defines a column with a header and an iterated output</para>
+      <section id="excel.cells.validation">
+         <title>Validation</title>
+         <para>
+            Validations are nested inside cells or formulas.
+            They add constrains for the cell data.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:numericValidation&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>value</literal>
+                                 &#8212; The limit (or lower limit where
+                                 applicable) of the validation. The value is a
+                                 number.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>value2</literal>
+                                 &#8212; The upper limit (where applicable) of
+                                 the validation. The value is a number.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>condition</literal>
+                                 &#8212; The validation condition. The value is a
+                                 string.
+                                 <itemizedlist>
+                                    <listitem>
+                                       <para>
+                                          "equal" - requires the cell value to
+                                          match the one defined in the
+                                          value-attribute
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "greater_equal" - requires the cell 
+                                          value to be greater than or equal to 
+                                          the value defined in the 
+                                          value-attribute
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "less_equal" - requires the cell value
+                                          to be less than or equal to the value 
+                                          defined in the value-attribute
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "less_than" - requires the cell value
+                                          to be less than the value defined in
+                                          the value-attribute
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "not_equal" - requires the cell value
+                                          to not match the one defined in the
+                                          value-attribute
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "between" - requires the cell value to
+                                          be between the values defined in the
+                                          value- and value2 attributes
+                                       </para>
+                                    </listitem>
+                                    <listitem>
+                                       <para>
+                                          "not_between" - requires the cell
+                                          value not to be between the values
+                                          defined in the value- and value2
+                                          attributes
+                                       </para>
+                                    </listitem>
+                                 </itemizedlist>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>
+                     <e:column value="#{personList}" var="person">                   
+                        <e:cell value="#{person.age">
+                           <e:numericValidation condition="between" value="4" 
+                              value2="18"/>
+                        </e:cell>
+                     </e:column>
+                  </e:worksheet>
+               </e:workbook>            
+            ]]>
+         </programlisting>
+         <para>
+            adds numeric validation to a cell specifying that the value must be
+            between 4 and 18.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:rangeValidation&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>startColumn</literal>
+                                 &#8212; The starting column of the range of
+                                 values to validate against. The value is a
+                                 number.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>startRow</literal>
+                                 &#8212; The starting row of the range of values
+                                 to validate against. The value is a number.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endColumn</literal>
+                                 &#8212; The ending column of the range of values
+                                 to validate against. The value is a number.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endRow</literal>
+                                 &#8212; The ending row of the range of values to
+                                 validate against. The value is a number.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>
+                     <e:column value="#{personList}" var="person">                   
+	                    <e:cell value="#{person.position">
+                           <e:rangeValidation startColumn="0" startRow="0" 
+                              endColumn="0" endRow="10"/>
+                        </e:cell>
+                     </e:column>
+                  </e:worksheet>
+               </e:workbook>            
+            ]]>
+         </programlisting>
+         <para>
+            adds validation to a cell specifying that the value must be in the
+            values specified in range A1:A10.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:listValidation&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>
+                                    Zero or more list validation items.
+                                 </literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <para>
+            e:listValidation is a just a container for holding multiple
+            e:listValidationItem tags.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:listValidationItem&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>value</literal>
+                                 &#8212; A values to validate against.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>
+                     <e:column value="#{personList}" var="person">            
+                        <e:cell value="#{person.position">
+                           <e:listValidation>
+                              <e:listValidationItem value="manager"/>
+                              <e:listValidationItem value="employee"/>
+                           </e:listValidation>
+                        </e:cell>
+                     </e:column>
+                  </e:worksheet>
+               </e:workbook>              
+            ]]>
+         </programlisting>
+         <para>
+            adds validation to a cell specifying that the value must be
+            "manager" or "employee".
+         </para>
+      </section>
+      <section id="excel.cells.formatmasks">
+         <title>Format masks</title>
+         <para>
+            Format masks are defined in the mask attribute in 
+            cells or formulas. There are two 
+            types of format masks, one for numbers and one for dates
+         </para>
+         <section id="excel.formatmasks.numbers">
+            <title>Number masks</title>
+            <para>
+               When encountering a format mask, first it is checked if it is in
+               internal form, e.g "format1", "accounting_float" and so on (see
+               <ulink
+                  url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/NumberFormats.html">
+                  jxl.write.NumberFormats
+               </ulink>
+               ).
+            </para>
+            <para>
+               if the mask is not in the list, it is treated as a custom mask
+               (see
+               <ulink
+                  url="http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html">
+                  java.text.DecimalFormat
+               </ulink>
+               ). e.g "0.00" and automatically converted to the closest match.
+            </para>
+         </section>
+         <section id="excel.formatmasks.dates">
+            <title>Date masks</title>
+            <para>
+               When encountering a format mask, first it is checked if it is in
+               internal form, e.g "format1", "format2" and so on (see
+               <ulink
+                  url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/DecimalFormats.html">
+                  jxl.write.DecimalFormats
+               </ulink>
+               ).
+            </para>
+            <para>
+               if the mask is not in the list, it is treated as a custom mask
+               (see
+               <ulink
+                  url="http://java.sun.com/javase/6/docs/api/java/text/DateFormat.html">
+                  java.text.DateFormat
+               </ulink>
+               )., e.g "dd.MM.yyyy" and automatically converted to the closest
+               match.
+            </para>
+         </section>
+      </section>
+   </section>
+   <section id="excel.formulas">
+      <title>Formulas</title>
+      <para>
+         Formulas are nested within columns (for iteration) or inside worksheets
+         (for direct placement using the <literal>column</literal> and
+         <literal>row</literal> attributes) and add calculations or functions to 
+         ranges of cells. They are essentially cells, see 
+         <xref linkend="excel.cells" /> for available attributes. Note that they 
+         can apply templates and have own font definitions etc just as normal 
+         cells.
+      </para>
+      <para>
+         The formula of the cell is placed in the <literal>value</literal>
+         -attribute as a normal &excel; notation. Note that when doing 
+         cross-sheet formulas, the worksheets must exist before referencing 
+         a formula against them. The value is a string.
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet name="fooSheet">
+                  <e:cell column="0" row="0" value="1"/>
+               </e:worksheet>
+               <e:worksheet name="barSheet">
+                  <e:cell column="0" row="0" value="2"/>
+                  <e:formula column="0" row="1" 
+                     value="fooSheet!A1+barSheet1!A1">
+                     <e:font fontSize="12"/>
+                  </e:formula>
+               </e:worksheet>
+            </e:workbook>         
+         ]]>
+      </programlisting>
+      <para>
+         defines an formula in B2 summing cells A1 in worksheets FooSheet and
+         BarSheet
+      </para>
+   </section>
+   <section id="excel.images">
+      <title>Images</title>
+      <para>
+         Images are nested within columns (for iteration) or inside worksheets
+         (for direct placement using the <literal>startColumn/startRow</literal>
+         and <literal>rowSpan/columnSpan</literal> attributes). The spans are 
+         optional and if omitted, the image will be inserted without resizing.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:image&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>startColumn</literal>
+                              &#8212; The starting column of the image. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>startRow</literal>
+                              &#8212; The starting row of the image. The default
+                              is the internal counter. The value is a number.
+                              Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>columnSpan</literal>
+                              &#8212; The column span of the image. The default
+                              is one resulting in the default width of the
+                              image. The value is a float.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>rowSpan</literal>
+                              &#8212; The row span of the image. The default is
+                              the one resulting in the default height of the
+                              image. The value is a float.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>URI</literal>
+                              &#8212; The URI to the image. The value is a
+                              string.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>
+                  <e:image startRow="0" startColumn="0" rowSpan="4" 
+                     columnSpan="4" URI="http://foo.org/logo.jpg"/>
+               </e:worksheet>
+            </e:workbook>           
+         ]]>
+      </programlisting>
+      <para>defines an image in A1:E5 based on the given data</para>
+
+   </section>
+   <section id="excel.hyperlinks">
+      <title>Hyperlinks</title>
+      <para>
+         Hyperlinks are nested within columns (for iteration) or inside
+         worksheets (for direct placement using the 
+         <literal>startColumn/startRow</literal> and
+         <literal>endColumn/endRow</literal> attributes). They add link 
+         navigation to URIs
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:hyperlink&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>startColumn</literal>
+                              &#8212; The starting column of the hyperlink. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>startRow</literal>
+                              &#8212; The starting row of the hyperlink. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>endColumn</literal>
+                              &#8212; The ending column of the hyperlink. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>endRow</literal>
+                              &#8212; The ending row of the hyperlink. The
+                              default is the internal counter. The value is a
+                              number. Note that the value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>URL</literal>
+                              &#8212; The URL to link. The value is a string.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>description</literal>
+                              &#8212; The description of the link. The value is a
+                              string.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>
+                  <e:hyperLink startRow="0" startColumn="0" endRow="4" 
+                     endColumn="4" URL="http://seamframework.org" 
+                     description="The Seam Framework"/>
+               </e:worksheet>
+            </e:workbook>          
+         ]]>
+      </programlisting>
+      <para>
+         defines a described hyperlink pointing to SFWK in the area A1:E5
+      </para>
+   </section>
+   <section id="excel.headersfooters">
+      <title>Headers and footers</title>
+      <para>
+         Headers and footers are childrens of worksheets and contain facets which
+         in turn contains a string with commands that are parsed.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:header&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>left</literal>
+                              &#8212; The contents of the left header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>center</literal>
+                              &#8212; The contents of the center header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>right</literal>
+                              &#8212; The contents of the right header/footer
+                              part.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:footer&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>left</literal>
+                              &#8212; The contents of the left header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>center</literal>
+                              &#8212; The contents of the center header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>right</literal>
+                              &#8212; The contents of the right header/footer
+                              part.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <para>
+         The content of the facets is a string that can contain various #-delimited
+         commands as follows:
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>#date#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the current date</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#page_number#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the current page number</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#time#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the current time</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#total_pages#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the total page count</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#worksheet_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the worksheet name</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#workbook_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the workbook name</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#bold#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles bold font, use another #bold# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#italics#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles italic font, use another #italic# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#underline#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles underlining, use another #underline# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#double_underline#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles double underlining, use another #double_underline# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#outline#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles outlined font, use another #outline# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#shadow#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles shadowed font, use another #shadow# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#strikethrough#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles strikethrough font, use another #strikethrough# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#subscript#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles subscripted font, use another #subscript# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#superscript#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles superscript font, use another #superscript# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#font_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Sets font name, used like #font_name=Verdana"
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#font_size#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Sets font size, use like #font_size=12#
+                     </para>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>         
+                  <e:header>
+                     <f:facet name="left">
+                        This document was made on #date# and has #total_pages# pages
+                     </f:facet>
+                     <f:facet name="right">
+                        #time#
+                     </f:facet>
+                  </e:header>
+               <e:worksheet>
+            </e:workbook>
+         ]]>
+      </programlisting>
+   </section>
+   <section id="excel.printareatitles">
+      <title>Print areas and titles</title>
+      <para>
+         Print areas and titles childrens of worksheets and worksheet templates
+         and provide... print areas and titles.
+      </para>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:printArea&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>firstColumn</literal>
+                              &#8212; The column of the top-left corner of the
+                              area. The parameter is a number. Note that the
+                              value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>firstRow</literal>
+                              &#8212; The row of the top-left corner of the area.
+                              The parameter is a number. Note that the value is
+                              0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>lastColumn</literal>
+                              &#8212; The column of the bottom-right corner of
+                              the area. The parameter is a number. Note that the
+                              value is 0-based.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>lastRow</literal>
+                              &#8212; The row of the bottom-right corner of the
+                              area. The parameter is a number. Note that the
+                              value is 0-based.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <programlisting role="XML">
+         <![CDATA[
+            <e:workbook>
+               <e:worksheet>            
+                  <e:printTitles firstRow="0" firstColumn="0" 
+                     lastRow="0" lastColumn="9"/>
+                  <e:printArea firstRow="1" firstColumn="0" 
+                     lastRow="9" lastColumn="9"/>
+               </e:worksheet>
+            </e:workbook>
+         ]]>
+      </programlisting>
+      <para>
+         defines a print title between A1:A10 and a print area between B2:J10.
+      </para>
+   </section>
+   <section id="excel.worksheetcommands">
+      <title>Worksheet Commands</title>
+      <para>
+         Worksheet commands are children of workbooks and are usually executed
+         only once.
+      </para>
+      <section id="excel.worksheetcommands.grouping">
+         <title>Grouping</title>
+         <para>Provides grouping of columns and rows.</para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:groupRows&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>startRow</literal>
+                                 &#8212; The row to start the grouping at. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endRow</literal>
+                                 &#8212; The row to end the grouping at. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>collapse</literal>
+                                 &#8212; Should the grouping be collapsed
+                                 initially? The value is a boolean.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elements</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:groupColumns&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>startColumn</literal>
+                                 &#8212; The column to start the grouping at. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endColumn</literal>
+                                 &#8212; The column to end the grouping at. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>collapse</literal>
+                                 &#8212; Should the grouping be collapsed
+                                 initially? The value is a boolean.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elements</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>            
+                     <e:groupRows startRow="4" endRow="9" collapse="true"/>
+                     <e:groupColumns startColumn="0" endColumn="9" collapse="false"/>
+                  </e:worksheet>
+               </e:workbook>
+            ]]>
+         </programlisting>
+         <para>
+            groups rows 5 through 10 and columns 5 through 10 so that the rows
+            are initially collapsed (but not the columns).
+         </para>
+
+      </section>
+      <section id="excel.worksheetcommands.pagebreaks">
+         <title>Page breaks</title>
+         <para>Provides page breaks</para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:rowPageBreak&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>row</literal>
+                                 &#8212; The row to break at. The value is a
+                                 number. Note that the value is 0-based.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elements</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>            
+                     <e:rowPageBreak row="4"/>
+                  </e:worksheet>
+               </e:workbook>            
+            ]]>
+         </programlisting>
+         <para>breaks page at row 5.</para>
+      </section>
+      <section id="excel.worksheetcommands.merging">
+         <title>Merging</title>
+         <para>Provides cell merging</para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:mergeCells&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>startRow</literal>
+                                 &#8212; The row to start the merging from. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>startColumn</literal>
+                                 &#8212; The column to start the merging from.
+                                 The value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endRow</literal>
+                                 &#8212; The row to end the merging at. The value
+                                 is a number. Note that the value is 0-based.
+                              </para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 <literal>endColumn</literal>
+                                 &#8212; The column to end the merging at. The
+                                 value is a number. Note that the value is
+                                 0-based.
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elements</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:worksheet>
+                     <e:mergeCells startRow="0" startColumn="0" endRow="9" endColumn="9"/>
+                  </e:worksheet>
+               </e:workbook>            
+            ]]>
+         </programlisting>
+         <para>merges the cells in the range A1:J10</para>
+      </section>
+   </section>
+   <section id="excel.datatableexporter">
+      <title>Datatable exporter</title>
+      <para>
+         If you prefer to export an existing JSF datatable instead of writing a
+         dedicated XHTML document, this can also be achieved easily by executing
+         the <literal>org.jboss.seam.excel.excelExporter.export</literal>
+         component, passing in the id of the datatable as an Seam EL parameter.
+         Consider you have a data table
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <h:form id="theForm">
+               <h:dataTable id="theDataTable" value="#{personList.personList}" 
+                  var="person">
+                  ...
+               </h:dataTable>
+            </h:form>
+            ]]>
+      </programlisting>
+      <para>
+         that you want to view as an
+         <trademark class="registered">Microsoft</trademark>
+         <trademark class="registered">Excel</trademark>
+         spreadsheet. Place a
+      </para>
+      <programlisting role="XML">
+         <![CDATA[
+            <h:commandLink 
+               value="Export" 
+               action="#{excelExporter.export('theForm:theDataTable')}"
+            />
+         ]]>
+      </programlisting>
+      <para>
+         in the form and you're done. You can of course execute the exporter
+         with a button, s:link or other preferred method. There are also plans
+         for a dedicated export tag that can be placed inside the datatable tag
+         so you won't have to refer to the datatable by ID.
+      </para>
+      <para>
+         See <xref linkend="excel.fontsandlayout"/> for formatting.
+      </para>
+   </section>
+   <section id="excel.fontsandlayout">
+      <title>Fonts and layout</title>
+      <para>
+         Controlling how the output look is done with a combination of CSSish
+         style attributes and tag attributes. The most common ones (fonts, borders,
+         backgrounds etc) are CSS and some more general settings are in tag attributes. 
+      </para>
+      <para>
+         The CSS attributes cascade down from parent to children and within one tag
+         cascades over the CSS classes referenced in the <literal>styleClass</literal>
+         attributes and finally over the CSS attributes defined in the 
+         <literal>style</literal> attribute. You can place them pretty much anywhere but
+         e.g. placing a column width setting in a cell nested within that column makes
+         little sense.
+      </para>
+      <section id="excel.fontsandlayout.link">
+         <title>Stylesheet links</title>
+         <para>
+            External stylesheets are references with the e:link tag. They are placed as
+            children of the workbook.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>
+                           <literal>&lt;e:link&gt;</literal>
+                        </para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>URL</literal>
+                                 &#8212; The URL to the stylesheet
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:link URL="/css/excel.css"/>
+               </e:workbook>           
+            ]]>
+         </programlisting>
+         <para>References a stylesheet that can be found at /css/excel.css</para>
+      </section>
+      
+      <section id="excel.fontsandlayout.fonts">
+         <title>Fonts</title>
+         <para>
+            This group of XLS-CSS attributes define a font and its attributes
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-family</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The name of the font. Make sure that it's one that is
+                           supported by your system. 
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-size</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>The font size. Use a plain number</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The color of the font (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-bold</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the font be bold? Valid values are "true" and
+                           "false"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-italic</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the font be italic? Valid values are "true"
+                           and "false"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-script-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The script style of the font (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/ScriptStyle.html">
+                              jxl.format.ScriptStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-underline-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The underline style of the font (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/UnderlineStyle.html">
+                              jxl.format.UnderlineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-struck-out</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the font be struck out? Valid values are
+                           "true" and "false"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                          A shorthand notation for setting all the values. Place
+                          the font name last and use tick marks for fonts with
+                          spaces in them, e.g. 'Times New Roman'. Use "italic", "bold" 
+                          and "struckout". 
+                        </para>
+                        <para>
+                          Example style="xls-font: red bold italic 22 Verdana"
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.borders">
+         <title>Borders</title>
+         <para>
+            This group of XLS-CSS attributes defines the borders of the cell
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-left-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the left edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-left-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the left edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-left</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting line style and color of the left edge
+                           of the cell, e.g style="xls-border-left: thick red"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the top edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the top edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting line style and color of the top edge
+                           of the cell, e.g style="xls-border-top: red thick"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the right edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the right edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting line style and color of the right edge
+                           of the cell, e.g style="xls-border-right: thick red"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the bottom edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the bottom edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting line style and color of the bottom edge
+                           of the cell, e.g style="xls-border-bottom: thick red"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting line style and color for all edges
+                           of the cell, e.g style="xls-border: thick red"
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>         
+      </section>
+      <section id="excel.fontsandlayout.background">
+         <title>Background</title>
+         <para>
+            This group of XLS-CSS attributes defines the background of the cell
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-background-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The color of the background (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-background-pattern</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The pattern of the background (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html">
+                              jxl.format.Pattern
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-background</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting the background color and pattern. See above for rules.
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.columnsettings">
+         <title>Column settings</title>
+         <para>
+            This group of XLS-CSS attributes defines the column widths etc.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-width</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The width of the column. Use largeish values (~5000) to start with.
+                           Used by the e:column in xhtml mode.
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-widths</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The width of the column. Use largeish values (~5000) to start with.
+                           Used by the excel exporter, placed in the datatable style attribute.
+                           Use numerical values or * to bypass a column.
+                        </para>
+                        <para>
+                           Example style="xls-column-widths: 5000, 5000, *, 10000"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-autosize</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should an attempt be made to autosize the column? Valid values
+                           are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-hidden</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the column be hidden? Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-export</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the column be shown in export? Valid values are "true" and "false". Default is "true".
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.cellsettings">
+         <title>Cell settings</title>
+         <para>
+            This group of XLS-CSS attributes defines the cell properties
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-alignment</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The alignment of the cell value (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Alignment.html">
+                              jxl.format.Alignment
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-force-type</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The forced type of the cell data. The value is a string that can be one 
+                           of "general", "number", "text", "date", "formula" or "bool". The type 
+                           is automatically detected so there is rarely any use for this attribute.
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-format-mask</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The format mask of the cell, see <xref linkend="excel.cells.formatmasks" />
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-indentation</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The indentation of the cell value. The value is numeric.
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-locked</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the cell be locked. Use with workbook level locked. 
+                           Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-orientation</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The orientation of the cell value (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Orientation.html">
+                              jxl.format.Orientation
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-vertical-alignment</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The vertical alignment of the cell value (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment.html">
+                              jxl.format.VerticalAlignment
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-shrink-to-fit</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the cell values shrink to fit?
+                           Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-wrap</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the cell wrap with newlines?
+                           Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.datatableexporter">
+         <title>The datatable exporter</title>
+         <para>
+            The datatable exporter uses the same xls-css attributes as the xhtml
+            document with the exception that column widths are defined with the 
+            <literal>xls-column-widths</literal> attribute on the datatable (since
+            the UIColumn doesn't support the style or styleClass attributes).
+         </para>
+      </section>
+      <section id="excel.fontsandlayout.examples">
+         <title>Layout examples</title>
+         <para>
+            TODO
+         </para>
+      </section>
+      <section id="excel.fontsandlayout.limitations">
+         <title>Limitations</title>
+         <para>
+            In the current version there are some known limitations regarding 
+            CSS support
+         </para>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  When using .xhtml documents, stylesheets must be referenced
+                  through the <literal>&lt;e:link&gt;</literal> tag
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  When using the datatable exporter, CSS must be entered through
+                  style-attributes, external stylesheets are not supported 
+               </para>
+            </listitem>
+         </itemizedlist>
+      </section>
+   </section>
+   <section id="excel.i18n">
+      <title>Internationalization</title>
+      <para>
+        There are only two resources bundle keys used, both for invalid data format and both take a
+        parameter (the invalid value)
+      </para>
+      <itemizedlist>
+         <listitem>
+         	<para>
+         		<literal>org.jboss.seam.excel.not_a_number</literal>
+                &#8212; When a value thought to be a number could not be treated as such
+            </para>
+          </listitem>
+          <listitem>
+             <para>
+            	<literal>org.jboss.seam.excel.not_a_date</literal>
+                &#8212; When a value thought to be a date could not be treated as such
+            </para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section id="excel.links">
+      <title>Links and further documentation</title>
+      <para>
+         The core of the &excel; functionality is based on the excellent 
+         JExcelAPI library which can be found on 
+         <ulink url="http://jexcelapi.sourceforge.net">http://jexcelapi.sourceforge.net/</ulink>
+         and most features and possible limitations are inherited from here.
+      </para>
+      <para>
+         If you use the forum or mailing list, please remember that they don't
+         know anything about Seam and the usage of their library, any issues are
+         best reported in the JBoss Seam JIRA under the "excel" module.
+      </para>
+   </section>
+</chapter>

@@ -1,0 +1,1236 @@
+<chapter id="websphere">
+   <title>Seam on IBM's Websphere AS</title>
+   
+   <para>Websphere AS V7 is IBM's application server offering. This release is
+      fully Java EE 5 certified.</para>
+   
+   <para>First we will go over some basic information about the Websphere AS
+      environment that we used for these examples. We will
+      go over the details of those steps with the JEE5 booking example. We will also deploy
+      the JPA example application. </para>
+   
+   <section>
+      <title>Websphere AS environment and deployment information</title>
+      
+      <para>Websphere AS is a commercial product and so we will not discuss the
+         details of its installation other than to say follow the directions
+         provided by your particular installation type and license. This
+         section will detail the exact server versions used, installation tips,
+         and some custom properties that are needed for all of the
+         examples.</para>
+      
+      <section>
+         <title>Installation versions</title>
+         <para>All of the examples and information in this chapter are based on
+            the version V7 of Websphere AS at the time of this writing.
+            <itemizedlist>
+               <listitem>
+                  <para><ulink
+                        url="http://www.ibm.com/developerworks/downloads/ws/was">
+                     Websphere Application Server V7</ulink></para>                     
+               </listitem>
+            </itemizedlist> </para>
+         
+         <para>After installing Websphere AS, create server profile with Profile Management Tool, if you
+         	didn't create profile in installation process.
+         </para> 
+      </section>
+                
+   </section>
+   
+   <section id="jee5-websphere-section">
+      <title> The <literal>jee5/booking</literal> example </title>
+      
+      <para> The <literal>jee5/booking</literal> example is based on the Hotel
+         Booking example (which runs on JBoss AS). Out of the box it is designed 
+         to run on Glassfish, but with the steps below it can be deployed to
+         Websphere. It is located in the
+         <literal>$SEAM_DIST/examples/jee5/booking</literal> directory.
+         </para>
+      
+      <section>
+         <title>Configuration file changes</title>
+         
+         <para>Below are the configuration file changes that are need to the base
+            example.</para>
+         
+         <variablelist>
+            <varlistentry>
+               <term>
+                  <literal>resources/WEB-INF/components.xml</literal>
+               </term>
+               <listitem>
+                  <para>We need to change the way that we look up EJBs for
+                     WAS. We need to remove the
+                     <literal>/local</literal> from the end of the
+                     <literal>jndi-pattern</literal> attribute. It should
+                     look like this: </para>
+                  
+                  
+                  <programlisting role="XML"><![CDATA[
+<core:init jndi-pattern="java:comp/env/jboss-seam-jee5/#{ejbName}" debug="true"/>
+                  ]]></programlisting>
+               </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+               <term>
+                  <literal>resources/META-INF/ejb-jar.xml</literal>
+               </term>
+               <listitem>
+                  <para>We need to replace the /local string from <literal>ejb-ref-name</literal>. 
+                  See at the following final code:</para>
+                  
+                  <programlisting role="XML"><![CDATA[
+   <enterprise-beans>
+      <!-- EJB reference required when one Seam EJB component references another Seam EJB component using @In -->
+      <!-- Not required if you inject using @EJB, but then you lose state management and client-side interceptors (e.g., security) -->
+      <session>
+         <ejb-name>RegisterAction</ejb-name>
+         <ejb-local-ref>
+            <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>
+            <ejb-ref-type>Session</ejb-ref-type>
+            <local>org.jboss.seam.example.booking.Authenticator</local>
+         </ejb-local-ref>
+      </session>
+   </enterprise-beans>]]></programlisting>
+                  
+               </listitem>
+            </varlistentry>
+                        
+            <varlistentry>
+               <term> <literal>resources/WEB-INF/web.xml</literal>
+               </term>
+               <listitem>                 
+                  <para>We have to make some changes to the EJB references
+                     in the <literal>web.xml</literal>. These changes are
+                     what will allow WAS to bind automatically the EJB3 references in
+                     the web module to the the actual EJB3 beans in the EAR
+                     module. Replace all of the /local strings in
+                     <literal>ejb-local-refs</literal> when the values
+                     below.</para>
+                  
+                  
+                  <programlisting role="XML"><![CDATA[
+  <!-- JEE5 EJB3 names -->
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.Authenticator</local>
+  </ejb-local-ref>	
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.BookingList</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.Register</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.ChangePassword</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.HotelBooking</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.HotelSearching</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>]]></programlisting>
+  
+                  <para>Note also that <literal>EjbSynchronizations</literal> is
+                  a built-in Seam EJB and not part of the Hotel Booking example. This
+                  means that if your application's <literal>components.xml</literal> 
+                  specifies <literal>transaction:ejb-transaction</literal>,
+                   then you must include:</para>
+                  <programlisting role="XML"><![CDATA[
+  <ejb-local-ref>
+    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home></local-home>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>]]></programlisting>
+                  <para>in your web.xml. If you don't include it, you'll get the following error:</para>
+                  <programlisting>Name comp/env/myapp/EjbSynchronizations not found in context java:</programlisting>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term>
+                  <literal>resources/META-INF/persistence.xml</literal>
+               </term>
+               <listitem>
+                  <para>For this example we will be using the default
+                     datasource that comes with WAS. To do this change the
+                     <literal>jta-data-source</literal> element:</para>
+                  <programlisting role="XML"><![CDATA[
+<jta-data-source>DefaultDatasource</jta-data-source>
+                  ]]></programlisting>
+                  <para>Then we need to adjust some of the hibernate
+                     properties. First comment out the Glassfish properties.
+                     Next you need to add/change the properties:</para>
+                  
+                  
+                  <programlisting role="XML"><![CDATA[
+<!--<property name="hibernate.transaction.flush_before_completion" value="true"/>-->
+<property name="hibernate.cache.provider_class" 
+                  value="org.hibernate.cache.HashtableCacheProvider"/>
+<property name="hibernate.dialect" value="GlassfishDerbyDialect"/>
+<property name="hibernate.transaction.manager_lookup_class" 
+          value="org.hibernate.transaction.WebSphereExtendedJTATransactionLookup"/>
+                  ]]></programlisting>
+                  <para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>hibernate.transaction.manager_lookup_class</literal>
+                              &#8212; Standard Hibernate transaction
+                              manager property for WAS 6.X and 7</para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>hibernate.transaction.flush_before_completion</literal>
+                              &#8212; This is commented out because we want
+                              the container to manage the transactions. Also
+                              if this is set to <literal>true</literal> an
+                              exception will be thrown by WAS when the
+                              EJBContext is looked up.
+                              
+                              
+                              <programlisting><![CDATA[com.ibm.wsspi.injectionengine.InjectionException: 
+                 EJBContext may only be looked up by or injected into an EJB]]></programlisting></para>
+                        </listitem>
+                        <listitem>
+                           <para><literal>hibernate.dialect</literal>
+                              &#8212; From WAS 6.1.0.9 on the embedded DB was
+                              switched to the same Derby DB as is in
+                              Glassfish v2.</para>
+                        </listitem>
+                     </itemizedlist></para>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term>
+                  <literal>src/GlassfishDerbyDialect.java</literal>
+               </term>
+               <listitem>
+                  <para>You will need to get the
+                     <literal>GlassfishDerbyDialect.java</literal> and
+                     copy it into the <literal>/src</literal>
+                     directory. The java class exists in the JPA example source directory and can be
+                     copied using the command below assuming you are in
+                     <literal>jee5/booking</literal> directory:</para>
+                  
+                  
+                  <programlisting><![CDATA[
+cp ../../jpa/src/GlassfishDerbyDialect.java
+   ./src]]></programlisting>
+                  <para>This class will be put into the
+                     <literal>jboss-seam-jee5.jar</literal> file. </para>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term> <literal>resources/import.sql</literal>
+               </term>
+               <listitem>
+                  <para>This file must also be copied from the JPA example
+                     because either the Derby DB or the dialect does not support
+                     changes to the <literal>ID</literal> column. The files
+                     are identical except for the column difference. Use the
+                     following command to make the copy
+                     
+                     
+                     <programlisting><![CDATA[
+cp ../../jpa/resources-websphere7/import.sql ./resources]]></programlisting>
+                     </para>
+               </listitem>
+            </varlistentry>
+         </variablelist>
+         
+      </section>
+      
+      <section>
+         <title>Building the <literal>jee5/booking</literal>
+            example</title>
+         
+         <para>In order to get the changes we have made into our application we
+            need to make some changes to the <literal>build.xml</literal>.  
+            There are also some additional jars that are required by our
+            application in order to work with WAS. This section will cover
+         what changes are needed to the <literal>build.xml</literal>.</para>
+         
+         <section>
+            <title>Library dependency changes</title>
+            <para>We remove the <literal>log4j.jar</literal> 
+                        so that all of the log output from our application will 
+                        be added to the WAS log. Additional steps are 
+                        required to fully configure log4j and those are outside
+                        of the scope of this document.</para>
+         </section>
+         
+         <section>
+            <title>Updating the <literal>build.xml</literal> file</title>
+            
+            <para>Add the following entry to the bottom of the
+               <literal>build.xml</literal> file. This overrides the
+               default fileset that is used to populate the
+               <literal>jboss-seam-jee5.jar</literal>. 
+               :
+            </para>
+               
+               
+               <programlisting role="XML"><![CDATA[
+   <fileset id="jar.resources" dir="${resources.dir}">
+      <include name="import.sql" />
+      <include name="seam.properties" />
+      <include name="META-INF/persistence.xml" />
+      <include name="META-INF/ejb-jar.xml" />
+   </fileset>]]></programlisting>
+               
+            <para>Now all that is left is to execute the <literal>ant
+               archive</literal> task and the built application will be in
+               the <literal>jee5/booking/dist</literal> directory.
+               </para>
+         </section>
+         
+      </section>
+      
+      <section id="jee5-websphere-deploy">
+         <title>Deploying the application to Websphere</title>
+         
+         <para>So now we have everything we need in place. All that is left is to
+            deploy it - just a few steps more.</para>
+         <para> For this we will use Websphere's administration console. As
+            before there are some tricks and tips that must be followed.</para>
+         
+         <para>The steps below are for the WAS version stated above. 
+         The ports are default values, if you changed them substitute your values.
+            <orderedlist>
+               <listitem>
+                  <para>Log in to the administration console
+                     
+                     
+                <programlisting><![CDATA[https://localhost:9043/admin]]></programlisting> 
+                     or 
+				<programlisting><![CDATA[http://localhost:9060/admin]]></programlisting>
+                     </para>
+               </listitem>
+               <listitem>
+                  <para>Access the <literal>Websphere enterprise
+                     applications</literal> menu option under the
+                     <literal>Applications --> Application Type</literal> left side menu. </para>
+               </listitem>
+               <listitem>
+	                  <para>At the top of the <literal>Enterprise
+	                     Applications</literal> table select
+                     <literal>Install</literal>. Below are installation
+                     wizard pages and what needs to done on each:
+                     <itemizedlist>
+                        <listitem>
+                           <para><literal>Preparing for the application
+                              installation</literal>
+                              <itemizedlist>
+                                 <listitem>
+                                    <para>Browse to the
+                                       <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</literal>
+                                       file using the file upload widget.
+                                       </para>
+                                 </listitem>
+                                 <listitem>
+                                    <para>Select the
+                                       <literal>Next</literal>
+                                       button.</para>
+                                 </listitem>
+                                 <listitem>
+                                    <para>Select the
+                                       <literal>Fast Path</literal>
+                                       button.</para>
+                                 </listitem>
+                                 <listitem>
+                                    <para>Select the
+                                       <literal>Next</literal>
+                                       button.</para>
+                                 </listitem>                                 
+                              </itemizedlist> </para>
+                        </listitem>
+                        <listitem>
+                           <para><literal>Select installation
+                              options</literal>
+                              <itemizedlist>
+                                 <listitem>
+                                    <para>Select the <literal>Deploy
+                                       enterprise beans</literal> and 
+                                       <literal>Allow EJB reference targets to resolve automatically</literal>
+                                       check boxes. This is needed unless you
+                                       used a Websphere AS tool to package the
+                                       application. </para>
+                                 </listitem>
+                                 <listitem>
+                                    <para>Select the
+                                       <literal>Next</literal>
+                                       button.</para>
+                                 </listitem>
+                                 
+                                 
+                              </itemizedlist> </para>
+                        </listitem>
+                        <listitem>
+                           <para><literal>Map modules to
+                              servers</literal>
+                              <itemizedlist>
+                                 <listitem>
+                                    <para>No changes needed here as we only
+                                       have one server. Select the
+                                       <literal>Next</literal>
+                                       button.</para>
+                                 </listitem>
+                              </itemizedlist> </para>
+                        </listitem>
+                        <listitem>
+                           <para><literal>Summary</literal>
+                              <itemizedlist>
+                                 <listitem>
+                                    <para>No changes needed here. Select
+                                       the <literal>Finish</literal>
+                                       button.</para>
+                                 </listitem>
+                              </itemizedlist> </para>
+                        </listitem>
+                        <listitem>
+                           <para><literal>Installation</literal>
+                              <itemizedlist>
+                                 <listitem>
+                                    <para>Now you will see it installing and
+                                       deploying your
+                                       application.</para>
+                                 </listitem>
+                                 <listitem>
+                                    <para>When it finishes select the
+                                       <literal>Save</literal> link and
+                                       you will be returned to the
+                                       <literal>Enterprise
+                                       Applications</literal>
+                                       table.</para>
+                                 </listitem>
+                              </itemizedlist> </para>
+                        </listitem>
+                     </itemizedlist> </para>
+               </listitem>
+               <listitem id="websphere-app-adj-after-install" xreflabel="installation adjustments for jee5 example">
+                  <para>Now that we have our application installed we need to
+                     make some adjustments to it before we can start it:</para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>Starting from the <literal>Enterprise
+                              Applications</literal> table select the
+                              <literal>Seam Booking</literal>
+                              link.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Select the <literal>Manage
+                              Modules</literal> link.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Select the
+                              <literal>jboss-seam-jee5-booking.war</literal>
+                              link.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Change the <literal>Class loader
+                              order</literal> combo box to 
+                              <literal>Classes loaded with application
+                              class loader first (parent last)</literal>.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Select <literal>Apply</literal> and then
+                              <literal>Save</literal> options.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Return to the <literal>Seam Booking</literal> page.</para>
+                        </listitem>
+                        <listitem>
+                           <para>On this page select the <literal>Class
+                              loading and update detection</literal>
+                              link.</para>
+                        </listitem>
+                        <listitem>
+                           <para>Select the radio button for
+                              <literal>Classes loaded with application
+                              class loader first</literal>.</para>
+                        </listitem>                        
+                        <listitem>
+                           <para>Select <literal>Apply</literal> and then
+                              <literal>Save</literal> options.</para>
+                        </listitem>
+                     </itemizedlist> 
+               </listitem>               
+               <listitem>
+                  <para>To start the application return to the
+                     <literal>Enterprise Applications</literal> table and
+                     select our application in the list. Then choose the
+                     <literal>Start</literal> button at the top of the
+                     table.</para>
+               </listitem>
+               <listitem>
+                  <para>You can now access the application at
+                     <literal>http://localhost:9080/seam-jee5-booking/index.html</literal>
+                     .</para>
+               </listitem>
+            </orderedlist> 
+  <!-- <note>
+               <title>A note about Websphere Stateful bean timeouts</title>
+               <para>The default timeout period for a Websphere 6.1 Stateful
+                  EJB is 10 minutes.  This means that you may see some EJB timeout
+                  exceptions after some idle time.  It is possible to adjust the
+                  timeout of the Stateful EJBs on an individual basis, but 
+                  that is beyond the scope of this document.  See the Websphere
+                  documentation for details.
+                  </para>
+            </note> -->          
+         </para>
+      </section>
+      
+   </section>
+   
+   <section>
+      <title> The <literal>jpa</literal> booking example </title>
+      <para>Thankfully getting the <literal>jpa</literal> example to work is
+         much easier than the <literal>jee5</literal> example. This is the
+         Hotel Booking example implemented in Seam POJOs and using Hibernate JPA
+         with JPA transactions. It does not use EJB3.</para>
+      
+      <para> The example already has a breakout of configurations and build
+         scripts for many of the common containers including Websphere.</para>
+      
+      <para>First thing we are going to do is build and deploy that example. Then
+         we'll go over some key changes that we needed.</para>
+      
+      <section>
+         <title>Building the <literal>jpa</literal> example</title>
+            <para> Building it only requires running the correct ant command:
+               <programlisting>ant websphere7</programlisting>
+               This will create container specific distribution and exploded
+               archive directories with the <literal>websphere7</literal> label.</para>
+      </section>
+      <section>
+         <title>Deploying the <literal>jpa</literal> example</title>
+            <para>This is similar to the <literal>jee5</literal> example at 
+               <xref linkend="jee5-websphere-deploy"/>, but without so many steps.
+             </para>
+         <itemizedlist>
+            <listitem>
+               <para>From the <literal>Enterprise Applications</literal> table
+               select the <literal>Install</literal> button.
+               <itemizedlist>
+                  <listitem>
+                     <para><literal>Preparing for the application
+                        installation</literal>
+                        <itemizedlist>
+                           <listitem>
+                              <para>Browse to the 
+                                 <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</literal>
+                                 file using the file upload widget.
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>Select the
+                                 <literal>Fast Path</literal>
+                                 button.</para>
+                           </listitem>
+                           <listitem>
+                              <para>Select the
+                                 <literal>Next</literal>
+                                 button.</para>
+                           </listitem>                             
+                        </itemizedlist> </para>
+                  </listitem>
+                  <listitem>
+                     <para>Select the <literal>Next</literal> button for the next
+                        three pages, no changes are needed.
+                     </para>
+                  </listitem>
+                  <listitem>
+                      <para><literal>Map context roots for Web modules</literal>
+                        <itemizedlist>  
+						<listitem>
+		                     <para>In the <literal>Context root</literal> text box
+		                        enter <literal>jboss-seam-jpa</literal>.
+		                        </para>
+		                  </listitem>
+		                  <listitem>
+		                     <para>Select the <literal>Next</literal> button.
+		                        </para>
+		                  </listitem>                        
+                     </itemizedlist></para>
+                  </listitem>
+                  <listitem>
+                     <para><literal>Summary</literal> page
+                        <itemizedlist>
+                           <listitem>
+                              <para>Review the settings if you wish and select
+                                 the <literal>Finish</literal> button to install
+                                 the application.  When installation finished select the <literal>
+                                 Save</literal> link and you will be returned to the 
+                                 <literal>Enterprise Applications</literal> table.
+                                 </para>
+                           </listitem>
+                        </itemizedlist> </para>
+                  </listitem>
+                  
+               </itemizedlist>
+               </para>
+            </listitem>
+            <listitem>
+               <para>As with the <literal>jee5</literal> example there are some
+                  class loader changes needed before we start the application.
+                  Follow the instructions at <xref linkend="websphere-app-adj-after-install"/>
+                  but exchange <literal>jboss-seam-jpa_war</literal> for <literal>Seam Booking</literal>.
+               </para>
+            </listitem>
+            <listitem>
+               <para>Finally start the application by selecting it in the 
+                  <literal>Enterprise Applications</literal> table and clicking
+                  the <literal>Start</literal> button.
+               </para>
+            </listitem>
+            <listitem>
+               <para>You can now access the application at the  
+                  <literal>http://localhost:9080/jboss-seam-jpa/index.html</literal>.
+               </para>
+            </listitem>
+         </itemizedlist>
+      </section>
+      
+      <section>
+         <title>What's different for Websphere AS V7</title>
+         <para>The differences between the JPA examples that deploys to JBoss
+            4.2 and Websphere AS V7 are mostly expected; library and
+            configuration file changes. </para>
+         <itemizedlist>
+            <listitem>
+               <para>Configuration file changes
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           <literal>META-INF/persistence.xml</literal>
+                           &#8212; the main changes here are for the
+                           datasource JNDI path, switching to the Websphere
+                           transaction manager look up class, and
+                           changing the hibernate dialect to be
+                           <literal>GlassfishDerbyDialect</literal>
+                           .</para>
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>WEB-INF/components.xml</literal>
+                           &#8212; the change here is <literal>jndi-pattern</literal>
+                            without /local string.</para>
+                     </listitem>
+					 <listitem>
+                        <para>
+                           <literal>META-INF/ejb-jar.xml</literal>
+                           &#8212; the same change in <literal>ejb-ref-name</literal>,
+                            where is replace /local string in 
+                            <literal>jboss-seam-jee5/AuthenticatorAction</literal>.</para>
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>src/GlassfishDerbyDialect.java
+                           </literal> &#8212; this class is needed for the
+                           hibernate dialect change to
+                           <literal>GlassfishDerbyDialect</literal>
+                           </para>
+                     </listitem>
+                     <listitem>
+                        <para><literal>import.sql</literal> &#8212;
+                           either for the dialect or Derby DB the
+                           <literal>ID</literal> column can not be
+                           populated by this file and was removed.
+                           </para>
+                     </listitem>                     
+                  </itemizedlist> </para>
+            </listitem>
+            <listitem>
+               <para>Changes for dependent libraries</para>
+               <para>The Websphere version requires several library packages because they are
+                  not included as they are with JBoss AS. These are primarily for
+                  hibernate and their dependencies.  Below are 
+                  listed only the additional jars needed above and beyond the JBoss 
+                  <literal>JPA</literal> example.
+                  <itemizedlist>
+                     <listitem>
+                        <para> To use Hibernate as your JPA provider you need
+                           the following jars:
+                           <itemizedlist>
+                              <listitem>
+                                 <simpara>
+                                    <literal>hibernate.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>hibernate-annotations.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>hibernate-commons-annotations.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>hibernate-entitymanager.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>hibernate-validator.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>commons-collections.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>jboss-common-core.jar</literal>
+                                    </simpara>
+                              </listitem>
+                           </itemizedlist> </para>
+                     </listitem>
+                     <listitem>
+                        <para>Various third party jars that Websphere needs:
+                           <itemizedlist>
+                              <listitem>
+                                 <simpara> <literal>antlr.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara> <literal>cglib.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara> <literal>asm.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara> <literal>dom4j.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>javassist.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>concurrent.jar</literal>
+                                    </simpara>
+                              </listitem>
+                           </itemizedlist> </para>
+                     </listitem>
+                  </itemizedlist> </para>
+            </listitem>
+         </itemizedlist>
+         
+      </section>
+         
+      
+   </section>
+   
+    <section>
+      <title>Deploying an application created using
+         <literal>seam-gen</literal> on Websphere V7</title>
+      
+      <para><literal>seam-gen</literal> is a very useful tool for developers
+         to quickly get an application up and running, and provides a foundation
+         to add your own functionality. Out of box <literal>seam-gen</literal>
+         will produce applications configured to run on JBoss AS. These
+         instructions will show the steps needed to get it to run on Websphere. 
+         As stated above in <xref linkend="jee5-websphere-section"/> there
+         are some tricky changes needed to get an EJB3 application running. This
+         section will take you through the exact steps.</para>
+      
+      <section>
+        <title>Running <literal>seam-gen</literal> Setup</title>
+        <para>The first step is setting up <literal>seam-gen</literal> to
+         construct the base project. There are several choices made below,
+         specifically the datasource and hibernate values that we will adjust
+         once the project is created.</para>
+      
+      
+        <programlisting><![CDATA[
+./seam setup
+Buildfile: build.xml
+
+init:
+
+setup:
+     [echo] Welcome to seam-gen :-)
+    [input] Enter your Java project workspace (the directory that contains your 
+Seam projects) [C:/Projects] [C:/Projects]
+/home/jbalunas/workspace
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] 
+[C:/Program Files/jboss-4.2.3.GA]
+/home/jbalunas/jboss/jboss-4.2.3.GA
+    [input] Enter the project name [myproject] [myproject]
+websphere_example
+     [echo] Accepted project name as: websphere_example
+    [input] Do you want to use ICEFaces instead of RichFaces [n] (y, [n], )
+
+    [input] skipping input as property icefaces.home.new has already been set.
+    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine, 
+deepMarine, emeraldTown, sakura, DEFAULT)
+
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR 
+(with no EJB support) [ear]  ([ear], war, )
+
+    [input] Enter the Java package name for your session beans [org.jboss.seam.
+tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]
+org.jboss.seam.tutorial.websphere.action 
+    [input] Enter the Java package name for your entity beans [org.jboss.seam.
+tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]
+org.jboss.seam.tutorial.websphere.model  
+    [input] Enter the Java package name for your test cases [org.jboss.seam.
+tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action.test]
+org.jboss.seam.tutorial.websphere.test
+    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle,
+ postgres, mssql, db2, sybase, enterprisedb, h2)
+
+    [input] Enter the Hibernate dialect for your database [org.hibernate.
+dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]
+
+    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/lib/hsqldb.jar] 
+[/tmp/seam/lib/hsqldb.jar]
+
+    [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver] 
+[org.hsqldb.jdbcDriver]
+
+    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] 
+[jdbc:hsqldb:.]
+
+    [input] Enter database username [sa] [sa]
+
+    [input] Enter database password [] []
+
+    [input] Enter the database schema name (it is OK to leave this blank) [] []
+
+    [input] Enter the database catalog name (it is OK to leave this blank) [] []
+
+    [input] Are you working with tables that already exist in the database? [n]
+  (y, [n], )
+
+    [input] Do you want to drop and recreate the database tables and data in 
+import.sql each time you deploy? [n]  (y, [n], )
+
+[propertyfile] Creating new property file: 
+/rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build.properties
+     [echo] Installing JDBC driver jar to JBoss server
+     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/default/lib
+     [echo] Type 'seam create-project' to create the new project
+
+BUILD SUCCESSFUL
+Total time: 3 minutes 5 seconds]]></programlisting>
+      
+      <para> Type <literal>./seam new-project</literal> to create your
+         project and <literal>cd
+         /home/jbalunas/workspace/websphere_example</literal> to the
+         newly created structure. </para>
+      
+   </section>
+   <section>
+      <title>Changes needed for deployment to Websphere</title>
+      <para>We now need to make some changes to the generated project.</para>
+      <section>
+         <title>Configuration file changes</title>
+         <variablelist>
+            <varlistentry>
+               <term>
+                  <literal>resources/META-INF/persistence-dev.xml</literal>
+               </term>
+               <listitem>
+                  <itemizedlist>
+                     <listitem>
+                        <para> Alter the
+                           <literal>jta-data-source</literal> to be
+                           <literal>DefaultDatasource</literal>. We are
+                           going to be using the integrated Websphere
+                           DB.</para>
+                     </listitem>
+                     <listitem>
+                        <para> Add or change the properties below.
+                           These are described in detail at <xref
+                              linkend="jee5-websphere-section"/>:
+                           </para>
+                        
+                        <programlisting role="XML"><![CDATA[
+<property name="hibernate.dialect" value="GlassfishDerbyDialect"/>
+<property name="hibernate.hbm2ddl.auto" value="update"/>
+<property name="hibernate.show_sql" value="true"/>
+<property name="hibernate.format_sql" value="true"/>
+<property name="hibernate.cache.provider_class" 
+          value="org.hibernate.cache.HashtableCacheProvider"/>
+<property name="hibernate.transaction.manager_lookup_class" 
+          value="org.hibernate.transaction.WebSphereExtendedJTATransactionLookup"/>]]></programlisting>
+                     </listitem>
+                     <listitem>
+                        <para> Remove the JBoss AS specific method of exposing
+                           the EntityManagerFactory: </para>
+                        
+                        <programlisting role="XML"><![CDATA[<property 
+ name="jboss.entity.manager.factory.jndi.name" 
+ value="java:/websphere_exampleEntityManagerFactory">]]></programlisting>
+                     </listitem>
+                     <listitem>
+                        <para> You'll need to alter
+                           <literal>persistence-prod.xml</literal> as
+                           well if you want to deploy to Websphere using the
+                           prod profile. </para>
+                     </listitem>
+                  </itemizedlist>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term>
+                  <literal>src/GlassfishDerbyDialect.java</literal>
+               </term>
+               <listitem>
+                  <para>As with other examples we need to include this java class for
+                     DB support. It can be copied from the
+                     <literal>jpa</literal> example into the
+                     <literal>websphere_example/src</literal>
+                     directory.
+                     
+                     <programlisting><![CDATA[
+cp $SEAM/examples/jpa/src/GlassfishDerbyDialect.java
+   ./src]]></programlisting>
+                     </para>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term>
+                  <literal>resources/META-INF/jboss-app.xml</literal>
+               </term>
+               <listitem>
+                  <para> You can delete this file as we aren't deploying to JBoss
+                     AS ( <literal>jboss-app.xml</literal> is used to enable
+                     classloading isolation in JBoss AS) </para>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term> <literal>resources/*-ds.xml</literal>
+               </term>
+               <listitem>
+                  <para> You can delete these file as we aren't deploying to
+                     JBoss AS (these files define datasources in JBoss AS, we
+                     are using Websphere's default datasource) </para>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term>
+                  <literal>resources/WEB-INF/components.xml</literal>
+               </term>
+               <listitem>
+                  <itemizedlist>
+                     <listitem>
+                        <para> Enable container managed transaction
+                           integration - add the <literal>
+                           &lt;transaction:ejb-transaction /&gt;
+                           </literal> component, and it's namespace
+                           declaration <literal>
+                           xmlns:transaction="http://jboss.com/products/seam/transaction"
+                           </literal> </para>
+                     </listitem>
+                     <listitem>
+                        <para> Alter the <literal>jndi-pattern</literal>
+                           to <literal>
+                           java:comp/env/websphere_example/#{ejbName}
+                           </literal> </para>
+                     </listitem>
+                     <listitem>
+                        <para>We do not need
+                           <literal>managed-persistence-context</literal>
+                           for this example and so can delete its
+                           entry.</para>
+                        
+                        
+                        <programlisting role="XML"><![CDATA[
+<persistence:managed-persistence-context name="entityManager"
+             auto-create="true"
+             persistence-unit-jndi-name="java:/websphere_exampleEntityManagerFactory"/> ]]></programlisting>
+                     </listitem>
+                  </itemizedlist>
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+               <term> <literal>resources/WEB-INF/web.xml</literal>
+               </term>
+               <listitem>                  
+                  <para>As with the <literal>jee5/booking</literal>
+                     example we need to add EJB references to the web.xml. These
+                     references require replacing /local string in 
+                     <literal>ejb-ref-name</literal> to flag them for
+                     Websphere to perform the proper binding.</para>
+                  
+                  
+                  <programlisting role="XML"><![CDATA[  
+  <ejb-local-ref>
+    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</local>
+  </ejb-local-ref>	
+   
+  <ejb-local-ref>
+    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>  
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>]]></programlisting>
+               </listitem>
+            </varlistentry>
+         </variablelist>
+      </section>
+      <section>
+         <title>Creating the <literal>AuthenticatorAction</literal>
+            EJB</title>
+         <para>We want to take the existing <literal>Authenticator</literal>
+            Seam POJO component and create an EJB3 out of it. </para>
+         <orderedlist>
+            <listitem> <para>Change the generated Authenticator class</para>
+               <itemizedlist>
+                  <listitem>
+                     <para>Rename the class to
+                        <literal>AuthenticatorAction</literal> </para>
+                  </listitem>
+                  <listitem>
+                     <para>Add the <literal>@Stateless</literal>
+                        annotation to the new
+                        <literal>AuthenticatorAction</literal> class.
+                        </para>
+                  </listitem>
+                  <listitem>
+                     <para>Create an interface called
+                        <literal>Authenticator</literal> which
+                        <literal>AuthenticatorAction</literal>
+                        implements (EJB3 requires session beans to have a
+                        local interface). Annotate the interface with
+                        <literal>@Local</literal> , and add a single method
+                        with same signature as the
+                        <literal>authenticate</literal> in
+                        <literal>AuthenticatorAction</literal> . </para>
+                  </listitem>
+               </itemizedlist>
+               
+               
+               <programlisting role="JAVA"><![CDATA[
+@Name("authenticator") @Stateless public class
+            AuthenticatorAction implements Authenticator {]]></programlisting>
+               
+               
+               <programlisting role="JAVA"><![CDATA[
+@Local public interface Authenticator { 
+  public boolean authenticate(); 
+}]]></programlisting>
+            </listitem>
+            <listitem>
+               <para>We've already added its reference to the
+                  <literal>web.xml</literal> file so are good to go. </para>
+            </listitem>
+         </orderedlist>
+      </section>
+      <section>
+         <title>Extra jar dependencies and other changes to the
+            <literal>build.xml</literal></title>
+         <para> This application has similar requirements as the
+            <literal>jee5/booking</literal> example. </para>
+         
+         <itemizedlist>
+            <listitem>
+               <para>Change the default target to
+                  <literal>archive</literal> (we aren't going to cover
+                  automatic deployment to Websphere).
+               </para>
+                  
+                  
+               <programlisting role="XML"><![CDATA[
+<project name="websphere_example" default="archive" basedir=".">]]></programlisting>
+                  
+            </listitem>
+            <listitem>
+               <para>Websphere looks for the drools
+                  <literal>/security.drl</literal> file in the root of the
+                  <literal>war</literal> file instead of the root of the
+                  <literal>websphere_example.jar</literal> so we need
+                  to have the <literal>build.xml</literal> move it to the
+                  correct location at build time. The following must be added at
+                  the top of the <literal> &lt;target name="war"
+                  depends="compile" description="Build the distribution
+                  .war file"&gt; </literal> target.
+               </para>
+                  
+                  <programlisting role="XML"><![CDATA[
+<copy todir="${war.dir}">
+   <fileset dir="${basedir}/resources" >
+       <include name="*.drl" />
+   </fileset>
+</copy>]]></programlisting>
+            </listitem>
+            <listitem>
+               <para>Now we need to get extra jars into the 
+                  <literal>build.xml</literal>.  Look for the 
+                  <literal>&lt;fileset dir="${basedir}"&gt;</literal> section 
+                  of the task below.  Add the new includes at the bottom of 
+                  the fileset.
+                  </para>
+               
+               
+               <programlisting role="XML"><![CDATA[
+<target name="ear" description="Build the EAR">
+    <copy todir="${ear.dir}">
+            <fileset dir="${basedir}/resources">
+                    <include name="*jpdl.xml" />
+                    <include name="*hibernate.cfg.xml" />
+                    <include name="jbpm.cfg.xml" />
+            </fileset>
+
+            <fileset dir="${basedir}">
+                    <include name="lib/jbpm*.jar" />
+                    <include name="lib/jboss-el.jar" />
+                    <include name="lib/drools-*.jar"/>
+                    <include name="lib/core.jar"/>
+                    <include name="lib/janino*.jar"/>
+                    <include name="lib/antlr-*.jar"/>
+                    <include name="lib/mvel*.jar"/>
+                  <include name="lib/richfaces-api*.jar" />
+            </fileset>
+    </copy>
+    <copy todir="${ear.dir}/META-INF">
+            <fileset dir="${basedir}/resources/META-INF">
+                    <include name="application.xml" />
+                    <include name="jboss-app.xml" />
+            </fileset>
+    </copy>
+</target>]]></programlisting>
+               <itemizedlist>
+                  <listitem>
+                     <para>Hibernate dependencies</para>
+                     <programlisting role="XML"><![CDATA[
+   <!-- Hibernate and deps -->
+   <include name="lib/hibernate.jar"/>
+   <include name="lib/hibernate-commons-annotations.jar"/>
+   <include name="lib/hibernate-annotations.jar"/>
+   <include name="lib/hibernate-entitymanager.jar"/>
+   <include name="lib/hibernate-validator.jar"/>
+   <include name="lib/jboss-common-core.jar" />]]></programlisting>
+                  </listitem>
+                  <listitem>
+                     <para> Third party dependencies.</para>
+                     <programlisting role="XML"><![CDATA[
+   <!-- 3rd party and supporting jars -->
+   <!--<include name="lib/log4j.jar" />-->
+   <include name="lib/javassist.jar"/>
+   <include name="lib/dom4j.jar" />
+   <include name="lib/concurrent.jar" />
+   <include name="lib/cglib.jar"/>
+   <include name="lib/asm.jar"/>
+   <include name="lib/antlr.jar" />
+   <include name="lib/commons-logging.jar" />
+   <include name="lib/commons-collections.jar" />]]></programlisting>
+                  </listitem>
+                  <listitem>
+                     <para><literal>jboss-seam.jar</literal> - this is needed in
+                     the <literal>ear</literal> base
+                     directory.</para>
+                     <programlisting role="XML"><![CDATA[
+   <!-- seam jar -->
+   <include name="lib/jboss-seam.jar" />]]></programlisting>
+                  </listitem>
+               </itemizedlist>
+               
+               <para>You should end up with something like:</para>
+               <programlisting role="XML"><![CDATA[<fileset dir="${basedir}">
+               
+   <include name="lib/jbpm*.jar" />
+   <include name="lib/jboss-el.jar" />
+   <include name="lib/drools-*.jar"/>
+   <include name="lib/core.jar"/>
+   <include name="lib/janino*.jar"/>
+   <include name="lib/antlr-*.jar"/>
+   <include name="lib/mvel*.jar"/>
+   <include name="lib/richfaces-api*.jar" />
+                                 
+   <!-- Hibernate and deps -->
+   <include name="lib/hibernate.jar"/>
+   <include name="lib/hibernate-commons-annotations.jar"/>
+   <include name="lib/hibernate-annotations.jar"/>
+   <include name="lib/hibernate-entitymanager.jar"/>
+   <include name="lib/hibernate-validator.jar"/>
+   <include name="lib/jboss-common-core.jar" />
+
+   <!-- 3rd party and supporting jars -->
+   <include name="lib/javassist.jar"/>
+   <include name="lib/dom4j.jar" />
+   <include name="lib/concurrent.jar" />
+   <include name="lib/cglib.jar"/>
+   <include name="lib/asm.jar"/>
+   <include name="lib/antlr.jar" />
+   <include name="lib/commons-logging.jar" />
+   <include name="lib/commons-collections.jar" />
+               
+   <!-- seam jar -->
+   <include name="lib/jboss-seam.jar" />
+                           
+</fileset>]]></programlisting>        
+                
+            </listitem>
+         </itemizedlist>
+         
+      </section>
+      <section>
+         <title> Building and deploying the seam-gen'd application to Websphere
+            </title>
+         
+         <itemizedlist>
+            <listitem>
+               <para> Build your application by calling
+                  <literal>ant</literal> in the base directory of your
+                  project (ex.
+                  <literal>/home/jbalunas/workspace/websphere_example</literal>
+                  ). The target of the build will be
+                  <literal>dist/websphere_example.ear</literal> . </para>
+            </listitem>
+            
+            <listitem>
+               <para>To deploy the application follow the instructions here : 
+                  <xref linkend="jee5-websphere-deploy"/> but use references to
+                  this project <literal>websphere_example</literal> instead of
+                  <literal>jboss-seam-jee5</literal>.</para>
+            </listitem>
+            <listitem>
+               <para> Checkout the app at:
+               <literal>http://localhost:9080/websphere_example/index.html</literal>
+               </para>
+            </listitem>
+         </itemizedlist>
+        
+      </section>
+      </section>
+   </section>
+   
+</chapter>

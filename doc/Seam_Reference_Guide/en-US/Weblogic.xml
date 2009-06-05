@@ -1,0 +1,1493 @@
+<chapter id="weblogic">
+   <title>Seam on BEA's Weblogic</title>
+   
+   <para> Weblogic 10.3 is BEA's latest stable JEE5 server offering.  Seam 
+      applications can be deployed and developed on Weblogic servers, and
+      this chapter will show you how. There are some known issues with the 
+      Weblogic servers that will need to be worked around, and configuration 
+      changes that are needed specific to Weblogic. </para>
+   
+   <para> First step is to get Weblogic downloaded, installed and running. Then 
+      we'll talk about Seam's JEE5 example and the hurdles to
+      getting it running. After that, the JPA example will
+      be deployed to the server. Then finally we will create a
+      <literal>seam-gen</literal> application and get it up and running to
+      provide a jump start to your own application. </para>
+   
+   <section>
+      <title>Installation and operation of Weblogic</title>
+      <para> First things first we need to get the server installed.  There are 
+         some outstanding issues that were not addressed in 10.3, but it does 
+         solve some of the issues discussed below without the need for BEA 
+         patches.  The previous release 10.0.MP1 is also available, but 
+         requires some BEA patches to function correctly. </para>
+      <itemizedlist>
+         <listitem>
+            <para><literal>Weblogic 10.0.MP1</literal>
+               &#8212; <ulink
+url="http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html">
+               Download page </ulink></para>
+            <para> 10.0.MP1 has some known issues with EJBs that use
+               <literal>varargs</literal> in their methods (it confuses them
+               as <literal>transient</literal> ), as well as some others.
+               See <xref linkend="weblogic-ejb-issues" /> for full details on 
+               the issues and the work around.</para>
+         </listitem>
+         <listitem>
+            <para><literal>Weblogic 10.3</literal>
+               &#8212; <ulink
+url="http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html">
+               Download page </ulink></para>
+            <para> This is the latest stable release of the Weblogic server, 
+              and the one that will be used with the examples below.  This 
+              version has addressed some of the issues with EJBs that were in 
+              10.0.MP1.  However one of the changes did not make it into this 
+              release.  See <xref linkend="weblogic-ejb-issues" /> for the 
+              details, but because of this we still need to use the special 
+              Weblogic seam jar discussed below.  
+               </para>
+         </listitem>
+      </itemizedlist>
+      
+      <note>
+        <title>Special <literal>jboss-seam.jar</literal> for Weblogic EJB 
+        Support</title>
+         <para> Starting with Seam 2.0.2.CR2 a special Weblogic specific jar has
+         been created that does not contain the <literal>TimerServiceDispatcher
+         </literal>.  This is the EJB that uses <literal>varargs</literal> and 
+         exposes the second EJB issue.  We will be using this jar for the 
+         <literal>jee5/booking</literal> example, as it avoids the known BEA 
+         issues.
+         </para>
+      </note>
+      
+      <section>
+         <title>Installing 10.3</title>
+         
+         <para>
+            Here are the quick steps to installing Weblogic 10.3.
+            For more details or if you are having any issues please
+            check with the BEA docs at the
+            <ulink url="http://edocs.bea.com/wls/docs103/">
+               Weblogic 10.3 Doc Center
+            </ulink>
+            . Here we install the RHEL 5 version using the graphical
+            installer:
+         </para>
+
+         <orderedlist>
+            <listitem>
+               <para> Follow the link given above for 10.3 and download the
+                  correct version for your environment. You will need to sign up
+                  for an account with Oracle in order to do this. </para>
+            </listitem>
+            <listitem>
+               <para> You may need to change the the
+                  <literal>server103_XX.bin</literal> file to be
+                  executable: </para>
+               <programlisting>chmod a+x server103_XX.bin</programlisting>
+            </listitem>
+            <listitem>
+               <para> Execute the install: </para>
+               <programlisting>./server103_XX.bin</programlisting>
+            </listitem>
+            <listitem>
+               <para> When the graphical install loads, you need to set the BEA
+                  home location. This is where all BEA applications are
+                  installed. This location will be known as
+                  <literal>$BEA_HOME</literal> in this document e.g.:
+                  </para>
+               <programlisting>/jboss/apps/bea</programlisting>
+            </listitem>
+            <listitem>
+               <para> Select <literal>Complete</literal> as the
+                  installation type. You do not need all the extras of the
+                  complete install (such as struts and beehive libraries), but
+                  it will not hurt. </para>
+            </listitem>
+            <listitem>
+               <para> You can leave the defaults for the component installation 
+                  locations on the next page.</para>
+            </listitem>
+         </orderedlist>
+      </section>
+      <section id="weblogic-domain">
+         <title>Creating your Weblogic domain</title>
+         <para> A Weblogic domain is similar to a JBoss server configuration - it
+            is a self contained server instance. The Weblogic server you just
+            installed has some example domains, but we are going to create one
+            just for the seam examples. You can use the existing domains if you
+            wish (modify the instructions as needed). </para>         
+         <orderedlist>
+            <listitem>
+               <para> Start up the Weblogic configuration wizard:</para>
+               <programlisting>$BEA_HOME/wlserver_10.3/common/bin/config.sh
+               </programlisting>
+            </listitem>
+            <listitem>
+               <para> Choose to create a new domain, configured to support
+                  <literal>Weblogic Server</literal>. Note that this is
+                  the default domain option. </para>
+            </listitem>
+            <listitem>
+               <para>Set a username and password for this domain.</para>
+            </listitem>
+            <listitem>
+               <para> Next choose <literal>Development Mode</literal> and
+                  the default JDK when given the option. </para>
+            </listitem>
+            <listitem>
+               <para> The next screen asks if you want to customize any setting.
+                  Select <literal>No</literal>. </para>
+            </listitem>
+            <listitem>
+               <para> Finally set the name of the domain to
+                  <literal>seam_examples</literal> and leave the default
+                  domain location. </para>
+            </listitem>
+         </orderedlist>
+      </section>
+      <section id="bea_start_stop_access">
+         <title>How to Start/Stop/Access your domain</title>
+         <para>
+            Now that the server is installed and the domain is created
+            you need to know how to start and stop it, plus how to
+            access its configuration console.
+         </para>
+         <itemizedlist>
+            <listitem>
+               <para> Starting the domain:</para>
+               <para> This is the easy part - go to the <literal>
+                  $BEA_HOME/user_projects/domains/seam_examples/bin
+                  </literal> directory and run the
+                  <literal>./startWeblogic.sh</literal> script. </para>
+            </listitem>
+            <listitem>
+               <para> Accessing the configuration console:</para>
+               <para> Launch
+                  <literal>http://127.0.0.1:7001/console</literal> in
+                  your web browser. It will ask for your username and password
+                  that you entered before. We won't get into this much now, but
+                  this is the starting point for a lot of the various
+                  configurations that are needed later. </para>
+            </listitem>
+            <listitem>
+               <para> Stopping the domain:</para>
+               <para> There are a couple of options here: </para>
+               <itemizedlist>
+                  <listitem>
+                     <para> The recommended way is through the configuration
+                        console:
+                        <orderedlist>
+                           <listitem>
+                              <para> Select
+                                 <literal>seam_examples</literal> on the
+                                 left hand side of the console. </para>
+                           </listitem>
+                           <listitem>
+                              <para> Choose the
+                                 <literal>Control</literal> tab in the
+                                 middle of the page. </para>
+                           </listitem>
+                           <listitem>
+                              <para> Select the check box
+                                 <literal>AdminServer</literal> in the
+                                 table. </para>
+                           </listitem>
+                           <listitem>
+                              <para> Choose <literal>Shutdown</literal>
+                                 just above the table, and select either
+                                 <literal>When work completes</literal>
+                                 or <literal>Force shutdown now</literal>
+                                 as appropriate. </para>
+                           </listitem>
+                        </orderedlist> </para>
+                  </listitem>
+                  <listitem>
+                     <para> Hitting <literal>Ctrl-C</literal> in the
+                        terminal where you started the domain.</para>
+                     <para> No negative effects have been seen, but we would not
+                        recommend doing this while in the middle of 
+                        configuration changes in the console. </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+            <listitem>
+               <para><note>
+                  <title>A note on Weblogic classloading</title>
+                  <para>When using the
+                     <literal>/autodeploy</literal> directory as
+                     described in this chapter you may see
+                     <literal>NoClassDefFound</literal> exceptions during 
+                     redeployment's. If you see this try restarting the Weblogic
+                     server. If you still see it remove the auto-deployed 
+                     EAR/WAR files, restart the server, and redeploy. We could 
+                     not find a specific reason for this, but others seem to be 
+                     having this issue as well. </para> </note></para>
+            </listitem>
+         </itemizedlist>
+         </section>
+         <section id="weblogic-jsf-deploy">
+            <title>Setting up Weblogic's JSF Support</title>
+            <para>These are the instructions to deploy and configure Weblogic's 
+            JSF 1.2 libraries.  Out of the box Weblogic does not come with its 
+            own JSF libraries active.  For complete details see 
+            <ulink url="http://edocs.bea.com/wls/docs103/webapp/configurejsfandjtsl.html">
+               Weblogic 10.3 Configuring JSF and JSTL Libraries
+            </ulink></para>
+            
+            <orderedlist>
+                  <listitem>
+                     <para>In the administration console navigate to the 
+                     <literal>Deployments</literal> page using the left hand
+                     menu.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Then select the <literal>Install</literal>
+                        button at the top of the deployments table</para>
+                  </listitem>
+                  <listitem>
+                     <para>Using the directory browser navigate to the 
+             <literal>$BEA_HOME/wlserver_10.3/common/deployable-libraries
+             </literal>
+                     directory.  Then select the <literal>jsf-1.2.war</literal>
+                     archive, and click the <literal>Next</literal> button.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Make sure that the <literal>Install this deployment 
+                     as a library</literal> is selected.  Click the <literal>
+                     Next </literal> button on the <literal>Install Application 
+                     Assistant</literal> page.</para>
+                  </listitem>                  
+                  <listitem>
+                    <para>Click the <literal>Next</literal> button on the 
+                    <literal> Optional Settings</literal> page.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Make sure that the <literal>Yes, take me to the 
+                     deployment's configuration screen.</literal> is selected.  
+                     Click the <literal>Finish</literal> button on the <literal>
+                     Review your choices and click Finish</literal> page.</para>
+                  </listitem>
+                  <listitem>
+                     <para>On the <literal>Settings for jsf(1.2,1.2.3.1)</literal>
+                     page set the <literal>Deployment Order</literal> to 
+                     <literal>99</literal> so that it is deployed prior to 
+                     auto deployed applications.  Then click the <literal>
+                     Save</literal> button.</para>
+                  </listitem>   
+              </orderedlist>
+              
+              <para>There is another step that is needed for this to work.  For 
+              some reason, even with the steps above classes in the <literal>
+              jsf-api.jar</literal> are not found during application deployment.
+              The only way for this to work is to put the <literal>
+              javax.jsf_1.2.0.0.jar</literal> (the jsf-api.jar) from 
+              <literal>jsf-1.2.war</literal> in the domains shared library.  
+              This requires a restart of the server.
+              </para>
+         </section>
+   </section>
+   
+   <section>
+      <title> The <literal>jee5/booking</literal> Example </title>
+      
+      <para>
+         Do you want to run Seam using EJB's on Weblogic? If so there
+         are some obstacles that you will have to avoid, or some patches that 
+         are needed from BEA. This section describes those obstacles and what 
+         changes are needed to the <literal>jee5/booking</literal>
+         example to get it deployed and functioning.
+      </para>
+
+      <section id="weblogic-ejb-issues">
+         <title>EJB3 Issues with Weblogic</title>
+         
+         <para>
+            For several releases of Weblogic there has been an issue
+            with how Weblogic generates stubs and compiles EJB's that use 
+            variable arguments in their methods. This is confirmed in the 
+            Weblogic 9.X and 10.0.MP1 versions.  Unfortunately the 10.3 version 
+            only partially addresses the issue as detailed below.
+         </para>
+         
+         <section>
+           <title>The <literal>varargs</literal> Issue</title>
+           <para>
+            The basic explanation of the issue is that the Weblogic EJB
+            compiler mistakes methods that use <literal>varargs</literal>
+            as having the <literal>transient</literal> modifier.  When
+            BEA generates its own stub class from those classes during 
+            deployment it fails and the deployment does not succeed.  Seam uses 
+            variable arguments in one of its internal EJB's (
+            <literal>TimerServiceDispatcher</literal>).  If you see exceptions 
+            like below during deployment you are running an unpatched version 
+            of 10.0.MP1.  
+         </para>   
+
+            <programlisting><![CDATA[java.io.IOException: Compiler failed executable.exec: 
+/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: modifier transient 
+not allowed here
+  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0,
+  java.lang.Object[] arg1)
+                                   ^
+/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: modifier transient
+not allowed here
+  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String arg0, 
+  org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]></programlisting>
+            <para>
+               This issue has been fixed in Weblogic 10.3, and BEA has created 
+               a patch for Weblogic 10.0.MP1 (
+               <literal>CR327275</literal>
+               ) for this issue that can be requested from their
+               support.
+            </para>
+            <para>
+               Unfortunately a second issue has been reported and
+               verified by BEA.
+            </para>
+            </section>
+            <section>
+              <title>Missing EJB Methods Issue</title>   
+              
+              <para>
+               This issue was only found once the <literal>CR327275</literal> 
+               patch had been applied to 10.0.MP1.  This new issue has been 
+               confirmed by BEA and they created a patch for 10.0.MP1 that 
+               addresses this issue.  This patch has been referred to as both
+               <literal>CR370259</literal> and <literal>CR363182</literal>. As
+               with the other patch this can be requested through the BEA support.               
+              </para>
+              <para>
+               This issue causes certain EJB methods to be
+               incorrectly left out of Weblogic's generated internal stub 
+               classes.  This results in the following error messages during 
+               deployment.
+            </para>
+            
+            <programlisting><![CDATA[<<Error> <EJB> <BEA-012036> <Compiling generated EJB classes produced the following Java compiler error message:
+<Compilation Error> TimerServiceDispatcher_qzt5w2_Impl.java: The type TimerServiceDispatcher_qzt5w2_Impl must implement the inherited abstract method TimerServiceDispatcher_qzt5w2_Intf.scheduleTimedEvent(String, Schedule, Object[])
+<Compilation Error> TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type mismatch: cannot convert from Object to Timer
+<Compilation Error> TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type mismatch: cannot convert from Object to Timer> 
+<Error> <Deployer> <BEA-149265> <Failure occurred in the execution of deployment request with ID '1223409267344' for task '0'. Error is: 'weblogic.application.ModuleException: Exception preparing module: EJBModule(jboss-seam.jar)]]></programlisting>
+
+            <para>
+              It appears that when Weblogic 10.3 was released the neglected to 
+              include this fix!!  This means that Weblogic 10.0.MP1 with patches
+              will function correctly, but 10.3 will still require the special 
+              Seam jar described below.  Not all users have seen this and there 
+              may be certain combinations of OS/JRE that do not see this, 
+              however is has been seen many times.  Hopefully Oracle/BEA will 
+              release an updated patch for this issue on 10.3.  When they do we 
+              will update this reference guide as needed.
+            </para>
+            
+          </section>
+            <para>
+               So that Seam's users can deploy an EJB application to
+               Weblogic a special Weblogic specific jar has been
+               created, starting with Seam 2.0.2.CR2. It is located in
+               the
+               <literal>$SEAM/lib/interop</literal>
+               directory and is called
+               <literal>jboss-seam-wls-compatible.jar</literal>
+               . The only difference between this jar and the
+               <literal>jboss-seam.jar</literal>
+               is that it does not contain the
+               <literal>TimerServiceDispatcher</literal>
+               EJB. To use this jar simply rename the
+               <literal>jboss-seam-wls-compatible.jar</literal>
+               to
+               <literal>jboss-seam.jar</literal>
+               and replace the original in your applications
+               <literal>EAR</literal>
+               file. The
+               <literal>jee5/booking</literal>
+               example demonstrates this.  Obviously with this jar you will not
+               be able to use the <literal>TimerServiceDispatcher</literal> 
+               functionality.
+            </para>
+      </section>
+
+      <section>
+         <title>Getting the <literal>jee5/booking</literal> Working</title>
+         <para>In this section we will go over the steps needed to get
+            the <literal>jee5/booking</literal> example to up and running.</para>
+         
+         <section id="weblogic-hsql-jee5-ds">
+            <title>Setting up the hsql datasource</title>
+            <para>This example uses the in memory hypersonic database, and the
+               correct data source needs to be set up. The admin console uses a
+               wizard like set of pages to configure it.
+               
+               <orderedlist>
+                  <listitem>
+                     <para>Copy <literal>hsqldb.jar</literal> to the Weblogic
+                        domain's shared library directory: <literal> cp
+                        $SEAM_HOME/lib/hsqldb.jar
+                        $BEA_HOME/user_projects/domains/seam_examples/lib
+                        </literal>
+                        </para>
+                  </listitem>
+                  <listitem>
+                     <para>Start up the server and navigate to the
+                        administration console following <xref
+                           linkend="bea_start_stop_access"/></para>
+                  </listitem>
+                  <listitem>
+                     <para>On the left side tree navigate
+                        <literal>seam_examples - Services- JDBC - Data
+                        Sources</literal>.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Then select the <literal>New</literal>
+                        button at the top of the data source table</para>
+                  </listitem>
+                  <listitem>
+                     <para>Fill in the following:
+                        <orderedlist>
+                           <listitem>
+                              <para>Name:
+                                 <literal>seam-jee5-ds</literal>
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>JNDI Name:
+                                 <literal>seam-jee5-ds</literal>
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>Database Type and Driver:
+                                 <literal>other</literal></para>
+                           </listitem>
+                           <listitem>
+                              <para>Select <literal>Next</literal>
+                                 button</para>
+                           </listitem>
+                        </orderedlist></para>
+                  </listitem>
+                  <listitem>
+                     <para>Select <literal>Next</literal> button on the
+                        <literal>Transaction Options</literal>
+                        page</para>
+                  </listitem>
+                  <listitem>
+                     <para>Fill in the following on the <literal>Connection
+                        Properties</literal> page:
+                        <orderedlist>
+                           <listitem>
+                              <para>Database Name:
+                                 <literal>hsqldb</literal></para>
+                           </listitem>
+                           <listitem>
+                              <para>Host Name:
+                                 <literal>127.0.0.1</literal></para>
+                           </listitem>
+                           <listitem>
+                              <para>Port: <literal>9001</literal>
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>Username: <literal>sa</literal> will
+                                 empty password fields.</para>
+                           </listitem>
+                           <listitem>
+                              <para>Password: leave empty.</para>
+                           </listitem>
+                           <listitem>
+                              <para>Select <literal>Next</literal>
+                                 button</para>
+                           </listitem>
+                        </orderedlist></para>
+                  </listitem>
+                  <listitem>
+                     <para>Fill in the following on the <literal>Connection
+                        Properties</literal> page:
+                        <orderedlist>
+                           <listitem>
+                              <para>Driver Class Name:
+                                 <literal>org.hsqldb.jdbcDriver</literal>
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>URL:
+                                 <literal>jdbc:hsqldb:.</literal>
+                                 </para>
+                           </listitem>
+                           <listitem>
+                              <para>Username: <literal>sa</literal></para>
+                           </listitem>
+                           <listitem>
+                              <para>Password: leave empty.</para>
+                           </listitem>
+                           <listitem>
+                              <para>Leave the rest of the fields
+                                 as is.</para>
+                           </listitem>
+                           <listitem>
+                              <para>Select <literal>Next</literal>
+                                 button</para>
+                           </listitem>
+                        </orderedlist></para>
+                  </listitem>
+                  <listitem>
+                     <para>Choose the target domain for the data source in our
+                        case the only one <literal>AdminServer</literal>.
+                        Click <literal>Next</literal>.</para>
+                  </listitem>
+               </orderedlist> </para>
+         </section>
+         
+         <section>
+            <title>Configuration and Build changes</title>
+            <para>
+               OK - now we are ready to finally begin adjusting the seam
+               application for deployment to the Weblogic server.
+            </para>
+            <variablelist>
+               <varlistentry>
+                  <term>
+                     <literal>
+                        resources/META-INF/persistence.xml
+                     </literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              Change the
+                              <literal>jta-data-source</literal>
+                              to what you entered above :
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+            <jta-data-source>seam-jee5-ds</jta-data-source>]]></programlisting>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Then comment out the glassfish properties.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Then add these two properties for weblogic
+                              support.
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+<property name="hibernate.dialect" 
+            value="org.hibernate.dialect.HSQLDialect"/>
+<property name="hibernate.transaction.manager_lookup_class" 
+            value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>
+]]></programlisting>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>
+                        resources/META-INF/weblogic-application.xml
+                     </literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              This file needs to be created and should
+                              contain the following:
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<weblogic-application>
+    <library-ref>
+        <library-name>jsf</library-name>
+        <specification-version>1.2</specification-version>
+        <implementation-version>1.2</implementation-version>
+        <exact-match>false</exact-match>
+    </library-ref>
+    <prefer-application-packages>
+        <package-name>antlr.*</package-name>
+    </prefer-application-packages>
+</weblogic-application>
+]]></programlisting>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              These changes do two two different things.
+                              The first element
+                              <literal>library-ref</literal>
+                              tells weblogic that this application will
+                              be using the deployed JSF libraries. The
+                              second element
+                              <literal>
+                                 prefer-application-packages
+                              </literal>
+                              tells weblogic that the
+                              <literal>antlr</literal>
+                              jars take precedence. This avoids a
+                              conflict with hibernate.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/META-INF/ejb-jar.xml</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              The changes described here work around an
+                              issue where Weblogic is only using a
+                              single instance of the
+                              <literal>sessionBeanInterceptor</literal>
+                              for all session beans. Seam's interceptor
+                              caches and stores some component specific
+                              attributes, so when a call comes in - the
+                              interceptor is primed for a different
+                              component and an error is seen. To solve
+                              this problem you must define a separate
+                              interceptor binding for each EJB you wish
+                              to use. When you do this Weblogic will use
+                              a separate instance for each EJB.
+                           </para>
+                           <para>
+                              Modify the
+                              <literal>assembly-descriptor</literal>
+                              element to look like this:
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+<assembly-descriptor>
+   <interceptor-binding> 
+      <ejb-name>AuthenticatorAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>BookingListAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>RegisterAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>ChangePasswordAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>HotelBookingAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>HotelSearchingAction</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+   <interceptor-binding> 
+      <ejb-name>EjbSynchronizations</ejb-name>
+      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+</assembly-descriptor>]]></programlisting>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>resources/WEB-INF/weblogic.xml</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              This file needs to be created and should
+                              contain the following:
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+
+<weblogic-web-app> 
+<library-ref>
+    <library-name>jsf</library-name>
+    <specification-version>1.2</specification-version>
+    <implementation-version>1.2</implementation-version>
+    <exact-match>false</exact-match>
+  </library-ref>
+</weblogic-web-app>
+]]></programlisting>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              This file and the element
+                              <literal>library-ref</literal>
+                              tells Weblogic that this application will
+                              using the deployed JSF libraries. This is
+                              needed in both this file and the
+                              <literal>
+                                 weblogic-application.xml
+                              </literal>
+                              file because both applications require
+                              access.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+            </variablelist>
+         </section>
+         <section>
+            <title>Building and Deploying the Application</title>
+            <para>
+               There are some changes needed to the build script and the
+               <literal>jboss-seam.jar</literal>
+               then we can deploy the app.
+            </para>
+            <variablelist>
+               <varlistentry>
+                  <term>
+                     <literal>build.xml</literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>                        
+                        <listitem>
+                           <para>
+                              We need to add the follow so that the
+                              <literal>
+                                 weblogic-application.xml
+                              </literal>
+                              will be packaged.
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+   <!-- Resources to go in the ear -->
+   <fileset id="ear.resources" dir="${resources.dir}">
+       <include name="META-INF/application.xml" />
+       <include name="META-INF/weblogic-application.xml" />         
+       <include name="META-INF/*-service.xml" />
+       <include name="META-INF/*-xmbean.xml" />
+       <include name="treecache.xml" />
+       <include name="*.jpdl.xml" />
+       <exclude name=".gpd.*" />
+       <include name="*.cfg.xml" />
+       <include name="*.xsd" />        
+   </fileset>]]></programlisting>
+                        </listitem>                        
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+               <varlistentry>
+                  <term>
+                     <literal>
+                        $SEAM/lib/interop/jboss-seam-wls-compatible.jar
+                     </literal>
+                  </term>
+                  <listitem>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              This is the change discussed above in
+                              <xref linkend="weblogic-ejb-issues" />
+                              . There are really two options.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              Rename this jar and replace the original
+                              <literal>
+                                 $SEAM/lib/jboss-seam.jar
+                              </literal>
+                              file. This approach does not require any
+                              changes to the packaged
+                              <literal>EAR</literal>
+                              archive, but overwrites the original
+                              <literal>jboss-seam.jar</literal>
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              The other option is the modify the
+                              packaged
+                              <literal>EAR</literal>
+                              archive and replace the
+                              <literal>jboss-seam.jar</literal>
+                              in the archive manually. This leaves the
+                              original jar alone, but requires a manual
+                              step when ever the archive is packaged.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </listitem>
+               </varlistentry>
+            </variablelist>
+
+            <para>
+               Assuming that you choose the first option for handling
+               the
+               <literal>jboss-seam-wls-compatible.jar</literal>
+               we can build the application by running
+               <literal>ant archive</literal>
+               at the base of the
+               <literal>jee5/booking</literal>
+               example directory.
+            </para>
+
+            <para>
+               Because we chose to create our Weblogic domain in
+               development mode we can deploy the application by putting
+               the EAR file in the domains autodeploy directory.
+
+               <programlisting>
+                  cp ./dist/jboss-seam-jee5.ear
+                  $BEA_HOME/user_projects/domains/seam_examples/autodeploy
+               </programlisting>
+            </para>
+
+            <para>
+               Check out the application at
+               <literal>http://localhost:7001/seam-jee5/</literal>
+            </para>
+         </section>
+      </section>
+      
+   </section>
+   
+   <section>
+      <title> The <literal>jpa</literal> booking example </title>
+      <para>This is the Hotel Booking example implemented with Seam POJOs and
+         Hibernate JPA and does not require EJB3 support to run. The example
+         already has a breakout of configurations and build scripts for many of
+         the common containers including Weblogic 10.X </para>
+      
+      <para> First we'll build the example for Weblogic 10.x and do the needed
+         steps to deploy. Then we'll talk about what is different between the
+         Weblogic versions, and with the JBoss AS version. </para>
+         
+      <para>Note that this example assumes that Weblogic's JSF libraries have
+      been configured as described in <xref linkend="weblogic-jsf-deploy"/>.</para>
+      
+      <section>
+         <title>
+            Building and deploying
+            <literal>jpa</literal>
+            booking example
+         </title>
+
+         <para>
+            Step one setup the datasource, step two build the app, step
+            three deploy.
+         </para>
+
+         <section>
+            <title>Setting up the datasource</title>
+
+            <para>
+               The Weblogic 10.X version of the example will use the in
+               memory hsql database instead of the built in PointBase
+               database. If you wish to use the PointBase database you
+               must setup a PointBase datasource, and adjust the
+               hibernate setting in
+               <literal>persistence.xml</literal>
+               to use the PointBase dialect. For reference the
+               <literal>jpa/weblogic92</literal>
+               example uses PointBase.
+            </para>
+            <para>
+               Configuring the datasource is very similar to the jee5
+               <xref linkend="weblogic-hsql-jee5-ds" />
+               . Follow the steps in that section, but use the following
+               entries where needed.
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        DataSource Name:
+                        <literal>seam-jpa-ds</literal>
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        JNDI Name:
+                        <literal>seam-jpa-ds</literal>
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </para>
+         </section>
+         <section>
+            <title>Building the example</title>
+
+            <para>
+               Building it only requires running the correct ant
+               command:
+
+               <programlisting>ant weblogic10</programlisting>
+               This will create a container specific distribution and
+               exploded archive directories.
+            </para>
+         </section>
+         <section>
+            <title>Deploying the example</title>
+
+            <para>
+               When we installed Weblogic following
+               <xref linkend="weblogic-domain" />
+               we chose to have the domain in development mode. This
+               means to deploy the application all we need to do is copy
+               it into the autodeploy directory.
+            </para>
+
+            <programlisting>cp ./dist-weblogic10/jboss-seam-jpa.war
+$BEA_HOME/user_projects/domains/seam_examples/autodeploy</programlisting>
+
+            <para>
+               Check out the application at the following
+               <literal>http://localhost:7001/jboss-seam-jpa/</literal>
+               .
+            </para>
+         </section>
+      </section>
+      <section id="weblogic-jpa-diff">
+         <title>What's different with Weblogic 10.x</title>
+         <itemizedlist>
+            <listitem>
+               <para>Between the the Weblogic 10.x and 9.2 examples there are
+                  several differences:
+               </para>
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           <literal>META-INF/persistence.xml</literal>
+                           &#8212; The 9.2 version is configured to use the
+                           <literal>PointBase</literal> database and a
+                           pre-installed datasource. The 10.x version uses
+                           the <literal>hsql</literal> database and a
+                           custom datasource.</para>
+                     </listitem>
+                     <listitem>
+                        <para id="weblogic.xml"
+                           xreflabel="description of WEB-INF/weblogic.xml">
+                           <literal>WEB-INF/weblogic.xml</literal>
+                           &#8212; This file and its contents solve an issue
+                           with an older version of the
+                           <literal>ANTLR</literal> libraries that
+                           Weblogic 10.x uses internally. OC4J have the same
+                           issue as well. It also configures the application to
+                           use the shared JSF libraries that were installed
+                           above.</para>                        
+                        
+                        <programlisting role="XML"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app
+xmlns="http://www.bea.com/ns/weblogic/90"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.bea.com/ns/weblogic/90 
+                    http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd">
+   <library-ref>
+      <library-name>jsf</library-name>
+      <specification-version>1.2</specification-version>
+      <implementation-version>1.2</implementation-version>
+      <exact-match>false</exact-match>
+   </library-ref>
+   <container-descriptor>
+      <prefer-web-inf-classes>true</prefer-web-inf-classes>
+   </container-descriptor>
+</weblogic-web-app>]]></programlisting>
+                        <para>This make Weblogic use classes and
+                           libraries in the web application before other
+                           libraries in the classpath. Without this change
+                           hibernate is required to use a older, slower query
+                           factory by setting the following property in the
+                           <literal>META-INF/persistence.xml</literal>
+                           file. </para>                        
+                        
+                        <programlisting role="XML"><![CDATA[
+<property name="hibernate.query.factory_class" 
+      value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>]]>
+                        </programlisting>
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>WEB-INF/components.xml</literal>
+                           &#8212; In the Weblogic 10.x version JPA entity
+                           transactions is enabled by adding:</para>
+                           
+                           
+                        <programlisting role="XML"><![CDATA[
+ <transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>                           
+                     </listitem>
+                     <listitem>
+                         <para>
+                           <literal>WEB-INF/web.xml</literal>
+                           &#8212; Because the <literal>jsf-impl.jar</literal>
+                           is not in the <literal>WAR</literal> this listener
+                           need to be configured :</para>
+                         <programlisting role="XML"><![CDATA[
+ <listener>
+   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+ </listener>]]></programlisting>
+                    </listitem>
+                  </itemizedlist>
+            </listitem>
+            <listitem>
+               <para>Between the Weblogic 10.x version and the JBoss version
+                  there are more changes. Here is the rundown:
+               </para>
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           <literal>META-INF/persistence.xml</literal>
+                           &#8212; Except for datasource name the Weblogic
+                           version sets:
+                           </para>
+                           <programlisting role="XML"><![CDATA[
+<property name="hibernate.transaction.manager_lookup_class" 
+   value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>]]>
+                           </programlisting>
+                     </listitem>
+                     <listitem>
+                        <para><literal>WEB-INF/lib</literal> &#8212; The
+                           Weblogic version requires several library
+                           packages because they are not included as they are
+                           with JBoss AS. These are primarily for hibernate,
+                           and its dependencies.
+                        </para>
+                           <itemizedlist>
+                              <listitem>
+                                 <para> To use Hibernate as your JPA provider
+                                    you need the following jars:
+                                 </para>
+                                    <itemizedlist>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>hibernate.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>hibernate-annotations.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>hibernate-entitymanager.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>hibernate-validator.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>jboss-common-core.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>commons-logging.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>commons-collections.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>jboss-common-core.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                    </itemizedlist>
+                              </listitem>                              
+                              <listitem>
+                                 <para>Various third party jars that
+                                    Weblogic needs:
+                                 </para>
+                                    <itemizedlist>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>antlr.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>cglib.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>asm.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>dom4j.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>el-ri.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>javassist.jar</literal>
+                                             </simpara>
+                                       </listitem>
+                                       <listitem>
+                                          <simpara>
+                                             <literal>concurrent.jar</literal>
+                                          </simpara>
+                                       </listitem>
+                                    </itemizedlist>
+                              </listitem>
+                           </itemizedlist>
+                     </listitem>
+                  </itemizedlist>
+            </listitem>
+         </itemizedlist>
+      </section>
+      
+   </section>
+   
+   <section>
+      <title> Deploying an application created using
+         <literal>seam-gen</literal> on Weblogic 10.x</title>
+      
+      <para><literal>seam-gen</literal> is a very useful tool for developers
+         to quickly get an application up and running, and provides a foundation
+         to add your own functionality. Out of box <literal>seam-gen</literal>
+         will produce applications configured to run on JBoss AS. These
+         instructions will show the steps needed to get it to run on Weblogic.
+         </para>
+      <para><literal>seam-gen</literal> was build for simplicity so, as you
+         can imagine, deploying an application generated by
+         <literal>seam-gen</literal> to Weblogic 10.x is not too hard.
+         Basically it consists of updating or removing some configuration
+         files, and adding dependent jars that Weblogic 10.x does not ship
+         with.</para>
+      
+      <para>This example will cover the basic <literal>seam-gen WAR</literal>
+         deployment. This will demonstrate Seam POJO components, Hibernate
+         JPA, Facelets, Drools security, RichFaces, and a configurable
+         dataSource.</para>
+      
+      <section>
+         <title>Running <literal>seam-gen</literal> setup</title>
+         
+         <para>The first thing we need to do it tell
+            <literal>seam-gen</literal> about the project we want to make.
+            This is done by running <literal>./seam setup</literal> in the base
+            directory of the Seam distribution. Note the paths here are my own,
+            feel free to change for you environment.
+            
+            <programlisting><![CDATA[./seam setup
+Buildfile: build.xml
+
+init:
+
+setup:
+     [echo] Welcome to seam-gen :-)
+    [input] Enter your Java project workspace (the directory that contains your 
+Seam projects) [C:/Projects] [C:/Projects]
+/home/jbalunas/workspace
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] 
+[C:/Program Files/jboss-4.2.3.GA]
+/jboss/apps/jboss-4.2.3.GA
+    [input] Enter the project name [myproject] [myproject]
+weblogic-example
+     [echo] Accepted project name as: weblogic_example
+    [input] Select a RichFaces skin (not applicable if using ICEFaces) [blueSky]
+ ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)
+
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR 
+(with no EJB support) [ear]  ([ear], war, )
+war
+    [input] Enter the Java package name for your session beans [org.jboss.seam.
+tutorial.weblogic.action] [org.jboss.seam.tutorial.weblogic.action]
+org.jboss.seam.tutorial.weblogic.action
+    [input] Enter the Java package name for your entity beans [org.jboss.seam.
+tutorial.weblogic.model] [org.jboss.seam.tutorial.weblogic.model]
+org.jboss.seam.tutorial.weblogic.model
+    [input] Enter the Java package name for your test cases [org.jboss.seam.
+tutorial.weblogic.action.test] [org.jboss.seam.tutorial.weblogic.action.test]
+org.jboss.seam.tutorial.weblogic.test
+    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle,
+ postgres, mssql, db2, sybase, enterprisedb, h2)
+
+    [input] Enter the Hibernate dialect for your database [org.hibernate.
+dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]
+
+    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seamlib/hsqldb.jar] 
+[/tmp/seam/lib/hsqldb.jar]
+
+    [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver] 
+ [org.hsqldb.jdbcDriver]
+
+    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] [jdbc:hsqldb:.]
+
+    [input] Enter database username [sa] [sa]
+
+    [input] Enter database password [] []
+
+    [input] Enter the database schema name (it is OK to leave this blank) [] []
+
+    [input] Enter the database catalog name (it is OK to leave this blank) [] []
+
+    [input] Are you working with tables that already exist in the database? [n] 
+ (y, [n], )
+
+    [input] Do you want to drop and recreate the database tables and data in 
+import.sql each time you deploy? [n]  (y, [n], )
+
+    [input] Enter your ICEfaces home directory (leave blank to omit ICEfaces) [] []
+
+[propertyfile] Creating new property file: 
+/rhdev/projects/jboss-seam/cvs-head/jboss-seam/seam-gen/build.properties
+     [echo] Installing JDBC driver jar to JBoss server
+     [copy] Copying 1 file to /jboss/apps/jboss-4.2.3.GA/server/default/lib
+     [echo] Type 'seam create-project' to create the new project
+
+BUILD SUCCESSFUL]]></programlisting>
+            </para>
+         <para> Type <literal>./seam new-project</literal> to create your
+            project and <literal>cd
+            /home/jbalunas/workspace/weblogic_example</literal> to see
+            the newly created project. </para>
+      </section>
+      
+      <section>
+         <title>What to change for Weblogic 10.X</title>
+         <para>First we change and delete some configuration files, then we
+            update the libraries that are deployed with the
+            application.</para>
+         
+         <section>
+            <title>Configuration file changes</title>
+               <variablelist>
+                  <varlistentry>
+                     <term> <literal>build.xml</literal>
+                     </term>
+                     <listitem>
+                        <itemizedlist>
+                           <listitem>
+                              <para>Change the default target to
+                                 <literal>archive</literal>.                                 
+                              </para>
+                              <programlisting role="XML">
+<![CDATA[<project name="weblogic_example" default="archive" basedir=".">]]>
+                              </programlisting>
+                           </listitem>
+                        </itemizedlist>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term>
+                        <literal>resources/META-INF/persistence-dev.xml</literal>
+                     </term>
+                     <listitem>
+                        <itemizedlist>
+                           <listitem>
+                              <para> Alter the
+                                 <literal>jta-data-source</literal> to
+                                 be <literal>seam-gen-ds</literal> (and
+                                 use this as the
+                                 <literal>jndi-name</literal> when
+                                 creating the data source in Weblogic's
+                                 admin console)</para>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 Change the transaction type to
+                                 <literal>RESOURCE_LOCAL</literal>
+                                 so that we can use JPA transactions.
+                              </para>
+                              <programlisting role="XML">
+                                 <![CDATA[
+<persistence-unit name="weblogic_example" transaction-type="RESOURCE_LOCAL">]]>
+                              </programlisting>
+                           </listitem>
+                           <listitem>
+                              <para>
+                                 Add/modify the properties below for
+                                 Weblogic support:
+                              </para>
+                              <programlisting role="XML"><![CDATA[<property name="hibernate.cache.provider_class" 
+    value="org.hibernate.cache.HashtableCacheProvider"/>
+<property name="hibernate.transaction.manager_lookup_class" 
+    value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>
+]]></programlisting>
+                           </listitem>
+                           <listitem>
+                              <para> You'll need to alter
+                                 <literal>persistence-prod.xml</literal>
+                                 as well if you want to deploy to Weblogic
+                                 using the prod profile. </para>
+                           </listitem>
+                        </itemizedlist>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term>
+                        <literal>resource/WEB-INF/weblogic.xml</literal>
+                     </term>
+                     <listitem>
+                        <para> You will need to create this file and populate it
+                           following <xref linkend="weblogic.xml"/>.
+                           </para>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term>
+                        <literal>
+                           resource/WEB-INF/components.xml
+                        </literal>
+                     </term>
+                     <listitem>
+                        <para>
+                           We want to use JPA transactions so we need to
+                           add the following to let Seam know.
+                        </para>
+                        <programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+                        <para>
+                           You will also need to add the transaction
+                           namespace and schema location to the top of
+                           the document.
+                        </para>
+                        <programlisting role="XML"><![CDATA[xmlns:transaction="http://jboss.com/products/seam/transaction"]]></programlisting>
+                        <programlisting role="XML"><![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd]]></programlisting>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term>
+                        <literal>resource/WEB-INF/web.xml</literal>
+                     </term>
+                     <listitem>
+                        <para>
+                           <literal>WEB-INF/web.xml</literal>
+                           &#8212; Because the
+                           <literal>jsf-impl.jar</literal>
+                           is not in the
+                           <literal>WAR</literal>
+                           this listener need to be configured :
+                        </para>
+                        <programlisting role="XML"><![CDATA[
+ <listener>
+   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+ </listener>]]></programlisting>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term>
+                        <literal>
+                           resources/WEB-INF/jboss-web.xml
+                        </literal>
+                     </term>
+                     <listitem>
+                        <para>
+                           You can delete this file as we aren't
+                           deploying to JBoss AS (
+                           <literal>jboss-app.xml</literal>
+                           is used to enable classloading isolation in
+                           JBoss AS)
+                        </para>
+                     </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                     <term> <literal>resources/*-ds.xml</literal>
+                     </term>
+                     <listitem>
+                        <para> You can delete these files as we aren't
+                           deploying to JBoss AS. These files define
+                           datasources in JBoss AS, in Weblogic we will use the
+                           administration console.</para>
+                     </listitem>
+                  </varlistentry>
+               </variablelist>
+         </section>
+         <section id="weblogic-seam-gen-lib-changes">
+            <title>Library changes</title>
+            <para>The <literal>seam-gen</literal> application has very
+               similar library dependencies as the <literal>jpa</literal>
+               example above. See <xref linkend="weblogic-jpa-diff"/>.
+               Below is the changes that are needed to get them in this
+               application.</para>
+            
+            <itemizedlist>
+               <listitem>
+                  <para>build.xml &#8212; Now we need to adjust the
+                     <literal>build.xml</literal>. Find the target
+                     <literal>war</literal> and add the following to the end
+                     of the target.</para>
+                     <programlisting role="XML"><![CDATA[
+      <copy todir="${war.dir}/WEB-INF/lib">
+         <fileset dir="${lib.dir}">
+            <!-- Misc 3rd party -->
+            <include name="commons-logging.jar" />
+            <include name="dom4j.jar" />
+            <include name="javassist.jar" />
+            <include name="cglib.jar" />
+            <include name="antlr.jar" />
+
+            <!-- Hibernate -->
+            <include name="hibernate.jar" />
+            <include name="hibernate-commons-annotations.jar" />
+            <include name="hibernate-annotations.jar" />
+            <include name="hibernate-entitymanager.jar" />
+            <include name="hibernate-validator.jar" />
+            <include name="jboss-common-core.jar" />
+            <include name="concurrent.jar" />
+         </fileset>
+      </copy>]]></programlisting>
+               </listitem>
+            </itemizedlist>
+         </section>
+      </section>
+      
+      <section>
+         <title>Building and Deploying your application</title>
+         <para>All that's left is deploying the application. This
+            involves setting up a data source, building the app, and deploying
+            it.</para>
+         
+         <section>
+            <title>Setting up the data source</title>
+            <para>Configuring the datasource is very similar to the jee5 <xref
+                  linkend="weblogic-hsql-jee5-ds"/>. Except for what is
+               listed here follow that instruction from the link.
+               <itemizedlist>
+                  <listitem>
+                     <para>DataSource Name:
+                        <literal>seam-gen-ds</literal></para>
+                  </listitem>
+                  <listitem>
+                     <para>JNDI Name: <literal>seam-gen-ds</literal>
+                        </para>
+                  </listitem>
+               </itemizedlist> </para>
+         </section>
+         <section>
+            <title>Building the application</title>
+            <para>This is as easy as typing <literal>ant</literal> in the
+               projects base directory.</para>
+         </section>
+         <section>
+            <title>Deploying the example</title>
+            
+            <para>When we installed Weblogic following <xref
+                  linkend="weblogic-domain"/> we chose to have the domain in
+               development mode. This means to deploy the application all we
+               need to do is copy it into the autodeploy directory.
+            </para>
+                              
+<programlisting role="XML">cp  ./dist/weblogic_example.war /jboss/apps/bea/user_projects/domains/seam_examples/autodeploy</programlisting>
+               
+            <para>Check out the application at the following
+              <literal>http://localhost:7001/weblogic_example/</literal>.  
+           .</para>
+         </section>
+      </section>
+   </section>
+</chapter>

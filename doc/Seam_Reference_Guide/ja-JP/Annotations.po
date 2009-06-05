@@ -1,0 +1,2599 @@
+# translation of Tools.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tools\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-03-22 12:50+0000\n"
+"PO-Revision-Date: 2008-12-31 23:29+0900\n"
+"Last-Translator: tokobayashi <toshiyakobayashi@gmail.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Annotations.xml:5
+#, no-c-format
+msgid "Seam annotations"
+msgstr "Seam アノテーション"
+
+#. Tag: para
+#: Annotations.xml:7
+#, no-c-format
+msgid ""
+"When you write a Seam application, you'll use a lot of annotations. Seam "
+"lets you use annotations to achieve a declarative style of programming. Most "
+"of the annotations you'll use are defined by the EJB 3.0 specification. The "
+"annotations for data validation are defined by the Hibernate Validator "
+"package. Finally, Seam defines its own set of annotations, which we'll "
+"describe in this chapter."
+msgstr ""
+"Seam アプリケーションを記述する場合、数多くのアノテーションを使用することにな"
+"ります。 Seam ではアノテーションを使用して宣言的なプログラミングを実現するこ"
+"とができます。使用するアノテーションのほとんどは EJB 3.0 仕様で定義されていま"
+"す。データ検証用のアノテーションは Hibernate Validator パッケージで定義されて"
+"います。そして、 Seam は Seam 独自のアノテーションセットを持っており、これに"
+"ついてはこの章で説明します。"
+
+#. Tag: para
+#: Annotations.xml:16
+#, no-c-format
+msgid ""
+"All of these annotations are defined in the package <literal>org.jboss.seam."
+"annotations</literal>."
+msgstr ""
+"これらのアノテーションはすべてパッケージ <literal>org.jboss.seam."
+"annotations</literal> で定義されます。"
+
+#. Tag: title
+#: Annotations.xml:22
+#, no-c-format
+msgid "Annotations for component definition"
+msgstr "コンポーネント定義のためのアノテーション"
+
+#. Tag: para
+#: Annotations.xml:23
+#, no-c-format
+msgid ""
+"The first group of annotations lets you define a Seam component. These "
+"annotations appear on the component class."
+msgstr ""
+"アノテーションの最初のグループでは Seam コンポーネントを定義することができま"
+"す。これらのアノテーションはコンポーネントクラスで見られます。"
+
+#. Tag: literal
+#: Annotations.xml:31
+#, no-c-format
+msgid "@Name"
+msgstr "@Name"
+
+#. Tag: programlisting
+#: Annotations.xml:34
+#, no-c-format
+msgid "<![CDATA[@Name(\"componentName\")]]>"
+msgstr "<![CDATA[@Name(\"componentName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:35
+#, no-c-format
+msgid ""
+"Defines the Seam component name for a class. This annotation is required for "
+"all Seam components."
+msgstr ""
+"クラスに対して Seam コンポーネント名を定義します。このアノテーション は Seam "
+"の全コンポーネントに必要になります。"
+
+#. Tag: literal
+#: Annotations.xml:43
+#, no-c-format
+msgid "@Scope"
+msgstr "@Scope"
+
+#. Tag: programlisting
+#: Annotations.xml:46
+#, no-c-format
+msgid "<![CDATA[@Scope(ScopeType.CONVERSATION)]]>"
+msgstr "<![CDATA[@Scope(ScopeType.CONVERSATION)]]>"
+
+#. Tag: para
+#: Annotations.xml:47
+#, no-c-format
+msgid ""
+"Defines the default context of the component. The possible values are "
+"defined by the <literal>ScopeType</literal> enumeration: <literal>EVENT, "
+"PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION, STATELESS</"
+"literal>."
+msgstr ""
+"コンポーネントのデフォルトコンテキストを定義します。 可能な値は "
+"<literal>ScopeType</literal> の列挙、すなわち、 <literal>EVENT, PAGE, "
+"CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION, STATELESS</literal> で"
+"定義されます。"
+
+#. Tag: para
+#: Annotations.xml:52
+#, no-c-format
+msgid ""
+"When no scope is explicitly specified, the default depends upon the "
+"component type. For stateless session beans, the default is "
+"<literal>STATELESS</literal>. For entity beans and stateful session beans, "
+"the default is <literal>CONVERSATION</literal>. For JavaBeans, the default "
+"is <literal>EVENT</literal>."
+msgstr ""
+"スコープが明示的に指定されていない場合、 デフォルトはコンポーネントタイプによ"
+"り異なってきます。 ステートレスセッション Bean の場合、 デフォルトは "
+"<literal>STATELESS</literal> になります。 エンティティ bean およびステートフ"
+"ルセッション Bean なら、 デフォルトは <literal>CONVERSATION</literal> にな"
+"り、 JavaBeans のデフォルトは <literal>EVENT</literal> になります。"
+
+#. Tag: literal
+#: Annotations.xml:64
+#, no-c-format
+msgid "@Role"
+msgstr "@Role"
+
+#. Tag: programlisting
+#: Annotations.xml:67
+#, no-c-format
+msgid "<![CDATA[@Role(name=\"roleName\", scope=ScopeType.SESSION)]]>"
+msgstr "<![CDATA[@Role(name=\"roleName\", scope=ScopeType.SESSION)]]>"
+
+#. Tag: para
+#: Annotations.xml:68
+#, no-c-format
+msgid ""
+"Allows a Seam component to be bound to multiple contexts variables. The "
+"<literal>@Name</literal>/<literal>@Scope</literal> annotations define a "
+"\"default role\". Each <literal>@Role</literal> annotation defines an "
+"additional role."
+msgstr ""
+"Seam コンポーネントを複数のコンテキスト変数に結合できるようにします。 "
+"<literal>@Name</literal>/<literal>@Scope</literal> アノテーションは「デフォル"
+"トロール」を定義します。 各 <literal>@Role</literal> アノテーションは追加ロー"
+"ルを定義します。"
+
+#. Tag: para
+#: Annotations.xml:76
+#, no-c-format
+msgid "<literal>name</literal> &#8212; the context variable name."
+msgstr "<literal>name</literal> &#8212; コンテキスト変数名です。"
+
+#. Tag: para
+#: Annotations.xml:82
+#, no-c-format
+msgid ""
+"<literal>scope</literal> &#8212; the context variable scope. When no scope "
+"is explicitly specified, the default depends upon the component type, as "
+"above."
+msgstr ""
+"<literal>scope</literal> &#8212; コンテキスト変数のスコープです。 スコープが"
+"明示的に指定されない場合、 デフォルトは上記のとおりコンポーネントタイプにより"
+"異なります。"
+
+#. Tag: literal
+#: Annotations.xml:93
+#, no-c-format
+msgid "@Roles"
+msgstr "@Roles"
+
+#. Tag: programlisting
+#: Annotations.xml:96
+#, no-c-format
+msgid ""
+"<![CDATA[@Roles({\n"
+"        @Role(name=\"user\", scope=ScopeType.CONVERSATION),\n"
+"        @Role(name=\"currentUser\", scope=ScopeType.SESSION)\n"
+"   })]]>"
+msgstr ""
+"<![CDATA[@Roles({\n"
+"        @Role(name=\"user\", scope=ScopeType.CONVERSATION),\n"
+"        @Role(name=\"currentUser\", scope=ScopeType.SESSION)\n"
+"   })]]>"
+
+#. Tag: para
+#: Annotations.xml:97
+#, no-c-format
+msgid "Allows specification of multiple additional roles."
+msgstr "複数の追加ロールを指定することができるようになります。"
+
+#. Tag: literal
+#: Annotations.xml:104
+#, no-c-format
+msgid "@BypassInterceptors"
+msgstr "@BypassInterceptors"
+
+#. Tag: programlisting
+#: Annotations.xml:107
+#, no-c-format
+msgid "<![CDATA[@BypassInterceptors]]>"
+msgstr "<![CDATA[@BypassInterceptors]]>"
+
+#. Tag: para
+#: Annotations.xml:108
+#, no-c-format
+msgid ""
+"Disables Seam all interceptors on a particular component or method of a "
+"component."
+msgstr ""
+"特定のコンポーネントまたはメソッドにおける、すべてのインタセプタを無効にしま"
+"す。"
+
+#. Tag: literal
+#: Annotations.xml:116
+#, no-c-format
+msgid "@JndiName"
+msgstr "@JndiName"
+
+#. Tag: programlisting
+#: Annotations.xml:119
+#, no-c-format
+msgid "<![CDATA[@JndiName(\"my/jndi/name\")]]>"
+msgstr "<![CDATA[@JndiName(\"my/jndi/name\")]]>"
+
+#. Tag: para
+#: Annotations.xml:120
+#, no-c-format
+msgid ""
+"Specifies the JNDI name that Seam will use to look up the EJB component. If "
+"no JNDI name is explicitly specified, Seam will use the JNDI pattern "
+"specified by <literal>org.jboss.seam.core.init.jndiPattern</literal>."
+msgstr ""
+"Seam が EJB コンポーネントのルックアップに使用する JNDI 名を指定します。 "
+"JNDI 名が明示的に指定されない場合、 Seam は <literal>org.jboss.seam.core."
+"init.jndiPattern</literal> で指定される JNDI パターンを使用します。"
+
+#. Tag: literal
+#: Annotations.xml:130
+#, no-c-format
+msgid "@Conversational"
+msgstr "@Conversational"
+
+#. Tag: programlisting
+#: Annotations.xml:133
+#, no-c-format
+msgid "<![CDATA[@Conversational]]>"
+msgstr "<![CDATA[@Conversational]]>"
+
+#. Tag: para
+#: Annotations.xml:134
+#, no-c-format
+msgid ""
+"Specifies that a conversation scope component is conversational, meaning "
+"that no method of the component may be called unless a long-running "
+"conversation is active."
+msgstr ""
+"対話スコープのコンポーネントが対話用であることを指定します。つまり長期対話が"
+"起こっていない限り、そのコンポーネントのメソッドを呼ぶことができません。"
+
+#. Tag: literal
+#: Annotations.xml:143
+#, no-c-format
+msgid "@PerNestedConversation"
+msgstr "@PerNestedConversation"
+
+#. Tag: programlisting
+#: Annotations.xml:146
+#, no-c-format
+msgid "<![CDATA[@PerNestedConversation]]>"
+msgstr "<![CDATA[@PerNestedConversation]]>"
+
+#. Tag: para
+#: Annotations.xml:147
+#, no-c-format
+msgid ""
+"Limits the scope of a CONVERSATION-scoped component to just the parent "
+"conversation in which it was instantiated. The component instance will not "
+"be visible to nested child conversations, which will get their own instance."
+msgstr ""
+"対話スコープのコンポーネントのスコープを、そのコンポーネントがインスタンス化"
+"された親対話だけに制限します。そのコンポーネントのインスタンスはネストされた"
+"子対話からは見えません。子対話は独自のインスタンスを持つことになります。"
+
+#. Tag: para
+#: Annotations.xml:153
+#, no-c-format
+msgid ""
+"Warning: this is ill-defined, since it implies that a component will be "
+"visible for some part of a request cycle, and invisible after that. It is "
+"not recommended that applications use this feature!"
+msgstr ""
+"警告：これはおかしな定義です。なぜならこれは要求サイクルのある部分ではコン"
+"ポーネントが見え、その後見えなくなるということを意味しています。アプリケー"
+"ションでこの機能を使うことは推奨しません！"
+
+#. Tag: literal
+#: Annotations.xml:163
+#, no-c-format
+msgid "@Startup"
+msgstr "@Startup"
+
+#. Tag: programlisting
+#: Annotations.xml:166
+#, no-c-format
+msgid ""
+"<![CDATA[@Scope(APPLICATION) @Startup(depends=\"org.jboss.seam.bpm.jbpm\")]]>"
+msgstr ""
+"<![CDATA[@Scope(APPLICATION) @Startup(depends=\"org.jboss.seam.bpm.jbpm\")]]>"
+
+#. Tag: para
+#: Annotations.xml:167
+#, no-c-format
+msgid ""
+"Specifies that an application scope component is started immediately at "
+"initialization time. This is mainly used for certain built-in components "
+"that bootstrap critical infrastructure such as JNDI, datasources, etc."
+msgstr ""
+"アプリケーションスコープのコンポーネントは初期化時に直ちに開始されることを指"
+"定します。 主に、 JNDI、 データソースなどの重要なインフラストラクチャをブート"
+"ストラップする特定の組み込みコンポーネントに使用されます。"
+
+#. Tag: programlisting
+#: Annotations.xml:173
+#, no-c-format
+msgid "<![CDATA[@Scope(SESSION) @Startup]]>"
+msgstr "<![CDATA[@Scope(SESSION) @Startup]]>"
+
+#. Tag: para
+#: Annotations.xml:174
+#, no-c-format
+msgid ""
+"Specifies that a session scope component is started immediately at session "
+"creation time."
+msgstr ""
+"セッションスコープのコンポーネントはセッション作成時に直ちに開始されることを"
+"指定します。"
+
+#. Tag: para
+#: Annotations.xml:180
+#, no-c-format
+msgid ""
+"<literal>depends</literal> &#8212; specifies that the named components must "
+"be started first, if they are installed."
+msgstr ""
+"<literal>depends</literal> &#8212; インストールされているならば先に開始される"
+"べき名前付きコンポーネントを指定します。"
+
+#. Tag: literal
+#: Annotations.xml:191
+#, no-c-format
+msgid "@Install"
+msgstr "@Install"
+
+#. Tag: programlisting
+#: Annotations.xml:194
+#, no-c-format
+msgid "<![CDATA[@Install(false)]]>"
+msgstr "<![CDATA[@Install(false)]]>"
+
+#. Tag: para
+#: Annotations.xml:195
+#, no-c-format
+msgid ""
+"Specifies whether or not a component should be installed by default. The "
+"lack of an <literal>@Install</literal> annotation indicates a component "
+"should be installed."
+msgstr ""
+"コンポーネントがデフォルトでインストールされる必要があるかどうかを指定しま"
+"す。 <literal>@Install</literal> アノテーションが無い場合、コンポーネントはイ"
+"ンストールが必要であるという意味になります。"
+
+#. Tag: programlisting
+#: Annotations.xml:200
+#, no-c-format
+msgid "<![CDATA[@Install(dependencies=\"org.jboss.seam.bpm.jbpm\")]]>"
+msgstr "<![CDATA[@Install(dependencies=\"org.jboss.seam.bpm.jbpm\")]]>"
+
+#. Tag: para
+#: Annotations.xml:201
+#, no-c-format
+msgid ""
+"Specifies that a component should only be stalled if the components listed "
+"as dependencies are also installed."
+msgstr ""
+"コンポーネントは依存関係としてリストされているコンポーネント群もインストール"
+"される場合にのみインストールされることを指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:205
+#, no-c-format
+msgid "<![CDATA[@Install(genericDependencies=ManagedQueueSender.class)]]>"
+msgstr "<![CDATA[@Install(genericDependencies=ManagedQueueSender.class)]]>"
+
+#. Tag: para
+#: Annotations.xml:206
+#, no-c-format
+msgid ""
+"Specifies that a component should only be installed if a component that is "
+"implemented by a certain class is installed. This is useful when the "
+"dependency doesn't have a single well-known name."
+msgstr ""
+"特定のクラスで実装されたコンポーネントがインストールされている場合にのみ、コ"
+"ンポーネントがインストールされることを指定します。 依存するコンポーネントの名"
+"前が不定である場合に便利です。"
+
+#. Tag: programlisting
+#: Annotations.xml:212
+#, no-c-format
+msgid "<![CDATA[@Install(classDependencies=\"org.hibernate.Session\")]]>"
+msgstr "<![CDATA[@Install(classDependencies=\"org.hibernate.Session\")]]>"
+
+#. Tag: para
+#: Annotations.xml:213
+#, no-c-format
+msgid ""
+"Specifies that a component should only be installed if the named class is in "
+"the classpath."
+msgstr ""
+"コンポーネントが、指定されたクラスがクラスパス内にある場合にのみインストール"
+"されることを指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:217
+#, no-c-format
+msgid "<![CDATA[@Install(precedence=BUILT_IN)]]>"
+msgstr "<![CDATA[@Install(precedence=BUILT_IN)]]>"
+
+#. Tag: para
+#: Annotations.xml:218
+#, no-c-format
+msgid ""
+"Specifies the precedence of the component. If multiple components with the "
+"same name exist, the one with the higher precedence will be installed. The "
+"defined precendence values are (in ascending order):"
+msgstr ""
+"そのコンポーネントの優先度を指定します。 同じ名前のコンポーネントが複数存在す"
+"る場合、 より高い優先度を持つコンポーネントがインストールされます。 定義され"
+"る優先度の値は次のとおりです (昇順) :"
+
+#. Tag: para
+#: Annotations.xml:227
+#, no-c-format
+msgid ""
+"<literal>BUILT_IN</literal> &#8212; Precedence of all built-in Seam "
+"components"
+msgstr ""
+"<literal>BUILT_IN</literal> &#8212; すべての組み込みSeamコンポーネントの優先"
+"度"
+
+#. Tag: para
+#: Annotations.xml:233
+#, no-c-format
+msgid ""
+"<literal>FRAMEWORK</literal> &#8212; Precedence to use for components of "
+"frameworks which extend Seam"
+msgstr ""
+"<literal>FRAMEWORK</literal> &#8212; Seamを拡張するフレームワークのコンポーネ"
+"ントを使うための優先度"
+
+#. Tag: para
+#: Annotations.xml:239
+#, fuzzy, no-c-format
+msgid ""
+"<literal>APPLICATION</literal> &#8212; Precedence of application components "
+"(the default precedence)"
+msgstr ""
+"<literal>APPLICATION</literal> &#8212; アプリケーションコンポーネントの優先度"
+"（デフォルトの優先度）"
+
+#. Tag: para
+#: Annotations.xml:245
+#, no-c-format
+msgid ""
+"<literal>DEPLOYMENT</literal> &#8212; Precedence to use for components which "
+"override application components in a particular deployment"
+msgstr ""
+"<literal>DEPLOYMENT</literal> &#8212; 特定のデプロイメントにおいてアプリケー"
+"ションコンポーネントを上書きするようなコンポーネントを使うための優先度"
+
+#. Tag: para
+#: Annotations.xml:252
+#, no-c-format
+msgid ""
+"<literal>MOCK</literal> &#8212; Precedence for mock objects used in testing"
+msgstr ""
+"<literal>MOCK</literal> &#8212; テスト時に使うモックオブジェクトのための優先"
+"度"
+
+#. Tag: literal
+#: Annotations.xml:263
+#, no-c-format
+msgid "@Synchronized"
+msgstr "@Synchronized"
+
+#. Tag: programlisting
+#: Annotations.xml:266
+#, no-c-format
+msgid "<![CDATA[@Synchronized(timeout=1000)]]>"
+msgstr "<![CDATA[@Synchronized(timeout=1000)]]>"
+
+#. Tag: para
+#: Annotations.xml:267
+#, no-c-format
+msgid ""
+"Specifies that a component is accessed concurrently by multiple clients, and "
+"that Seam should serialize requests. If a request is not able to obtain its "
+"lock on the component in the given timeout period, an exception will be "
+"raised."
+msgstr ""
+"コンポーネントが複数のクライアントによって同時にアクセスされること、 Seam は"
+"要求をシリアライズすることを指定します。 要求が特定のタイムアウト期間内にコン"
+"ポーネントでロックを取得できないと例外が発生します。"
+
+#. Tag: literal
+#: Annotations.xml:277
+#, no-c-format
+msgid "@ReadOnly"
+msgstr "@ReadOnly"
+
+#. Tag: programlisting
+#: Annotations.xml:280
+#, no-c-format
+msgid "<![CDATA[@ReadOnly]]>"
+msgstr "<![CDATA[@ReadOnly]]>"
+
+#. Tag: para
+#: Annotations.xml:281
+#, no-c-format
+msgid ""
+"Specifies that a JavaBean component or component method does not require "
+"state replication at the end of the invocation."
+msgstr ""
+"JavaBean コンポーネントまたはコンポーネントメソッドが呼び出しの終わりで状態の"
+"複製を必要としないことを指定します。"
+
+#. Tag: literal
+#: Annotations.xml:289
+#, no-c-format
+msgid "@AutoCreate"
+msgstr "@AutoCreate"
+
+#. Tag: programlisting
+#: Annotations.xml:292
+#, no-c-format
+msgid "<![CDATA[@AutoCreate]]>"
+msgstr "<![CDATA[@AutoCreate]]>"
+
+#. Tag: para
+#: Annotations.xml:293
+#, no-c-format
+msgid ""
+"Specifies that a component will be automatically created, even if the client "
+"does not specify <literal>create=true</literal>."
+msgstr ""
+"コンポーネントが自動的に生成されるよう指定します。クライアントが "
+"<literal>create=true</literal> を指定していなくても生成されます。"
+
+#. Tag: title
+#: Annotations.xml:303
+#, no-c-format
+msgid "Annotations for bijection"
+msgstr "バイジェクション用アノテーション"
+
+#. Tag: para
+#: Annotations.xml:304
+#, no-c-format
+msgid ""
+"The next two annotations control bijection. These attributes occur on "
+"component instance variables or property accessor methods."
+msgstr ""
+"次の二つのアノテーションはバイジェクションを制御します。 これらの属性はコン"
+"ポーネントインスタンス変数またはプロパティのアクセサメソッドに指定できます。"
+
+#. Tag: literal
+#: Annotations.xml:312
+#, no-c-format
+msgid "<literal>@In</literal>"
+msgstr "<literal>@In</literal>"
+
+#. Tag: programlisting
+#: Annotations.xml:315
+#, no-c-format
+msgid "<![CDATA[@In]]>"
+msgstr "<![CDATA[@In]]>"
+
+#. Tag: para
+#: Annotations.xml:316
+#, no-c-format
+msgid ""
+"Specifies that a component attribute is to be injected from a context "
+"variable at the beginning of each component invocation. If the context "
+"variable is null, an exception will be thrown."
+msgstr ""
+"コンポーネントの属性が各コンポーネント呼び出しの開始時にコンテキスト変数から"
+"インジェクトされることを指定します。 コンテキスト変数が null の場合、 例外が"
+"発生します。"
+
+#. Tag: programlisting
+#: Annotations.xml:322
+#, no-c-format
+msgid "<![CDATA[@In(required=false)]]>"
+msgstr "<![CDATA[@In(required=false)]]>"
+
+#. Tag: para
+#: Annotations.xml:323
+#, no-c-format
+msgid ""
+"Specifies that a component attribute is to be injected from a context "
+"variable at the beginning of each component invocation. The context variable "
+"may be null."
+msgstr ""
+"コンポーネントの属性が各コンポーネント呼び出しの開始時にコンテキスト変数から"
+"インジェクトされることを指定します。 コンテキスト変数は null でも構いません。"
+
+#. Tag: programlisting
+#: Annotations.xml:328
+#, no-c-format
+msgid "<![CDATA[@In(create=true)]]>"
+msgstr "<![CDATA[@In(create=true)]]>"
+
+#. Tag: para
+#: Annotations.xml:329
+#, no-c-format
+msgid ""
+"Specifies that a component attribute is to be injected from a context "
+"variable at the beginning of each component invocation. If the context "
+"variable is null, an instance of the component is instantiated by Seam."
+msgstr ""
+"コンポーネント属性がコンポーネント呼び出しの開始時にコンテキスト変数からイン"
+"ジェクトされることを指定します。コンテキスト変数が null の場合、コンポーネン"
+"トのインスタンスが Seam によって生成されます。"
+
+#. Tag: programlisting
+#: Annotations.xml:335
+#, no-c-format
+msgid "<![CDATA[@In(value=\"contextVariableName\")]]>"
+msgstr "<![CDATA[@In(value=\"contextVariableName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:336 Annotations.xml:403
+#, no-c-format
+msgid ""
+"Specifies the name of the context variable explicitly, instead of using the "
+"annotated instance variable name."
+msgstr ""
+"アノテーションを付けられたインスタンス変数名を使用せず、 コンテキスト変数名を"
+"明示的に指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:340
+#, no-c-format
+msgid "<![CDATA[@In(value=\"#{customer.addresses['shipping']}\")]]>"
+msgstr "<![CDATA[@In(value=\"#{customer.addresses['shipping']}\")]]>"
+
+#. Tag: para
+#: Annotations.xml:341
+#, no-c-format
+msgid ""
+"Specifies that a component attribute is to be injected by evaluating a JSF "
+"EL expression at the beginning of each component invocation."
+msgstr ""
+"コンポーネント属性が各コンポーネント呼び出しの開始時に JSF EL 式を評価するこ"
+"とでインジェクトされることを指定します。"
+
+#. Tag: para
+#: Annotations.xml:348
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; specifies the name of the context variable. "
+"Default to the name of the component attribute. Alternatively, specifies a "
+"JSF EL expression, surrounded by <literal>#{...}</literal>."
+msgstr ""
+"<literal>value</literal> &#8212; コンテキスト変数名を指定します。デフォルトは"
+"コンポーネント属性の名前です。あるいは <literal>#{...}</literal> で囲まれた "
+"JSF EL 式を指定します。"
+
+#. Tag: para
+#: Annotations.xml:356
+#, no-c-format
+msgid ""
+"<literal>create</literal> &#8212; specifies that Seam should instantiate the "
+"component with the same name as the context variable if the context variable "
+"is undefined (null) in all contexts. Default to false."
+msgstr ""
+"<literal>create</literal> &#8212; コンテキスト変数がすべてのコンテキストで未"
+"定義 (null) の場合、 Seam がコンテキスト変数として同じ名前でコンポーネントを"
+"インスタンス化するよう指定します。デフォルトは false です。"
+
+#. Tag: para
+#: Annotations.xml:364
+#, no-c-format
+msgid ""
+"<literal>required</literal> &#8212; specifies Seam should throw an exception "
+"if the context variable is undefined in all contexts."
+msgstr ""
+"<literal>required</literal> &#8212; コンテキスト変数がすべてのコンテキストで"
+"未定義の場合、 Seam が例外をスローするよう指定します。"
+
+#. Tag: literal
+#: Annotations.xml:375
+#, no-c-format
+msgid "@Out"
+msgstr "@Out"
+
+#. Tag: programlisting
+#: Annotations.xml:378
+#, no-c-format
+msgid "<![CDATA[@Out]]>"
+msgstr "<![CDATA[@Out]]>"
+
+#. Tag: para
+#: Annotations.xml:379
+#, no-c-format
+msgid ""
+"Specifies that a component attribute that is a Seam component is to be "
+"outjected to its context variable at the end of the invocation. If the "
+"attribute is null, an exception is thrown."
+msgstr ""
+"Seam コンポーネントであるコンポーネント属性が呼び出しの終わりでそのコンテキス"
+"ト変数にアウトジェクトされることを指定します。 属性が null の場合、 例外が発"
+"生します。"
+
+#. Tag: programlisting
+#: Annotations.xml:384
+#, no-c-format
+msgid "<![CDATA[@Out(required=false)]]>"
+msgstr "<![CDATA[@Out(required=false)]]>"
+
+#. Tag: para
+#: Annotations.xml:385
+#, no-c-format
+msgid ""
+"Specifies that a component attribute that is a Seam component is to be "
+"outjected to its context variable at the end of the invocation. The "
+"attribute may be null."
+msgstr ""
+"Seam コンポーネントであるコンポーネント属性が呼び出しの終わりでそのコンテキス"
+"ト変数にアウトジェクトされることを指定します。 属性は null でも構いません。"
+
+#. Tag: programlisting
+#: Annotations.xml:390
+#, no-c-format
+msgid "<![CDATA[@Out(scope=ScopeType.SESSION)]]>"
+msgstr "<![CDATA[@Out(scope=ScopeType.SESSION)]]>"
+
+#. Tag: para
+#: Annotations.xml:391
+#, no-c-format
+msgid ""
+"Specifies that a component attribute that is <emphasis>not</emphasis> a Seam "
+"component type is to be outjected to a specific scope at the end of the "
+"invocation."
+msgstr ""
+"Seam コンポーネントタイプではないコンポーネント属性が呼び出しの終わりで特定ス"
+"コープにアウトジェクトされることを指定します。"
+
+#. Tag: para
+#: Annotations.xml:396
+#, no-c-format
+msgid ""
+"Alternatively, if no scope is explicitly specified, the scope of the "
+"component with the <literal>@Out</literal> attribute is used (or the "
+"<literal>EVENT</literal> scope if the component is stateless)."
+msgstr ""
+"明示的にスコープが指定されていない場合、 代わりに <literal>@Out</literal> 属"
+"性を持つコンポーネント自体のスコープが使用されます (またはコンポーネントがス"
+"テートレスであれば <literal>EVENT</literal>) 。"
+
+#. Tag: programlisting
+#: Annotations.xml:402
+#, no-c-format
+msgid "<![CDATA[@Out(value=\"contextVariableName\")]]>"
+msgstr "<![CDATA[@Out(value=\"contextVariableName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:409
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; specifies the name of the context variable. "
+"Default to the name of the component attribute."
+msgstr ""
+"<literal>value</literal> &#8212; コンテキスト変数名を指定します。デフォルトは"
+"コンポーネント属性の名前です。"
+
+#. Tag: para
+#: Annotations.xml:416
+#, no-c-format
+msgid ""
+"<literal>required</literal> &#8212; specifies Seam should throw an exception "
+"if the component attribute is null during outjection."
+msgstr ""
+"<literal>required</literal> &#8212; アウトジェクトする際にコンポーネント属性"
+"が null だった場合、 Seam が例外をスローするよう指定します。"
+
+#. Tag: para
+#: Annotations.xml:427
+#, no-c-format
+msgid ""
+"Note that it is quite common for these annotations to occur together, for "
+"example:"
+msgstr "これらのアノテーションは同時に利用されます。 例:"
+
+#. Tag: programlisting
+#: Annotations.xml:432
+#, no-c-format
+msgid "<![CDATA[@In(create=true) @Out private User currentUser;]]>"
+msgstr "<![CDATA[@In(create=true) @Out private User currentUser;]]>"
+
+#. Tag: para
+#: Annotations.xml:434
+#, fuzzy, no-c-format
+msgid ""
+"The next annotation supports the <emphasis>manager component</emphasis> "
+"pattern; a Seam component manages the lifecycle of an instance of some other "
+"class that is to be injected. It appears on a component getter method."
+msgstr ""
+"次のアノテーションは <emphasis>マネージャコンポーネント</emphasis> パターンを"
+"サポートします。 このアノテーションは、インジェクトされる他のいくつかのクラス"
+"のインスタンスのライフサイクルを管理する Seam コンポーネントで利用され、コン"
+"ポーネントの getter メソッドに付与されます。"
+
+#. Tag: literal
+#: Annotations.xml:444
+#, no-c-format
+msgid "@Unwrap"
+msgstr "@Unwrap"
+
+#. Tag: programlisting
+#: Annotations.xml:447
+#, no-c-format
+msgid "<![CDATA[@Unwrap]]>"
+msgstr "<![CDATA[@Unwrap]]>"
+
+#. Tag: para
+#: Annotations.xml:448
+#, no-c-format
+msgid ""
+"Specifies that the object returned by the annotated getter method is the "
+"thing that is injected instead of the component instance itself."
+msgstr ""
+"このアノテーションが付いている getter メソッドにより返されるオブジェクトが、"
+"コンポーネントインスタンス自体の代わりにインジェクトされます。"
+
+#. Tag: para
+#: Annotations.xml:457
+#, fuzzy, no-c-format
+msgid ""
+"The next annotation supports the <emphasis>factory component</emphasis> "
+"pattern; a Seam component is responsible for initializing the value of a "
+"context variable. This is especially useful for initializing any state "
+"needed for rendering the response to a non-faces request. It appears on a "
+"component method."
+msgstr ""
+"次のアノテーションは <emphasis>ファクトリコンポーネント</emphasis> パターンを"
+"サポートします。 Seam コンポーネントはコンテキスト変数の値の初期化を行いま"
+"す。 特に非 Faces 要求に対する応答のレンダリングに必要なあらゆる状態の初期化"
+"に便利です。 コンポーネントメソッドで指定されます。"
+
+#. Tag: literal
+#: Annotations.xml:468
+#, no-c-format
+msgid "@Factory"
+msgstr "@Factory"
+
+#. Tag: programlisting
+#: Annotations.xml:471
+#, no-c-format
+msgid ""
+"<![CDATA[@Factory(\"processInstance\") public void createProcessInstance() "
+"{ ... }]]>"
+msgstr ""
+"<![CDATA[@Factory(\"processInstance\") public void createProcessInstance() "
+"{ ... }]]>"
+
+#. Tag: para
+#: Annotations.xml:472
+#, no-c-format
+msgid ""
+"Specifies that the method of the component is used to initialize the value "
+"of the named context variable, when the context variable has no value. This "
+"style is used with methods that return <literal>void</literal>."
+msgstr ""
+"コンテキスト変数に値がない場合に、 このコンポーネントのメソッドが指定コンテキ"
+"スト変数の値の初期化に使用されることを指定します。 このスタイルは "
+"<literal>void</literal> を返すメソッドと併用します。"
+
+#. Tag: programlisting
+#: Annotations.xml:478
+#, no-c-format
+msgid ""
+"<![CDATA[@Factory(\"processInstance\", scope=CONVERSATION) public "
+"ProcessInstance createProcessInstance() { ... }]]>"
+msgstr ""
+"<![CDATA[@Factory(\"processInstance\", scope=CONVERSATION) public "
+"ProcessInstance createProcessInstance() { ... }]]>"
+
+#. Tag: para
+#: Annotations.xml:479
+#, no-c-format
+msgid ""
+"Specifies that the method returns a value that Seam should use to initialize "
+"the value of the named context variable, when the context variable has no "
+"value. This style is used with methods that return a value. If no scope is "
+"explicitly specified, the scope of the component with the <literal>@Factory</"
+"literal> method is used (unless the component is stateless, in which case "
+"the <literal>EVENT</literal> context is used)."
+msgstr ""
+"コンテキスト変数に値がない場合、 Seam が指定コンテキスト変数の値の初期化に使"
+"用する値をこのメソッドが返すことを指定します。 このスタイルは値を返すメソッド"
+"と併用します。 明示的にスコープが指定されていない場合、 <literal>@Factory</"
+"literal> メソッドを持つコンポーネント自体のスコープが使用されます (そのコン"
+"ポーネントがステートレスではない場合。 コンポーネントがステートレスの場合は"
+"<literal>EVENT</literal> コンテキストが使用されます) 。"
+
+#. Tag: para
+#: Annotations.xml:491
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; specifies the name of the context variable. "
+"If the method is a getter method, default to the JavaBeans property name."
+msgstr ""
+"<literal>value</literal> &#8212; コンテキスト変数の名前を指定します。メソッド"
+"が getter メソッドの場合、 JavaBeans のプロパティ名がデフォルトになります。"
+
+#. Tag: para
+#: Annotations.xml:498
+#, no-c-format
+msgid ""
+"<literal>scope</literal> &#8212; specifies the scope that Seam should bind "
+"the returned value to. Only meaningful for factory methods which return a "
+"value."
+msgstr ""
+"<literal>scope</literal> &#8212; Seamが戻り値をバインドするスコープを指定しま"
+"す。値を返すファクトリメソッドに取ってのみ、意味があります。"
+
+#. Tag: para
+#: Annotations.xml:505
+#, no-c-format
+msgid ""
+"<literal>autoCreate</literal> &#8212; specifies that this factory method "
+"should be automatically called whenever the variable is asked for, even if "
+"<literal>@In</literal> does not specify <literal>create=true</literal>."
+msgstr ""
+"<literal>autoCreate</literal> &#8212; 変数が要求されたときにはいつもこのファ"
+"クトリメソッドが自動的に呼ばれるよう指定します。<literal>@In</literal> が "
+"<literal>create=true</literal> を指定していない場合でも呼ばれます。"
+
+#. Tag: para
+#: Annotations.xml:518
+#, no-c-format
+msgid "This annotation lets you inject a <literal>Log</literal>:"
+msgstr "<literal>Log</literal> をインジェクトするアノテーション:"
+
+#. Tag: literal
+#: Annotations.xml:525
+#, no-c-format
+msgid "@Logger"
+msgstr "@Logger"
+
+#. Tag: programlisting
+#: Annotations.xml:528
+#, no-c-format
+msgid "<![CDATA[@Logger(\"categoryName\")]]>"
+msgstr "<![CDATA[@Logger(\"categoryName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:529
+#, no-c-format
+msgid ""
+"Specifies that a component field is to be injected with an instance of "
+"<literal>org.jboss.seam.log.Log</literal>. For entity beans, the field must "
+"be declared as static."
+msgstr ""
+"コンポーネントフィールドに <literal>org.jboss.seam.log.Log</literal> のインス"
+"タンスをインジェクトします。 エンティティ Bean の場合、 このフィールドは "
+"static として宣言されなければなりません。"
+
+#. Tag: para
+#: Annotations.xml:536
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; specifies the name of the log category. "
+"Default to the name of the component class."
+msgstr ""
+"<literal>value</literal> &#8212; ログカテゴリの名前を指定します。デフォルトは"
+"コンポーネントのクラス名です。"
+
+#. Tag: para
+#: Annotations.xml:547
+#, no-c-format
+msgid "The last annotation lets you inject a request parameter value:"
+msgstr "最後のアノテーションは、要求パラメータ値をインジェクトします:"
+
+#. Tag: literal
+#: Annotations.xml:554
+#, no-c-format
+msgid "@RequestParameter"
+msgstr "@RequestParameter"
+
+#. Tag: programlisting
+#: Annotations.xml:557
+#, no-c-format
+msgid "<![CDATA[@RequestParameter(\"parameterName\")]]>"
+msgstr "<![CDATA[@RequestParameter(\"parameterName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:558
+#, no-c-format
+msgid ""
+"Specifies that a component attribute is to be injected with the value of a "
+"request parameter. Basic type conversions are performed automatically."
+msgstr ""
+"コンポーネントの属性に要求パラメータ値をインジェクトします。 基本的な対話は自"
+"動的に開始されます。"
+
+#. Tag: para
+#: Annotations.xml:565
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; specifies the name of the request "
+"parameter. Default to the name of the component attribute."
+msgstr ""
+"<literal>value</literal> &#8212; 要求パラメータの名前を指定します。デフォルト"
+"はコンポーネント属性の名前です。"
+
+#. Tag: title
+#: Annotations.xml:579
+#, no-c-format
+msgid "Annotations for component lifecycle methods"
+msgstr "コンポーネントのライフサイクルメソッド用アノテーション"
+
+#. Tag: para
+#: Annotations.xml:580
+#, no-c-format
+msgid ""
+"These annotations allow a component to react to its own lifecycle events. "
+"They occur on methods of the component. There may be only one of each per "
+"component class."
+msgstr ""
+"これらのアノテーションにより、 コンポーネントがそのコンポーネント自体のライフ"
+"サイクルイベントに対して反応することができるようになります。 各コンポーネント"
+"クラスごとにそれぞれ一つのアノテーションのみ定義できます。"
+
+#. Tag: literal
+#: Annotations.xml:589
+#, no-c-format
+msgid "@Create"
+msgstr "@Create"
+
+#. Tag: programlisting
+#: Annotations.xml:592
+#, no-c-format
+msgid "<![CDATA[@Create]]>"
+msgstr "<![CDATA[@Create]]>"
+
+#. Tag: para
+#: Annotations.xml:593
+#, no-c-format
+msgid ""
+"Specifies that the method should be called when an instance of the component "
+"is instantiated by Seam. Note that create methods are only supported for "
+"JavaBeans and stateful session beans."
+msgstr ""
+"コンポーネントのインスタンスが Seam によってインスタンス化されたときに呼び出"
+"されるメソッドを指定します。 create メソッドは JavaBeans およびステートフル"
+"セッション Bean に対してしかサポートされないので注意してください。"
+
+#. Tag: literal
+#: Annotations.xml:603
+#, no-c-format
+msgid "@Destroy"
+msgstr "@Destroy"
+
+#. Tag: programlisting
+#: Annotations.xml:606
+#, no-c-format
+msgid "<![CDATA[@Destroy]]>"
+msgstr "<![CDATA[@Destroy]]>"
+
+#. Tag: para
+#: Annotations.xml:607
+#, no-c-format
+msgid ""
+"Specifies that the method should be called when the context ends and its "
+"context variables are destroyed. Note that destroy methods are only "
+"supported for JavaBeans and stateful session beans."
+msgstr ""
+"コンテキストが終了し、そのコンテキスト変数が破棄されるときに呼び出されるメ"
+"ソッドを指定します。 destroy メソッドは JavaBeans およびステートフルセッショ"
+"ン Bean に対してしかサポートされないので注意してください。"
+
+#. Tag: para
+#: Annotations.xml:613
+#, no-c-format
+msgid ""
+"Destroy methods should be used only for cleanup. <emphasis>Seam catches, "
+"logs and swallows any exception that propagates out of a destroy method.</"
+"emphasis>"
+msgstr ""
+"Destroy メソッドはクリーンアップにのみ使用するようにしてください。 "
+"<emphasis>Seam は destroy メソッドから伝播する例外はすべてキャッチしてログを"
+"出力し、捨ててしまいます。</emphasis>"
+
+#. Tag: literal
+#: Annotations.xml:622
+#, no-c-format
+msgid "@Observer"
+msgstr "@Observer"
+
+#. Tag: programlisting
+#: Annotations.xml:625
+#, no-c-format
+msgid "<![CDATA[@Observer(\"somethingChanged\")]]>"
+msgstr "<![CDATA[@Observer(\"somethingChanged\")]]>"
+
+#. Tag: para
+#: Annotations.xml:626
+#, no-c-format
+msgid ""
+"Specifies that the method should be called when a component-driven event of "
+"the specified type occurs."
+msgstr ""
+"指定されたタイプのコンポーネント駆動イベントが発生すると、このメソッドが呼び"
+"出されます。"
+
+#. Tag: programlisting
+#: Annotations.xml:630
+#, no-c-format
+msgid "<![CDATA[@Observer(value=\"somethingChanged\",create=false)]]>"
+msgstr "<![CDATA[@Observer(value=\"somethingChanged\",create=false)]]>"
+
+#. Tag: para
+#: Annotations.xml:631
+#, no-c-format
+msgid ""
+"Specifies that the method should be called when an event of the specified "
+"type occurs but that an instance should not be created if one doesn't exist. "
+"If an instance does not exist and create is false, the event will not be "
+"observed. The default value for create is true."
+msgstr ""
+"指定したタイプのイベントが発生したときにそのメソッドが呼ばれるよう指定しま"
+"す。ただしインスタンスが存在しない場合に、それを生成することはしません。イン"
+"スタンスが存在せず、 create が false の場合、イベントは監視されません。"
+"create のデフォルト値は true です。"
+
+#. Tag: title
+#: Annotations.xml:645
+#, no-c-format
+msgid "Annotations for context demarcation"
+msgstr "コンテキスト境界用アノテーション"
+
+#. Tag: para
+#: Annotations.xml:646
+#, no-c-format
+msgid ""
+"These annotations provide declarative conversation demarcation. They appear "
+"on methods of Seam components, usually action listener methods."
+msgstr ""
+"これらのアノテーションは宣言的対話の境界を設定します。 これらは Seam コンポー"
+"ネントのメソッド上、通常はアクションリスナーメソッドに付与されます。"
+
+#. Tag: para
+#: Annotations.xml:651
+#, no-c-format
+msgid ""
+"Every web request has a conversation context associated with it. Most of "
+"these conversations end at the end of the request. If you want a "
+"conversation that span multiple requests, you must \"promote\" the current "
+"conversation to a <emphasis>long-running conversation</emphasis> by calling "
+"a method marked with <literal>@Begin</literal>."
+msgstr ""
+"すべての Web 要求はそれに関連する対話的コンテキストを持っています。 ほとんど"
+"の対話は要求の終了と同時に終了します。 複数の要求にわたる対話が必要であれば、"
+"<literal>@Begin</literal> を付けたメソッドを呼び出すことで、 <emphasis>長期対"
+"話 (long-running conversation)</emphasis> に昇格させなければなりません。"
+
+#. Tag: literal
+#: Annotations.xml:662
+#, no-c-format
+msgid "@Begin"
+msgstr "@Begin"
+
+#. Tag: programlisting
+#: Annotations.xml:665
+#, no-c-format
+msgid "<![CDATA[@Begin]]>"
+msgstr "<![CDATA[@Begin]]>"
+
+#. Tag: para
+#: Annotations.xml:666
+#, no-c-format
+msgid ""
+"Specifies that a long-running conversation begins when this method returns a "
+"non-null outcome without exception."
+msgstr ""
+"このメソッドが例外および null 以外の結果 (outcome) を返したら長期対話が開始す"
+"ることを指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:670
+#, no-c-format
+msgid "<![CDATA[@Begin(join=true)]]>"
+msgstr "<![CDATA[@Begin(join=true)]]>"
+
+#. Tag: para
+#: Annotations.xml:671
+#, no-c-format
+msgid ""
+"Specifies that if a long-running conversation is already in progress, the "
+"conversation context is simply propagated."
+msgstr ""
+"長期対話がすでに開始されている場合、 対話コンテキストが単に伝播されることを指"
+"定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:675
+#, no-c-format
+msgid "<![CDATA[@Begin(nested=true)]]>"
+msgstr "<![CDATA[@Begin(nested=true)]]>"
+
+#. Tag: para
+#: Annotations.xml:676
+#, no-c-format
+msgid ""
+"Specifies that if a long-running conversation is already in progress, a new "
+"<emphasis>nested</emphasis> conversation context begins. The nested "
+"conversation will end when the next <literal>@End</literal> is encountered, "
+"and the outer conversation will resume. It is perfectly legal for multiple "
+"nested conversations to exist concurrently in the same outer conversation."
+msgstr ""
+"長期対話がすでに開始されている場合、 新たに<emphasis>ネストされた</emphasis>"
+"対話コンテキストが開始することを指定します。 次の <literal>@End</literal> が"
+"出現したときにネストされた対話が終了し、外側の対話が再開します。同じ外側の対"
+"話において、複数のネストされた対話が同時に存在することは全く問題ありません。"
+
+#. Tag: programlisting
+#: Annotations.xml:685
+#, no-c-format
+msgid "<![CDATA[@Begin(pageflow=\"process definition name\")]]>"
+msgstr "<![CDATA[@Begin(pageflow=\"process definition name\")]]>"
+
+#. Tag: para
+#: Annotations.xml:686
+#, no-c-format
+msgid ""
+"Specifies a jBPM process definition name that defines the pageflow for this "
+"conversation."
+msgstr ""
+"この対話のためのページフローを定義する jBPM プロセス定義の名前を定義します。"
+
+#. Tag: programlisting
+#: Annotations.xml:690
+#, no-c-format
+msgid "<![CDATA[@Begin(flushMode=FlushModeType.MANUAL)]]>"
+msgstr "<![CDATA[@Begin(flushMode=FlushModeType.MANUAL)]]>"
+
+#. Tag: para
+#: Annotations.xml:691
+#, no-c-format
+msgid ""
+"Specify the flush mode of any Seam-managed persistence contexts. "
+"<literal>flushMode=FlushModeType.MANUAL</literal> supports the use of "
+"<emphasis>atomic conversations</emphasis> where all write operations are "
+"queued in the conversation context until an explicit call to <literal>flush()"
+"</literal> (which usually occurs at the end of the conversation)."
+msgstr ""
+"Seam 管理の永続コンテキストのフラッシュモードを指定します。 "
+"<literal>flushMode=FlushModeType.MANUAL</literal> は <emphasis>アトミックな対"
+"話 (atomic conversation)</emphasis> をサポートします。 この場合、 "
+"<literal>flush () </literal> (通常、 対話終了時に呼び出される) の明示的な呼び"
+"出しが起きるまで、 すべての書き込み操作は対話コンテキスト内にキューイングされ"
+"ます。"
+
+#. Tag: para
+#: Annotations.xml:702
+#, no-c-format
+msgid ""
+"<literal>join</literal> &#8212; determines the behavior when a long-running "
+"conversation is already in progress. If <literal>true</literal>, the context "
+"is propagated. If <literal>false</literal>, an exception is thrown. Default "
+"to <literal>false</literal>. This setting is ignored when "
+"<literal>nested=true</literal> is specified."
+msgstr ""
+"<literal>join</literal> &#8212; 長期対話が既に始まっている場合の動作を指定し"
+"ます。<literal>true</literal> ならば、コンテキストが伝播されます。 "
+"<literal>false</literal> ならば、例外がスローされます。デフォルトは "
+"<literal>false</literal> です。<literal>nested=true</literal> が指定されてい"
+"る場合は、この設定は無視されます。"
+
+#. Tag: para
+#: Annotations.xml:713
+#, no-c-format
+msgid ""
+"<literal>nested</literal> &#8212; specifies that a nested conversation "
+"should be started if a long-running conversation is already in progress."
+msgstr ""
+"<literal>nested</literal> &#8212; 長期対話が既に開始されている場合、ネストし"
+"た対話が開始されることを指定します。"
+
+#. Tag: para
+#: Annotations.xml:720 Annotations.xml:811 Annotations.xml:858
+#, no-c-format
+msgid ""
+"<literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed "
+"Hibernate sessions or JPA persistence contexts that are created during this "
+"conversation."
+msgstr ""
+"<literal>flushMode</literal> &#8212; この対話で作成される Seam 管理の "
+"Hibernate セッション、または JPA 永続コンテキストのフラッシュモードをセットし"
+"ます。"
+
+#. Tag: para
+#: Annotations.xml:728
+#, no-c-format
+msgid ""
+"<literal>pageflow</literal> &#8212; a process definition name of a jBPM "
+"process definition deployed via <literal>org.jboss.seam.bpm.jbpm."
+"pageflowDefinitions.</literal>"
+msgstr ""
+"<literal>pageflow</literal> &#8212; <literal>org.jboss.seam.bpm.jbpm."
+"pageflowDefinitions</literal> によってデプロイされた jBPM プロセス定義のプロ"
+"セス定義名です。"
+
+#. Tag: literal
+#: Annotations.xml:739
+#, no-c-format
+msgid "@End"
+msgstr "@End"
+
+#. Tag: programlisting
+#: Annotations.xml:742
+#, no-c-format
+msgid "<![CDATA[@End]]>"
+msgstr "<![CDATA[@End]]>"
+
+#. Tag: para
+#: Annotations.xml:743
+#, no-c-format
+msgid ""
+"Specifies that a long-running conversation ends when this method returns a "
+"non-null outcome without exception."
+msgstr ""
+"このメソッドが例外および null 以外の結果 (outcome) を返す場合、 長期対話が終"
+"了することを指定します。"
+
+#. Tag: para
+#: Annotations.xml:749 Annotations.xml:896
+#, no-c-format
+msgid ""
+"<literal>beforeRedirect</literal> &#8212; by default, the conversation will "
+"not actually be destroyed until after any redirect has occurred. Setting "
+"<literal>beforeRedirect=true</literal> specifies that the conversation "
+"should be destroyed at the end of the current request, and that the redirect "
+"will be processed in a new temporary conversation context."
+msgstr ""
+"<literal>beforeRedirect</literal> &#8212; デフォルトでは、リダイレクトが発生"
+"するまで、対話は実際には破棄されません。<literal>beforeRedirect=true</"
+"literal> をセットすることで、現在の要求の最後に対話が破棄され、リダイレクトは"
+"新しい一時的な対話コンテキストで実行されるよう指定します。"
+
+#. Tag: para
+#: Annotations.xml:760
+#, no-c-format
+msgid ""
+"<literal>root</literal> &#8212; by default, ending a nested conversation "
+"simply pops the conversation stack and resumes the outer conversation. "
+"Setting <literal>root=true</literal> specifies that the root conversation "
+"should be destroyed which effectively destroys the entire conversation "
+"stack. If the conversation is not nested, the current conversation is simply "
+"ended."
+msgstr ""
+"<literal>root</literal> &#8212; デフォルトでは、ネストした対話が終了すると対"
+"話のスタックを単純にポップして、外側の対話を再開します。<literal>root=true</"
+"literal> をセットすることで 、ルート対話が破棄され、結果的に対話スタック全体"
+"が破棄されるよう指定します。対話がネストしていなければ単純に現在の対話が終了"
+"します。"
+
+#. Tag: literal
+#: Annotations.xml:775
+#, no-c-format
+msgid "@StartTask"
+msgstr "@StartTask"
+
+#. Tag: programlisting
+#: Annotations.xml:778
+#, no-c-format
+msgid "<![CDATA[@StartTask]]>"
+msgstr "<![CDATA[@StartTask]]>"
+
+#. Tag: para
+#: Annotations.xml:779
+#, no-c-format
+msgid ""
+"\"Starts\" a jBPM task. Specifies that a long-running conversation begins "
+"when this method returns a non-null outcome without exception. This "
+"conversation is associated with the jBPM task specified in the named request "
+"parameter. Within the context of this conversation, a business process "
+"context is also defined, for the business process instance of the task "
+"instance."
+msgstr ""
+"jBPM タスクを「開始」します。 このメソッドが例外および null 以外の結果 "
+"(outcome) を返すとき、 長期対話を開始することを指定します。 この対話は指定の"
+"要求パラメータ中で指定される jBPM タスクと関連しています。 この対話のコンテキ"
+"スト内で、 タスクインスタンスのビジネスプロセスインスタンスに対して、 ビジネ"
+"スプロセスコンテキストも定義されます。"
+
+#. Tag: para
+#: Annotations.xml:790
+#, fuzzy, no-c-format
+msgid ""
+"The jBPM <literal>TaskInstance</literal> will be available in a request "
+"context variable named <literal>taskInstance</literal>. The jBPM "
+"<literal>ProcessInstance</literal> will be available in a request context "
+"variable named <literal>processInstance</literal>. (Of course, these objects "
+"are available for injection via <literal>@In</literal>.)"
+msgstr ""
+"jBPM <literal>TaskInstance</literal> は、 <literal>taskInstance</literal>  と"
+"いう名前の要求コンテキスト変数として利用可能となります。 jBPM "
+"<literal>ProcessInstance</literal> は、 <literal>processInstance</literal> と"
+"いう名前の要求コンテキスト変数として利用可能です。 (もちろん、これらのオブ"
+"ジェクトは <literal>@In</literal> でインジェクションが可能です。) "
+
+#. Tag: para
+#: Annotations.xml:802 Annotations.xml:849
+#, no-c-format
+msgid ""
+"<literal>taskIdParameter</literal> &#8212; the name of a request parameter "
+"which holds the id of the task. Default to <literal>\"taskId\"</literal>, "
+"which is also the default used by the Seam <literal>taskList</literal> JSF "
+"component."
+msgstr ""
+"<literal>taskIdParameter</literal> &#8212; タスクのIDを持つ要求パラメータの名"
+"前です。デフォルトは <literal>\"taskId\"</literal> です。これは Seam "
+"<literal>taskList</literal> JSF コンポーネントでもデフォルトとして使用されて"
+"います。"
+
+#. Tag: literal
+#: Annotations.xml:824
+#, no-c-format
+msgid "@BeginTask"
+msgstr "@BeginTask"
+
+#. Tag: programlisting
+#: Annotations.xml:827
+#, no-c-format
+msgid "<![CDATA[@BeginTask]]>"
+msgstr "<![CDATA[@BeginTask]]>"
+
+#. Tag: para
+#: Annotations.xml:828
+#, no-c-format
+msgid ""
+"Resumes work on an incomplete jBPM task. Specifies that a long-running "
+"conversation begins when this method returns a non-null outcome without "
+"exception. This conversation is associated with the jBPM task specified in "
+"the named request parameter. Within the context of this conversation, a "
+"business process context is also defined, for the business process instance "
+"of the task instance."
+msgstr ""
+"完了していない jBPM タスクの処理を再開します。 このメソッドが例外および null "
+"以外の結果 (outcome) を返すとき、 長期対話が開始することを指定します。 この対"
+"話は指定の要求パラメータ中で指定される jBPM タスクと関連しています。 この対話"
+"のコンテキスト内で、 タスクインスタンスのビジネスプロセスインスタンスに対し"
+"て、 ビジネスプロセスコンテキストも定義されます。"
+
+#. Tag: para
+#: Annotations.xml:839
+#, fuzzy, no-c-format
+msgid ""
+"The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> will be "
+"available in a request context variable named <literal>taskInstance</"
+"literal>. The jBPM <literal>org.jbpm.graph.exe.ProcessInstance</literal> "
+"will be available in a request context variable named "
+"<literal>processInstance</literal>."
+msgstr ""
+"jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> は、 "
+"<literal>taskInstance</literal>  という名前の要求コンテキスト変数として利用可"
+"能となります。 jBPM <literal>org.jbpm.graph.exe.ProcessInstance</literal> "
+"は、 <literal>processInstance</literal> という名前の要求コンテキスト変数とし"
+"て利用可能です。"
+
+#. Tag: literal
+#: Annotations.xml:870
+#, no-c-format
+msgid "@EndTask"
+msgstr "@EndTask"
+
+#. Tag: programlisting
+#: Annotations.xml:873
+#, no-c-format
+msgid "<![CDATA[@EndTask]]>"
+msgstr "<![CDATA[@EndTask]]>"
+
+#. Tag: para
+#: Annotations.xml:874
+#, no-c-format
+msgid ""
+"\"Ends\" a jBPM task. Specifies that a long-running conversation ends when "
+"this method returns a non-null outcome, and that the current task is "
+"complete. Triggers a jBPM transition. The actual transition triggered will "
+"be the default transition unless the application has called "
+"<literal>Transition.setName()</literal> on the built-in component named "
+"<literal>transition</literal>."
+msgstr ""
+"jBPM タスクを「終了」します。 このメソッドが null 以外の結果 (outcome) を返す"
+"とき、 長期対話は終了し、 現在のタスクが完了することを指定します。 jBPM 遷移"
+"を引き起こします。 アプリケーションが <literal>transition</literal> と呼ばれ"
+"る組み込みコンポーネントの <literal>Transition.setName () </literal> を呼んで"
+"いない限り、 引き起こされる実際の遷移はデフォルトの遷移になります。"
+
+#. Tag: programlisting
+#: Annotations.xml:883
+#, no-c-format
+msgid "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
+msgstr "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:884
+#, no-c-format
+msgid "Triggers the given jBPM transition."
+msgstr "指定された jBPM 遷移を引き起こします。"
+
+#. Tag: para
+#: Annotations.xml:889
+#, no-c-format
+msgid ""
+"<literal>transition</literal> &#8212; the name of the jBPM transition to be "
+"triggered when ending the task. Defaults to the default transition."
+msgstr ""
+"<literal>transition</literal> &#8212; タスクが終了するときに引き起こされる "
+"jBPM 遷移の名前です。 省略された場合はデフォルト遷移となります。"
+
+#. Tag: literal
+#: Annotations.xml:911
+#, no-c-format
+msgid "@CreateProcess"
+msgstr "@CreateProcess"
+
+#. Tag: programlisting
+#: Annotations.xml:914
+#, no-c-format
+msgid "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
+msgstr "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
+
+#. Tag: para
+#: Annotations.xml:915
+#, no-c-format
+msgid ""
+"Creates a new jBPM process instance when the method returns a non-null "
+"outcome without exception. The <literal>ProcessInstance</literal> object "
+"will be available in a context variable named <literal>processInstance</"
+"literal>."
+msgstr ""
+"メソッドが例外なしに null 以外の結果 (outcome) を返すとき、 新しい jBPM プロ"
+"セスインスタンスを作成します。 <literal>ProcessInstance</literal> オブジェク"
+"トは <literal>processInstance</literal> というコンテキスト変数として使用でき"
+"ます。"
+
+#. Tag: para
+#: Annotations.xml:924
+#, no-c-format
+msgid ""
+"<literal>definition</literal> &#8212; the name of the jBPM process "
+"definition deployed via <literal>org.jboss.seam.bpm.jbpm.processDefinitions</"
+"literal>."
+msgstr ""
+"<literal>definition</literal> &#8212; <literal>org.jboss.seam.bpm.jbpm."
+"processDefinitions</literal> によってデプロイされる jBPM プロセス定義の名前で"
+"す。"
+
+#. Tag: literal
+#: Annotations.xml:935
+#, no-c-format
+msgid "@ResumeProcess"
+msgstr "@ResumeProcess"
+
+#. Tag: programlisting
+#: Annotations.xml:938
+#, no-c-format
+msgid "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
+msgstr "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
+
+#. Tag: para
+#: Annotations.xml:939
+#, no-c-format
+msgid ""
+"Re-enters the scope of an existing jBPM process instance when the method "
+"returns a non-null outcome without exception. The <literal>ProcessInstance</"
+"literal> object will be available in a context variable named "
+"<literal>processInstance</literal>."
+msgstr ""
+"メソッドが例外または null 以外の結果 (outcome) を返すとき、 既存の jBPM プロ"
+"セスインスタンスのスコープに再度入ります。 <literal>ProcessInstance</"
+"literal> オブジェクトは <literal>processInstance</literal> というコンテキスト"
+"変数で使用できます。"
+
+#. Tag: para
+#: Annotations.xml:948
+#, no-c-format
+msgid ""
+"<literal>processIdParameter</literal> &#8212; the name a request parameter "
+"holding the process id. Default to <literal>\"processId\"</literal>."
+msgstr ""
+"<literal>processIdParameter</literal> &#8212; プロセス ID を持つ要求パラメー"
+"タ名です。デフォルトは <literal>\"processId\"</literal> です。"
+
+#. Tag: literal
+#: Annotations.xml:960
+#, no-c-format
+msgid "@Transition"
+msgstr "@Transition"
+
+#. Tag: programlisting
+#: Annotations.xml:963
+#, no-c-format
+msgid "<![CDATA[@Transition(\"cancel\")]]>"
+msgstr "<![CDATA[@Transition(\"cancel\")]]>"
+
+#. Tag: para
+#: Annotations.xml:964
+#, no-c-format
+msgid ""
+"Marks a method as signalling a transition in the current jBPM process "
+"instance whenever the method returns a non-null result."
+msgstr ""
+"メソッドが null 以外の結果を返すときはいつも、現在の jBPM プロセスインスタン"
+"ス内で遷移にシグナルを送るように、メソッドをマークします。"
+
+#. Tag: title
+#: Annotations.xml:975
+#, no-c-format
+msgid "Annotations for use with Seam JavaBean components in a J2EE environment"
+msgstr "J2EE 環境で Seam JavaBean コンポーネントを使用するためのアノテーション"
+
+#. Tag: para
+#: Annotations.xml:976
+#, no-c-format
+msgid ""
+"Seam provides an annotation that lets you force a rollback of the JTA "
+"transaction for certain action listener outcomes."
+msgstr ""
+"Seam は特定のアクションリスナーの結果 (outcome) に対して JTA トランザクション"
+"のロールバックを強制するアノテーションを提供します。"
+
+#. Tag: literal
+#: Annotations.xml:984
+#, no-c-format
+msgid "@Transactional"
+msgstr "@Transactional"
+
+#. Tag: programlisting
+#: Annotations.xml:987
+#, no-c-format
+msgid "<![CDATA[@Transactional]]>"
+msgstr "<![CDATA[@Transactional]]>"
+
+#. Tag: para
+#: Annotations.xml:988
+#, no-c-format
+msgid ""
+"Specifies that a JavaBean component should have a similar transactional "
+"behavior to the default behavior of a session bean component. ie. method "
+"invocations should take place in a transaction, and if no transaction exists "
+"when the method is called, a transaction will be started just for that "
+"method. This annotation may be applied at either class or method level."
+msgstr ""
+"JavaBean コンポーネントにセッション Bean コンポーネントのデフォルト動作と同じ"
+"ようなトランザクション動作を持たせることを指定します。 例えば、 メソッド呼び"
+"出しはトランザクション内で起こるべきであり、 メソッドが呼び出されたときにトラ"
+"ンザクションが存在しない場合は、 トランザクションがそのメソッドのためだけに開"
+"始されます。 このアノテーションはクラスレベルでもメソッドレベルでも適用可能で"
+"す。"
+
+#. Tag: emphasis
+#: Annotations.xml:997
+#, no-c-format
+msgid ""
+"Do not use this annotation on EJB 3.0 components, use "
+"<literal>@TransactionAttribute</literal>!"
+msgstr ""
+"EJB 3.0 コンポーネントではこのアノテーションを使わずに、 "
+"<literal>@TransactionAttribute</literal> を使ってください！"
+
+#. Tag: literal
+#: Annotations.xml:1004
+#, no-c-format
+msgid "@ApplicationException"
+msgstr "@ApplicationException"
+
+#. Tag: programlisting
+#: Annotations.xml:1007
+#, no-c-format
+msgid "<![CDATA[@ApplicationException]]>"
+msgstr "<![CDATA[@ApplicationException]]>"
+
+#. Tag: para
+#: Annotations.xml:1008
+#, no-c-format
+msgid ""
+"Synonym for javax.ejb.ApplicationException, for use in a pre Java EE 5 "
+"environment. Applied to an exception to denote that it is an application "
+"exception and should be reported to the client directly(i.e., unwrapped)."
+msgstr ""
+"javax.ejb.ApplicationException と同義で、Java EE 5 より前の環境で使用されま"
+"す。例外に対して適用され、それがアプリケーション例外であり、クライアントに直"
+"接(つまりラップせずに)伝えられるべきであるということを指定します。"
+
+#. Tag: para
+#: Annotations.xml:1014
+#, no-c-format
+msgid ""
+"<emphasis>Do not use this annotation on EJB 3.0 components, use "
+"<literal>@javax.ejb.ApplicationException</literal> instead</emphasis>."
+msgstr ""
+"<emphasis>EJB 3.0 コンポーネントではこのアノテーションを使わずに、"
+"<literal>@javax.ejb.ApplicationException</literal> を代わりに使ってください</"
+"emphasis>。"
+
+#. Tag: para
+#: Annotations.xml:1021
+#, no-c-format
+msgid ""
+"<literal>rollback</literal> &#8212; by default <literal>false</literal>, if "
+"<literal>true</literal> this exception should set the transaction to "
+"rollback only"
+msgstr ""
+"<literal>rollback</literal> &#8212; デフォルトでは <literal>false</literal> "
+"です。<literal>true</literal> の場合、この例外はトランザクションを rollback "
+"only にセットします。"
+
+#. Tag: para
+#: Annotations.xml:1029
+#, no-c-format
+msgid ""
+"<literal>end</literal> &#8212; by default <literal>false</literal>, if "
+"<literal>true</literal> this exception should end the current long-running "
+"conversation"
+msgstr ""
+"<literal>end</literal> &#8212; デフォルトでは <literal>false</literal> です。"
+"<literal>true</literal> の場合、この例外は現在の長期対話を終了します。"
+
+#. Tag: literal
+#: Annotations.xml:1041
+#, no-c-format
+msgid "@Interceptors"
+msgstr "@Interceptors"
+
+#. Tag: programlisting
+#: Annotations.xml:1044
+#, no-c-format
+msgid "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
+msgstr "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
+
+#. Tag: para
+#: Annotations.xml:1045
+#, no-c-format
+msgid ""
+"Synonym for javax.interceptors.Interceptors, for use in a pre Java EE 5 "
+"environment. Note that this may only be used as a meta-annotation. Declares "
+"an ordered list of interceptors for a class or method."
+msgstr ""
+"javax.interceptors.Interceptors と同義で、Java EE 5 より前の環境で使用されま"
+"す。これはメタアノテーションとしてのみ使用できることに注意してください。クラ"
+"スまたはメソッドに対して、インタセプタの順序付けられたリストを宣言します。"
+
+#. Tag: para
+#: Annotations.xml:1051
+#, no-c-format
+msgid ""
+"<emphasis>Do not use this annotations on EJB 3.0 components, use "
+"<literal>@javax.interceptor.Interceptors</literal> instead</emphasis>."
+msgstr ""
+"<emphasis>EJB 3.0 コンポーネントではこのアノテーションを使わずに、"
+"<literal>@javax.interceptor.Interceptors</literal> を代わりに使ってください</"
+"emphasis>。"
+
+#. Tag: para
+#: Annotations.xml:1060
+#, no-c-format
+msgid ""
+"These annotations are mostly useful for JavaBean Seam components. If you use "
+"EJB 3.0 components, you should use the standard Java EE5 annotation."
+msgstr ""
+"これらのアノテーションは主に JavaBean Seam コンポーネントに対して有用です。"
+"EJB 3.0 コンポーネントを使う場合は、標準 Java EE5 アノテーションを使うべきで"
+"す。"
+
+#. Tag: title
+#: Annotations.xml:1068
+#, no-c-format
+msgid "Annotations for exceptions"
+msgstr "例外用のアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1070
+#, no-c-format
+msgid ""
+"These annotations let you specify how Seam should handle an exception that "
+"propagates out of a Seam component."
+msgstr ""
+"これらのアノテーションにより Seam コンポーネントから伝播する例外を処理する方"
+"法を指定することができます。"
+
+#. Tag: literal
+#: Annotations.xml:1078
+#, no-c-format
+msgid "@Redirect"
+msgstr "@Redirect"
+
+#. Tag: programlisting
+#: Annotations.xml:1081
+#, no-c-format
+msgid "<![CDATA[@Redirect(viewId=\"error.jsp\")]]>"
+msgstr "<![CDATA[@Redirect(viewId=\"error.jsp\")]]>"
+
+#. Tag: para
+#: Annotations.xml:1082
+#, no-c-format
+msgid ""
+"Specifies that the annotated exception causes a browser redirect to a "
+"specified view id."
+msgstr ""
+"このアノテーション付いている例外は、指定されたビュー ID にブラウザをリダイレ"
+"クトします。"
+
+#. Tag: para
+#: Annotations.xml:1088
+#, no-c-format
+msgid ""
+"<literal>viewId</literal> &#8212; specifies the JSF view id to redirect to. "
+"You can use EL here."
+msgstr ""
+"<literal>viewId</literal> &#8212; リダイレクトする JSF ビュー ID です。ここ"
+"で EL も利用可能です。"
+
+#. Tag: para
+#: Annotations.xml:1094
+#, no-c-format
+msgid ""
+"<literal>message</literal> &#8212; a message to be displayed, default to the "
+"exception message."
+msgstr ""
+"<literal>message</literal> &#8212; 表示するメッセージです。 デフォルトはその"
+"例外のメッセージです。"
+
+#. Tag: para
+#: Annotations.xml:1100 Annotations.xml:1133
+#, no-c-format
+msgid ""
+"<literal>end</literal> &#8212; specifies that the long-running conversation "
+"should end, default to <literal>false</literal>."
+msgstr ""
+"<literal>end</literal> &#8212; 長期対話が終了するよう指定します。 デフォルト"
+"は <literal>false</literal> です。"
+
+#. Tag: literal
+#: Annotations.xml:1111
+#, no-c-format
+msgid "@HttpError"
+msgstr "@HttpError"
+
+#. Tag: programlisting
+#: Annotations.xml:1114
+#, no-c-format
+msgid "<![CDATA[@HttpError(errorCode=404)]]>"
+msgstr "<![CDATA[@HttpError(errorCode=404)]]>"
+
+#. Tag: para
+#: Annotations.xml:1115
+#, no-c-format
+msgid "Specifies that the annotated exception causes a HTTP error to be sent."
+msgstr "このアノテーションが付いている例外は、 HTTP エラーが送信されます。"
+
+#. Tag: para
+#: Annotations.xml:1121
+#, no-c-format
+msgid ""
+"<literal>errorCode</literal> &#8212; the HTTP error code, default to "
+"<literal>500</literal>."
+msgstr ""
+"<literal>errorCode</literal> &#8212; HTTP エラーコードです。 デフォルトは "
+"<literal>500</literal> です。"
+
+#. Tag: para
+#: Annotations.xml:1127
+#, no-c-format
+msgid ""
+"<literal>message</literal> &#8212; a message to be sent with the HTTP error, "
+"default to the exception message."
+msgstr ""
+"<literal>message</literal> &#8212; HTTP エラーで送信されるメッセージです。 デ"
+"フォルトはその例外のメッセージです。"
+
+#. Tag: title
+#: Annotations.xml:1146
+#, no-c-format
+msgid "Annotations for Seam Remoting"
+msgstr "Seam Remoting用のアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1147
+#, no-c-format
+msgid ""
+"Seam Remoting requires that the local interface of a session bean be "
+"annotated with the following annotation:"
+msgstr ""
+"Seam Remotingは、以下のアノテーションを付けた セッション Bean のローカルイン"
+"タフェースが必要です。"
+
+#. Tag: literal
+#: Annotations.xml:1155
+#, no-c-format
+msgid "@WebRemote"
+msgstr "@WebRemote"
+
+#. Tag: programlisting
+#: Annotations.xml:1158
+#, no-c-format
+msgid "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
+msgstr "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
+
+#. Tag: para
+#: Annotations.xml:1159
+#, fuzzy, no-c-format
+msgid ""
+"Indicates that the annotated method may be called from client-side "
+"JavaScript. The <literal>exclude</literal> property is optional and allows "
+"objects to be excluded from the result's object graph (see the <xref linkend="
+"\"remoting\"/> chapter for more details)."
+msgstr ""
+"このアノテーション付きのメソッドはクライアントサイドの JavaScript から呼ばれ"
+"る可能性があることを示しています。<literal>exclude</literal> プロパティはオプ"
+"ションで、 オブジェクトがその結果のオブジェクトグラフから除外されるようにする"
+"ことができます (詳細は Remoting の章を参照)。"
+
+#. Tag: title
+#: Annotations.xml:1173
+#, no-c-format
+msgid "Annotations for Seam interceptors"
+msgstr "Seam インタセプタ用のアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1174
+#, no-c-format
+msgid "The following annotations appear on Seam interceptor classes."
+msgstr "以下のアノテーションは、Seam インタセプタクラスで使われます。"
+
+#. Tag: para
+#: Annotations.xml:1177
+#, no-c-format
+msgid ""
+"Please refer to the documentation for the EJB 3.0 specification for "
+"information about the annotations required for EJB interceptor definition."
+msgstr ""
+"EJB インタセプタ定義に必要なアノテーションに関する詳細は EJB 3.0 仕様のドキュ"
+"メントを参照してください。"
+
+#. Tag: literal
+#: Annotations.xml:1185
+#, no-c-format
+msgid "@Interceptor"
+msgstr "@Interceptor"
+
+#. Tag: programlisting
+#: Annotations.xml:1188
+#, no-c-format
+msgid "<![CDATA[@Interceptor(stateless=true)]]>"
+msgstr "<![CDATA[@Interceptor(stateless=true)]]>"
+
+#. Tag: para
+#: Annotations.xml:1189
+#, no-c-format
+msgid ""
+"Specifies that this interceptor is stateless and Seam may optimize "
+"replication."
+msgstr ""
+"このインタセプタはステートレスであることを指定するので、 Seam は複製処理を最"
+"適化することができます。"
+
+#. Tag: programlisting
+#: Annotations.xml:1193
+#, no-c-format
+msgid "<![CDATA[@Interceptor(type=CLIENT)]]>"
+msgstr "<![CDATA[@Interceptor(type=CLIENT)]]>"
+
+#. Tag: para
+#: Annotations.xml:1194
+#, no-c-format
+msgid ""
+"Specifies that this interceptor is a \"client-side\" interceptor that is "
+"called before the EJB container."
+msgstr ""
+"このインタセプタは EJB コンテナより前に呼ばれる「クライアントサイド」インタセ"
+"プタであることを指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:1198
+#, no-c-format
+msgid ""
+"<![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor."
+"class})]]>"
+msgstr ""
+"<![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor."
+"class})]]>"
+
+#. Tag: para
+#: Annotations.xml:1199
+#, no-c-format
+msgid ""
+"Specifies that this interceptor is positioned higher in the stack than the "
+"given interceptors."
+msgstr ""
+"このインタセプタは特定のインタセプタよりスタック内でより高い位置に配置される"
+"ことを指定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:1203
+#, no-c-format
+msgid ""
+"<![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor."
+"class})]]>"
+msgstr ""
+"<![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor."
+"class})]]>"
+
+#. Tag: para
+#: Annotations.xml:1204
+#, no-c-format
+msgid ""
+"Specifies that this interceptor is positioned deeper in the stack than the "
+"given interceptors."
+msgstr ""
+"このインタセプタは特定のインタセプタよりスタック内でより深い位置に配置される"
+"ことを指定します。"
+
+#. Tag: title
+#: Annotations.xml:1215
+#, no-c-format
+msgid "Annotations for asynchronicity"
+msgstr "非同期用のアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1216
+#, no-c-format
+msgid ""
+"The following annotations are used to declare an asynchronous method, for "
+"example:"
+msgstr "次のアノテーションは非同期メソッドの宣言に使用されます。 例:"
+
+#. Tag: programlisting
+#: Annotations.xml:1221
+#, no-c-format
+msgid ""
+"<![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration "
+"Date date) { ... }]]>"
+msgstr ""
+"<![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration "
+"Date date) { ... }]]>"
+
+#. Tag: programlisting
+#: Annotations.xml:1222
+#, no-c-format
+msgid ""
+"<![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, \n"
+"   @Expiration Date date, \n"
+"   @IntervalDuration long interval) { ... }]]>"
+msgstr ""
+"<![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, \n"
+"   @Expiration Date date, \n"
+"   @IntervalDuration long interval) { ... }]]>"
+
+#. Tag: literal
+#: Annotations.xml:1227
+#, no-c-format
+msgid "@Asynchronous"
+msgstr "@Asynchronous"
+
+#. Tag: programlisting
+#: Annotations.xml:1230
+#, no-c-format
+msgid "<![CDATA[@Asynchronous]]>"
+msgstr "<![CDATA[@Asynchronous]]>"
+
+#. Tag: para
+#: Annotations.xml:1231
+#, no-c-format
+msgid "Specifies that the method call is processed asynchronously."
+msgstr "メソッド呼び出しが非同期で処理されることを指定します。"
+
+#. Tag: literal
+#: Annotations.xml:1238
+#, no-c-format
+msgid "@Duration"
+msgstr "@Duration"
+
+#. Tag: programlisting
+#: Annotations.xml:1241
+#, no-c-format
+msgid "<![CDATA[@Duration]]>"
+msgstr "<![CDATA[@Duration]]>"
+
+#. Tag: para
+#: Annotations.xml:1242
+#, no-c-format
+msgid ""
+"Specifies that a parameter of the asynchronous call is the duration before "
+"the call is processed (or first processed for recurring calls)."
+msgstr ""
+"非同期呼び出しのパラメータが、 その呼び出しが処理されるまでの期間であることを"
+"指定します (または反復呼び出しの場合は初めての処理が行われるまで) 。"
+
+#. Tag: literal
+#: Annotations.xml:1251
+#, no-c-format
+msgid "@Expiration"
+msgstr "@Expiration"
+
+#. Tag: programlisting
+#: Annotations.xml:1254
+#, no-c-format
+msgid "<![CDATA[@Expiration]]>"
+msgstr "<![CDATA[@Expiration]]>"
+
+#. Tag: para
+#: Annotations.xml:1255
+#, no-c-format
+msgid ""
+"Specifies that a parameter of the asynchronous call is the datetime at which "
+"the call is processed (or first processed for recurring calls)."
+msgstr ""
+"非同期呼び出しのパラメータが、 その呼び出しが処理される (または反復呼び出しの"
+"場合は初めての処理が行われる) 日付と時刻であることを指定します。"
+
+#. Tag: literal
+#: Annotations.xml:1264
+#, no-c-format
+msgid "@IntervalDuration"
+msgstr "@IntervalDuration"
+
+#. Tag: programlisting
+#: Annotations.xml:1267
+#, no-c-format
+msgid "<![CDATA[@IntervalDuration]]>"
+msgstr "<![CDATA[@IntervalDuration]]>"
+
+#. Tag: para
+#: Annotations.xml:1268
+#, no-c-format
+msgid ""
+"Specifies that an asynchronous method call recurs, and that the annotationed "
+"parameter is duration between recurrences."
+msgstr ""
+"このアノテーションが付いている反復呼び出しを行う非同期メソッド呼び出しのパラ"
+"メータが、 各反復呼び出し間の期間であることを指定します。"
+
+#. Tag: title
+#: Annotations.xml:1278
+#, no-c-format
+msgid "Annotations for use with JSF"
+msgstr "JSF と使用するアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1279
+#, no-c-format
+msgid "The following annotations make working with JSF easier."
+msgstr "以下のアノテーションで JSF をより簡単に使えるようになります。"
+
+#. Tag: literal
+#: Annotations.xml:1286
+#, no-c-format
+msgid "@Converter"
+msgstr "@Converter"
+
+#. Tag: para
+#: Annotations.xml:1289
+#, no-c-format
+msgid ""
+"Allows a Seam component to act as a JSF converter. The annotated class must "
+"be a Seam component, and must implement <literal>javax.faces.convert."
+"Converter</literal>."
+msgstr ""
+"Seam コンポーネントを JSF コンバータとして振る舞えるようにします。アノテー"
+"ションを付けられたクラスは Seam コンポーネントでなければいけません。また "
+"<literal>javax.faces.convert.Converter</literal> を実装しなければなりません。"
+
+#. Tag: para
+#: Annotations.xml:1296
+#, no-c-format
+msgid ""
+"<literal>id</literal> &#8212; the JSF converter id. Defaults to the "
+"component name."
+msgstr ""
+"<literal>id</literal> &#8212; JSF コンバータIDです。デフォルトはコンポーネン"
+"ト名です。"
+
+#. Tag: para
+#: Annotations.xml:1302
+#, no-c-format
+msgid ""
+"<literal>forClass</literal> &#8212; if specified, register this component as "
+"the default converter for a type."
+msgstr ""
+"<literal>forClass</literal> &#8212; 指定されていれば、このコンポーネントをあ"
+"る型のデフォルトコンバータとして登録します。"
+
+#. Tag: literal
+#: Annotations.xml:1313
+#, no-c-format
+msgid "@Validator"
+msgstr "@Validator"
+
+#. Tag: para
+#: Annotations.xml:1316
+#, no-c-format
+msgid ""
+"Allows a Seam component to act as a JSF validator. The annotated class must "
+"be a Seam component, and must implement <literal>javax.faces.validator."
+"Validator</literal>."
+msgstr ""
+"Seam コンポーネントを JSF バリデータとして振る舞えるようにします。アノテー"
+"ションを付けられたクラスは Seam コンポーネントでなければいけません。また "
+"<literal>javax.faces.validator.Validator</literal> を実装しなければなりませ"
+"ん。"
+
+#. Tag: para
+#: Annotations.xml:1323
+#, no-c-format
+msgid ""
+"<literal>id</literal> &#8212; the JSF validator id. Defaults to the "
+"component name."
+msgstr ""
+"<literal>id</literal> &#8212; JSF バリデータIDです。デフォルトはコンポーネン"
+"ト名です。"
+
+#. Tag: title
+#: Annotations.xml:1334
+#, no-c-format
+msgid "Annotations for use with <literal>dataTable</literal>"
+msgstr "<literal>dataTable</literal> と使用するアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1335
+#, no-c-format
+msgid ""
+"The following annotations make it easy to implement clickable lists backed "
+"by a stateful session bean. They appear on attributes."
+msgstr ""
+"以下のアノテーションはステートフルセッション Bean を使ったクリック可能リスト"
+"の実装を容易にします。 これらのアノテーションは属性に付与されます。"
+
+#. Tag: literal
+#: Annotations.xml:1344
+#, no-c-format
+msgid "@DataModel"
+msgstr "@DataModel"
+
+#. Tag: programlisting
+#: Annotations.xml:1347
+#, no-c-format
+msgid "<![CDATA[@DataModel(\"variableName\")]]>"
+msgstr "<![CDATA[@DataModel(\"variableName\")]]>"
+
+#. Tag: para
+#: Annotations.xml:1348
+#, no-c-format
+msgid ""
+"Outjects a property of type <literal>List</literal>, <literal>Map</literal>, "
+"<literal>Set</literal> or <literal>Object[]</literal> as a JSF "
+"<literal>DataModel</literal> into the scope of the owning component (or the "
+"<literal>EVENT</literal> scope if the owning component is "
+"<literal>STATELESS</literal>). In the case of <literal>Map</literal>, each "
+"row of the <literal>DataModel</literal> is a <literal>Map.Entry</literal>."
+msgstr ""
+"<literal>List</literal>, <literal>Map</literal>, <literal>Set</literal> また"
+"は <literal>Object[]</literal> 型のプロパティを JSF <literal>DataModel</"
+"literal> として、所有しているコンポーネントのスコープへアウトジェクトします"
+"(所有しているコンポーネントが <literal>STATELESS</literal> の場合は "
+"<literal>EVENT</literal> スコープ)。<literal>Map</literal> の場合、"
+"<literal>DataModel</literal> の各行は <literal>Map.Entry</literal> です。"
+
+#. Tag: para
+#: Annotations.xml:1361
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; name of the conversation context variable. "
+"Default to the attribute name."
+msgstr ""
+"<literal>value</literal> &#8212; 対話コンテキスト変数の名前です。デフォルトは"
+"属性の名前です。"
+
+#. Tag: para
+#: Annotations.xml:1368
+#, no-c-format
+msgid ""
+"<literal>scope</literal> &#8212; if <literal>scope=ScopeType.PAGE</literal> "
+"is explicitly specified, the <literal>DataModel</literal> will be kept in "
+"the <literal>PAGE</literal> context."
+msgstr ""
+"<literal>scope</literal> &#8212; <literal>scope=ScopeType.PAGE</literal> が明"
+"示的に指定されていれば、<literal>DataModel</literal> は <literal>PAGE</"
+"literal> コンテキストに保持されます。"
+
+#. Tag: literal
+#: Annotations.xml:1380
+#, no-c-format
+msgid "@DataModelSelection"
+msgstr "@DataModelSelection"
+
+#. Tag: programlisting
+#: Annotations.xml:1383
+#, no-c-format
+msgid "<![CDATA[@DataModelSelection]]>"
+msgstr "<![CDATA[@DataModelSelection]]>"
+
+#. Tag: para
+#: Annotations.xml:1384
+#, no-c-format
+msgid ""
+"Injects the selected value from the JSF <literal>DataModel</literal> (this "
+"is the element of the underlying collection, or the map value). If only one "
+"<literal>@DataModel</literal> attribute is defined for a component, the "
+"selected value from that <literal>DataModel</literal> will be injected. "
+"Otherwise, the component name of each <literal>@DataModel</literal> must be "
+"specified in the value attribute for each <literal>@DataModelSelection</"
+"literal>."
+msgstr ""
+"JSF <literal>DataModel</literal> から選択された値をインジェクトします(これは "
+"DataModel の Collection の要素、または Map の値です)。コンポーネントにひとつ"
+"しか <literal>@DataModel</literal> 属性が定義されていなければ、その "
+"<literal>DataModel</literal> から選択された値がインジェクトされます。そうでな"
+"ければ、各 <literal>@DataModel</literal> のコンポーネント名を、各 "
+"<literal>@DataModelSelection</literal> の value 属性に指定しなければいけませ"
+"ん。"
+
+#. Tag: para
+#: Annotations.xml:1396
+#, no-c-format
+msgid ""
+"If <literal>PAGE</literal> scope is specified on the associated "
+"<literal>@DataModel</literal>, then, in addition to the DataModel Selection "
+"being injected, the associated DataModel will also be injected. In this "
+"case, if the property annotated with <literal>@DataModel</literal> is a "
+"getter method, then a setter method for the property must also be part of "
+"the Business API of the containing Seam Component."
+msgstr ""
+"関連付けられた <literal>@DataModel</literal> に <literal>PAGE</literal> ス"
+"コープが指定されている場合、 DataModel Selection がインジェクトされるのに加"
+"え、関連付けられた DataModel もインジェクトされます。このとき、"
+"<literal>@DataModel</literal> でアノテーションを付けられたプロパティが "
+"getter メソッドだった場合、プロパティの setter メソッドも Seam コンポーネント"
+"のビジネスAPIでなければいけません。"
+
+#. Tag: para
+#: Annotations.xml:1408 Annotations.xml:1438
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; name of the conversation context variable. "
+"Not needed if there is exactly one <literal>@DataModel</literal> in the "
+"component."
+msgstr ""
+"<literal>value</literal> &#8212; 対話コンテキスト変数の名前です。コンポーネン"
+"トに一つの <literal>@DataModel</literal> しかない場合は不要です。"
+
+#. Tag: literal
+#: Annotations.xml:1420
+#, no-c-format
+msgid "@DataModelSelectionIndex"
+msgstr "@DataModelSelectionIndex"
+
+#. Tag: programlisting
+#: Annotations.xml:1423
+#, no-c-format
+msgid "<![CDATA[@DataModelSelectionIndex]]>"
+msgstr "<![CDATA[@DataModelSelectionIndex]]>"
+
+#. Tag: para
+#: Annotations.xml:1424
+#, no-c-format
+msgid ""
+"Exposes the selection index of the JSF <literal>DataModel</literal> as an "
+"attribute of the component (this is the row number of the underlying "
+"collection, or the map key). If only one <literal>@DataModel</literal> "
+"attribute is defined for a component, the selected value from that "
+"<literal>DataModel</literal> will be injected. Otherwise, the component name "
+"of each <literal>@DataModel</literal> must be specified in the value "
+"attribute for each <literal>@DataModelSelectionIndex</literal>."
+msgstr ""
+"JSF <literal>DataModel</literal> の選択されたインデックスをコンポーネントの属"
+"性として公開します(これは DataModel の Collection の行番号、または Map のキー"
+"です)。コンポーネントにひとつしか <literal>@DataModel</literal> 属性が定義さ"
+"れていなければ、その <literal>DataModel</literal> から選択された値がインジェ"
+"クトされます。そうでなければ、各 <literal>@DataModel</literal> のコンポーネン"
+"ト名を、各 <literal>@DataModelSelectionIndex</literal> の value 属性に指定し"
+"なければいけません。"
+
+#. Tag: title
+#: Annotations.xml:1453
+#, no-c-format
+msgid "Meta-annotations for databinding"
+msgstr "データバインディング用のメタアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1454
+#, no-c-format
+msgid ""
+"These meta-annotations make it possible to implement similar functionality "
+"to <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> "
+"for other datastructures apart from lists."
+msgstr ""
+"これらのメタアノテーションは、リスト以外のデータ構造に対して "
+"<literal>@DataModel</literal> や <literal>@DataModelSelection</literal> と同"
+"様の機能の実装を可能にします。"
+
+#. Tag: literal
+#: Annotations.xml:1464
+#, no-c-format
+msgid "@DataBinderClass"
+msgstr "@DataBinderClass"
+
+#. Tag: programlisting
+#: Annotations.xml:1467
+#, no-c-format
+msgid "<![CDATA[@DataBinderClass(DataModelBinder.class)]]>"
+msgstr "<![CDATA[@DataBinderClass(DataModelBinder.class)]]>"
+
+#. Tag: para
+#: Annotations.xml:1468
+#, no-c-format
+msgid "Specifies that an annotation is a databinding annotation."
+msgstr ""
+"アノテーションがデータバインディングのアノテーションであることを指定します。"
+
+#. Tag: literal
+#: Annotations.xml:1475
+#, no-c-format
+msgid "@DataSelectorClass"
+msgstr "@DataSelectorClass"
+
+#. Tag: programlisting
+#: Annotations.xml:1478
+#, no-c-format
+msgid "<![CDATA[@DataSelectorClass(DataModelSelector.class)]]>"
+msgstr "<![CDATA[@DataSelectorClass(DataModelSelector.class)]]>"
+
+#. Tag: para
+#: Annotations.xml:1479
+#, no-c-format
+msgid "Specifies that an annotation is a dataselection annotation."
+msgstr "アノテーションがデータ選択のアノテーションであることを指定します。"
+
+#. Tag: title
+#: Annotations.xml:1488
+#, no-c-format
+msgid "Annotations for packaging"
+msgstr "パッケージング用のアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1489
+#, no-c-format
+msgid ""
+"This annotation provides a mechanism for declaring information about a set "
+"of components that are packaged together. It can be applied to any Java "
+"package."
+msgstr ""
+"このアノテーションは、 一緒にパッケージングするコンポーネントセットに関する情"
+"報を宣言するメカニズムを提供します。 どの Java パッケージに対しても適用できま"
+"す。"
+
+#. Tag: literal
+#: Annotations.xml:1499
+#, no-c-format
+msgid "@Namespace"
+msgstr "@Namespace"
+
+#. Tag: programlisting
+#: Annotations.xml:1502
+#, no-c-format
+msgid ""
+"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay"
+"\")]]>"
+msgstr ""
+"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay"
+"\")]]>"
+
+#. Tag: para
+#: Annotations.xml:1503
+#, no-c-format
+msgid ""
+"Specifies that components in the current package are associated with the "
+"given namespace. The declared namespace can be used as an XML namespace in a "
+"<literal>components.xml</literal> file to simplify application configuration."
+msgstr ""
+"現在のパッケージにあるコンポーネントが特定の名前空間に関連付けられることを指"
+"定します。 宣言された名前空間は <literal>components.xml</literal> ファイル内"
+"で XML 名前空間として使用することでアプリケーションの設定を単純化することがで"
+"きます。"
+
+#. Tag: programlisting
+#: Annotations.xml:1509
+#, no-c-format
+msgid ""
+"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix="
+"\"org.jboss.seam.core\")]]>"
+msgstr ""
+"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix="
+"\"org.jboss.seam.core\")]]>"
+
+#. Tag: para
+#: Annotations.xml:1510
+#, no-c-format
+msgid ""
+"Specifies a namespace to associate with a given package. Additionally, it "
+"specifies a component name prefix to be applied to component names specified "
+"in the XML file. For example, an XML element named <literal>init</literal> "
+"that is associated with this namespace would be understood to actually refer "
+"to a component named <literal>org.jboss.seam.core.init</literal>."
+msgstr ""
+"名前空間を特定のパッケージに関連付けるよう指定します。 また、 XML ファイル内"
+"で指定されたコンポーネント名にプレフィックスを適用するよう指定します。 たとえ"
+"ば、 この名前空間に関連付けられる <literal>init</literal> という XML 要素は実"
+"際には <literal>org.jboss.seam.core.init</literal> というコンポーネントを参照"
+"するように解釈されます。"
+
+#. Tag: title
+#: Annotations.xml:1525
+#, no-c-format
+msgid "Annotations for integrating with the servlet container"
+msgstr "サーブレットコンテナと統合するためのアノテーション"
+
+#. Tag: para
+#: Annotations.xml:1526
+#, no-c-format
+msgid ""
+"These annotations allow you to integrate your Seam components with the "
+"servlet container."
+msgstr ""
+"これらのアノテーションは Seam コンポーネントをサーブレットコンテナに統合する"
+"ことができます。"
+
+#. Tag: literal
+#: Annotations.xml:1535
+#, no-c-format
+msgid "@Filter"
+msgstr "@Filter"
+
+#. Tag: para
+#: Annotations.xml:1538
+#, no-c-format
+msgid ""
+"Use the Seam component (which implements <literal>javax.servlet.Filter</"
+"literal>) annotated with <literal>@Filter</literal> as a servlet filter. It "
+"will be executed by Seam's master filter."
+msgstr ""
+"<literal>@Filter</literal> でアノテーションを付けられた Seam コンポーネント "
+"(<literal>javax.servlet.Filter</literal> を実装している) をサーブレットフィル"
+"タとして使います。Seam のマスタフィルタから実行されます。"
+
+#. Tag: programlisting
+#: Annotations.xml:1546
+#, no-c-format
+msgid "<![CDATA[@Filter(around={\"seamComponent\", \"otherSeamComponent\"})]]>"
+msgstr ""
+"<![CDATA[@Filter(around={\"seamComponent\", \"otherSeamComponent\"})]]>"
+
+#. Tag: para
+#: Annotations.xml:1547
+#, no-c-format
+msgid ""
+"Specifies that this filter is positioned higher in the stack than the given "
+"filters."
+msgstr ""
+"このフィルタは特定のフィルタよりスタック内でより高い位置に配置されることを指"
+"定します。"
+
+#. Tag: programlisting
+#: Annotations.xml:1553
+#, no-c-format
+msgid "<![CDATA[@Filter(within={\"seamComponent\", \"otherSeamComponent\"})]]>"
+msgstr ""
+"<![CDATA[@Filter(within={\"seamComponent\", \"otherSeamComponent\"})]]>"
+
+#. Tag: para
+#: Annotations.xml:1554
+#, no-c-format
+msgid ""
+"Specifies that this filter is positioned deeper in the stack than the given "
+"filters."
+msgstr ""
+"このフィルタは特定のフィルタよりスタック内でより深い位置に配置されることを指"
+"定します。"

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="template.xhtml">
+
+    <ui:define name="head">
+        <script src="tasks.js" type="text/javascript" />
+    </ui:define>
+
+    <ui:define name="body">
+        <table id="categories">
+            <thead>
+                <tr>
+                    <td colspan="2"><h2>Yet, unresolved tasks.</h2></td>
+                </tr>
+            </thead>
+            <tbody/>
+        </table>
+        <hr/>
+        <form id="newTask">
+            <h2>Create new task</h2>
+            <select id="editTaskCategory" /> <input id="editTaskName" type="text" />
+            <input id="editTaskSubmit" type="button" value="Create" />
+        </form>
+    </ui:define>
+</ui:composition>

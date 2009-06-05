@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+  <import>org.jboss.seam.core</import>
+  <import>org.jboss.seam.cache</import>
+  <import>org.jboss.seam.transaction</import>
+  <import>org.jboss.seam.framework</import>
+  <import>org.jboss.seam.web</import>
+  <import>org.jboss.seam.faces</import>
+  <import>org.jboss.seam.international</import>
+  <import>org.jboss.seam.theme</import>
+  <import>org.jboss.seam.pageflow</import>
+  <import>org.jboss.seam.bpm</import>
+  <import>org.jboss.seam.jms</import>
+  <import>org.jboss.seam.mail</import>
+  <import>org.jboss.seam.security</import>
+  <import>org.jboss.seam.security.management</import>  
+  <import>org.jboss.seam.security.permission</import>
+  <import>org.jboss.seam.security.openid</import>
+  <import>org.jboss.seam.captcha</import>
+  <import>org.jboss.seam.excel.exporter</import>
+
+  <factory name="org.jboss.seam.web.webSession" auto-create="true" scope="stateless" value="#{org.jboss.seam.web.session}" />
+  
+  <factory name="facesMessages" auto-create="true" scope="stateless" value="#{org.jboss.seam.international.statusMessages}" />
+  
+  <factory name="org.jboss.seam.faces.facesMessages" auto-create="true" scope="stateless" value="#{org.jboss.seam.international.statusMessages}" />
+
+</components>

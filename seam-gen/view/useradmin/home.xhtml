@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    template="/layout/template.xhtml">
+
+    <ui:define name="head">
+        <link href="../stylesheet/useradmin.css" rel="stylesheet" type="text/css"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h1>Identity Management</h1>
+
+        <s:button id="manageUsers" view="/useradmin/usermanager.xhtml" styleClass="manageusers" value="Manage Users"/>
+        <br/>
+        <s:button id="manageRoles" view="/useradmin/rolemanager.xhtml" styleClass="manageroles" value="Manage Roles"/>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,1652 @@
+# Language si-LK translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-23 11:30+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Remoting.xml:5
+#, no-c-format
+msgid "Remoting"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:6
+#, no-c-format
+msgid ""
+"Seam provides a convenient method of remotely accessing components from a "
+"web page, using AJAX (Asynchronous Javascript and XML). The framework for "
+"this functionality is provided with almost no up-front development effort - "
+"your components only require simple annotating to become accessible via "
+"AJAX. This chapter describes the steps required to build an AJAX-enabled web "
+"page, then goes on to explain the features of the Seam Remoting framework in "
+"more detail."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:13 Remoting.xml:608
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:14
+#, no-c-format
+msgid ""
+"To use remoting, the Seam Resource servlet must first be configured in your "
+"<literal>web.xml</literal> file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:16
+#, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"  <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"  <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>\n"
+"</servlet>\n"
+"\n"
+"<servlet-mapping>\n"
+"  <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"  <url-pattern>/seam/resource/*</url-pattern>\n"
+"</servlet-mapping>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:18
+#, no-c-format
+msgid ""
+"The next step is to import the necessary Javascript into your web page. "
+"There are a minimum of two scripts that must be imported. The first one "
+"contains all the client-side framework code that enables remoting "
+"functionality:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:22
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/"
+"resource/remote.js\"></script>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:24
+#, no-c-format
+msgid ""
+"The second script contains the stubs and type definitions for the components "
+"you wish to call. It is generated dynamically based on the local interface "
+"of your components, and includes type definitions for all of the classes "
+"that can be used to call the remotable methods of the interface. The name of "
+"the script reflects the name of your component. For example, if you have a "
+"stateless session bean annotated with <literal>@Name(\"customerAction\")</"
+"literal>, then your script tag should look like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:30
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\" \n"
+"          src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:32
+#, no-c-format
+msgid ""
+"If you wish to access more than one component from the same page, then "
+"include them all as parameters of your script tag:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:35
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\" \n"
+"        src=\"seam/resource/remoting/interface.js?"
+"customerAction&accountAction\"></script>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:38
+#, no-c-format
+msgid ""
+"Alternatively, you may use the <literal>s:remote</literal> tag to import the "
+"required Javascript. Separate each component or class name you wish to "
+"import with a comma:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:43
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"  <s:remote include=\"customerAction,accountAction\"/>    \n"
+"    ]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:48
+#, no-c-format
+msgid "The \"Seam\" object"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:50
+#, no-c-format
+msgid ""
+"Client-side interaction with your components is all performed via the "
+"<literal>Seam</literal> Javascript object. This object is defined in "
+"<literal>remote.js</literal>, and you'll be using it to make asynchronous "
+"calls against your component. It is split into two areas of functionality; "
+"<literal>Seam.Component</literal> contains methods for working with "
+"components and <literal>Seam.Remoting</literal> contains methods for "
+"executing remote requests. The easiest way to become familiar with this "
+"object is to start with a simple example."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:57
+#, no-c-format
+msgid "A Hello World example"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:59
+#, no-c-format
+msgid ""
+"Let's step through a simple example to see how the <literal>Seam</literal> "
+"object works. First of all, let's create a new Seam component called "
+"<literal>helloAction</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:62
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"helloAction\")\n"
+"public class HelloAction implements HelloLocal {\n"
+"    public String sayHello(String name) {\n"
+"        return \"Hello, \" + name;\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:64
+#, no-c-format
+msgid ""
+"You also need to create a local interface for our new component - take "
+"special note of the <literal>@WebRemote</literal> annotation, as it's "
+"required to make our method accessible via remoting:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:67
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface HelloLocal {\n"
+"  @WebRemote\n"
+"  public String sayHello(String name);\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:69
+#, no-c-format
+msgid "That's all the server-side code we need to write."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:72
+#, no-c-format
+msgid ""
+"If you are performing a persistence operation in the method marked "
+"<literal>@WebRemote</literal> you will also need to add a "
+"<literal>@Transactional</literal> annotation to the method. Otherwise, your "
+"method would execute outside of a transaction without this extra hint.That's "
+"because unlike a JSF request, Seam does not wrap the remoting request in a "
+"transaction automatically."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:78
+#, no-c-format
+msgid ""
+"Now for our web page - create a new page and import the "
+"<literal>helloAction</literal> component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:81
+#, no-c-format
+msgid "<![CDATA[<s:remote include=\"helloAction\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:83
+#, no-c-format
+msgid ""
+"To make this a fully interactive user experience, let's add a button to our "
+"page:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:85
+#, no-c-format
+msgid ""
+"<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:87
+#, no-c-format
+msgid ""
+"We'll also need to add some more script to make our button actually do "
+"something when it's clicked:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:89
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"  //<![CDATA[\n"
+"\n"
+"  function sayHello() {\n"
+"    var name = prompt(\"What is your name?\");\n"
+"    Seam.Component.getInstance(\"helloAction\").sayHello(name, "
+"sayHelloCallback);\n"
+"  }\n"
+"\n"
+"  function sayHelloCallback(result) {\n"
+"    alert(result);\n"
+"  }\n"
+"\n"
+"   // ]]>]]&gt;<![CDATA[\n"
+"</script>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:91
+#, no-c-format
+msgid ""
+"We're done! Deploy your application and browse to your page. Click the "
+"button, and enter a name when prompted. A message box will display the hello "
+"message confirming that the call was successful. If you want to save some "
+"time, you'll find the full source code for this Hello World example in "
+"Seam's <literal>/examples/remoting/helloworld</literal> directory."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:96
+#, no-c-format
+msgid ""
+"So what does the code of our script actually do? Let's break it down into "
+"smaller pieces. To start with, you can see from the Javascript code listing "
+"that we have implemented two methods - the first method is responsible for "
+"prompting the user for their name and then making a remote request. Take a "
+"look at the following line:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:101
+#, no-c-format
+msgid ""
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:103
+#, no-c-format
+msgid ""
+"The first section of this line, <literal>Seam.Component.getInstance"
+"(\"helloAction\")</literal> returns a proxy, or \"stub\" for our "
+"<literal>helloAction</literal> component. We can invoke the methods of our "
+"component against this stub, which is exactly what happens with the "
+"remainder of the line: <literal>sayHello(name, sayHelloCallback);</literal>."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:108
+#, no-c-format
+msgid ""
+"What this line of code in its completeness does, is invoke the "
+"<literal>sayHello</literal> method of our component, passing in "
+"<literal>name</literal> as a parameter. The second parameter, "
+"<literal>sayHelloCallback</literal> isn't a parameter of our component's "
+"<literal>sayHello</literal> method, instead it tells the Seam Remoting "
+"framework that once it receives the response to our request, it should pass "
+"it to the <literal>sayHelloCallback</literal> Javascript method. This "
+"callback parameter is entirely optional, so feel free to leave it out if "
+"you're calling a method with a <literal>void</literal> return type or if you "
+"don't care about the result."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:116
+#, no-c-format
+msgid ""
+"The <literal>sayHelloCallback</literal> method, once receiving the response "
+"to our remote request then pops up an alert message displaying the result of "
+"our method call."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:122
+#, no-c-format
+msgid "Seam.Component"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:124
+#, no-c-format
+msgid ""
+"The <literal>Seam.Component</literal> Javascript object provides a number of "
+"client-side methods for working with your Seam components. The two main "
+"methods, <literal>newInstance()</literal> and <literal>getInstance()</"
+"literal> are documented in the following sections however their main "
+"difference is that <literal>newInstance()</literal> will always create a new "
+"instance of a component type, and <literal>getInstance()</literal> will "
+"return a singleton instance."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:131
+#, no-c-format
+msgid "Seam.Component.newInstance()"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:132
+#, no-c-format
+msgid ""
+"Use this method to create a new instance of an entity or Javabean component. "
+"The object returned by this method will have the same getter/setter methods "
+"as its server-side counterpart, or alternatively if you wish you can access "
+"its fields directly. Take the following Seam entity component for example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:136
+#, no-c-format
+msgid ""
+"@Name(\"customer\")\n"
+"@Entity\n"
+"public class Customer implements Serializable\n"
+"{\n"
+"  private Integer customerId;\n"
+"  private String firstName;\n"
+"  private String lastName;\n"
+"    \n"
+"  @Column public Integer getCustomerId() { \n"
+"    return customerId; \n"
+"  }\n"
+"    \n"
+"  public void setCustomerId(Integer customerId} { \n"
+"    this.customerId = customerId; \n"
+"  }\n"
+"  \n"
+"  @Column public String getFirstName() { \n"
+"    return firstName; \n"
+"  }\n"
+"  \n"
+"  public void setFirstName(String firstName) {\n"
+"    this.firstName = firstName; \n"
+"  }\n"
+"  \n"
+"  @Column public String getLastName() {\n"
+"    return lastName;\n"
+"  }\n"
+"  \n"
+"  public void setLastName(String lastName) {\n"
+"    this.lastName = lastName;\n"
+"  }\n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:138
+#, no-c-format
+msgid "To create a client-side Customer you would write the following code:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:140
+#, no-c-format
+msgid "var customer = Seam.Component.newInstance(\"customer\");"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:142
+#, no-c-format
+msgid "Then from here you can set the fields of the customer object:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:144
+#, no-c-format
+msgid ""
+"customer.setFirstName(\"John\");\n"
+"// Or you can set the fields directly\n"
+"customer.lastName = \"Smith\";"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:149
+#, no-c-format
+msgid "Seam.Component.getInstance()"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:151
+#, no-c-format
+msgid ""
+"The <literal>getInstance()</literal> method is used to get a reference to a "
+"Seam session bean component stub, which can then be used to remotely execute "
+"methods against your component. This method returns a singleton for the "
+"specified component, so calling it twice in a row with the same component "
+"name will return the same instance of the component."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:156
+#, no-c-format
+msgid ""
+"To continue our example from before, if we have created a new "
+"<literal>customer</literal> and we now wish to save it, we would pass it to "
+"the <literal>saveCustomer()</literal> method of our <literal>customerAction</"
+"literal> component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:160
+#, no-c-format
+msgid "Seam.Component.getInstance(\"customerAction\").saveCustomer(customer);"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:164
+#, no-c-format
+msgid "Seam.Component.getComponentName()"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:166
+#, no-c-format
+msgid ""
+"Passing an object into this method will return its component name if it is a "
+"component, or <literal>null</literal> if it is not."
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:169
+#, no-c-format
+msgid ""
+"if (Seam.Component.getComponentName(instance) == \"customer\")\n"
+"  alert(\"Customer\");\n"
+"else if (Seam.Component.getComponentName(instance) == \"staff\")\n"
+"  alert(\"Staff member\");"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:175
+#, no-c-format
+msgid "Seam.Remoting"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:177
+#, no-c-format
+msgid ""
+"Most of the client side functionality for Seam Remoting is contained within "
+"the <literal>Seam.Remoting</literal> object. While you shouldn't need to "
+"directly call most of its methods, there are a couple of important ones "
+"worth mentioning."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:182
+#, no-c-format
+msgid "Seam.Remoting.createType()"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:184
+#, no-c-format
+msgid ""
+"If your application contains or uses Javabean classes that aren't Seam "
+"components, you may need to create these types on the client side to pass as "
+"parameters into your component method. Use the <literal>createType()</"
+"literal> method to create an instance of your type. Pass in the fully "
+"qualified Java class name as a parameter:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:189
+#, no-c-format
+msgid "var widget = Seam.Remoting.createType(\"com.acme.widgets.MyWidget\");"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:193
+#, no-c-format
+msgid "Seam.Remoting.getTypeName()"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:195
+#, no-c-format
+msgid ""
+"This method is the equivalent of <literal>Seam.Component.getComponentName()</"
+"literal> but for non-component types. It will return the name of the type "
+"for an object instance, or <literal>null</literal> if the type is not known. "
+"The name is the fully qualified name of the type's Java class."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:203
+#, no-c-format
+msgid "Evaluating EL Expressions"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:205
+#, no-c-format
+msgid ""
+"Seam Remoting also supports the evaluation of EL expressions, which provides "
+"another convenient method for retrieving data from the server. Using the "
+"<literal>Seam.Remoting.eval()</literal> function, an EL expression can be "
+"remotely evaluated on the server and the resulting value returned to a "
+"client-side callback method. This function accepts two parameters, the first "
+"being the EL expression to evaluate, and the second being the callback "
+"method to invoke with the value of the expression. Here's an example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:213
+#, no-c-format
+msgid ""
+"<![CDATA[  function customersCallback(customers) {\n"
+"    for (var i = 0; i < customers.length; i++) {\n"
+"      alert(\"Got customer: \" + customers[i].getName());\n"
+"    }    \n"
+"  }\n"
+"    \n"
+"  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
+"    ]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:215
+#, no-c-format
+msgid ""
+"In this example, the expression <literal>#{customers}</literal> is evaluated "
+"by Seam, and the value of the expression (in this case a list of Customer "
+"objects) is returned to the <literal>customersCallback()</literal> method. "
+"It is important to remember that the objects returned this way must have "
+"their types imported (via <literal>s:remote</literal>) to be able to work "
+"with them in Javascript. So to work with a list of <literal>customer</"
+"literal> objects, it is required to import the <literal>customer</literal> "
+"type:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:223
+#, no-c-format
+msgid "<![CDATA[<s:remote include=\"customer\"/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:227
+#, no-c-format
+msgid "Client Interfaces"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:229
+#, no-c-format
+msgid ""
+"In the configuration section above, the interface, or \"stub\" for our "
+"component is imported into our page either via <literal>seam/resource/"
+"remoting/interface.js</literal>: or using the <literal>s:remote</literal> "
+"tag:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:234
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\" \n"
+"        src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:236
+#, no-c-format
+msgid "<![CDATA[<s:remote include=\"customerAction\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:238
+#, no-c-format
+msgid ""
+"By including this script in our page, the interface definitions for our "
+"component, plus any other components or types that are required to execute "
+"the methods of our component are generated and made available for the "
+"remoting framework to use."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:242
+#, no-c-format
+msgid ""
+"There are two types of client stub that can be generated, \"executable\" "
+"stubs and \"type\" stubs. Executable stubs are behavioural, and are used to "
+"execute methods against your session bean components, while type stubs "
+"contain state and represent the types that can be passed in as parameters or "
+"returned as a result."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:246
+#, no-c-format
+msgid ""
+"The type of client stub that is generated depends on the type of your Seam "
+"component. If the component is a session bean, then an executable stub will "
+"be generated, otherwise if it's an entity or JavaBean, then a type stub will "
+"be generated. There is one exception to this rule; if your component is a "
+"JavaBean (ie it is not a session bean nor an entity bean) and any of its "
+"methods are annotated with @WebRemote, then an executable stub will be "
+"generated for it instead of a type stub. This allows you to use remoting to "
+"call methods of your JavaBean components in a non-EJB environment where you "
+"don't have access to session beans."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:256
+#, no-c-format
+msgid "The Context"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:258
+#, no-c-format
+msgid ""
+"The Seam Remoting Context contains additional information which is sent and "
+"received as part of a remoting request/response cycle. At this stage it only "
+"contains the conversation ID but may be expanded in the future."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:262
+#, no-c-format
+msgid "Setting and reading the Conversation ID"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:265
+#, no-c-format
+msgid ""
+"If you intend on using remote calls within the scope of a conversation then "
+"you need to be able to read or set the conversation ID in the Seam Remoting "
+"Context. To read the conversation ID after making a remote request call "
+"<literal>Seam.Remoting.getContext().getConversationId()</literal>. To set "
+"the conversation ID before making a request, call <literal>Seam.Remoting."
+"getContext().setConversationId()</literal>."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:270
+#, no-c-format
+msgid ""
+"If the conversation ID hasn't been explicitly set with <literal>Seam."
+"Remoting.getContext().setConversationId()</literal>, then it will be "
+"automatically assigned the first valid conversation ID that is returned by "
+"any remoting call. If you are working with multiple conversations within "
+"your page, then you may need to explicitly set the conversation ID before "
+"each call. If you are working with just a single conversation, then you "
+"don't need to do anything special."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:277
+#, no-c-format
+msgid "Remote calls within the current conversation scope"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:279
+#, no-c-format
+msgid ""
+"In some circumstances it may be required to make a remote call within the "
+"scope of the current view's conversation. To do this, you must explicitly "
+"set the conversation ID to that of the view before making the remote call. "
+"This small snippet of JavaScript will set the conversation ID that is used "
+"for remoting calls to the current view's conversation ID:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:284
+#, no-c-format
+msgid ""
+"<![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation."
+"id} );]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:289
+#, no-c-format
+msgid "Batch Requests"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:291
+#, no-c-format
+msgid ""
+"Seam Remoting allows multiple component calls to be executed within a single "
+"request. It is recommended that this feature is used wherever it is "
+"appropriate to reduce network traffic."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:294
+#, no-c-format
+msgid ""
+"The method <literal>Seam.Remoting.startBatch()</literal> will start a new "
+"batch, and any component calls executed after starting a batch are queued, "
+"rather than being sent immediately. When all the desired component calls "
+"have been added to the batch, the <literal>Seam.Remoting.executeBatch()</"
+"literal> method will send a single request containing all of the queued "
+"calls to the server, where they will be executed in order. After the calls "
+"have been executed, a single response containining all return values will be "
+"returned to the client and the callback functions (if provided) triggered in "
+"the same order as execution."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:301
+#, no-c-format
+msgid ""
+"If you start a new batch via the <literal>startBatch()</literal> method but "
+"then decide you don't want to send it, the <literal>Seam.Remoting.cancelBatch"
+"()</literal> method will discard any calls that were queued and exit the "
+"batch mode."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:305
+#, no-c-format
+msgid ""
+"To see an example of a batch being used, take a look at <literal>/examples/"
+"remoting/chatroom</literal>."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:310
+#, no-c-format
+msgid "Working with Data types"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:313
+#, no-c-format
+msgid "Primitives / Basic Types"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:315
+#, no-c-format
+msgid ""
+"This section describes the support for basic data types. On the server side "
+"these values are generally compatible with either their primitive type or "
+"their corresponding wrapper class."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:319
+#, no-c-format
+msgid "String"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:321
+#, no-c-format
+msgid ""
+"Simply use Javascript String objects when setting String parameter values."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:325
+#, no-c-format
+msgid "Number"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:327
+#, no-c-format
+msgid ""
+"There is support for all number types supported by Java. On the client side, "
+"number values are always serialized as their String representation and then "
+"on the server side they are converted to the correct destination type. "
+"Conversion into either a primitive or wrapper type is supported for "
+"<literal>Byte</literal>, <literal>Double</literal>, <literal>Float</"
+"literal>, <literal>Integer</literal>, <literal>Long</literal> and "
+"<literal>Short</literal> types."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:335
+#, no-c-format
+msgid "Boolean"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:337
+#, no-c-format
+msgid ""
+"Booleans are represented client side by Javascript Boolean values, and "
+"server side by a Java boolean."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:343
+#, no-c-format
+msgid "JavaBeans"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:345
+#, no-c-format
+msgid ""
+"In general these will be either Seam entity or JavaBean components, or some "
+"other non-component class. Use the appropriate method (either <literal>Seam."
+"Component.newInstance()</literal> for Seam components or <literal>Seam."
+"Remoting.createType()</literal> for everything else) to create a new "
+"instance of the object."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:349
+#, no-c-format
+msgid ""
+"It is important to note that only objects that are created by either of "
+"these two methods should be used as parameter values, where the parameter is "
+"not one of the other valid types mentioned anywhere else in this section. In "
+"some situations you may have a component method where the exact parameter "
+"type cannot be determined, such as:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:354
+#, no-c-format
+msgid ""
+"@Name(\"myAction\")\n"
+"public class MyAction implements MyActionLocal {\n"
+"  public void doSomethingWithObject(Object obj) {\n"
+"    // code\n"
+"  }\n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:356
+#, no-c-format
+msgid ""
+"In this case you might want to pass in an instance of your "
+"<literal>myWidget</literal> component, however the interface for "
+"<literal>myAction</literal> won't include <literal>myWidget</literal> as it "
+"is not directly referenced by any of its methods. To get around this, "
+"<literal>MyWidget</literal> needs to be explicitly imported:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:361
+#, no-c-format
+msgid "<![CDATA[<s:remote include=\"myAction,myWidget\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:363
+#, no-c-format
+msgid ""
+"This will then allow a <literal>myWidget</literal> object to be created with "
+"<literal>Seam.Component.newInstance(\"myWidget\")</literal>, which can then "
+"be passed to <literal>myAction.doSomethingWithObject()</literal>."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:370
+#, no-c-format
+msgid "Dates and Times"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:372
+#, no-c-format
+msgid ""
+"Date values are serialized into a String representation that is accurate to "
+"the millisecond. On the client side, use a Javascript Date object to work "
+"with date values. On the server side, use any <literal>java.util.Date</"
+"literal> (or descendent, such as <literal>java.sql.Date</literal> or "
+"<literal>java.sql.Timestamp</literal> class."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:379
+#, no-c-format
+msgid "Enums"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:381
+#, no-c-format
+msgid ""
+"On the client side, enums are treated the same as Strings. When setting the "
+"value for an enum parameter, simply use the String representation of the "
+"enum. Take the following component as an example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:384
+#, no-c-format
+msgid ""
+"@Name(\"paintAction\")\n"
+"public class paintAction implements paintLocal {\n"
+"  public enum Color {red, green, blue, yellow, orange, purple};\n"
+"\n"
+"  public void paint(Color color) {\n"
+"    // code\n"
+"  }    \n"
+"}"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:386
+#, no-c-format
+msgid ""
+"To call the <literal>paint()</literal> method with the color <literal>red</"
+"literal>, pass the parameter value as a String literal:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:389
+#, no-c-format
+msgid "Seam.Component.getInstance(\"paintAction\").paint(\"red\");"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:391
+#, no-c-format
+msgid ""
+"The inverse is also true - that is, if a component method returns an enum "
+"parameter (or contains an enum field anywhere in the returned object graph) "
+"then on the client-side it will be represented as a String."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:396
+#, no-c-format
+msgid "Collections"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:399
+#, no-c-format
+msgid "Bags"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:401
+#, no-c-format
+msgid ""
+"Bags cover all collection types including arrays, collections, lists, sets, "
+"(but excluding Maps - see the next section for those), and are implemented "
+"client-side as a Javascript array. When calling a component method that "
+"accepts one of these types as a parameter, your parameter should be a "
+"Javascript array. If a component method returns one of these types, then the "
+"return value will also be a Javascript array. The remoting framework is "
+"clever enough on the server side to convert the bag to an appropriate type "
+"for the component method call."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:410
+#, no-c-format
+msgid "Maps"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:412
+#, no-c-format
+msgid ""
+"As there is no native support for Maps within Javascript, a simple Map "
+"implementation is provided with the Seam Remoting framework. To create a Map "
+"which can be used as a parameter to a remote call, create a new "
+"<literal>Seam.Remoting.Map</literal> object:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:416
+#, no-c-format
+msgid "var map = new Seam.Remoting.Map();"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:418
+#, no-c-format
+msgid ""
+"This Javascript implementation provides basic methods for working with Maps: "
+"<literal>size()</literal>, <literal>isEmpty()</literal>, <literal>keySet()</"
+"literal>, <literal>values()</literal>, <literal>get(key)</literal>, "
+"<literal>put(key, value)</literal>, <literal>remove(key)</literal> and "
+"<literal>contains(key)</literal>. Each of these methods are equivalent to "
+"their Java counterpart. Where the method returns a collection, such as "
+"<literal>keySet()</literal> and <literal>values()</literal>, a Javascript "
+"Array object will be returned that contains the key or value objects "
+"(respectively)."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:429
+#, no-c-format
+msgid "Debugging"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:431
+#, no-c-format
+msgid ""
+"To aid in tracking down bugs, it is possible to enable a debug mode which "
+"will display the contents of all the packets send back and forth between the "
+"client and server in a popup window. To enable debug mode, either execute "
+"the <literal>setDebug()</literal> method in Javascript:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:435
+#, no-c-format
+msgid "Seam.Remoting.setDebug(true);"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:437
+#, no-c-format
+msgid "Or configure it via components.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:439
+#, no-c-format
+msgid "<![CDATA[<remoting:remoting debug=\"true\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:441
+#, no-c-format
+msgid ""
+"To turn off debugging, call <literal>setDebug(false)</literal>. If you want "
+"to write your own messages to the debug log, call <literal>Seam.Remoting.log"
+"(message)</literal>."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:446
+#, no-c-format
+msgid "Handling Exceptions"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:448
+#, no-c-format
+msgid ""
+"When invoking a remote component method, it is possible to specify an "
+"exception handler which will process the response in the event of an "
+"exception during component invocation. To specify an exception handler "
+"function, include a reference to it after the callback parameter in your "
+"JavaScript:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:454
+#, no-c-format
+msgid ""
+"<![CDATA[var callback = function(result) { alert(result); };\n"
+"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex."
+"getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:456
+#, no-c-format
+msgid ""
+"If you do not have a callback handler defined, you must specify "
+"<literal>null</literal> in its place:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:460
+#, no-c-format
+msgid ""
+"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception "
+"occurred: \" + ex.getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:462
+#, no-c-format
+msgid ""
+"The exception object that is passed to the exception handler exposes one "
+"method, <literal>getMessage()</literal> that returns the exception message "
+"which is produced by the exception thrown by the <literal>@WebRemote</"
+"literal> method."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:471
+#, no-c-format
+msgid "The Loading Message"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:473
+#, no-c-format
+msgid ""
+"The default loading message that appears in the top right corner of the "
+"screen can be modified, its rendering customised or even turned off "
+"completely."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:477
+#, no-c-format
+msgid "Changing the message"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:479
+#, no-c-format
+msgid ""
+"To change the message from the default \"Please Wait...\" to something "
+"different, set the value of <literal>Seam.Remoting.loadingMessage</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:482
+#, no-c-format
+msgid "Seam.Remoting.loadingMessage = \"Loading...\";"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:486
+#, no-c-format
+msgid "Hiding the loading message"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:488
+#, no-c-format
+msgid ""
+"To completely suppress the display of the loading message, override the "
+"implementation of <literal>displayLoadingMessage()</literal> and "
+"<literal>hideLoadingMessage()</literal> with functions that instead do "
+"nothing:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:492
+#, no-c-format
+msgid ""
+"// don't display the loading indicator\n"
+"Seam.Remoting.displayLoadingMessage = function() {};\n"
+"Seam.Remoting.hideLoadingMessage = function() {};"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:496
+#, no-c-format
+msgid "A Custom Loading Indicator"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:498
+#, no-c-format
+msgid ""
+"It is also possible to override the loading indicator to display an animated "
+"icon, or anything else that you want. To do this override the "
+"<literal>displayLoadingMessage()</literal> and <literal>hideLoadingMessage()"
+"</literal> messages with your own implementation:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:502
+#, no-c-format
+msgid ""
+"Seam.Remoting.displayLoadingMessage = function() {\n"
+"    // Write code here to display the indicator\n"
+"  };\n"
+"  \n"
+"  Seam.Remoting.hideLoadingMessage = function() {\n"
+"    // Write code here to hide the indicator\n"
+"  };"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:507
+#, no-c-format
+msgid "Controlling what data is returned"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:509
+#, no-c-format
+msgid ""
+"When a remote method is executed, the result is serialized into an XML "
+"response that is returned to the client. This response is then unmarshaled "
+"by the client into a Javascript object. For complex types (i.e. Javabeans) "
+"that include references to other objects, all of these referenced objects "
+"are also serialized as part of the response. These objects may reference "
+"other objects, which may reference other objects, and so forth. If left "
+"unchecked, this object \"graph\" could potentially be enormous, depending on "
+"what relationships exist between your objects. And as a side issue (besides "
+"the potential verbosity of the response), you might also wish to prevent "
+"sensitive information from being exposed to the client."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:517
+#, no-c-format
+msgid ""
+"Seam Remoting provides a simple means to \"constrain\" the object graph, by "
+"specifying the <literal>exclude</literal> field of the remote method's "
+"<literal>@WebRemote</literal> annotation. This field accepts a String array "
+"containing one or more paths specified using dot notation. When invoking a "
+"remote method, the objects in the result's object graph that match these "
+"paths are excluded from the serialized result packet."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:522
+#, no-c-format
+msgid ""
+"For all our examples, we'll use the following <literal>Widget</literal> "
+"class:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:524
+#, no-c-format
+msgid ""
+"@Name(\"widget\")\n"
+"public class Widget\n"
+"{\n"
+"  private String value;\n"
+"  private String secret;\n"
+"  private Widget child;\n"
+"  private Map&lt;String,Widget&gt; widgetMap;\n"
+"  private List&lt;Widget&gt; widgetList;\n"
+"  \n"
+"  // getters and setters for all fields\n"
+"}"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:527
+#, no-c-format
+msgid "Constraining normal fields"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:529
+#, no-c-format
+msgid ""
+"If your remote method returns an instance of <literal>Widget</literal>, but "
+"you don't want to expose the <literal>secret</literal> field because it "
+"contains sensitive information, you would constrain it like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:532
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:534
+#, no-c-format
+msgid ""
+"The value \"secret\" refers to the <literal>secret</literal> field of the "
+"returned object. Now, suppose that we don't care about exposing this "
+"particular field to the client. Instead, notice that the <literal>Widget</"
+"literal> value that is returned has a field <literal>child</literal> that is "
+"also a <literal>Widget</literal>. What if we want to hide the "
+"<literal>child</literal>'s <literal>secret</literal> value instead? We can "
+"do this by using dot notation to specify this field's path within the "
+"result's object graph:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:541
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"child.secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:546
+#, no-c-format
+msgid "Constraining Maps and Collections"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:548
+#, no-c-format
+msgid ""
+"The other place that objects can exist within an object graph are within a "
+"<literal>Map</literal> or some kind of collection (<literal>List</literal>, "
+"<literal>Set</literal>, <literal>Array</literal>, etc). Collections are "
+"easy, and are treated like any other field. For example, if our "
+"<literal>Widget</literal> contained a list of other <literal>Widget</"
+"literal>s in its <literal>widgetList</literal> field, to constrain the "
+"<literal>secret</literal> field of the <literal>Widget</literal>s in this "
+"list the annotation would look like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:555
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"widgetList.secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:557
+#, no-c-format
+msgid ""
+"To constrain a <literal>Map</literal>'s key or value, the notation is "
+"slightly different. Appending <literal>[key]</literal> after the "
+"<literal>Map</literal>'s field name will constrain the <literal>Map</"
+"literal>'s key object values, while <literal>[value]</literal> will "
+"constrain the value object values. The following example demonstrates how "
+"the values of the <literal>widgetMap</literal> field have their "
+"<literal>secret</literal> field constrained:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:563
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"widgetMap[value].secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:567
+#, no-c-format
+msgid "Constraining objects of a specific type"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:569
+#, no-c-format
+msgid ""
+"There is one last notation that can be used to constrain the fields of a "
+"type of object no matter where in the result's object graph it appears. This "
+"notation uses either the name of the component (if the object is a Seam "
+"component) or the fully qualified class name (only if the object is not a "
+"Seam component) and is expressed using square brackets:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:574
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"[widget].secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:579
+#, no-c-format
+msgid "Combining Constraints"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:581
+#, no-c-format
+msgid ""
+"Constraints can also be combined, to filter objects from multiple paths "
+"within the object graph:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:583
+#, no-c-format
+msgid ""
+"@WebRemote(exclude = {\"widgetList.secret\", \"widgetMap[value].secret\"})\n"
+"public Widget getWidget();"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:589
+#, no-c-format
+msgid "Transactional Requests"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:591
+#, no-c-format
+msgid ""
+"By default there is no active transaction during a remoting request, so if "
+"you wish to perform database updates during a remoting request, you need to "
+"annotate the <literal>@WebRemote</literal> method with "
+"<literal>@Transactional</literal>, like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:597
+#, no-c-format
+msgid ""
+"<![CDATA[  @WebRemote @Transactional(TransactionPropagationType.REQUIRED)\n"
+"  public void updateOrder(Order order) {\n"
+"    entityManager.merge(order);\n"
+"  }]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:601
+#, no-c-format
+msgid "JMS Messaging"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:603
+#, no-c-format
+msgid ""
+"Seam Remoting provides experimental support for JMS Messaging. This section "
+"describes the JMS support that is currently implemented, but please note "
+"that this may change in the future. It is currently not recommended that "
+"this feature is used within a production environment."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:610
+#, no-c-format
+msgid ""
+"Before you can subscribe to a JMS topic, you must first configure a list of "
+"the topics that can be subscribed to by Seam Remoting. List the topics under "
+"<literal>org.jboss.seam.remoting.messaging.subscriptionRegistry."
+"allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web."
+"xml</literal> or <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:615 Remoting.xml:670
+#, no-c-format
+msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:620
+#, no-c-format
+msgid "Subscribing to a JMS Topic"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:622
+#, no-c-format
+msgid "The following example demonstrates how to subscribe to a JMS Topic:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:624
+#, no-c-format
+msgid ""
+"function subscriptionCallback(message)\n"
+"{\n"
+"  if (message instanceof Seam.Remoting.TextMessage)\n"
+"    alert(\"Received message: \" + message.getText());\n"
+"}           \n"
+"\n"
+"Seam.Remoting.subscribe(\"topicName\", subscriptionCallback);"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:626
+#, no-c-format
+msgid ""
+"The <literal>Seam.Remoting.subscribe()</literal> method accepts two "
+"parameters, the first being the name of the JMS Topic to subscribe to, the "
+"second being the callback function to invoke when a message is received."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:629
+#, no-c-format
+msgid ""
+"There are two types of messages supported, Text messages and Object "
+"messages. If you need to test for the type of message that is passed to your "
+"callback function you can use the <literal>instanceof</literal> operator to "
+"test whether the message is a <literal>Seam.Remoting.TextMessage</literal> "
+"or <literal>Seam.Remoting.ObjectMessage</literal>. A <literal>TextMessage</"
+"literal> contains the text value in its <literal>text</literal> field (or "
+"alternatively call <literal>getText()</literal> on it), while an "
+"<literal>ObjectMessage</literal> contains its object value in its "
+"<literal>value</literal> field (or call its <literal>getValue()</literal> "
+"method)."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:639
+#, no-c-format
+msgid "Unsubscribing from a Topic"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:641
+#, no-c-format
+msgid ""
+"To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</"
+"literal> and pass in the topic name:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:644
+#, no-c-format
+msgid "Seam.Remoting.unsubscribe(\"topicName\");"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:648
+#, no-c-format
+msgid "Tuning the Polling Process"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:650
+#, no-c-format
+msgid ""
+"There are two parameters which you can modify to control how polling occurs. "
+"The first one is <literal>Seam.Remoting.pollInterval</literal>, which "
+"controls how long to wait between subsequent polls for new messages. This "
+"parameter is expressed in seconds, and its default setting is 10."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:654
+#, no-c-format
+msgid ""
+"The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is "
+"also expressed as seconds. It controls how long a request to the server "
+"should wait for a new message before timing out and sending an empty "
+"response. Its default is 0 seconds, which means that when the server is "
+"polled, if there are no messages ready for delivery then an empty response "
+"will be immediately returned."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:659
+#, no-c-format
+msgid ""
+"Caution should be used when setting a high <literal>pollTimeout</literal> "
+"value; each request that has to wait for a message means that a server "
+"thread is tied up until a message is received, or until the request times "
+"out. If many such requests are being served simultaneously, it could mean a "
+"large number of threads become tied up because of this reason."
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:664
+#, no-c-format
+msgid ""
+"It is recommended that you set these options via components.xml, however "
+"they can be overridden via Javascript if desired. The following example "
+"demonstrates how to configure the polling to occur much more aggressively. "
+"You should set these parameters to suitable values for your application:"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:668
+#, no-c-format
+msgid "Via components.xml:"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:672
+#, no-c-format
+msgid "Via JavaScript:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:674
+#, no-c-format
+msgid ""
+"// Only wait 1 second between receiving a poll response and sending the next "
+"poll request.\n"
+"Seam.Remoting.pollInterval = 1;\n"
+"  \n"
+"// Wait up to 5 seconds on the server for new messages\n"
+"Seam.Remoting.pollTimeout = 5;"
+msgstr ""

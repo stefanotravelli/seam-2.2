@@ -1,0 +1,1620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="components">
+    <title>Built-in Seam components</title>
+    <para>
+        This chapter describes Seam's built-in components, and their
+        configuration properties. The built-in components will be created even if they
+        are not listed in your <literal>components.xml</literal> file, but if you need to
+        override default properties or specify more than one component of a certain type,
+        <literal>components.xml</literal> is used.
+    </para>
+    
+    <para>
+        Note that you can replace any of the built in components with
+        your own implementations simply by specifying the name of one 
+        of the built in components on your own class using 
+        <literal>@Name</literal>.
+    </para>
+
+    <section>
+        <title>Context injection components</title>
+        <para>
+            The first set of built in components exist purely to support
+            injection of various contextual objects. For example, the
+            following component instance variable would have the Seam
+            session context object injected:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@In private Context sessionContext;]]></programlisting>
+    
+    	<variablelist >
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.contexts</literal></term>
+                <listitem>
+                    <para>
+                        Component that provides access to Seam Context objects, for
+                        example <literal>org.jboss.seam.core.contexts.sessionContext['user']</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.facesContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the <literal>FacesContext</literal> context 
+                        object (not a true Seam context)
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+
+    </section>
+
+    <section>
+        <title>JSF-related components</title>
+        <para>
+            The following set of components are provided to supplement JSF.
+        </para>
+
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.dateConverter</literal></term>
+                <listitem>
+                    <para>
+                        Provides a default JSF converter for properties of type
+                        <literal>java.util.Date</literal>.
+                    </para>
+
+                    <para>
+                        This converter is automatically registered with JSF. It
+                        is provided to save a developer from having to specify
+                        a DateTimeConverter on an input field or page
+                        parameter. By default, it assumes the type to be a date
+                        (as opposed to a time or date plus time) and uses the
+                        short input style adjusted to the Locale of the user.
+                        For Locale.US, the input pattern is mm/DD/yy. However,
+                        to comply with Y2K, the year is changed from two digits
+                        to four (e.g., mm/DD/yyyy).
+                    </para>
+                    <para>
+                        It's possible to override the input pattern globally
+                        using component configuration. Consult the JavaDoc for
+                        this class to see examples.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.facesMessages</literal></term>
+                <listitem>
+                    <para>
+                        Allows faces success messages to propagate across a browser redirect.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>add(FacesMessage facesMessage)</literal> &#8212; add 
+                            a faces message, which will be displayed during the next render
+                            response phase that occurs in the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>add(String messageTemplate)</literal> &#8212; add 
+                            a faces message, rendered from the given message template
+                            which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>add(Severity severity, String messageTemplate)</literal> &#8212; 
+                            add a faces message, rendered from the given message template
+                            which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>addFromResourceBundle(String key)</literal> &#8212; 
+                            add a faces message, rendered from a message template defined
+                            in the Seam resource bundle which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>addFromResourceBundle(Severity severity, String key)</literal> &#8212; 
+                            add a faces message, rendered from a message template defined
+                            in the Seam resource bundle which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>clear()</literal> &#8212; clear all messages.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.redirect</literal></term>
+                <listitem>
+                    <para>
+                        A convenient API for performing redirects with parameters (this
+                        is especially useful for bookmarkable search results screens).
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>redirect.viewId</literal> &#8212; the JSF view id
+                            to redirect to.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>redirect.conversationPropagationEnabled</literal> &#8212; 
+                            determines whether the conversation will propagate across the 
+                            redirect.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>redirect.parameters</literal> &#8212; a map of
+                            request parameter name to value, to be passed in the redirect
+                            request.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>execute()</literal> &#8212; perform the redirect
+                            immediately.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>captureCurrentRequest()</literal> &#8212; stores 
+                            the view id and request parameters of the current GET 
+                            request (in the conversation context), for later use
+                            by calling <literal>execute()</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.httpError</literal></term>
+                <listitem>
+                    <para>
+                        A convenient API for sending HTTP errors.
+                    </para>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.ui.renderStampStore</literal></term>
+                <listitem>
+                    <para>
+                        A component (session-scoped by default) responsible for maintaining a
+                        collection of render stamps. A render stamp is an indicator as to whether a
+                        form which was rendered has been submitted. This store is useful when the
+                        client-side state saving method of JSF is being used because it puts the
+                        determination of whether a form has been posted in the control of the server
+                        rather than in the component tree which is maintained on the client.
+                    </para>
+                    <para>
+                        To unbind this check from the session (which is one of the main design goals
+                        of client-side state saving) an implementation must be provided that stores
+                        the render stamps in the application (valid as long as the application is
+                        running) or the database (valid across server restarts).
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>maxSize</literal> &#8212; The maximum number of stamps
+                            to be kept in the store. Default: 100
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+        </variablelist>
+
+        <para>
+            These components are installed when the class <literal>javax.faces.context.FacesContext</literal>
+            is available on the classpath.
+        </para>
+    </section>
+    
+    <section>
+        <title>Utility components</title>
+        <para>
+            These components are merely useful.
+        </para>
+        
+         <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.events</literal></term>
+                <listitem>
+                    <para>
+                        An API for raising events that can be observed via
+                        <literal>@Observer</literal> methods, or method
+                        bindings in <literal>components.xml</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>raiseEvent(String type)</literal> &#8212; raise
+                            an event of a particular type and distribute to all
+                            observers.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>raiseAsynchronousEvent(String type)</literal> &#8212; 
+                            raise an event to be processed asynchronously by the EJB3
+                            timer service.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>raiseTimedEvent(String type, ....)</literal> &#8212; 
+                            schedule an event to be processed asynchronously by the EJB3
+                            timer service.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>addListener(String type, String methodBinding)</literal> 
+                            &#8212; add an observer for a particular event type.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.interpolator</literal></term>
+                <listitem>
+                    <para>
+                        An API for interpolating the values of JSF EL expressions in
+                        Strings.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>interpolate(String template)</literal> &#8212; scan
+                            the template for JSF EL expressions of the form <literal>#{...}</literal>
+                            and replace them with their evaluated values.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.expressions</literal></term>
+                <listitem>
+                    <para>
+                        An API for creating value and method bindings.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>createValueBinding(String expression)</literal> &#8212; create
+                            a value binding object.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>createMethodBinding(String expression)</literal> &#8212; create
+                            a method binding object.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.pojoCache</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JBoss Cache <literal>PojoCache</literal> 
+                        instance.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>pojoCache.cfgResourceName</literal> &#8212; the name of 
+                            the configuration file. Default to <literal>treecache.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+    </section>
+    
+    <section>
+        <title>Components for internationalization and themes</title>
+        <para>
+            The next group of components make it easy to build internationalized user interfaces
+            using Seam.
+        </para>
+        
+    	<variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.locale</literal></term>
+                <listitem>
+                    <para>
+                        The Seam locale.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.international.timezone</literal></term>
+                <listitem>
+                    <para>
+                        The Seam timezone. The timezone is session scoped.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.resourceBundle</literal></term>
+                <listitem>
+                    <para>
+                        The Seam resource bundle. The resource bundle is stateless. The Seam
+                        resource bundle performs a depth-first search for keys in a list of Java
+                        resource bundles.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.resourceLoader</literal></term>
+                <listitem>
+                    <para>
+                        The resource loader provides access to application resources and resource bundles.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>resourceLoader.bundleNames</literal> &#8212; the names of 
+                            the Java resource bundles to search when the Seam resource bundle is
+                            used. Default to <literal>messages</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.international.localeSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the locale either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &#8212; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.locale</literal> &#8212; the actual
+                            <literal>java.util.Locale</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.localeString</literal> &#8212; the 
+                            stringified representation of the locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.language</literal> &#8212; the language for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.country</literal> &#8212; the country for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.variant</literal> &#8212; the variant for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.supportedLocales</literal> &#8212; a list
+                            of <literal>SelectItem</literal>s representing the supported locales 
+                            listed in <literal>jsf-config.xml</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.cookieEnabled</literal> &#8212; specifies
+                            that the locale selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.international.timezoneSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the timezone either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &#8212; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.timezone</literal> &#8212; the actual
+                            <literal>java.util.TimeZone</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.timeZoneId</literal> &#8212; the 
+                            stringified representation of the timezone.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies
+                            that the timezone selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.international.messages</literal></term>
+                <listitem>
+                    <para>
+                        A map containing internationalized messages rendered from message
+                        templates defined in the Seam resource bundle.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.theme.themeSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the theme either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &#8212; select the specified theme.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>theme.availableThemes</literal> &#8212; the list of
+                            defined themes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.theme</literal> &#8212; the selected
+                            theme.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.themes</literal> &#8212; a list
+                            of <literal>SelectItem</literal>s representing the defined
+                            themes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.cookieEnabled</literal> &#8212; specifies
+                            that the theme selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.theme.theme</literal></term>
+                <listitem>
+                    <para>
+                        A map containing theme entries.
+                    </para>
+                </listitem>
+            </varlistentry>
+         </variablelist>
+         
+        
+        <para>
+            All of these components are always installed.
+        </para>
+    </section>
+    
+    <section>
+        <title>Components for controlling conversations</title>
+        <para>
+            The next group of components allow control of conversations by the application or 
+            user interface.
+        </para>
+        
+    	<variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversation</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of attributes of the current Seam conversation.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>getId()</literal> &#8212; returns the current conversation id
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>isNested()</literal> &#8212; is the current conversation a
+                            nested conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>isLongRunning()</literal> &#8212; is the current conversation a
+                            long-running conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getId()</literal> &#8212; returns the current conversation id
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getParentId()</literal> &#8212; returns the conversation id
+                            of the parent conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getRootId()</literal> &#8212; returns the conversation id
+                            of the root conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>setTimeout(int timeout)</literal> &#8212; sets the timeout
+                            for the current conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>setViewId(String outcome)</literal> &#8212; sets the view id
+                            to be used when switching back to the current conversation from the 
+                            conversation switcher, conversation list, or breadcrumbs.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>setDescription(String description)</literal> &#8212; sets the 
+                            description of the current conversation to be displayed in the 
+                            conversation switcher, conversation list, or breadcrumbs.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>redirect()</literal> &#8212; redirect to the last well-defined
+                            view id for this conversation (useful after login challenges).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>leave()</literal> &#8212; exit the scope of this conversation,
+                            without actually ending the conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>begin()</literal> &#8212; begin a long-running conversation
+                            (equivalent to <literal>@Begin</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>beginPageflow(String pageflowName)</literal> &#8212; begin a 
+                            long-running conversation with a pageflow (equivalent to 
+                            <literal>@Begin(pageflow="...")</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>end()</literal> &#8212; end a long-running conversation
+                            (equivalent to <literal>@End</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>pop()</literal> &#8212; pop the conversation stack, returning
+                            to the parent conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>root()</literal> &#8212; return to the root conversation of 
+                            the conversation stack.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change 
+                            the flush mode of the conversation.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversationList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the conversation list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversationStack</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the conversation stack (breadcrumbs).
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.switcher</literal></term>
+                <listitem>
+                    <para>
+                        The conversation switcher.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+
+    </section>
+    
+    <section>
+        <title>jBPM-related components</title>
+        <para>
+            These components are for use with jBPM.
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.pageflow.pageflow</literal></term>
+                <listitem>
+                    <para>
+                        API control of Seam pageflows.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>isInProcess()</literal> &#8212; returns <literal>true</literal>
+                            if there is currently a pageflow in process
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getProcessInstance()</literal> &#8212; returns jBPM
+                            <literal>ProcessInstance</literal> for the current pageflow
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>begin(String pageflowName)</literal> &#8212; begin a pageflow
+                            in the context of the current conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>reposition(String nodeName)</literal> &#8212; reposition the
+                            current pageflow to a particular node
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.actor</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of attributes of the jBPM actor associated
+                        with the current session.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>setId(String actorId)</literal> &#8212; sets the jBPM
+                            actor id of the current user.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getGroupActorIds()</literal> &#8212; returns a 
+                            <literal>Set</literal> to which jBPM actor ids for the
+                            current users groups may be added.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.transition</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of the jBPM transition for the current
+                        task.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>setName(String transitionName)</literal> &#8212; sets the 
+                            jBPM transition name to be used when the current task is ended
+                            via <literal>@EndTask</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.businessProcess</literal></term>
+                <listitem>
+                    <para>
+                        API for programmatic control of the association between the
+                        conversation and business process.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.taskId</literal> &#8212; the id of the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.processId</literal> &#8212; the id of the process
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task
+                            instance associated with the current conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process
+                            instance associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>createProcess(String name)</literal> &#8212; create an
+                            instance of the named process definition and associate it with
+                            the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>startTask()</literal> &#8212; start the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>endTask(String transitionName)</literal> &#8212; end the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>resumeTask(Long id)</literal> &#8212; associate the task with
+                            the given id with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>resumeProcess(Long id)</literal> &#8212; associate the process 
+                            with the given id with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>transition(String transitionName)</literal> &#8212; trigger
+                            the transition.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.taskInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM <literal>TaskInstance</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.processInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM <literal>ProcessInstance</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.jbpmContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an event-scoped <literal>JbpmContext</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.taskInstanceList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.pooledTaskInstanceList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM pooled task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.taskInstanceListForType</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM task lists.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.pooledTask</literal></term>
+                <listitem>
+                    <para>
+                        Action handler for pooled task assignment.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.processInstanceFinder</literal></term>
+                <listitem>
+                    <para>
+                        Manager for the process instance task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.processInstanceList</literal></term>
+                <listitem>
+                    <para>
+                         The process instance task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are installed whenever the component
+            <literal>org.jboss.seam.bpm.jbpm</literal> is installed.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Security-related components</title>
+        <para>
+            These components relate to web-tier security.
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.web.userPrincipal</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the current user <literal>Principal</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.web.isUserInRole</literal></term>
+                <listitem>
+                    <para>
+                        Allows JSF pages to choose to render a control, depending upon
+                        the roles available to the current principal.
+                        <literal>&lt;h:commandButton value="edit" rendered="#{isUserInRole['admin']}"/&gt;</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
+    <section>
+        <title>JMS-related components</title>
+        <para>
+            These components are for use with managed <literal>TopicPublisher</literal>s
+            and <literal>QueueSender</literal>s (see below).
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.jms.queueSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JMS <literal>QueueSession</literal> .
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.jms.topicSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JMS <literal>TopicSession</literal> .
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>     
+    
+    <section id="components.mail">
+        <title>Mail-related components</title>
+        <para>
+            These components are for use with Seam's Email support 
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.mail.mailSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JavaMail <literal>Session</literal>. The
+                        session can be either looked up in the JNDI context (by setting the
+                        <literal>sessionJndiName</literal> property) or it can created from the
+                        configuration options in which case the <literal>host</literal> is
+                        mandatory. 
+                    </para>
+                     <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname of the SMTP server to use
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of the SMTP server to use
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.username</literal> &#8212;  the username to use to connect to the SMTP server.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the password to use to connect to the SMTP server
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable JavaMail debugging (very verbose)
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL connection to SMTP (will default to port 465)
+                        </para>
+                         <para>
+                            <literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default true, enable TLS support in the mail session
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; name under which a javax.mail.Session is bound to JNDI.
+                            If supplied, all other properties will be ignored.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
+    <section>
+        <title>Infrastructural components</title>
+        <para>
+            These components provide critical platform infrastructure. You can install a component
+            which isn't installed by default by setting <literal>install="true"</literal> on the 
+            component in <literal>components.xml</literal>.
+        </para>
+        
+    	<variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.init</literal></term>
+                <listitem>
+                    <para>
+                        Initialization settings for Seam. Always installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI
+                            pattern used for looking up session beans
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam
+                            debug mode. This should be set to false when in production. You may see
+                            errors if the system is placed under any load and debug is enabled.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; 
+                            if set to <literal>true</literal>, Seam will save conversation context
+                            variables in the client instead of in the <literal>HttpSession</literal>.
+                        </para>
+                        </listitem>
+                        </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.manager</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam page and conversation context management. 
+                        Always installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; 
+                            the conversation context timeout in milliseconds.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &#8212; 
+                            maximum wait time for a thread attempting to gain a lock on the long-running 
+                            conversation context.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &#8212; 
+                            the request parameter used to propagate the conversation id, default
+                            to <literal>conversationId</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &#8212; 
+                            the request parameter used to propagate information about whether the conversation
+                            is long-running, default to <literal>conversationIsLongRunning</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; 
+                            set the flush mode set by default on any Seam Managed Persistence Context.
+                            By default <literal>AUTO</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.navigation.pages</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam workspace management. Always installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> 
+                            &#8212; global setting for the view id to redirect to when a 
+                            conversation entry is not found on the server side.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.loginViewId</literal> 
+                            &#8212; global setting for the view id to redirect to when an 
+                            unauthenticated user tries to access a protected view.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.httpPort</literal> 
+                            &#8212; global setting for the port to use when the http scheme 
+                            is requested.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.httpsPort</literal> 
+                            &#8212; global setting for the port to use when the https scheme 
+                            is requested.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.resources</literal> 
+                            &#8212; a list of resources to search for <literal>pages.xml</literal>
+                            style resources.  Defaults to <literal>WEB-INF/pages.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.bpm.jbpm</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps a <literal>JbpmConfiguration</literal>. Install as class 
+                        <literal>org.jboss.seam.bpm.Jbpm</literal>. 
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; 
+                            a list of resource names of jPDL files to be used for orchestration
+                            of business processes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; 
+                            a list of resource names of jPDL files to be used for orchestration
+                            of conversation page flows.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversationEntries</literal></term>
+                <listitem>
+                    <para>
+                        Internal session-scoped component recording the active long-running conversations
+                        between requests.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.facesPage</literal></term>
+                <listitem>
+                    <para>
+                        Internal page-scoped component recording the conversation context associated
+                        with a page.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.persistence.persistenceContexts</literal></term>
+                <listitem>
+                    <para>
+                        Internal component recording the persistence contexts which were used in
+                        the current conversation.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.jms.queueConnection</literal></term>
+                <listitem>
+                    <para>
+                        Manages a JMS <literal>QueueConnection</literal>. Installed whenever
+                        managed <literal>QueueSender</literal> is installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</literal> 
+                            &#8212; the JNDI name of a JMS <literal>QueueConnectionFactory</literal>. Default
+                            to <literal>UIL2ConnectionFactory</literal>
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.jms.topicConnection</literal></term>
+                <listitem>
+                    <para>
+                        Manages a JMS <literal>TopicConnection</literal>. Installed whenever
+                        managed <literal>TopicPublisher</literal> is installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</literal> 
+                            &#8212; the JNDI name of a JMS <literal>TopicConnectionFactory</literal>. Default
+                            to <literal>UIL2ConnectionFactory</literal>
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.persistence.persistenceProvider</literal></term>
+                <listitem>
+                    <para>
+                        Abstraction layer for non-standardized features of JPA provider.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.validators</literal></term>
+                <listitem>
+                    <para>
+                        Caches instances of Hibernate Validator <literal>ClassValidator</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.validation</literal></term>
+                <listitem>
+                    <para>
+                        Allows the application to determine whether validation
+                        failed or was successful.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.debug.introspector</literal></term>
+                <listitem>
+                    <para>
+                        Support for the Seam Debug Page.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.debug.contexts</literal></term>
+                <listitem>
+                    <para>
+                        Support for the Seam Debug Page.
+                    </para>
+                </listitem>
+            </varlistentry>    	    
+            <varlistentry>
+                <term><literal>org.jboss.seam.exception.exceptions</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for exception handling.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.transaction.transaction</literal></term>
+                <listitem>
+                    <para>
+                         API for controlling transactions and abstracting the underlying
+                         transaction management implementation behind a JTA-compatible
+                         interface.
+                    </para>
+                </listitem>
+            </varlistentry>
+             <varlistentry>
+                <term><literal>org.jboss.seam.faces.safeActions</literal></term>
+                <listitem>
+                    <para>
+                        Decides if an action expression in an incoming URL is safe.  This 
+                        is done by checking that the action expression exists in the view.
+                    </para>
+                </listitem>
+             </varlistentry>
+    	</variablelist>
+   </section>
+
+     <section>
+        <title>Miscellaneous components</title>
+        <para>
+            These components don't fit into 
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.async.dispatcher</literal></term>
+                <listitem>
+                    <para>
+                        Dispatcher stateless session bean for asynchronous methods.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.image</literal></term>
+                <listitem>
+                    <para>
+                         Image manipulation and interrogation.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.pojoCache</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a PojoCache instance.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.uiComponent</literal></term>
+                <listitem>
+                    <para>
+                        Manages a map of UIComponents keyed by component id.
+                    </para>
+                </listitem>
+            </varlistentry>
+         </variablelist>
+         
+         
+         
+    </section>
+    
+    <section>
+        <title>Special components</title>
+        <para>
+            Certain special Seam component classes are installable multiple times under names
+            specified in the Seam configuration. For example, the following lines in 
+            <literal>components.xml</literal> install and configure two Seam components:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<component name="bookingDatabase"
+          class="org.jboss.seam.persistence.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/comp/emf/bookingPersistence</property>
+</component>
+
+<component name="userDatabase"
+          class="org.jboss.seam.persistence.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/comp/emf/userPersistence</property>
+</component>]]></programlisting>
+        
+        <para>
+            The Seam component names are <literal>bookingDatabase</literal> and 
+            <literal>userDatabase</literal>.
+        </para>
+        
+    	<variablelist>
+            <varlistentry>
+                <term><emphasis>&lt;entityManager&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.persistence.ManagedPersistenceContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed <literal>EntityManager</literal>
+                        with an extended persistence context.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory 
+                            &#8212; a value binding expression that evaluates to an instance of 
+                            <literal>EntityManagerFactory</literal>.
+                        </para>
+                        <para>
+                           <emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName 
+                            &#8212; the JNDI name of the entity manager factory, default to 
+                            java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;entityManagerFactory&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.persistence.EntityManagerFactory</literal></term>
+                <listitem>
+                    <para>
+                        Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful
+                        when using JPA outside of an EJB 3.0 supporting environment.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>entityManagerFactory.persistenceUnitName</literal> &#8212; 
+                            the name of the persistence unit.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>
+                        See the API JavaDoc for further configuration properties.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;session&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.persistence.ManagedSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;session&gt;</emphasis>.sessionFactory 
+                            &#8212; a value binding expression that evaluates to an instance of 
+                            <literal>SessionFactory</literal>.
+                        </para>
+                        <para>
+                           <emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName 
+                            &#8212; the JNDI name of the session factory, default to 
+                            java:/<emphasis>&lt;managedSession&gt;</emphasis>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;sessionFactory&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.persistence.HibernateSessionFactory</literal></term>
+                <listitem>
+                    <para>
+                        Manages a Hibernate <literal>SessionFactory</literal>.  
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; 
+                            the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>
+                        See the API JavaDoc for further configuration properties.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;managedQueueSender&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.jms.ManagedQueueSender</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an event scoped managed JMS <literal>QueueSender</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName 
+                            &#8212; the JNDI name of the JMS queue.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;managedTopicPublisher&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.jms.ManagedTopicPublisher</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an event scoped managed JMS <literal>TopicPublisher</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName 
+                            &#8212; the JNDI name of the JMS topic.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;managedWorkingMemory&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.drools.ManagedWorkingMemory</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed Drools <literal>WorkingMemory</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase 
+                            &#8212; a value expression that evaluates to an instance of <literal>RuleBase</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;ruleBase&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.drools.RuleBase</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an application scoped Drools <literal>RuleBase</literal>.
+                        <emphasis>Note that this is not really intended for production usage, since
+                        it does not support dynamic installation of new rules.</emphasis>
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                           <emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles 
+                            &#8212; a list of files containing Drools rules.
+                        </para>
+                        <para>
+                           <emphasis>&lt;ruleBase&gt;</emphasis>.dslFile 
+                            &#8212; a Drools DSL definition.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;entityHome&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.framework.EntityHome</literal></term>
+                  <listitem>
+			  <para></para>
+                     <!-- TODO: Document this -->
+                  </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;hibernateEntityHome&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.framework.HibernateEntityHome</literal></term>
+               <listitem>
+		       <para></para>
+                  <!-- TODO: Document this -->
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;entityQuery&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.framework.EntityQuery</literal></term>
+               <listitem>
+		       <para></para>
+                  <!-- TODO: Document this -->
+               </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>&lt;hibernateEntityQuery&gt;</emphasis></term>
+                <term><literal>org.jboss.seam.framework.HibernateEntityQuery</literal></term>
+               <listitem>
+		       <para></para>
+                  <!-- TODO: Document this -->
+               </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
+</chapter>

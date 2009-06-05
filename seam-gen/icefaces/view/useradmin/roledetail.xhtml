@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ice="http://www.icesoft.com/icefaces/component"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    template="/layout/template.xhtml">
+
+    <ui:define name="head">
+        <link href="../stylesheet/useradmin.css" rel="stylesheet" type="text/css"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h1>Role Details</h1>
+ 
+        <ice:form id="roleForm">
+
+          <ice:panelGroup>
+              <s:decorate id="roleField" template="/layout/edit.xhtml">
+                <ui:define name="label">Role</ui:define>
+                <ice:inputText id="role" value="#{roleAction.role}" readonly="#{identityManager.userExists(roleAction.role)}"/>
+              </s:decorate>
+
+              <s:decorate id="groupsField" template="/layout/edit.xhtml">
+                  <ui:define name="label">Member of groups</ui:define>
+                  <div class="selectMany">
+                      <ice:selectManyCheckbox id="groups" value="#{roleAction.groups}" layout="pageDirection" styleClass="roles">
+                          <s:selectItems value="#{roleAction.assignableRoles}" var="_role" label="#{_role}"/>
+                      </ice:selectManyCheckbox>
+                  </div>
+              </s:decorate>
+
+              <div style="clear: both;"/>
+
+          </ice:panelGroup>
+
+          <div class="actionButtons">
+              <ice:commandButton id="save" value="Save" action="#{roleAction.save}"/>
+              <s:button id="cancel" view="/useradmin/rolemanager.xhtml" value="Cancel" propagation="end"/>
+          </div>
+
+        </ice:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,452 @@
+# Language es-ES translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Validation.xml:2
+#, no-c-format
+msgid "JSF form validation in Seam"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:3
+#, no-c-format
+msgid "In plain JSF, validation is defined in the view:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:7
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form>\n"
+"    <h:messages/>\n"
+"\n"
+"    <div>\n"
+"        Country:\n"
+"        <h:inputText value=\"#{location.country}\" required=\"true\">\n"
+"            <my:validateCountry/>\n"
+"        </h:inputText>\n"
+"    </div>\n"
+"    \n"
+"    <div>\n"
+"        Zip code:\n"
+"        <h:inputText value=\"#{location.zip}\" required=\"true\">\n"
+"            <my:validateZip/>\n"
+"        </h:inputText>\n"
+"    </div>\n"
+"\n"
+"    <h:commandButton/>\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:9
+#, no-c-format
+msgid ""
+"In practice, this approach usually violates DRY, since most \"validation\" "
+"actually enforces constraints that are part of the data model, and exist all "
+"the way down to the database schema definition. Seam provides support for "
+"model-based constraints defined using Hibernate Validator."
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:17
+#, no-c-format
+msgid ""
+"Let's start by defining our constraints, on our <literal>Location</literal> "
+"class:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:22
+#, no-c-format
+msgid ""
+"<![CDATA[public class Location {\n"
+"    private String country;\n"
+"    private String zip;\n"
+"    \n"
+"    @NotNull\n"
+"    @Length(max=30)\n"
+"    public String getCountry() { return country; }\n"
+"    public void setCountry(String c) { country = c; }\n"
+"\n"
+"    @NotNull\n"
+"    @Length(max=6)\n"
+"    @Pattern(\"^\\d*$\")\n"
+"    public String getZip() { return zip; }\n"
+"    public void setZip(String z) { zip = z; }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:24
+#, no-c-format
+msgid ""
+"Well, that's a decent first cut, but in practice it might be more elegant to "
+"use custom constraints instead of the ones built into Hibernate Validator:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:30
+#, no-c-format
+msgid ""
+"<![CDATA[public class Location {\n"
+"    private String country;\n"
+"    private String zip;\n"
+"    \n"
+"    @NotNull\n"
+"    @Country\n"
+"    public String getCountry() { return country; }\n"
+"    public void setCountry(String c) { country = c; }\n"
+"\n"
+"    @NotNull\n"
+"    @ZipCode\n"
+"    public String getZip() { return zip; }\n"
+"    public void setZip(String z) { zip = z; }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:32
+#, no-c-format
+msgid ""
+"Whichever route we take, we no longer need to specify the type of validation "
+"to be used in the JSF page. Instead, we can use <literal>&lt;s:validate&gt;</"
+"literal> to validate against the constraint defined on the model object."
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:39
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form>\n"
+"    <h:messages/>\n"
+"\n"
+"    <div>\n"
+"        Country:\n"
+"        <h:inputText value=\"#{location.country}\" required=\"true\">\n"
+"            <s:validate/>\n"
+"        </h:inputText>\n"
+"    </div>\n"
+"    \n"
+"    <div>\n"
+"        Zip code:\n"
+"        <h:inputText value=\"#{location.zip}\" required=\"true\">\n"
+"            <s:validate/>\n"
+"        </h:inputText>\n"
+"    </div>\n"
+"    \n"
+"    <h:commandButton/>\n"
+"\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:41
+#, no-c-format
+msgid ""
+"<emphasis>Note:</emphasis> specifying <literal>@NotNull</literal> on the "
+"model does <emphasis>not</emphasis> eliminate the requirement for "
+"<literal>required=\"true\"</literal> to appear on the control! This is due "
+"to a limitation of the JSF validation architecture."
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:48
+#, no-c-format
+msgid ""
+"This approach <emphasis>defines</emphasis> constraints on the model, and "
+"<emphasis>presents</emphasis> constraint violations in the view &#8212; a "
+"significantly better design."
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:54
+#, no-c-format
+msgid ""
+"However, it is not much less verbose than what we started with, so let's try "
+"<literal>&lt;s:validateAll&gt;</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:59
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form>\n"
+"    \n"
+"    <h:messages/>\n"
+"\n"
+"    <s:validateAll>\n"
+"\n"
+"        <div>\n"
+"            Country:\n"
+"            <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
+"        </div>\n"
+"\n"
+"        <div>\n"
+"            Zip code:\n"
+"            <h:inputText value=\"#{location.zip}\" required=\"true\"/>\n"
+"        </div>\n"
+"\n"
+"        <h:commandButton/>\n"
+"\n"
+"    </s:validateAll>\n"
+"\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:61
+#, no-c-format
+msgid ""
+"This tag simply adds an <literal>&lt;s:validate&gt;</literal> to every input "
+"in the form. For a large form, it can save a lot of typing!"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:67
+#, no-c-format
+msgid ""
+"Now we need to do something about displaying feedback to the user when "
+"validation fails. Currently we are displaying all messages at the top of the "
+"form. In order for the user to correlate the message with an input, you need "
+"to define a label using the standard <literal>label</literal> attribute on "
+"the input component."
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:73
+#, no-c-format
+msgid ""
+"<![CDATA[<h:inputText value=\"#{location.zip}\" required=\"true\" label="
+"\"Zip:\">\n"
+"    <s:validate/>\n"
+"</h:inputText>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:75
+#, no-c-format
+msgid ""
+"You can then inject this value into the message string using the placeholder "
+"{0} (the first and only parameter passed to a JSF message for a Hiberate "
+"Validator restriction). See the internationalization section for more "
+"information regarding where to define these messages."
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:83
+#, no-c-format
+msgid "validator.length={0} length must be between {min} and {max}"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:85
+#, no-c-format
+msgid ""
+"What we would really like to do, though, is display the message next to the "
+"field with the error (this is possible in plain JSF), highlight the field "
+"and label (this is not possible) and, for good measure, display some image "
+"next to the field (also not possible). We also want to display a little "
+"colored asterisk next to the label for each required form field. Using this "
+"approach, the identifying label is not necessary."
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:95
+#, no-c-format
+msgid ""
+"That's quite a lot of functionality we need for each field of our form. We "
+"wouldn't want to have to specify higlighting and the layout of the image, "
+"message and input field for every field on the form. So, instead, we'll "
+"specify the common layout in a facelets template:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:103
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"                xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n"
+"                xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"                xmlns:f=\"http://java.sun.com/jsf/core\"\n"
+"                xmlns:s=\"http://jboss.com/products/seam/taglib\">\n"
+"                 \n"
+"    <div>\n"
+"    \n"
+"        <s:label styleClass=\"#{invalid?'error':''}\">\n"
+"            <ui:insert name=\"label\"/>\n"
+"            <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:"
+"span>\n"
+"        </s:label>\n"
+"        \n"
+"        <span class=\"#{invalid?'error':''}\">\n"
+"            <h:graphicImage value=\"/img/error.gif\" rendered=\"#{invalid}\"/"
+">\n"
+"            <s:validateAll>\n"
+"                <ui:insert/>\n"
+"            </s:validateAll>\n"
+"        </span>\n"
+"        \n"
+"        <s:message styleClass=\"error\"/>\n"
+"        \n"
+"    </div>\n"
+"    \n"
+"</ui:composition>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:105
+#, no-c-format
+msgid ""
+"We can include this template for each of our form fields using <literal>&lt;"
+"s:decorate&gt;</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:110
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form>\n"
+"\n"
+"    <h:messages globalOnly=\"true\"/>\n"
+"\n"
+"    <s:decorate template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Country:</ui:define>\n"
+"        <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
+"    </s:decorate>\n"
+"    \n"
+"    <s:decorate template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Zip code:</ui:define>\n"
+"        <h:inputText value=\"#{location.zip}\" required=\"true\"/>\n"
+"    </s:decorate>\n"
+"\n"
+"    <h:commandButton/>\n"
+"\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:112
+#, no-c-format
+msgid ""
+"Finally, we can use RichFaces Ajax to display validation messages as the "
+"user is navigating around the form:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:117
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form>\n"
+"\n"
+"    <h:messages globalOnly=\"true\"/>\n"
+"\n"
+"    <s:decorate id=\"countryDecoration\" template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Country:</ui:define>\n"
+"        <h:inputText value=\"#{location.country}\" required=\"true\">\n"
+"            <a:support event=\"onblur\" reRender=\"countryDecoration\" "
+"bypassUpdates=\"true\"/>\n"
+"        </h:inputText>\n"
+"    </s:decorate>\n"
+"    \n"
+"    <s:decorate id=\"zipDecoration\" template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Zip code:</ui:define>\n"
+"        <h:inputText value=\"#{location.zip}\" required=\"true\">\n"
+"            <a:support event=\"onblur\" reRender=\"zipDecoration\" "
+"bypassUpdates=\"true\"/>\n"
+"        </h:inputText>\n"
+"    </s:decorate>\n"
+"\n"
+"    <h:commandButton/>\n"
+"\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:119
+#, no-c-format
+msgid ""
+"It's better style to define explicit ids for important controls on the page, "
+"especially if you want to do automated testing for the UI, using some "
+"toolkit like Selenium. If you don't provide explicit ids, JSF will generate "
+"them, but the generated values will change if you change anything on the "
+"page."
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:128
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form id=\"form\">\n"
+"\n"
+"    <h:messages globalOnly=\"true\"/>\n"
+"\n"
+"    <s:decorate id=\"countryDecoration\" template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Country:</ui:define>\n"
+"        <h:inputText id=\"country\" value=\"#{location.country}\" required="
+"\"true\">\n"
+"            <a:support event=\"onblur\" reRender=\"countryDecoration\" "
+"bypassUpdates=\"true\"/>\n"
+"        </h:inputText>\n"
+"    </s:decorate>\n"
+"    \n"
+"    <s:decorate id=\"zipDecoration\" template=\"edit.xhtml\">\n"
+"        <ui:define name=\"label\">Zip code:</ui:define>\n"
+"        <h:inputText id=\"zip\" value=\"#{location.zip}\" required=\"true"
+"\">\n"
+"            <a:support event=\"onblur\" reRender=\"zipDecoration\" "
+"bypassUpdates=\"true\"/>\n"
+"        </h:inputText>\n"
+"    </s:decorate>\n"
+"\n"
+"    <h:commandButton/>\n"
+"\n"
+"</h:form>]]>"
+msgstr ""
+
+#. Tag: para
+#: Validation.xml:130
+#, no-c-format
+msgid ""
+"And what if you want to specify a different message to be displayed when "
+"validation fails? You can use the Seam message bundle (and all it's goodies "
+"like el expressions inside the message, and per-view message bundles) with "
+"the Hibernate Validator:"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:137
+#, no-c-format
+msgid ""
+"<![CDATA[public class Location {\n"
+"    private String name;\n"
+"    private String zip;\n"
+"    \n"
+"    // Getters and setters for name\n"
+"\n"
+"    @NotNull\n"
+"    @Length(max=6)\n"
+"    @ZipCode(message=\"#{messages['location.zipCode.invalid']}\")\n"
+"    public String getZip() { return zip; }\n"
+"    public void setZip(String z) { zip = z; }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Validation.xml:139
+#, no-c-format
+msgid ""
+"location.zipCode.invalid = The zip code is not valid for #{location.name}"
+msgstr ""

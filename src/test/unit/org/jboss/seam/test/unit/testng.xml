@@ -1,0 +1,82 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Seam Unit Testsuite" verbose="2" parallel="false">
+   <test name="Seam Unit Tests: Core">
+     <classes>
+       <class name="org.jboss.seam.test.unit.CoreTest"/>
+       <class name="org.jboss.seam.test.unit.InitializationTest"/>
+       <class name="org.jboss.seam.test.unit.InterceptorTest"/>
+       <class name="org.jboss.seam.test.unit.ComponentTest"/>
+       <class name="org.jboss.seam.test.unit.ContextTest"/>
+       <class name="org.jboss.seam.test.unit.DependencyTest"/>
+       <class name="org.jboss.seam.test.unit.ExpressionsTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Mail">
+     <classes>
+        <class name="org.jboss.seam.test.unit.MailTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: BPM and Pageflow">
+     <classes>
+        <class name="org.jboss.seam.test.unit.bpm.ActorTest" />
+        <class name="org.jboss.seam.test.unit.bpm.TaskListTest" />
+        <class name="org.jboss.seam.test.unit.PageflowTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Pages dot xml">
+     <classes>
+        <class name="org.jboss.seam.test.unit.PageActionsTest" />
+        <class name="org.jboss.seam.test.unit.PageDescriptorTest" />
+        <class name="org.jboss.seam.test.unit.PageParamTest" />
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: JSF integration">
+     <classes>
+        <class name="org.jboss.seam.test.unit.PhaseListenerTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Remoting">
+     <classes>
+        <class name="org.jboss.seam.test.unit.RemotingTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Password Hash">
+     <classes>
+       <class name="org.jboss.seam.test.unit.PasswordHashTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Framework">
+     <classes>
+        <class name="org.jboss.seam.test.unit.HomeTest" />
+        <class name="org.jboss.seam.test.unit.QueryTest" />
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Filters">
+     <classes>
+        <class name="org.jboss.seam.test.unit.web.MultipartRequestTest" />
+        <class name="org.jboss.seam.test.unit.web.IdentityRequestWrapperTest" />
+     </classes>
+   </test>
+   
+   <test name="Seam Unit Tests: Resources and i8ln">
+     <classes>
+        <class name="org.jboss.seam.test.unit.InterpolatorTest"/>
+     </classes>
+   </test>
+
+   <test name="Seam Unit Tests: URL Rewrite">
+     <classes>
+        <class name="org.jboss.seam.test.unit.web.RewriteTest" />
+     </classes>
+   </test>
+
+</suite>

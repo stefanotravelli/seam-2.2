@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html">
+<f:view>
+  <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <title>JBoss Seam Debug Page</title>
+   <style type="text/css">
+      body, div, span, td, th, caption { font-family: 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: small; }
+      ul, li, pre { padding: 0; margin: 0; }
+      h1 { color: #090; }
+      h1 a { text-decoration: none; color: #090; }
+      h2, h2 span { font-size: large; color: #339; }
+      h2 a { text-decoration: none; color: #339; }
+      pre { padding: 8px; margin: 10px 0; border: 1px solid #CCC; background-color: #f9f9f9;  }
+      #applicationContext { display: none; }
+      #attributes, #conversationContext, #sessionContext, #processContext { display: block; }
+      code { font-size: medium; }
+      table { border: 1px solid #CCC; border-collapse: collapse; border-spacing: 0px; width: 100%; text-align: left; }
+      td { border: 1px solid #CCC; }
+      thead tr th { padding: 2px; color: #030; background-color: #F9F9F9; }
+      tbody tr td { padding: 5px 3px; }
+      table caption { text-align: left; padding: 5px 0; font-size: large; }
+   </style>
+   <style type="text/css" media="print">
+      #sessionContext, #conversationContext, #applicationContext, #attributes, #processContext { display: block; }
+   </style>
+   <script language="Javascript" type="text/javascript">
+      SeamDebugPage = {};
+      SeamDebugPage.toggle = function(id) {
+         var el = document.getElementById(id);
+         var displayStyle = SeamDebugPage.getDisplayStyle(el);
+         if ("block" == displayStyle) {
+            el.style.display = "none";
+            document.getElementById(id+"Off").style.display = "inline";
+            document.getElementById(id+"On").style.display = "none";
+         } 
+         else {
+            el.style.display = "block";
+            document.getElementById(id+"Off").style.display = "none";
+            document.getElementById(id+"On").style.display = "inline";
+         }
+      }
+      SeamDebugPage.getDisplayStyle = function(el) {
+         var value = el.style.display;
+   
+         if (!value) {
+            if (document.defaultView) {
+               value = document.defaultView.getComputedStyle(el, "").getPropertyValue("display");
+            }
+            else if (el.currentStyle) {
+               value = el.currentStyle.display;
+            }
+         }
+         return value;
+      }
+   function foo() {}
+   </script>
+  </head>
+  <body>
+    <h1><h:outputLink value="#{facesContext.externalContext.request.requestURI}">JBoss Seam Debug Page</h:outputLink></h1>
+    <div>
+      This page allows you to browse and inspect components in any of the Seam
+      contexts associated with the current session. It also shows a list of
+      active, long-running conversations. You can select a conversation to view
+      its contents or destroy it.
+    </div>
+   
+    <h2>Conversations</h2>
+    <h:outputText value="No long-running conversations exist"
+                  rendered="#{empty org.jboss.seam.debug.contexts.conversationEntries}"/>
+    <h:form rendered="#{not empty org.jboss.seam.debug.contexts.conversationEntries}">
+      <h:dataTable var="_entry" value="#{org.jboss.seam.debug.contexts.conversationEntries}">
+        <h:column>
+          <f:facet name="header">Conversation ID</f:facet>
+          #{_entry.id}
+        </h:column>
+        <h:column>
+          <f:facet name="header">Nested?</f:facet>
+          #{_entry.nested}
+        </h:column>
+        <h:column>
+          <f:facet name="header">Activity</f:facet>
+          <h:outputText value="#{_entry.startDatetime}">
+            <f:convertDateTime type="time" timeZone="#{timeZone}"/>
+          </h:outputText>
+          #{' - '}
+          <h:outputText value="#{_entry.lastDatetime}">
+            <f:convertDateTime type="time" timeZone="#{timeZone}"/>
+          </h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Description</f:facet>
+          #{_entry.description}
+        </h:column>
+        <h:column>
+          <f:facet name="header">View ID</f:facet>
+          #{_entry.viewId}
+        </h:column>
+        <h:column>
+          <f:facet name="header">Action</f:facet>
+          <h:outputLink>
+            Select
+            <f:param name="#{manager.conversationIdParameter}" value="#{_entry.id}"/>
+          </h:outputLink>
+          #{' '}
+          <h:commandLink actionListener="#{_entry.destroy}" action="#{org.jboss.seam.debug.jsf.debugRedirect.execute}" value="Destroy">
+            <f:setPropertyActionListener target="#{org.jboss.seam.debug.jsf.debugRedirect.viewId}" value="#{view.viewId}"/>
+          </h:commandLink>
+        </h:column>
+      </h:dataTable>
+    </h:form>
+
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('attributes'); return false;">
+        <span id="attributesOff" style="display: none;">+</span>
+        <span id="attributesOn">-</span>
+        &#160;Component&#160;
+        <h:outputText value="(#{param['name']})" 
+                      rendered="#{org.jboss.seam.debug.introspector.attributes!=null}"/>
+        <h:outputText value="(None selected)" 
+                      rendered="#{org.jboss.seam.debug.introspector.attributes==null}"/>
+      </a>
+    </h2>
+    <div id="attributes">
+    <h:outputText value="Select a component from one of the contexts below"
+                  rendered="#{org.jboss.seam.debug.introspector.attributes==null}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.introspector.attributes}"
+                 rendered="#{org.jboss.seam.debug.introspector.attributes!=null}"
+                 var="attribute">
+      <h:column>
+        #{attribute.name}
+      </h:column>
+      <h:column>
+        #{attribute.stringValue}
+      </h:column>
+    </h:dataTable>
+    </div>
+   
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('conversationContext'); return false;">
+        <span id="conversationContextOff" style="display: none;">+</span>
+        <span id="conversationContextOn">-</span>
+        &#160;Conversation Context&#160;
+        <h:outputText value="(#{manager.currentConversationId})"
+                      rendered="#{manager.longRunningConversation}"/>
+        <h:outputText value="(None selected)"
+                      rendered="#{!manager.longRunningConversation}"/>
+      </a>
+    </h2>
+    <div id="conversationContext">
+    <h:outputText value="Empty conversation context"
+                  rendered="#{empty org.jboss.seam.debug.contexts.conversation}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.conversation}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+    
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('processContext'); return false;">
+        <span id="processContextOff" style="display: none;">+</span>
+        <span id="processContextOn">-</span>
+        &#160;Business Process Context
+      </a>
+    </h2>
+    <div id="processContext">
+    <h:outputText value="Empty business process context"
+                  rendered="#{empty org.jboss.seam.debug.contexts.businessProcess}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.businessProcess}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('sessionContext'); return false;">
+        <span id="sessionContextOff" style="display: none;">+</span>
+        <span id="sessionContextOn">-</span>
+        &#160;Session Context
+      </a>
+    </h2>
+    <div id="sessionContext">
+    <h:outputText value="Empty session context"
+                  rendered="#{empty org.jboss.seam.debug.contexts.session}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.session}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('applicationContext'); return false;">
+        <span id="applicationContextOff">+</span>
+        <span id="applicationContextOn" style="display: none;">-</span>
+        &#160;Application Context
+      </a>
+    </h2>
+    <div id="applicationContext">
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.application}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+    
+    <f:subview rendered="#{org.jboss.seam.debug.contexts.exceptionExists}">
+    <h2>
+      <a href="#" onclick="SeamDebugPage.toggle('stackTrace'); return false;">
+        <span id="stackTraceOff" style="display: none;">+</span>
+        <span id="stackTraceOn">-</span>
+        &#160;Exception
+      </a>
+    </h2>
+    <div id="stackTrace">
+        Exception during request processing:
+        <ui:repeat value="#{org.jboss.seam.debug.contexts.exceptionCauses}" var="exception">
+        <div>
+        Caused by #{exception.class.name} with message: "#{exception.getMessage()}"
+        <pre><ui:repeat value="#{exception.stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat></pre>
+        </div>
+        </ui:repeat>
+    </div>
+    </f:subview>
+
+  </body>
+</f:view>
+</html>

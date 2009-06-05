@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Span</name>
+		<family>org.jboss.seam.ui.Span</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlSpan</classname>
+		<superclass>org.jboss.seam.ui.component.UISpan</superclass>
+		<description>
+			<![CDATA[Render a HTML <span>]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.SpanRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.SpanRendererBase</classname>
+		</renderer>
+		<tag>
+			<name>span</name>
+			<classname>org.jboss.seam.ui.taglib.SpanTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		&html_style_attributes;
+		<property>
+			<name>title</name>
+			<classname>java.lang.String</classname>
+			<description>Span title attribute</description>
+		</property>		
+	</component>
+</components>

@@ -1,0 +1,311 @@
+# Language pt-BR translations for Seam_Reference_Guide package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Seam_Reference_Guide \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-25 20:07+0000\n"
+"PO-Revision-Date: 2008-10-14 11:38+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Rss.xml:5
+#, no-c-format
+msgid "RSS support"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:6
+#, no-c-format
+msgid ""
+"It is now easy to integrate RSS feeds in Seam through the <ulink url="
+"\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink> library. The RSS support "
+"is currently in the state of \"tech preview\" in the current release."
+msgstr ""
+
+#. Tag: title
+#: Rss.xml:14
+#, no-c-format
+msgid "Installation"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:15
+#, no-c-format
+msgid ""
+"To enable RSS support, include the <literal>jboss-seam-rss.jar</literal> in "
+"your applications <literal>WEB-INF/lib</literal> directory. The RSS library "
+"also has some dependent libraries that should be placed in the same "
+"directory. See <xref linkend=\"dependencies.rss\"/> for a list of libraries "
+"to include."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:22
+#, no-c-format
+msgid ""
+"The Seam RSS support requires the use of Facelets as the view technology."
+msgstr ""
+
+#. Tag: title
+#: Rss.xml:28
+#, no-c-format
+msgid "Generating feeds"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:29
+#, no-c-format
+msgid ""
+"The <literal>examples/rss</literal> project contains an example of RSS "
+"support in action. It demonstrates proper deployment packaging, and it shows "
+"the exposed functionality."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:34
+#, no-c-format
+msgid ""
+"A feed is a xhtml-page that consist of a feed and a list of nested entry "
+"items."
+msgstr ""
+
+#. Tag: programlisting
+#: Rss.xml:38
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <r:feed \n"
+"               xmlns=\"http://www.w3.org/1999/xhtml\" \n"
+"               xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n"
+"               xmlns:r=\"http://jboss.com/products/seam/rss\"\n"
+"               title=\"#{rss.feed.title}\"\n"
+"               uid=\"#{rss.feed.uid}\"\n"
+"               subtitle=\"#{rss.feed.subtitle}\"\n"
+"               updated=\"#{rss.feed.updated}\"\n"
+"               link=\"#{rss.feed.link}\">\n"
+"               <ui:repeat value=\"#{rss.feed.entries}\" var=\"entry\">\n"
+"                  <r:entry\n"
+"                     uid=\"#{entry.uid}\"\n"
+"                     title=\"#{entry.title}\"\n"
+"                     link=\"#{entry.link}\"\n"
+"                     author=\"#{entry.author}\"\n"
+"                     summary=\"#{entry.summary}\"\n"
+"                     published=\"#{entry.published}\"\n"
+"                     updated=\"#{entry.updated}\"\n"
+"                          />\n"
+"                   </ui:repeat>\n"
+"            </r:feed>\n"
+"        ]]>"
+msgstr ""
+
+#. Tag: title
+#: Rss.xml:42
+#, no-c-format
+msgid "Feeds"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:43
+#, no-c-format
+msgid ""
+"Feeds are the top-level entities that describe the properties of the "
+"information source. It contains zero or more nested entries."
+msgstr ""
+
+#. Tag: literal
+#: Rss.xml:55 Rss.xml:142
+#, no-c-format
+msgid "&lt;r:feed&gt;"
+msgstr ""
+
+#. Tag: emphasis
+#: Rss.xml:60 Rss.xml:147
+#, no-c-format
+msgid "Attributes"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:64
+#, no-c-format
+msgid ""
+"<literal>uid</literal> &#8212; An optional unique feed id. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:70
+#, no-c-format
+msgid ""
+"<literal>title</literal> &#8212; The title of the feed. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:76
+#, no-c-format
+msgid ""
+"<literal>subtitle</literal> &#8212; The subtitle of the feed. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:82
+#, no-c-format
+msgid ""
+"<literal>updated</literal> &#8212; When was the feed updated? The value is a "
+"date."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:88
+#, no-c-format
+msgid ""
+"<literal>link</literal> &#8212; The link to the source of the information. "
+"The value is a string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:95
+#, no-c-format
+msgid ""
+"<literal>feedFormat</literal> &#8212; The feed format. The value is a string "
+"and defaults to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10."
+msgstr ""
+
+#. Tag: emphasis
+#: Rss.xml:103 Rss.xml:202
+#, no-c-format
+msgid "Child elemenents"
+msgstr ""
+
+#. Tag: literal
+#: Rss.xml:108
+#, no-c-format
+msgid "Zero or more feed entries"
+msgstr ""
+
+#. Tag: emphasis
+#: Rss.xml:113 Rss.xml:212
+#, no-c-format
+msgid "Facets"
+msgstr ""
+
+#. Tag: literal
+#: Rss.xml:118 Rss.xml:207 Rss.xml:217
+#, no-c-format
+msgid "none"
+msgstr ""
+
+#. Tag: title
+#: Rss.xml:130
+#, no-c-format
+msgid "Entries"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:131
+#, no-c-format
+msgid "Entries are the \"headlines\" in the feed."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:151
+#, no-c-format
+msgid ""
+"<literal>uid</literal> &#8212; An optional unique entry id. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:157
+#, no-c-format
+msgid ""
+"<literal>title</literal> &#8212; The title of the entry. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:163
+#, no-c-format
+msgid ""
+"<literal>link</literal> &#8212; A link to the item. The value is a string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:169
+#, no-c-format
+msgid ""
+"<literal>author</literal> &#8212; The author of the story. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:175
+#, no-c-format
+msgid ""
+"<literal>summary</literal> &#8212; The body of the story. The value is a "
+"string."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:181
+#, no-c-format
+msgid ""
+"<literal>textFormat</literal> &#8212; The format of the body and title of "
+"the story. The value is a string and valid values are \"text\" and \"html\". "
+"Defaults to \"html\"."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:189
+#, no-c-format
+msgid ""
+"<literal>published</literal> &#8212; When was the story first published? The "
+"value is a date."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:195
+#, no-c-format
+msgid ""
+"<literal>updated</literal> &#8212; When was the story updated? The value is "
+"a date."
+msgstr ""
+
+#. Tag: title
+#: Rss.xml:229
+#, no-c-format
+msgid "Links and further documentation"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:230
+#, no-c-format
+msgid ""
+"The core of the RSs functionality is based on the YARFRAW library which can "
+"be found on <ulink url=\"http://yarfraw.sourceforge.net/\">http://yarfraw."
+"sourceforge.net/</ulink> and most features and possible limitations are "
+"inherited from here."
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:235
+#, no-c-format
+msgid ""
+"For details on the ATOM 1.0 format, have a look at <ulink url=\"http://"
+"atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\"> the specs</ulink>"
+msgstr ""
+
+#. Tag: para
+#: Rss.xml:240
+#, no-c-format
+msgid ""
+"For details on the RSS 2.0 format, have a look at <ulink url=\"http://cyber."
+"law.harvard.edu/rss/rss.html\">the specs</ulink>"
+msgstr ""

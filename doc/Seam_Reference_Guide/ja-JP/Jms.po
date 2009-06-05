@@ -1,0 +1,1195 @@
+# translation of Jms.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: Jms\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"PO-Revision-Date: 2009-02-23 13:16+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Jms.xml:2
+#, no-c-format
+msgid "Asynchronicity and messaging"
+msgstr "非同期性とメッセージング"
+
+#. Tag: para
+#: Jms.xml:3
+#, fuzzy, no-c-format
+msgid ""
+"Seam makes it very easy to perform work asynchronously from a web request. "
+"When most people think of asynchronicity in Java EE, they think of using "
+"JMS. This is certainly one way to approach the problem in Seam, and is the "
+"right way when you have strict and well-defined quality of service "
+"requirements. Seam makes it easy to send and receive JMS messages using Seam "
+"components."
+msgstr ""
+"Seamでは、Web要求に対して非同期に処理を行うことが非常に簡単にできます。 Java "
+"EEでの非同期性といえば、多くの人はJMSを思い浮かべるでしょう。 これは確かに"
+"Seamでこの問題にアプローチするひとつの方法です。そして厳密で明確なサービス品"
+"質の要件があるならば、これは適切な方法です。 Seamでは、Seamコンポーネントを"
+"使って簡単にJMSメッセージを送受信できます。"
+
+#. Tag: para
+#: Jms.xml:11
+#, fuzzy, no-c-format
+msgid ""
+"But for many use cases, JMS is overkill. Seam layers a simple asynchronous "
+"method and event facility over your choice of <emphasis>dispatchers</"
+"emphasis>:"
+msgstr ""
+"しかし多くの使用事例ではJMSは過剰です。 Seamはシンプルな非同期メソッドとイベ"
+"ント機能をディスパッチャの選択に応じてレイヤ化します。"
+
+#. Tag: para
+#: Jms.xml:18
+#, no-c-format
+msgid ""
+"<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (by "
+"default)"
+msgstr ""
+"<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (デフォル"
+"ト)"
+
+#. Tag: para
+#: Jms.xml:23
+#, no-c-format
+msgid "the EJB timer service (for EJB 3.0 environments)"
+msgstr "EJB タイマーサービス (EJB 3.0 環境向け)"
+
+#. Tag: para
+#: Jms.xml:28
+#, no-c-format
+msgid "Quartz"
+msgstr "Quartz"
+
+#. Tag: title
+#: Jms.xml:35
+#, no-c-format
+msgid "Asynchronicity"
+msgstr "非同期性"
+
+#. Tag: para
+#: Jms.xml:37
+#, no-c-format
+msgid ""
+"Asynchronous events and method calls have the same quality of service "
+"expectations as the underlying dispatcher mechanism. The default dispatcher, "
+"based upon a <literal>ScheduledThreadPoolExecutor</literal> performs "
+"efficiently but provides no support for persistent asynchronous tasks, and "
+"hence no guarantee that a task will ever actually be executed. If you're "
+"working in an environment that supports EJB 3.0, and add the following line "
+"to <literal>components.xml</literal>:"
+msgstr ""
+"非同期のイベントやメソッドのコールは基礎となるディスパッチャのメカニズムと同"
+"等のサービスが期待されます。 <literal>ScheduledThreadPoolExecutor</literal> "
+"をベースとするデフォルトのディスパッチャは効率的な働きをしますが、 永続非同期"
+"のタスクに対応していないためタスクが実際に実行されるかは保証されません。 EJB "
+"3.0 に対応する環境で作業している場合は次の行を <literal>components.xml</"
+"literal> に追加します。"
+
+#. Tag: programlisting
+#: Jms.xml:46
+#, no-c-format
+msgid "<![CDATA[<async:timer-service-dispatcher/>]]>"
+msgstr "<![CDATA[<async:timer-service-dispatcher/>]]>"
+
+#. Tag: para
+#: Jms.xml:48
+#, no-c-format
+msgid ""
+"then your asynchronous tasks will be processed by the container's EJB timer "
+"service. If you're not familiar with the Timer service, don't worry, you "
+"don't need to interact with it directly if you want to use asynchronous "
+"methods in Seam. The important thing to know is that any good EJB 3.0 "
+"implementation will have the option of using persistent timers, which gives "
+"some guarantee that the tasks will eventually be processed."
+msgstr ""
+"これを行うと非同期のタスクがコンテナの EJB タイマーサービスによって処理される"
+"ようになります。 タイマーサービスについて十分な知識がなくても心配する必要はあ"
+"りません。 Seam で非同期メソッドを使用する場合は直接タイマーサービスを操作す"
+"る必要はありません。 理解しておくべき重要な部分とは、 適切に実装されている "
+"EJB 3.0 には永続タイマーを使用するオプションがあり、 これによりタスクが最終的"
+"には処理されることを保証します。"
+
+#. Tag: para
+#: Jms.xml:56
+#, no-c-format
+msgid ""
+"Another alternative is to use the open source Quartz library to manage "
+"asynchronous method. You need to bundle the Quartz library JAR (found in the "
+"<literal>lib</literal> directory) in your EAR and declare it as a Java "
+"module in <literal>application.xml</literal>. The Quartz dispatcher may be "
+"configured by adding a Quartz property file to the classpath. It must be "
+"named <literal>seam.quartz.properties</literal>. In addition, you need to "
+"add the following line to <literal>components.xml</literal> to install the "
+"Quartz dispatcher."
+msgstr ""
+"別の方法としては、 オープンソースの Quartz ライブラリを使って非同期メソッドを"
+"管理する方法です。この場合、 EAR に Quartz ライブラリ JAR (<literal>lib</"
+"literal> ディレクトリにある) を同梱してから <literal>application.xml</"
+"literal> で Java モジュールとして宣言する必要があります。 Quartz ディスパッ"
+"チャはクラスパスに Quartz プロパティファイルを追加すると設定可能になります。 "
+"<literal>seam.quartz.properties</literal> という名前にしてください。 また、 "
+"次の行を <literal>components.xml</literal> に追加して Quartz ディスパッチャを"
+"インストールする必要があります。"
+
+#. Tag: programlisting
+#: Jms.xml:66
+#, no-c-format
+msgid "<![CDATA[<async:quartz-dispatcher/>]]>"
+msgstr "<![CDATA[<async:quartz-dispatcher/>]]>"
+
+#. Tag: para
+#: Jms.xml:68
+#, no-c-format
+msgid ""
+"The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, "
+"the EJB3 <literal>Timer</literal>, and the Quartz <literal>Scheduler</"
+"literal> are largely the same. They can just \"plug and play\" by adding a "
+"line to <literal>components.xml</literal>."
+msgstr ""
+"デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の Seam API、 "
+"EJB3 <literal>Timer</literal>、 Quartz <literal>Scheduler</literal> の大部分"
+"は同じになります。 <literal>components.xml</literal> に 1 行追加するだけでプ"
+"ラグアンドプレイが可能です。"
+
+#. Tag: title
+#: Jms.xml:75
+#, no-c-format
+msgid "Asynchronous methods"
+msgstr "非同期メソッド"
+
+#. Tag: para
+#: Jms.xml:77
+#, no-c-format
+msgid ""
+"In simplest form, an asynchronous call just lets a method call be processed "
+"asynchronously (in a different thread) from the caller. We usually use an "
+"asynchronous call when we want to return an immediate response to the "
+"client, and let some expensive work be processed in the background. This "
+"pattern works very well in applications which use AJAX, where the client can "
+"automatically poll the server for the result of the work."
+msgstr ""
+"最も単純なかたちでは、非同期呼び出しは、メソッド呼び出しを呼び出し側に対して"
+"非同期に (異なるスレッドで) 処理させるだけです。 私たちは通常、クライアントに"
+"即座に応答を返し、重い仕事をバックグラウンドで処理させたい場合に、非同期呼び"
+"出しを使います。 このパターンは、クライアントが処理結果をサーバへ自動的にポー"
+"リングできるような、AJAXを使用するアプリケーションでとても効果的です。"
+
+#. Tag: para
+#: Jms.xml:85
+#, no-c-format
+msgid ""
+"For EJB components, we annotate the local interface to specify that a method "
+"is processed asynchronously."
+msgstr ""
+"EJBコンポーネントでは、ローカルインタフェースをアノテートしてメソッドが非同期"
+"に処理されるよう指定します。"
+
+#. Tag: programlisting
+#: Jms.xml:90
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public void processPayment(Payment payment);\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public void processPayment(Payment payment);\n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:92
+#, no-c-format
+msgid ""
+"(For JavaBean components we can annotate the component implementation class "
+"if we like.)"
+msgstr ""
+"(JavaBean コンポーネントでは、 望むならコンポーネントの実装クラスをアノテート"
+"することができます)"
+
+#. Tag: para
+#: Jms.xml:96
+#, no-c-format
+msgid "The use of asynchronicity is transparent to the bean class:"
+msgstr "非同期性の使用はbeanクラスに透過的です。"
+
+#. Tag: programlisting
+#: Jms.xml:100
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"paymentHandler\")\n"
+"public class PaymentHandlerBean implements PaymentHandler\n"
+"{\n"
+"    public void processPayment(Payment payment)\n"
+"    {\n"
+"        //do some work!\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"paymentHandler\")\n"
+"public class PaymentHandlerBean implements PaymentHandler\n"
+"{\n"
+"    public void processPayment(Payment payment)\n"
+"    {\n"
+"        //do some work!\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:102
+#, no-c-format
+msgid "And also transparent to the client:"
+msgstr "そしてクライアントに対しても透過的です。"
+
+#. Tag: programlisting
+#: Jms.xml:106
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String pay()\n"
+"    {\n"
+"        paymentHandler.processPayment( new Payment(bill) );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String pay()\n"
+"    {\n"
+"        paymentHandler.processPayment( new Payment(bill) );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:108
+#, no-c-format
+msgid ""
+"The asynchronous method is processed in a completely new event context and "
+"does not have access to the session or conversation context state of the "
+"caller. However, the business process context <emphasis>is</emphasis> "
+"propagated."
+msgstr ""
+"非同期メソッドは完全に新規のイベントコンテキストで処理され、 呼び出し側のセッ"
+"ションまたは対話コンテキストの状態にはアクセスできません。 しかしビジネスプロ"
+"セスコンテキストは伝播<emphasis>されます</emphasis>。"
+
+#. Tag: para
+#: Jms.xml:114
+#, no-c-format
+msgid ""
+"Asynchronous method calls may be scheduled for later execution using the "
+"<literal>@Duration</literal>, <literal>@Expiration</literal> and "
+"<literal>@IntervalDuration</literal> annotations."
+msgstr ""
+"非同期メソッド呼び出しは<literal>@Duration</literal>、<literal>@Expiration</"
+"literal>、 <literal>@IntervalDuration</literal>アノテーションを使って、 後の"
+"実行のためにスケジューリングできます。"
+
+#. Tag: programlisting
+#: Jms.xml:120
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public void processScheduledPayment(Payment payment, @Expiration Date "
+"date);\n"
+"\n"
+"    @Asynchronous\n"
+"    public void processRecurringPayment(Payment payment, \n"
+"                                        @Expiration Date date, \n"
+"                                        @IntervalDuration Long interval)'\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public void processScheduledPayment(Payment payment, @Expiration Date "
+"date);\n"
+"\n"
+"    @Asynchronous\n"
+"    public void processRecurringPayment(Payment payment, \n"
+"                                        @Expiration Date date, \n"
+"                                        @IntervalDuration Long interval)'\n"
+"}]]>"
+
+#. Tag: programlisting
+#: Jms.xml:122
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String schedulePayment()\n"
+"    {\n"
+"        paymentHandler.processScheduledPayment( new Payment(bill), bill."
+"getDueDate() );\n"
+"        return \"success\";\n"
+"    }\n"
+"\n"
+"    public String scheduleRecurringPayment()\n"
+"    {\n"
+"        paymentHandler.processRecurringPayment( new Payment(bill), bill."
+"getDueDate(), \n"
+"                                                ONE_MONTH );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String schedulePayment()\n"
+"    {\n"
+"        paymentHandler.processScheduledPayment( new Payment(bill), bill."
+"getDueDate() );\n"
+"        return \"success\";\n"
+"    }\n"
+"\n"
+"    public String scheduleRecurringPayment()\n"
+"    {\n"
+"        paymentHandler.processRecurringPayment( new Payment(bill), bill."
+"getDueDate(), \n"
+"                                                ONE_MONTH );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:124
+#, no-c-format
+msgid ""
+"Both client and server may access the <literal>Timer</literal> object "
+"associated with the invocation. The <literal>Timer</literal> object shown "
+"below is the EJB3 timer when you use the EJB3 dispatcher. For the default "
+"<literal>ScheduledThreadPoolExecutor</literal>, the returned object is "
+"<literal>Future</literal> from the JDK. For the Quartz dispatcher, it "
+"returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the "
+"next section."
+msgstr ""
+"クライアント、 サーバーいずれも呼び出しに関連する <literal>Timer</literal> オ"
+"ブジェクトにアクセスすることができます。 以下に示す <literal>Timer</literal> "
+"オブジェクトは EJB3 ディスパッチャを使用する場合は EJB 3 のタイマーになりま"
+"す。 デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の場合、 返"
+"されるオブジェクトは JDK からの <literal>Future</literal> になります。 "
+"Quartz ディスパッチャの場合は <literal>QuartzTriggerHandle</literal> を返しま"
+"す。 これについては次のセクションで説明していきます。"
+
+#. Tag: programlisting
+#: Jms.xml:129
+#, no-c-format
+msgid ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public Timer processScheduledPayment(Payment payment, @Expiration Date "
+"date);\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Local\n"
+"public interface PaymentHandler\n"
+"{\n"
+"    @Asynchronous\n"
+"    public Timer processScheduledPayment(Payment payment, @Expiration Date "
+"date);\n"
+"}]]>"
+
+#. Tag: programlisting
+#: Jms.xml:131
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"paymentHandler\")\n"
+"public class PaymentHandlerBean implements PaymentHandler\n"
+"{\n"
+"    @In Timer timer;\n"
+"    \n"
+"    public Timer processScheduledPayment(Payment payment, @Expiration Date "
+"date)\n"
+"    {\n"
+"        //do some work!\n"
+"        \n"
+"        return timer; //note that return value is completely ignored\n"
+"    }\n"
+"\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"paymentHandler\")\n"
+"public class PaymentHandlerBean implements PaymentHandler\n"
+"{\n"
+"    @In Timer timer;\n"
+"    \n"
+"    public Timer processScheduledPayment(Payment payment, @Expiration Date "
+"date)\n"
+"    {\n"
+"        //do some work!\n"
+"        \n"
+"        return timer; //note that return value is completely ignored\n"
+"    }\n"
+"\n"
+"}]]>"
+
+#. Tag: programlisting
+#: Jms.xml:133
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String schedulePayment()\n"
+"    {\n"
+"        Timer timer = paymentHandler.processScheduledPayment( new Payment"
+"(bill), \n"
+"                                                              bill.getDueDate"
+"() );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"paymentAction\")\n"
+"public class CreatePaymentAction\n"
+"{\n"
+"    @In(create=true) PaymentHandler paymentHandler;\n"
+"    @In Bill bill;\n"
+"    \n"
+"    public String schedulePayment()\n"
+"    {\n"
+"        Timer timer = paymentHandler.processScheduledPayment( new Payment"
+"(bill), \n"
+"                                                              bill.getDueDate"
+"() );\n"
+"        return \"success\";\n"
+"    }\n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:135
+#, no-c-format
+msgid "Asynchronous methods cannot return any other value to the caller."
+msgstr "非同期メソッドは呼び出し側に他のどんな値も返すことができません。"
+
+#. Tag: title
+#: Jms.xml:142
+#, no-c-format
+msgid "Asynchronous methods with the Quartz Dispatcher"
+msgstr "Quartz ディスパッチャを使った非同期メソッド"
+
+#. Tag: para
+#: Jms.xml:144
+#, no-c-format
+msgid ""
+"The Quartz dispatcher (see earlier on how to install it) allows you to use "
+"the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, "
+"<literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> "
+"annotations as above. But it has some powerful additional features. The "
+"Quartz dispatcher supports three new annotations."
+msgstr ""
+"Quartz ディスパッチャ (インストール方法については前述の説明を参照) では上記の"
+"ような <literal>@Asynchronous</literal>、 <literal>@Duration</literal>、 "
+"<literal>@Expiration</literal>、 <literal>@IntervalDuration</literal> のアノ"
+"テーションが使用できます。 ただし、 強力な追加機能があります。 Quartz ディス"
+"パッチャは 3 種類の新しいアノテーションに対応します。"
+
+#. Tag: para
+#: Jms.xml:148
+#, no-c-format
+msgid ""
+"The <literal>@FinalExpiration</literal> annotation specifies an end date for "
+"the recurring task. Note that you can inject the <code>QuartzTriggerHandle</"
+"code>."
+msgstr ""
+"<literal>@FinalExpiration</literal> アノテーションは反復タスクの終了日を指定"
+"します。 <code>QuartzTriggerHandle</code> のインジェクトが可能なので注意して"
+"ください。"
+
+#. Tag: programlisting
+#: Jms.xml:150
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"        @In QuartzTriggerHandle timer;\n"
+"        \n"
+"    // Defines the method in the \"processor\" component\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalDuration Long interval,\n"
+"                                 @FinalExpiration Date endDate, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task until endDate\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    // Starts now, repeats every hour, and ends on May 10th, 2010\n"
+"    Calendar cal = Calendar.getInstance ();\n"
+"    cal.set (2010, Calendar.MAY, 10);\n"
+"    processor.schedulePayment(new Date(), 60*60*1000, cal.getTime(), "
+"payment);\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"        @In QuartzTriggerHandle timer;\n"
+"        \n"
+"    // Defines the method in the \"processor\" component\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalDuration Long interval,\n"
+"                                 @FinalExpiration Date endDate, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task until endDate\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    // Starts now, repeats every hour, and ends on May 10th, 2010\n"
+"    Calendar cal = Calendar.getInstance ();\n"
+"    cal.set (2010, Calendar.MAY, 10);\n"
+"    processor.schedulePayment(new Date(), 60*60*1000, cal.getTime(), "
+"payment);\n"
+"]]>"
+
+#. Tag: para
+#: Jms.xml:152
+#, no-c-format
+msgid ""
+"Note that the method returns the <literal>QuartzTriggerHandle</literal> "
+"object, which you can use later to stop, pause, and resume the scheduler. "
+"The <literal>QuartzTriggerHandle</literal> object is serializable, so you "
+"can save it into the database if you need to keep it around for extended "
+"period of time."
+msgstr ""
+"このメソッドは <literal>QuartzTriggerHandle</literal> を返すので注意してくだ"
+"さい。 後でこれを使用してスケジューラの停止、 一時停止、 再開などを行うことが"
+"できます。 <literal>QuartzTriggerHandle</literal> オブジェクトはシリアライズ"
+"可能であるため、 長期間に渡りこれを維持する必要がある場合はデータベースに保存"
+"することができます。"
+
+#. Tag: programlisting
+#: Jms.xml:154
+#, no-c-format
+msgid ""
+"<![CDATA[QuartzTriggerHandle handle =\n"
+"         processor.schedulePayment(payment.getPaymentDate(), \n"
+"                                   payment.getPaymentCron(), \n"
+"                                   payment);\n"
+"        payment.setQuartzTriggerHandle( handle );\n"
+"        // Save payment to DB\n"
+"        \n"
+"        // later ...\n"
+"        \n"
+"        // Retrieve payment from DB\n"
+"        // Cancel the remaining scheduled tasks\n"
+"        payment.getQuartzTriggerHandle().cancel();\n"
+"]]>"
+msgstr ""
+"<![CDATA[QuartzTriggerHandle handle =\n"
+"         processor.schedulePayment(payment.getPaymentDate(), \n"
+"                                   payment.getPaymentCron(), \n"
+"                                   payment);\n"
+"        payment.setQuartzTriggerHandle( handle );\n"
+"        // Save payment to DB\n"
+"        \n"
+"        // later ...\n"
+"        \n"
+"        // Retrieve payment from DB\n"
+"        // Cancel the remaining scheduled tasks\n"
+"        payment.getQuartzTriggerHandle().cancel();\n"
+"]]>"
+
+#. Tag: para
+#: Jms.xml:156
+#, no-c-format
+msgid ""
+"The <literal>@IntervalCron</literal> annotation supports Unix cron job "
+"syntax for task scheduling. For instance, the following asynchronous method "
+"runs at 2:10pm and at 2:44pm every Wednesday in the month of March."
+msgstr ""
+"<literal>@IntervalCron</literal> アノテーションはタスクのスケジュールを行うの"
+"に Unix cron ジョブ構文をサポートします。 たとえば、 次の非同期メソッドは 3 "
+"月の毎水曜日の 2:10pm と 2:44pm に実行されます。"
+
+#. Tag: programlisting
+#: Jms.xml:159
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"    // Define the method\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalCron String cron, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    QuartzTriggerHandle handle = \n"
+"      processor.schedulePayment(new Date(), \"0 10,44 14 ? 3 WED\", "
+"payment);\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"    // Define the method\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalCron String cron, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    QuartzTriggerHandle handle = \n"
+"      processor.schedulePayment(new Date(), \"0 10,44 14 ? 3 WED\", "
+"payment);\n"
+"]]>"
+
+#. Tag: para
+#: Jms.xml:161
+#, no-c-format
+msgid ""
+"The <literal>@IntervalBusinessDay</literal> annotation supports invocation "
+"on the \"nth Business Day\" scenario. For instance, the following "
+"asynchronous method runs at 14:00 on the 2nd business day of each month. By "
+"default, it excludes all weekends and US federal holidays until 2010 from "
+"the business days."
+msgstr ""
+"<literal>@IntervalBusinessDay</literal> アノテーションは「第X日営業日」という"
+"状況の呼び出しに対応します。 たとえば、 次の非同期メソッドは毎月第2営業日の "
+"14:00 に実行されます。 デフォルトでは 2010 年まですべての週末とアメリカ合衆国"
+"の祝日を営業日から除外します。"
+
+#. Tag: programlisting
+#: Jms.xml:164
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"    // Define the method\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalBusinessDay NthBusinessDay nth, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    QuartzTriggerHandle handle = \n"
+"      processor.schedulePayment(new Date(), \n"
+"          new NthBusinessDay(2, \"14:00\", WEEKLY), payment);\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"    // Define the method\n"
+"    @Asynchronous\n"
+"    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
+"                                 @IntervalBusinessDay NthBusinessDay nth, \n"
+"                                 Payment payment) \n"
+"    { \n"
+"        // do the repeating or long running task\n"
+"    }\n"
+"    \n"
+"    ... ...\n"
+"    \n"
+"    // Schedule the task in the business logic processing code\n"
+"    QuartzTriggerHandle handle = \n"
+"      processor.schedulePayment(new Date(), \n"
+"          new NthBusinessDay(2, \"14:00\", WEEKLY), payment);\n"
+"]]>"
+
+#. Tag: para
+#: Jms.xml:166
+#, no-c-format
+msgid ""
+"The <literal>NthBusinessDay</literal> object contains the configuration of "
+"the invocation trigger. You can specify more holidays (e.g., company "
+"holidays, non-US holidays etc.) via the <literal>additionalHolidays</"
+"literal> property."
+msgstr ""
+"<literal>NthBusinessDay</literal> オブジェクトには呼び出しトリガーの設定が含"
+"まれます。 <literal>additionalHolidays</literal> プロパティを使って祝日を追加"
+"指定することができます (例、 会社固有の休み、 アメリカ合衆国以外の祝日など)。"
+
+#. Tag: programlisting
+#: Jms.xml:168
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"public class NthBusinessDay implements Serializable\n"
+"{\n"
+"      int n;\n"
+"      String fireAtTime;\n"
+"      List <Date> additionalHolidays;\n"
+"      BusinessDayIntervalType interval;\n"
+"      boolean excludeWeekends;\n"
+"      boolean excludeUsFederalHolidays;\n"
+"\n"
+"      public enum BusinessDayIntervalType { WEEKLY, MONTHLY, YEARLY }\n"
+"\n"
+"      public NthBusinessDay ()\n"
+"      {\n"
+"        n = 1;\n"
+"        fireAtTime = \"12:00\";\n"
+"        additionalHolidays = new ArrayList <Date> ();\n"
+"        interval = BusinessDayIntervalType.WEEKLY;\n"
+"        excludeWeekends = true;\n"
+"        excludeUsFederalHolidays = true;\n"
+"      }     \n"
+"      ... ...\n"
+"}\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"public class NthBusinessDay implements Serializable\n"
+"{\n"
+"      int n;\n"
+"      String fireAtTime;\n"
+"      List <Date> additionalHolidays;\n"
+"      BusinessDayIntervalType interval;\n"
+"      boolean excludeWeekends;\n"
+"      boolean excludeUsFederalHolidays;\n"
+"\n"
+"      public enum BusinessDayIntervalType { WEEKLY, MONTHLY, YEARLY }\n"
+"\n"
+"      public NthBusinessDay ()\n"
+"      {\n"
+"        n = 1;\n"
+"        fireAtTime = \"12:00\";\n"
+"        additionalHolidays = new ArrayList <Date> ();\n"
+"        interval = BusinessDayIntervalType.WEEKLY;\n"
+"        excludeWeekends = true;\n"
+"        excludeUsFederalHolidays = true;\n"
+"      }     \n"
+"      ... ...\n"
+"}\n"
+"]]>"
+
+#. Tag: para
+#: Jms.xml:170
+#, no-c-format
+msgid ""
+"The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, "
+"and <literal>@IntervalNthBusinessDay</literal> annotations are mutually "
+"exclusive. If they are used in the same method, a <literal>RuntimeException</"
+"literal> will be thrown."
+msgstr ""
+"<literal>@IntervalDuration</literal>、 <literal>@IntervalCron</literal>、 "
+"<literal>@IntervalNthBusinessDay</literal> のアノテーションは互いに矛盾しま"
+"す。 同じメソッド内で使用されると <literal>RuntimeException</literal> がス"
+"ローされます。"
+
+#. Tag: title
+#: Jms.xml:175
+#, no-c-format
+msgid "Asynchronous events"
+msgstr "非同期イベント"
+
+#. Tag: para
+#: Jms.xml:176
+#, no-c-format
+msgid ""
+"Component-driven events may also be asynchronous. To raise an event for "
+"asynchronous processing, simply call the <literal>raiseAsynchronousEvent()</"
+"literal> method of the <literal>Events</literal> class. To schedule a timed "
+"event, call the <literal>raiseTimedEvent()</literal> method, passing a "
+"<emphasis>schedule</emphasis> object (for the default dispatcher or timer "
+"service dispatcher, use <literal>TimerSchedule</literal>). Components may "
+"observe asynchronous events in the usual way, but remember that only the "
+"business process context is propagated to the asynchronous thread."
+msgstr ""
+"コンポーネント駆動のイベントも非同期にすることができます。 非同期処理のイベン"
+"トを引き起こす場合は <literal>Events</literal> の "
+"<literal>raiseAsynchronousEvent()</literal> メソッドを呼び出すだけです。 指定"
+"時刻に起きるイベントをスケジュールするには <literal>raiseTimedEvent()</"
+"literal> メソッドを呼び出し <emphasis>schedule</emphasis> オブジェクトを渡し"
+"ます (デフォルトのディスパッチャまたはタイマーサービスのディスパッチャの場合"
+"は <literal>TimerSchedule</literal> を使用する)。 コンポーネントは通常通りに"
+"非同期のイベントを監視することができますが、 非同期スレッドに伝播されるのはビ"
+"ジネスプロセスコンテキストのみになることを忘れないようにしてください。"
+
+#. Tag: title
+#: Jms.xml:188
+#, no-c-format
+msgid "Handling exceptions from asynchronous calls"
+msgstr "非同期の呼び出しによる例外を処理する"
+
+#. Tag: para
+#: Jms.xml:190
+#, no-c-format
+msgid ""
+"Each asynchronous dispatcher behaves differently when an exception "
+"propagates through it. For example, the <literal>java.util.concurrent</"
+"literal> dispatcher will suspend further executions of a call which repeats, "
+"and the EJB3 timer service will swallow the exception. Seam therefore "
+"catches any exception which propagates out of the asynchronous call before "
+"it reaches the dispatcher."
+msgstr ""
+"各非同期ディスパッチャは例外がそれを通じて伝播される場合はそれぞれ異なった動"
+"作をします。 たとえば、 <literal>java.util.concurrent</literal> ディスパッ"
+"チャは繰り返すコールの実行がこれ以上起きないよう一時停止し、 EJB3 タイマー"
+"サービスがその例外を吸収します。 したがって伝播する例外はディスパッチャに到達"
+"する前にすべて Seam によって非同期のコールからキャッチされます。"
+
+#. Tag: para
+#: Jms.xml:200
+#, no-c-format
+msgid ""
+"By default, any exception which propagates out from an asynchronous "
+"execution will be caught and logged at error level. You can customize this "
+"behavior globally by overriding the <literal>org.jboss.seam.async."
+"asynchronousExceptionHandler</literal> component:"
+msgstr ""
+"デフォルトでは、 非同期実行から伝播する例外はすべてエラーレベルでキャッチされ"
+"ログ記録されます。 <literal>org.jboss.seam.async."
+"asynchronousExceptionHandler</literal> コンポーネントを上書きするとこの動作を"
+"グローバルにカスタマイズすることができます。"
+
+#. Tag: programlisting
+#: Jms.xml:208
+#, no-c-format
+msgid ""
+"<![CDATA[@Scope(ScopeType.STATELESS)\n"
+"@Name(\"org.jboss.seam.async.asynchronousExceptionHandler\")\n"
+"public class MyAsynchronousExceptionHandler extends "
+"AsynchronousExceptionHandler { \n"
+"\n"
+"   @Logger Log log;\n"
+"   \n"
+"   @In Future timer;\n"
+"   \n"
+"   @Override\n"
+"   public void handleException(Exception exception) {\n"
+"      log.debug(exception);\n"
+"      timer.cancel(false);\n"
+"   }\n"
+"   \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Scope(ScopeType.STATELESS)\n"
+"@Name(\"org.jboss.seam.async.asynchronousExceptionHandler\")\n"
+"public class MyAsynchronousExceptionHandler extends "
+"AsynchronousExceptionHandler { \n"
+"\n"
+"   @Logger Log log;\n"
+"   \n"
+"   @In Future timer;\n"
+"   \n"
+"   @Override\n"
+"   public void handleException(Exception exception) {\n"
+"      log.debug(exception);\n"
+"      timer.cancel(false);\n"
+"   }\n"
+"   \n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:210
+#, fuzzy, no-c-format
+msgid ""
+"Here, for example, using <literal>java.util.concurrent</literal> dispatcher, "
+"we inject its control object and cancel all future invocations when an "
+"exception is encountered"
+msgstr ""
+"たとえば この <literal>java.util.concurrent</literal> ディスパッチャを使用し"
+"ている例では、 その制御オブジェクトをインジェクトして例外が発生すると今後の呼"
+"び出しすべてを取り消しています。"
+
+#. Tag: para
+#: Jms.xml:216
+#, no-c-format
+msgid ""
+"You can also alter this behavior for an individual component by implementing "
+"the method <literal>public void handleAsynchronousException(Exception "
+"exception);</literal> on the component. For example:"
+msgstr ""
+"また、 コンポーネント上にメソッド <literal>public void "
+"handleAsynchronousException(Exception exception);</literal> を実装することで"
+"個別にコンポーネントのこの動作を変更することができます。 たとえば、"
+
+#. Tag: programlisting
+#: Jms.xml:223
+#, no-c-format
+msgid ""
+"<![CDATA[   public void handleAsynchronousException(Exception exception) {\n"
+"      log.fatal(exception);\n"
+"   }]]>"
+msgstr ""
+"<![CDATA[   public void handleAsynchronousException(Exception exception) {\n"
+"      log.fatal(exception);\n"
+"   }]]>"
+
+#. Tag: title
+#: Jms.xml:230
+#, no-c-format
+msgid "Messaging in Seam"
+msgstr "Seam でのメッセージング"
+
+#. Tag: para
+#: Jms.xml:232
+#, no-c-format
+msgid ""
+"Seam makes it easy to send and receive JMS messages to and from Seam "
+"components."
+msgstr ""
+"Seam は Seam コンポーネントの JMS メッセージの送受信を容易にしています。"
+
+#. Tag: title
+#: Jms.xml:238
+#, no-c-format
+msgid "Configuration"
+msgstr "設定"
+
+#. Tag: para
+#: Jms.xml:239
+#, no-c-format
+msgid ""
+"To configure Seam's infrastructure for sending JMS messages, you need to "
+"tell Seam about any topics and queues you want to send messages to, and also "
+"tell Seam where to find the <literal>QueueConnectionFactory</literal> and/or "
+"<literal>TopicConnectionFactory</literal>."
+msgstr ""
+"JMS メッセージを送信するため Seam のインフラストラクチャを設定するには、 "
+"Seam に メッセージの送信先となるトピックおよびキューに関する情報を知らせ、 ま"
+"た <literal>QueueConnectionFactory</literal> と "
+"<literal>TopicConnectionFactory</literal> の両方あるいはいずれかの場所も知ら"
+"せる必要があります。"
+
+#. Tag: para
+#: Jms.xml:247
+#, no-c-format
+msgid ""
+"Seam defaults to using <literal>UIL2ConnectionFactory</literal> which is the "
+"usual connection factory for use with JBossMQ. If you are using some other "
+"JMS provider, you need to set one or both of <literal>queueConnection."
+"queueConnectionFactoryJndiName</literal> and <literal>topicConnection."
+"topicConnectionFactoryJndiName</literal> in <literal>seam.properties</"
+"literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
+msgstr ""
+"Seam はデフォルトで、JBossMQ 用の通常のコネクションファクトリ "
+"<literal>UIL2ConnectionFactory</literal> を使用します。 もし、その他の JMS プ"
+"ロバイダを使用する場合には、 <literal>seam.properties</literal>、"
+"<literal>web.xml</literal> あるいは、<literal>components.xml</literal> 中の "
+"<literal>queueConnection.queueConnectionFactoryJndiName</literal>、 "
+"<literal>topicConnection.topicConnectionFactoryJndiName</literal> の一方ある"
+"いは両方を設定する必要があります。"
+
+#. Tag: para
+#: Jms.xml:257
+#, no-c-format
+msgid ""
+"You also need to list topics and queues in <literal>components.xml</literal> "
+"to install Seam managed <literal>TopicPublisher</literal>s and "
+"<literal>QueueSender</literal>s:"
+msgstr ""
+"Seam 管理の <literal>TopicPublisher</literal> または、 <literal>QueueSender</"
+"literal> をインストールするために、 <literal>components.xml</literal> 中に "
+"topic または queue を記入する必要もあります。"
+
+#. Tag: programlisting
+#: Jms.xml:263
+#, no-c-format
+msgid ""
+"<![CDATA[<jms:managed-topic-publisher name=\"stockTickerPublisher\" \n"
+"                             auto-create=\"true\" \n"
+"                             topic-jndi-name=\"topic/stockTickerTopic\"/>\n"
+"\n"
+"<jms:managed-queue-sender name=\"paymentQueueSender\" \n"
+"                          auto-create=\"true\" \n"
+"                          queue-jndi-name=\"queue/paymentQueue\"/>]]>"
+msgstr ""
+"<![CDATA[<jms:managed-topic-publisher name=\"stockTickerPublisher\" \n"
+"                             auto-create=\"true\" \n"
+"                             topic-jndi-name=\"topic/stockTickerTopic\"/>\n"
+"\n"
+"<jms:managed-queue-sender name=\"paymentQueueSender\" \n"
+"                          auto-create=\"true\" \n"
+"                          queue-jndi-name=\"queue/paymentQueue\"/>]]>"
+
+#. Tag: title
+#: Jms.xml:268
+#, no-c-format
+msgid "Sending messages"
+msgstr "メッセージ送信"
+
+#. Tag: para
+#: Jms.xml:269
+#, no-c-format
+msgid ""
+"Now, you can inject a JMS <literal>TopicPublisher</literal> and "
+"<literal>TopicSession</literal> into any component:"
+msgstr ""
+"JMS <literal>TopicPublisher</literal> や、 <literal>TopicSession</literal> を"
+"コンポーネントにインジェクトすることが可能です。"
+
+#. Tag: programlisting
+#: Jms.xml:274
+#, no-c-format
+msgid ""
+"<![CDATA[@In \n"
+"private TopicPublisher stockTickerPublisher;   \n"
+"@In \n"
+"private TopicSession topicSession;\n"
+"\n"
+"public void publish(StockPrice price) {\n"
+"      try\n"
+"      {\n"
+"         stockTickerPublisher.publish( topicSession.createObjectMessage"
+"(price) );\n"
+"      } \n"
+"      catch (Exception ex)\n"
+"      {\n"
+"         throw new RuntimeException(ex);\n"
+"      } \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@In \n"
+"private TopicPublisher stockTickerPublisher;   \n"
+"@In \n"
+"private TopicSession topicSession;\n"
+"\n"
+"public void publish(StockPrice price) {\n"
+"      try\n"
+"      {\n"
+"         stockTickerPublisher.publish( topicSession.createObjectMessage"
+"(price) );\n"
+"      } \n"
+"      catch (Exception ex)\n"
+"      {\n"
+"         throw new RuntimeException(ex);\n"
+"      } \n"
+"}]]>"
+
+#. Tag: para
+#: Jms.xml:276
+#, no-c-format
+msgid "Or, for working with a queue:"
+msgstr "あるいは、Queue 連携することも可能です。"
+
+#. Tag: programlisting
+#: Jms.xml:278
+#, no-c-format
+msgid ""
+"<![CDATA[@In\n"
+"private QueueSender paymentQueueSender;   \n"
+"@In\n"
+"private QueueSession queueSession;\n"
+"\n"
+"public void publish(Payment payment) {\n"
+"      try\n"
+"      {\n"
+"         paymentQueueSender.send( queueSession.createObjectMessage"
+"(payment) );\n"
+"      } \n"
+"      catch (Exception ex)\n"
+"      {\n"
+"         throw new RuntimeException(ex);\n"
+"      } \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@In\n"
+"private QueueSender paymentQueueSender;   \n"
+"@In\n"
+"private QueueSession queueSession;\n"
+"\n"
+"public void publish(Payment payment) {\n"
+"      try\n"
+"      {\n"
+"         paymentQueueSender.send( queueSession.createObjectMessage"
+"(payment) );\n"
+"      } \n"
+"      catch (Exception ex)\n"
+"      {\n"
+"         throw new RuntimeException(ex);\n"
+"      } \n"
+"}]]>"
+
+#. Tag: title
+#: Jms.xml:283
+#, no-c-format
+msgid "Receiving messages using a message-driven bean"
+msgstr "メッセージ駆動型 Bean を使用したメッセージの受信"
+
+#. Tag: para
+#: Jms.xml:284
+#, no-c-format
+msgid ""
+"You can process messages using any EJB3 message driven bean. Message-driven "
+"beans may even be Seam components, in which case it is possible to inject "
+"other event and application scoped Seam components."
+msgstr ""
+"EJB3 メッセージ駆動型 Bean を利用してメッセージ処理が可能です。 メッセージ駆"
+"動型 Bean は Seam コンポーネントとすることも可能です。 この場合、イベントまた"
+"はアプリケーションスコープの Seam コンポーネントのインジェクトが可能です。"
+
+#. Tag: title
+#: Jms.xml:292
+#, no-c-format
+msgid "Receiving messages in the client"
+msgstr "クライアントでのメッセージの受信"
+
+#. Tag: para
+#: Jms.xml:293
+#, no-c-format
+msgid ""
+"Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. "
+"This is described in <xref linkend=\"remoting\"/>."
+msgstr ""
+"Seam Remoting によりクライアント側の JavaScript から JMS トピックにサブスクラ"
+"イブすることができます。 これについては <xref linkend=\"remoting\"/> に記載さ"
+"れています。"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+   <component>
+      <name>org.jboss.seam.ui.Token</name>
+      <family>org.jboss.seam.ui.Token</family>
+      <classname>org.jboss.seam.ui.component.html.HtmlToken</classname>
+      <superclass>org.jboss.seam.ui.component.UIToken</superclass>
+      <description>
+         <![CDATA[Render a secure token in the parent form that is validated on postback to guard against CSRF attacks.]]>
+      </description>
+      <renderer generate="false" override="false">
+         <name>org.jboss.seam.ui.TokenRenderer</name>
+         <classname>org.jboss.seam.ui.renderkit.TokenRendererBase</classname>
+      </renderer>
+      <tag>
+         <name>token</name>
+         <classname>org.jboss.seam.ui.taglib.TokenTag</classname>
+         <superclass>
+            org.jboss.seam.ui.util.cdk.UIComponentTagBase
+         </superclass>
+      </tag>
+      &ui_component_attributes;
+      <property>
+         <name>requireSession</name>
+         <classname>boolean</classname>
+         <description>A flag indicating whether the session id should be tied into the secure token.</description>
+         <defaultvalue>false</defaultvalue>
+      </property>
+      <property>
+         <name>enableCookieNotice</name>
+         <classname>boolean</classname>
+         <description>A flag indicating whether a notice should be presented to the user if cookies are disabled.</description>
+         <defaultvalue>false</defaultvalue>
+      </property>
+      <property>
+         <name>allowMultiplePosts</name>
+         <classname>boolean</classname>
+         <description>A flag indicating whether the form can be submitted multiple times with the same signature (i.e., token).</description>
+         <defaultvalue>false</defaultvalue>
+      </property>
+   </component>
+</components>

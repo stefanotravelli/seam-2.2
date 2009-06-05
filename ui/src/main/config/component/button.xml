@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Button</name>
+		<family>org.jboss.seam.ui.Button</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlButton</classname>
+		<superclass>org.jboss.seam.ui.component.UIButton</superclass>
+		<description>
+			<![CDATA[A link that supports invocation of an action with control over conversation propagation. <i>Does not submit the form.</i>]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.ButtonRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.ButtonRendererBase</classname>
+		</renderer>
+		<tag>
+			<name>button</name>
+			<classname>org.jboss.seam.ui.taglib.ButtonTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		&ui_output_attributes;
+		&html_button_attributes;
+		&html_universal_attributes;
+		&html_events;
+		&ui_command_attributes;
+		<property>
+			<name>view</name>
+			<classname>java.lang.String</classname>
+			<description>the JSF view id to link to.</description>
+		</property>
+		<property>
+			<name>pageflow</name>
+			<classname>java.lang.String</classname>
+			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
+		</property>
+		<property el="false">
+			<name>propagation</name>
+			<classname>java.lang.String</classname>
+			<description>determines the conversation propagation style: begin, join, nest, none or end.</description>
+			<defaultvalue>"default"</defaultvalue>
+		</property>
+		<property transient="true">
+			<name>fragment</name>
+			<classname>java.lang.String</classname>
+			<description>the fragment identifier to link to.</description>
+		</property>
+		<property transient="true" el="false">
+			<name>outcome</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property transient="false">
+			<name>image</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property elonly="true"  transient="true" >
+			<name>taskInstance</name>
+			<classname>java.lang.Object</classname>
+			<description>Specify the task to operate on (e.g. for @StartTask)</description>
+		</property>
+    <property>
+        <name>conversationName</name>
+        <classname>java.lang.String</classname>
+        <description>The name of the conversation for natural conversations</description>
+    </property>
+    <property>
+        <name>includePageParams</name>
+        <classname>boolean</classname>
+        <description>Include page parameters defined in pages.xml when rendering the button</description>
+        <defaultvalue>true</defaultvalue>
+    </property>
+	</component>
+</components>

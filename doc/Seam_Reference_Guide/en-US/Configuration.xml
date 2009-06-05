@@ -1,0 +1,1327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="configuration">
+    <title>Configuring Seam and packaging Seam applications</title>
+    <para> Configuration is a very boring topic and an extremely tedious pastime. Unfortunately, several lines of XML
+        are required to integrate Seam into your JSF implementation and servlet container. There's no need to be too put
+        off by the following sections; you'll never need to type any of this stuff yourself, since you can just use 
+        seam-gen to start your application or you can copy and paste from the example applications! </para>
+
+    <sect1>
+        <title>Basic Seam configuration</title>
+
+        <para> First, let's look at the basic configuration that is needed whenever we use Seam with JSF. </para>
+
+        <sect2>
+            <title>Integrating Seam with JSF and your servlet container</title>
+
+            <para> Of course, you need a faces servlet! </para>
+
+            <programlisting role="XML"><![CDATA[<servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.seam</url-pattern>
+</servlet-mapping>]]></programlisting>
+
+            <para> (You can adjust the URL pattern to suit your taste.) </para>
+
+            <para> In addition, Seam requires the following entry in your <literal>web.xml</literal> file: </para>
+
+            <programlisting role="XML"><![CDATA[<listener>
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+</listener>]]></programlisting>
+
+            <para> This listener is responsible for bootstrapping Seam, and for destroying session and application
+                contexts. </para>
+
+            <para> Some JSF implementations have a broken implementation of server-side state saving that interferes
+                with Seam's conversation propagation. If you have problems with conversation propagation during form
+                submissions, try switching to client-side state saving. You'll need this in <literal>web.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+</context-param>]]></programlisting>
+
+            <para>
+                There is a minor gray area in the JSF specification regarding the mutability of view state values. Since
+                Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're
+                using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value
+                for a given view of a page you will need to specify the following context-param. Otherwise if a user
+                uses the "back" button a PAGE scoped component will have the latest value if it has changed not the
+                value of the "back" page. (see
+                <ulink url="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295">
+                    Spec Issue
+                </ulink>
+                ). This setting is not enabled by default because of the performance hit of serializing the JSF view
+                with every request.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<context-param>
+    <param-name>com.sun.faces.serializeServerState</param-name>
+    <param-value>true</param-value>
+</context-param>]]></programlisting>
+        </sect2>
+
+        <sect2>
+            <title>Using Facelets</title>
+
+            <para> If you want follow our advice and use Facelets instead of JSP, add the following lines to
+                    <literal>faces-config.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<application>
+    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+</application>]]></programlisting>
+
+            <para> And the following lines to <literal>web.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+</context-param>]]></programlisting>
+
+            <para>
+               If you are using facelets in JBoss AS, you'll find that Facelets logging is broken (the log messages
+               don't make it to the server log). Seam provides a bridge to fix this, to use it copy
+               <literal>lib/interop/jboss-seam-jul.jar</literal> to
+               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal> and include the
+               <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> of your application.  The
+               Facelets logging catagories are itemized in the <ulink
+               url="https://facelets.dev.java.net/nonav/docs/dev/docbook.html#config-logging">Facelets Developer
+               Documentation</ulink>.
+            </para>
+
+        </sect2>
+
+        <sect2>
+            <title>Seam Resource Servlet</title>
+
+            <para> The Seam Resource Servlet provides resources used by Seam Remoting, captchas (see the security
+                chapter) and some JSF UI controls. Configuring the Seam Resource Servlet requires the following entry in
+                    <literal>web.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<servlet>
+  <servlet-name>Seam Resource Servlet</servlet-name>
+  <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
+</servlet>
+    
+<servlet-mapping>
+  <servlet-name>Seam Resource Servlet</servlet-name>
+  <url-pattern>/seam/resource/*</url-pattern>
+</servlet-mapping>]]></programlisting>
+        </sect2>
+
+        <sect2>
+            <title>Seam servlet filters</title>
+
+            <para> Seam doesn't need any servlet filters for basic operation. However, there are several features which
+                depend upon the use of filters. To make things easier, Seam lets you add and configure
+                servlet filters just like you would configure other built-in Seam components. To take advantage of this
+                feature, we must first install a master filter in <literal>web.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>]]></programlisting>
+
+            <para>The Seam master filter <emphasis>must</emphasis> be the first filter specified in
+                <literal>web.xml</literal>. This ensures it is run first. </para>
+            
+            <para>
+               The Seam filters share a number of common attributes, you can set these in 
+               <literal>components.xml</literal> in addition to any parameters discussed
+               below:
+            </para>
+            
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
+                         default is all requests. <literal>url-pattern</literal> is a Tomcat style pattern
+                         which allows a wildcard suffix.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>regex-url-pattern</literal> &#8212; Used to specify which requests are filtered, the
+                     default is all requests. <literal>regex-url-pattern</literal> is a true regular expression
+                     match for request path.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disabled</literal> &#8212; Used to disable a built in filter.
+                  </para>
+               </listitem>
+           </itemizedlist>
+
+           <para>
+              Note that the patterns are matched against the URI path of the request (see
+              <literal>HttpServletRequest.getURIPath()</literal>) and that the name of the servlet context is
+              removed before matching.
+           </para>
+
+            <para> Adding the master filter enables the following built-in filters. </para>
+
+            <sect3>
+                <title>Exception handling</title>
+                <para> This filter provides the exception mapping functionality in <literal>pages.xml</literal> (almost
+                    all applications will need this). It also takes care of rolling back uncommitted transactions when
+                    uncaught exceptions occur. (According to the Java EE specification, the web container should do this
+                    automatically, but we've found that this behavior cannot be relied upon in all application servers.
+                    And it is certainly not required of plain servlet engines like Tomcat.) </para>
+
+                <para> By default, the exception handling filter will process all requests, however this behavior may be
+                    adjusted by adding a <literal>&lt;web:exception-filter&gt;</literal> entry to
+                        <literal>components.xml</literal>, as shown in this example: </para>
+
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:web="http://jboss.com/products/seam/web">
+
+    <web:exception-filter url-pattern="*.seam"/>
+
+</components>]]></programlisting>
+
+                
+            </sect3>
+
+            <sect3>
+                <title>Conversation propagation with redirects</title>
+                <para> This filter allows Seam to propagate the conversation context across browser redirects. It
+                    intercepts any browser redirects and adds a request parameter that specifies the Seam conversation
+                    identifier. </para>
+
+                <para> The redirect filter will process all requests by default, but this behavior can also be adjusted
+                    in <literal>components.xml</literal>: </para>
+
+                <programlisting role="XML"><![CDATA[<web:redirect-filter url-pattern="*.seam"/>]]></programlisting>
+            </sect3>
+            
+            
+            <sect3 id="configuration.filters.rewrite">
+                <title>URL rewriting</title>
+                <para> This filter allows Seam to apply URL rewriting for views based on configuration in the 
+                    <literal>pages.xml</literal> file.  This filter is not activate by default, but can be 
+                    activated
+                    by adding the configuration to <literal>components.xml</literal>: </para>
+
+                <programlisting role="XML"><![CDATA[<web:rewrite-filter view-mapping="*.seam"/>]]></programlisting>
+                
+               
+                <para>The <literal>view-mapping</literal> parameter must match the servlet mapping defined for the Faces Servlet
+                    in the <literal>web.xml</literal> file.  If ommitted, the rewrite filter assumes 
+                    the pattern <literal>*.seam</literal>.
+                </para>
+            </sect3>
+
+            <sect3>
+                <title>Multipart form submissions</title>
+                <para> This feature is necessary when using the Seam file upload JSF control. It detects multipart form
+                    requests and processes them according to the multipart/form-data specification (RFC-2388). To
+                    override the default settings, add the following entry to <literal>components.xml</literal>: </para>
+
+                <programlisting role="XML"><![CDATA[<web:multipart-filter create-temp-files="true" 
+                      max-request-size="1000000" 
+                      url-pattern="*.seam"/>]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            <literal>create-temp-files</literal> &#8212; If set to <literal>true</literal>, uploaded
+                            files are written to a temporary file (instead of held in memory). This may be an important
+                            consideration if large file uploads are expected. The default setting is
+                            <literal>false</literal>. </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <literal>max-request-size</literal> &#8212; If the size of a file upload request
+                            (determined by reading the <literal>Content-Length</literal> header in the request) exceeds
+                            this value, the request will be aborted. The default setting is 0 (no size limit). </para>
+                    </listitem>
+                </itemizedlist>
+            </sect3>
+
+            <sect3>
+                <title>Character encoding</title>
+                <para> Sets the character encoding of submitted form data. </para>
+
+                <para> This filter is not installed by default and requires an entry in
+                    <literal>components.xml</literal> to enable it: </para>
+
+                <programlisting role="XML"><![CDATA[<web:character-encoding-filter encoding="UTF-16" 
+                               override-client="true" 
+                               url-pattern="*.seam"/>]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            <literal>encoding</literal> &#8212; The encoding to use. </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <literal>override-client</literal> &#8212; If this is set to <literal>true</literal>,
+                            the request encoding will be set to whatever is specified by <literal>encoding</literal> no
+                            matter whether the request already specifies an encoding or not. If set to
+                            <literal>false</literal>, the request encoding will only be set if the request doesn't
+                            already specify an encoding. The default setting is <literal>false</literal>. </para>
+                    </listitem>
+                </itemizedlist>
+            </sect3>
+
+            <sect3>
+                <title>RichFaces</title>
+
+                <para> 
+                  If RichFaces is used in your project, Seam will install the
+                  RichFaces Ajax filter for you, making sure to install it
+                  before all other built-in filters. You don't need to install
+                  the RichFaces Ajax filter in <literal>web.xml</literal>
+                  yourself.
+                </para>
+                
+                <para>
+                  The RichFaces Ajax filter is only installed if the RichFaces
+                  jars are present in your project.
+                </para>
+
+                <para> To override the default settings, add the following entry to <literal>components.xml</literal>.
+                    The options are the same as those specified in the RichFaces Developer Guide: </para>
+
+                <programlisting role="XML"><![CDATA[<web:ajax4jsf-filter force-parser="true" 
+                     enable-cache="true" 
+                     log4j-init-file="custom-log4j.xml"
+                     url-pattern="*.seam"/>]]></programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            <literal>force-parser</literal> &#8212; forces all JSF pages to be validated by
+                            Richfaces's XML syntax checker. If <literal>false</literal>, only AJAX responses are
+                            validated and converted to well-formed XML. Setting <literal>force-parser</literal> to
+                                <literal>false</literal> improves performance, but can provide visual artifacts on AJAX
+                            updates. </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <literal>enable-cache</literal> &#8212; enables caching of framework-generated resources
+                            (e.g. javascript, CSS, images, etc). When developing custom javascript or CSS, setting to
+                            true prevents the browser from caching the resource. </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <literal>log4j-init-file</literal> &#8212; is used to setup per-application logging. A
+                            path, relative to web application context, to the log4j.xml configuration file should be
+                            provided. </para>
+                    </listitem>
+                </itemizedlist>
+
+            </sect3>
+
+             <sect3>
+                <title>Identity Logging</title>
+
+                <para> 
+                    This filter adds the authenticated user name to the log4j mapped diagnostic context so that it 
+                    can be included in formatted log output if desired, by adding %X{username} to the pattern.                       
+                </para>
+
+                 
+                 <para> By default, the logging filter will process all requests, however this behavior may be
+                     adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to
+                     <literal>components.xml</literal>, as shown in this example: </para>
+                 
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:web="http://jboss.com/products/seam/web">
+    <web:logging-filter url-pattern="*.seam"/>
+</components>]]></programlisting>
+
+            </sect3>
+       
+            <sect3>
+                <title>Context management for custom servlets</title>
+                <para> Requests sent direct to some servlet other than the JSF servlet are not processed through the JSF
+                    lifecycle, so Seam provides a servlet filter that can be applied to any other servlet that needs
+                    access to Seam components. </para>
+
+                <para> This filter allows custom servlets to interact with the Seam contexts. It sets up the Seam
+                    contexts at the beginning of each request, and tears them down at the end of the request. You should
+                    make sure that this filter is <emphasis>never</emphasis> applied to the JSF
+                    <literal>FacesServlet</literal>. Seam uses the phase listener for context management in a JSF
+                    request. </para>
+
+                <para> This filter is not installed by default and requires an entry in
+                    <literal>components.xml</literal> to enable it: </para>
+
+                <programlisting role="XML"><![CDATA[<web:context-filter url-pattern="/media/*"/>]]></programlisting>
+
+                <para> The context filter expects to find the conversation id of any conversation context in a request
+                    parameter named <literal>conversationId</literal>. You are responsible for ensuring that it gets
+                    sent in the request. </para>
+
+                <para> You are also responsible for ensuring propagation of any new conversation id back to the client.
+                    Seam exposes the conversation id as a property of the built in component
+                    <literal>conversation</literal>. </para>
+
+            </sect3>
+
+            
+            <sect3>
+                <title>Adding custom filters</title>
+                <para> Seam can install your filters for you, allowing you to specify <emphasis>where</emphasis> in the
+                    chain your filter is placed (the servlet specification doesn't provide a well defined order if you
+                    specify your filters in a <literal>web.xml</literal>). Just add the <literal>@Filter</literal>
+                    annotation to your Seam component (which must implement <literal>javax.servlet.Filter</literal>): </para>
+
+                <programlisting role="JAVA"><![CDATA[@Startup
+@Scope(APPLICATION)
+@Name("org.jboss.seam.web.multipartFilter")
+@BypassInterceptors
+@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
+public class MultipartFilter extends AbstractFilter {]]></programlisting>
+
+                <para> Adding the <literal>@Startup</literal> annotation means thar the component is available during
+                    Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter
+                    should be further down the chain than the RichFaces filter
+                        (<literal>@Filter(within="org.jboss.seam.web.ajax4jsfFilter")</literal>). </para>
+
+            </sect3>
+        </sect2>
+
+        <sect2>
+            <title>Integrating Seam with your EJB container</title>
+
+            <para> In a Seam application, EJB components have a certain duality, as they are managed by both the EJB
+                container and Seam. Actually, it's more that Seam resolves EJB component references, manages the
+                lifetime of stateful session bean components, and also participates in each method call via
+                interceptors. Let's start with the configuration of the Seam interceptor chain.</para>
+
+            <para> We need to apply the <literal>SeamInterceptor</literal> to our Seam EJB components. This interceptor
+                delegates to a set of built-in server-side interceptors that handle such concerns as bijection,
+                conversation demarcation, and business process signals. The simplest way to do this across an entire
+                application is to add the following interceptor configuration in <literal>ejb-jar.xml</literal>: </para>
+
+            <programlisting role="XML"><![CDATA[<interceptors>
+    <interceptor>
+        <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+    </interceptor>
+</interceptors>
+   
+<assembly-descriptor>
+    <interceptor-binding>
+        <ejb-name>*</ejb-name>
+        <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+    </interceptor-binding>
+</assembly-descriptor>
+]]></programlisting>
+
+            <para> Seam needs to know where to go to find session beans in JNDI. One way to do this is specify the
+                    <literal>@JndiName</literal> annotation on every session bean Seam component. However, this is quite
+                tedious. A better approach is to specify a pattern that Seam can use to calculate the JNDI name from the
+                EJB name. Unfortunately, there is no standard mapping to global JNDI defined in the EJB3 specification,
+                so this mapping is vendor-specific (and may depend on your own naming conventions as well). We usually
+                specify this option in <literal>components.xml</literal>. </para>
+
+            <para> For JBoss AS, the following pattern is correct: </para>
+
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="earName/#{ejbName}/local" />]]></programlisting>
+
+            <para> In this case, <literal>earName</literal> is the name of the EAR in which the bean is deployed, Seam
+                replaces <literal>#{ejbName}</literal> with the name of the EJB, and the final segment represents the
+                type of interface (local or remote). </para>
+
+            <para> Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the first segment is
+                dropped since there is no EAR, leaving us with the following pattern: </para>
+
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
+
+            <para> How these JNDI names are resolved and somehow locate an EJB component might appear a bit like black
+                magic at this point, so let's dig into the details. First, let's talk about how the EJB components get
+                into JNDI.</para>
+
+            <para> The folks at JBoss don't care much for XML, if you can't tell. So when they designed JBoss AS, they
+                decided that EJB components would get assigned a global JNDI name automatically, using the pattern
+                just described (i.e., EAR name/EJB name/interface type). The EJB name is the first non-empty value
+                from the following list: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml</para>
+                </listitem>
+                <listitem>
+                    <para>The value of the <literal>name</literal> attribute in the @Stateless or @Stateful annotation</para>
+                </listitem>
+                <listitem>
+                    <para>The simple name of the bean class</para>
+                </listitem>
+            </itemizedlist>
+
+            <para> Let's look at an example. Assume that you have the following EJB bean and interface defined. </para>
+
+            <programlisting role="JAVA"><![CDATA[package com.example.myapp;
+
+import javax.ejb.Local;
+
+@Local
+public class Authenticator
+{
+    boolean authenticate();
+}
+
+package com.example.myapp;
+
+import javax.ejb.Stateless;
+
+@Stateless
+@Name("authenticator")
+public class AuthenticatorBean implements Authenticator
+{ 
+    public boolean authenticate() { ... }
+}
+]]></programlisting>
+
+            <para> Assuming your EJB bean class is deployed in an EAR named myapp, the global JNDI name 
+                myapp/AuthenticatorBean/local will be assigned to it on JBoss AS. As you learned, you can reference this
+                EJB component as a Seam component with the name <literal>authenticator</literal> and Seam will take care
+                of finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</literal> annotation).
+                </para>
+
+            <para>So what about the rest of the application servers? Well, according to the Java EE spec, which most
+                vendors try to adhere to religiously, you have to declare an EJB reference for your EJB in order for it
+                to be assigned a JNDI name. That requires some XML. It also means that it is up to you to establish a
+                JNDI naming convention so that you can leverage the Seam JNDI pattern. You might find the JBoss
+                convention a good one to follow.</para>
+
+            <para>There are two places you have to define the EJB reference when using Seam on non-JBoss application
+                servers. If you are going to be looking up the Seam EJB component through JSF (in a JSF view or as a JSF
+                action listener) or a Seam JavaBean component, then you must declare the EJB reference in web.xml. Here
+                is the EJB reference for the example component just shown: </para>
+
+            <programlisting role="XML"><![CDATA[<ejb-local-ref>
+    <ejb-ref-name>myapp/AuthenticatorBean/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.example.vehicles.action.Authenticator</local>
+</ejb-local-ref>
+]]></programlisting>
+
+            <para>This reference will cover most uses of the component in a Seam application. However, if you want to
+                be able to inject a Seam EJB component into another Seam EJB component using <literal>@In</literal>, you
+                need to define this EJB reference in another location. This time, it must be defined in ejb-jar.xml, and
+                it's a bit tricker. </para>
+
+            <para>Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context.
+                When Seam attempts to find another Seam EJB component to satisfy an injection point defined using
+                <literal>@In</literal>, whether or not it finds it depends on whether an EJB reference exists in
+                JNDI. Strictly speaking, you cannot simply resolve JNDI names as you please. You have to define
+                the references explicitly. Fortunately, JBoss recognized how aggrevating this would be for the
+                developer and all versions of JBoss automatically register EJBs so they are always available in
+                JNDI, both to the web container and the EJB container. So if you are using JBoss, you can skip the next
+                few paragraphs. However, if you are deploying to GlassFish, pay close attention.</para>
+                
+            <para>For application servers that stubbornly adhere to the EJB specification, EJB references must always be
+                defined explicitly. But unlike with the web context, where a single resource reference covers all
+                uses of the EJB from the web environment, you cannot declare EJB references globally in the EJB container.
+                Instead, you have to specify the JNDI resources for a given EJB component one-by-one.</para>
+
+            <para> Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps
+                mentioned previously). That EJB has the following Seam injection:</para>
+
+            <programlisting role="JAVA"><![CDATA[@In(create = true)
+Authenticator authenticator;
+]]></programlisting>
+
+            <para> In order for this injection to work, the link must be established in the ejb-jar.xml file as follows: </para>
+
+            <programlisting role="XML"><![CDATA[<ejb-jar>
+    <enterprise-beans>
+        <session>
+            <ejb-name>RegisterAction</ejb-name>
+            <ejb-local-ref>
+                <ejb-ref-name>myapp/AuthenticatorAction/local</ejb-ref-name>
+                <ejb-ref-type>Session</ejb-ref-type>
+                <local>com.example.myapp.Authenticator</local>
+            </ejb-local-ref>
+        </session>
+    </enterprise-beans>
+
+    ...
+    
+</ejb-jar>
+]]></programlisting>
+
+            <para> Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are identical to what we
+                defined in web.xml. What we are doing is bringing the reference into the EJB context where it can be
+                used by the RegisterAction bean. You will need to add one of these references for any injection of a
+                Seam EJB compoenent into another Seam EJB component using <literal>@In</literal>. (You can see an
+                example of this setup in the jee5/booking example).</para>
+
+            <para> But what about <literal>@EJB</literal>? It's true that you can inject one EJB into another using
+                <literal>@EJB</literal>. However, by doing so, you are injecting the actual EJB reference rather than the
+                Seam EJB component instance. In this case, some Seam features will work, while others won't. That's
+                because Seam's interceptor is invoked on any method call to an EJB component. But that only invokes
+                Seam's server-side interceptor chain. What you lose is Seam's state management and Seam's client-side
+                interceptor chain. Client-side interceptors handle concerns such as security and concurrency. Also, when
+                injecting a SFSB, there is no guarantee that you will get the SFSB bound to the active session or
+                conversation, whatever the case may be. Thus, you definitely want to inject the Seam EJB component using
+                <literal>@In</literal>.</para>
+
+            <para> That covers how JNDI names are defined and used. The lesson is that with some application servers,
+                such as GlassFish, you are going to have to specify JNDI names for all EJB components explicitly, and
+                sometimes twice! And even if you are following the same naming convention as JBoss AS, the JNDI pattern
+                in Seam may need to be altered. For instance, the global JNDI names are automatically prefixed with
+                java:comp/env on GlassFish, so you need to define the JNDI pattern as follows:</para>
+
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="java:comp/env/earName/#{ejbName}/local" />]]></programlisting>
+
+            <para>
+                Finally, let's talk about transactions. In an EJB3 environment, we recommend the use of a special
+                built-in component for transaction management, that is fully aware of container transactions, and can
+                correctly process transaction success events registered with the <literal>Events</literal> component. If
+                you don't add this line to your <literal>components.xml</literal> file, Seam won't know when
+                container-managed transactions end: </para>
+            
+            <programlisting role="XML"><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
+
+        </sect2>
+
+        <sect2>
+            <title>Don't forget!</title>
+
+            <para> There is one final item you need to know about. You must place a <literal>seam.properties</literal>,
+                    <literal>META-INF/seam.properties</literal> or <literal>META-INF/components.xml</literal> file in
+                any archive in which your Seam components are deployed (even an empty properties file will do). At
+                startup, Seam will scan any archives with <literal>seam.properties</literal> files for seam components. </para>
+
+            <para> In a web archive (WAR) file, you must place a <literal>seam.properties</literal> file in the
+                    <literal>WEB-INF/classes</literal> directory if you have any Seam components included here. </para>
+
+            <para> That's why all the Seam examples have an empty <literal>seam.properties</literal> file. You can't
+                just delete this file and expect everything to still work! </para>
+
+            <para> You might think this is silly and what kind of idiot framework designers would make an empty file
+                affect the behavior of their software?? Well, this is a workaround for a limitation of the
+                JVM &#8212; if we didn't use this mechanism, our next best option would be to force you to list every
+                component explicitly in <literal>components.xml</literal>, just like some other competing frameworks do!
+                I think you'll like our way better. </para>
+
+        </sect2>
+
+    </sect1>
+    
+    <sect1 id="alt-jpa-providers">
+        <title>Using Alternate JPA Providers</title>
+        
+        <para> Seam comes packaged and configured with Hibernate as the default JPA provider.
+        If you require using a different JPA provider you must tell <literal>seam</literal>
+        about it.  
+        </para>
+        
+        <note>
+            <title>This is a workaround</title>
+            <para>
+            Configuration of the JPA provider will be easier in the future and will
+            not require configuration changes, unless you are adding a custom persistence provider
+            implementation.
+            </para> 
+        </note>
+        
+        <para>Telling seam about a different JPA provider can be be done in one of two ways:</para>
+        <para>Update your application's <literal>components.xml</literal>
+              so that the generic <literal>PersistenceProvider</literal> takes
+              precedence over the hibernate version.  Simply add the following
+              to the file:                    
+        </para>
+        <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.persistence.persistenceProvider" 
+           class="org.jboss.seam.persistence.PersistenceProvider"
+           scope="stateless">
+</component>]]></programlisting>
+        <para>If you want to take advantage of your JPA provider's 
+        non-standard features you will need to write you own implementation of
+        the <literal>PersistenceProvider</literal>.  Use 
+        <literal>HibernatePersistenceProvider</literal> as a starting 
+        point (don't forget to give back to the community :).  Then you
+        will need to tell <literal>seam</literal> to use it as before.
+        </para>
+        <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.persistence.persistenceProvider" 
+           class="org.your.package.YourPersistenceProvider">
+</component>]]></programlisting> 
+        <para>All that is left is updating the <literal>persistence.xml</literal>
+            file with the correct provider class, and what ever properties your
+            provider needs.  Don't forget to package your new provider's jar files in the 
+            application if they are needed.
+        </para>
+    </sect1>
+
+    <sect1>
+        <title>Configuring Seam in Java EE 5</title>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/ee5.png" align="center"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/ee5.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <para> If you're running in a Java EE 5 environment, this is all the configuration required to start using Seam! </para>
+
+        <sect2>
+            <title>Packaging</title>
+
+            <para> Once you've packaged all this stuff together into an EAR, the archive structure will look something
+                like this: </para>
+
+            <programlisting><![CDATA[my-application.ear/
+    jboss-seam.jar
+    lib/
+        jboss-el.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            components.xml
+            faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...]]></programlisting>
+
+            <para>
+                You should declare <literal>jboss-seam.jar</literal> as an ejb module in <literal>META-INF/application.xml</literal>; 
+               <literal>jboss-el.jar</literal> should be placed in the EAR's lib directory (putting it in the EAR classpath.
+            </para>
+
+            <para> If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory.</para>
+
+            <para> If you want to use facelets (our recommendation), you must include
+                <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. </para>
+
+            <para> If you want to use the Seam tag library (most Seam applications do), you must include
+                    <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. If
+                you want to use the PDF or email tag libraries, you need to put <literal>jboss-seam-pdf.jar</literal> or
+                    <literal>jboss-seam-mail.jar</literal> in <literal>WEB-INF/lib</literal>. </para>
+
+            <para> If you want to use the Seam debug page (only works for applications using facelets), you must include
+                    <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. </para>
+
+            <para> Seam ships with several example applications that are deployable in any Java EE container that
+                supports EJB 3.0. </para>
+
+            <para> I really wish that was all there was to say on the topic of configuration but unfortunately we're
+                only about a third of the way there. If you're too overwhelmed by all this tedious configuration stuff,
+                feel free to skip over the rest of this section and come back to it later. </para>
+
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Configuring Seam in J2EE</title>
+
+        <para> Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this case you would use
+            Hibernate3 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss
+            out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.0 when you're
+            ready and, in the meantime, you'll be able to take advantage of Seam's unique declarative state management
+            architecture. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/hibernate-ee.png" align="center"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/hibernate-ee.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <para> Seam JavaBean components do not provide declarative transaction demarcation like session beans do. You
+                <emphasis>could</emphasis> manage your transactions manually using the JTA
+            <literal>UserTransaction</literal> or declaratively using Seam's <literal>@Transactional</literal>
+            annotation. But most applications will just use Seam managed transactions when using Hibernate with
+            JavaBeans. </para>
+
+        <para> The Seam distribution includes a version of the booking example application that uses Hibernate3 and
+            JavaBeans instead of EJB3, and another version that uses JPA and JavaBeans. These example applications are
+            ready to deploy into any J2EE application server. </para>
+
+        <sect2>
+            <title>Boostrapping Hibernate in Seam</title>
+
+            <para> Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
+                    <literal>hibernate.cfg.xml</literal> file if you install a built-in component: </para>
+
+            <programlisting role="XML"><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
+
+            <para> You will also need to configure a <emphasis>managed session</emphasis> if you want a Seam managed
+                Hibernate <literal>Session</literal> to be available via injection. </para>
+
+            <programlisting role="XML"><![CDATA[<persistence:managed-hibernate-session name="hibernateSession"
+                            session-factory="#{hibernateSessionFactory}"/>]]></programlisting>
+
+        </sect2>
+
+        <sect2>
+            <title>Boostrapping JPA in Seam</title>
+
+            <para> Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your
+                <literal>persistence.xml</literal> file if you install this built-in component: </para>
+
+            <programlisting role="XML"><![CDATA[<persistence:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
+
+            <para> You will also need to configure a <emphasis>managed persistence context</emphasis> if you want a
+                Seam managed JPA <literal>EntityManager</literal> to be available via injection. </para>
+
+            <programlisting role="XML"><![CDATA[<persistence:managed-persistence-context name="entityManager"
+                            entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
+
+        </sect2>
+
+        <sect2>
+            <title>Packaging</title>
+
+            <para> We can package our application as a WAR, in the following structure: </para>
+
+            <programlisting><![CDATA[my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        components.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            jboss-seam-ui.jar
+            jboss-el.jar
+            jsf-facelets.jar
+            hibernate3.jar
+            hibernate-annotations.jar
+            hibernate-validator.jar
+            ...
+            my-application.jar/
+                META-INF/
+                   MANIFEST.MF
+                seam.properties
+                hibernate.cfg.xml
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            Register.class
+                            ...
+    login.jsp
+    register.jsp
+    ...]]></programlisting>
+
+            <para> If we want to deploy Hibernate in a non-EE environment like Tomcat or TestNG, we need to do a little
+                bit more work. </para>
+
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Configuring Seam in Java SE, without JBoss Embedded</title>
+
+        <para> It is possible to use Seam completely outside of an EE environment. In this case, you need to tell Seam
+            how to manage transactions, since there will be no JTA available. If you're using JPA, you can tell
+            Seam to use JPA resource-local transactions, ie. <literal>EntityTransaction</literal>, like so: </para>
+            
+        <programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+        
+        <para> If you're using Hibernate, you can tell Seam to use the Hibernate transaction API like this: </para>
+            
+        <programlisting role="XML"><![CDATA[<transaction:hibernate-transaction session="#{session}"/>]]></programlisting>
+        
+        <para> Of course, you'll also need to define a datasource.</para>
+        
+        <para> A better alternative is to use JBoss Embedded to get access to the EE APIs. </para>
+                
+    </sect1>
+
+    <sect1>
+        <title>Configuring Seam in Java SE, with JBoss Embedded</title>
+
+        <para> JBoss Embedded lets you run EJB3 components outside the context of the Java EE 5 application server. This
+            is especially, but not only, useful for testing. </para>
+
+        <para> The Seam booking example application includes a TestNG integration test suite that runs on JBoss Embedded
+            via <literal>SeamTest</literal>. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/testng.png" align="center"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/testng.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <para> The booking example application may even be deployed to Tomcat. </para>
+
+        <mediaobject>
+            <imageobject role="fo">
+                <imagedata fileref="images/e-ejb3.png" align="center"/>
+            </imageobject>
+            <imageobject role="html">
+                <imagedata fileref="images/e-ejb3.png" align="center"/>
+            </imageobject>
+        </mediaobject>
+
+        <sect2 id="config.install.embedded">
+            <title>Installing Embedded JBoss</title>
+
+
+            <para>
+              Embedded JBoss must by installed into Tomcat for Seam applications
+              to run correctly on it. Embedded JBoss runs with JDK 5 or JDK 6 (
+              see <xref linkend="jdk_dependencies" /> for details on using JDK 6).                
+              Embedded JBoss can be downloaded 
+              <ulink url="http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977">here</ulink>.
+              The process for installing Embedded JBoss into Tomcat 6 is quite 
+              simple. First, you should copy the Embedded JBoss JARs and 
+              configuration files into Tomcat. 
+            </para>
+
+            <itemizedlist>
+
+                <listitem>
+                    <para> Copy all files and directories under the Embedded JBoss <literal>bootstrap</literal> and
+                            <literal>lib</literal> directories, except for the <literal>jndi.properties</literal> file,
+                        into the Tomcat <literal>lib</literal> directory. </para>
+                </listitem>
+
+
+                <listitem>
+                    <para>Remove the <literal>annotations-api.jar</literal> file from the Tomcat <literal>lib</literal>
+                        directory. </para>
+                </listitem>
+            </itemizedlist>
+
+
+            <para>Next, two configuration files need to be updated to add Embedded JBoss-specific functionality.</para>
+
+            <itemizedlist>
+
+
+                <listitem>
+                    <para> Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</literal> to 
+                        <literal>conf/server.xml</literal>. It must appear after all other listeners in the file:</para>
+
+                    <programlisting role="XML"><![CDATA[<Server port="8005" shutdown="SHUTDOWN">
+
+  <!-- Comment these entries out to disable JMX MBeans support used for the 
+       administration web application -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener" />]]></programlisting>
+                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener" />]]></programlisting>
+                </listitem>
+
+                <listitem>
+                    <para>WAR file scanning should be enabled by adding the <literal>WebinfScanner</literal> listener to
+                            <literal>conf/context.xml</literal>: </para>
+
+                    <programlisting role="XML"><![CDATA[<Context>
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->]]></programlisting>
+                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.WebinfScanner" />]]></programlisting>
+                    <programlisting role="XML"><![CDATA[</Context>]]></programlisting>
+                </listitem>
+                
+                <listitem>
+                    <para>If you are using Sun JDK 6, you need to set the Java option
+                        <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to <literal>true</literal> in the
+                        JAVA_OPTS environment variable used by the Catalina startup script (catalina.bat on Windows or
+                        catalina.sh on Unix).</para>
+
+                    <para>Open the script appropriate for your operating system in a text editor. Add a new line
+                        immediately below the comments at the top of the file where you will define the JAVA_OPTS
+                        environment variable. On Windows, use the following syntax:</para>
+
+                    <programlisting><![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySyntax=true]]></programlisting>
+
+                    <para>On Unix, use this syntax instead:</para>
+
+                    <programlisting><![CDATA[JAVA_OPTS="$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true"]]></programlisting>
+
+                </listitem>
+            </itemizedlist>
+
+            <para>For more configuration options, please see the Embedded JBoss Tomcat integration 
+                <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat">wiki entry</ulink>.</para>
+
+        </sect2>
+
+        <sect2>
+            <title>Packaging</title>
+
+            <para> The archive structure of a WAR-based deployment on an servlet engine like Tomcat will look something
+                like this: </para>
+
+            <programlisting><![CDATA[my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        components.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            jboss-seam-ui.jar
+            jboss-el.jar
+            jsf-facelets.jar
+            jsf-api.jar
+            jsf-impl.jar
+            ...
+            my-application.jar/
+                META-INF/
+                    MANIFEST.MF
+                    persistence.xml
+                seam.properties
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            LoginBean.class
+                            Register.class
+                            RegisterBean.class
+                            ...
+    login.jsp
+    register.jsp
+    ...]]></programlisting>
+
+            <para> Most of the Seam example applications may be deployed to Tomcat by running <literal>ant
+                deploy.tomcat</literal>. </para>
+
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Configuring jBPM in Seam</title>
+        <para> Seam's jBPM integration is not installed by default, so you'll need to enable jBPM by installing a
+            built-in component. You'll also need to explicitly list your process and pageflow definitions. In
+                <literal>components.xml</literal>: </para>
+
+        <programlisting role="XML"><![CDATA[<bpm:jbpm>
+    <bpm:pageflow-definitions>
+        <value>createDocument.jpdl.xml</value>
+        <value>editDocument.jpdl.xml</value>
+        <value>approveDocument.jpdl.xml</value>
+    </bpm:pageflow-definitions>
+    <bpm:process-definitions>
+        <value>documentLifecycle.jpdl.xml</value>
+    </bpm:process-definitions>
+</bpm:jbpm>]]></programlisting>
+
+        <para> No further special configuration is needed if you only have pageflows. If you do have business process
+            definitions, you need to provide a jBPM configuration, and a Hibernate configuration for jBPM. The Seam DVD
+            Store demo includes example <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal> files
+            that will work with Seam: </para>
+
+        <programlisting role="XML"><![CDATA[<jbpm-configuration>
+
+  <jbpm-context>
+    <service name="persistence">
+       <factory>
+          <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+             <field name="isTransactionEnabled"><false/></field>
+          </bean>
+       </factory>
+    </service>
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="authentication" 
+             factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+  </jbpm-context>
+
+</jbpm-configuration>]]></programlisting>
+
+        <para> The most important thing to notice here is that jBPM transaction control is disabled. Seam or EJB3 should
+            control the JTA transactions. </para>
+
+        <sect2>
+            <title>Packaging</title>
+
+            <para> There is not yet any well-defined packaging format for jBPM configuration and process/pageflow
+                definition files. In the Seam examples we've decided to simply package all these files into the root of
+                the EAR. In future, we will probably design some other standard packaging format. So the EAR looks
+                something like this: </para>
+
+            <programlisting><![CDATA[my-application.ear/
+    jboss-seam.jar
+    lib/
+       jboss-el.jar
+       jbpm-3.1.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            components.xml
+            faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...
+    jbpm.cfg.xml
+    hibernate.cfg.xml
+    createDocument.jpdl.xml
+    editDocument.jpdl.xml
+    approveDocument.jpdl.xml
+    documentLifecycle.jpdl.xml]]></programlisting>
+
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Configuring SFSB and Session Timeouts in JBoss AS</title>
+
+        <para> It is very important that the timeout for Stateful Session Beans is set higher than the timeout for HTTP
+            Sessions, otherwise SFSB's may time out before the user's HTTP session has ended. JBoss Application Server
+            has a default session bean timeout of 30 minutes, which is configured in
+                <literal>server/default/conf/standardjboss.xml</literal> (replace <emphasis>default</emphasis> with your
+            own configuration). </para>
+
+        <para> The default SFSB timeout can be adjusted by modifying the value of <literal>max-bean-life</literal> in
+            the <literal>LRUStatefulContextCachePolicy</literal> cache configuration: </para>
+
+        <programlisting role="XML"><![CDATA[<container-cache-conf>
+    <cache-policy>org.jboss.ejb.plugins.LRUStatefulContextCachePolicy</cache-policy>
+    <cache-policy-conf>
+        <min-capacity>50</min-capacity>
+        <max-capacity>1000000</max-capacity>
+        <remover-period>1800</remover-period>
+
+        <!-- SFSB timeout in seconds; 1800 seconds == 30 minutes -->
+        <max-bean-life>1800</max-bean-life>  
+
+        <overager-period>300</overager-period>
+        <max-bean-age>600</max-bean-age>
+        <resizer-period>400</resizer-period>
+        <max-cache-miss-period>60</max-cache-miss-period>
+        <min-cache-miss-period>1</min-cache-miss-period>
+        <cache-load-factor>0.75</cache-load-factor>
+    </cache-policy-conf>
+</container-cache-conf>]]></programlisting>
+
+        <para> The default HTTP session timeout can be modified in
+                <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in
+                <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x or later. The following
+            entry in this file controls the default session timeout for all web applications: </para>
+
+        <programlisting role="XML"><![CDATA[<session-config>
+    <!-- HTTP Session timeout, in minutes -->
+    <session-timeout>30</session-timeout>
+</session-config>]]></programlisting>
+
+        <para> To override this value for your own application, simply include this entry in your application's own
+                <literal>web.xml</literal>. </para>
+
+    </sect1>
+    
+    <sect1>
+        <title>Running Seam in a Portlet</title>
+
+        <para>
+           If you want to run your Seam application in a portlet, take a look at
+           the JBoss Portlet Bridge, an implementation of JSR-301 that supports
+           JSF within a portlet, with extensions for Seam and RichFaces. See
+           <ulink url="http://labs.jboss.com/portletbridge">http://labs.jboss.com/portletbridge</ulink>
+           for more.
+        </para>
+
+    </sect1>
+    
+        <sect1>
+        <title>Deploying custom resources</title>
+        
+        <para>
+            Seam scans all jars containing <literal>/seam.properties</literal>,
+            <literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam.properties</literal>
+            on startup for resources. For example, all classes annotated with
+            <literal>@Name</literal> are registered with Seam as Seam components.
+        </para>
+        
+        <para>
+            You may also want Seam to handle custom resources. A common use case
+            is to handle a specific annotation and Seam provides specific 
+            support for this. First, tell Seam which annotations to handle in
+            <literal>/META-INF/seam-deployment.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[# A colon-separated list of annotation types to handle
+org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]></programlisting>
+         
+        <para>
+            Then, during application startup you can get hold of all classes
+            annotated with <literal>@Foo</literal>:
+        </para>
+        
+        <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{deploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> fooClasses;
+   
+   @In("#{hotDeploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> hotFooClasses;
+
+   @Create
+   public void create() {
+      for (Class clazz: fooClasses) {
+         handleClass(clazz);
+      }
+      for (Class clazz: hotFooClasses) {
+         handleClass(clazz);
+      }
+   }
+   
+   public void handleClass(Class clazz) {
+       // ...
+   }
+
+}]]></programlisting>
+
+        <para>    
+            You can also handle <emphasis>any</emphasis> resource. For example, 
+            you process any files with the extension <literal>.foo.xml</literal>.
+            To do this, we need to write a custom deployment handler:
+        </para>
+        
+        <programlisting><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
+    private static DeploymentMetadata FOO_METADATA = new DeploymentMetadata()
+    {
+
+        public String getFileNameSuffix() {
+            return ".foo.xml";
+        }
+    };
+    
+   public String getName() {
+      return "fooDeploymentHandler";
+   }
+
+    public DeploymentMetadata getMetadata() {
+        return FOO_METADATA;
+    }
+}]]></programlisting>
+
+        <para>
+            Here we are just building a list of any files with the suffix 
+            <literal>.foo.xml</literal>. 
+        </para>
+        
+        <para>
+            Then, we need to register the deployment handler with Seam in
+            <literal>/META-INF/seam-deployment.properties</literal>.  
+            You can register multiple deployment handler using a comma 
+            separated list.
+        </para>
+        
+        <programlisting><![CDATA[# For standard deployment
+org.jboss.seam.deployment.deploymentHandlers=com.acme.FooDeploymentHandler
+# For hot deployment
+org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]></programlisting>
+
+         <para>
+
+         </para>
+         
+         <para>
+             Seam uses deployment handlers internally to install components and
+             namespaces. You can easily access the deployment handler during an 
+             <literal>APPLICATION</literal> scoped component's startup: 
+         </para>
+         
+         <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{deploymentStrategy.deploymentHandlers['fooDeploymentHandler']}")
+   private FooDeploymentHandler myDeploymentHandler;
+   
+   @In("#{hotDeploymentStrategy.deploymentHandlers['fooDeploymentHandler']}")
+   private FooDeploymentHandler myHotDeploymentHandler;
+
+   @Create
+   public void create() {
+      for (FileDescriptor fd: myDeploymentHandler.getResources()) {
+           handleFooXml(fd);
+      }
+      
+      for (FileDescriptor f: myHotDeploymentHandler.getResources()) {
+           handleFooXml(fd);
+      }
+   }
+
+   public void handleFooXml(FileDescriptor fd) {
+       // ...
+   }
+}]]></programlisting>
+
+    </sect1>
+
+</chapter>

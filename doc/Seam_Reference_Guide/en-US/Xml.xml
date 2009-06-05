@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="xml">
+
+        <title>Configuring Seam components</title>
+        
+        <para> 
+            The philosophy of minimizing XML-based configuration is extremely strong in Seam. Nevertheless,
+            there are various reasons why we might want to configure a Seam component using XML: to isolate
+            deployment-specific information from the Java code, to enable the creation of re-usable frameworks,
+            to configure Seam's built-in functionality, etc.
+            Seam provides two basic approaches to configuring components: configuration via property settings in a
+            properties file or in <literal>web.xml</literal>, and configuration via <literal>components.xml</literal>. 
+        </para>
+
+        <section>
+            <title>Configuring components via property settings</title>
+            <para> 
+                Seam components may be provided with configuration properties either via servlet context parameters, via 
+                system properties, or via a properties file named <literal>seam.properties</literal> in the root of the classpath. 
+            </para>
+            <para> 
+                The configurable Seam component must expose JavaBeans-style property setter methods for the
+                configurable attributes. If a Seam component named <literal>com.jboss.myapp.settings</literal> has a
+                setter method named <literal>setLocale()</literal>, we can provide a property named
+                <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal> file, a system 
+                property named <literal>org.jboss.seam.properties.com.jboss.myapp.settings.locale</literal> via -D at startup, or
+                as a servlet context parameter, and Seam will set the value of the <literal>locale</literal> attribute
+                whenever it instantiates the component. 
+            </para>
+            <para> 
+                The same mechanism is used to configure Seam itself. For example, to set the conversation timeout, we
+                provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal> in
+                <literal>web.xml</literal>, <literal>seam.properties</literal>, or via a system property prefixed with
+                <literal>org.jboss.seam.properties</literal>. (There is a built-in Seam
+                component named <literal>org.jboss.seam.core.manager</literal> with a setter method named
+                <literal>setConversationTimeout()</literal>.)  
+            </para>
+        </section>
+
+        <section id="xml.descriptor">
+            <title>Configuring components via <literal>components.xml</literal></title>
+            
+            <para> 
+                The <literal>components.xml</literal> file is a bit more powerful than property settings. It lets
+                you: 
+            </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para> Configure components that have been installed automatically &#8212; including both built-in
+                        components, and application components that have been annotated with the
+                        <literal>@Name</literal> annotation and picked up by Seam's deployment scanner. </para>
+                </listitem>
+                <listitem>
+                    <para> Install classes with no <literal>@Name</literal> annotation as Seam components &#8212; this
+                        is most useful for certain kinds of infrastructural components which can be installed multiple
+                        times with different names (for example Seam-managed persistence contexts). </para>
+                </listitem>
+                <listitem>
+                    <para> Install components that <emphasis>do</emphasis> have a <literal>@Name</literal> annotation
+                        but are not installed by default because of an <literal>@Install</literal> annotation that
+                        indicates the component should not be installed. </para>
+                </listitem>
+                <listitem>
+                    <para> Override the scope of a component. </para>
+                </listitem>
+            </itemizedlist>
+
+            <para> 
+                A <literal>components.xml</literal> file may appear in one of three different places: 
+            </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>The <literal>WEB-INF</literal> directory of a <literal>war</literal>.</para>
+                </listitem>
+                <listitem>
+                    <para>The <literal>META-INF</literal> directory of a <literal>jar</literal>.</para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Any directory of a <literal>jar</literal> that contains classes with an
+                        <literal>@Name</literal> annotation.
+                    </para>
+                </listitem>
+            </itemizedlist>
+
+            <para> 
+                Usually, Seam components are installed when the deployment scanner discovers a class with a
+                <literal>@Name</literal> annotation sitting in an archive with a <literal>seam.properties</literal>
+                file or a <literal>META-INF/components.xml</literal> file. (Unless the component has an 
+                <literal>@Install</literal> annotation indicating it should not be installed by default.) 
+                The <literal>components.xml</literal> file lets us handle special cases where we need
+                to override the annotations. 
+            </para>
+
+            <para>
+                For example, the following <literal>components.xml</literal> file installs jBPM: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:bpm="http://jboss.com/products/seam/bpm">
+    <bpm:jbpm/>
+</components>]]></programlisting>
+
+            <para>
+                This example does the same thing:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+    <component class="org.jboss.seam.bpm.Jbpm"/>
+</components>]]></programlisting>
+
+            <para>
+                This one installs and configures two different Seam-managed persistence contexts:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+    <persistence:managed-persistence-context name="customerDatabase"
+                       persistence-unit-jndi-name="java:/customerEntityManagerFactory"/>
+        
+    <persistence:managed-persistence-context name="accountingDatabase"
+                       persistence-unit-jndi-name="java:/accountingEntityManagerFactory"/>            
+
+</components>]]></programlisting>
+
+            <para>
+                As does this one:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+    <component name="customerDatabase" 
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/customerEntityManagerFactory</property>
+    </component>
+    
+    <component name="accountingDatabase"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/accountingEntityManagerFactory</property>
+    </component>
+</components>]]></programlisting>
+
+            <para>
+                This example creates a session-scoped Seam-managed persistence context (this is not recommended in
+                practice):
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+  <persistence:managed-persistence-context name="productDatabase" 
+                                          scope="session"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
+
+</components>]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<components>
+            
+    <component name="productDatabase"
+              scope="session"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
+                It is common to use the <literal>auto-create</literal> option for infrastructural
+                objects like persistence contexts, which saves you from having to explicitly
+                specify <literal>create=true</literal> when you use the <literal>@In</literal>
+                annotation.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+  <persistence:managed-persistence-context name="productDatabase" 
+                                    auto-create="true"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
+
+</components>]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<components>
+            
+    <component name="productDatabase"
+        auto-create="true"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
+                The <literal>&lt;factory&gt;</literal> declaration lets you specify a value or method binding
+                expression that will be evaluated to initialize the value of a context variable when it is first
+                referenced.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+
+    <factory name="contact" method="#{contactManager.loadContact}" scope="CONVERSATION"/>
+
+</components>]]></programlisting>
+
+            <para> 
+                You can create an "alias" (a second name) for a Seam component like so: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+
+    <factory name="user" value="#{actor}" scope="STATELESS"/>
+
+</components>]]></programlisting>
+
+            <para> 
+                You can even create an "alias" for a commonly used expression: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+
+    <factory name="contact" value="#{contactManager.contact}" scope="STATELESS"/>
+
+</components>]]></programlisting>
+
+            <para>
+                It is especially common to see the use of <literal>auto-create="true"</literal> with the
+                <literal>&lt;factory&gt;</literal> declaration:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+
+    <factory name="session" value="#{entityManager.delegate}" scope="STATELESS" auto-create="true"/>
+
+</components>]]></programlisting>
+
+            <para> 
+                Sometimes we want to reuse the same <literal>components.xml</literal> file with minor changes during
+                both deployment and testing. Seam lets you place wildcards of the form <literal>@wildcard@</literal> in
+                the <literal>components.xml</literal> file which can be replaced either by your Ant build script (at
+                deployment time) or by providing a file named <literal>components.properties</literal> in the classpath
+                (at development time). You'll see this approach used in the Seam examples. 
+            </para>
+
+        </section>
+
+        <section>
+            <title>Fine-grained configuration files</title>
+            <para> 
+                If you have a large number of components that need to be configured in XML, it makes much more sense
+                to split up the information in <literal>components.xml</literal> into many small files. Seam lets
+                you put configuration for a class named, for example, <literal>com.helloworld.Hello</literal> in a
+                resource named <literal>com/helloworld/Hello.component.xml</literal>. (You might be familiar with this
+                pattern, since it is the same one we use in Hibernate.) The root element of the file may be either a
+                <literal>&lt;components&gt;</literal> or <literal>&lt;component&gt;</literal>
+                element. </para>
+
+            <para> 
+                The first option lets you define multiple components in the file: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components>
+    <component class="com.helloworld.Hello" name="hello">
+        <property name="name">#{user.name}</property>
+    </component>
+    <factory name="message" value="#{hello.message}"/>
+</components>]]></programlisting>
+
+            <para> 
+                The second option only lets you define or configure one component, but is less noisy: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="hello">
+    <property name="name">#{user.name}</property>
+</component>]]></programlisting>
+
+            <para> 
+                In the second option, the class name is implied by the file in which the component definition
+                appears. 
+            </para>
+
+            <para> 
+                Alternatively, you may put configuration for all classes in the <literal>com.helloworld</literal>
+                package in <literal>com/helloworld/components.xml</literal>. 
+            </para>
+        </section>
+
+        <section>
+            <title>Configurable property types</title>
+            <para> 
+                Properties of string, primitive or primitive wrapper type may be configured just as you would expect: 
+            </para>
+
+            <programlisting><![CDATA[org.jboss.seam.core.manager.conversationTimeout 60000]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<core:manager conversation-timeout="60000"/>]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.core.manager">
+    <property name="conversationTimeout">60000</property>
+</component>]]></programlisting>
+
+            <para> 
+                Arrays, sets and lists of strings or primitives are also supported: 
+            </para>
+
+            <programlisting><![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<bpm:jbpm>
+    <bpm:process-definitions>
+        <value>order.jpdl.xml</value>
+        <value>return.jpdl.xml</value>
+        <value>inventory.jpdl.xml</value>
+    </bpm:process-definitions>
+</bpm:jbpm>]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.bpm.jbpm">
+    <property name="processDefinitions">
+        <value>order.jpdl.xml</value>
+        <value>return.jpdl.xml</value>
+        <value>inventory.jpdl.xml</value>
+    </property>
+</component>]]></programlisting>
+
+            <para> 
+                Even maps with String-valued keys and string or primitive values are supported: 
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="issueEditor">
+    <property name="issueStatuses">
+        <key>open</key> <value>open issue</value>
+        <key>resolved</key> <value>issue resolved by developer</value>
+        <key>closed</key> <value>resolution accepted by user</value>
+    </property>
+</component>]]></programlisting>
+
+            <para> 
+                When configuring multi-valued properties, by default, Seam will preserve the order in which you place the attributes
+                in <literal>components.xml</literal> (unless you use a <literal>SortedSet</literal>/<literal>SortedMap</literal>
+                then Seam will use <literal>TreeMap</literal>/<literal>TreeSet</literal>). If the property has a concrete type (for 
+                example <literal>LinkedList</literal>) Seam will use that type.
+            </para>
+            <para> 
+                You can also override the type by specifying a fully qualified class name:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="issueEditor">
+   <property name="issueStatusOptions" type="java.util.LinkedHashMap">
+      <key>open</key> <value>open issue</value>
+      <key>resolved</key> <value>issue resolved by developer</value>
+      <key>closed</key> <value>resolution accepted by user</value>
+   </property>
+</component>]]></programlisting>
+
+            <para> 
+                Finally, you may wire together components using a value-binding expression. Note that this is quite
+                different to injection using <literal>@In</literal>, since it happens at component instantiation time
+                instead of invocation time. It is therefore much more similar to the dependency injection facilities
+                offered by traditional IoC containers like JSF or Spring. 
+            </para>
+
+
+            <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory"
+    rule-base="#{policyPricingRules}"/>]]></programlisting>
+
+            <programlisting role="XML"><![CDATA[<component name="policyPricingWorkingMemory"
+    class="org.jboss.seam.drools.ManagedWorkingMemory">
+    <property name="ruleBase">#{policyPricingRules}</property>
+</component>]]></programlisting>
+
+            <para>
+                Seam also resolves an EL expression string prior to assigning the initial value to the bean property of
+                the component. So you can inject some contextual data into your components.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="greeter" class="com.example.action.Greeter">
+    <property name="message">Nice to see you, #{identity.username}!</property>
+</component>]]></programlisting>
+
+            <para>
+				However, there is one important exception. If the type of the property to which the initial value is
+				being assigned is either a Seam <literal>ValueExpression</literal> or
+				<literal>MethodExpression</literal>, then the evaluation of the EL is deferred. Instead, the appropriate
+				expression wrapper is created and assigned to the property. The message templates on the Home component
+				from the Seam Application Framework serve as an example.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<framework:entity-home name="myEntityHome"
+    class="com.example.action.MyEntityHome" entity-class="com.example.model.MyEntity"
+    created-message="'#{myEntityHome.instance.name}' has been successfully added."/>]]></programlisting>
+
+            <para>
+				Inside the component, you can access the expression string by calling
+				<literal>getExpressionString()</literal> on the <literal>ValueExpression</literal> or
+				<literal>MethodExpression</literal>. If the property is a <literal>ValueExpression</literal>, you can
+				resolve the value using <literal>getValue()</literal> and if the property is a
+				<literal>MethodExpression</literal>, you can invoke the method using <literal>invoke(Object
+				args...)</literal>. Obviously, to assign a value to a <literal>MethodExpression</literal> property, the
+				entire initial value must be a single EL expression.
+            </para>
+
+        </section>
+
+        <section>
+            <title>Using XML Namespaces</title>
+            <para> 
+                Throughout the examples, there have been two competing ways of declaring components: with and without
+                the use of XML namespaces. The following shows a typical <literal>components.xml</literal> file 
+                without namespaces:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <component class="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+    
+</components>]]></programlisting>
+
+            <para>
+                As you can see, this is somewhat verbose. Even worse, the component and attribute names cannot be 
+                validated at development time.
+            </para>
+
+            <para>The namespaced version looks like this:</para>
+
+            <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@"/>
+
+</components>]]></programlisting>
+
+            <para>
+                Even though the schema declarations are verbose, the actual XML content is lean and easy to understand.
+                The schemas provide detailed information about each component and the attributes available, allowing XML
+                editors to offer intelligent autocomplete. The use of namespaced elements makes generating and
+                maintaining correct <literal>components.xml</literal> files much simpler.
+            </para>
+
+            <para> 
+                Now, this works great for the built-in Seam components, but what about user components? There are two options. 
+                First, Seam supports mixing the two models, allowing the use of the generic <literal>&lt;component&gt;</literal> 
+                declarations for user components, along with namespaced declarations for built-in components. But even better,
+                Seam allows you to quickly declare namespaces for your own components.
+            </para>
+
+            <para>
+                Any Java package can be associated with an XML namespace by annotating the package with the 
+                <literal>@Namespace</literal> annotation. (Package-level annotations are declared in a file named
+                <literal>package-info.java</literal> in the package directory.) Here is an example from the seampay demo:
+            </para>
+
+            <programlisting role="JAVA">@Namespace(value="http://jboss.com/products/seam/examples/seampay")
+package org.jboss.seam.example.seampay;
+
+import org.jboss.seam.annotations.Namespace;</programlisting>
+
+            <para>
+                That is all you need to do to use the namespaced style in <literal>components.xml</literal>!
+                Now we can write:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            ... >
+
+    <pay:payment-home new-instance="#{newPayment}"
+                      created-message="Created a new payment to #{newPayment.payee}" />
+
+    <pay:payment name="newPayment"
+                 payee="Somebody"
+                 account="#{selectedAccount}"
+                 payment-date="#{currentDatetime}"
+                 created-date="#{currentDatetime}" />
+     ...
+</components>]]></programlisting>
+
+            <para>Or:</para>
+
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            ... >
+
+    <pay:payment-home>
+        <pay:new-instance>"#{newPayment}"</pay:new-instance>
+        <pay:created-message>Created a new payment to #{newPayment.payee}</pay:created-message>
+    </pay:payment-home>
+    
+    <pay:payment name="newPayment">
+        <pay:payee>Somebody"</pay:payee>
+        <pay:account>#{selectedAccount}</pay:account>
+        <pay:payment-date>#{currentDatetime}</pay:payment-date>
+        <pay:created-date>#{currentDatetime}</pay:created-date>
+     </pay:payment>
+     ...
+</components>]]></programlisting>
+
+            <para>
+                These examples illustrate the two usage models of a namespaced element. In the first declaration, 
+                the <literal>&lt;pay:payment-home&gt;</literal> references the <literal>paymentHome</literal>
+                component:
+            </para>
+
+            <programlisting role="JAVA"><![CDATA[package org.jboss.seam.example.seampay;
+...
+@Name("paymentHome")
+public class PaymentController
+    extends EntityHome<Payment>
+{
+    ... 
+}]]></programlisting>
+
+            <para>
+                The element name is the hyphenated form of the component name. The attributes of the element are
+                the hyphenated form of the property names.
+            </para>
+
+            <para>
+                In the second declaration, the <literal>&lt;pay:payment&gt;</literal> element refers to the 
+                <literal>Payment</literal> class in the <literal>org.jboss.seam.example.seampay</literal> package. 
+                In this case <literal>Payment</literal> is an entity that is being declared as a Seam component:
+            </para>
+
+            <programlisting role="JAVA"><![CDATA[package org.jboss.seam.example.seampay;
+...
+@Entity
+public class Payment
+    implements Serializable
+{
+    ...
+}]]></programlisting>
+            
+            <para>
+                If we want validation and autocompletion to work for user-defined components, we will need a schema.
+                Seam does not yet provide a mechanism to automatically generate a schema for a set of components, so
+                it is necessary to generate one manually. The schema definitions for the standard Seam packages can 
+                be used for guidance.   
+            </para>
+
+            <para>The following are the the namespaces used by Seam:</para>
+            
+            <itemizedlist>
+                <listitem>
+                    <para>components &#8212; <literal>http://jboss.com/products/seam/components</literal></para>
+                </listitem>
+                <listitem>
+                    <para>core &#8212; <literal>http://jboss.com/products/seam/core</literal></para>
+                </listitem>
+                <listitem>
+                    <para>drools &#8212; <literal>http://jboss.com/products/seam/drools</literal></para>
+                </listitem>
+                <listitem>
+                    <para>framework &#8212; <literal>http://jboss.com/products/seam/framework</literal></para>
+                </listitem>
+                <listitem>
+                    <para>jms &#8212; <literal>http://jboss.com/products/seam/jms</literal></para>
+                </listitem>
+                <listitem>
+                    <para>remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal></para>
+                </listitem>
+                <listitem>
+                    <para>theme &#8212; <literal>http://jboss.com/products/seam/theme</literal></para>
+                </listitem>
+                <listitem>
+                    <para>security &#8212; <literal>http://jboss.com/products/seam/security</literal></para>
+                </listitem>
+                <listitem>
+                    <para>mail &#8212; <literal>http://jboss.com/products/seam/mail</literal></para>
+                </listitem>
+                <listitem>
+                    <para>web &#8212; <literal>http://jboss.com/products/seam/web</literal></para>
+                </listitem>                
+                <listitem>
+                    <para>pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal></para>
+                </listitem>
+                <listitem>                    
+                    <para> spring &#8212; <literal>http://jboss.com/products/seam/spring</literal></para>
+                </listitem>
+                
+            </itemizedlist>
+            
+        </section>
+
+
+</chapter>

@@ -1,0 +1,2632 @@
+# Language it-IT translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
+"PO-Revision-Date: 2009-05-31 12:14+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Weblogic.xml:2
+#, no-c-format
+msgid "Seam on BEA's Weblogic"
+msgstr "Seam su Weblogic di BEA"
+
+#. Tag: para
+#: Weblogic.xml:4
+#, no-c-format
+msgid ""
+"Weblogic 10.3 is BEA's latest stable JEE5 server offering. Seam applications "
+"can be deployed and developed on Weblogic servers, and this chapter will "
+"show you how. There are some known issues with the Weblogic servers that "
+"will need to be worked around, and configuration changes that are needed "
+"specific to Weblogic."
+msgstr ""
+"Weblogic 10.3 è l'ultimo server JEE5 stabile proposto da BEA. Le "
+"applicazioni Seam possono essere sviluppate e installate sui server "
+"Weblogic, e questo capitolo vi mostrerà in che modo. Ci sono alcuni problemi "
+"noti da aggirare relativi ai server Weblogic e alcune modifiche alle "
+"configurazioni che sono specifiche di Weblogic."
+
+#. Tag: para
+#: Weblogic.xml:10
+#, no-c-format
+msgid ""
+"First step is to get Weblogic downloaded, installed and running. Then we'll "
+"talk about Seam's JEE5 example and the hurdles to getting it running. After "
+"that, the JPA example will be deployed to the server. Then finally we will "
+"create a <literal>seam-gen</literal> application and get it up and running "
+"to provide a jump start to your own application."
+msgstr ""
+"Innanzitutto bisogna scaricare Weblogic, installarlo e avviarlo. Quindi "
+"passeremo a parlare dell'esempio JEE5 di Seam e deigli ostacoli da superare "
+"per farlo funzionare. Dopo di ché, installeremo l'esempio JPA. Infine "
+"creeremo un'applicazione <literal>seam-gen</literal> e la faremo girare per "
+"fornire un punto di partenza alla vostra applicazione."
+
+# operatività?
+# messa in opera?
+#. Tag: title
+#: Weblogic.xml:18
+#, no-c-format
+msgid "Installation and operation of Weblogic"
+msgstr "Installazione e operatività di Weblogic"
+
+#. Tag: para
+#: Weblogic.xml:19
+#, no-c-format
+msgid ""
+"First things first we need to get the server installed. There are some "
+"outstanding issues that were not addressed in 10.3, but it does solve some "
+"of the issues discussed below without the need for BEA patches. The previous "
+"release 10.0.MP1 is also available, but requires some BEA patches to "
+"function correctly."
+msgstr ""
+"Prima di tutto bisogna installare il server. Ci sono alcuni problemi non "
+"trascurabili che non sono stati affrontati nella 10.3, che tuttavia risolve "
+"alcuni di quelli discussi sotto senza dover installare le patch di BEA. E' "
+"disponibile anche il precedente rilascio, 10.0.MP1, che, tuttavia, richiede "
+"le patch di BEA per funzionare correttamente."
+
+#. Tag: para
+#: Weblogic.xml:26
+#, no-c-format
+msgid ""
+"<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle."
+"com/technology/software/products/ias/htdocs/wls_main.html\"> Download page </"
+"ulink>"
+msgstr ""
+"<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle."
+"com/technology/software/products/ias/htdocs/wls_main.html\"> Pagina di "
+"download </ulink>"
+
+#. Tag: para
+#: Weblogic.xml:30
+#, no-c-format
+msgid ""
+"10.0.MP1 has some known issues with EJBs that use <literal>varargs</literal> "
+"in their methods (it confuses them as <literal>transient</literal> ), as "
+"well as some others. See <xref linkend=\"weblogic-ejb-issues\"/> for full "
+"details on the issues and the work around."
+msgstr ""
+"La versione 10.0.MP1 ha alcuni problemi noti con gli EJBs che usano "
+"<literal>varargs</literal> nei propri metodi (li confonde con "
+"<literal>transient</literal> ), e non sono gli unici. Si veda <xref linkend="
+"\"weblogic-ejb-issues\"/> per tutti i dettagli su tali problemi e per le "
+"relative soluzioni."
+
+#. Tag: para
+#: Weblogic.xml:37
+#, no-c-format
+msgid ""
+"<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/"
+"technology/software/products/ias/htdocs/wls_main.html\"> Download page </"
+"ulink>"
+msgstr ""
+"<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/"
+"technology/software/products/ias/htdocs/wls_main.html\"> Pagina di download "
+"</ulink>"
+
+#. Tag: para
+#: Weblogic.xml:41
+#, no-c-format
+msgid ""
+"This is the latest stable release of the Weblogic server, and the one that "
+"will be used with the examples below. This version has addressed some of the "
+"issues with EJBs that were in 10.0.MP1. However one of the changes did not "
+"make it into this release. See <xref linkend=\"weblogic-ejb-issues\"/> for "
+"the details, but because of this we still need to use the special Weblogic "
+"seam jar discussed below."
+msgstr ""
+"Questa è l'ultima versione stabile del server Weblogic, e quello che sarà "
+"usato negli esempi sottostanti. Questa versione ha sistemato alcuni dei "
+"malfunzionamenti relativi agli EJB che esistevano nella versione 10.0.MP1. "
+"Comunque una delle modifiche non è stata inserita in questa versione. Si "
+"veda <xref linkend=\"weblogic-ejb-issues\"/> per i dettagli, e perciò "
+"bisogna ancora usare lo speciale jar di Seam di Weblogic discusso di seguito."
+
+#. Tag: title
+#: Weblogic.xml:53
+#, no-c-format
+msgid "Special <literal>jboss-seam.jar</literal> for Weblogic EJB Support"
+msgstr ""
+"Il jar speciale <literal>jboss-seam.jar</literal> per il supporto EJB in "
+"Weblogic"
+
+#. Tag: para
+#: Weblogic.xml:55
+#, no-c-format
+msgid ""
+"Starting with Seam 2.0.2.CR2 a special Weblogic specific jar has been "
+"created that does not contain the <literal>TimerServiceDispatcher </"
+"literal>. This is the EJB that uses <literal>varargs</literal> and exposes "
+"the second EJB issue. We will be using this jar for the <literal>jee5/"
+"booking</literal> example, as it avoids the known BEA issues."
+msgstr ""
+"A partire da Seam 2.0.2.CR2 per Weblogic è stato creato un jar speciale che "
+"non contiene il <literal>TimerServiceDispatcher </literal>. Questo è l'EJB "
+"che usa <literal>varargs</literal> e presenta il secondo problema relativo "
+"agli EJB. Ci troveremo ad usare questo jar per l'esempio <literal>jee5/"
+"booking</literal>, poiché evita i noti problemi di BEA."
+
+#. Tag: title
+#: Weblogic.xml:65
+#, no-c-format
+msgid "Installing 10.3"
+msgstr "Installare la versione 10.3"
+
+#. Tag: para
+#: Weblogic.xml:67
+#, no-c-format
+msgid ""
+"Here are the quick steps to installing Weblogic 10.3. For more details or if "
+"you are having any issues please check with the BEA docs at the <ulink url="
+"\"http://edocs.bea.com/wls/docs103/\"> Weblogic 10.3 Doc Center </ulink> . "
+"Here we install the RHEL 5 version using the graphical installer:"
+msgstr ""
+"Ecco velocemente i passi necessari ad installare Weblogic 10.3. Per maggiori "
+"dettagli e nel caso si presentino dei problemi,vi preghiamo di consultare i "
+"documenti BEA all'indirizzo <ulink url=\"http://edocs.bea.com/wls/docs103/"
+"\"> Weblogic 10.3 Doc Center </ulink> . Qui verrà installata la versione "
+"RHEL 5 usando l'installazione grafica:"
+
+#. Tag: para
+#: Weblogic.xml:80
+#, no-c-format
+msgid ""
+"Follow the link given above for 10.3 and download the correct version for "
+"your environment. You will need to sign up for an account with Oracle in "
+"order to do this."
+msgstr ""
+"Si segua il link alla 10.3 indicato sopra e si scarichi la versione adatta "
+"al proprio ambiente. Sarà necessario creare un account Oracle per portare a "
+"termine l'operazione."
+
+#. Tag: para
+#: Weblogic.xml:85
+#, no-c-format
+msgid ""
+"You may need to change the the <literal>server103_XX.bin</literal> file to "
+"be executable:"
+msgstr ""
+"Può essere necessario rendere eseguibile il file <literal>server103_XX.bin</"
+"literal>:"
+
+#. Tag: programlisting
+#: Weblogic.xml:88
+#, no-c-format
+msgid "chmod a+x server103_XX.bin"
+msgstr "chmod a+x server103_XX.bin"
+
+#. Tag: para
+#: Weblogic.xml:91
+#, no-c-format
+msgid "Execute the install:"
+msgstr "Eseguite l'installazione:"
+
+#. Tag: programlisting
+#: Weblogic.xml:92
+#, no-c-format
+msgid "./server103_XX.bin"
+msgstr "./server103_XX.bin"
+
+#. Tag: para
+#: Weblogic.xml:95
+#, no-c-format
+msgid ""
+"When the graphical install loads, you need to set the BEA home location. "
+"This is where all BEA applications are installed. This location will be "
+"known as <literal>$BEA_HOME</literal> in this document e.g.:"
+msgstr ""
+"Quando l'installazione grafica è caricata, bisogna impostare il percorso "
+"della home directory di BEA. Questo è il punto dove sono installate tutte le "
+"applicazioni BEA. In questo documento tale punto sarà identificato con "
+"<literal>$BEA_HOME</literal>, ad esempio:"
+
+#. Tag: programlisting
+#: Weblogic.xml:100
+#, no-c-format
+msgid "/jboss/apps/bea"
+msgstr "/jboss/apps/bea"
+
+#. Tag: para
+#: Weblogic.xml:103
+#, no-c-format
+msgid ""
+"Select <literal>Complete</literal> as the installation type. You do not need "
+"all the extras of the complete install (such as struts and beehive "
+"libraries), but it will not hurt."
+msgstr ""
+"Come tipo di installazione bisogna selezionare <literal>Complete</literal>. "
+"Non c'è bisogno di tutti gli extra dell'installazione competa (come le "
+"librerie struts e beehive), ma non farà alcun male."
+
+#. Tag: para
+#: Weblogic.xml:109
+#, no-c-format
+msgid ""
+"You can leave the defaults for the component installation locations on the "
+"next page."
+msgstr ""
+"Nella pagina successiva è possibile lasciare i valori predefiniti delle "
+"posizioni di installazione dei componenti."
+
+#. Tag: title
+#: Weblogic.xml:115
+#, no-c-format
+msgid "Creating your Weblogic domain"
+msgstr "Creazione del dominio Weblogic"
+
+#  self contained=autosufficiente?#. Tag: para
+#. Tag: para
+#: Weblogic.xml:116
+#, no-c-format
+msgid ""
+"A Weblogic domain is similar to a JBoss server configuration - it is a self "
+"contained server instance. The Weblogic server you just installed has some "
+"example domains, but we are going to create one just for the seam examples. "
+"You can use the existing domains if you wish (modify the instructions as "
+"needed)."
+msgstr ""
+"Un dominio Weblogic è simile ad una configurazione del server JBoss - è "
+"un'istanza autosufficiente del server. Il server Weblogic appena installato "
+"ha alcuni domini di esempio, ma noi ne creeremo uno apposito per gli esempi "
+"di Seam. Se si vuole, è possibile usare i domini esistenti (modificando le "
+"istruzioni opportunamente)."
+
+#. Tag: para
+#: Weblogic.xml:123
+#, no-c-format
+msgid "Start up the Weblogic configuration wizard:"
+msgstr "Avviare il wizard di configurazione di Weblogic:"
+
+#. Tag: programlisting
+#: Weblogic.xml:124
+#, no-c-format
+msgid "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
+msgstr "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
+
+#. Tag: para
+#: Weblogic.xml:127
+#, no-c-format
+msgid ""
+"Choose to create a new domain, configured to support <literal>Weblogic "
+"Server</literal>. Note that this is the default domain option."
+msgstr ""
+"Si scelga di creare un nuovo dominio, configurato per supportare "
+"<literal>Weblogic Server</literal>. Tenete presente che questa è l'opzione "
+"predefinita per il dominio."
+
+#. Tag: para
+#: Weblogic.xml:132
+#, no-c-format
+msgid "Set a username and password for this domain."
+msgstr "Impostate un utente ed una password per questo dominio."
+
+#. Tag: para
+#: Weblogic.xml:135
+#, no-c-format
+msgid ""
+"Next choose <literal>Development Mode</literal> and the default JDK when "
+"given the option."
+msgstr ""
+"Quindi si scelga <literal>Development Mode</literal> e il JDK predefinito "
+"quando richiesto."
+
+#. Tag: para
+#: Weblogic.xml:139
+#, no-c-format
+msgid ""
+"The next screen asks if you want to customize any setting. Select "
+"<literal>No</literal>."
+msgstr ""
+"La schermata successiva chiede se si vuole personalizzare qualche proprietà. "
+"Bisogna selezionare <literal>No</literal>."
+
+#. Tag: para
+#: Weblogic.xml:143
+#, no-c-format
+msgid ""
+"Finally set the name of the domain to <literal>seam_examples</literal> and "
+"leave the default domain location."
+msgstr ""
+"Infine bisogna indicare <literal>seam_examples</literal> come nome del "
+"dominio e lasciare la sua posizione predefinita."
+
+#. Tag: title
+#: Weblogic.xml:150
+#, no-c-format
+msgid "How to Start/Stop/Access your domain"
+msgstr "Come avviare/arrestare/accedere il dominio"
+
+#. Tag: para
+#: Weblogic.xml:151
+#, no-c-format
+msgid ""
+"Now that the server is installed and the domain is created you need to know "
+"how to start and stop it, plus how to access its configuration console."
+msgstr ""
+"Ora che si è installato il server e creato il dominio, bisogna imparare ad "
+"avviarlo ed arrestarlo, oltre ad accedere alla console di configurazione."
+
+#. Tag: para
+#: Weblogic.xml:158
+#, no-c-format
+msgid "Starting the domain:"
+msgstr "Avviare il dominio:"
+
+#. Tag: para
+#: Weblogic.xml:159
+#, no-c-format
+msgid ""
+"This is the easy part - go to the <literal> $BEA_HOME/user_projects/domains/"
+"seam_examples/bin </literal> directory and run the <literal>./startWeblogic."
+"sh</literal> script."
+msgstr ""
+"Questa è la parte facile - entrate nella directory <literal> $BEA_HOME/"
+"user_projects/domains/seam_examples/bin </literal> e lanciate lo script "
+"<literal>./startWeblogic.sh</literal>"
+
+#. Tag: para
+#: Weblogic.xml:165
+#, no-c-format
+msgid "Accessing the configuration console:"
+msgstr "Accedere alla console di configurazione:"
+
+#. Tag: para
+#: Weblogic.xml:166
+#, no-c-format
+msgid ""
+"Launch <literal>http://127.0.0.1:7001/console</literal> in your web browser. "
+"It will ask for your username and password that you entered before. We won't "
+"get into this much now, but this is the starting point for a lot of the "
+"various configurations that are needed later."
+msgstr ""
+"Col browser andate all'indirizzo <literal>http://127.0.0.1:7001/console</"
+"literal>. Vi saranno richiesti l'utente e la password inseriti in "
+"precedenza. Non ci addentreremo molto in questa questione, ma questo è il "
+"punto di partenza per molte delle diverse configurazioni di cui avremo "
+"bisogno più tardi."
+
+#. Tag: para
+#: Weblogic.xml:174
+#, no-c-format
+msgid "Stopping the domain:"
+msgstr "Arrestare il dominio:"
+
+#. Tag: para
+#: Weblogic.xml:175
+#, no-c-format
+msgid "There are a couple of options here:"
+msgstr "In questo caso ci sono un paio di opzioni:"
+
+#. Tag: para
+#: Weblogic.xml:178
+#, no-c-format
+msgid "The recommended way is through the configuration console:"
+msgstr "Il modo raccomandato si basa sulla console di configurazione:"
+
+#. Tag: para
+#: Weblogic.xml:182
+#, no-c-format
+msgid ""
+"Select <literal>seam_examples</literal> on the left hand side of the console."
+msgstr ""
+"Selezionate <literal>seam_examples</literal> sul lato sinistro della console."
+
+#. Tag: para
+#: Weblogic.xml:187
+#, no-c-format
+msgid "Choose the <literal>Control</literal> tab in the middle of the page."
+msgstr ""
+"Clicacte sulla linguetta <literal>Control</literal> nel mezzo della pagina."
+
+#. Tag: para
+#: Weblogic.xml:192
+#, no-c-format
+msgid "Select the check box <literal>AdminServer</literal> in the table."
+msgstr ""
+"Nella tabella selezionate la casella di spunta <literal>AdminServer</"
+"literal>."
+
+#. Tag: para
+#: Weblogic.xml:197
+#, no-c-format
+msgid ""
+"Choose <literal>Shutdown</literal> just above the table, and select either "
+"<literal>When work completes</literal> or <literal>Force shutdown now</"
+"literal> as appropriate."
+msgstr ""
+"Scegliete <literal>Shutdown</literal> appena sopra la tabella, e selezionate "
+"l'opzione appropriata tra <literal>When work completes</literal> e "
+"<literal>Force shutdown now</literal>."
+
+#. Tag: para
+#: Weblogic.xml:206
+#, no-c-format
+msgid ""
+"Hitting <literal>Ctrl-C</literal> in the terminal where you started the "
+"domain."
+msgstr ""
+"Premere <literal>Ctrl-C</literal> nel terminale in cui è stato avviato il "
+"dominio."
+
+#. Tag: para
+#: Weblogic.xml:208
+#, no-c-format
+msgid ""
+"No negative effects have been seen, but we would not recommend doing this "
+"while in the middle of configuration changes in the console."
+msgstr ""
+"Non si sono visti effetti negativi, but non raccomanderemmo di effettuare "
+"questa operazione mentre si stanno apportando delle modifiche alla "
+"configurazione nella console."
+
+#. Tag: title
+#: Weblogic.xml:216
+#, no-c-format
+msgid "A note on Weblogic classloading"
+msgstr "Una nota sul classloading di Weblogic"
+
+#. Tag: para
+#: Weblogic.xml:217
+#, no-c-format
+msgid ""
+"When using the <literal>/autodeploy</literal> directory as described in this "
+"chapter you may see <literal>NoClassDefFound</literal> exceptions during "
+"redeployment's. If you see this try restarting the Weblogic server. If you "
+"still see it remove the auto-deployed EAR/WAR files, restart the server, and "
+"redeploy. We could not find a specific reason for this, but others seem to "
+"be having this issue as well."
+msgstr ""
+"Quando si utilizza la directory <literal>/autodeploy</literal> come "
+"descritto in questo capitolo, è possibile vedere delle eccezioni "
+"<literal>NoClassDefFound</literal> durante il re-deploy delle applicazioni. "
+"Se le vedete, provate a riavviare il server. Se continuate a vederle, "
+"eliminate i file EAR/WAR autoinstallati, riavviate il server e rifate il "
+"deploy. Non abbiamo trovato la ragione specifica di questo comportamento, "
+"tuttavia sembra che anche altri abbiano avuto questo genere di problema."
+
+#. Tag: title
+#: Weblogic.xml:230
+#, no-c-format
+msgid "Setting up Weblogic's JSF Support"
+msgstr "Impostazione del supporto JSF in Weblogic"
+
+#. Tag: para
+#: Weblogic.xml:231
+#, no-c-format
+msgid ""
+"These are the instructions to deploy and configure Weblogic's JSF 1.2 "
+"libraries. Out of the box Weblogic does not come with its own JSF libraries "
+"active. For complete details see <ulink url=\"http://edocs.bea.com/wls/"
+"docs103/webapp/configurejsfandjtsl.html\"> Weblogic 10.3 Configuring JSF and "
+"JSTL Libraries </ulink>"
+msgstr ""
+"Queste sono le istruzioni per installare e configurare le librerie JSF 1.2 "
+"di Weblogic. Weblogic non viene distribuito con le librerie JSF "
+"preinstallate. Per i dettagli completi si veda <ulink url=\"http://edocs.bea."
+"com/wls/docs103/webapp/configurejsfandjtsl.html\"> Weblogic 10.3 Configuring "
+"JSF and JSTL Libraries </ulink>"
+
+#. Tag: para
+#: Weblogic.xml:240
+#, no-c-format
+msgid ""
+"In the administration console navigate to the <literal>Deployments</literal> "
+"page using the left hand menu."
+msgstr ""
+"Nella console di amministrazione navigate alla pagina <literal>Deployments</"
+"literal> usando il menù sul lato sinistro."
+
+#. Tag: para
+#: Weblogic.xml:245
+#, no-c-format
+msgid ""
+"Then select the <literal>Install</literal> button at the top of the "
+"deployments table"
+msgstr ""
+"A questo punto prenmete il pulsante <literal>Install</literal> in cima alla "
+"tabella dei deployment"
+
+#. Tag: para
+#: Weblogic.xml:249
+#, no-c-format
+msgid ""
+"Using the directory browser navigate to the <literal>$BEA_HOME/wlserver_10.3/"
+"common/deployable-libraries </literal> directory. Then select the "
+"<literal>jsf-1.2.war</literal> archive, and click the <literal>Next</"
+"literal> button."
+msgstr ""
+"Usando il browser delle directory navigate alla directory <literal>$BEA_HOME/"
+"wlserver_10.3/common/deployable-libraries </literal>. Selezionate l'archivio "
+"<literal>jsf-1.2.war</literal>, e cliccate il pulsante <literal>Next</"
+"literal>."
+
+#. Tag: para
+#: Weblogic.xml:256
+#, no-c-format
+msgid ""
+"Make sure that the <literal>Install this deployment as a library</literal> "
+"is selected. Click the <literal> Next </literal> button on the "
+"<literal>Install Application Assistant</literal> page."
+msgstr ""
+"Accertatevi che sia selezionata l'opzione <literal>Install this deployment "
+"as a library</literal>. Cliccate il pulsante <literal> Next </literal> della "
+"pagina <literal>Install Application Assistant</literal>."
+
+#. Tag: para
+#: Weblogic.xml:262
+#, no-c-format
+msgid ""
+"Click the <literal>Next</literal> button on the <literal> Optional Settings</"
+"literal> page."
+msgstr ""
+"Premete il pulsante <literal>Next</literal> della pagina <literal> Optional "
+"Settings</literal>."
+
+#. Tag: para
+#: Weblogic.xml:266
+#, no-c-format
+msgid ""
+"Make sure that the <literal>Yes, take me to the deployment's configuration "
+"screen.</literal> is selected. Click the <literal>Finish</literal> button on "
+"the <literal> Review your choices and click Finish</literal> page."
+msgstr ""
+"Accertatevi che sia selezionata l'opzione <literal>Yes, take me to the "
+"deployment's configuration screen.</literal>. Cliccate il pulsante "
+"<literal>Finish</literal> della pagina <literal> Review your choices and "
+"click Finish</literal>."
+
+#. Tag: para
+#: Weblogic.xml:272
+#, no-c-format
+msgid ""
+"On the <literal>Settings for jsf(1.2,1.2.3.1)</literal> page set the "
+"<literal>Deployment Order</literal> to <literal>99</literal> so that it is "
+"deployed prior to auto deployed applications. Then click the <literal> Save</"
+"literal> button."
+msgstr ""
+"Nella pagina <literal>Impostazioni per jsf(1.2,1.2.3.1)</literal> impostate "
+"<literal>Deployment Order</literal> a <literal>99</literal> in modo che il "
+"supporto JSF venga installato prima delle applicazioni sottoposte ad "
+"autodeploy. Poi cliccate sul bottone <literal>Save</literal>."
+
+#. Tag: para
+#: Weblogic.xml:280
+#, no-c-format
+msgid ""
+"There is another step that is needed for this to work. For some reason, even "
+"with the steps above classes in the <literal> jsf-api.jar</literal> are not "
+"found during application deployment. The only way for this to work is to put "
+"the <literal> javax.jsf_1.2.0.0.jar</literal> (the jsf-api.jar) from "
+"<literal>jsf-1.2.war</literal> in the domains shared library. This requires "
+"a restart of the server."
+msgstr ""
+"Bisogna eseguire un altro passo per far funzionare il tutto. Per qualche "
+"motivo, anche eseguendo le operazioni precedenti, durante il deploy "
+"dell'applicazione non vengono trovate delle classi di <literal> jsf-api.jar</"
+"literal>. L'unico modo per ovviare al problema è di spostare <literal> javax."
+"jsf_1.2.0.0.jar</literal> (il jsf-api.jar) da <literal>jsf-1.2.war</literal> "
+"nelle librerie condivise dei domini. Questo richiede il riavvio del server."
+
+#. Tag: title
+#: Weblogic.xml:292
+#, no-c-format
+msgid "The <literal>jee5/booking</literal> Example"
+msgstr "L'esempio <literal>jee5/booking</literal>"
+
+#. Tag: para
+#: Weblogic.xml:294
+#, no-c-format
+msgid ""
+"Do you want to run Seam using EJB's on Weblogic? If so there are some "
+"obstacles that you will have to avoid, or some patches that are needed from "
+"BEA. This section describes those obstacles and what changes are needed to "
+"the <literal>jee5/booking</literal> example to get it deployed and "
+"functioning."
+msgstr ""
+"Si vuole usare Seam con gli EJB su Weblogic? In questo caso ci sono alcuni "
+"ostacoli da evitare o alcune patch di BEA ad installare. Questa sezione "
+"descrive questi ostacoli e quali modifiche apportare all'esempio "
+"<literal>jee5/booking</literal> per installarlo correttamente e farlo "
+"funzionare."
+
+#. Tag: title
+#: Weblogic.xml:303
+#, no-c-format
+msgid "EJB3 Issues with Weblogic"
+msgstr "I problemi di Weblogic con EJB3"
+
+#. Tag: para
+#: Weblogic.xml:305
+#, no-c-format
+msgid ""
+"For several releases of Weblogic there has been an issue with how Weblogic "
+"generates stubs and compiles EJB's that use variable arguments in their "
+"methods. This is confirmed in the Weblogic 9.X and 10.0.MP1 versions. "
+"Unfortunately the 10.3 version only partially addresses the issue as "
+"detailed below."
+msgstr ""
+"Per molte versione successive di Weblogic c'è stato un problema relativo a "
+"come Weblogic genera gli stub e a come compila gli EJB che usano argomenti "
+"variabili nei propri metodi. Problema confermato nelle versioni 9.X e 10.0."
+"MP1. Purtroppo la versione 10.3 lo affronta solo parzialmente come "
+"dettagliato di seguito."
+
+#. Tag: title
+#: Weblogic.xml:314
+#, no-c-format
+msgid "The <literal>varargs</literal> Issue"
+msgstr "Il problema con i <literal>varargs</literal>"
+
+#. Tag: para
+#: Weblogic.xml:315
+#, no-c-format
+msgid ""
+"The basic explanation of the issue is that the Weblogic EJB compiler "
+"mistakes methods that use <literal>varargs</literal> as having the "
+"<literal>transient</literal> modifier. When BEA generates its own stub class "
+"from those classes during deployment it fails and the deployment does not "
+"succeed. Seam uses variable arguments in one of its internal EJB's "
+"( <literal>TimerServiceDispatcher</literal>). If you see exceptions like "
+"below during deployment you are running an unpatched version of 10.0.MP1."
+msgstr ""
+"La spiegazione base del problema è che il compilatore EJB di Weblogic "
+"confonde i metodi che usano <literal>varargs</literal> con i metodi col "
+"modificatore <literal>transient</literal>. Quando BEA genera le proprie "
+"classi stub da quelle classi durante il deploy, esso non ha successo. Seam "
+"usa argomenti variabili in uno dei suoi EJB interni "
+"( <literal>TimerServiceDispatcher</literal>). Se durante il deply si vedono "
+"eccezioni come quella riportata sotto, la versione corrente è la 10.0.MP1 "
+"senza patch."
+
+#. Tag: programlisting
+#: Weblogic.xml:327
+#, no-c-format
+msgid ""
+"<![CDATA[java.io.IOException: Compiler failed executable.exec: \n"
+"/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/"
+"AdminServer\n"
+"/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/\n"
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: "
+"modifier transient \n"
+"not allowed here\n"
+"  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang."
+"String arg0,\n"
+"  java.lang.Object[] arg1)\n"
+"                                   ^\n"
+"/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/"
+"AdminServer\n"
+"/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/\n"
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: "
+"modifier transient\n"
+"not allowed here\n"
+"  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String "
+"arg0, \n"
+"  org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]>"
+msgstr ""
+"<![CDATA[java.io.IOException: Compiler failed executable.exec: \n"
+"/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/"
+"AdminServer\n"
+"/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/\n"
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: "
+"modifier transient \n"
+"not allowed here\n"
+"  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang."
+"String arg0,\n"
+"  java.lang.Object[] arg1)\n"
+"                                   ^\n"
+"/jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/"
+"AdminServer\n"
+"/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/\n"
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: "
+"modifier transient\n"
+"not allowed here\n"
+"  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String "
+"arg0, \n"
+"  org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]>"
+
+#. Tag: para
+#: Weblogic.xml:328
+#, no-c-format
+msgid ""
+"This issue has been fixed in Weblogic 10.3, and BEA has created a patch for "
+"Weblogic 10.0.MP1 ( <literal>CR327275</literal> ) for this issue that can be "
+"requested from their support."
+msgstr ""
+"Questo problema è stato risolto con Weblogic 10.3 e BEA ha rilasciato una "
+"patch per Weblogic 10.0.MP1 ( <literal>CR327275</literal> ) che può essere "
+"richiesta al loro supporto."
+
+#. Tag: para
+#: Weblogic.xml:335
+#, no-c-format
+msgid "Unfortunately a second issue has been reported and verified by BEA."
+msgstr "Purtroppo BEA ha verificato e annunciato un secondo problema."
+
+#. Tag: title
+#: Weblogic.xml:341
+#, no-c-format
+msgid "Missing EJB Methods Issue"
+msgstr "Il problema dei metodi EJB mancanti"
+
+#. Tag: para
+#: Weblogic.xml:343
+#, no-c-format
+msgid ""
+"This issue was only found once the <literal>CR327275</literal> patch had "
+"been applied to 10.0.MP1. This new issue has been confirmed by BEA and they "
+"created a patch for 10.0.MP1 that addresses this issue. This patch has been "
+"referred to as both <literal>CR370259</literal> and <literal>CR363182</"
+"literal>. As with the other patch this can be requested through the BEA "
+"support."
+msgstr ""
+"Questo problema è comparso una volta applicata la patch <literal>CR327275</"
+"literal> alla 10.0.MP1. Questo nuovo errore è stato confermato da BEA che ha "
+"creato una patch apposita per la 10.0.MP1. Questa patch viene identificata "
+"sia come <literal>CR370259</literal> che come <literal>CR363182</literal>. "
+"Come l'altra, anche questa può essere richiesta al supporto BEA."
+
+#. Tag: para
+#: Weblogic.xml:351
+#, no-c-format
+msgid ""
+"This issue causes certain EJB methods to be incorrectly left out of "
+"Weblogic's generated internal stub classes. This results in the following "
+"error messages during deployment."
+msgstr ""
+"Questo difetto fa in modo che certi metodi EJB erroneamente non vengano "
+"inseriti nelle classi stub interne di Weblogic. Questo da luogo ai seguenti "
+"messaggi di errore durante il deploy."
+
+#. Tag: programlisting
+#: Weblogic.xml:358
+#, no-c-format
+msgid ""
+"<![CDATA[<<Error> <EJB> <BEA-012036> <Compiling generated EJB classes "
+"produced the following Java compiler error message:\n"
+"<Compilation Error> TimerServiceDispatcher_qzt5w2_Impl.java: The type "
+"TimerServiceDispatcher_qzt5w2_Impl must implement the inherited abstract "
+"method TimerServiceDispatcher_qzt5w2_Intf.scheduleTimedEvent(String, "
+"Schedule, Object[])\n"
+"<Compilation Error> "
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type "
+"mismatch: cannot convert from Object to Timer\n"
+"<Compilation Error> "
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type "
+"mismatch: cannot convert from Object to Timer> \n"
+"<Error> <Deployer> <BEA-149265> <Failure occurred in the execution of "
+"deployment request with ID '1223409267344' for task '0'. Error is: 'weblogic."
+"application.ModuleException: Exception preparing module: EJBModule(jboss-"
+"seam.jar)]]>"
+msgstr ""
+"<![CDATA[<<Error> <EJB> <BEA-012036> <Compiling generated EJB classes "
+"produced the following Java compiler error message:\n"
+"<Compilation Error> TimerServiceDispatcher_qzt5w2_Impl.java: The type "
+"TimerServiceDispatcher_qzt5w2_Impl must implement the inherited abstract "
+"method TimerServiceDispatcher_qzt5w2_Intf.scheduleTimedEvent(String, "
+"Schedule, Object[])\n"
+"<Compilation Error> "
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type "
+"mismatch: cannot convert from Object to Timer\n"
+"<Compilation Error> "
+"TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type "
+"mismatch: cannot convert from Object to Timer> \n"
+"<Error> <Deployer> <BEA-149265> <Failure occurred in the execution of "
+"deployment request with ID '1223409267344' for task '0'. Error is: 'weblogic."
+"application.ModuleException: Exception preparing module: EJBModule(jboss-"
+"seam.jar)]]>"
+
+#. Tag: para
+#: Weblogic.xml:360
+#, no-c-format
+msgid ""
+"It appears that when Weblogic 10.3 was released the neglected to include "
+"this fix!! This means that Weblogic 10.0.MP1 with patches will function "
+"correctly, but 10.3 will still require the special Seam jar described below. "
+"Not all users have seen this and there may be certain combinations of OS/JRE "
+"that do not see this, however is has been seen many times. Hopefully Oracle/"
+"BEA will release an updated patch for this issue on 10.3. When they do we "
+"will update this reference guide as needed."
+msgstr ""
+"Sembra che, quando Weblogic 10.3 è stato rilasciato, si siano dimenticati di "
+"includere questa correzione!! Ciò significa che Weblogic 10.0.MP1 con le "
+"patch funzionerà correttamente, ma che la 10.3 richiederà ancora il jar "
+"speciale di Seam descritto sotto. Non tutti gli utenti si sono imbattuti in "
+"questo problema, e vi possono essere delle combinazioni OS/JRE in cui non si "
+"verifica, comunque è stato avvistato molte volte. Si spera che Oracle/BEA "
+"rilasceranno una patch aggiornata per questo difetto per la 10.3. Quando lo "
+"faranno aggiorneremo queste istruzioni come necessario."
+
+#. Tag: para
+#: Weblogic.xml:372
+#, no-c-format
+msgid ""
+"So that Seam's users can deploy an EJB application to Weblogic a special "
+"Weblogic specific jar has been created, starting with Seam 2.0.2.CR2. It is "
+"located in the <literal>$SEAM/lib/interop</literal> directory and is called "
+"<literal>jboss-seam-wls-compatible.jar</literal> . The only difference "
+"between this jar and the <literal>jboss-seam.jar</literal> is that it does "
+"not contain the <literal>TimerServiceDispatcher</literal> EJB. To use this "
+"jar simply rename the <literal>jboss-seam-wls-compatible.jar</literal> to "
+"<literal>jboss-seam.jar</literal> and replace the original in your "
+"applications <literal>EAR</literal> file. The <literal>jee5/booking</"
+"literal> example demonstrates this. Obviously with this jar you will not be "
+"able to use the <literal>TimerServiceDispatcher</literal> functionality."
+msgstr ""
+"In modo che gli utilizzatori di Seam possano fare il deploy di "
+"un'applicazione EJB su Weblogic, a partire da Seam 2.0.2.CR2, è stato creato "
+"un jar speciale apposta per Weblogic. Si trova nella directory <literal>"
+"$SEAM/lib/interop</literal> e si chiama <literal>jboss-seam-wls-compatible."
+"jar</literal>. L'unica differenza tra questo jar e <literal>jboss-seam.jar</"
+"literal> è che il primo non contiene l'EJB <literal>TimerServiceDispatcher</"
+"literal>. Per usarlo basta cambiarne il nome in <literal>jboss-seam.jar</"
+"literal> e sostituire il <literal>jboss-seam.jar</literal> originale nel "
+"file <literal>EAR</literal> dell'applicazione. L'esempio <literal>jee5/"
+"booking</literal> ne fornisce una dimostrazione. Ovviamente con questo jar "
+"non sarà possibile usare le funzionalità di <literal>TimerServiceDispatcher</"
+"literal>."
+
+#. Tag: title
+#: Weblogic.xml:399
+#, no-c-format
+msgid "Getting the <literal>jee5/booking</literal> Working"
+msgstr "Far funzionare l'esempio <literal>jee5/booking</literal>"
+
+#. Tag: para
+#: Weblogic.xml:400
+#, no-c-format
+msgid ""
+"In this section we will go over the steps needed to get the <literal>jee5/"
+"booking</literal> example to up and running."
+msgstr ""
+"In questa sezione passeremo in rassegna i passi necessari a preparare e far "
+"funzionare l'esempio <literal>jee5/booking</literal>."
+
+#. Tag: title
+#: Weblogic.xml:404
+#, no-c-format
+msgid "Setting up the hsql datasource"
+msgstr "Configurare il datasource hsql"
+
+#. Tag: para
+#: Weblogic.xml:405
+#, no-c-format
+msgid ""
+"This example uses the in memory hypersonic database, and the correct data "
+"source needs to be set up. The admin console uses a wizard like set of pages "
+"to configure it."
+msgstr ""
+"Questo esempio usa il database hypersonic residente in memoria, e bisogna "
+"allestire il datasource in modo corretto. Per configurarlo la console di "
+"amministrazione si basa su un insieme di pagine in stile wizard."
+
+#. Tag: para
+#: Weblogic.xml:411
+#, no-c-format
+msgid ""
+"Copy <literal>hsqldb.jar</literal> to the Weblogic domain's shared library "
+"directory: <literal> cp $SEAM_HOME/lib/hsqldb.jar $BEA_HOME/user_projects/"
+"domains/seam_examples/lib </literal>"
+msgstr ""
+"Bisogna copiare <literal>hsqldb.jar</literal> nella directory delle librerie "
+"condivise del dominio Weblogic: <literal> cp $SEAM_HOME/lib/hsqldb.jar "
+"$BEA_HOME/user_projects/domains/seam_examples/lib </literal>"
+
+#. Tag: para
+#: Weblogic.xml:419
+#, no-c-format
+msgid ""
+"Start up the server and navigate to the administration console following"
+msgstr "Avviate il server e navigate alla console amministrativa seguendo"
+
+#. Tag: para
+#: Weblogic.xml:424
+#, no-c-format
+msgid ""
+"On the left side tree navigate <literal>seam_examples - Services- JDBC - "
+"Data Sources</literal>."
+msgstr ""
+"Nell'albero di sinistra navigate a <literal>seam_examples - Services- JDBC - "
+"Data Sources</literal>."
+
+#. Tag: para
+#: Weblogic.xml:429
+#, no-c-format
+msgid ""
+"Then select the <literal>New</literal> button at the top of the data source "
+"table"
+msgstr ""
+"Poi selezionate il bottone <literal>New</literal> in cima alla tabella dei "
+"data source"
+
+#. Tag: para
+#: Weblogic.xml:433
+#, no-c-format
+msgid "Fill in the following:"
+msgstr "Compilate come segue:"
+
+#. Tag: para
+#: Weblogic.xml:436
+#, no-c-format
+msgid "Name: <literal>seam-jee5-ds</literal>"
+msgstr "Name: <literal>seam-jee5-ds</literal>"
+
+#. Tag: para
+#: Weblogic.xml:441
+#, no-c-format
+msgid "JNDI Name: <literal>seam-jee5-ds</literal>"
+msgstr "JNDI Name: <literal>seam-jee5-ds</literal>"
+
+#. Tag: para
+#: Weblogic.xml:446
+#, no-c-format
+msgid "Database Type and Driver: <literal>other</literal>"
+msgstr ""
+"Database Type and Driver (Tipo di database e driver): <literal>other</"
+"literal>"
+
+#. Tag: para
+#: Weblogic.xml:450 Weblogic.xml:484 Weblogic.xml:514
+#, no-c-format
+msgid "Select <literal>Next</literal> button"
+msgstr "Premete il pulsante <literal>Next</literal>"
+
+#. Tag: para
+#: Weblogic.xml:456
+#, no-c-format
+msgid ""
+"Select <literal>Next</literal> button on the <literal>Transaction Options</"
+"literal> page"
+msgstr ""
+"Cliccate il pulsante <literal>Next</literal> della pagina "
+"<literal>Transaction Options</literal>"
+
+#. Tag: para
+#: Weblogic.xml:461 Weblogic.xml:490
+#, no-c-format
+msgid ""
+"Fill in the following on the <literal>Connection Properties</literal> page:"
+msgstr ""
+"Compilate i campi seguenti della pagina <literal>Connection Properties</"
+"literal> (Proprietà di connessione):"
+
+#. Tag: para
+#: Weblogic.xml:465
+#, no-c-format
+msgid "Database Name: <literal>hsqldb</literal>"
+msgstr "Database Name: <literal>hsqldb</literal>"
+
+#. Tag: para
+#: Weblogic.xml:469
+#, no-c-format
+msgid "Host Name: <literal>127.0.0.1</literal>"
+msgstr "Host Name: <literal>127.0.0.1</literal>"
+
+#. Tag: para
+#: Weblogic.xml:473
+#, no-c-format
+msgid "Port: <literal>9001</literal>"
+msgstr "Port: <literal>9001</literal>"
+
+#. Tag: para
+#: Weblogic.xml:477
+#, no-c-format
+msgid "Username: <literal>sa</literal> will empty password fields."
+msgstr "Username: <literal>sa</literal> saranno campi password vuoti."
+
+#. Tag: para
+#: Weblogic.xml:481 Weblogic.xml:507
+#, no-c-format
+msgid "Password: leave empty."
+msgstr "Password: lasciare vuoto."
+
+#. Tag: para
+#: Weblogic.xml:494
+#, no-c-format
+msgid "Driver Class Name: <literal>org.hsqldb.jdbcDriver</literal>"
+msgstr "Driver Class Name: <literal>org.hsqldb.jdbcDriver</literal>"
+
+#. Tag: para
+#: Weblogic.xml:499
+#, no-c-format
+msgid "URL: <literal>jdbc:hsqldb:.</literal>"
+msgstr "URL: <literal>jdbc:hsqldb:.</literal>"
+
+#. Tag: para
+#: Weblogic.xml:504
+#, no-c-format
+msgid "Username: <literal>sa</literal>"
+msgstr "Username: <literal>sa</literal>"
+
+#. Tag: para
+#: Weblogic.xml:510
+#, no-c-format
+msgid "Leave the rest of the fields as is."
+msgstr "Lasciare il resto dei campi come sono."
+
+#. Tag: para
+#: Weblogic.xml:520
+#, no-c-format
+msgid ""
+"Choose the target domain for the data source in our case the only one "
+"<literal>AdminServer</literal>. Click <literal>Next</literal>."
+msgstr ""
+"Scegliete il dominio di pertinenza del data source, nel nostro caso l'unico "
+"esistente <literal>AdminServer</literal>. Premete <literal>Next</literal>."
+
+#. Tag: title
+#: Weblogic.xml:528
+#, no-c-format
+msgid "Configuration and Build changes"
+msgstr "Configurazione e modifiche alla procedura di Build"
+
+#. Tag: para
+#: Weblogic.xml:529
+#, no-c-format
+msgid ""
+"OK - now we are ready to finally begin adjusting the seam application for "
+"deployment to the Weblogic server."
+msgstr ""
+"Bene - ora siamo finalmente pronti a cominciare a sistemare l'applicazione "
+"Seam per essere installata sul server Weblogic."
+
+#. Tag: literal
+#: Weblogic.xml:536
+#, no-c-format
+msgid "resources/META-INF/persistence.xml"
+msgstr "resources/META-INF/persistence.xml"
+
+#. Tag: para
+#: Weblogic.xml:543
+#, no-c-format
+msgid ""
+"Change the <literal>jta-data-source</literal> to what you entered above :"
+msgstr ""
+"Modificate la proprietà <literal>jta-data-source</literal> in quello che "
+"avete inserito sopra:"
+
+#. Tag: programlisting
+#: Weblogic.xml:548
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"            <jta-data-source>seam-jee5-ds</jta-data-source>]]>"
+msgstr ""
+"<![CDATA[\n"
+"            <jta-data-source>seam-jee5-ds</jta-data-source>]]>"
+
+#. Tag: para
+#: Weblogic.xml:551
+#, no-c-format
+msgid "Then comment out the glassfish properties."
+msgstr "Poi commentate le proprietà di glassfish."
+
+#. Tag: para
+#: Weblogic.xml:556
+#, no-c-format
+msgid "Then add these two properties for weblogic support."
+msgstr "Poi aggiungete queste due proprietà per il supporto di Weblogic."
+
+#. Tag: programlisting
+#: Weblogic.xml:560
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<property name=\"hibernate.dialect\" \n"
+"            value=\"org.hibernate.dialect.HSQLDialect\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"            value=\"org.hibernate.transaction."
+"WeblogicTransactionManagerLookup\"/>\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"<property name=\"hibernate.dialect\" \n"
+"            value=\"org.hibernate.dialect.HSQLDialect\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"            value=\"org.hibernate.transaction."
+"WeblogicTransactionManagerLookup\"/>\n"
+"]]>"
+
+#. Tag: literal
+#: Weblogic.xml:567
+#, no-c-format
+msgid "resources/META-INF/weblogic-application.xml"
+msgstr "resources/META-INF/weblogic-application.xml"
+
+#. Tag: para
+#: Weblogic.xml:574 Weblogic.xml:639
+#, no-c-format
+msgid "This file needs to be created and should contain the following:"
+msgstr "Questo file deve essere creato e deve contenere ciò che segue:"
+
+#. Tag: programlisting
+#: Weblogic.xml:578
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+"<weblogic-application>\n"
+"    <library-ref>\n"
+"        <library-name>jsf</library-name>\n"
+"        <specification-version>1.2</specification-version>\n"
+"        <implementation-version>1.2</implementation-version>\n"
+"        <exact-match>false</exact-match>\n"
+"    </library-ref>\n"
+"    <prefer-application-packages>\n"
+"        <package-name>antlr.*</package-name>\n"
+"    </prefer-application-packages>\n"
+"</weblogic-application>\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+"<weblogic-application>\n"
+"    <library-ref>\n"
+"        <library-name>jsf</library-name>\n"
+"        <specification-version>1.2</specification-version>\n"
+"        <implementation-version>1.2</implementation-version>\n"
+"        <exact-match>false</exact-match>\n"
+"    </library-ref>\n"
+"    <prefer-application-packages>\n"
+"        <package-name>antlr.*</package-name>\n"
+"    </prefer-application-packages>\n"
+"</weblogic-application>\n"
+"]]>"
+
+#. Tag: para
+#: Weblogic.xml:581
+#, no-c-format
+msgid ""
+"These changes do two two different things. The first element "
+"<literal>library-ref</literal> tells weblogic that this application will be "
+"using the deployed JSF libraries. The second element <literal> prefer-"
+"application-packages </literal> tells weblogic that the <literal>antlr</"
+"literal> jars take precedence. This avoids a conflict with hibernate."
+msgstr ""
+"Queste modifiche fanno due cose differenti. Il primo elemento "
+"<literal>library-ref</literal> dice a weblogic che questa applicazione userà "
+"le librerie JSF installate. Il secondo elemento <literal> prefer-application-"
+"packages </literal> dice a weblogic che i jar <literal>antlr</literal> hanno "
+"la precedenza. Questo evita conflitti con hibernate."
+
+#. Tag: literal
+#: Weblogic.xml:602
+#, no-c-format
+msgid "resources/META-INF/ejb-jar.xml"
+msgstr "resources/META-INF/ejb-jar.xml"
+
+#. Tag: para
+#: Weblogic.xml:607
+#, no-c-format
+msgid ""
+"The changes described here work around an issue where Weblogic is only using "
+"a single instance of the <literal>sessionBeanInterceptor</literal> for all "
+"session beans. Seam's interceptor caches and stores some component specific "
+"attributes, so when a call comes in - the interceptor is primed for a "
+"different component and an error is seen. To solve this problem you must "
+"define a separate interceptor binding for each EJB you wish to use. When you "
+"do this Weblogic will use a separate instance for each EJB."
+msgstr ""
+"Le modifiche qui descritte aggirano un problema per cui Weblogic usa una "
+"sola istanza di <literal>sessionBeanInterceptor</literal> per tutti i "
+"session bean. L'interceptor di Seam tiene in memoria alcuni attributi "
+"specifici del componente, così che quando arriva una chiamata - "
+"l'interceptor è predisposto per un diverso componente e compare un errore. "
+"Per risolvere questo difetto, per ogni EJB, bisogna definire una apposita "
+"associazione con un diverso interceptor (interceptor binding). Così facendo "
+"Weblogic userà un'istanza separata per ciascun EJB."
+
+#. Tag: para
+#: Weblogic.xml:622
+#, no-c-format
+msgid ""
+"Modify the <literal>assembly-descriptor</literal> element to look like this:"
+msgstr ""
+"Bisogna modificare l'elemento <literal>assembly-descriptor</literal> in modo "
+"che appaia così:"
+
+#. Tag: programlisting
+#: Weblogic.xml:627
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<assembly-descriptor>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>AuthenticatorAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>BookingListAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>RegisterAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>ChangePasswordAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>HotelBookingAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>HotelSearchingAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>EjbSynchronizations</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"</assembly-descriptor>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<assembly-descriptor>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>AuthenticatorAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>BookingListAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>RegisterAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>ChangePasswordAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>HotelBookingAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>HotelSearchingAction</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"   <interceptor-binding> \n"
+"      <ejb-name>EjbSynchronizations</ejb-name>\n"
+"      <interceptor-class >org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"   </interceptor-binding>\n"
+"</assembly-descriptor>]]>"
+
+#. Tag: literal
+#: Weblogic.xml:634
+#, no-c-format
+msgid "resources/WEB-INF/weblogic.xml"
+msgstr "resources/WEB-INF/weblogic.xml"
+
+#. Tag: programlisting
+#: Weblogic.xml:643
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"\n"
+"<weblogic-web-app> \n"
+"<library-ref>\n"
+"    <library-name>jsf</library-name>\n"
+"    <specification-version>1.2</specification-version>\n"
+"    <implementation-version>1.2</implementation-version>\n"
+"    <exact-match>false</exact-match>\n"
+"  </library-ref>\n"
+"</weblogic-web-app>\n"
+"]]>"
+msgstr ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"\n"
+"<weblogic-web-app> \n"
+"<library-ref>\n"
+"    <library-name>jsf</library-name>\n"
+"    <specification-version>1.2</specification-version>\n"
+"    <implementation-version>1.2</implementation-version>\n"
+"    <exact-match>false</exact-match>\n"
+"  </library-ref>\n"
+"</weblogic-web-app>\n"
+"]]>"
+
+#. Tag: para
+#: Weblogic.xml:646
+#, no-c-format
+msgid ""
+"This file and the element <literal>library-ref</literal> tells Weblogic that "
+"this application will using the deployed JSF libraries. This is needed in "
+"both this file and the <literal> weblogic-application.xml </literal> file "
+"because both applications require access."
+msgstr ""
+"Questo file e l'elemento <literal>library-ref</literal> dicono a Weblogic "
+"che questa applicazione userà le librerie JSF installate. Ciò è necessario "
+"sia in questo file che che nel file <literal> weblogic-application.xml </"
+"literal> poiché entrambe le applicazioni devono accedervi."
+
+#. Tag: title
+#: Weblogic.xml:665
+#, no-c-format
+msgid "Building and Deploying the Application"
+msgstr "Fare il build e il deploy dell'applicazione"
+
+#. Tag: para
+#: Weblogic.xml:666
+#, no-c-format
+msgid ""
+"There are some changes needed to the build script and the <literal>jboss-"
+"seam.jar</literal> then we can deploy the app."
+msgstr ""
+"Bisogna fare alcune modifiche allo script di build e al jar <literal>jboss-"
+"seam.jar</literal>, poi è possibile fare il deploy dell'applicazione."
+
+#. Tag: literal
+#: Weblogic.xml:674 Weblogic.xml:1084
+#, no-c-format
+msgid "build.xml"
+msgstr "build.xml"
+
+#. Tag: para
+#: Weblogic.xml:679
+#, no-c-format
+msgid ""
+"We need to add the follow so that the <literal> weblogic-application.xml </"
+"literal> will be packaged."
+msgstr ""
+"Per inserire nel pacchetto <literal>weblogic-application.xml</literal> "
+"dobbiamo aggiungere ciò che segue."
+
+#. Tag: programlisting
+#: Weblogic.xml:686
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"   <!-- Resources to go in the ear -->\n"
+"   <fileset id=\"ear.resources\" dir=\"${resources.dir}\">\n"
+"       <include name=\"META-INF/application.xml\" />\n"
+"       <include name=\"META-INF/weblogic-application.xml\" />         \n"
+"       <include name=\"META-INF/*-service.xml\" />\n"
+"       <include name=\"META-INF/*-xmbean.xml\" />\n"
+"       <include name=\"treecache.xml\" />\n"
+"       <include name=\"*.jpdl.xml\" />\n"
+"       <exclude name=\".gpd.*\" />\n"
+"       <include name=\"*.cfg.xml\" />\n"
+"       <include name=\"*.xsd\" />        \n"
+"   </fileset>]]>"
+msgstr ""
+"<![CDATA[\n"
+"   <!-- Resources to go in the ear -->\n"
+"   <fileset id=\"ear.resources\" dir=\"${resources.dir}\">\n"
+"       <include name=\"META-INF/application.xml\" />\n"
+"       <include name=\"META-INF/weblogic-application.xml\" />         \n"
+"       <include name=\"META-INF/*-service.xml\" />\n"
+"       <include name=\"META-INF/*-xmbean.xml\" />\n"
+"       <include name=\"treecache.xml\" />\n"
+"       <include name=\"*.jpdl.xml\" />\n"
+"       <exclude name=\".gpd.*\" />\n"
+"       <include name=\"*.cfg.xml\" />\n"
+"       <include name=\"*.xsd\" />        \n"
+"   </fileset>]]>"
+
+#. Tag: literal
+#: Weblogic.xml:693
+#, no-c-format
+msgid "$SEAM/lib/interop/jboss-seam-wls-compatible.jar"
+msgstr "$SEAM/lib/interop/jboss-seam-wls-compatible.jar"
+
+#. Tag: para
+#: Weblogic.xml:700
+#, no-c-format
+msgid ""
+"This is the change discussed above in <xref linkend=\"weblogic-ejb-issues\"/"
+"> . There are really two options."
+msgstr ""
+"Questa è la modifica discussa sopra in <xref linkend=\"weblogic-ejb-issues\"/"
+"> . In realtà ci sono due opzioni."
+
+#. Tag: para
+#: Weblogic.xml:707
+#, no-c-format
+msgid ""
+"Rename this jar and replace the original <literal> $SEAM/lib/jboss-seam.jar "
+"</literal> file. This approach does not require any changes to the packaged "
+"<literal>EAR</literal> archive, but overwrites the original <literal>jboss-"
+"seam.jar</literal>"
+msgstr ""
+"Rinominate questo e jar e sostituitelo al file originale <literal> $SEAM/lib/"
+"jboss-seam.jar </literal>. Questo approccio non richiede modifiche "
+"dell'archivio <literal>EAR</literal>, ma sovrascrive il <literal>jboss-seam."
+"jar</literal> originale."
+
+#. Tag: para
+#: Weblogic.xml:720
+#, no-c-format
+msgid ""
+"The other option is the modify the packaged <literal>EAR</literal> archive "
+"and replace the <literal>jboss-seam.jar</literal> in the archive manually. "
+"This leaves the original jar alone, but requires a manual step when ever the "
+"archive is packaged."
+msgstr ""
+"L'altra opzione consiste nel modificare l'archivio <literal>EAR</literal> e "
+"nel sostituire il file <literal>jboss-seam.jar</literal> dell'archivio "
+"manualmente. Questo lascia il jar originale intatto, ma richiede un "
+"passaggio manuale ogni volta che si crea l'archivio."
+
+#. Tag: para
+#: Weblogic.xml:736
+#, no-c-format
+msgid ""
+"Assuming that you choose the first option for handling the <literal>jboss-"
+"seam-wls-compatible.jar</literal> we can build the application by running "
+"<literal>ant archive</literal> at the base of the <literal>jee5/booking</"
+"literal> example directory."
+msgstr ""
+"Supponendo di scegliere la prima opzione per gestire il <literal>jboss-seam-"
+"wls-compatible.jar</literal> possiamo fare il build dell'applicazione "
+"lanciando <literal>ant archive</literal> nella directory di base "
+"dell'esempio <literal>jee5/booking</literal>."
+
+#. Tag: para
+#: Weblogic.xml:747
+#, no-c-format
+msgid ""
+"Because we chose to create our Weblogic domain in development mode we can "
+"deploy the application by putting the EAR file in the domains autodeploy "
+"directory."
+msgstr ""
+"Poichè si è scelto di creare il nostro dominio Weblogic in modalità "
+"sviluppo, è possibile fare il deploy dell'applicazione mettendo il file EAR "
+"nella directory degli autodeply dei domini."
+
+#. Tag: programlisting
+#: Weblogic.xml:752
+#, no-c-format
+msgid ""
+"cp ./dist/jboss-seam-jee5.ear\n"
+"                  $BEA_HOME/user_projects/domains/seam_examples/autodeploy"
+msgstr ""
+"cp ./dist/jboss-seam-jee5.ear\n"
+"                  $BEA_HOME/user_projects/domains/seam_examples/autodeploy"
+
+#. Tag: para
+#: Weblogic.xml:755
+#, no-c-format
+msgid ""
+"Check out the application at <literal>http://localhost:7001/seam-jee5/</"
+"literal>"
+msgstr ""
+"Verifichiamo il funzionamento dell'applicazione all'indirizzo "
+"<literal>http://localhost:7001/seam-jee5/</literal>"
+
+#. Tag: title
+#: Weblogic.xml:765
+#, no-c-format
+msgid "The <literal>jpa</literal> booking example"
+msgstr "L'esempio booking con <literal>jpa</literal>"
+
+#. Tag: para
+#: Weblogic.xml:766
+#, no-c-format
+msgid ""
+"This is the Hotel Booking example implemented with Seam POJOs and Hibernate "
+"JPA and does not require EJB3 support to run. The example already has a "
+"breakout of configurations and build scripts for many of the common "
+"containers including Weblogic 10.X"
+msgstr ""
+"Questo è l'esempio Hotel Booking implementato con i POJO di Seam con la JPA "
+"di Hibernate e non richiede il supporto EJB3 per funzionare. L'esempio ha "
+"già un insieme predisposto di configurazioni e script di build per molti dei "
+"container più comuni, incluso quelli di Weblogic 10.X"
+
+#. Tag: para
+#: Weblogic.xml:771
+#, no-c-format
+msgid ""
+"First we'll build the example for Weblogic 10.x and do the needed steps to "
+"deploy. Then we'll talk about what is different between the Weblogic "
+"versions, and with the JBoss AS version."
+msgstr ""
+"Innanzitutto faremo il build dell'esempio per Weblogic 10.x e completeremo i "
+"passi necessari a farne il deploy. Poi parleremo delle differenze tra le "
+"diverse versioni di Weblogic, e con la versione per JBoss."
+
+#. Tag: para
+#: Weblogic.xml:775
+#, no-c-format
+msgid ""
+"Note that this example assumes that Weblogic's JSF libraries have been "
+"configured as described in <xref linkend=\"weblogic-jsf-deploy\"/>."
+msgstr ""
+"Sinoti che questo esempio assume che le librerie JSF di Weblogic siano state "
+"configurate come descritto in <xref linkend=\"weblogic-jsf-deploy\"/>."
+
+#. Tag: title
+#: Weblogic.xml:779
+#, no-c-format
+msgid "Building and deploying <literal>jpa</literal> booking example"
+msgstr "Build e deploy dell'esempio booking con <literal>jpa</literal>"
+
+#. Tag: para
+#: Weblogic.xml:785
+#, no-c-format
+msgid ""
+"Step one setup the datasource, step two build the app, step three deploy."
+msgstr ""
+"Nel primo passo si allestisce il datasource, nel secondo si fa il build "
+"dell'applicazione e nel terzo si fa il deploy."
+
+#. Tag: title
+#: Weblogic.xml:791
+#, no-c-format
+msgid "Setting up the datasource"
+msgstr "Predisporre il datasource"
+
+#. Tag: para
+#: Weblogic.xml:793
+#, no-c-format
+msgid ""
+"The Weblogic 10.X version of the example will use the in memory hsql "
+"database instead of the built in PointBase database. If you wish to use the "
+"PointBase database you must setup a PointBase datasource, and adjust the "
+"hibernate setting in <literal>persistence.xml</literal> to use the PointBase "
+"dialect. For reference the <literal>jpa/weblogic92</literal> example uses "
+"PointBase."
+msgstr ""
+"Le versioni 10.X dell'esempio useranno il database hsql residente in memoria "
+"invece del database preconfigurato PointBase. Se si vuole usare PointBase "
+"bisogna predisporre un datasource per PointBase, e sistemare l'impostazione "
+"relativa al dialetto di hibernate in <literal>persistence.xml</literal> in "
+"modo da utilizzare quello di PointBase. Come riferimento, l'esempio "
+"<literal>jpa/weblogic92</literal> usa PointBase."
+
+#. Tag: para
+#: Weblogic.xml:804
+#, no-c-format
+msgid ""
+"Configuring the datasource is very similar to the jee5 <xref linkend="
+"\"weblogic-hsql-jee5-ds\"/> . Follow the steps in that section, but use the "
+"following entries where needed."
+msgstr ""
+"La configurazione del datasource è molto simile a quanto descritto per j2ee5 "
+"in <xref linkend=\"weblogic-hsql-jee5-ds\"/> . Seguite i passi di quella "
+"sezione, ma usate le seguenti impostazioni dove necessario."
+
+#. Tag: para
+#: Weblogic.xml:811
+#, no-c-format
+msgid "DataSource Name: <literal>seam-jpa-ds</literal>"
+msgstr "DataSource Name: <literal>seam-jpa-ds</literal>"
+
+#. Tag: para
+#: Weblogic.xml:817
+#, no-c-format
+msgid "JNDI Name: <literal>seam-jpa-ds</literal>"
+msgstr "JNDI Name: <literal>seam-jpa-ds</literal>"
+
+#. Tag: title
+#: Weblogic.xml:826
+#, no-c-format
+msgid "Building the example"
+msgstr "Build dell'esempio"
+
+#. Tag: para
+#: Weblogic.xml:828
+#, no-c-format
+msgid ""
+"Building it only requires running the correct ant command: "
+"<programlisting>ant weblogic10</programlisting> This will create a container "
+"specific distribution and exploded archive directories."
+msgstr ""
+"Il build dell'esempio richiede di lanciare il comando ant corretto: "
+"<programlisting>ant weblogic10</programlisting>. Questo creerà una "
+"distribuzione e una struttura di directory d'archivio specifici per il "
+"container."
+
+#. Tag: title
+#: Weblogic.xml:838 Weblogic.xml:1259
+#, no-c-format
+msgid "Deploying the example"
+msgstr "Deploy dell'esempio"
+
+#. Tag: para
+#: Weblogic.xml:840 Weblogic.xml:1261
+#, no-c-format
+msgid ""
+"When we installed Weblogic following <xref linkend=\"weblogic-domain\"/> we "
+"chose to have the domain in development mode. This means to deploy the "
+"application all we need to do is copy it into the autodeploy directory."
+msgstr ""
+"Quando Weblogic è stato installato seguendo <xref linkend=\"weblogic-domain"
+"\"/>, abbiamo scelto di far operare il dominio in modalità sviluppo. Ciò "
+"significa che per fare il deploy basta copiare l'applicazione nella "
+"directory di autodeploy."
+
+#. Tag: programlisting
+#: Weblogic.xml:848
+#, no-c-format
+msgid ""
+"cp ./dist-weblogic10/jboss-seam-jpa.war\n"
+"$BEA_HOME/user_projects/domains/seam_examples/autodeploy"
+msgstr ""
+"cp ./dist-weblogic10/jboss-seam-jpa.war\n"
+"$BEA_HOME/user_projects/domains/seam_examples/autodeploy"
+
+#. Tag: para
+#: Weblogic.xml:850
+#, no-c-format
+msgid ""
+"Check out the application at the following <literal>http://localhost:7001/"
+"jboss-seam-jpa/</literal> ."
+msgstr ""
+"Verifichiamo il funzionamento all'indirizzo <literal>http://localhost:7001/"
+"jboss-seam-jpa/</literal> ."
+
+#. Tag: title
+#: Weblogic.xml:858
+#, no-c-format
+msgid "What's different with Weblogic 10.x"
+msgstr "Differenze con Weblogic 10.x"
+
+#. Tag: para
+#: Weblogic.xml:861
+#, no-c-format
+msgid ""
+"Between the the Weblogic 10.x and 9.2 examples there are several differences:"
+msgstr ""
+"Tra gli esempi per Weblogic 10.x e quelli per Weblogic 9.2 ci sono parecchie "
+"differenze:"
+
+#. Tag: para
+#: Weblogic.xml:866
+#, no-c-format
+msgid ""
+"<literal>META-INF/persistence.xml</literal> &#8212; The 9.2 version is "
+"configured to use the <literal>PointBase</literal> database and a pre-"
+"installed datasource. The 10.x version uses the <literal>hsql</literal> "
+"database and a custom datasource."
+msgstr ""
+"<literal>META-INF/persistence.xml</literal> &#8212; La versione 9.2 è "
+"configurata per usare il database <literal>PointBase</literal> e un "
+"datasource preinstallato. La versione 10.x usa il database <literal>hsql</"
+"literal> e un datasource personalizzato."
+
+#. Tag: para
+#: Weblogic.xml:876
+#, no-c-format
+msgid ""
+"<literal>WEB-INF/weblogic.xml</literal> &#8212; This file and its contents "
+"solve an issue with an older version of the <literal>ANTLR</literal> "
+"libraries that Weblogic 10.x uses internally. OC4J have the same issue as "
+"well. It also configures the application to use the shared JSF libraries "
+"that were installed above."
+msgstr ""
+"<literal>WEB-INF/weblogic.xml</literal> &#8212; Questo file e il suo "
+"contenuto risolvono un difetto di una vecchia versione delle librerie "
+"<literal>ANTLR</literal> che Weblogic 10.x usa internamente. Anche OC4J ha "
+"lo stesso difetto. Inoltre configura l'applicazione per usare le librerie "
+"JSF condivise installate e configurate sopra."
+
+#. Tag: programlisting
+#: Weblogic.xml:886
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<weblogic-web-app\n"
+"xmlns=\"http://www.bea.com/ns/weblogic/90\"\n"
+"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"xsi:schemaLocation=\"http://www.bea.com/ns/weblogic/90 \n"
+"                    http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd"
+"\">\n"
+"   <library-ref>\n"
+"      <library-name>jsf</library-name>\n"
+"      <specification-version>1.2</specification-version>\n"
+"      <implementation-version>1.2</implementation-version>\n"
+"      <exact-match>false</exact-match>\n"
+"   </library-ref>\n"
+"   <container-descriptor>\n"
+"      <prefer-web-inf-classes>true</prefer-web-inf-classes>\n"
+"   </container-descriptor>\n"
+"</weblogic-web-app>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<weblogic-web-app\n"
+"xmlns=\"http://www.bea.com/ns/weblogic/90\"\n"
+"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"xsi:schemaLocation=\"http://www.bea.com/ns/weblogic/90 \n"
+"                    http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd"
+"\">\n"
+"   <library-ref>\n"
+"      <library-name>jsf</library-name>\n"
+"      <specification-version>1.2</specification-version>\n"
+"      <implementation-version>1.2</implementation-version>\n"
+"      <exact-match>false</exact-match>\n"
+"   </library-ref>\n"
+"   <container-descriptor>\n"
+"      <prefer-web-inf-classes>true</prefer-web-inf-classes>\n"
+"   </container-descriptor>\n"
+"</weblogic-web-app>]]>"
+
+#. Tag: para
+#: Weblogic.xml:887
+#, no-c-format
+msgid ""
+"This make Weblogic use classes and libraries in the web application before "
+"other libraries in the classpath. Without this change hibernate is required "
+"to use a older, slower query factory by setting the following property in "
+"the <literal>META-INF/persistence.xml</literal> file."
+msgstr ""
+"Questo fa sì che Weblogic usi classi e librerie dell'applicazione web prima "
+"delle classi e librerie del classpath. Senza questa modifica hibernate è "
+"costretto ad usare una query factory più vecchia e più lenta impostando la "
+"seguente proprietà del file <literal>META-INF/persistence.xml</literal>."
+
+#. Tag: programlisting
+#: Weblogic.xml:895
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<property name=\"hibernate.query.factory_class\" \n"
+"      value=\"org.hibernate.hql.classic.ClassicQueryTranslatorFactory\"/>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<property name=\"hibernate.query.factory_class\" \n"
+"      value=\"org.hibernate.hql.classic.ClassicQueryTranslatorFactory\"/>]]>"
+
+#. Tag: para
+#: Weblogic.xml:898
+#, no-c-format
+msgid ""
+"<literal>WEB-INF/components.xml</literal> &#8212; In the Weblogic 10.x "
+"version JPA entity transactions is enabled by adding:"
+msgstr ""
+"<literal>WEB-INF/components.xml</literal> &#8212; In Weblogic 10.x le "
+"transazioni JPA per gli entity vengono abilitate aggiungendo:"
+
+#. Tag: programlisting
+#: Weblogic.xml:904
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+" <transaction:entity-transaction entity-manager=\"#{em}\"/>]]>"
+msgstr ""
+"<![CDATA[\n"
+" <transaction:entity-transaction entity-manager=\"#{em}\"/>]]>"
+
+#. Tag: para
+#: Weblogic.xml:907 Weblogic.xml:1172
+#, no-c-format
+msgid ""
+"<literal>WEB-INF/web.xml</literal> &#8212; Because the <literal>jsf-impl."
+"jar</literal> is not in the <literal>WAR</literal> this listener need to be "
+"configured :"
+msgstr ""
+"<literal>WEB-INF/web.xml</literal> &#8212; Poiché il file <literal>jsf-impl."
+"jar</literal> non si trova nel <literal>WAR</literal> bisogna configurare "
+"questo listener:"
+
+#. Tag: programlisting
+#: Weblogic.xml:912 Weblogic.xml:1180
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+" <listener>\n"
+"   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>\n"
+" </listener>]]>"
+msgstr ""
+"<![CDATA[\n"
+" <listener>\n"
+"   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>\n"
+" </listener>]]>"
+
+#. Tag: para
+#: Weblogic.xml:917
+#, no-c-format
+msgid ""
+"Between the Weblogic 10.x version and the JBoss version there are more "
+"changes. Here is the rundown:"
+msgstr ""
+"Tra la versione per Weblogic 10.x e la versione per JBoss ci sono ulteriori "
+"modifiche. Eccole di seguito:"
+
+#. Tag: para
+#: Weblogic.xml:922
+#, no-c-format
+msgid ""
+"<literal>META-INF/persistence.xml</literal> &#8212; Except for datasource "
+"name the Weblogic version sets:"
+msgstr ""
+"<literal>META-INF/persistence.xml</literal> &#8212; Tranne che per il nome "
+"del datasource la versione Weblogic è come segue:"
+
+#. Tag: programlisting
+#: Weblogic.xml:927
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"   value=\"org.hibernate.transaction.WeblogicTransactionManagerLookup\"/>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"   value=\"org.hibernate.transaction.WeblogicTransactionManagerLookup\"/>]]>"
+
+#. Tag: para
+#: Weblogic.xml:930
+#, no-c-format
+msgid ""
+"<literal>WEB-INF/lib</literal> &#8212; The Weblogic version requires several "
+"library packages because they are not included as they are with JBoss AS. "
+"These are primarily for hibernate, and its dependencies."
+msgstr ""
+"<literal>WEB-INF/lib</literal> &#8212; La versione Weblogic richiede "
+"parecchie librerie poiché esse non sono già incluse come avviene con JBoss. "
+"Si tratta innanzitutto di quelle per hibernate e le sue dipendenze."
+
+#. Tag: para
+#: Weblogic.xml:938
+#, no-c-format
+msgid "To use Hibernate as your JPA provider you need the following jars:"
+msgstr "Per usare Hibernate come provider JPA servono i jar seguenti:"
+
+#. Tag: literal
+#: Weblogic.xml:944
+#, no-c-format
+msgid "hibernate.jar"
+msgstr "hibernate.jar"
+
+#. Tag: literal
+#: Weblogic.xml:949
+#, no-c-format
+msgid "hibernate-annotations.jar"
+msgstr "hibernate-annotations.jar"
+
+#. Tag: literal
+#: Weblogic.xml:954
+#, no-c-format
+msgid "hibernate-entitymanager.jar"
+msgstr "hibernate-entitymanager.jar"
+
+#. Tag: literal
+#: Weblogic.xml:959
+#, no-c-format
+msgid "hibernate-validator.jar"
+msgstr "hibernate-validator.jar"
+
+#. Tag: literal
+#: Weblogic.xml:964 Weblogic.xml:979
+#, no-c-format
+msgid "jboss-common-core.jar"
+msgstr "jboss-common-core.jar"
+
+#. Tag: literal
+#: Weblogic.xml:969
+#, no-c-format
+msgid "commons-logging.jar"
+msgstr "commons-logging.jar"
+
+#. Tag: literal
+#: Weblogic.xml:974
+#, no-c-format
+msgid "commons-collections.jar"
+msgstr "commons-collections.jar"
+
+#. Tag: para
+#: Weblogic.xml:985
+#, no-c-format
+msgid "Various third party jars that Weblogic needs:"
+msgstr "Ecco diversi jar di terze parti di cui Weblogic ha bisogno:"
+
+#. Tag: literal
+#: Weblogic.xml:991
+#, no-c-format
+msgid "antlr.jar"
+msgstr "antlr.jar"
+
+#. Tag: literal
+#: Weblogic.xml:996
+#, no-c-format
+msgid "cglib.jar"
+msgstr "cglib.jar"
+
+#. Tag: literal
+#: Weblogic.xml:1001
+#, no-c-format
+msgid "asm.jar"
+msgstr "asm.jar"
+
+#. Tag: literal
+#: Weblogic.xml:1006
+#, no-c-format
+msgid "dom4j.jar"
+msgstr "dom4j.jar"
+
+#. Tag: literal
+#: Weblogic.xml:1011
+#, no-c-format
+msgid "el-ri.jar"
+msgstr "el-ri.jar"
+
+#. Tag: literal
+#: Weblogic.xml:1016
+#, no-c-format
+msgid "javassist.jar"
+msgstr "javassist.jar"
+
+#. Tag: literal
+#: Weblogic.xml:1021
+#, no-c-format
+msgid "concurrent.jar"
+msgstr "concurrent.jar"
+
+#. Tag: title
+#: Weblogic.xml:1036
+#, no-c-format
+msgid ""
+"Deploying an application created using <literal>seam-gen</literal> on "
+"Weblogic 10.x"
+msgstr ""
+"Deploy di un'applicazione creata con <literal>seam-gen</literal> su Weblogic "
+"10.x"
+
+#. Tag: para
+#: Weblogic.xml:1039
+#, no-c-format
+msgid ""
+"<literal>seam-gen</literal> is a very useful tool for developers to quickly "
+"get an application up and running, and provides a foundation to add your own "
+"functionality. Out of box <literal>seam-gen</literal> will produce "
+"applications configured to run on JBoss AS. These instructions will show the "
+"steps needed to get it to run on Weblogic."
+msgstr ""
+"<literal>seam-gen</literal> è uno strumento molto utile agli sviluppatori "
+"per creare e far funzionare velocemente un'applicazione e fornisce le "
+"fondamenta cui aggiungere le proprie funzionalità. Di default <literal>seam-"
+"gen</literal> produrrà applicazioni configurate per essere eseguite su JBoss "
+"AS. Queste istruzioni mostreranno i passi necessari a farlo funzionare su "
+"Weblogic"
+
+#. Tag: para
+#: Weblogic.xml:1045
+#, no-c-format
+msgid ""
+"<literal>seam-gen</literal> was build for simplicity so, as you can imagine, "
+"deploying an application generated by <literal>seam-gen</literal> to "
+"Weblogic 10.x is not too hard. Basically it consists of updating or removing "
+"some configuration files, and adding dependent jars that Weblogic 10.x does "
+"not ship with."
+msgstr ""
+"<literal>seam-gen</literal> è stato realizzato per essere semplice così, "
+"come si può immaginare, il deploy di un'applicazione generata da "
+"<literal>seam-gen</literal> in Weblogic 10.x non è troppo difficile. "
+"Sostanzialmente consiste nell'aggiornamento o nell'eliminazione di alcuni "
+"file di configurazione e nell'aggiunta dei jar delle dipendenze di cui "
+"Weblogic 10.x non è dotata."
+
+#. Tag: para
+#: Weblogic.xml:1052
+#, no-c-format
+msgid ""
+"This example will cover the basic <literal>seam-gen WAR</literal> "
+"deployment. This will demonstrate Seam POJO components, Hibernate JPA, "
+"Facelets, Drools security, RichFaces, and a configurable dataSource."
+msgstr ""
+"Questo esempio illustrerà il deploy <literal>seam-gen WAR</literal> di base. "
+"Mostrerà i componenti POJO di Seam, la JPA di Hibernate, i Facelets, la "
+"sicurezza di Drools, le RichFaces, e un datasource configurabile."
+
+#. Tag: title
+#: Weblogic.xml:1058
+#, no-c-format
+msgid "Running <literal>seam-gen</literal> setup"
+msgstr "Eseguire il setup di <literal>seam-gen</literal>"
+
+#. Tag: para
+#: Weblogic.xml:1060
+#, no-c-format
+msgid ""
+"The first thing we need to do it tell <literal>seam-gen</literal> about the "
+"project we want to make. This is done by running <literal>./seam setup</"
+"literal> in the base directory of the Seam distribution. Note the paths here "
+"are my own, feel free to change for you environment."
+msgstr ""
+"La prima cosa da fare è dare a <literal>seam-gen</literal> le informazioni "
+"riguardanti il progetto da creare. A questo scopo occorre eseguire "
+"<literal>./seam setup</literal> nella directory di base della distribuzione "
+"di Seam. Si noti che qui i percorsi sono i nostri e devono essere "
+"liberamente adattati al vostro ambiente."
+
+#. Tag: programlisting
+#: Weblogic.xml:1066
+#, no-c-format
+msgid ""
+"<![CDATA[./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"     [echo] Welcome to seam-gen :-)\n"
+"    [input] Enter your Java project workspace (the directory that contains "
+"your \n"
+"Seam projects) [C:/Projects] [C:/Projects]\n"
+"/home/jbalunas/workspace\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
+"GA] \n"
+"[C:/Program Files/jboss-4.2.3.GA]\n"
+"/jboss/apps/jboss-4.2.3.GA\n"
+"    [input] Enter the project name [myproject] [myproject]\n"
+"weblogic-example\n"
+"     [echo] Accepted project name as: weblogic_example\n"
+"    [input] Select a RichFaces skin (not applicable if using ICEFaces) "
+"[blueSky]\n"
+" ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)\n"
+"\n"
+"    [input] Is this project deployed as an EAR (with EJB components) or a "
+"WAR \n"
+"(with no EJB support) [ear]  ([ear], war, )\n"
+"war\n"
+"    [input] Enter the Java package name for your session beans [org.jboss."
+"seam.\n"
+"tutorial.weblogic.action] [org.jboss.seam.tutorial.weblogic.action]\n"
+"org.jboss.seam.tutorial.weblogic.action\n"
+"    [input] Enter the Java package name for your entity beans [org.jboss."
+"seam.\n"
+"tutorial.weblogic.model] [org.jboss.seam.tutorial.weblogic.model]\n"
+"org.jboss.seam.tutorial.weblogic.model\n"
+"    [input] Enter the Java package name for your test cases [org.jboss."
+"seam.\n"
+"tutorial.weblogic.action.test] [org.jboss.seam.tutorial.weblogic.action."
+"test]\n"
+"org.jboss.seam.tutorial.weblogic.test\n"
+"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
+"oracle,\n"
+" postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"\n"
+"    [input] Enter the Hibernate dialect for your database [org.hibernate.\n"
+"dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
+"\n"
+"    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seamlib/"
+"hsqldb.jar] \n"
+"[/tmp/seam/lib/hsqldb.jar]\n"
+"\n"
+"    [input] Enter JDBC driver class for your database [org.hsqldb."
+"jdbcDriver] \n"
+" [org.hsqldb.jdbcDriver]\n"
+"\n"
+"    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] [jdbc:"
+"hsqldb:.]\n"
+"\n"
+"    [input] Enter database username [sa] [sa]\n"
+"\n"
+"    [input] Enter database password [] []\n"
+"\n"
+"    [input] Enter the database schema name (it is OK to leave this blank) [] "
+"[]\n"
+"\n"
+"    [input] Enter the database catalog name (it is OK to leave this blank) "
+"[] []\n"
+"\n"
+"    [input] Are you working with tables that already exist in the database? "
+"[n] \n"
+" (y, [n], )\n"
+"\n"
+"    [input] Do you want to drop and recreate the database tables and data "
+"in \n"
+"import.sql each time you deploy? [n]  (y, [n], )\n"
+"\n"
+"    [input] Enter your ICEfaces home directory (leave blank to omit "
+"ICEfaces) [] []\n"
+"\n"
+"[propertyfile] Creating new property file: \n"
+"/rhdev/projects/jboss-seam/cvs-head/jboss-seam/seam-gen/build.properties\n"
+"     [echo] Installing JDBC driver jar to JBoss server\n"
+"     [copy] Copying 1 file to /jboss/apps/jboss-4.2.3.GA/server/default/lib\n"
+"     [echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL]]>"
+msgstr ""
+"<![CDATA[./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"     [echo] Welcome to seam-gen :-)\n"
+"    [input] Enter your Java project workspace (the directory that contains "
+"your \n"
+"Seam projects) [C:/Projects] [C:/Projects]\n"
+"/home/jbalunas/workspace\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
+"GA] \n"
+"[C:/Program Files/jboss-4.2.3.GA]\n"
+"/jboss/apps/jboss-4.2.3.GA\n"
+"    [input] Enter the project name [myproject] [myproject]\n"
+"weblogic-example\n"
+"     [echo] Accepted project name as: weblogic_example\n"
+"    [input] Select a RichFaces skin (not applicable if using ICEFaces) "
+"[blueSky]\n"
+" ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)\n"
+"\n"
+"    [input] Is this project deployed as an EAR (with EJB components) or a "
+"WAR \n"
+"(with no EJB support) [ear]  ([ear], war, )\n"
+"war\n"
+"    [input] Enter the Java package name for your session beans [org.jboss."
+"seam.\n"
+"tutorial.weblogic.action] [org.jboss.seam.tutorial.weblogic.action]\n"
+"org.jboss.seam.tutorial.weblogic.action\n"
+"    [input] Enter the Java package name for your entity beans [org.jboss."
+"seam.\n"
+"tutorial.weblogic.model] [org.jboss.seam.tutorial.weblogic.model]\n"
+"org.jboss.seam.tutorial.weblogic.model\n"
+"    [input] Enter the Java package name for your test cases [org.jboss."
+"seam.\n"
+"tutorial.weblogic.action.test] [org.jboss.seam.tutorial.weblogic.action."
+"test]\n"
+"org.jboss.seam.tutorial.weblogic.test\n"
+"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
+"oracle,\n"
+" postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"\n"
+"    [input] Enter the Hibernate dialect for your database [org.hibernate.\n"
+"dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
+"\n"
+"    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seamlib/"
+"hsqldb.jar] \n"
+"[/tmp/seam/lib/hsqldb.jar]\n"
+"\n"
+"    [input] Enter JDBC driver class for your database [org.hsqldb."
+"jdbcDriver] \n"
+" [org.hsqldb.jdbcDriver]\n"
+"\n"
+"    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] [jdbc:"
+"hsqldb:.]\n"
+"\n"
+"    [input] Enter database username [sa] [sa]\n"
+"\n"
+"    [input] Enter database password [] []\n"
+"\n"
+"    [input] Enter the database schema name (it is OK to leave this blank) [] "
+"[]\n"
+"\n"
+"    [input] Enter the database catalog name (it is OK to leave this blank) "
+"[] []\n"
+"\n"
+"    [input] Are you working with tables that already exist in the database? "
+"[n] \n"
+" (y, [n], )\n"
+"\n"
+"    [input] Do you want to drop and recreate the database tables and data "
+"in \n"
+"import.sql each time you deploy? [n]  (y, [n], )\n"
+"\n"
+"    [input] Enter your ICEfaces home directory (leave blank to omit "
+"ICEfaces) [] []\n"
+"\n"
+"[propertyfile] Creating new property file: \n"
+"/rhdev/projects/jboss-seam/cvs-head/jboss-seam/seam-gen/build.properties\n"
+"     [echo] Installing JDBC driver jar to JBoss server\n"
+"     [copy] Copying 1 file to /jboss/apps/jboss-4.2.3.GA/server/default/lib\n"
+"     [echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL]]>"
+
+#. Tag: para
+#: Weblogic.xml:1068
+#, no-c-format
+msgid ""
+"Type <literal>./seam new-project</literal> to create your project and "
+"<literal>cd /home/jbalunas/workspace/weblogic_example</literal> to see the "
+"newly created project."
+msgstr ""
+"Digitate <literal>./seam new-project</literal> per creare il progetto e "
+"<literal>cd /home/jbalunas/workspace/weblogic_example</literal> per vedere "
+"il progetto appena creato."
+
+#. Tag: title
+#: Weblogic.xml:1075
+#, no-c-format
+msgid "What to change for Weblogic 10.X"
+msgstr "Cosa cambiare per Weblogic 10.X"
+
+#. Tag: para
+#: Weblogic.xml:1076
+#, no-c-format
+msgid ""
+"First we change and delete some configuration files, then we update the "
+"libraries that are deployed with the application."
+msgstr ""
+"Innanzitutto bisogna modificare ed eliminare dei file di configurazione, poi "
+"bisogna aggiornare le librerie che sono installate insieme all'applicazione."
+
+#. Tag: title
+#: Weblogic.xml:1081
+#, no-c-format
+msgid "Configuration file changes"
+msgstr "Modiche dei file di configurazione"
+
+#. Tag: para
+#: Weblogic.xml:1089
+#, no-c-format
+msgid "Change the default target to <literal>archive</literal>."
+msgstr "Modificate il target di default in <literal>archive</literal>."
+
+#. Tag: programlisting
+#: Weblogic.xml:1092
+#, no-c-format
+msgid ""
+"<![CDATA[<project name=\"weblogic_example\" default=\"archive\" basedir=\"."
+"\">]]>"
+msgstr ""
+"<![CDATA[<project name=\"weblogic_example\" default=\"archive\" basedir=\"."
+"\">]]>"
+
+#. Tag: literal
+#: Weblogic.xml:1099
+#, no-c-format
+msgid "resources/META-INF/persistence-dev.xml"
+msgstr "resources/META-INF/persistence-dev.xml"
+
+#. Tag: para
+#: Weblogic.xml:1104
+#, no-c-format
+msgid ""
+"Alter the <literal>jta-data-source</literal> to be <literal>seam-gen-ds</"
+"literal> (and use this as the <literal>jndi-name</literal> when creating the "
+"data source in Weblogic's admin console)"
+msgstr ""
+"Cambiate <literal>jta-data-source</literal> in <literal>seam-gen-ds</"
+"literal> (e usatelo come <literal>jndi-name</literal> all'atto della "
+"creazione del  datasource nella console amministrativa di Weblogic)"
+
+#. Tag: para
+#: Weblogic.xml:1113
+#, no-c-format
+msgid ""
+"Change the transaction type to <literal>RESOURCE_LOCAL</literal> so that we "
+"can use JPA transactions."
+msgstr ""
+"Modificate il tipo di transazione in <literal>RESOURCE_LOCAL</literal> in "
+"modo da poter usare le transazioni JPA."
+
+#. Tag: programlisting
+#: Weblogic.xml:1118
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"<persistence-unit name=\"weblogic_example\" transaction-type=\"RESOURCE_LOCAL"
+"\">]]>"
+msgstr ""
+"<![CDATA[\n"
+"<persistence-unit name=\"weblogic_example\" transaction-type=\"RESOURCE_LOCAL"
+"\">]]>"
+
+#. Tag: para
+#: Weblogic.xml:1121
+#, no-c-format
+msgid "Add/modify the properties below for Weblogic support:"
+msgstr ""
+"Per il supporto di Weblogic bisogna aggiungere/modificare le seguenti "
+"proprietà:"
+
+#. Tag: programlisting
+#: Weblogic.xml:1125
+#, no-c-format
+msgid ""
+"<![CDATA[<property name=\"hibernate.cache.provider_class\" \n"
+"    value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"    value=\"org.hibernate.transaction.WeblogicTransactionManagerLookup\"/>\n"
+"]]>"
+msgstr ""
+"<![CDATA[<property name=\"hibernate.cache.provider_class\" \n"
+"    value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"    value=\"org.hibernate.transaction.WeblogicTransactionManagerLookup\"/>\n"
+"]]>"
+
+#. Tag: para
+#: Weblogic.xml:1128
+#, no-c-format
+msgid ""
+"You'll need to alter <literal>persistence-prod.xml</literal> as well if you "
+"want to deploy to Weblogic using the prod profile."
+msgstr ""
+"Bisognerà anche aggiornare <literal>persistence-prod.xml</literal> se si "
+"vuole fare il deploy in Weblogic usando il profilo prod (profilo di "
+"produzione)."
+
+#. Tag: literal
+#: Weblogic.xml:1138
+#, no-c-format
+msgid "resource/WEB-INF/weblogic.xml"
+msgstr "resource/WEB-INF/weblogic.xml"
+
+#. Tag: para
+#: Weblogic.xml:1141
+#, no-c-format
+msgid ""
+"You will need to create this file and populate it following <xref linkend="
+"\"weblogic.xml\"/>."
+msgstr ""
+"Bisogna creare questo file e popolarlo come in <xref linkend=\"weblogic.xml"
+"\"/>."
+
+#. Tag: literal
+#: Weblogic.xml:1148
+#, no-c-format
+msgid "resource/WEB-INF/components.xml"
+msgstr "resource/WEB-INF/components.xml"
+
+#. Tag: para
+#: Weblogic.xml:1153
+#, no-c-format
+msgid ""
+"We want to use JPA transactions so we need to add the following to let Seam "
+"know."
+msgstr ""
+"Vogliamo usare le transazioni JPA, quindi dobbiamo aggiungere quanto segue "
+"in modo che Seam ne sia informato."
+
+#. Tag: programlisting
+#: Weblogic.xml:1157
+#, no-c-format
+msgid ""
+"<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/"
+">]]>"
+msgstr ""
+"<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/"
+">]]>"
+
+#. Tag: para
+#: Weblogic.xml:1158
+#, no-c-format
+msgid ""
+"You will also need to add the transaction namespace and schema location to "
+"the top of the document."
+msgstr ""
+"Bisogna aggiungere anche il namespace delle transazioni e la posizione dello "
+"schema in cima al documento."
+
+#. Tag: programlisting
+#: Weblogic.xml:1163
+#, no-c-format
+msgid ""
+"<![CDATA[xmlns:transaction=\"http://jboss.com/products/seam/transaction\"]]>"
+msgstr ""
+"<![CDATA[xmlns:transaction=\"http://jboss.com/products/seam/transaction\"]]>"
+
+#. Tag: programlisting
+#: Weblogic.xml:1164
+#, no-c-format
+msgid ""
+"<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/"
+"products/seam/transaction-2.1.xsd]]>"
+msgstr ""
+"<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/"
+"products/seam/transaction-2.1.xsd]]>"
+
+#. Tag: literal
+#: Weblogic.xml:1169
+#, no-c-format
+msgid "resource/WEB-INF/web.xml"
+msgstr "resource/WEB-INF/web.xml"
+
+#. Tag: literal
+#: Weblogic.xml:1185
+#, no-c-format
+msgid "resources/WEB-INF/jboss-web.xml"
+msgstr "resources/WEB-INF/jboss-web.xml"
+
+#. Tag: para
+#: Weblogic.xml:1190
+#, no-c-format
+msgid ""
+"You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-"
+"app.xml</literal> is used to enable classloading isolation in JBoss AS)"
+msgstr ""
+"E' possibile eliminare questo file dal momento che non si sta per fare il "
+"deploy su JBoss AS ( <literal>jboss-app.xml</literal> è usato per abilitare "
+"l'isolamento del classloading in JBoss AS)"
+
+#. Tag: literal
+#: Weblogic.xml:1200
+#, no-c-format
+msgid "resources/*-ds.xml"
+msgstr "resources/*-ds.xml"
+
+#. Tag: para
+#: Weblogic.xml:1203
+#, no-c-format
+msgid ""
+"You can delete these files as we aren't deploying to JBoss AS. These files "
+"define datasources in JBoss AS, in Weblogic we will use the administration "
+"console."
+msgstr ""
+"E' possibile eliminare questi file poiché non si sta per fare il deploy in "
+"JBoss AS. Questi file definiscono i datasource di JBoss, mentre per Weblogic "
+"useremo la console amministrativa."
+
+#. Tag: title
+#: Weblogic.xml:1212
+#, no-c-format
+msgid "Library changes"
+msgstr "Modifiche delle librerie"
+
+#. Tag: para
+#: Weblogic.xml:1213
+#, no-c-format
+msgid ""
+"The <literal>seam-gen</literal> application has very similar library "
+"dependencies as the <literal>jpa</literal> example above. See <xref linkend="
+"\"weblogic-jpa-diff\"/>. Below is the changes that are needed to get them in "
+"this application."
+msgstr ""
+"L'applicazione <literal>seam-gen</literal> ha dipendendenze delle librerie "
+"molto simili a quelle dell'esempio <literal>jpa</literal> visto sopra. Si "
+"veda <xref linkend=\"weblogic-jpa-diff\"/>. Sotto sono riportati i "
+"cambiamenti necessari a realizzare tali dipendenze in questa applicazione."
+
+#. Tag: para
+#: Weblogic.xml:1221
+#, no-c-format
+msgid ""
+"build.xml &#8212; Now we need to adjust the <literal>build.xml</literal>. "
+"Find the target <literal>war</literal> and add the following to the end of "
+"the target."
+msgstr ""
+"build.xml &#8212; Ora dobbiamo sistemare il file <literal>build.xml</"
+"literal>. Trovate il target <literal>war</literal> e aggiungete quanto segue "
+"in fondo al target."
+
+#. Tag: programlisting
+#: Weblogic.xml:1225
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"      <copy todir=\"${war.dir}/WEB-INF/lib\">\n"
+"         <fileset dir=\"${lib.dir}\">\n"
+"            <!-- Misc 3rd party -->\n"
+"            <include name=\"commons-logging.jar\" />\n"
+"            <include name=\"dom4j.jar\" />\n"
+"            <include name=\"javassist.jar\" />\n"
+"            <include name=\"cglib.jar\" />\n"
+"            <include name=\"antlr.jar\" />\n"
+"\n"
+"            <!-- Hibernate -->\n"
+"            <include name=\"hibernate.jar\" />\n"
+"            <include name=\"hibernate-commons-annotations.jar\" />\n"
+"            <include name=\"hibernate-annotations.jar\" />\n"
+"            <include name=\"hibernate-entitymanager.jar\" />\n"
+"            <include name=\"hibernate-validator.jar\" />\n"
+"            <include name=\"jboss-common-core.jar\" />\n"
+"            <include name=\"concurrent.jar\" />\n"
+"         </fileset>\n"
+"      </copy>]]>"
+msgstr ""
+"<![CDATA[\n"
+"      <copy todir=\"${war.dir}/WEB-INF/lib\">\n"
+"         <fileset dir=\"${lib.dir}\">\n"
+"            <!-- Misc 3rd party -->\n"
+"            <include name=\"commons-logging.jar\" />\n"
+"            <include name=\"dom4j.jar\" />\n"
+"            <include name=\"javassist.jar\" />\n"
+"            <include name=\"cglib.jar\" />\n"
+"            <include name=\"antlr.jar\" />\n"
+"\n"
+"            <!-- Hibernate -->\n"
+"            <include name=\"hibernate.jar\" />\n"
+"            <include name=\"hibernate-commons-annotations.jar\" />\n"
+"            <include name=\"hibernate-annotations.jar\" />\n"
+"            <include name=\"hibernate-entitymanager.jar\" />\n"
+"            <include name=\"hibernate-validator.jar\" />\n"
+"            <include name=\"jboss-common-core.jar\" />\n"
+"            <include name=\"concurrent.jar\" />\n"
+"         </fileset>\n"
+"      </copy>]]>"
+
+#. Tag: title
+#: Weblogic.xml:1232
+#, no-c-format
+msgid "Building and Deploying your application"
+msgstr "Build e deploy dell'applicazione"
+
+#. Tag: para
+#: Weblogic.xml:1233
+#, no-c-format
+msgid ""
+"All that's left is deploying the application. This involves setting up a "
+"data source, building the app, and deploying it."
+msgstr ""
+"Rimane solo il deploy dell'applicazione. Questo equivale a preparare il "
+"datasource e  fare il build e il deploy dell'applicazione."
+
+#. Tag: title
+#: Weblogic.xml:1238
+#, no-c-format
+msgid "Setting up the data source"
+msgstr "Allestire il datasource"
+
+#. Tag: para
+#: Weblogic.xml:1239
+#, no-c-format
+msgid ""
+"Configuring the datasource is very similar to the jee5 <xref linkend="
+"\"weblogic-hsql-jee5-ds\"/>. Except for what is listed here follow that "
+"instruction from the link."
+msgstr ""
+"La configurazione del datasource è molto simile a quella jee5 di <xref "
+"linkend=\"weblogic-hsql-jee5-ds\"/>. Tranne per quanto qui indicato seguite "
+"le istruzioni del link."
+
+#. Tag: para
+#: Weblogic.xml:1244
+#, no-c-format
+msgid "DataSource Name: <literal>seam-gen-ds</literal>"
+msgstr "DataSource Name: <literal>seam-gen-ds</literal>"
+
+#. Tag: para
+#: Weblogic.xml:1248
+#, no-c-format
+msgid "JNDI Name: <literal>seam-gen-ds</literal>"
+msgstr "JNDI Name: <literal>seam-gen-ds</literal>"
+
+#. Tag: title
+#: Weblogic.xml:1254
+#, no-c-format
+msgid "Building the application"
+msgstr "Build dell'applicazione"
+
+#. Tag: para
+#: Weblogic.xml:1255
+#, no-c-format
+msgid ""
+"This is as easy as typing <literal>ant</literal> in the projects base "
+"directory."
+msgstr ""
+"Questo è facile quanto digitare <literal>ant</literal> nella directory di "
+"base dei progetti."
+
+#. Tag: programlisting
+#: Weblogic.xml:1267
+#, no-c-format
+msgid ""
+"cp  ./dist/weblogic_example.war /jboss/apps/bea/user_projects/domains/"
+"seam_examples/autodeploy"
+msgstr ""
+"cp  ./dist/weblogic_example.war /jboss/apps/bea/user_projects/domains/"
+"seam_examples/autodeploy"
+
+#. Tag: para
+#: Weblogic.xml:1269
+#, no-c-format
+msgid ""
+"Check out the application at the following <literal>http://localhost:7001/"
+"weblogic_example/</literal>. ."
+msgstr ""
+"Verificate il funzionamento dell'applicazione all'indirizzo <literal>http://"
+"localhost:7001/weblogic_example/</literal>."

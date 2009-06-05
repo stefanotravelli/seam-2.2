@@ -1,0 +1,682 @@
+<chapter id="testing">
+	<title>Testing Seam applications</title>
+	<para>
+	    Most Seam applications will need at least two kinds of automated tests:
+	    <emphasis>unit tests</emphasis>, which test a particular Seam component
+	    in isolation, and scripted <emphasis>integration tests</emphasis> which
+	    exercise all Java layers of the application (that is, everything except the
+	    view pages).
+	</para>
+	<para>
+	   Both kinds of tests are very easy to write.
+	</para>
+	
+	<section>
+		<title>Unit testing Seam components</title>
+		<para>
+		    All Seam components are POJOs. This is a great place to start if you
+		    want easy unit testing. And since Seam emphasises the use of bijection 
+            for inter-component interactions and access to contextual objects, it's 
+            very easy to test a Seam component outside of its normal runtime 
+            environment.
+		</para>
+		<para>
+		    Consider the following Seam Component which creates a statement of
+            account for a customer:
+		</para>
+		
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Scope(EVENT)
+@Name("statementOfAccount")
+public class StatementOfAccount {
+   
+   @In(create=true) EntityManager entityManager
+   
+   private double statementTotal;
+   
+   @In
+   private Customer customer;
+   
+   @Create
+   public void create() {
+      List<Invoice> invoices = entityManager
+         .createQuery("select invoice from Invoice invoice where invoice.customer = :customer")
+         .setParameter("customer", customer)
+         .getResultList();
+      statementTotal = calculateTotal(invoices);
+   }
+   
+   public double calculateTotal(List<Invoice> invoices) {
+      double total = 0.0;
+      for (Invoice invoice: invoices)
+      {
+         double += invoice.getTotal();
+      }
+      return total;
+   }
+   
+   // getter and setter for statementTotal
+   
+}]]></programlisting>
+
+        <para>
+            We could write a unit test for the calculateTotal method (which tests
+            the business logic of the component) as follows:
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[public class StatementOfAccountTest {
+    
+    @Test
+    public testCalculateTotal {
+       List<Invoice> invoices = generateTestInvoices(); // A test data generator
+       double statementTotal = new StatementOfAccount().calculateTotal(invoices);
+       assert statementTotal = 123.45;
+    }   
+}
+]]></programlisting>
+
+        <para>
+            You'll notice we aren't testing retrieving data from or persisting
+            data to the database; nor are we testing any functionality 
+            provided by Seam. We are just testing the logic of our POJOs. Seam
+            components don't usually depend directly upon container infrastructure,
+            so most unit testing are as easy as that!
+       </para>
+       <para>    
+            However, if you want to test the entire application, read on.
+       </para>
+        
+    </section>
+    
+    <section>
+        <title>Integration testing Seam components</title>
+        
+        <para>
+            Integration testing is slightly more difficult. In this case, we can't eliminate
+            the container infrastructure; indeed, that is part of what is being tested! At
+            the same time, we don't want to be forced to deploy our application to an
+            application server to run the automated tests. We need to be able to reproduce
+            just enough of the container infrastructure inside our testing environment to be 
+            able to exercise the whole application, without hurting performance too much.
+        </para>
+        
+        <para>
+            The approach taken by Seam is to let you write tests that exercise your
+            components while running inside a pruned down container environment (Seam,
+            together with the JBoss Embedded container; see 
+            <xref linkend="config.install.embedded" /> for configuration details)
+        </para>
+        
+<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
+{
+   
+   @Test
+   public void testRegisterComponent() throws Exception
+   {
+            
+      new ComponentTest() {
+
+         protected void testComponents() throws Exception
+         {
+            setValue("#{user.username}", "1ovthafew");
+            setValue("#{user.name}", "Gavin King");
+            setValue("#{user.password}", "secret");
+            assert invokeMethod("#{register.register}").equals("success");
+            assert getValue("#{user.username}").equals("1ovthafew");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.password}").equals("secret");
+         }
+         
+      }.run();
+      
+   }
+
+   ...
+   
+}]]></programlisting>
+
+        
+        <section>
+            <title>Using mocks in integration tests</title>
+            
+            <para>
+                Occasionally, we need to be able to replace the implementation of some
+                Seam component that depends upon resources which are not available in 
+                the integration test environment. For example, suppose we have some
+                Seam component which is a facade to some payment processing system:
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Name("paymentProcessor")
+public class PaymentProcessor {
+    public boolean processPayment(Payment payment) { .... }
+}]]></programlisting>
+            
+            <para>
+                For integration tests, we can mock out this component as follows:
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Name("paymentProcessor")
+@Install(precedence=MOCK)
+public class MockPaymentProcessor extends PaymentProcessor {
+    public boolean processPayment(Payment payment) {
+        return true;
+    }
+}]]></programlisting>
+            
+            <para>
+                Since the <literal>MOCK</literal> precedence is higher than the default
+                precedence of application components, Seam will install the mock 
+                implementation whenever it is in the classpath. When deployed into 
+                production, the mock implementation is absent, so the real component
+                will be installed.
+            </para>
+            
+        </section>
+        
+    </section>
+    
+    <section>
+        <title>Integration testing Seam application user interactions</title>
+        
+        <para>
+            An even harder problem is emulating user interactions. A third problem is where 
+            to put our assertions. Some test frameworks let us test the whole application
+            by reproducing user interactions with the web browser. These frameworks have
+            their place, but they are not appropriate for use at development time.
+        </para>
+        
+        <para>
+            <literal>SeamTest</literal> lets you write <emphasis>scripted</emphasis> tests,
+            in a simulated JSF environment. The role of a scripted test is to reproduce 
+            the interaction between the view and the Seam components. In other words, you 
+            get to pretend you are the JSF implementation!
+        </para>
+        
+        <para>
+            This approach tests everything except the view.
+        </para>
+        
+        <para>
+            Let's consider a JSP view for the component we unit tested above:
+        </para>
+        
+        <programlisting role="XHTML"><![CDATA[<html>
+ <head>
+  <title>Register New User</title>
+ </head>
+ <body>
+  <f:view>
+   <h:form>
+     <table border="0">
+       <tr>
+         <td>Username</td>
+         <td><h:inputText value="#{user.username}"/></td>
+       </tr>
+       <tr>
+         <td>Real Name</td>
+         <td><h:inputText value="#{user.name}"/></td>
+       </tr>
+       <tr>
+         <td>Password</td>
+         <td><h:inputSecret value="#{user.password}"/></td>
+       </tr>
+     </table>
+     <h:messages/>
+     <h:commandButton type="submit" value="Register" action="#{register.register}"/>
+   </h:form>
+  </f:view>
+ </body>
+</html>]]></programlisting>
+
+        <para>
+            We want to test the registration functionality of our application (the stuff
+            that happens when the user clicks the Register button). We'll reproduce the JSF 
+            request lifecycle in an automated TestNG test:
+        </para>
+
+<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
+{
+   
+   @Test
+   public void testRegister() throws Exception
+   {
+            
+      new FacesRequest() {
+
+         @Override
+         protected void processValidations() throws Exception
+         {
+            validateValue("#{user.username}", "1ovthafew");
+            validateValue("#{user.name}", "Gavin King");
+            validateValue("#{user.password}", "secret");
+            assert !isValidationFailure();
+         }
+         
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            setValue("#{user.username}", "1ovthafew");
+            setValue("#{user.name}", "Gavin King");
+            setValue("#{user.password}", "secret");
+         }
+
+         @Override
+         protected void invokeApplication()
+         {
+            assert invokeMethod("#{register.register}").equals("success");
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert getValue("#{user.username}").equals("1ovthafew");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.password}").equals("secret");
+         }
+         
+      }.run();
+      
+   }
+
+   ...
+   
+}]]></programlisting>
+
+        <para>
+            Notice that we've extended <literal>SeamTest</literal>, which provides a 
+            Seam environment for our components, and written our test script as an 
+            anonymous class that extends <literal>SeamTest.FacesRequest</literal>, 
+            which provides an emulated JSF request lifecycle. (There is also a
+            <literal>SeamTest.NonFacesRequest</literal> for testing GET requests.)
+            We've written our code in methods which are named for the various JSF 
+            phases, to emulate the calls that JSF would make to our components. Then 
+            we've thrown in various assertions.
+        </para>
+        
+        <para>
+            You'll find plenty of integration tests for the Seam example applications
+            which demonstrate more complex cases. There are instructions for running
+            these tests using Ant, or using the TestNG plugin for eclipse:
+        </para>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/plugin-testng.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/plugin-testng.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+       
+        <section>
+           <title>Configuration</title>
+           
+           <para>
+              If you used seam-gen to create your project you are ready to start
+              writing tests. Otherwise you'll need to setup the testing
+              environment in your favorite build tool (e.g. ant, maven, 
+              eclipse).
+           </para>
+           
+           <para>
+              First, lets look at the dependencies you need at a minimum:
+           </para>
+           
+           <table>
+              <title></title>
+              <tgroup cols="3">
+                 <thead>
+                    <row >
+                       <entry>
+                          Group Id
+                       </entry>
+                       <entry>
+                          Artifact Id
+                       </entry>
+                       <entry>
+                          Location in Seam
+                       </entry>
+                    </row>
+                 </thead>
+                 <tbody>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.seam.embedded</literal>
+                       </entry>
+                       <entry>
+                          <literal>hibernate-all</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/test/hibernate-all.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.seam.embedded</literal>
+                       </entry>
+                       <entry>
+                          <literal>jboss-embedded-all</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/test/jboss-embedded-all.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.seam.embedded</literal>
+                       </entry>
+                       <entry>
+                          <literal>thirdparty-all</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/test/thirdparty-all.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.seam.embedded</literal>
+                       </entry>
+                       <entry>
+                          <literal>jboss-embedded-api</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/jboss-embedded-api.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.seam</literal>
+                       </entry>
+                       <entry>
+                          <literal>jboss-seam</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/jboss-seam.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>org.jboss.el</literal>
+                       </entry>
+                       <entry>
+                          <literal>jboss-el</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/jboss-el.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>javax.faces</literal>
+                       </entry>
+                       <entry>
+                          <literal>jsf-api</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/jsf-api.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>javax.el</literal>
+                       </entry>
+                       <entry>
+                          <literal>el-api</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/el-api.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
+                          <literal>javax.activation</literal>
+                       </entry>
+                       <entry>
+                          <literal>javax.activation</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/activation.jar</literal>
+                       </entry>
+                    </row>
+                 </tbody>
+              </tgroup>
+           </table>
+           
+           <para>
+              It's very important you don't put the compile time JBoss AS 
+              dependencies from <literal>lib/</literal> (e.g. 
+              <literal>jboss-system.jar</literal>) on the classpath, these
+              will cause Embedded JBoss to not boot. So, just add the 
+              dependencies (e.g. Drools, jBPM)you need as you go.
+           </para>
+           
+           <para>
+              You also need to include the <literal>bootstrap/</literal> 
+              directory on the classpath; <literal>bootstrap/</literal> contains
+              the configuration for Embedded JBoss.
+           </para>
+           
+           <para>
+              And, of course you need to put your built project and tests onto
+              the classpath as well as jar for your test framework. Don't forget
+              to put all the correct configuration files for JPA and Seam onto 
+              the classpath as well.Seam asks Embedded JBoss to deploy any 
+              resource (jar or directory) which has 
+              <literal>seam.properties</literal> in it's root. Therefore, if you
+              don't assemble a directory structure that resembles a deployable 
+              archive containing your built project, you must put a 
+              <literal>seam.properties</literal> in each resource.
+           </para>
+           
+           <para>
+              By default, a generated project will use the 
+              <literal>java:/DefaultDS</literal> (a built in HSQL datasource in
+              Embedded JBoss) for testing. If you want to use another datasource
+              place the <literal>foo-ds.xml</literal> into 
+              <literal>bootstrap/deploy</literal> directory.
+           </para>
+           
+         </section>
+         
+        <section>
+           <title>Using SeamTest with another test framework</title>
+         
+           <para>
+              Seam provides TestNG support out of the box, but you can also use
+              another test framework, such as JUnit, if you want.
+           </para>
+           
+           <para>
+              You'll need to provide an implementation of 
+              <literal>AbstractSeamTest</literal> which does the following:
+           </para>
+           
+           <itemizedlist>
+              <listitem>
+                 <para>
+                    Calls <literal>super.begin()</literal> before every test
+                    method.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.end()</literal> after every test
+                    method.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.setupClass()</literal> to setup 
+                    integration test environment. This should be called before
+                    any test methods are called.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.cleanupClass()</literal> to clean up
+                    the integration test environment.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.startSeam()</literal> to start Seam at
+                    the start of integration testing.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.stopSeam()</literal> to cleanly shut
+                    down Seam at the end of integration testing.
+                 </para>
+              </listitem>
+           </itemizedlist>
+        </section>
+        
+        <section>
+          <title>Integration Testing with Mock Data</title>
+          
+          <para>
+            If you need to insert or clean data in your database before each 
+            test you can use Seam's integration with DBUnit.  To do this, extend 
+            <literal>DBUnitSeamTest</literal> rather than SeamTest.
+         </para>
+         
+         <para>
+            You need to provide a dataset for DBUnit.  
+         </para>
+         
+         <caution>
+            DBUnit supports two formats for dataset files, flat and XML.  Seam's
+            <literal>DBUnitSeamTest</literal> assumes the flat format is used, so make sure that 
+            your dataset is in this format.
+         </caution>
+          
+          <programlisting role="XML"><![CDATA[<dataset>
+   
+   <ARTIST 
+      id="1"
+      dtype="Band"
+      name="Pink Floyd" />
+      
+   <DISC
+      id="1"
+      name="Dark Side of the Moon"
+      artist_id="1" />
+      
+</dataset>]]></programlisting>
+
+         <para>
+            and tell Seam about it by overriding <literal>prepareDBUnitOperations()</literal>:
+         </para>
+      
+         <programlisting role="JAVA"><![CDATA[protected void prepareDBUnitOperations() {
+    beforeTestOperations.add(
+       new DataSetOperation("my/datasets/BaseData.xml")
+    );
+ }]]></programlisting>
+ 
+         <para>
+           <literal>DataSetOperation</literal> defaults to <literal>DatabaseOperation.CLEAN_INSERT</literal>
+           if no other operation is specified as a constructor argument. The 
+           above example cleans all tables defined <literal>BaseData.xml</literal>, 
+           then inserts all rows declared in <literal>BaseData.xml</literal> 
+           before each <literal>@Test</literal> method is invoked.
+         </para>
+         
+         <para>
+           If you require extra cleanup after a test method executes, add 
+           operations to <literal>afterTestOperations</literal> list.
+         </para>
+         
+         <para>
+           You need to tell DBUnit about the datasource you are using by 
+           setting a TestNG test parameter named <literal>datasourceJndiName</literal>:
+         </para>
+         
+         <programlisting role="XML">
+   <![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]>
+         </programlisting> 
+         
+         <para>
+            DBUnitSeamTest has support for MySQL and HSQL - you need to tell it
+            which database is being used:
+         </para>
+         
+         <programlisting><![CDATA[<parameter name="database" value="HSQL" />]]></programlisting>
+         
+         <para>
+            It also allows you to insert binary data into the test data set (n.b.
+            this is untested on Windows). You need to tell it where to locate
+            these resources:
+         </para>
+         
+         <programlisting><![CDATA[<parameter name="binaryDir" value="images/" />]]></programlisting> 
+          
+         <para>
+            You <emphasis>must</emphasis> specify these three parameters in your
+            <literal>testng.xml</literal>.
+         </para>
+         
+         <para>
+            If you want to use DBUnitSeamTest with another database, you'll need
+            to implement some methods. Read the javadoc of 
+            <literal>AbstractDBUnitSeamTest</literal> for more.
+         </para> 
+          
+        </section>
+        
+        <section id="testing.mail">
+          <title>Integration Testing Seam Mail</title>
+          
+          <caution>
+            Warning! This feature is still under development.
+          </caution>
+          
+          <para>
+            It's very easy to integration test your Seam Mail:
+          </para>
+          
+          <programlisting role="JAVA"><![CDATA[public class MailTest extends SeamTest {
+    
+   @Test
+   public void testSimpleMessage() throws Exception {
+        
+      new FacesRequest() {
+
+         @Override
+         protected void updateModelValues() throws Exception {
+            setValue("#{person.firstname}", "Pete");
+            setValue("#{person.lastname}", "Muir");
+            setValue("#{person.address}", "test@example.com");
+         }
+            
+         @Override
+         protected void invokeApplication() throws Exception {
+            MimeMessage renderedMessage = getRenderedMailMessage("/simple.xhtml");
+            assert renderedMessage.getAllRecipients().length == 1;
+            InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
+            assert to.getAddress().equals("test@example.com");
+         }
+            
+      }.run();       
+   }
+}]]></programlisting>
+
+          <para>
+            We create a new <literal>FacesRequest</literal> as normal.  Inside 
+            the invokeApplication hook we render the message using 
+            <literal>getRenderedMailMessage(viewId);</literal>, passing the 
+            viewId of the message to render.  The method returns the rendered
+            message on which you can do your tests. You can of course also use
+            any of the standard JSF lifecycle methods.
+          </para>
+          
+          <para>
+            There is no support for rendering standard JSF components so you 
+            can't test the content body of the mail message easily.
+          </para>
+        </section> 
+        
+    </section>
+	
+</chapter>

@@ -1,0 +1,320 @@
+<chapter id="validation">
+    <title>JSF form validation in Seam</title>
+    <para>
+        In plain JSF, validation is defined in the view:
+    </para>
+    
+    <programlisting role="XHTML"><![CDATA[<h:form>
+    <h:messages/>
+
+    <div>
+        Country:
+        <h:inputText value="#{location.country}" required="true">
+            <my:validateCountry/>
+        </h:inputText>
+    </div>
+    
+    <div>
+        Zip code:
+        <h:inputText value="#{location.zip}" required="true">
+            <my:validateZip/>
+        </h:inputText>
+    </div>
+
+    <h:commandButton/>
+</h:form>]]></programlisting>
+
+    <para>
+        In practice, this approach usually violates DRY, since most
+        "validation" actually enforces constraints that are part of
+        the data model, and exist all the way down to the database
+        schema definition. Seam provides support for model-based
+        constraints defined using Hibernate Validator.
+    </para>
+    
+    <para>
+        Let's start by defining our constraints, on our 
+        <literal>Location</literal> class:
+    </para>
+
+    <programlisting role="JAVA"><![CDATA[public class Location {
+    private String country;
+    private String zip;
+    
+    @NotNull
+    @Length(max=30)
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @NotNull
+    @Length(max=6)
+    @Pattern("^\d*$")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>
+
+    <para>
+        Well, that's a decent first cut, but in practice it might be
+        more elegant to use custom constraints instead of the ones
+        built into Hibernate Validator:
+    </para>
+
+    <programlisting role="JAVA"><![CDATA[public class Location {
+    private String country;
+    private String zip;
+    
+    @NotNull
+    @Country
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @NotNull
+    @ZipCode
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>
+    
+    <para>
+        Whichever route we take, we no longer need to specify the
+        type of validation to be used in the JSF page. Instead, we
+        can use <literal>&lt;s:validate&gt;</literal> to validate
+        against the constraint defined on the model object.
+    </para>
+    
+    <programlisting role="XHTML"><![CDATA[<h:form>
+    <h:messages/>
+
+    <div>
+        Country:
+        <h:inputText value="#{location.country}" required="true">
+            <s:validate/>
+        </h:inputText>
+    </div>
+    
+    <div>
+        Zip code:
+        <h:inputText value="#{location.zip}" required="true">
+            <s:validate/>
+        </h:inputText>
+    </div>
+    
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
+     <para>
+         <emphasis>Note:</emphasis> specifying <literal>@NotNull</literal>
+         on the model does <emphasis>not</emphasis> eliminate the requirement
+         for <literal>required="true"</literal> to appear on the control!
+         This is due to a limitation of the JSF validation architecture.
+     </para>
+
+    <para>
+        This approach <emphasis>defines</emphasis> constraints on the model, and 
+        <emphasis>presents</emphasis> constraint violations in the view &#8212; a
+        significantly better design.
+    </para>
+    
+     <para>
+         However, it is not much less verbose than what we started with, 
+         so let's try <literal>&lt;s:validateAll&gt;</literal>:
+     </para>
+
+    <programlisting role="XHTML"><![CDATA[<h:form>
+    
+    <h:messages/>
+
+    <s:validateAll>
+
+        <div>
+            Country:
+            <h:inputText value="#{location.country}" required="true"/>
+        </div>
+
+        <div>
+            Zip code:
+            <h:inputText value="#{location.zip}" required="true"/>
+        </div>
+
+        <h:commandButton/>
+
+    </s:validateAll>
+
+</h:form>]]></programlisting>
+     
+     <para>
+         This tag simply adds an <literal>&lt;s:validate&gt;</literal>
+         to every input in the form. For a large form, it can save a lot
+         of typing!
+     </para>
+
+     <para>
+         Now we need to do something about displaying feedback to the 
+         user when validation fails. Currently we are displaying all
+         messages at the top of the form. In order for the user to correlate the message with an input, you need to define a label using the standard <literal>label</literal> attribute on the input component.
+     </para> 
+
+     <programlisting role="XHTML"><![CDATA[<h:inputText value="#{location.zip}" required="true" label="Zip:">
+    <s:validate/>
+</h:inputText>]]></programlisting>
+
+     <para>
+         You can then inject this value into the message string using
+         the placeholder {0} (the first and only parameter passed to a
+         JSF message for a Hiberate Validator restriction). See the
+         internationalization section for more information regarding
+         where to define these messages.
+     </para>
+
+     <programlisting>validator.length={0} length must be between {min} and {max}</programlisting>
+         
+     <para>
+         What we would really like to do, though, is display the message
+         next to the field with the error (this is possible in plain
+         JSF), highlight the field and label (this is not possible) and,
+         for good measure, display some image next to the field (also
+         not possible). We also want to display a little colored
+         asterisk next to the label for each required form field. Using
+         this approach, the identifying label is not necessary.
+     </para>
+     
+     <para>
+         That's quite a lot of functionality we need for each field
+         of our form. We wouldn't want to have to specify higlighting
+         and the layout of the image, message and input field for every
+         field on the form. So, instead, we'll specify the common
+         layout in a facelets template:
+     </para>
+     
+     <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib">
+                 
+    <div>
+    
+        <s:label styleClass="#{invalid?'error':''}">
+            <ui:insert name="label"/>
+            <s:span styleClass="required" rendered="#{required}">*</s:span>
+        </s:label>
+        
+        <span class="#{invalid?'error':''}">
+            <h:graphicImage value="/img/error.gif" rendered="#{invalid}"/>
+            <s:validateAll>
+                <ui:insert/>
+            </s:validateAll>
+        </span>
+        
+        <s:message styleClass="error"/>
+        
+    </div>
+    
+</ui:composition>]]></programlisting>
+     
+     <para>
+         We can include this template for each of our form fields using
+         <literal>&lt;s:decorate&gt;</literal>.
+     </para>
+
+    <programlisting role="XHTML"><![CDATA[<h:form>
+
+    <h:messages globalOnly="true"/>
+
+    <s:decorate template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText value="#{location.country}" required="true"/>
+    </s:decorate>
+    
+    <s:decorate template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText value="#{location.zip}" required="true"/>
+    </s:decorate>
+
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
+    <para>
+        Finally, we can use RichFaces Ajax to display validation messages as the user 
+        is navigating around the form:
+    </para>
+
+    <programlisting role="XHTML"><![CDATA[<h:form>
+
+    <h:messages globalOnly="true"/>
+
+    <s:decorate id="countryDecoration" template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText value="#{location.country}" required="true">
+            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
+        </h:inputText>
+    </s:decorate>
+    
+    <s:decorate id="zipDecoration" template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText value="#{location.zip}" required="true">
+            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
+        </h:inputText>
+    </s:decorate>
+
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
+    <para>
+        It's better style to define explicit ids for
+        important controls on the page, especially if you want to do
+        automated testing for the UI, using some toolkit like
+        Selenium. If you don't provide explicit ids, JSF will generate
+        them, but the generated values will change if you change
+        anything on the page.
+    </para>
+
+    <programlisting role="XHTML"><![CDATA[<h:form id="form">
+
+    <h:messages globalOnly="true"/>
+
+    <s:decorate id="countryDecoration" template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText id="country" value="#{location.country}" required="true">
+            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
+        </h:inputText>
+    </s:decorate>
+    
+    <s:decorate id="zipDecoration" template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText id="zip" value="#{location.zip}" required="true">
+            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
+        </h:inputText>
+    </s:decorate>
+
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
+    <para>
+        And what if you want to specify a different message to be 
+        displayed when validation fails?  You can use the Seam message
+        bundle (and all it's goodies like el expressions inside the message,
+        and per-view message bundles) with the Hibernate Validator:
+    </para>
+    
+<programlisting role="JAVA"><![CDATA[public class Location {
+    private String name;
+    private String zip;
+    
+    // Getters and setters for name
+
+    @NotNull
+    @Length(max=6)
+    @ZipCode(message="#{messages['location.zipCode.invalid']}")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>
+
+<programlisting>
+location.zipCode.invalid = The zip code is not valid for #{location.name}
+</programlisting>
+
+</chapter>

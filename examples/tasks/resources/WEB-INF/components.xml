@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:core="http://jboss.com/products/seam/core" xmlns:security="http://jboss.com/products/seam/security"
+	xmlns:transaction="http://jboss.com/products/seam/transaction"
+	xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:framework="http://jboss.com/products/seam/framework" xmlns:web="http://jboss.com/products/seam/web"
+	xmlns:resteasy="http://jboss.com/products/seam/resteasy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+		http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+        http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
+        http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+        http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
+        http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+        http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
+        http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.1.xsd">
+
+	<core:init jndi-pattern="@jndiPattern@" debug="false" />
+
+	<core:manager conversation-timeout="120000"
+		concurrent-request-timeout="500" conversation-id-parameter="cid" />
+
+	<transaction:ejb-transaction />
+
+	<persistence:managed-persistence-context
+	name="entityManager" auto-create="true" persistence-unit-jndi-name="java:/tasksEntityManagerFactory" />
+
+	<framework:entity-home name="userHome"
+		entity-class="org.jboss.seam.example.tasks.entity.User" auto-create="true" />
+		
+	<framework:entity-home name="taskHome"
+		entity-class="org.jboss.seam.example.tasks.entity.Task" auto-create="true" />
+
+	<framework:entity-query name="categoryQuery"
+		ejbql="select c from Category c">
+		<framework:restrictions>
+			<value>c.owner.username =
+				#{user.username}</value>
+		</framework:restrictions>
+	</framework:entity-query>
+
+	<resteasy:resource-query name="categoryResourceQuery"
+		entity-query="#{categoryQuery}" path="/auth/category"
+		entity-class="org.jboss.seam.example.tasks.entity.Category"
+		media-types="application/xml application/json application/fastinfoset"/>
+
+	<resteasy:application resource-path-prefix="/v1">
+		<resteasy:media-type-mappings>
+			<key>xml</key>
+			<value>application/xml</value>
+		</resteasy:media-type-mappings>
+	</resteasy:application>
+
+
+	<web:authentication-filter url-pattern="/seam/resource/v1/auth/*"
+	auth-type="basic" realm="Seam Tasks Application" />
+
+	<security:identity authenticate-method="#{authenticator.authenticate}" />
+
+</components>

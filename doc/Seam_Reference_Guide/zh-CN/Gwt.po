@@ -1,0 +1,357 @@
+# Language zh-CN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Gwt.xml:5
+#, no-c-format
+msgid "Seam and the Google Web Toolkit"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:7
+#, no-c-format
+msgid ""
+"For those that prefer to use the Google Web Toolkit (GWT) to develop dynamic "
+"AJAX applications, Seam provides an integration layer that allows GWT "
+"widgets to interact directly with Seam components."
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:12
+#, no-c-format
+msgid ""
+"To use GWT, we assume that you are already familiar with the GWT tools - "
+"more information can be found at <ulink url=\"http://code.google.com/"
+"webtoolkit/\">http://code.google.com/webtoolkit/</ulink>. This chapter does "
+"not attempt to explain how GWT works or how to use it."
+msgstr ""
+
+#. Tag: title
+#: Gwt.xml:19
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:21
+#, no-c-format
+msgid ""
+"There is no special configuration required to use GWT in a Seam application, "
+"however the Seam resource servlet must be installed. See <xref linkend="
+"\"configuration\"/> for details."
+msgstr ""
+
+#. Tag: title
+#: Gwt.xml:29
+#, no-c-format
+msgid "Preparing your component"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:31
+#, no-c-format
+msgid ""
+"The first step in preparing a Seam component to be called via GWT, is to "
+"create both synchronous and asynchronous service interfaces for the methods "
+"you wish to call. Both of these interfaces should extend the GWT interface "
+"<literal>com.google.gwt.user.client.rpc.RemoteService</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:37
+#, no-c-format
+msgid ""
+"<![CDATA[public interface MyService extends RemoteService {\n"
+"    public String askIt(String question);      \n"
+" }]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:39
+#, no-c-format
+msgid ""
+"The asynchronous interface should be identical, except that it also contains "
+"an additional <literal>AsyncCallback</literal> parameter for each of the "
+"methods it declares:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:44
+#, no-c-format
+msgid ""
+"<![CDATA[public interface MyServiceAsync extends RemoteService {\n"
+"   public void askIt(String question, AsyncCallback callback);\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:46
+#, no-c-format
+msgid ""
+"The asynchronous interface, in this example <literal>MyServiceAsync</"
+"literal>, will be implemented by GWT and should never be implemented "
+"directly."
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:51
+#, no-c-format
+msgid ""
+"The next step, is to create a Seam component that implements the synchronous "
+"interface:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:55
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"org.jboss.seam.example.remoting.gwt.client.MyService\")\n"
+"public class ServiceImpl implements MyService {\n"
+"\n"
+"   @WebRemote\n"
+"   public String askIt(String question) {\n"
+"   \n"
+"      if (!validate(question)) {\n"
+"         throw new IllegalStateException(\"Hey, this shouldn't happen, I "
+"checked on the client, \" +\n"
+"         \"but its always good to double check.\");\n"
+"      }\n"
+"      return \"42. Its the real question that you seek now.\";\n"
+"   }\n"
+"   \n"
+"   public boolean validate(String q) {\n"
+"      ValidationUtility util = new ValidationUtility();\n"
+"      return util.isValid(q);\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:57
+#, no-c-format
+msgid ""
+"The name of the seam component <emphasis>must</emphasis> match the fully "
+"qualified name of the GWT client interface (as shown), or the seam resource "
+"servlet will not be able to find it when a client makes a GWT call. The "
+"methods that are to be made accessible via GWT also need to be annotated "
+"with the <literal>@WebRemote</literal> annotation."
+msgstr ""
+
+#. Tag: title
+#: Gwt.xml:67
+#, no-c-format
+msgid "Hooking up a GWT widget to the Seam component"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:69
+#, no-c-format
+msgid ""
+"The next step, is to write a method that returns the asynchronous interface "
+"to the component. This method can be located inside the widget class, and "
+"will be used by the widget to obtain a reference to the asynchronous client "
+"stub:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:75
+#, no-c-format
+msgid ""
+"<![CDATA[private MyServiceAsync getService() {       \n"
+"   String endpointURL = GWT.getModuleBaseURL() + \"seam/resource/gwt"
+"\";      \n"
+"      \n"
+"   MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);\n"
+"   ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);\n"
+"   return svc;     \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:77
+#, no-c-format
+msgid ""
+"The final step is to write the widget code that invokes the method on the "
+"client stub. The following example creates a simple user interface with a "
+"label, text input and a button:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:82
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"public class AskQuestionWidget extends Composite {\n"
+"   private AbsolutePanel panel = new AbsolutePanel();\n"
+"   \n"
+"   public AskQuestionWidget() {      \n"
+"      Label lbl = new Label(\"OK, what do you want to know?\");\n"
+"      panel.add(lbl);\n"
+"      final TextBox box = new TextBox();\n"
+"      box.setText(\"What is the meaning of life?\");\n"
+"      panel.add(box);\n"
+"      Button ok = new Button(\"Ask\");\n"
+"      ok.addClickListener(new ClickListener() {\n"
+"         public void onClick(Widget w) {\n"
+"            ValidationUtility valid = new ValidationUtility();\n"
+"            if (!valid.isValid(box.getText())) {\n"
+"               Window.alert(\"A question has to end with a '?'\");\n"
+"            } else {\n"
+"               askServer(box.getText());\n"
+"            } \n"
+"         }\n"
+"      });\n"
+"      panel.add(ok);\n"
+"      \n"
+"      initWidget(panel);\n"
+"   }\n"
+"\n"
+"   private void askServer(String text) {\n"
+"      getService().askIt(text, new AsyncCallback() {\n"
+"         public void onFailure(Throwable t) {\n"
+"            Window.alert(t.getMessage());\n"
+"         }\n"
+"\n"
+"         public void onSuccess(Object data) {\n"
+"            Window.alert((String) data);\n"
+"         }         \n"
+"      });      \n"
+"   }\n"
+"   \n"
+"   ...]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:85
+#, no-c-format
+msgid ""
+"When clicked, the button invokes the <literal>askServer()</literal> method "
+"passing the contents of the input text (in this example, validation is also "
+"performed to ensure that the input is a valid question). The "
+"<literal>askServer()</literal> method acquires a reference to the "
+"asynchronous client stub (returned by the <literal>getService()</literal> "
+"method) and invokes the <literal>askIt()</literal> method. The result (or "
+"error message if the call fails) is shown in an alert window."
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:102
+#, no-c-format
+msgid ""
+"The complete code for this example can be found in the Seam distribution in "
+"the <literal>examples/remoting/gwt</literal> directory."
+msgstr ""
+
+#. Tag: title
+#: Gwt.xml:109
+#, no-c-format
+msgid "GWT Ant Targets"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:111
+#, no-c-format
+msgid ""
+"For deployment of GWT apps, there is a compile-to-Javascript step (which "
+"compacts and obfuscates the code). There is an ant utility which can be used "
+"instead of the command line or GUI utility that GWT provides. To use this, "
+"you will need to have the ant task jar in your ant classpath, as well as GWT "
+"downloaded (which you will need for hosted mode anyway)."
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:117
+#, no-c-format
+msgid "Then, in your ant file, place (near the top of your ant file):"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:121
+#, no-c-format
+msgid ""
+"<![CDATA[<taskdef uri=\"antlib:de.samaflost.gwttasks\"\n"
+"   resource=\"de/samaflost/gwttasks/antlib.xml\"\n"
+"   classpath=\"./lib/gwttasks.jar\"/>\n"
+"   \n"
+"   <property file=\"build.properties\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:123
+#, no-c-format
+msgid ""
+"Create a <literal>build.properties</literal> file, which has the contents:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:127
+#, no-c-format
+msgid "<![CDATA[gwt.home=/gwt_home_dir]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:129
+#, no-c-format
+msgid ""
+"This of course should point to the directory where GWT is installed. Then to "
+"use it, create a target:"
+msgstr ""
+
+#. Tag: programlisting
+#: Gwt.xml:133
+#, no-c-format
+msgid ""
+"<![CDATA[<!-- the following are are handy utilities for doing GWT "
+"development.\n"
+"   To use GWT, you will of course need to download GWT seperately -->\n"
+"   <target name=\"gwt-compile\">\n"
+"      <!-- in this case, we are \"re homing\" the gwt generated stuff, so in "
+"this case\n"
+"      we can only have one GWT module - we are doing this deliberately to "
+"keep the URL short -->\n"
+"      <delete>\n"
+"         <fileset dir=\"view\"/>\n"
+"      </delete>\n"
+"      <gwt:compile outDir=\"build/gwt\"\n"
+"         gwtHome=\"${gwt.home}\"\n"
+"         classBase=\"${gwt.module.name}\"\n"
+"         sourceclasspath=\"src\"/>\n"
+"      <copy todir=\"view\">\n"
+"         <fileset dir=\"build/gwt/${gwt.module.name}\"/>\n"
+"      </copy>\n"
+"   </target>]]>"
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:135
+#, no-c-format
+msgid ""
+"This target when called will compile the GWT application, and copy it to the "
+"specified directory (which would be in the <literal>webapp</literal> part of "
+"your war - remember GWT generates HTML and Javascript artifacts). You never "
+"edit the resulting code that <literal>gwt-compile</literal> generates - you "
+"always edit in the GWT source directory."
+msgstr ""
+
+#. Tag: para
+#: Gwt.xml:142
+#, no-c-format
+msgid ""
+"Remember that GWT comes with a hosted mode browser - you should be using "
+"that if you are developing with GWT. If you aren't using that, and are just "
+"compiling it each time, you aren't getting the most out of the toolkit (in "
+"fact, if you can't or won't use the hosted mode browser, I would go far as "
+"to say you should NOT be using GWT at all - it's that valuable!)."
+msgstr ""

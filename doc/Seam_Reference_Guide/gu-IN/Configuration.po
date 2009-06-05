@@ -1,0 +1,2263 @@
+# Language gu-IN translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-05-05 12:31+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Configuration.xml:5
+#, no-c-format
+msgid "Configuring Seam and packaging Seam applications"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:6
+#, no-c-format
+msgid ""
+"Configuration is a very boring topic and an extremely tedious pastime. "
+"Unfortunately, several lines of XML are required to integrate Seam into your "
+"JSF implementation and servlet container. There's no need to be too put off "
+"by the following sections; you'll never need to type any of this stuff "
+"yourself, since you can just use seam-gen to start your application or you "
+"can copy and paste from the example applications!"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:12
+#, no-c-format
+msgid "Basic Seam configuration"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:14
+#, no-c-format
+msgid ""
+"First, let's look at the basic configuration that is needed whenever we use "
+"Seam with JSF."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:17
+#, no-c-format
+msgid "Integrating Seam with JSF and your servlet container"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:19
+#, no-c-format
+msgid "Of course, you need a faces servlet!"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:21
+#, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"    <servlet-name>Faces Servlet</servlet-name>\n"
+"    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>\n"
+"    <load-on-startup>1</load-on-startup>\n"
+"</servlet>\n"
+"\n"
+"<servlet-mapping>\n"
+"    <servlet-name>Faces Servlet</servlet-name>\n"
+"    <url-pattern>*.seam</url-pattern>\n"
+"</servlet-mapping>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:23
+#, no-c-format
+msgid "(You can adjust the URL pattern to suit your taste.)"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:25
+#, no-c-format
+msgid ""
+"In addition, Seam requires the following entry in your <literal>web.xml</"
+"literal> file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:27
+#, no-c-format
+msgid ""
+"<![CDATA[<listener>\n"
+"    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>\n"
+"</listener>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:29
+#, no-c-format
+msgid ""
+"This listener is responsible for bootstrapping Seam, and for destroying "
+"session and application contexts."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:32
+#, no-c-format
+msgid ""
+"Some JSF implementations have a broken implementation of server-side state "
+"saving that interferes with Seam's conversation propagation. If you have "
+"problems with conversation propagation during form submissions, try "
+"switching to client-side state saving. You'll need this in <literal>web.xml</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:36
+#, no-c-format
+msgid ""
+"<![CDATA[<context-param>\n"
+"    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>\n"
+"    <param-value>client</param-value>\n"
+"</context-param>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:38
+#, no-c-format
+msgid ""
+"There is a minor gray area in the JSF specification regarding the mutability "
+"of view state values. Since Seam uses the JSF view state to back its PAGE "
+"scope this can become an issue in some cases. If you're using server side "
+"state saving with the JSF-RI and you want a PAGE scoped bean to keep its "
+"exact value for a given view of a page you will need to specify the "
+"following context-param. Otherwise if a user uses the \"back\" button a PAGE "
+"scoped component will have the latest value if it has changed not the value "
+"of the \"back\" page. (see <ulink url=\"https://javaserverfaces-spec-public."
+"dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). This "
+"setting is not enabled by default because of the performance hit of "
+"serializing the JSF view with every request."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:52
+#, no-c-format
+msgid ""
+"<![CDATA[<context-param>\n"
+"    <param-name>com.sun.faces.serializeServerState</param-name>\n"
+"    <param-value>true</param-value>\n"
+"</context-param>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:56
+#, no-c-format
+msgid "Using Facelets"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:58
+#, no-c-format
+msgid ""
+"If you want follow our advice and use Facelets instead of JSP, add the "
+"following lines to <literal>faces-config.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:61
+#, no-c-format
+msgid ""
+"<![CDATA[<application>\n"
+"    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>\n"
+"</application>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:63
+#, no-c-format
+msgid "And the following lines to <literal>web.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:65
+#, no-c-format
+msgid ""
+"<![CDATA[<context-param>\n"
+"    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>\n"
+"    <param-value>.xhtml</param-value>\n"
+"</context-param>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:67
+#, no-c-format
+msgid ""
+"If you are using facelets in JBoss AS, you'll find that Facelets logging is "
+"broken (the log messages don't make it to the server log). Seam provides a "
+"bridge to fix this, to use it copy <literal>lib/interop/jboss-seam-jul.jar</"
+"literal> to <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/"
+"jsf-libs/</literal> and include the <literal>jboss-seam-ui.jar</literal> in "
+"the <literal>WEB-INF/lib</literal> of your application. The Facelets logging "
+"catagories are itemized in the <ulink url=\"https://facelets.dev.java.net/"
+"nonav/docs/dev/docbook.html#config-logging\">Facelets Developer "
+"Documentation</ulink>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:81
+#, no-c-format
+msgid "Seam Resource Servlet"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:83
+#, no-c-format
+msgid ""
+"The Seam Resource Servlet provides resources used by Seam Remoting, captchas "
+"(see the security chapter) and some JSF UI controls. Configuring the Seam "
+"Resource Servlet requires the following entry in <literal>web.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:87
+#, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"  <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"  <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>\n"
+"</servlet>\n"
+"    \n"
+"<servlet-mapping>\n"
+"  <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"  <url-pattern>/seam/resource/*</url-pattern>\n"
+"</servlet-mapping>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:91
+#, no-c-format
+msgid "Seam servlet filters"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:93
+#, no-c-format
+msgid ""
+"Seam doesn't need any servlet filters for basic operation. However, there "
+"are several features which depend upon the use of filters. To make things "
+"easier, Seam lets you add and configure servlet filters just like you would "
+"configure other built-in Seam components. To take advantage of this feature, "
+"we must first install a master filter in <literal>web.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:98
+#, no-c-format
+msgid ""
+"<![CDATA[<filter>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>\n"
+"</filter>\n"
+"\n"
+"<filter-mapping>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <url-pattern>/*</url-pattern>\n"
+"</filter-mapping>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:100
+#, no-c-format
+msgid ""
+"The Seam master filter <emphasis>must</emphasis> be the first filter "
+"specified in <literal>web.xml</literal>. This ensures it is run first."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:103
+#, no-c-format
+msgid ""
+"The Seam filters share a number of common attributes, you can set these in "
+"<literal>components.xml</literal> in addition to any parameters discussed "
+"below:"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:111
+#, no-c-format
+msgid ""
+"<literal>url-pattern</literal> &#8212; Used to specify which requests are "
+"filtered, the default is all requests. <literal>url-pattern</literal> is a "
+"Tomcat style pattern which allows a wildcard suffix."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:118
+#, no-c-format
+msgid ""
+"<literal>regex-url-pattern</literal> &#8212; Used to specify which requests "
+"are filtered, the default is all requests. <literal>regex-url-pattern</"
+"literal> is a true regular expression match for request path."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:125
+#, no-c-format
+msgid "<literal>disabled</literal> &#8212; Used to disable a built in filter."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:131
+#, no-c-format
+msgid ""
+"Note that the patterns are matched against the URI path of the request (see "
+"<literal>HttpServletRequest.getURIPath()</literal>) and that the name of the "
+"servlet context is removed before matching."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:137
+#, no-c-format
+msgid "Adding the master filter enables the following built-in filters."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:140
+#, no-c-format
+msgid "Exception handling"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:141
+#, no-c-format
+msgid ""
+"This filter provides the exception mapping functionality in <literal>pages."
+"xml</literal> (almost all applications will need this). It also takes care "
+"of rolling back uncommitted transactions when uncaught exceptions occur. "
+"(According to the Java EE specification, the web container should do this "
+"automatically, but we've found that this behavior cannot be relied upon in "
+"all application servers. And it is certainly not required of plain servlet "
+"engines like Tomcat.)"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:147
+#, no-c-format
+msgid ""
+"By default, the exception handling filter will process all requests, however "
+"this behavior may be adjusted by adding a <literal>&lt;web:exception-"
+"filter&gt;</literal> entry to <literal>components.xml</literal>, as shown in "
+"this example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:151
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"\n"
+"    <web:exception-filter url-pattern=\"*.seam\"/>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:157
+#, no-c-format
+msgid "Conversation propagation with redirects"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:158
+#, no-c-format
+msgid ""
+"This filter allows Seam to propagate the conversation context across browser "
+"redirects. It intercepts any browser redirects and adds a request parameter "
+"that specifies the Seam conversation identifier."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:162
+#, no-c-format
+msgid ""
+"The redirect filter will process all requests by default, but this behavior "
+"can also be adjusted in <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:165
+#, no-c-format
+msgid "<![CDATA[<web:redirect-filter url-pattern=\"*.seam\"/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:170
+#, no-c-format
+msgid "URL rewriting"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:171
+#, no-c-format
+msgid ""
+"This filter allows Seam to apply URL rewriting for views based on "
+"configuration in the <literal>pages.xml</literal> file. This filter is not "
+"activate by default, but can be activated by adding the configuration to "
+"<literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:176
+#, no-c-format
+msgid "<![CDATA[<web:rewrite-filter view-mapping=\"*.seam\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:179
+#, no-c-format
+msgid ""
+"The <literal>view-mapping</literal> parameter must match the servlet mapping "
+"defined for the Faces Servlet in the <literal>web.xml</literal> file. If "
+"ommitted, the rewrite filter assumes the pattern <literal>*.seam</literal>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:186
+#, no-c-format
+msgid "Multipart form submissions"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:187
+#, no-c-format
+msgid ""
+"This feature is necessary when using the Seam file upload JSF control. It "
+"detects multipart form requests and processes them according to the "
+"multipart/form-data specification (RFC-2388). To override the default "
+"settings, add the following entry to <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:191
+#, no-c-format
+msgid ""
+"<![CDATA[<web:multipart-filter create-temp-files=\"true\" \n"
+"                      max-request-size=\"1000000\" \n"
+"                      url-pattern=\"*.seam\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:195
+#, no-c-format
+msgid ""
+"<literal>create-temp-files</literal> &#8212; If set to <literal>true</"
+"literal>, uploaded files are written to a temporary file (instead of held in "
+"memory). This may be an important consideration if large file uploads are "
+"expected. The default setting is <literal>false</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:202
+#, no-c-format
+msgid ""
+"<literal>max-request-size</literal> &#8212; If the size of a file upload "
+"request (determined by reading the <literal>Content-Length</literal> header "
+"in the request) exceeds this value, the request will be aborted. The default "
+"setting is 0 (no size limit)."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:211
+#, no-c-format
+msgid "Character encoding"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:212
+#, no-c-format
+msgid "Sets the character encoding of submitted form data."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:214 Configuration.xml:309
+#, no-c-format
+msgid ""
+"This filter is not installed by default and requires an entry in "
+"<literal>components.xml</literal> to enable it:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:217
+#, no-c-format
+msgid ""
+"<![CDATA[<web:character-encoding-filter encoding=\"UTF-16\" \n"
+"                               override-client=\"true\" \n"
+"                               url-pattern=\"*.seam\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:221
+#, no-c-format
+msgid "<literal>encoding</literal> &#8212; The encoding to use."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:225
+#, no-c-format
+msgid ""
+"<literal>override-client</literal> &#8212; If this is set to <literal>true</"
+"literal>, the request encoding will be set to whatever is specified by "
+"<literal>encoding</literal> no matter whether the request already specifies "
+"an encoding or not. If set to <literal>false</literal>, the request encoding "
+"will only be set if the request doesn't already specify an encoding. The "
+"default setting is <literal>false</literal>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:236
+#, no-c-format
+msgid "RichFaces"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:238
+#, no-c-format
+msgid ""
+"If RichFaces is used in your project, Seam will install the RichFaces Ajax "
+"filter for you, making sure to install it before all other built-in filters. "
+"You don't need to install the RichFaces Ajax filter in <literal>web.xml</"
+"literal> yourself."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:246
+#, no-c-format
+msgid ""
+"The RichFaces Ajax filter is only installed if the RichFaces jars are "
+"present in your project."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:251
+#, no-c-format
+msgid ""
+"To override the default settings, add the following entry to "
+"<literal>components.xml</literal>. The options are the same as those "
+"specified in the RichFaces Developer Guide:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:254
+#, no-c-format
+msgid ""
+"<![CDATA[<web:ajax4jsf-filter force-parser=\"true\" \n"
+"                     enable-cache=\"true\" \n"
+"                     log4j-init-file=\"custom-log4j.xml\"\n"
+"                     url-pattern=\"*.seam\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:257
+#, no-c-format
+msgid ""
+"<literal>force-parser</literal> &#8212; forces all JSF pages to be validated "
+"by Richfaces's XML syntax checker. If <literal>false</literal>, only AJAX "
+"responses are validated and converted to well-formed XML. Setting "
+"<literal>force-parser</literal> to <literal>false</literal> improves "
+"performance, but can provide visual artifacts on AJAX updates."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:265
+#, no-c-format
+msgid ""
+"<literal>enable-cache</literal> &#8212; enables caching of framework-"
+"generated resources (e.g. javascript, CSS, images, etc). When developing "
+"custom javascript or CSS, setting to true prevents the browser from caching "
+"the resource."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:271
+#, no-c-format
+msgid ""
+"<literal>log4j-init-file</literal> &#8212; is used to setup per-application "
+"logging. A path, relative to web application context, to the log4j.xml "
+"configuration file should be provided."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:281
+#, no-c-format
+msgid "Identity Logging"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:283
+#, no-c-format
+msgid ""
+"This filter adds the authenticated user name to the log4j mapped diagnostic "
+"context so that it can be included in formatted log output if desired, by "
+"adding %X{username} to the pattern."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:289
+#, no-c-format
+msgid ""
+"By default, the logging filter will process all requests, however this "
+"behavior may be adjusted by adding a <literal>&lt;web:logging-filter&gt;</"
+"literal> entry to <literal>components.xml</literal>, as shown in this "
+"example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:293
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"    <web:logging-filter url-pattern=\"*.seam\"/>\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:298
+#, no-c-format
+msgid "Context management for custom servlets"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:299
+#, no-c-format
+msgid ""
+"Requests sent direct to some servlet other than the JSF servlet are not "
+"processed through the JSF lifecycle, so Seam provides a servlet filter that "
+"can be applied to any other servlet that needs access to Seam components."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:303
+#, no-c-format
+msgid ""
+"This filter allows custom servlets to interact with the Seam contexts. It "
+"sets up the Seam contexts at the beginning of each request, and tears them "
+"down at the end of the request. You should make sure that this filter is "
+"<emphasis>never</emphasis> applied to the JSF <literal>FacesServlet</"
+"literal>. Seam uses the phase listener for context management in a JSF "
+"request."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:312
+#, no-c-format
+msgid "<![CDATA[<web:context-filter url-pattern=\"/media/*\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:314
+#, no-c-format
+msgid ""
+"The context filter expects to find the conversation id of any conversation "
+"context in a request parameter named <literal>conversationId</literal>. You "
+"are responsible for ensuring that it gets sent in the request."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:318
+#, no-c-format
+msgid ""
+"You are also responsible for ensuring propagation of any new conversation id "
+"back to the client. Seam exposes the conversation id as a property of the "
+"built in component <literal>conversation</literal>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:326
+#, no-c-format
+msgid "Adding custom filters"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:327
+#, no-c-format
+msgid ""
+"Seam can install your filters for you, allowing you to specify "
+"<emphasis>where</emphasis> in the chain your filter is placed (the servlet "
+"specification doesn't provide a well defined order if you specify your "
+"filters in a <literal>web.xml</literal>). Just add the <literal>@Filter</"
+"literal> annotation to your Seam component (which must implement "
+"<literal>javax.servlet.Filter</literal>):"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:332
+#, no-c-format
+msgid ""
+"<![CDATA[@Startup\n"
+"@Scope(APPLICATION)\n"
+"@Name(\"org.jboss.seam.web.multipartFilter\")\n"
+"@BypassInterceptors\n"
+"@Filter(within=\"org.jboss.seam.web.ajax4jsfFilter\")\n"
+"public class MultipartFilter extends AbstractFilter {]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:334
+#, no-c-format
+msgid ""
+"Adding the <literal>@Startup</literal> annotation means thar the component "
+"is available during Seam startup; bijection isn't available here "
+"(<literal>@BypassInterceptors</literal>); and the filter should be further "
+"down the chain than the RichFaces filter (<literal>@Filter(within=\"org."
+"jboss.seam.web.ajax4jsfFilter\")</literal>)."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:343
+#, no-c-format
+msgid "Integrating Seam with your EJB container"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:345
+#, no-c-format
+msgid ""
+"In a Seam application, EJB components have a certain duality, as they are "
+"managed by both the EJB container and Seam. Actually, it's more that Seam "
+"resolves EJB component references, manages the lifetime of stateful session "
+"bean components, and also participates in each method call via interceptors. "
+"Let's start with the configuration of the Seam interceptor chain."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:350
+#, no-c-format
+msgid ""
+"We need to apply the <literal>SeamInterceptor</literal> to our Seam EJB "
+"components. This interceptor delegates to a set of built-in server-side "
+"interceptors that handle such concerns as bijection, conversation "
+"demarcation, and business process signals. The simplest way to do this "
+"across an entire application is to add the following interceptor "
+"configuration in <literal>ejb-jar.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:355
+#, no-c-format
+msgid ""
+"<![CDATA[<interceptors>\n"
+"    <interceptor>\n"
+"        <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"    </interceptor>\n"
+"</interceptors>\n"
+"   \n"
+"<assembly-descriptor>\n"
+"    <interceptor-binding>\n"
+"        <ejb-name>*</ejb-name>\n"
+"        <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
+"class>\n"
+"    </interceptor-binding>\n"
+"</assembly-descriptor>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:357
+#, no-c-format
+msgid ""
+"Seam needs to know where to go to find session beans in JNDI. One way to do "
+"this is specify the <literal>@JndiName</literal> annotation on every session "
+"bean Seam component. However, this is quite tedious. A better approach is to "
+"specify a pattern that Seam can use to calculate the JNDI name from the EJB "
+"name. Unfortunately, there is no standard mapping to global JNDI defined in "
+"the EJB3 specification, so this mapping is vendor-specific (and may depend "
+"on your own naming conventions as well). We usually specify this option in "
+"<literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:364
+#, no-c-format
+msgid "For JBoss AS, the following pattern is correct:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:366
+#, no-c-format
+msgid "<![CDATA[<core:init jndi-name=\"earName/#{ejbName}/local\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:368
+#, no-c-format
+msgid ""
+"In this case, <literal>earName</literal> is the name of the EAR in which the "
+"bean is deployed, Seam replaces <literal>#{ejbName}</literal> with the name "
+"of the EJB, and the final segment represents the type of interface (local or "
+"remote)."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:372
+#, no-c-format
+msgid ""
+"Outside the context of an EAR (when using the JBoss Embeddable EJB3 "
+"container), the first segment is dropped since there is no EAR, leaving us "
+"with the following pattern:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:375
+#, no-c-format
+msgid "<![CDATA[<core:init jndi-name=\"#{ejbName}/local\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:377
+#, no-c-format
+msgid ""
+"How these JNDI names are resolved and somehow locate an EJB component might "
+"appear a bit like black magic at this point, so let's dig into the details. "
+"First, let's talk about how the EJB components get into JNDI."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:381
+#, no-c-format
+msgid ""
+"The folks at JBoss don't care much for XML, if you can't tell. So when they "
+"designed JBoss AS, they decided that EJB components would get assigned a "
+"global JNDI name automatically, using the pattern just described (i.e., EAR "
+"name/EJB name/interface type). The EJB name is the first non-empty value "
+"from the following list:"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:387
+#, no-c-format
+msgid ""
+"The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:390
+#, no-c-format
+msgid ""
+"The value of the <literal>name</literal> attribute in the @Stateless or "
+"@Stateful annotation"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:393
+#, no-c-format
+msgid "The simple name of the bean class"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:397
+#, no-c-format
+msgid ""
+"Let's look at an example. Assume that you have the following EJB bean and "
+"interface defined."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:399
+#, no-c-format
+msgid ""
+"<![CDATA[package com.example.myapp;\n"
+"\n"
+"import javax.ejb.Local;\n"
+"\n"
+"@Local\n"
+"public class Authenticator\n"
+"{\n"
+"    boolean authenticate();\n"
+"}\n"
+"\n"
+"package com.example.myapp;\n"
+"\n"
+"import javax.ejb.Stateless;\n"
+"\n"
+"@Stateless\n"
+"@Name(\"authenticator\")\n"
+"public class AuthenticatorBean implements Authenticator\n"
+"{ \n"
+"    public boolean authenticate() { ... }\n"
+"}\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:401
+#, no-c-format
+msgid ""
+"Assuming your EJB bean class is deployed in an EAR named myapp, the global "
+"JNDI name myapp/AuthenticatorBean/local will be assigned to it on JBoss AS. "
+"As you learned, you can reference this EJB component as a Seam component "
+"with the name <literal>authenticator</literal> and Seam will take care of "
+"finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</"
+"literal> annotation)."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:407
+#, no-c-format
+msgid ""
+"So what about the rest of the application servers? Well, according to the "
+"Java EE spec, which most vendors try to adhere to religiously, you have to "
+"declare an EJB reference for your EJB in order for it to be assigned a JNDI "
+"name. That requires some XML. It also means that it is up to you to "
+"establish a JNDI naming convention so that you can leverage the Seam JNDI "
+"pattern. You might find the JBoss convention a good one to follow."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:413
+#, no-c-format
+msgid ""
+"There are two places you have to define the EJB reference when using Seam on "
+"non-JBoss application servers. If you are going to be looking up the Seam "
+"EJB component through JSF (in a JSF view or as a JSF action listener) or a "
+"Seam JavaBean component, then you must declare the EJB reference in web.xml. "
+"Here is the EJB reference for the example component just shown:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:418
+#, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>\n"
+"    <ejb-ref-name>myapp/AuthenticatorBean/local</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.example.vehicles.action.Authenticator</local>\n"
+"</ejb-local-ref>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:420
+#, no-c-format
+msgid ""
+"This reference will cover most uses of the component in a Seam application. "
+"However, if you want to be able to inject a Seam EJB component into another "
+"Seam EJB component using <literal>@In</literal>, you need to define this EJB "
+"reference in another location. This time, it must be defined in ejb-jar.xml, "
+"and it's a bit tricker."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:425
+#, no-c-format
+msgid ""
+"Within the context of an EJB method call, you have to deal with a somewhat "
+"sheltered JNDI context. When Seam attempts to find another Seam EJB "
+"component to satisfy an injection point defined using <literal>@In</"
+"literal>, whether or not it finds it depends on whether an EJB reference "
+"exists in JNDI. Strictly speaking, you cannot simply resolve JNDI names as "
+"you please. You have to define the references explicitly. Fortunately, JBoss "
+"recognized how aggrevating this would be for the developer and all versions "
+"of JBoss automatically register EJBs so they are always available in JNDI, "
+"both to the web container and the EJB container. So if you are using JBoss, "
+"you can skip the next few paragraphs. However, if you are deploying to "
+"GlassFish, pay close attention."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:434
+#, no-c-format
+msgid ""
+"For application servers that stubbornly adhere to the EJB specification, EJB "
+"references must always be defined explicitly. But unlike with the web "
+"context, where a single resource reference covers all uses of the EJB from "
+"the web environment, you cannot declare EJB references globally in the EJB "
+"container. Instead, you have to specify the JNDI resources for a given EJB "
+"component one-by-one."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:439
+#, no-c-format
+msgid ""
+"Let's assume that we have an EJB named RegisterAction (the name is resolved "
+"using the three steps mentioned previously). That EJB has the following Seam "
+"injection:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:442
+#, no-c-format
+msgid ""
+"<![CDATA[@In(create = true)\n"
+"Authenticator authenticator;\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:444
+#, no-c-format
+msgid ""
+"In order for this injection to work, the link must be established in the ejb-"
+"jar.xml file as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:446
+#, no-c-format
+msgid ""
+"<![CDATA[<ejb-jar>\n"
+"    <enterprise-beans>\n"
+"        <session>\n"
+"            <ejb-name>RegisterAction</ejb-name>\n"
+"            <ejb-local-ref>\n"
+"                <ejb-ref-name>myapp/AuthenticatorAction/local</ejb-ref-"
+"name>\n"
+"                <ejb-ref-type>Session</ejb-ref-type>\n"
+"                <local>com.example.myapp.Authenticator</local>\n"
+"            </ejb-local-ref>\n"
+"        </session>\n"
+"    </enterprise-beans>\n"
+"\n"
+"    ...\n"
+"    \n"
+"</ejb-jar>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:448
+#, no-c-format
+msgid ""
+"Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are "
+"identical to what we defined in web.xml. What we are doing is bringing the "
+"reference into the EJB context where it can be used by the RegisterAction "
+"bean. You will need to add one of these references for any injection of a "
+"Seam EJB compoenent into another Seam EJB component using <literal>@In</"
+"literal>. (You can see an example of this setup in the jee5/booking example)."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:454
+#, no-c-format
+msgid ""
+"But what about <literal>@EJB</literal>? It's true that you can inject one "
+"EJB into another using <literal>@EJB</literal>. However, by doing so, you "
+"are injecting the actual EJB reference rather than the Seam EJB component "
+"instance. In this case, some Seam features will work, while others won't. "
+"That's because Seam's interceptor is invoked on any method call to an EJB "
+"component. But that only invokes Seam's server-side interceptor chain. What "
+"you lose is Seam's state management and Seam's client-side interceptor "
+"chain. Client-side interceptors handle concerns such as security and "
+"concurrency. Also, when injecting a SFSB, there is no guarantee that you "
+"will get the SFSB bound to the active session or conversation, whatever the "
+"case may be. Thus, you definitely want to inject the Seam EJB component "
+"using <literal>@In</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:464
+#, no-c-format
+msgid ""
+"That covers how JNDI names are defined and used. The lesson is that with "
+"some application servers, such as GlassFish, you are going to have to "
+"specify JNDI names for all EJB components explicitly, and sometimes twice! "
+"And even if you are following the same naming convention as JBoss AS, the "
+"JNDI pattern in Seam may need to be altered. For instance, the global JNDI "
+"names are automatically prefixed with java:comp/env on GlassFish, so you "
+"need to define the JNDI pattern as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:470
+#, no-c-format
+msgid ""
+"<![CDATA[<core:init jndi-name=\"java:comp/env/earName/#{ejbName}/local\" />]]"
+">"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:472
+#, no-c-format
+msgid ""
+"Finally, let's talk about transactions. In an EJB3 environment, we recommend "
+"the use of a special built-in component for transaction management, that is "
+"fully aware of container transactions, and can correctly process transaction "
+"success events registered with the <literal>Events</literal> component. If "
+"you don't add this line to your <literal>components.xml</literal> file, Seam "
+"won't know when container-managed transactions end:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:479
+#, no-c-format
+msgid "<![CDATA[<transaction:ejb-transaction/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:484
+#, no-c-format
+msgid "Don't forget!"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:486
+#, no-c-format
+msgid ""
+"There is one final item you need to know about. You must place a "
+"<literal>seam.properties</literal>, <literal>META-INF/seam.properties</"
+"literal> or <literal>META-INF/components.xml</literal> file in any archive "
+"in which your Seam components are deployed (even an empty properties file "
+"will do). At startup, Seam will scan any archives with <literal>seam."
+"properties</literal> files for seam components."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:491
+#, no-c-format
+msgid ""
+"In a web archive (WAR) file, you must place a <literal>seam.properties</"
+"literal> file in the <literal>WEB-INF/classes</literal> directory if you "
+"have any Seam components included here."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:494
+#, no-c-format
+msgid ""
+"That's why all the Seam examples have an empty <literal>seam.properties</"
+"literal> file. You can't just delete this file and expect everything to "
+"still work!"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:497
+#, no-c-format
+msgid ""
+"You might think this is silly and what kind of idiot framework designers "
+"would make an empty file affect the behavior of their software?? Well, this "
+"is a workaround for a limitation of the JVM &#8212; if we didn't use this "
+"mechanism, our next best option would be to force you to list every "
+"component explicitly in <literal>components.xml</literal>, just like some "
+"other competing frameworks do! I think you'll like our way better."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:508
+#, no-c-format
+msgid "Using Alternate JPA Providers"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:510
+#, no-c-format
+msgid ""
+"Seam comes packaged and configured with Hibernate as the default JPA "
+"provider. If you require using a different JPA provider you must tell "
+"<literal>seam</literal> about it."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:516
+#, no-c-format
+msgid "This is a workaround"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:517
+#, no-c-format
+msgid ""
+"Configuration of the JPA provider will be easier in the future and will not "
+"require configuration changes, unless you are adding a custom persistence "
+"provider implementation."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:524
+#, no-c-format
+msgid ""
+"Telling seam about a different JPA provider can be be done in one of two "
+"ways:"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:525
+#, no-c-format
+msgid ""
+"Update your application's <literal>components.xml</literal> so that the "
+"generic <literal>PersistenceProvider</literal> takes precedence over the "
+"hibernate version. Simply add the following to the file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:530
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider"
+"\" \n"
+"           class=\"org.jboss.seam.persistence.PersistenceProvider\"\n"
+"           scope=\"stateless\">\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:531
+#, no-c-format
+msgid ""
+"If you want to take advantage of your JPA provider's non-standard features "
+"you will need to write you own implementation of the "
+"<literal>PersistenceProvider</literal>. Use "
+"<literal>HibernatePersistenceProvider</literal> as a starting point (don't "
+"forget to give back to the community :). Then you will need to tell "
+"<literal>seam</literal> to use it as before."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:538
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider"
+"\" \n"
+"           class=\"org.your.package.YourPersistenceProvider\">\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:539
+#, no-c-format
+msgid ""
+"All that is left is updating the <literal>persistence.xml</literal> file "
+"with the correct provider class, and what ever properties your provider "
+"needs. Don't forget to package your new provider's jar files in the "
+"application if they are needed."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:547
+#, no-c-format
+msgid "Configuring Seam in Java EE 5"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:558
+#, no-c-format
+msgid ""
+"If you're running in a Java EE 5 environment, this is all the configuration "
+"required to start using Seam!"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:561 Configuration.xml:656 Configuration.xml:794
+#: Configuration.xml:827
+#, no-c-format
+msgid "Packaging"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:563
+#, no-c-format
+msgid ""
+"Once you've packaged all this stuff together into an EAR, the archive "
+"structure will look something like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:566
+#, no-c-format
+msgid ""
+"<![CDATA[my-application.ear/\n"
+"    jboss-seam.jar\n"
+"    lib/\n"
+"        jboss-el.jar\n"
+"    META-INF/\n"
+"        MANIFEST.MF\n"
+"        application.xml\n"
+"    my-application.war/\n"
+"        META-INF/\n"
+"            MANIFEST.MF\n"
+"        WEB-INF/\n"
+"            web.xml\n"
+"            components.xml\n"
+"            faces-config.xml\n"
+"            lib/\n"
+"                jsf-facelets.jar\n"
+"                jboss-seam-ui.jar\n"
+"        login.jsp\n"
+"        register.jsp\n"
+"        ...\n"
+"    my-application.jar/\n"
+"        META-INF/\n"
+"            MANIFEST.MF\n"
+"            persistence.xml\n"
+"        seam.properties\n"
+"        org/\n"
+"            jboss/\n"
+"                myapplication/\n"
+"                    User.class\n"
+"                    Login.class\n"
+"                    LoginBean.class\n"
+"                    Register.class\n"
+"                    RegisterBean.class\n"
+"                    ...]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:568
+#, no-c-format
+msgid ""
+"You should declare <literal>jboss-seam.jar</literal> as an ejb module in "
+"<literal>META-INF/application.xml</literal>; <literal>jboss-el.jar</literal> "
+"should be placed in the EAR's lib directory (putting it in the EAR classpath."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:573
+#, no-c-format
+msgid ""
+"If you want to use jBPM or Drools, you must include the needed jars in the "
+"EAR's lib directory."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:575
+#, no-c-format
+msgid ""
+"If you want to use facelets (our recommendation), you must include "
+"<literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> "
+"directory of the WAR."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:578
+#, no-c-format
+msgid ""
+"If you want to use the Seam tag library (most Seam applications do), you "
+"must include <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/"
+"lib</literal> directory of the WAR. If you want to use the PDF or email tag "
+"libraries, you need to put <literal>jboss-seam-pdf.jar</literal> or "
+"<literal>jboss-seam-mail.jar</literal> in <literal>WEB-INF/lib</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:583
+#, no-c-format
+msgid ""
+"If you want to use the Seam debug page (only works for applications using "
+"facelets), you must include <literal>jboss-seam-debug.jar</literal> in the "
+"<literal>WEB-INF/lib</literal> directory of the WAR."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:586
+#, no-c-format
+msgid ""
+"Seam ships with several example applications that are deployable in any Java "
+"EE container that supports EJB 3.0."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:589
+#, no-c-format
+msgid ""
+"I really wish that was all there was to say on the topic of configuration "
+"but unfortunately we're only about a third of the way there. If you're too "
+"overwhelmed by all this tedious configuration stuff, feel free to skip over "
+"the rest of this section and come back to it later."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:598
+#, no-c-format
+msgid "Configuring Seam in J2EE"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:600
+#, no-c-format
+msgid ""
+"Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. "
+"In this case you would use Hibernate3 or JPA instead of EJB 3.0 persistence, "
+"and plain JavaBeans instead of session beans. You'll miss out on some of the "
+"nice features of session beans but it will be very easy to migrate to EJB "
+"3.0 when you're ready and, in the meantime, you'll be able to take advantage "
+"of Seam's unique declarative state management architecture."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:615
+#, no-c-format
+msgid ""
+"Seam JavaBean components do not provide declarative transaction demarcation "
+"like session beans do. You <emphasis>could</emphasis> manage your "
+"transactions manually using the JTA <literal>UserTransaction</literal> or "
+"declaratively using Seam's <literal>@Transactional</literal> annotation. But "
+"most applications will just use Seam managed transactions when using "
+"Hibernate with JavaBeans."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:621
+#, no-c-format
+msgid ""
+"The Seam distribution includes a version of the booking example application "
+"that uses Hibernate3 and JavaBeans instead of EJB3, and another version that "
+"uses JPA and JavaBeans. These example applications are ready to deploy into "
+"any J2EE application server."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:626
+#, no-c-format
+msgid "Boostrapping Hibernate in Seam"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:628
+#, no-c-format
+msgid ""
+"Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your "
+"<literal>hibernate.cfg.xml</literal> file if you install a built-in "
+"component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:631
+#, no-c-format
+msgid ""
+"<![CDATA[<persistence:hibernate-session-factory name="
+"\"hibernateSessionFactory\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:633
+#, no-c-format
+msgid ""
+"You will also need to configure a <emphasis>managed session</emphasis> if "
+"you want a Seam managed Hibernate <literal>Session</literal> to be available "
+"via injection."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:636
+#, no-c-format
+msgid ""
+"<![CDATA[<persistence:managed-hibernate-session name=\"hibernateSession\"\n"
+"                            session-factory=\"#{hibernateSessionFactory}\"/"
+">]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:641
+#, no-c-format
+msgid "Boostrapping JPA in Seam"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:643
+#, no-c-format
+msgid ""
+"Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your "
+"<literal>persistence.xml</literal> file if you install this built-in "
+"component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:646
+#, no-c-format
+msgid ""
+"<![CDATA[<persistence:entity-manager-factory name=\"entityManagerFactory\"/"
+">]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:648
+#, no-c-format
+msgid ""
+"You will also need to configure a <emphasis>managed persistence context</"
+"emphasis> if you want a Seam managed JPA <literal>EntityManager</literal> to "
+"be available via injection."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:651
+#, no-c-format
+msgid ""
+"<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
+"                            entity-manager-factory=\"#{entityManagerFactory}"
+"\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:658
+#, no-c-format
+msgid "We can package our application as a WAR, in the following structure:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:660
+#, no-c-format
+msgid ""
+"<![CDATA[my-application.war/\n"
+"    META-INF/\n"
+"        MANIFEST.MF\n"
+"    WEB-INF/\n"
+"        web.xml\n"
+"        components.xml\n"
+"        faces-config.xml\n"
+"        lib/\n"
+"            jboss-seam.jar\n"
+"            jboss-seam-ui.jar\n"
+"            jboss-el.jar\n"
+"            jsf-facelets.jar\n"
+"            hibernate3.jar\n"
+"            hibernate-annotations.jar\n"
+"            hibernate-validator.jar\n"
+"            ...\n"
+"            my-application.jar/\n"
+"                META-INF/\n"
+"                   MANIFEST.MF\n"
+"                seam.properties\n"
+"                hibernate.cfg.xml\n"
+"                org/\n"
+"                    jboss/\n"
+"                        myapplication/\n"
+"                            User.class\n"
+"                            Login.class\n"
+"                            Register.class\n"
+"                            ...\n"
+"    login.jsp\n"
+"    register.jsp\n"
+"    ...]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:662
+#, no-c-format
+msgid ""
+"If we want to deploy Hibernate in a non-EE environment like Tomcat or "
+"TestNG, we need to do a little bit more work."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:669
+#, no-c-format
+msgid "Configuring Seam in Java SE, without JBoss Embedded"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:671
+#, no-c-format
+msgid ""
+"It is possible to use Seam completely outside of an EE environment. In this "
+"case, you need to tell Seam how to manage transactions, since there will be "
+"no JTA available. If you're using JPA, you can tell Seam to use JPA resource-"
+"local transactions, ie. <literal>EntityTransaction</literal>, like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:675
+#, no-c-format
+msgid ""
+"<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/"
+">]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:677
+#, no-c-format
+msgid ""
+"If you're using Hibernate, you can tell Seam to use the Hibernate "
+"transaction API like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:679
+#, no-c-format
+msgid "<![CDATA[<transaction:hibernate-transaction session=\"#{session}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:681
+#, no-c-format
+msgid "Of course, you'll also need to define a datasource."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:683
+#, no-c-format
+msgid ""
+"A better alternative is to use JBoss Embedded to get access to the EE APIs."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:688
+#, no-c-format
+msgid "Configuring Seam in Java SE, with JBoss Embedded"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:690
+#, no-c-format
+msgid ""
+"JBoss Embedded lets you run EJB3 components outside the context of the Java "
+"EE 5 application server. This is especially, but not only, useful for "
+"testing."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:693
+#, no-c-format
+msgid ""
+"The Seam booking example application includes a TestNG integration test "
+"suite that runs on JBoss Embedded via <literal>SeamTest</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:705
+#, no-c-format
+msgid "The booking example application may even be deployed to Tomcat."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:717
+#, no-c-format
+msgid "Installing Embedded JBoss"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:720
+#, no-c-format
+msgid ""
+"Embedded JBoss must by installed into Tomcat for Seam applications to run "
+"correctly on it. Embedded JBoss runs with JDK 5 or JDK 6 ( see <xref linkend="
+"\"jdk_dependencies\"/> for details on using JDK 6). Embedded JBoss can be "
+"downloaded <ulink url=\"http://sourceforge.net/project/showfiles.php?"
+"group_id=22866&amp;package_id=228977\">here</ulink>. The process for "
+"installing Embedded JBoss into Tomcat 6 is quite simple. First, you should "
+"copy the Embedded JBoss JARs and configuration files into Tomcat."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:734
+#, no-c-format
+msgid ""
+"Copy all files and directories under the Embedded JBoss <literal>bootstrap</"
+"literal> and <literal>lib</literal> directories, except for the "
+"<literal>jndi.properties</literal> file, into the Tomcat <literal>lib</"
+"literal> directory."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:741
+#, no-c-format
+msgid ""
+"Remove the <literal>annotations-api.jar</literal> file from the Tomcat "
+"<literal>lib</literal> directory."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:747
+#, no-c-format
+msgid ""
+"Next, two configuration files need to be updated to add Embedded JBoss-"
+"specific functionality."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:753
+#, no-c-format
+msgid ""
+"Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</"
+"literal> to <literal>conf/server.xml</literal>. It must appear after all "
+"other listeners in the file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:756
+#, no-c-format
+msgid ""
+"<![CDATA[<Server port=\"8005\" shutdown=\"SHUTDOWN\">\n"
+"\n"
+"  <!-- Comment these entries out to disable JMX MBeans support used for "
+"the \n"
+"       administration web application -->\n"
+"  <Listener className=\"org.apache.catalina.core.AprLifecycleListener\" />\n"
+"  <Listener className=\"org.apache.catalina.mbeans.ServerLifecycleListener"
+"\" />\n"
+"  <Listener className=\"org.apache.catalina.mbeans."
+"GlobalResourcesLifecycleListener\" />\n"
+"  <Listener className=\"org.apache.catalina.storeconfig."
+"StoreConfigLifecycleListener\" />]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:757
+#, no-c-format
+msgid ""
+"<![CDATA[  <!-- Add this listener -->\n"
+"  <Listener className=\"org.jboss.embedded.tomcat."
+"EmbeddedJBossBootstrapListener\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:761
+#, no-c-format
+msgid ""
+"WAR file scanning should be enabled by adding the <literal>WebinfScanner</"
+"literal> listener to <literal>conf/context.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:764
+#, no-c-format
+msgid ""
+"<![CDATA[<Context>\n"
+"    <!-- Default set of monitored resources -->\n"
+"    <WatchedResource>WEB-INF/web.xml</WatchedResource>\n"
+"    \n"
+"    <!-- Uncomment this to disable session persistence across Tomcat "
+"restarts -->\n"
+"    <!--\n"
+"    <Manager pathname=\"\" />\n"
+"    -->]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:765
+#, no-c-format
+msgid ""
+"<![CDATA[  <!-- Add this listener -->\n"
+"  <Listener className=\"org.jboss.embedded.tomcat.WebinfScanner\" />]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:766
+#, no-c-format
+msgid "<![CDATA[</Context>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:770
+#, no-c-format
+msgid ""
+"If you are using Sun JDK 6, you need to set the Java option <literal>sun."
+"lang.ClassLoader.allowArraySyntax</literal> to <literal>true</literal> in "
+"the JAVA_OPTS environment variable used by the Catalina startup script "
+"(catalina.bat on Windows or catalina.sh on Unix)."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:775
+#, no-c-format
+msgid ""
+"Open the script appropriate for your operating system in a text editor. Add "
+"a new line immediately below the comments at the top of the file where you "
+"will define the JAVA_OPTS environment variable. On Windows, use the "
+"following syntax:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:779
+#, no-c-format
+msgid ""
+"<![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader."
+"allowArraySyntax=true]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:781
+#, no-c-format
+msgid "On Unix, use this syntax instead:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:783
+#, no-c-format
+msgid ""
+"<![CDATA[JAVA_OPTS=\"$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true"
+"\"]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:788
+#, no-c-format
+msgid ""
+"For more configuration options, please see the Embedded JBoss Tomcat "
+"integration <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?"
+"page=EmbeddedAndTomcat\">wiki entry</ulink>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:796
+#, no-c-format
+msgid ""
+"The archive structure of a WAR-based deployment on an servlet engine like "
+"Tomcat will look something like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:799
+#, no-c-format
+msgid ""
+"<![CDATA[my-application.war/\n"
+"    META-INF/\n"
+"        MANIFEST.MF\n"
+"    WEB-INF/\n"
+"        web.xml\n"
+"        components.xml\n"
+"        faces-config.xml\n"
+"        lib/\n"
+"            jboss-seam.jar\n"
+"            jboss-seam-ui.jar\n"
+"            jboss-el.jar\n"
+"            jsf-facelets.jar\n"
+"            jsf-api.jar\n"
+"            jsf-impl.jar\n"
+"            ...\n"
+"            my-application.jar/\n"
+"                META-INF/\n"
+"                    MANIFEST.MF\n"
+"                    persistence.xml\n"
+"                seam.properties\n"
+"                org/\n"
+"                    jboss/\n"
+"                        myapplication/\n"
+"                            User.class\n"
+"                            Login.class\n"
+"                            LoginBean.class\n"
+"                            Register.class\n"
+"                            RegisterBean.class\n"
+"                            ...\n"
+"    login.jsp\n"
+"    register.jsp\n"
+"    ...]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:801
+#, no-c-format
+msgid ""
+"Most of the Seam example applications may be deployed to Tomcat by running "
+"<literal>ant deploy.tomcat</literal>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:809
+#, no-c-format
+msgid "Configuring jBPM in Seam"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:810
+#, no-c-format
+msgid ""
+"Seam's jBPM integration is not installed by default, so you'll need to "
+"enable jBPM by installing a built-in component. You'll also need to "
+"explicitly list your process and pageflow definitions. In "
+"<literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:814
+#, no-c-format
+msgid ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:pageflow-definitions>\n"
+"        <value>createDocument.jpdl.xml</value>\n"
+"        <value>editDocument.jpdl.xml</value>\n"
+"        <value>approveDocument.jpdl.xml</value>\n"
+"    </bpm:pageflow-definitions>\n"
+"    <bpm:process-definitions>\n"
+"        <value>documentLifecycle.jpdl.xml</value>\n"
+"    </bpm:process-definitions>\n"
+"</bpm:jbpm>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:816
+#, no-c-format
+msgid ""
+"No further special configuration is needed if you only have pageflows. If "
+"you do have business process definitions, you need to provide a jBPM "
+"configuration, and a Hibernate configuration for jBPM. The Seam DVD Store "
+"demo includes example <literal>jbpm.cfg.xml</literal> and <literal>hibernate."
+"cfg.xml</literal> files that will work with Seam:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:821
+#, no-c-format
+msgid ""
+"<![CDATA[<jbpm-configuration>\n"
+"\n"
+"  <jbpm-context>\n"
+"    <service name=\"persistence\">\n"
+"       <factory>\n"
+"          <bean class=\"org.jbpm.persistence.db.DbPersistenceServiceFactory"
+"\">\n"
+"             <field name=\"isTransactionEnabled\"><false/></field>\n"
+"          </bean>\n"
+"       </factory>\n"
+"    </service>\n"
+"    <service name=\"tx\" factory=\"org.jbpm.tx.TxServiceFactory\" />\n"
+"    <service name=\"message\" factory=\"org.jbpm.msg.db."
+"DbMessageServiceFactory\" />\n"
+"    <service name=\"scheduler\" factory=\"org.jbpm.scheduler.db."
+"DbSchedulerServiceFactory\" />\n"
+"    <service name=\"logging\" factory=\"org.jbpm.logging.db."
+"DbLoggingServiceFactory\" />\n"
+"    <service name=\"authentication\" \n"
+"             factory=\"org.jbpm.security.authentication."
+"DefaultAuthenticationServiceFactory\" />\n"
+"  </jbpm-context>\n"
+"\n"
+"</jbpm-configuration>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:823
+#, no-c-format
+msgid ""
+"The most important thing to notice here is that jBPM transaction control is "
+"disabled. Seam or EJB3 should control the JTA transactions."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:829
+#, no-c-format
+msgid ""
+"There is not yet any well-defined packaging format for jBPM configuration "
+"and process/pageflow definition files. In the Seam examples we've decided to "
+"simply package all these files into the root of the EAR. In future, we will "
+"probably design some other standard packaging format. So the EAR looks "
+"something like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:834
+#, no-c-format
+msgid ""
+"<![CDATA[my-application.ear/\n"
+"    jboss-seam.jar\n"
+"    lib/\n"
+"       jboss-el.jar\n"
+"       jbpm-3.1.jar\n"
+"    META-INF/\n"
+"        MANIFEST.MF\n"
+"        application.xml\n"
+"    my-application.war/\n"
+"        META-INF/\n"
+"            MANIFEST.MF\n"
+"        WEB-INF/\n"
+"            web.xml\n"
+"            components.xml\n"
+"            faces-config.xml\n"
+"            lib/\n"
+"                jsf-facelets.jar\n"
+"                jboss-seam-ui.jar\n"
+"        login.jsp\n"
+"        register.jsp\n"
+"        ...\n"
+"    my-application.jar/\n"
+"        META-INF/\n"
+"            MANIFEST.MF\n"
+"            persistence.xml\n"
+"        seam.properties\n"
+"        org/\n"
+"            jboss/\n"
+"                myapplication/\n"
+"                    User.class\n"
+"                    Login.class\n"
+"                    LoginBean.class\n"
+"                    Register.class\n"
+"                    RegisterBean.class\n"
+"                    ...\n"
+"    jbpm.cfg.xml\n"
+"    hibernate.cfg.xml\n"
+"    createDocument.jpdl.xml\n"
+"    editDocument.jpdl.xml\n"
+"    approveDocument.jpdl.xml\n"
+"    documentLifecycle.jpdl.xml]]>"
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:841
+#, no-c-format
+msgid "Configuring SFSB and Session Timeouts in JBoss AS"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:843
+#, no-c-format
+msgid ""
+"It is very important that the timeout for Stateful Session Beans is set "
+"higher than the timeout for HTTP Sessions, otherwise SFSB's may time out "
+"before the user's HTTP session has ended. JBoss Application Server has a "
+"default session bean timeout of 30 minutes, which is configured in "
+"<literal>server/default/conf/standardjboss.xml</literal> (replace "
+"<emphasis>default</emphasis> with your own configuration)."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:849
+#, no-c-format
+msgid ""
+"The default SFSB timeout can be adjusted by modifying the value of "
+"<literal>max-bean-life</literal> in the "
+"<literal>LRUStatefulContextCachePolicy</literal> cache configuration:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:852
+#, no-c-format
+msgid ""
+"<![CDATA[<container-cache-conf>\n"
+"    <cache-policy>org.jboss.ejb.plugins.LRUStatefulContextCachePolicy</cache-"
+"policy>\n"
+"    <cache-policy-conf>\n"
+"        <min-capacity>50</min-capacity>\n"
+"        <max-capacity>1000000</max-capacity>\n"
+"        <remover-period>1800</remover-period>\n"
+"\n"
+"        <!-- SFSB timeout in seconds; 1800 seconds == 30 minutes -->\n"
+"        <max-bean-life>1800</max-bean-life>  \n"
+"\n"
+"        <overager-period>300</overager-period>\n"
+"        <max-bean-age>600</max-bean-age>\n"
+"        <resizer-period>400</resizer-period>\n"
+"        <max-cache-miss-period>60</max-cache-miss-period>\n"
+"        <min-cache-miss-period>1</min-cache-miss-period>\n"
+"        <cache-load-factor>0.75</cache-load-factor>\n"
+"    </cache-policy-conf>\n"
+"</container-cache-conf>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:854
+#, no-c-format
+msgid ""
+"The default HTTP session timeout can be modified in <literal>server/default/"
+"deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in "
+"<literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for "
+"JBoss 4.2.x or later. The following entry in this file controls the default "
+"session timeout for all web applications:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:859
+#, no-c-format
+msgid ""
+"<![CDATA[<session-config>\n"
+"    <!-- HTTP Session timeout, in minutes -->\n"
+"    <session-timeout>30</session-timeout>\n"
+"</session-config>]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:861
+#, no-c-format
+msgid ""
+"To override this value for your own application, simply include this entry "
+"in your application's own <literal>web.xml</literal>."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:867
+#, no-c-format
+msgid "Running Seam in a Portlet"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:869
+#, no-c-format
+msgid ""
+"If you want to run your Seam application in a portlet, take a look at the "
+"JBoss Portlet Bridge, an implementation of JSR-301 that supports JSF within "
+"a portlet, with extensions for Seam and RichFaces. See <ulink url=\"http://"
+"labs.jboss.com/portletbridge\">http://labs.jboss.com/portletbridge</ulink> "
+"for more."
+msgstr ""
+
+#. Tag: title
+#: Configuration.xml:880
+#, no-c-format
+msgid "Deploying custom resources"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:882
+#, no-c-format
+msgid ""
+"Seam scans all jars containing <literal>/seam.properties</literal>, "
+"<literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam."
+"properties</literal> on startup for resources. For example, all classes "
+"annotated with <literal>@Name</literal> are registered with Seam as Seam "
+"components."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:889
+#, no-c-format
+msgid ""
+"You may also want Seam to handle custom resources. A common use case is to "
+"handle a specific annotation and Seam provides specific support for this. "
+"First, tell Seam which annotations to handle in <literal>/META-INF/seam-"
+"deployment.properties</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:896
+#, no-c-format
+msgid ""
+"<![CDATA[# A colon-separated list of annotation types to handle\n"
+"org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:898
+#, no-c-format
+msgid ""
+"Then, during application startup you can get hold of all classes annotated "
+"with <literal>@Foo</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:903
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"fooStartup\")\n"
+"@Scope(APPLICATION)\n"
+"@Startup\n"
+"public class FooStartup {\n"
+"\n"
+"   @In(\"#{deploymentStrategy.annotatedClasses['com.acme.Foo']}\")\n"
+"   private Set<Class<Object>> fooClasses;\n"
+"   \n"
+"   @In(\"#{hotDeploymentStrategy.annotatedClasses['com.acme.Foo']}\")\n"
+"   private Set<Class<Object>> hotFooClasses;\n"
+"\n"
+"   @Create\n"
+"   public void create() {\n"
+"      for (Class clazz: fooClasses) {\n"
+"         handleClass(clazz);\n"
+"      }\n"
+"      for (Class clazz: hotFooClasses) {\n"
+"         handleClass(clazz);\n"
+"      }\n"
+"   }\n"
+"   \n"
+"   public void handleClass(Class clazz) {\n"
+"       // ...\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:905
+#, no-c-format
+msgid ""
+"You can also handle <emphasis>any</emphasis> resource. For example, you "
+"process any files with the extension <literal>.foo.xml</literal>. To do "
+"this, we need to write a custom deployment handler:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:911
+#, no-c-format
+msgid ""
+"<![CDATA[public class FooDeploymentHandler implements DeploymentHandler {\n"
+"    private static DeploymentMetadata FOO_METADATA = new DeploymentMetadata"
+"()\n"
+"    {\n"
+"\n"
+"        public String getFileNameSuffix() {\n"
+"            return \".foo.xml\";\n"
+"        }\n"
+"    };\n"
+"    \n"
+"   public String getName() {\n"
+"      return \"fooDeploymentHandler\";\n"
+"   }\n"
+"\n"
+"    public DeploymentMetadata getMetadata() {\n"
+"        return FOO_METADATA;\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:913
+#, no-c-format
+msgid ""
+"Here we are just building a list of any files with the suffix <literal>.foo."
+"xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:918
+#, no-c-format
+msgid ""
+"Then, we need to register the deployment handler with Seam in <literal>/META-"
+"INF/seam-deployment.properties</literal>. You can register multiple "
+"deployment handler using a comma separated list."
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:925
+#, no-c-format
+msgid ""
+"<![CDATA[# For standard deployment\n"
+"org.jboss.seam.deployment.deploymentHandlers=com.acme.FooDeploymentHandler\n"
+"# For hot deployment\n"
+"org.jboss.seam.deployment.hotDeploymentHandlers=com.acme."
+"FooDeploymentHandler]]>"
+msgstr ""
+
+#. Tag: para
+#: Configuration.xml:931
+#, no-c-format
+msgid ""
+"Seam uses deployment handlers internally to install components and "
+"namespaces. You can easily access the deployment handler during an "
+"<literal>APPLICATION</literal> scoped component's startup:"
+msgstr ""
+
+#. Tag: programlisting
+#: Configuration.xml:937
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"fooStartup\")\n"
+"@Scope(APPLICATION)\n"
+"@Startup\n"
+"public class FooStartup {\n"
+"\n"
+"   @In(\"#{deploymentStrategy.deploymentHandlers['fooDeploymentHandler']}"
+"\")\n"
+"   private FooDeploymentHandler myDeploymentHandler;\n"
+"   \n"
+"   @In(\"#{hotDeploymentStrategy.deploymentHandlers['fooDeploymentHandler']}"
+"\")\n"
+"   private FooDeploymentHandler myHotDeploymentHandler;\n"
+"\n"
+"   @Create\n"
+"   public void create() {\n"
+"      for (FileDescriptor fd: myDeploymentHandler.getResources()) {\n"
+"           handleFooXml(fd);\n"
+"      }\n"
+"      \n"
+"      for (FileDescriptor f: myHotDeploymentHandler.getResources()) {\n"
+"           handleFooXml(fd);\n"
+"      }\n"
+"   }\n"
+"\n"
+"   public void handleFooXml(FileDescriptor fd) {\n"
+"       // ...\n"
+"   }\n"
+"}]]>"
+msgstr ""

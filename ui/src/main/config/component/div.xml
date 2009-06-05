@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Div</name>
+		<family>org.jboss.seam.ui.Div</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlDiv</classname>
+		<superclass>org.jboss.seam.ui.component.UIStyle</superclass>
+		<description>
+			<![CDATA[Render a HTML <div>.]]>
+		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.DivRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.DivRendererBase</classname>
+		</renderer>
+		<tag>
+			<name>div</name>
+			<classname>org.jboss.seam.ui.taglib.DivTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
+		</tag>
+		<property>
+            <name>style</name>
+            <classname>java.lang.String</classname>
+            <description>CSS style(s) is/are to be applied when this component is rendered</description>
+        </property>
+        <property>
+            <name>styleClass</name>
+            <classname>java.lang.String</classname>
+            <description>Corresponds to the HTML class attribute</description>
+        </property>
+	</component>
+</components>
