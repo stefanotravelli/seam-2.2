@@ -312,10 +312,14 @@ public class UICell extends UIRectangle {
             hasContent = true;
         } else if (o instanceof Element) {
             if (cell.getImage() != null) {
-                cell.addElement(cell.getImage());
+                Image image = cell.getImage(); 
+                cell.setImage(null);
+                cell.addElement(image);
             }
             if (cell.getPhrase() != null) {
-                cell.addElement(cell.getPhrase());
+                Phrase p = cell.getPhrase();
+                cell.setPhrase(null);
+                cell.addElement(p);
             }
             cell.addElement((Element) o);
         } else {
