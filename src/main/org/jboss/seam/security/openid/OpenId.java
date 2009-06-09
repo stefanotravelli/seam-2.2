@@ -27,11 +27,8 @@ import org.openid4java.consumer.VerificationResult;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.discovery.Identifier;
 import org.openid4java.message.AuthRequest;
-import org.openid4java.message.AuthSuccess;
 import org.openid4java.message.ParameterList;
-import org.openid4java.message.ax.AxMessage;
 import org.openid4java.message.ax.FetchRequest;
-import org.openid4java.message.ax.FetchResponse;
 
 @Name("org.jboss.seam.security.openid.openid")
 @Install(precedence=Install.BUILT_IN, classDependencies="org.openid4java.consumer.ConsumerManager")
@@ -71,12 +68,19 @@ public class OpenId
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
-        try {            
-            URL returnToUrl = new URL("http",
-                    request.getServerName(), 
-                    request.getServerPort(),
-                    context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml"));
-
+        try {   
+            URL returnToUrl;            
+            if (request.getServerPort()==80) {
+               returnToUrl = new URL("http",   
+                     request.getServerName(), 
+                     context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml"));
+            } else {
+               returnToUrl = new URL("http",   
+                     request.getServerName(), 
+                     request.getServerPort(),
+                     context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml"));
+               
+            }
             return returnToUrl.toExternalForm();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -174,10 +178,10 @@ public class OpenId
             if (queryString != null && queryString.length() > 0)
                 receivingURL.append("?").append(httpReq.getQueryString());
             
+            
             // verify the response; ConsumerManager needs to be the same
             // (static) instance used to place the authentication request
-            VerificationResult verification = manager.verify(
-                                                             receivingURL.toString(),
+            VerificationResult verification = manager.verify(receivingURL.toString(),
                                                              response, discovered);
             
             // examine the verification result and extract the verified identifier
