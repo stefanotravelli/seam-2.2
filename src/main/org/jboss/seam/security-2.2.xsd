@@ -28,6 +28,15 @@
     <xs:attributeGroup name="attlist.remember-me">
         <xs:attribute name="cookie-max-age" type="components:int"/>
         <xs:attribute name="enabled" type="components:boolean"/>
+        <xs:attribute name="mode">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="disabled"/>
+                    <xs:enumeration value="usernameOnly"/>
+                    <xs:enumeration value="autoLogin"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:attributeGroup>
     
     <xs:element name="identity-manager">
