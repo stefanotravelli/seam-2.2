@@ -44,6 +44,13 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:element name="jpa-token-store">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.jpa-token-store"/>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:element name="ldap-identity-store">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -90,6 +97,11 @@
         <xs:attribute name="role-class" type="components:string"/>
         <xs:attribute name="features" type="components:string"/>
     </xs:attributeGroup>     
+    
+    <xs:attributeGroup name="attlist.jpa-token-store">
+        <xs:attribute name="entity-manager" type="components:string"/>
+        <xs:attribute name="token-class" type="components:string"/>
+    </xs:attributeGroup> 
     
     <xs:attributeGroup name="attlist.ldap-identity-store">
         <xs:attribute name="server-address" type="components:string"/>
