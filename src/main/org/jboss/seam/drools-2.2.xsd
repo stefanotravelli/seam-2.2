@@ -20,7 +20,8 @@
     <xs:element name="rule-files" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.RuleBase">
         <xs:attribute name="dsl-file" type="components:string"/>
-        <xs:attribute name="rule-files" type="components:string"/>        
+        <xs:attribute name="rule-files" type="components:string"/> 
+        <xs:attribute name="consequence-exception-handler" type="components:expressionType"/>       
     </xs:attributeGroup>
 
     <xs:element name="rule-agent">
@@ -47,6 +48,9 @@
             <xs:documentation>A working memory for rules calculations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+        	<xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="1" ref="drools:event-listeners"/>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="drools:attlist.ManagedWorkingMemory"/>
         </xs:complexType>
@@ -54,5 +58,6 @@
     <xs:attributeGroup name="attlist.ManagedWorkingMemory">
         <xs:attribute name="rule-base" type="components:expressionType"/>
     </xs:attributeGroup>
+    <xs:element name="event-listeners" type="components:multiValuedProperty"/>
 
 </xs:schema>

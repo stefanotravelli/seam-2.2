@@ -26,7 +26,7 @@
 </drools:rule-base>]]></programlisting>
 
          <para>
-             This component compiles rules from a set of <literal>.drl</literal>
+             This component compiles rules from a set of DRL (<literal>.drl</literal>) or decision table (<literal>.xls</literal>)
              files and caches an instance of <literal>org.drools.RuleBase</literal>
              in the Seam <literal>APPLICATION</literal> context. Note that it is 
              quite likely that you will need to install multiple rule bases in a 
@@ -39,6 +39,40 @@
          </para>
          
         <programlisting role="XML"><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl">
+    <drools:rule-files>
+        <value>policyPricingRules.drl</value>
+    </drools:rule-files>
+</drools:rule-base>]]></programlisting>
+
+         <para>
+             If you want to register a custom consequence exception handler through the RuleBaseConfiguration, you need to 
+             write the handler, for example: 
+         </para>
+         
+        <programlisting role="JAVA"><![CDATA[@Scope(ScopeType.APPLICATION)
+@Startup
+@Name("myConsequenceExceptionHandler")
+public class MyConsequenceExceptionHandler implements ConsequenceExceptionHandler, Externalizable {
+
+   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+   }
+
+   public void writeExternal(ObjectOutput out) throws IOException {
+   }
+
+   public void handleException(Activation activation,
+                               WorkingMemory workingMemory,
+                               Exception exception) {
+       throw new ConsequenceException( exception,
+                                       activation.getRule() );
+   }
+
+}]]></programlisting>
+
+		<para>
+		and register it:
+		</para>
+		<programlisting role="XML"><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl" consequence-exception-handler="#{myConsequenceExceptionHandler}">
     <drools:rule-files>
         <value>policyPricingRules.drl</value>
     </drools:rule-files>
@@ -86,7 +120,18 @@ name=insuranceconfig</programlisting>
              reference back to our rule base via the <literal>ruleBase</literal>
              configuration property.
          </para>
+                  
+         <para>
+         	We can also add means to be notified of rule engine events, including rules firing, objects being asserted, etc. 
+         	by adding event listeners to WorkingMemory.
+         </para>
          
+         <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" auto-create="true" rule-base="#{policyPricingRules}">
+	<drools:event-listeners>
+    	<value>org.drools.event.DebugWorkingMemoryEventListener</value>
+        <value>org.drools.event.DebugAgendaEventListener</value>
+	</drools:event-listeners>
+</drools:managed-working-memory>]]></programlisting>
      </section>
      
      <section>

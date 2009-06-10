@@ -1,20 +1,26 @@
 package org.jboss.seam.drools;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.drools.RuleBaseConfiguration;
 import org.drools.RuleBaseFactory;
 import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.compiler.RuleError;
+import org.drools.decisiontable.InputType;
+import org.drools.decisiontable.SpreadsheetCompiler;
+import org.drools.spi.ConsequenceExceptionHandler;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -22,6 +28,7 @@ import org.jboss.seam.log.Logging;
  * Manager component for a Drools RuleBase
  * 
  * @author Gavin King
+ * @author Tihomir Surdilovic
  *
  */
 @Scope(ScopeType.APPLICATION)
@@ -32,6 +39,7 @@ public class RuleBase
    
    private String[] ruleFiles;
    private String dslFile;
+   private ValueExpression<ConsequenceExceptionHandler> consequenceExceptionHandler;
    private org.drools.RuleBase ruleBase;
    
    @Create
@@ -50,17 +58,31 @@ public class RuleBase
             {
                throw new IllegalStateException("could not locate rule file: " + ruleFile);
             }
-            // read in the source
-            Reader drlReader = new InputStreamReader(stream);
-                                  
-            if (dslFile==null)
+            
+            if(isDecisionTable(ruleFile)) 
             {
-               builder.addPackageFromDrl(drlReader);               
-            }
-            else
-            {
-               Reader dslReader = new InputStreamReader( ResourceLoader.instance().getResourceAsStream(dslFile) );
-               builder.addPackageFromDrl(drlReader, dslReader);
+               log.debug("compiling decision table");
+               SpreadsheetCompiler compiler = new SpreadsheetCompiler();
+               String drl = compiler.compile(stream, InputType.XLS);
+               
+               log.debug("creating source");               
+               byte currentXMLBytes[] = drl.getBytes();
+               InputStreamReader source = new InputStreamReader(new ByteArrayInputStream(currentXMLBytes)); 
+               
+               builder.addPackageFromDrl(source);
+            } else {             
+               // read in the source
+               Reader drlReader = new InputStreamReader(stream);
+               
+               if (dslFile==null)
+               {
+                  builder.addPackageFromDrl(drlReader);               
+               }
+               else
+               {
+                  Reader dslReader = new InputStreamReader( ResourceLoader.instance().getResourceAsStream(dslFile) );
+                  builder.addPackageFromDrl(drlReader, dslReader);
+               }
             }
             
             if ( builder.hasErrors() )
@@ -82,8 +104,18 @@ public class RuleBase
          }
       }
       
-      // add the package to a rulebase
-      ruleBase = RuleBaseFactory.newRuleBase();
+      if(consequenceExceptionHandler != null) 
+      {
+         log.debug("adding consequence exception handler: " + consequenceExceptionHandler.getExpressionString());
+         RuleBaseConfiguration rbconf = new RuleBaseConfiguration();
+         rbconf.setConsequenceExceptionHandler(consequenceExceptionHandler.getValue());
+         ruleBase = RuleBaseFactory.newRuleBase( rbconf );
+      }
+      else 
+      {
+         ruleBase = RuleBaseFactory.newRuleBase();
+      }
+      
       ruleBase.addPackage( builder.getPackage() );
    }
    
@@ -111,6 +143,21 @@ public class RuleBase
    public void setDslFile(String dslFile)
    {
       this.dslFile = dslFile;
+   }
+   
+   public ValueExpression<ConsequenceExceptionHandler> getConsequenceExceptionHandler()
+   {
+      return consequenceExceptionHandler;
+   }
+
+   public void setConsequenceExceptionHandler(ValueExpression<ConsequenceExceptionHandler> consequenceExceptionHandler)
+   {
+      this.consequenceExceptionHandler = consequenceExceptionHandler;
+   }
+
+   private boolean isDecisionTable(String fileName) 
+   {
+      return fileName != null && fileName.length() > 0 && fileName.endsWith(".xls");
    }
    
 }

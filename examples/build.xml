@@ -325,6 +325,8 @@
 		<include name="mvel14.jar" if="drools.lib" />
 		<include name="drools-core.jar" if="drools.lib" />
 		<include name="drools-compiler.jar" if="drools.lib" />
+		<include name="drools-decisiontables.jar" if="drools.lib"/>
+		<include name="jxl.jar" if="drools.lib"/>
 	</fileset>
 
 	<!-- Dependencies for using Spring with Cglib -->
@@ -470,6 +472,11 @@
 		<include name="*.jpdl.xml" />
 		<exclude name=".gpd*" />
 	</fileset>
+	
+	<!-- binary resources to go in the jar -->
+		<fileset id="jar.binary.resources" dir="${resources.dir}">
+			<include name="*.xls" />
+		</fileset>
 
 	<!-- resources to go in the jar for tomcat  -->
 	<fileset id="tomcat.jar.resources" dir="${resources.dir}">
@@ -651,6 +658,11 @@
 			<filterset>
 				<filter token="distributable" value="${distributable}" />
 			</filterset>
+		</copy>
+		<!-- copy decision tables (binary) without the filter definitions
+			 so that they won't get corrupted -->
+		<copy todir="${jar.dir}">
+			<fileset refid="jar.binary.resources" />
 		</copy>
 	</target>
 	

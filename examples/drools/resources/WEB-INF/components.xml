@@ -10,8 +10,18 @@
                  http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.2.xsd">
             
     <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
-    <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}"/>
-
+    <!-- use this in order to load from decision table instead -->        
+    <!-- <drools:rule-base name="ruleBase" rule-files="numberguess.xls"/>  -->
+    <!--  use this if you want to register a custom consequence exception handler -->
+    <!--  <drools:rule-base name="ruleBase" rule-files="numberguess.xls" consequence-exception-handler="#{gameConsequenceExceptionHandler}"/>  -->
+    <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}">
+    	<!--  add WM event listeners -->
+    	<!-- <drools:event-listeners>
+           <value>org.drools.event.DebugWorkingMemoryEventListener</value>
+           <value>org.drools.event.DebugAgendaEventListener</value>
+        </drools:event-listeners>  -->
+    </drools:managed-working-memory>
+    
     <bpm:jbpm>
         <bpm:pageflow-definitions>
             <value>pageflow.jpdl.xml</value>
