@@ -149,8 +149,8 @@ name=insuranceconfig</programlisting>
 
 public void pricePolicy() throws FactException
 {
-    policyPricingWorkingMemory.assertObject(policy);
-    policyPricingWorkingMemory.assertObject(customer);
+	policyPricingWorkingMemory.insert(policy);
+	policyPricingWorkingMemory.insert(customer); 
     policyPricingWorkingMemory.fireAllRules();
 }]]></programlisting>
      
@@ -268,15 +268,6 @@ end]]></programlisting>
                dependencies as needed.
             </para>
          </caution>
-         
-         <tip>
-             <para>
-                 Drools comes with MVEL compiled for Java 1.4, which is 
-                 compatible with Java 1.4, Java 5 and Java 6. You may want to
-                 change your MVEL jar with one compiled for the version of Java
-                 you are using
-             </para>
-         </tip>
 
      </section>
      
