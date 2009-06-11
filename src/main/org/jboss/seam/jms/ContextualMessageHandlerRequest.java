@@ -2,13 +2,18 @@ package org.jboss.seam.jms;
 
 import java.lang.reflect.ParameterizedType;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.async.AbstractDispatcher;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * <p>
@@ -26,6 +31,8 @@ import org.jboss.seam.contexts.Lifecycle;
  */
 public abstract class ContextualMessageHandlerRequest<T>
 {
+   private static transient final LogProvider log = Logging.getLogProvider(ContextualMessageHandlerRequest.class);
+   
    private Message message;
    private boolean setupRequired = false;
    private Object result = null;
@@ -90,10 +97,46 @@ public abstract class ContextualMessageHandlerRequest<T>
       }
       
       Contexts.getEventContext().set(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL, true);
+      if (Init.instance().isJbpmInstalled())
+      {
+         setupProcessOrTask();
+      }
+      
       Class<T> delegateClass = getDelegateClass();
       if (delegateClass != null)
       {
          delegate = (T) Component.getInstance(delegateClass);
+      }
+   }
+   
+   private void setupProcessOrTask()
+   {
+      try
+      {
+         Long taskId = message.getLongProperty("taskId");
+         if (taskId != null)
+         {
+            BusinessProcess.instance().resumeTask(taskId);
+            return;
+         }
+      }
+      catch (JMSException e)
+      {
+         log.debug("Could not retrieve taskId from message object: " + e.getMessage());
+      }
+      
+      try
+      {
+         Long processId = message.getLongProperty("processId");
+         if (processId != null)
+         {
+            BusinessProcess.instance().resumeProcess(processId);
+            return;
+         }
+      }
+      catch (JMSException e)
+      {
+         log.debug("Could not retrieve processId from message object: " + e.getMessage());
       }
    }
    
