@@ -10,7 +10,7 @@ import org.drools.RuleBaseFactory;
 import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
-import org.drools.compiler.RuleError;
+import org.drools.compiler.RuleBuildError;
 import org.drools.decisiontable.InputType;
 import org.drools.decisiontable.SpreadsheetCompiler;
 import org.drools.spi.ConsequenceExceptionHandler;
@@ -90,9 +90,9 @@ public class RuleBase
                log.error("errors parsing rules in: " + ruleFile);               
                for ( DroolsError error: builder.getErrors().getErrors() )
                {
-                  if (error instanceof RuleError)
+                  if (error instanceof RuleBuildError)
                   {
-                     RuleError ruleError = (RuleError) error;
+                     RuleBuildError ruleError = (RuleBuildError) error;
                      log.error( ruleError.getMessage() + " (" + ruleFile + ':' + ruleError.getLine() + ')' );                     
                   }
                   else
@@ -108,7 +108,7 @@ public class RuleBase
       {
          log.debug("adding consequence exception handler: " + consequenceExceptionHandler.getExpressionString());
          RuleBaseConfiguration rbconf = new RuleBaseConfiguration();
-         rbconf.setConsequenceExceptionHandler(consequenceExceptionHandler.getValue());
+         rbconf.setConsequenceExceptionHandler(consequenceExceptionHandler.getValue().toString());
          ruleBase = RuleBaseFactory.newRuleBase( rbconf );
       }
       else 

@@ -15,7 +15,7 @@ import java.util.Set;
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.StatefulSession;
-import org.drools.base.ClassObjectFilter;
+import org.drools.ClassObjectFilter;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -234,7 +234,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
                   Principal role = (Principal) e.nextElement();
    
                   boolean found = false;
-                  Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+                  Iterator<Role> iter = (Iterator<Role>) getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
                   while (iter.hasNext()) 
                   {
                      Role r = iter.next();
@@ -254,7 +254,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
             }
          }    
          
-         Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+         Iterator<Role> iter = (Iterator<Role>) getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
          while (iter.hasNext()) 
          {
             Role r = iter.next();
