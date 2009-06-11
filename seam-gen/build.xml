@@ -819,13 +819,13 @@
 
     <target name="copy-icefaces-maven" if="icefaces.property" unless="icefaces.lib.property">
         <artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
-            <dependency groupId="org.icefaces" artifactId="icefaces" version="1.8.0">
+            <dependency groupId="org.icefaces" artifactId="icefaces" version="1.8.1">
                 <exclusion groupId="javax.el" artifactId="el-api"/>
             </dependency>
-            <dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.8.0">
+            <dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.8.1">
                 <exclusion groupId="javax.el" artifactId="el-api"/>
             </dependency>
-            <dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.8.0">
+            <dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.8.1">
                 <exclusion groupId="javax.el" artifactId="el-api"/>
             </dependency>
             <remoteRepository refId="repository.jboss.org"/>
