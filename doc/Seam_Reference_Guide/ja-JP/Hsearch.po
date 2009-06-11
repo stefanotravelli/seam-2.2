@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"POT-Creation-Date: 2009-06-11 18:45+0000\n"
 "PO-Revision-Date: 2009-01-12 22:00+0900\n"
 "Last-Translator: Ai Suzuki <tar_zcvf@yahoo.co.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -53,9 +53,9 @@ msgstr ""
 
 #. Tag: para
 #: Hsearch.xml:21
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"Hibernate Search has been designed to integrates nicely and as naturally as "
+"Hibernate Search has been designed to integrate nicely and as naturally as "
 "possible with JPA and Hibernate. As a natural extension, JBoss Seam provides "
 "an Hibernate Search integration."
 msgstr ""
@@ -155,7 +155,7 @@ msgid ""
 "      <property name=\"hibernate.ejb.event.post-delete\" \n"
 "                value=\"org.hibernate.search.event.FullTextIndexEventListener"
 "\"/>\n"
-"\n"
+"                \n"
 "   </properties>\n"
 "</persistence-unit>]]>"
 msgstr ""
@@ -164,14 +164,15 @@ msgstr ""
 #: Hsearch.xml:52
 #, no-c-format
 msgid ""
-"This step is no longer necessary if Hibernate Annotation or EntityManager "
-"3.3.x are used."
+"It is not longer necessary the register the event listeners if Hibernate "
+"Annotations or EntityManager 3.3.x are used. When using Hibernate Search 3.1."
+"x more eventlisteners are needed, but these are registered automatically by "
+"Hibernate Annotations; refer to the Hibernate Search reference for "
+"configuring it without EntityManager and Annotations."
 msgstr ""
-"Hibernate アノテーションか、EntityManager の 3.3.x が使用されているなら、この"
-"手順は必要がありません。"
 
 #. Tag: para
-#: Hsearch.xml:56
+#: Hsearch.xml:60
 #, no-c-format
 msgid ""
 "In addition to the configuration file, the following jars have to be "
@@ -179,25 +180,25 @@ msgid ""
 msgstr "この設定ファイルに加えて、以下の jar ファイルがデプロイされます:"
 
 #. Tag: para
-#: Hsearch.xml:61
+#: Hsearch.xml:65
 #, no-c-format
 msgid "hibernate-search.jar"
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:65
+#: Hsearch.xml:69
 #, no-c-format
 msgid "hibernate-commons-annotations.jar"
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:69
+#: Hsearch.xml:73
 #, no-c-format
 msgid "lucene-core.jar"
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:74
+#: Hsearch.xml:78
 #, no-c-format
 msgid ""
 "If you deploy those in a EAR, don't forget to update <filename>application."
@@ -207,13 +208,13 @@ msgstr ""
 "filename> の更新を忘れずに行ってください。"
 
 #. Tag: title
-#: Hsearch.xml:80
+#: Hsearch.xml:84
 #, no-c-format
 msgid "Usage"
 msgstr "使い方"
 
 #. Tag: para
-#: Hsearch.xml:82
+#: Hsearch.xml:86
 #, no-c-format
 msgid ""
 "Hibernate Search uses annotations to map entities to a Lucene index, check "
@@ -226,7 +227,7 @@ msgstr ""
 "アル</ulink> を参照してください。"
 
 #. Tag: para
-#: Hsearch.xml:87
+#: Hsearch.xml:91
 #, no-c-format
 msgid ""
 "Hibernate Search is fully integrated with the API and semantic of JPA / "
@@ -242,7 +243,7 @@ msgstr ""
 "<classname>Session</classname> のサブクラスです)。"
 
 #. Tag: para
-#: Hsearch.xml:93
+#: Hsearch.xml:97
 #, no-c-format
 msgid ""
 "When Hibernate Search is present, JBoss Seam injects a "
@@ -252,7 +253,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Hsearch.xml:96
+#: Hsearch.xml:100
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -275,7 +276,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:99
+#: Hsearch.xml:103
 #, no-c-format
 msgid ""
 "<classname>FullTextSession</classname> extends <classname>org.hibernate."
@@ -286,7 +287,7 @@ msgstr ""
 "可能です。"
 
 #. Tag: para
-#: Hsearch.xml:104
+#: Hsearch.xml:108
 #, no-c-format
 msgid ""
 "If the Java Persistence API is used, a smoother integration is proposed."
@@ -294,7 +295,7 @@ msgstr ""
 "Java Persistance API が使用された場合には、より円滑な統合が提案されます。"
 
 #. Tag: programlisting
-#: Hsearch.xml:107
+#: Hsearch.xml:111
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -317,7 +318,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:109
+#: Hsearch.xml:113
 #, no-c-format
 msgid ""
 "When Hibernate Search is present, a <classname>FulltextEntityManager</"
@@ -334,7 +335,7 @@ msgstr ""
 "承します。"
 
 #. Tag: para
-#: Hsearch.xml:116
+#: Hsearch.xml:120
 #, no-c-format
 msgid ""
 "When an EJB 3.0 Session or Message Driven Bean injection is used (i.e. via "
@@ -353,7 +354,7 @@ msgstr ""
 "classname> の実装になるでしょう。ダウンキャスト自体は可能です。"
 
 #. Tag: programlisting
-#: Hsearch.xml:124
+#: Hsearch.xml:128
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -377,18 +378,18 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Hsearch.xml:129
-#, no-c-format
+#: Hsearch.xml:133
+#, fuzzy, no-c-format
 msgid ""
 "For people accustomed to Hibernate Search out of Seam, note that using "
-"<methodname>Search.createFullTextSession</methodname> is not necessary."
+"<methodname>Search.getFullTextSession</methodname> is not necessary."
 msgstr ""
 "Seam 以外で Hibernate Search に慣れるためには、<methodname>Search."
 "createFullTextSession</methodname> を使用する必要がないことを覚えておいてくだ"
 "さい。"
 
 #. Tag: para
-#: Hsearch.xml:134
+#: Hsearch.xml:138
 #, no-c-format
 msgid ""
 "Check the DVDStore or the blog examples of the JBoss Seam distribution for a "
@@ -396,3 +397,10 @@ msgid ""
 msgstr ""
 "DVDStore か JBoss Seam の配布物である blog サンプルプログラムで、Hibernate "
 "Search の具体的な使用例を確認してください。"
+
+#~ msgid ""
+#~ "This step is no longer necessary if Hibernate Annotation or EntityManager "
+#~ "3.3.x are used."
+#~ msgstr ""
+#~ "Hibernate アノテーションか、EntityManager の 3.3.x が使用されているなら、"
+#~ "この手順は必要がありません。"
