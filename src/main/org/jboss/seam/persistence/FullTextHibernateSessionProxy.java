@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.jdbc.Work;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.SearchFactory;
@@ -16,7 +17,7 @@ import org.hibernate.type.Type;
  * Wraps a Hibernate Search session
  * 
  * @author Gavin King
- *
+ * @author Sanne Grinovero
  */
 @SuppressWarnings("deprecation")
 public class FullTextHibernateSessionProxy extends HibernateSessionProxy implements FullTextSession
@@ -29,14 +30,14 @@ public class FullTextHibernateSessionProxy extends HibernateSessionProxy impleme
       this.fullTextSession = fullTextSession;
    }
 
-   public void index(Object arg0)
+   public <T> void index(T entity)
    {
-      fullTextSession.index(arg0);
+      fullTextSession.index(entity);
    }
 
-   public FullTextQuery createFullTextQuery(org.apache.lucene.search.Query arg0, Class... arg1)
+   public FullTextQuery createFullTextQuery(org.apache.lucene.search.Query ftQuery, Class<?>... entityTypes)
    {
-      return fullTextSession.createFullTextQuery(arg0, arg1);
+      return fullTextSession.createFullTextQuery(ftQuery, entityTypes);
    }
 
    public Query createSQLQuery(String arg0, String arg1, Class arg2)
@@ -62,6 +63,16 @@ public class FullTextHibernateSessionProxy extends HibernateSessionProxy impleme
    public int delete(String arg0) throws HibernateException
    {
       return fullTextSession.delete(arg0);
+   }
+   
+   public void doWork(Work work) throws HibernateException
+   {
+      fullTextSession.doWork(work);
+   }
+   
+   public void flushToIndexes()
+   {
+      fullTextSession.flushToIndexes();
    }
 
    public Collection filter(Object arg0, String arg1, Object arg2, Type arg3) throws HibernateException
@@ -100,12 +111,12 @@ public class FullTextHibernateSessionProxy extends HibernateSessionProxy impleme
       return fullTextSession.getSearchFactory();
    }
 
-   public void purge(Class aClass, Serializable serializable)
+   public <T> void purge(Class<T> entityType, Serializable id)
    {
-      fullTextSession.purge(aClass, serializable);
+      fullTextSession.purge(entityType, id);
    }
 
-   public void purgeAll(Class aClass)
+   public <T> void purgeAll(Class<T> aClass)
    {
       fullTextSession.purgeAll(aClass);
    }

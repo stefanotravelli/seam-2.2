@@ -18,7 +18,7 @@
 	and the domain model, and querying mismatch). But the benefits of speed
 	and efficiency far outweigh these limitations.</para>
 
-    <para>Hibernate Search has been designed to integrates nicely and as
+    <para>Hibernate Search has been designed to integrate nicely and as
     naturally as possible with JPA and Hibernate. As a natural extension,
     JBoss Seam provides an Hibernate Search integration.</para>
 
@@ -74,13 +74,17 @@
                 value="org.hibernate.search.event.FullTextIndexEventListener"/>
       <property name="hibernate.ejb.event.post-delete" 
                 value="org.hibernate.search.event.FullTextIndexEventListener"/>
-
+                
    </properties>
 </persistence-unit>]]></programlisting>
 
     <note>
-      <para>This step is no longer necessary if Hibernate Annotation or
-      EntityManager 3.3.x are used.</para>
+      <para>It is not longer necessary the register the event listeners if
+      Hibernate Annotations or EntityManager 3.3.x are used.
+      When using Hibernate Search 3.1.x more eventlisteners are needed, but
+      these are registered automatically by Hibernate Annotations; refer
+      to the Hibernate Search reference for configuring it without
+      EntityManager and Annotations.</para>
     </note>
 
     <para>In addition to the configuration file, the following jars have to be
@@ -203,7 +207,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable {
 
     <caution>
       <para>For people accustomed to Hibernate Search out of Seam, note that
-      using <methodname>Search.createFullTextSession</methodname> is not
+      using <methodname>Search.getFullTextSession</methodname> is not
       necessary.</para>
     </caution>
 

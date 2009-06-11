@@ -10,41 +10,48 @@ import org.hibernate.search.jpa.FullTextQuery;
 
 /**
  * Wrap a FullTextEntityManager
- *
+ * 
  * @author Emmanuel Bernard
+ * @author Sanne Grinovero
  */
 public class FullTextEntityManagerProxy extends EntityManagerProxy implements FullTextEntityManager
 {
-   private FullTextEntityManager fullTextEntityManager;
-
+   
+   private final FullTextEntityManager fullTextEntityManager;
+   
    public FullTextEntityManagerProxy(FullTextEntityManager entityManager)
    {
       super(entityManager);
       this.fullTextEntityManager = entityManager;
    }
-
-   public FullTextQuery createFullTextQuery(Query query, Class... classes)
+   
+   public FullTextQuery createFullTextQuery(Query query, Class<?>... classes)
    {
       return fullTextEntityManager.createFullTextQuery(query, classes);
    }
-
-   public void index(Object object)
+   
+   public void flushToIndexes()
    {
-      fullTextEntityManager.index(object);
+      fullTextEntityManager.flushToIndexes();
    }
-
+   
+   public <T> void index(T entity)
+   {
+      fullTextEntityManager.index(entity);
+   }
+   
    public SearchFactory getSearchFactory()
    {
       return fullTextEntityManager.getSearchFactory();
    }
-
-   public void purge(Class aClass, Serializable serializable)
+   
+   public <T> void purge(Class<T> aClass, Serializable id)
    {
-      fullTextEntityManager.purge(aClass, serializable);
+      fullTextEntityManager.purge(aClass, id);
    }
-
-   public void purgeAll(Class aClass)
+   
+   public <T> void purgeAll(Class<T> entityType)
    {
-      fullTextEntityManager.purgeAll(aClass);
+      fullTextEntityManager.purgeAll(entityType);
    }
 }

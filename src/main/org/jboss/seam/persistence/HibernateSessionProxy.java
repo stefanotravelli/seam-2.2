@@ -37,6 +37,7 @@ import org.hibernate.event.EventSource;
 import org.hibernate.impl.CriteriaImpl;
 import org.hibernate.jdbc.Batcher;
 import org.hibernate.jdbc.JDBCContext;
+import org.hibernate.jdbc.Work;
 import org.hibernate.loader.custom.CustomQuery;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.stat.SessionStatistics;
@@ -164,6 +165,11 @@ public class HibernateSessionProxy implements Session, SessionImplementor, Event
    public Connection disconnect() throws HibernateException
    {
       return delegate.disconnect();
+   }
+   
+   public void doWork(Work work) throws HibernateException
+   {
+      delegate.doWork(work);
    }
 
    public Filter enableFilter(String arg0)
