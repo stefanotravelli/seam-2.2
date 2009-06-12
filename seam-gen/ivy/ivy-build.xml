@@ -35,7 +35,6 @@
 
 	<target name="inflate-core" depends="load-ivy">
 		<ivy:retrieve pattern="${lib.dir}/[artifact].[ext]" type="jar" sync="${ivy.sync}" symlink="${ivy.use.symlinks}" conf="default"/>
-		<move file="${lib.dir}/mvel.jar" tofile="${lib.dir}/mvel14.jar" failonerror="false"/>
 	</target>
 
 	<target name="inflate-source" depends="load-ivy">
