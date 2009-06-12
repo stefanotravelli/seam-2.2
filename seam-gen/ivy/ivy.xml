@@ -1,152 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="1.0" xmlns:m="http://ant.apache.org/ivy/maven">
 	<info organisation="@projectName@" module="@projectName@"/>
-	<configurations>
+	<configurations defaultconfmapping="default->default;sources->sources;test->default">
+		<conf name="sources" transitive="false" visibility="private"/>
+		<conf name="test" transitive="false" visibility="private"/>
 		<conf name="default" transitive="false"/>
 	</configurations>
 	<dependencies defaultconf="default">
-		<!-- Add your JDBC driver dependence here if you need it -->
-		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1">
-			<artifact name="jsf-facelets" type="jar"/>
-			<artifact name="jsf-facelets" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0">
-			<artifact name="commons-beanutils" type="jar"/>
-			<artifact name="commons-beanutils" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="commons-digester" name="commons-digester" rev="1.7">
-			<artifact name="commons-digester" type="jar"/>
-			<artifact name="commons-digester" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="janino" name="janino" rev="2.5.10">
-			<artifact name="janino" type="jar"/>
-		</dependency>
-		<dependency org="javax.ejb" name="ejb-api" rev="3.0">
-			<artifact name="ejb-api" type="jar"/>
-		</dependency>
-		<dependency org="javax.el" name="el-api" rev="1.0">
-			<artifact name="el-api" type="jar"/>
-		</dependency>
-		<dependency org="javax.faces" name="jsf-api" rev="${jsf.version}">
-			<artifact name="jsf-api" type="jar"/>
-			<artifact name="jsf-api" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="javax.faces" name="jsf-impl" rev="${jsf.version}">
-			<artifact name="jsf-impl" type="jar"/>
-			<artifact name="jsf-impl" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="javax.persistence" name="persistence-api" rev="1.0">
-			<artifact name="persistence-api" type="jar"/>
-		</dependency>
-		<dependency org="javax.servlet" name="servlet-api" rev="2.5">
-			<artifact name="servlet-api" type="jar"/>
-		</dependency>
-		<dependency org="javax.transaction" name="jta" rev="1.1">
-			<artifact name="jta" type="jar"/>
-		</dependency>
-		<dependency org="net.sourceforge.jexcelapi" name="jxl" rev="2.6.8-seam">
-			<artifact name="jxl" type="jar"/>
-		</dependency>
-		<dependency org="org.antlr" name="antlr-runtime" rev="3.0">
-			<artifact name="antlr-runtime" type="jar"/>
-		</dependency>
-		<dependency org="org.drools" name="drools-api" rev="5.0.1">
-			<artifact name="drools-api" type="jar"/>
-		</dependency>
-		<dependency org="org.drools" name="drools-compiler" rev="5.0.1">
-			<artifact name="drools-compiler" type="jar"/>
-		</dependency>
-		<dependency org="org.drools" name="drools-core" rev="5.0.1">
-			<artifact name="drools-core" type="jar"/>
-		</dependency>
-		<dependency org="org.drools" name="drools-decisiontables" rev="5.0.1">
-        	<artifact name="drools-decisiontables" type="jar"/>
-        </dependency>
-		<dependency org="org.eclipse.jdt" name="core" rev="3.2.3.v_686_R32x">
-			<artifact name="core" type="jar"/>
-		</dependency>
-		<dependency org="org.codehaus.groovy" name="groovy-all" rev="1.5.4">
-			<artifact name="groovy-all" type="jar"/>
-		</dependency>
-		<dependency org="org.hibernate" name="hibernate-validator" rev="3.0.0.GA">
-			<artifact name="hibernate-validator" type="jar"/>
-		</dependency>
-		<dependency org="org.jboss.el" name="jboss-el" rev="1.0_02.CR3">
-			<artifact name="jboss-el" type="jar"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam" rev="${seam.version}">
-			<artifact name="jboss-seam" type="jar"/>
+		<!-- Add your JDBC driver dependency here if you need it -->
+		<!--
+		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.8-brew" conf="default"/>
+		-->
+		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1" conf="default,sources"/>
+		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0" conf="default,sources"/>
+		<dependency org="commons-digester" name="commons-digester" rev="1.7" conf="default,sources"/>
+		<dependency org="janino" name="janino" rev="2.5.10" conf="default"/>
+		<dependency org="javax.ejb" name="ejb-api" rev="3.0" conf="default"/>
+		<dependency org="javax.el" name="el-api" rev="1.0" conf="default"/>
+		<dependency org="javax.faces" name="jsf-api" rev="${jsf.version}" conf="default,sources"/>
+		<dependency org="javax.faces" name="jsf-impl" rev="${jsf.version}" conf="default,sources"/>
+		<dependency org="javax.persistence" name="persistence-api" rev="1.0" conf="default"/>
+		<dependency org="javax.servlet" name="servlet-api" rev="2.5" conf="default"/>
+		<dependency org="javax.transaction" name="jta" rev="1.1" conf="default"/>
+		<dependency org="net.sourceforge.jexcelapi" name="jxl" rev="2.6.8-seam" conf="default"/>
+		<dependency org="org.antlr" name="antlr-runtime" rev="3.0" conf="default"/>
+		<dependency org="org.drools" name="drools-api" rev="5.0.1" conf="default"/>
+		<dependency org="org.drools" name="drools-compiler" rev="5.0.1" conf="default"/>
+		<dependency org="org.drools" name="drools-core" rev="5.0.1" conf="default"/>
+		<dependency org="org.drools" name="drools-decisiontables" rev="5.0.1" conf="default"/>
+		<dependency org="org.eclipse.jdt" name="core" rev="3.2.3.v_686_R32x" conf="default"/>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="1.5.4" conf="default"/>
+		<dependency org="org.hibernate" name="hibernate-validator" rev="3.0.0.GA" conf="default"/>
+		<dependency org="org.jboss.el" name="jboss-el" rev="1.0_02.CR3" conf="default"/>
+		<!-- Seam jar is a special case because it's an EJB type and Ivy (at least right now)
+		believes the extension should be ejb, so we have to tell it the correct one. -->
+		<dependency org="org.jboss.seam" name="jboss-seam" rev="${seam.version}" conf="default,sources">
+			<artifact name="jboss-seam" type="jar" ext="jar"/>
 			<artifact name="jboss-seam" type="source" ext="jar" m:classifier="sources"/>
 		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-debug" rev="${seam.version}">
-			<artifact name="jboss-seam-debug" type="jar"/>
-			<artifact name="jboss-seam-debug" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-excel" rev="${seam.version}">
-			<artifact name="jboss-seam-excel" type="jar"/>
-			<artifact name="jboss-seam-excel" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-ioc" rev="${seam.version}">
-			<artifact name="jboss-seam-ioc" type="jar"/>
-			<artifact name="jboss-seam-ioc" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-jul" rev="${seam.version}">
-			<artifact name="jboss-seam-jul" type="jar"/>
-			<artifact name="jboss-seam-jul" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-mail" rev="${seam.version}">
-			<artifact name="jboss-seam-mail" type="jar"/>
-			<artifact name="jboss-seam-mail" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-pdf" rev="${seam.version}">
-			<artifact name="jboss-seam-pdf" type="jar"/>
-			<artifact name="jboss-seam-pdf" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-remoting" rev="${seam.version}">
-			<artifact name="jboss-seam-remoting" type="jar"/>
-			<artifact name="jboss-seam-remoting" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-rss" rev="${seam.version}">
-			<artifact name="jboss-seam-rss" type="jar"/>
-			<artifact name="jboss-seam-rss" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jboss.seam" name="jboss-seam-ui" rev="${seam.version}">
-			<artifact name="jboss-seam-ui" type="jar"/>
-			<artifact name="jboss-seam-ui" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.jbpm" name="jbpm-jpdl" rev="3.2.2">
-			<artifact name="jbpm-jpdl" type="jar"/>
-		</dependency>
-		<dependency org="org.mvel" name="mvel2" rev="2.0.10">
-			<artifact name="mvel2" type="jar"/>
-		</dependency>
-		<dependency org="org.richfaces.framework" name="richfaces-api" rev="${richfaces.version}">
-			<artifact name="richfaces-api" type="jar"/>
-			<artifact name="richfaces-api" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.richfaces.framework" name="richfaces-impl" rev="${richfaces.version}">
-			<artifact name="richfaces-impl" type="jar"/>
-			<artifact name="richfaces-impl" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.richfaces.ui" name="richfaces-ui" rev="${richfaces.version}">
-			<artifact name="richfaces-ui" type="jar"/>
-			<artifact name="richfaces-ui" type="source" ext="jar" m:classifier="sources"/>
-		</dependency>
-		<dependency org="org.testng" name="testng" rev="5.6">
-			<artifact name="testng" type="jar"/>
-		</dependency>
-		<!-- I tried to use conf="test" but I simply didn't understand how it worked -->
-		<dependency org="org.jboss.seam.embedded" name="hibernate-all" rev="${jboss-embedded.version}">
-			<artifact name="hibernate-all" type="test-jar" ext="jar"/>
-		</dependency>
-		<dependency org="org.jboss.seam.embedded" name="thirdparty-all" rev="${jboss-embedded.version}">
-			<artifact name="thirdparty-all" type="test-jar" ext="jar"/>
-		</dependency>
-		<dependency org="org.jboss.seam.embedded" name="jboss-embedded-all" rev="${jboss-embedded.version}">
-			<artifact name="jboss-embedded-all" type="test-jar" ext="jar"/>
-		</dependency>
-		<dependency org="org.jboss.seam.embedded" name="jboss-embedded-api" rev="${jboss-embedded.version}">
-			<artifact name="jboss-embedded-api" type="test-jar" ext="jar"/>
-		</dependency>
+		<dependency org="org.jboss.seam" name="jboss-seam-debug" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-excel" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-ioc" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-jul" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-mail" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-pdf" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-remoting" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-rss" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jboss.seam" name="jboss-seam-ui" rev="${seam.version}" conf="default,sources"/>
+		<dependency org="org.jbpm" name="jbpm-jpdl" rev="3.2.2" conf="default"/>
+		<dependency org="org.mvel" name="mvel2" rev="2.0.10" conf="default"/>
+		<dependency org="org.richfaces.framework" name="richfaces-api" rev="${richfaces.version}" conf="default,sources"/>
+		<dependency org="org.richfaces.framework" name="richfaces-impl" rev="${richfaces.version}" conf="default,sources"/>
+		<dependency org="org.richfaces.ui" name="richfaces-ui" rev="${richfaces.version}" conf="default,sources"/>
+		<dependency org="org.richfaces.samples" name="glassX" rev="${richfaces.version}" conf="default"/>
+		<dependency org="org.richfaces.samples" name="darkX" rev="${richfaces.version}" conf="default"/>
+		<dependency org="org.richfaces.samples" name="laguna" rev="${richfaces.version}" conf="default"/>
+		<dependency org="org.testng" name="testng" rev="5.6" conf="test"/>
+		<dependency org="org.jboss.seam.embedded" name="hibernate-all" rev="${jboss-embedded.version}" conf="test"/>
+		<dependency org="org.jboss.seam.embedded" name="thirdparty-all" rev="${jboss-embedded.version}" conf="test"/>
+		<dependency org="org.jboss.seam.embedded" name="jboss-embedded-all" rev="${jboss-embedded.version}" conf="test"/>
+		<dependency org="org.jboss.seam.embedded" name="jboss-embedded-api" rev="${jboss-embedded.version}" conf="test"/>
 	</dependencies>
 </ivy-module>

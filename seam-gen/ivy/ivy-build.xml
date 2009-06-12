@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" name="@projectName@-ivy">
-	<!-- At this point we cannot upgrade to 2.0.0-rc1 because of a bug regarding when the variables are loaded -->
-	<property name="ivy.install.version" value="2.0.0-beta2"/>
+	<property name="ivy.install.version" value="2.0.0"/>
 	<property name="ivy.jar.dir" value="${lib.dir}/ivy"/>
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 	<property name="ivy.sync" value="false"/>
@@ -10,7 +9,7 @@
 	<property name="jboss.repo" value="http://repository.jboss.org/maven2"/>
 
 	<!-- centralize some key artifact versions -->
-	<property name="seam.version" value="2.1.1.GA"/>
+	<property name="seam.version" value="2.1.2"/>
 	<property name="jsf.version" value="1.2_12"/>
 	<property name="richfaces.version" value="3.3.0.GA"/>
 	<property name="jboss-embedded.version" value="beta3"/>
@@ -35,15 +34,16 @@
 	</target>
 
 	<target name="inflate-core" depends="load-ivy">
-		<ivy:retrieve pattern="${lib.dir}/[artifact].[ext]" type="jar" sync="${ivy.sync}" symlink="${ivy.use.symlinks}"/>		
+		<ivy:retrieve pattern="${lib.dir}/[artifact].[ext]" type="jar" sync="${ivy.sync}" symlink="${ivy.use.symlinks}" conf="default"/>
+		<move file="${lib.dir}/mvel.jar" tofile="${lib.dir}/mvel14.jar" failonerror="false"/>
 	</target>
 
 	<target name="inflate-source" depends="load-ivy">
-		<ivy:retrieve pattern="${lib.dir}/src/[artifact]-[type]s.[ext]" type="source" sync="${ivy.sync}" symlink="${ivy.use.symlinks}"/>
+		<ivy:retrieve pattern="${lib.dir}/src/[artifact]-[type]s.[ext]" type="source" sync="${ivy.sync}" symlink="${ivy.use.symlinks}" conf="sources"/>
 	</target>
 
 	<target name="inflate-test" depends="load-ivy">
-		<ivy:retrieve pattern="${lib.dir}/test/[artifact].[ext]" type="test-jar" sync="${ivy.sync}" symlink="${ivy.use.symlinks}"/>
+		<ivy:retrieve pattern="${lib.dir}/test/[artifact].[ext]" type="test-jar" sync="${ivy.sync}" symlink="${ivy.use.symlinks}" conf="test"/>
 	</target>
 
 	<target name="inflate" depends="inflate-core,inflate-source,inflate-test"/>

@@ -3,11 +3,10 @@
 	<settings defaultResolver="seam"/>
 	<include url="${ivy.default.settings.dir}/ivysettings.xml" />
 	<resolvers>
-		<ibiblio name="central" m2compatible="true" usepoms="false" root="${central.repo}" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
-		<ibiblio name="jboss" m2compatible="true" usepoms="false" root="${jboss.repo}" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
-		<chain name="seam" returnFirst="true">
-      		<!-- local is always checked; central is before jboss since Ivy will only get sources from where it got binaries -->
-			<resolver ref="central"/>
+		<ibiblio name="jboss" m2compatible="true" usepoms="true" root="${jboss.repo}" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+		<chain name="seam" dual="true">
+			<!-- local is always checked; public needs to be before jboss to allow Ivy to properly locate sources -->
+			<resolver ref="public"/>
 			<resolver ref="jboss"/>
 		</chain>
 	</resolvers>
