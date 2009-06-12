@@ -58,8 +58,8 @@ import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.BlindDown;
 import com.icesoft.faces.context.effects.BlindUp;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.log.Log;
 
 /**
  * @author ICEsoft Technologies, Inc.
@@ -70,6 +70,8 @@ import org.apache.commons.logging.LogFactory;
 @Scope(ScopeType.PAGE)
 public class TimerBeanImpl implements Renderable, Serializable {
 
+    @Logger private Log log;
+
     // expand/contract effects to take place of panelCollapsible
     private Effect currentEffect=new BlindUp();
     private boolean visibility=false;
@@ -77,7 +79,6 @@ public class TimerBeanImpl implements Renderable, Serializable {
     private boolean expanded = false;
 
     private DateFormat dateFormatter;
-    private static Log log = LogFactory.getLog(TimerBeanImpl.class);
 
     @In
     private RenderManager renderManager;

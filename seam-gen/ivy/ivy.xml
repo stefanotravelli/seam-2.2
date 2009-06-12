@@ -11,7 +11,6 @@
 		<!--
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.8-brew" conf="default"/>
 		-->
-		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1" conf="default,sources"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0" conf="default,sources"/>
 		<dependency org="commons-digester" name="commons-digester" rev="1.7" conf="default,sources"/>
 		<dependency org="janino" name="janino" rev="2.5.10" conf="default"/>
@@ -49,12 +48,23 @@
 		<dependency org="org.jboss.seam" name="jboss-seam-ui" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jbpm" name="jbpm-jpdl" rev="3.2.2" conf="default"/>
 		<dependency org="org.mvel" name="mvel2" rev="2.0.10" conf="default"/>
+		<!-- [if richfaces] ->
+		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1" conf="default,sources"/>
 		<dependency org="org.richfaces.framework" name="richfaces-api" rev="${richfaces.version}" conf="default,sources"/>
 		<dependency org="org.richfaces.framework" name="richfaces-impl" rev="${richfaces.version}" conf="default,sources"/>
 		<dependency org="org.richfaces.ui" name="richfaces-ui" rev="${richfaces.version}" conf="default,sources"/>
 		<dependency org="org.richfaces.samples" name="glassX" rev="${richfaces.version}" conf="default"/>
 		<dependency org="org.richfaces.samples" name="darkX" rev="${richfaces.version}" conf="default"/>
 		<dependency org="org.richfaces.samples" name="laguna" rev="${richfaces.version}" conf="default"/>
+		<!- [/endif richfaces] -->
+		<!-- [if icefaces] ->
+		<dependency org="org.icefaces" name="icefaces" rev="${icefaces.version}" conf="default"/>
+		<dependency org="org.icefaces" name="icefaces-comps" rev="${icefaces.version}" conf="default"/>
+		<dependency org="org.icefaces" name="icefaces-facelets" rev="${icefaces.version}" conf="default"/>
+		<dependency org="backport-util-concurrent" name="backport-util-concurrent" rev="2.2" conf="default"/>
+		<dependency org="commons-digester" name="commons-digester" rev="1.8" conf="default"/>
+		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2.1" conf="default"/>
+		<!- [/endif icefaces] -->
 		<dependency org="org.testng" name="testng" rev="5.6" conf="test"/>
 		<dependency org="org.jboss.seam.embedded" name="hibernate-all" rev="${jboss-embedded.version}" conf="test"/>
 		<dependency org="org.jboss.seam.embedded" name="thirdparty-all" rev="${jboss-embedded.version}" conf="test"/>

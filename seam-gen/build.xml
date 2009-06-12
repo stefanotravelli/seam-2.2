@@ -1474,17 +1474,46 @@
     </target>
 
     <target name="add-ivy" depends="validate-project" description="Add Ivy to the project for downloading dependencies">
-        <fail message="Currently the Ivy build is only configured to support RichFaces projects" if="icefaces.property"/>
         <copy todir="${project.home}">
             <fileset dir="${templates.dir}/ivy"/>
             <filterset refid="project"/>
         </copy>
-        <replace file="${project.home}/build.xml">
+        <condition property="ivy.present">
+            <isfileselected file="${project.home}/build.xml">
+                <contains text="ivy-build.xml"/>
+            </isfileselected>
+        </condition>
+        <replace dir="${project.home}">
+            <include name="build.xml" unless="ivy.present"/>
             <replacetoken><![CDATA[<target name="init"]]></replacetoken>
             <replacevalue><![CDATA[<!-- Import Ivy targets for downloading dependencies -->
     <import file="${basedir}/ivy-build.xml"/>
 
     <target name="init"]]></replacevalue>
+        </replace>
+
+        <!-- uncomment richfaces dependencies if not using icefaces -->
+        <replace dir="${project.home}">
+            <include name="ivy.xml" unless="icefaces.property"/>
+            <replacetoken><![CDATA[ [if richfaces] ->]]></replacetoken>
+            <replacevalue><![CDATA[ [if richfaces] -->]]></replacevalue>
+        </replace>
+        <replace dir="${project.home}">
+            <include name="ivy.xml" unless="icefaces.property"/>
+            <replacetoken><![CDATA[<!- [/endif richfaces] ]]></replacetoken>
+            <replacevalue><![CDATA[<!-- [/endif richfaces] ]]></replacevalue>
+        </replace>
+
+        <!-- uncomment icefaces dependencies if using icefaces -->
+        <replace dir="${project.home}">
+            <include name="ivy.xml" if="icefaces.property"/>
+            <replacetoken><![CDATA[ [if icefaces] ->]]></replacetoken>
+            <replacevalue><![CDATA[ [if icefaces] -->]]></replacevalue>
+        </replace>
+        <replace dir="${project.home}">
+            <include name="ivy.xml" if="icefaces.property"/>
+            <replacetoken><![CDATA[<!- [/endif icefaces] ]]></replacetoken>
+            <replacevalue><![CDATA[<!-- [/endif icefaces] ]]></replacevalue>
         </replace>
     </target>
 
