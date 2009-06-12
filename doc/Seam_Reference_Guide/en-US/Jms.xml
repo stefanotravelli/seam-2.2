@@ -9,8 +9,8 @@
     </para>
     
     <para>
-        But for many use cases, JMS is overkill. Seam layers a simple asynchronous method and event
-        facility over your choice of <emphasis>dispatchers</emphasis>:
+        But for cases when you are simply want to use a worker thread, JMS is overkill. Seam layers a simple
+        asynchronous method and event facility over your choice of <emphasis>dispatchers</emphasis>:
     </para>
     
     <itemizedlist>
@@ -30,6 +30,198 @@
             </para>
         </listitem>
     </itemizedlist>
+
+    <para>
+        This chapter first covers how to leverage Seam to simplify JMS and then explains how to use the
+        simpler asynchronous method and event facility.
+    </para>
+    
+    <sect1>
+    <title>Messaging in Seam</title>
+    
+    <para>
+        Seam makes it easy to send and receive JMS messages to and from
+        Seam components. Both the message publisher and the message receiver
+        can be Seam components.
+    </para>
+
+    <para>
+        You'll first learn to setup a queue and topic message publisher and then 
+        look at an example that illustrates how to perform the message exchange.
+    </para>
+    
+    <sect2>
+        <title>Configuration</title>
+        <para>
+            To configure Seam's infrastructure for sending JMS messages,
+            you need to tell Seam about any topics and queues you want to
+            send messages to, and also tell Seam where to find the
+            <literal>QueueConnectionFactory</literal> and/or
+            <literal>TopicConnectionFactory</literal>.
+        </para>
+        
+        <para>
+            Seam defaults to using <literal>UIL2ConnectionFactory</literal>
+            which is the usual connection factory for use with JBossMQ. If
+            you are using some other JMS provider, you need to set one or
+            both of <literal>queueConnection.queueConnectionFactoryJndiName</literal>
+            and <literal>topicConnection.topicConnectionFactoryJndiName</literal>
+            in <literal>seam.properties</literal>, <literal>web.xml</literal>
+            or <literal>components.xml</literal>.
+        </para>
+        
+        <para>
+            You also need to list topics and queues in <literal>components.xml</literal>
+            to install Seam managed <literal>TopicPublisher</literal>s and
+            <literal>QueueSender</literal>s:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
+                             auto-create="true" 
+                             topic-jndi-name="topic/stockTickerTopic"/>
+
+<jms:managed-queue-sender name="paymentQueueSender" 
+                          auto-create="true" 
+                          queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
+
+    </sect2>
+
+    <sect2>
+        <title>Sending messages</title>
+        <para>
+            Now, you can inject a JMS <literal>TopicPublisher</literal> and
+            <literal>TopicSession</literal> into any Seam component to publish
+            an object to a topic:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Name("stockPriceChangeNotifier")
+public class StockPriceChangeNotifier
+{
+   @In private TopicPublisher stockTickerPublisher;   
+
+   @In private TopicSession topicSession;
+
+   public void publish(StockPrice price)
+   {
+        try
+        {
+           stockTickerPublisher.publish(topicSession.createObjectMessage(price));
+        } 
+        catch (Exception ex)
+        {
+           throw new RuntimeException(ex);
+        } 
+   }
+}]]></programlisting>
+
+        <para>or to a queue:</para>
+
+        <programlisting role="JAVA"><![CDATA[@Name("paymentDispatcher")
+public class PaymentDispatcher
+{
+   @In private QueueSender paymentQueueSender;   
+    
+   @In private QueueSession queueSession;
+    
+   public void publish(Payment payment)
+   {
+      try
+      {
+         paymentQueueSender.send(queueSession.createObjectMessage(payment));
+      } 
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      } 
+   }
+}]]></programlisting>
+
+    </sect2>
+    
+    <sect2>
+        <title>Receiving messages using a message-driven bean</title>
+        <para>
+            You can process messages using any EJB 3 message-driven bean. The MDB
+            can even be a Seam component, in which case it's possible to inject
+            other event- and application- scoped Seam components. Here's an example
+            of the payment receiver, which delegates to a payment processor.
+        </para>    
+        <note>
+            <para>
+                You'll likely need to set the create attribute on the <literal>@In</literal> annotation to true (i.e.
+                create = true) to have Seam create an instance of the component being injected. This isn't necessary if
+                the component supports auto-creation (e.g., it's annotated with <literal>@Autocreate</literal>).
+            </para>
+        </note>
+
+        <para>
+            First, create an MDB to receive the message.
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@MessageDriven(activationConfig = {
+    @ActivationConfigProperty(
+        propertyName = "destinationType",
+        propertyValue = "javax.jms.Queue"
+    ),
+    @ActivationConfigProperty(
+        propertyName = "destination",
+        propertyValue = "queue/paymentQueue"
+    )
+})
+@Name("paymentReceiver")
+public class PaymentReceiver implements MessageListener
+{
+   @Logger private Log log;
+
+   @In(create = true) private PaymentProcessor paymentProcessor;
+    
+   @Override
+   public void onMessage(Message message)
+   {
+      try
+      {
+         paymentProcessor.processPayment((Payment) ((ObjectMessage) message).getObject());
+      } 
+      catch (JMSException ex)
+      {
+         log.error("Message payload did not contain a Payment object", ex);
+      } 
+   }
+}]]></programlisting>
+
+        <para>
+            Then, implement the Seam component to which the receiver delegates processing of the payment.
+        </para>
+
+        <programlisting role="JAVA"><![CDATA[@Name("paymentProcessor")
+public class PaymentProcessor
+{
+   @In private EntityManager entityManager;
+
+   public void processPayment(Payment payment)
+   {
+      // perhaps do something more fancy
+      entityManager.persist(payment);
+   }
+}]]></programlisting>
+
+        <para>
+            If you are going to be performing transaction operations in your MDB, you should ensure that you
+            are working with an XA datasource. Otherwise, it won't be possible to rollback database changes
+            if the database transaction commits and a subsequent operation being performed by the message
+            fails.
+        </para>
+    </sect2>
+    
+    <sect2>
+        <title>Receiving messages in the client</title>
+        <para>
+            Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is
+            described in <xref linkend="remoting"/>.
+        </para>
+    </sect2>
+    
+    </sect1>
             
     <sect1>
         <title>Asynchronicity</title>
@@ -411,111 +603,5 @@ public class MyAsynchronousExceptionHandler extends AsynchronousExceptionHandler
 
         </sect2>
 
-    </sect1>
-    
-    <sect1>
-    <title>Messaging in Seam</title>
-    
-    <para>
-        Seam makes it easy to send and receive JMS messages to and from
-        Seam components.
-    </para>
-    
-    <sect2>
-        <title>Configuration</title>
-        <para>
-            To configure Seam's infrastructure for sending JMS messages,
-            you need to tell Seam about any topics and queues you want to
-            send messages to, and also tell Seam where to find the
-            <literal>QueueConnectionFactory</literal> and/or
-            <literal>TopicConnectionFactory</literal>.
-        </para>
-        
-        <para>
-            Seam defaults to using <literal>UIL2ConnectionFactory</literal>
-            which is the usual connection factory for use with JBossMQ. If
-            you are using some other JMS provider, you need to set one or
-            both of <literal>queueConnection.queueConnectionFactoryJndiName</literal>
-            and <literal>topicConnection.topicConnectionFactoryJndiName</literal>
-            in <literal>seam.properties</literal>, <literal>web.xml</literal>
-            or <literal>components.xml</literal>.
-        </para>
-        
-        <para>
-            You also need to list topics and queues in <literal>components.xml</literal>
-            to install Seam managed <literal>TopicPublisher</literal>s and
-            <literal>QueueSender</literal>s:
-        </para>
-        
-        <programlisting role="XML"><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
-                             auto-create="true" 
-                             topic-jndi-name="topic/stockTickerTopic"/>
-
-<jms:managed-queue-sender name="paymentQueueSender" 
-                          auto-create="true" 
-                          queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
-
-    </sect2>
-
-    <sect2>
-        <title>Sending messages</title>
-        <para>
-            Now, you can inject a JMS <literal>TopicPublisher</literal> and
-            <literal>TopicSession</literal> into any component:
-        </para>
-        
-        <programlisting role="JAVA"><![CDATA[@In 
-private TopicPublisher stockTickerPublisher;   
-@In 
-private TopicSession topicSession;
-
-public void publish(StockPrice price) {
-      try
-      {
-         stockTickerPublisher.publish( topicSession.createObjectMessage(price) );
-      } 
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      } 
-}]]></programlisting>
-
-        <para>Or, for working with a queue:</para>
-
-        <programlisting role="JAVA"><![CDATA[@In
-private QueueSender paymentQueueSender;   
-@In
-private QueueSession queueSession;
-
-public void publish(Payment payment) {
-      try
-      {
-         paymentQueueSender.send( queueSession.createObjectMessage(payment) );
-      } 
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      } 
-}]]></programlisting>
-
-    </sect2>
-    
-    <sect2>
-        <title>Receiving messages using a message-driven bean</title>
-        <para>
-            You can process messages using any EJB3 message driven bean. Message-driven
-            beans may even be Seam components, in which case it is possible to inject
-            other event and application scoped Seam components.
-        </para>
-    </sect2>
-    
-    <sect2>
-        <title>Receiving messages in the client</title>
-        <para>
-            Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is
-            described in <xref linkend="remoting"/>.
-        </para>
-    </sect2>
-    
     </sect1>
 </chapter>
