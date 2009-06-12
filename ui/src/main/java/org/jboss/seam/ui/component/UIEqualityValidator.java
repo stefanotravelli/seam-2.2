@@ -26,4 +26,8 @@ public abstract class UIEqualityValidator extends UIComponentBase
    
    public abstract String getOperator();
 
+   public abstract void setRequired(boolean required);
+   
+   public abstract boolean isRequired();
+   
 }

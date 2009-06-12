@@ -4,14 +4,14 @@
 	<ui:param name="tagName" value="s:validateEquality" />
 	<ui:define name="body">
 		<h:form>
-			<p>Validates that two java.lang.String inputs are equal</p>
+			<p>Validates that two java.lang.String inputs are equal (may be empty)</p>
 			<h:panelGrid columns="3">
 				<s:label for="name">Name</s:label>
 				<h:inputText id="name" value="#{equalityValidatorBean.name}" />
 				<h:message for="name" />
 				<s:label for="nameVerification">Name Verification</s:label>
 				<h:inputText id="nameVerification">
-					<s:validateEquality for="name" message="Must be the same as name!" />
+					<s:validateEquality for="name" message="Must be the same as name!" required="false" />
 				</h:inputText>
 				<h:message for="nameVerification" />
 				<h:commandButton action="#{equalityValidatorBean.check}" value="Check name" />
