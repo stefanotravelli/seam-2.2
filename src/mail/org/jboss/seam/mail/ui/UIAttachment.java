@@ -85,7 +85,8 @@ public class UIAttachment extends MailComponent implements ValueHolder
    public void encodeBegin(FacesContext context) throws IOException
    {
       if (this.getChildCount() > 0) {
-         if (Reflections.isInstanceOf(this.getChildren().get(0).getClass(), "org.jboss.seam.pdf.ui.UIDocument")) 
+         if (Reflections.isInstanceOf(this.getChildren().get(0).getClass(), "org.jboss.seam.pdf.ui.UIDocument") ||
+             Reflections.isInstanceOf(this.getChildren().get(0).getClass(), "org.jboss.seam.excel.ui.UIWorkbook")) 
          {
             Method method = Reflections.getSetterMethod(this.getChildren().get(0).getClass(), "sendRedirect");
             Reflections.invokeAndWrap(method, this.getChildren().get(0), false);
