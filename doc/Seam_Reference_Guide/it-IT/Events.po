@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-29 06:39+0000\n"
-"PO-Revision-Date: 2009-05-29 08:56+0100\n"
+"PO-Revision-Date: 2009-06-14 15:10+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "Azioni di pagina"
 #: Events.xml:68
 #, no-c-format
 msgid "A Seam page action is an event that occurs just before we render a page. We declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define a page action for either a particular JSF view id:"
-msgstr "Un'azione di pagina Seam è un evento che avviene appena prima che la pagina viene renderizzata. Si dichiarano le azioni di pagina in <literal>WEB-INF/pages.xml</literal>.  Si può definire un'azione di pagina anche per un particolare id di vista JSF:"
+msgstr "Un'azione di pagina Seam è un evento che avviene appena prima che la pagina venga renderizzata. Si dichiarano le azioni di pagina in <literal>WEB-INF/pages.xml</literal>.  Si può definire un'azione di pagina anche per un particolare view-id JSF:"
 
 #. Tag: programlisting
 #: Events.xml:74
@@ -135,7 +135,7 @@ msgstr ""
 #: Events.xml:76
 #, no-c-format
 msgid "Or we can use a <literal>*</literal> wildcard as a suffix to the <literal>view-id</literal> to specify an action that applies to all view ids that match the pattern:"
-msgstr "Oppure si può usare il wildcard <literal>*</literal> come suffisso a <literal>view-id</literal> per specificare un'azione che si applica a tutti gli id di vista che corrispondono al pattern:"
+msgstr "Oppure si può usare il wildcard <literal>*</literal> come suffisso a <literal>view-id</literal> per specificare un'azione che si applica a tutti i view-id che corrispondono al pattern:"
 
 #. Tag: programlisting
 #: Events.xml:82
@@ -159,7 +159,7 @@ msgstr "Si tenga presente che se l'elemento <literal>&lt;page&gt;</literal> è d
 #: Events.xml:90
 #, no-c-format
 msgid "If multiple wildcarded page actions match the current view-id, Seam will call all the actions, in order of least-specific to most-specific."
-msgstr "Se più azioni di pagina con wildcard corrispondono al corrente id di vista, Seam chiamerà tutte le azioni, nell'ordine dal meno al più specifico."
+msgstr "Se più azioni di pagina con wildcard corrispondono al corrente view-id, Seam chiamerà tutte le azioni, nell'ordine dal meno al più specifico."
 
 #. Tag: para
 #: Events.xml:95
@@ -225,7 +225,7 @@ msgstr ""
 #: Events.xml:125
 #, no-c-format
 msgid "This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to determine if the request is a postback. The ResponseStateManager is accessed using <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
-msgstr "Questa condizione consulta <literal>ResponseStateManager#isPostback(FacesContext)</literal>per determinare sela richiesta è un postback. Il ResponseStateManager viene acceduto usando <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
+msgstr "Questa condizione consulta <literal>ResponseStateManager#isPostback(FacesContext)</literal>per determinare se la richiesta è un postback. Il ResponseStateManager viene acceduto usando <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
 
 #. Tag: para
 #: Events.xml:131
@@ -265,13 +265,13 @@ msgstr "Parametri di pagina"
 #: Events.xml:149
 #, no-c-format
 msgid "A JSF faces request (a form submission) encapsulates both an \"action\" (a method binding) and \"parameters\" (input value bindings). A page action might also needs parameters!"
-msgstr "Una richiesta JSF faces (sottomissione di una form) incapsula sia un'\"azione\" (un metodo di binding) e \"parametri\" (valore di binding di input). Un'azionedi pagine può anche necessitare di parametri!"
+msgstr "Una richiesta JSF faces (sottomissione di una form) incapsula sia un'\"azione\" (un metodo di binding) e \"parametri\" (valore di binding di input). Un'azione di pagina può anche avere bisogno di parametri!"
 
 #. Tag: para
 #: Events.xml:155
 #, no-c-format
 msgid "Since GET requests are bookmarkable, page parameters are passed as human-readable request parameters. (Unlike JSF form inputs, which are anything but!)"
-msgstr "Poiché le richieste GET sono memorizzabili come segnalibro, i parametri di pagine vengono passati come parametri di richiesta human-readable. (A differenza degli input di form JSF, che sono tutto tranne!)"
+msgstr "Poiché le richieste GET sono memorizzabili come segnalibro, i parametri di pagine vengono passati come parametri di richiesta human-readable. (A differenza degli input di form JSF!)"
 
 #. Tag: para
 #: Events.xml:161
@@ -319,7 +319,7 @@ msgstr "La dichiarazione <literal>&lt;param&gt;</literal> è bidirezionale, prop
 #: Events.xml:182
 #, no-c-format
 msgid "When a non-faces (GET) request for the view id occurs, Seam sets the value of the named request parameter onto the model object, after performing appropriate type conversions."
-msgstr "Quando avviene una richiesta non-faces (GET) per un id di vista, Seam imposta il valore del parametro di richiesta sull'oggetto del modello, dopo aver operato le dovute conversioni sul tipo."
+msgstr "Quando avviene una richiesta non-faces (GET) per un view-id, Seam imposta il valore del parametro di richiesta sull'oggetto del modello, dopo aver operato le dovute conversioni sul tipo."
 
 #. Tag: para
 #: Events.xml:189
