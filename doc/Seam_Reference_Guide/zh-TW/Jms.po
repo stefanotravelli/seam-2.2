@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"POT-Creation-Date: 2009-06-13 23:52+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -35,9 +35,9 @@ msgstr ""
 #: Jms.xml:11
 #, no-c-format
 msgid ""
-"But for many use cases, JMS is overkill. Seam layers a simple asynchronous "
-"method and event facility over your choice of <emphasis>dispatchers</"
-"emphasis>:"
+"But for cases when you are simply want to use a worker thread, JMS is "
+"overkill. Seam layers a simple asynchronous method and event facility over "
+"your choice of <emphasis>dispatchers</emphasis>:"
 msgstr ""
 
 #. Tag: para
@@ -60,14 +60,287 @@ msgstr ""
 msgid "Quartz"
 msgstr ""
 
+#. Tag: para
+#: Jms.xml:34
+#, no-c-format
+msgid ""
+"This chapter first covers how to leverage Seam to simplify JMS and then "
+"explains how to use the simpler asynchronous method and event facility."
+msgstr ""
+
 #. Tag: title
-#: Jms.xml:35
+#: Jms.xml:40
+#, no-c-format
+msgid "Messaging in Seam"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:42
+#, no-c-format
+msgid ""
+"Seam makes it easy to send and receive JMS messages to and from Seam "
+"components. Both the message publisher and the message receiver can be Seam "
+"components."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:48
+#, no-c-format
+msgid ""
+"You'll first learn to setup a queue and topic message publisher and then "
+"look at an example that illustrates how to perform the message exchange."
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:54
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:55
+#, no-c-format
+msgid ""
+"To configure Seam's infrastructure for sending JMS messages, you need to "
+"tell Seam about any topics and queues you want to send messages to, and also "
+"tell Seam where to find the <literal>QueueConnectionFactory</literal> and/or "
+"<literal>TopicConnectionFactory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:63
+#, no-c-format
+msgid ""
+"Seam defaults to using <literal>UIL2ConnectionFactory</literal> which is the "
+"usual connection factory for use with JBossMQ. If you are using some other "
+"JMS provider, you need to set one or both of <literal>queueConnection."
+"queueConnectionFactoryJndiName</literal> and <literal>topicConnection."
+"topicConnectionFactoryJndiName</literal> in <literal>seam.properties</"
+"literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:73
+#, no-c-format
+msgid ""
+"You also need to list topics and queues in <literal>components.xml</literal> "
+"to install Seam managed <literal>TopicPublisher</literal>s and "
+"<literal>QueueSender</literal>s:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:79
+#, no-c-format
+msgid ""
+"<![CDATA[<jms:managed-topic-publisher name=\"stockTickerPublisher\" \n"
+"                             auto-create=\"true\" \n"
+"                             topic-jndi-name=\"topic/stockTickerTopic\"/>\n"
+"\n"
+"<jms:managed-queue-sender name=\"paymentQueueSender\" \n"
+"                          auto-create=\"true\" \n"
+"                          queue-jndi-name=\"queue/paymentQueue\"/>]]>"
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:84
+#, no-c-format
+msgid "Sending messages"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:85
+#, no-c-format
+msgid ""
+"Now, you can inject a JMS <literal>TopicPublisher</literal> and "
+"<literal>TopicSession</literal> into any Seam component to publish an object "
+"to a topic:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:91
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"stockPriceChangeNotifier\")\n"
+"public class StockPriceChangeNotifier\n"
+"{\n"
+"   @In private TopicPublisher stockTickerPublisher;   \n"
+"\n"
+"   @In private TopicSession topicSession;\n"
+"\n"
+"   public void publish(StockPrice price)\n"
+"   {\n"
+"        try\n"
+"        {\n"
+"           stockTickerPublisher.publish(topicSession.createObjectMessage"
+"(price));\n"
+"        } \n"
+"        catch (Exception ex)\n"
+"        {\n"
+"           throw new RuntimeException(ex);\n"
+"        } \n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:93
+#, no-c-format
+msgid "or to a queue:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:95
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"paymentDispatcher\")\n"
+"public class PaymentDispatcher\n"
+"{\n"
+"   @In private QueueSender paymentQueueSender;   \n"
+"    \n"
+"   @In private QueueSession queueSession;\n"
+"    \n"
+"   public void publish(Payment payment)\n"
+"   {\n"
+"      try\n"
+"      {\n"
+"         paymentQueueSender.send(queueSession.createObjectMessage"
+"(payment));\n"
+"      } \n"
+"      catch (Exception ex)\n"
+"      {\n"
+"         throw new RuntimeException(ex);\n"
+"      } \n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:100
+#, no-c-format
+msgid "Receiving messages using a message-driven bean"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:101
+#, no-c-format
+msgid ""
+"You can process messages using any EJB 3 message-driven bean. The MDB can "
+"even be a Seam component, in which case it's possible to inject other event- "
+"and application- scoped Seam components. Here's an example of the payment "
+"receiver, which delegates to a payment processor."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:108
+#, no-c-format
+msgid ""
+"You'll likely need to set the create attribute on the <literal>@In</literal> "
+"annotation to true (i.e. create = true) to have Seam create an instance of "
+"the component being injected. This isn't necessary if the component supports "
+"auto-creation (e.g., it's annotated with <literal>@Autocreate</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:115
+#, no-c-format
+msgid "First, create an MDB to receive the message."
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:119
+#, no-c-format
+msgid ""
+"<![CDATA[@MessageDriven(activationConfig = {\n"
+"    @ActivationConfigProperty(\n"
+"        propertyName = \"destinationType\",\n"
+"        propertyValue = \"javax.jms.Queue\"\n"
+"    ),\n"
+"    @ActivationConfigProperty(\n"
+"        propertyName = \"destination\",\n"
+"        propertyValue = \"queue/paymentQueue\"\n"
+"    )\n"
+"})\n"
+"@Name(\"paymentReceiver\")\n"
+"public class PaymentReceiver implements MessageListener\n"
+"{\n"
+"   @Logger private Log log;\n"
+"\n"
+"   @In(create = true) private PaymentProcessor paymentProcessor;\n"
+"    \n"
+"   @Override\n"
+"   public void onMessage(Message message)\n"
+"   {\n"
+"      try\n"
+"      {\n"
+"         paymentProcessor.processPayment((Payment) ((ObjectMessage) message)."
+"getObject());\n"
+"      } \n"
+"      catch (JMSException ex)\n"
+"      {\n"
+"         log.error(\"Message payload did not contain a Payment object\", "
+"ex);\n"
+"      } \n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:121
+#, no-c-format
+msgid ""
+"Then, implement the Seam component to which the receiver delegates "
+"processing of the payment."
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:125
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"paymentProcessor\")\n"
+"public class PaymentProcessor\n"
+"{\n"
+"   @In private EntityManager entityManager;\n"
+"\n"
+"   public void processPayment(Payment payment)\n"
+"   {\n"
+"      // perhaps do something more fancy\n"
+"      entityManager.persist(payment);\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:127
+#, no-c-format
+msgid ""
+"If you are going to be performing transaction operations in your MDB, you "
+"should ensure that you are working with an XA datasource. Otherwise, it "
+"won't be possible to rollback database changes if the database transaction "
+"commits and a subsequent operation being performed by the message fails."
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:136
+#, no-c-format
+msgid "Receiving messages in the client"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:137
+#, no-c-format
+msgid ""
+"Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. "
+"This is described in <xref linkend=\"remoting\"/>."
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:146
 #, no-c-format
 msgid "Asynchronicity"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:37
+#: Jms.xml:148
 #, no-c-format
 msgid ""
 "Asynchronous events and method calls have the same quality of service "
@@ -80,13 +353,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:46
+#: Jms.xml:157
 #, no-c-format
 msgid "<![CDATA[<async:timer-service-dispatcher/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:48
+#: Jms.xml:159
 #, no-c-format
 msgid ""
 "then your asynchronous tasks will be processed by the container's EJB timer "
@@ -98,7 +371,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:56
+#: Jms.xml:167
 #, no-c-format
 msgid ""
 "Another alternative is to use the open source Quartz library to manage "
@@ -112,13 +385,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:66
+#: Jms.xml:177
 #, no-c-format
 msgid "<![CDATA[<async:quartz-dispatcher/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:68
+#: Jms.xml:179
 #, no-c-format
 msgid ""
 "The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, "
@@ -128,13 +401,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:75
+#: Jms.xml:186
 #, no-c-format
 msgid "Asynchronous methods"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:77
+#: Jms.xml:188
 #, no-c-format
 msgid ""
 "In simplest form, an asynchronous call just lets a method call be processed "
@@ -146,7 +419,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:85
+#: Jms.xml:196
 #, no-c-format
 msgid ""
 "For EJB components, we annotate the local interface to specify that a method "
@@ -154,7 +427,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:90
+#: Jms.xml:201
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -166,7 +439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:92
+#: Jms.xml:203
 #, no-c-format
 msgid ""
 "(For JavaBean components we can annotate the component implementation class "
@@ -174,13 +447,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:96
+#: Jms.xml:207
 #, no-c-format
 msgid "The use of asynchronicity is transparent to the bean class:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:100
+#: Jms.xml:211
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -195,13 +468,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:102
+#: Jms.xml:213
 #, no-c-format
 msgid "And also transparent to the client:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:106
+#: Jms.xml:217
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -220,7 +493,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:108
+#: Jms.xml:219
 #, no-c-format
 msgid ""
 "The asynchronous method is processed in a completely new event context and "
@@ -230,7 +503,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:114
+#: Jms.xml:225
 #, no-c-format
 msgid ""
 "Asynchronous method calls may be scheduled for later execution using the "
@@ -239,7 +512,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:120
+#: Jms.xml:231
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -257,7 +530,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:122
+#: Jms.xml:233
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -285,7 +558,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:124
+#: Jms.xml:235
 #, no-c-format
 msgid ""
 "Both client and server may access the <literal>Timer</literal> object "
@@ -298,7 +571,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:129
+#: Jms.xml:240
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -311,7 +584,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:131
+#: Jms.xml:242
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -332,7 +605,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:133
+#: Jms.xml:244
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -354,19 +627,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:135
+#: Jms.xml:246
 #, no-c-format
 msgid "Asynchronous methods cannot return any other value to the caller."
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:142
+#: Jms.xml:253
 #, no-c-format
 msgid "Asynchronous methods with the Quartz Dispatcher"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:144
+#: Jms.xml:255
 #, no-c-format
 msgid ""
 "The Quartz dispatcher (see earlier on how to install it) allows you to use "
@@ -377,7 +650,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:148
+#: Jms.xml:259
 #, no-c-format
 msgid ""
 "The <literal>@FinalExpiration</literal> annotation specifies an end date for "
@@ -386,7 +659,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:150
+#: Jms.xml:261
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -414,7 +687,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:152
+#: Jms.xml:263
 #, no-c-format
 msgid ""
 "Note that the method returns the <literal>QuartzTriggerHandle</literal> "
@@ -425,7 +698,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:154
+#: Jms.xml:265
 #, no-c-format
 msgid ""
 "<![CDATA[QuartzTriggerHandle handle =\n"
@@ -444,7 +717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:156
+#: Jms.xml:267
 #, no-c-format
 msgid ""
 "The <literal>@IntervalCron</literal> annotation supports Unix cron job "
@@ -453,7 +726,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:159
+#: Jms.xml:270
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -476,7 +749,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:161
+#: Jms.xml:272
 #, no-c-format
 msgid ""
 "The <literal>@IntervalBusinessDay</literal> annotation supports invocation "
@@ -487,7 +760,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:164
+#: Jms.xml:275
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -510,7 +783,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:166
+#: Jms.xml:277
 #, no-c-format
 msgid ""
 "The <literal>NthBusinessDay</literal> object contains the configuration of "
@@ -520,7 +793,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:168
+#: Jms.xml:279
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -550,7 +823,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:170
+#: Jms.xml:281
 #, no-c-format
 msgid ""
 "The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, "
@@ -560,13 +833,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:175
+#: Jms.xml:286
 #, no-c-format
 msgid "Asynchronous events"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:176
+#: Jms.xml:287
 #, no-c-format
 msgid ""
 "Component-driven events may also be asynchronous. To raise an event for "
@@ -580,13 +853,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:188
+#: Jms.xml:299
 #, no-c-format
 msgid "Handling exceptions from asynchronous calls"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:190
+#: Jms.xml:301
 #, no-c-format
 msgid ""
 "Each asynchronous dispatcher behaves differently when an exception "
@@ -598,7 +871,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:200
+#: Jms.xml:311
 #, no-c-format
 msgid ""
 "By default, any exception which propagates out from an asynchronous "
@@ -608,7 +881,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:208
+#: Jms.xml:319
 #, no-c-format
 msgid ""
 "<![CDATA[@Scope(ScopeType.STATELESS)\n"
@@ -630,7 +903,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:210
+#: Jms.xml:321
 #, no-c-format
 msgid ""
 "Here, for example, using <literal>java.util.concurrent</literal> dispatcher, "
@@ -639,7 +912,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:216
+#: Jms.xml:327
 #, no-c-format
 msgid ""
 "You can also alter this behavior for an individual component by implementing "
@@ -648,167 +921,10 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:223
+#: Jms.xml:334
 #, no-c-format
 msgid ""
 "<![CDATA[   public void handleAsynchronousException(Exception exception) {\n"
 "      log.fatal(exception);\n"
 "   }]]>"
-msgstr ""
-
-#. Tag: title
-#: Jms.xml:230
-#, no-c-format
-msgid "Messaging in Seam"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:232
-#, no-c-format
-msgid ""
-"Seam makes it easy to send and receive JMS messages to and from Seam "
-"components."
-msgstr ""
-
-#. Tag: title
-#: Jms.xml:238
-#, no-c-format
-msgid "Configuration"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:239
-#, no-c-format
-msgid ""
-"To configure Seam's infrastructure for sending JMS messages, you need to "
-"tell Seam about any topics and queues you want to send messages to, and also "
-"tell Seam where to find the <literal>QueueConnectionFactory</literal> and/or "
-"<literal>TopicConnectionFactory</literal>."
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:247
-#, no-c-format
-msgid ""
-"Seam defaults to using <literal>UIL2ConnectionFactory</literal> which is the "
-"usual connection factory for use with JBossMQ. If you are using some other "
-"JMS provider, you need to set one or both of <literal>queueConnection."
-"queueConnectionFactoryJndiName</literal> and <literal>topicConnection."
-"topicConnectionFactoryJndiName</literal> in <literal>seam.properties</"
-"literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:257
-#, no-c-format
-msgid ""
-"You also need to list topics and queues in <literal>components.xml</literal> "
-"to install Seam managed <literal>TopicPublisher</literal>s and "
-"<literal>QueueSender</literal>s:"
-msgstr ""
-
-#. Tag: programlisting
-#: Jms.xml:263
-#, no-c-format
-msgid ""
-"<![CDATA[<jms:managed-topic-publisher name=\"stockTickerPublisher\" \n"
-"                             auto-create=\"true\" \n"
-"                             topic-jndi-name=\"topic/stockTickerTopic\"/>\n"
-"\n"
-"<jms:managed-queue-sender name=\"paymentQueueSender\" \n"
-"                          auto-create=\"true\" \n"
-"                          queue-jndi-name=\"queue/paymentQueue\"/>]]>"
-msgstr ""
-
-#. Tag: title
-#: Jms.xml:268
-#, no-c-format
-msgid "Sending messages"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:269
-#, no-c-format
-msgid ""
-"Now, you can inject a JMS <literal>TopicPublisher</literal> and "
-"<literal>TopicSession</literal> into any component:"
-msgstr ""
-
-#. Tag: programlisting
-#: Jms.xml:274
-#, no-c-format
-msgid ""
-"<![CDATA[@In \n"
-"private TopicPublisher stockTickerPublisher;   \n"
-"@In \n"
-"private TopicSession topicSession;\n"
-"\n"
-"public void publish(StockPrice price) {\n"
-"      try\n"
-"      {\n"
-"         stockTickerPublisher.publish( topicSession.createObjectMessage"
-"(price) );\n"
-"      } \n"
-"      catch (Exception ex)\n"
-"      {\n"
-"         throw new RuntimeException(ex);\n"
-"      } \n"
-"}]]>"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:276
-#, no-c-format
-msgid "Or, for working with a queue:"
-msgstr ""
-
-#. Tag: programlisting
-#: Jms.xml:278
-#, no-c-format
-msgid ""
-"<![CDATA[@In\n"
-"private QueueSender paymentQueueSender;   \n"
-"@In\n"
-"private QueueSession queueSession;\n"
-"\n"
-"public void publish(Payment payment) {\n"
-"      try\n"
-"      {\n"
-"         paymentQueueSender.send( queueSession.createObjectMessage"
-"(payment) );\n"
-"      } \n"
-"      catch (Exception ex)\n"
-"      {\n"
-"         throw new RuntimeException(ex);\n"
-"      } \n"
-"}]]>"
-msgstr ""
-
-#. Tag: title
-#: Jms.xml:283
-#, no-c-format
-msgid "Receiving messages using a message-driven bean"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:284
-#, no-c-format
-msgid ""
-"You can process messages using any EJB3 message driven bean. Message-driven "
-"beans may even be Seam components, in which case it is possible to inject "
-"other event and application scoped Seam components."
-msgstr ""
-
-#. Tag: title
-#: Jms.xml:292
-#, no-c-format
-msgid "Receiving messages in the client"
-msgstr ""
-
-#. Tag: para
-#: Jms.xml:293
-#, no-c-format
-msgid ""
-"Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. "
-"This is described in <xref linkend=\"remoting\"/>."
 msgstr ""
