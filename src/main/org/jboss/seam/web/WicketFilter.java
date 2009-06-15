@@ -75,7 +75,7 @@ public class WicketFilter extends AbstractFilter
       }
       else
       {
-           Init init = (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) );
+           Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
                /*
                 * We initialize the delegate on the first actual request and any time the
                 * init timestamp changes, so that the WicketFilter gets reinitialized whenever the

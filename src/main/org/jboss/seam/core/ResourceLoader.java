@@ -52,12 +52,12 @@ public class ResourceLoader
    
    public InputStream getResourceAsStream(String resource)
    {
-      return Resources.getResourceAsStream( resource, ServletLifecycle.getServletContext() );
+      return Resources.getResourceAsStream( resource, ServletLifecycle.getCurrentServletContext() );
    }
 
    public URL getResource(String resource) 
    {
-      return Resources.getResource( resource, ServletLifecycle.getServletContext() );
+      return Resources.getResource( resource, ServletLifecycle.getCurrentServletContext() );
    }
    
    /**

@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.web.FilterConfigWrapper;
 import org.jboss.seam.wicket.WebApplication;
 import org.jboss.seam.wicket.ioc.WicketClassLoader;
@@ -59,7 +60,7 @@ public class WicketFilterInstantiator
             try 
             { 
                // We need the Application context active in order to lookup the WebApplication component
-               Lifecycle.setupApplication();
+               Lifecycle.setupApplication(new ServletApplicationMap(filterConfig.getServletContext()));
                Map<String, String> parameters = new HashMap<String, String>();
                try
                {

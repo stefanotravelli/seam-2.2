@@ -10,7 +10,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.util.EnumerationEnumeration;
 
@@ -25,8 +27,27 @@ import org.jboss.seam.util.EnumerationEnumeration;
  */
 public class SeamResourceBundle extends java.util.ResourceBundle
 {
-   private Map<Locale, List<ResourceBundle>> bundleCache = new ConcurrentHashMap<Locale, List<ResourceBundle>>();
+   private Map<Init,Map<Locale, List<ResourceBundle>>> bundleCache = new ConcurrentHashMap<Init,Map<Locale, List<ResourceBundle>>>();
 
+   private Map<Locale, List<ResourceBundle>> getCachedBundle()
+   {
+      Init init; 
+      if(Contexts.isApplicationContextActive())
+      {
+         init = (Init)Contexts.getApplicationContext().get(Seam.getComponentName(Init.class));
+      }
+      else
+      {
+         //not sure if this is nessesary
+         init = (Init)Lifecycle.getApplication().get(Seam.getComponentName(Init.class));
+      }
+      if(!bundleCache.containsKey(init))
+      {
+         bundleCache.put(init, new ConcurrentHashMap<Locale, List<ResourceBundle>>());
+      }
+      return bundleCache.get(init);
+   }
+   
    /**
     * Get an instance for the current Seam Locale
     * 
@@ -51,11 +72,11 @@ public class SeamResourceBundle extends java.util.ResourceBundle
    private List<java.util.ResourceBundle> getBundlesForCurrentLocale()
    {
       Locale instance = org.jboss.seam.core.Locale.instance();
-      List<ResourceBundle> bundles = bundleCache.get(instance);
+      List<ResourceBundle> bundles = getCachedBundle().get(instance);
       if ( bundles==null )
       {
          bundles = loadBundlesForCurrentLocale();
-         bundleCache.put(instance, bundles);
+         getCachedBundle().put(instance, bundles);
       }
       return bundles;
 

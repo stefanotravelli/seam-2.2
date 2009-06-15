@@ -44,7 +44,7 @@ public class SeamResourceServlet extends HttpServlet
    {
       try
       {
-         Lifecycle.setupApplication();
+         Lifecycle.setupApplication(new ServletApplicationMap(context));
 
          for (String name : Init.instance().getResourceProviders())
          {         

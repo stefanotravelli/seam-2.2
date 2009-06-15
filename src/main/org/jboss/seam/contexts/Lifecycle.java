@@ -112,7 +112,7 @@ public class Lifecycle
    @Deprecated
    public static void mockApplication()
    {
-      setupApplication();
+      setupApplication(null);
    }
    
    /**
@@ -127,6 +127,11 @@ public class Lifecycle
    public static void setupApplication()
    {
       Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
+   }
+   
+   public static void setupApplication(Map<String, Object> appCtx)
+   {
+         Contexts.applicationContext.set(new ApplicationContext(appCtx));
    }
 
    public static void cleanupApplication()
@@ -175,7 +180,13 @@ public class Lifecycle
       Contexts.destroyConversationContext(session, conversationId);
    }
 
+   @Deprecated
    public static void beginSession(Map<String, Object> session)
+   {
+      beginSession(session,null);
+   }
+   
+   public static void beginSession(Map<String, Object> session, Map<String,Object> appCtx)
    {
       log.debug("Session started");
       
@@ -188,7 +199,15 @@ public class Lifecycle
 
       if ( !applicationContextActive )
       {
-         Context tempApplicationContext = new ApplicationContext( getApplication() );
+         Context tempApplicationContext = null;
+         if(appCtx == null)
+         {
+            tempApplicationContext= new ApplicationContext( getApplication() );
+         }
+         else
+         {
+            tempApplicationContext = new ApplicationContext(appCtx);
+         }
          Contexts.applicationContext.set(tempApplicationContext);
       }
       Context oldSessionContext = Contexts.sessionContext.get();

@@ -34,6 +34,8 @@ public class ServletLifecycle
    private static final LogProvider log = Logging.getLogProvider(ServletLifecycle.class);
 
    private static ServletContext servletContext;
+   
+   public static final String SERVLET_CONTEXT_KEY = "seam.contexts.servletContext";
 
    public static ServletContext getServletContext() 
    {
@@ -144,7 +146,7 @@ public class ServletLifecycle
 
    public static void beginSession(HttpSession session)
    {
-      Lifecycle.beginSession( new ServletSessionMap(session) );
+      Lifecycle.beginSession( new ServletSessionMap(session), new ServletApplicationMap(session.getServletContext()) );
    }
 
    public static void endSession(HttpSession session)
@@ -158,6 +160,20 @@ public class ServletLifecycle
       Contexts.conversationContext.set(conversationContext);
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
       conversationContext.unflush();
+   }
+   /**
+    * Convenience method that retrieves the servlet context from application
+    * scope.
+    * 
+    * @return the current servlet context
+    */
+   public static ServletContext getCurrentServletContext()
+   {
+      if (!Contexts.isApplicationContextActive())
+      {
+         return servletContext;
+      }
+      return (ServletContext) Contexts.getApplicationContext().get(SERVLET_CONTEXT_KEY);
    }
 
 }

@@ -87,7 +87,7 @@ public class SeamFilter implements Filter
 
    public void init(FilterConfig filterConfig) throws ServletException 
    {
-      Lifecycle.setupApplication();
+      Lifecycle.setupApplication(new ServletApplicationMap(filterConfig.getServletContext()));
       try
       {
          filters = getSortedFilters();
