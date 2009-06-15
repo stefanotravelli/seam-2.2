@@ -80,28 +80,29 @@ public class SeamELResolver extends ELResolver
         }
     }
 
-   private Object resolveInMap(ELContext context, Map map, Object property) {       
-        try {
-            if (map.containsKey(property)) {
-                return null;
-            }
-        } catch (UnsupportedOperationException e) {
-            // eat it
-        }
-        
-        if ("size".equals(property)) {
+   private boolean containsKey(Map map, String key) {
+      try {
+         return map.containsKey(key);   
+      } catch (UnsupportedOperationException e) {
+         // eat it
+         return false;
+      }
+   }
+   
+   private Object resolveInMap(ELContext context, Map map, Object property) {         
+        if ("size".equals(property) && !containsKey(map,"size")) {
             context.setPropertyResolved(true);
             return map.size();
             
-        } else if ("values".equals(property)) {
+        } else if ("values".equals(property) && !containsKey(map,"values")) {
             context.setPropertyResolved(true);
             return map.values();
         
-        } else if ("keySet".equals(property)) {
+        } else if ("keySet".equals(property) && !containsKey(map,"keySet")) {
             context.setPropertyResolved(true);
             return map.keySet();
         
-        } else if ("entrySet".equals(property)) {
+        } else if ("entrySet".equals(property) && !containsKey(map,"entrySet")) {
             context.setPropertyResolved(true);
             return map.entrySet();
         
