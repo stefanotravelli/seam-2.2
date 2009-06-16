@@ -53,11 +53,9 @@ public class Messages {
                     } catch (MissingResourceException mre) {
                         return resourceKey;
                     }
-                    if (resource == null) {
-                        return resourceKey;
-                    } else {
-                        return Interpolator.instance().interpolate(resource);
-                    }
+
+                    return (resource == null) ? resourceKey : resource;
+
                 } else {
                     return null;
                 }
