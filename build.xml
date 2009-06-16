@@ -827,6 +827,9 @@
    </target>
 
 	<target name="unittestcore" depends="inittestcore,compiletest,getemma">
+      <inlineDependencies scope="test" id="thirdparty-hibernate">
+         <dependency groupId="org.jboss.seam.embedded" artifactId="thirdparty-all" version="${embedded.version}" />
+      </inlineDependencies>
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng outputdir="${test.dir}">
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
@@ -838,7 +841,7 @@
 				<path refid="test.core.path" />
 				<pathelement location="${lib.dir}/jboss-seam-remoting.jar" />
 				<!-- this is added because of conflicts with commons-logging which comes with richfaces-->
-				<pathelement location="${lib.dir}/test/thirdparty-all.jar" />
+				<path refid="test.thirdparty-hibernate.path" />
 			</classpath>
 			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>
