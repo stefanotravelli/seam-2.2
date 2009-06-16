@@ -837,6 +837,8 @@
 				<path refid="runtime.emma.path" />
 				<path refid="test.core.path" />
 				<pathelement location="${lib.dir}/jboss-seam-remoting.jar" />
+				<!-- this is added because of conflicts with commons-logging which comes with richfaces-->
+				<pathelement location="${lib.dir}/test/thirdparty-all.jar" />
 			</classpath>
 			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>

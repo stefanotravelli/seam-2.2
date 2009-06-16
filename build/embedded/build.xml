@@ -13,7 +13,7 @@
 	
 	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-	
+		
 	<property name="shaded.embedded.jars.dir" value="${tmp.dir}/embedded"/>
 	<property name="embedded.jars.dir" value="${embedded.dir}/output/lib/embedded-jboss/lib" />
 	<property name="embedded.dist.zip" value="${embedded.dir}/embedded-jboss-${embedded.version}.zip" />
@@ -35,6 +35,7 @@
 		<jar destfile="${shaded.embedded.jars.dir}/thirdparty-all.jar">
 			<zipfileset src="${embedded.jars.dir}/thirdparty-all.jar" />
 			<zipfileset src="${lib.dir}/lucene-core.jar"/>
+			<zipfileset src="${lib.dir}/slf4j-log4j12.jar"/>
 		</jar>
 		<copy file="${embedded.jars.dir}/jboss-embedded.jar" todir="${shaded.embedded.jars.dir}" />
 		<copy file="${embedded.jars.dir}/jboss-embedded-all.jar" todir="${shaded.embedded.jars.dir}" />
