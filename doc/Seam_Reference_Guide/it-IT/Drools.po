@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-06-11 14:37+0000\n"
-"PO-Revision-Date: 2009-06-11 16:42+0100\n"
+"POT-Creation-Date: 2009-06-19 04:37+0000\n"
+"PO-Revision-Date: 2009-06-19 06:50+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -84,13 +84,37 @@ msgstr ""
 #. Tag: para
 #: Drools.xml:39
 #, no-c-format
-msgid "If you want to register a custom consequence exception handler through the RuleBaseConfiguration, you need to write the handler, for example:"
-msgstr "Se si vuole registrare un handler personalizzato per le eccezioni tramite RuleBaseConfiguration, occorre scrivere l'handler, per esempio:"
+msgid "Support for Drools RuleFlow is also available and you can simply add a <literal>.rf</literal> or a <literal>.rfm</literal> as part of your rule files as:"
+msgstr "E' disponibile il supporto a Drools RuleFlow ed è possibile aggiungere un <literal>.rf</literal> o <literal>.rfm</literal> come parte dei file delle regole:"
 
 #. Tag: programlisting
 #: Drools.xml:44
 #, no-c-format
 msgid ""
+"<![CDATA[\n"
+"        <drools:rule-base name=\"policyPricingRules\" rule-files=\"policyPricingRules.drl, policyPricingRulesFlow.rf\"/>\n"
+"        ]]>"
+msgstr ""
+"<![CDATA[\n"
+"        <drools:rule-base name=\"policyPricingRules\" rule-files=\"policyPricingRules.drl, policyPricingRulesFlow.rf\"/>\n"
+"        ]]>"
+
+#. Tag: para
+#: Drools.xml:46
+#, no-c-format
+msgid "Note that when using the Drools 4.x RuleFlow (<literal>.rfm</literal>) format, you need to specify the -Ddrools.ruleflow.port=true system property on server startup. This is however still an experimental feature and we advise to use the Drools5 (<literal>.rf</literal>) format if possible."
+msgstr "Si noti che quando si usa il formato Drools 4.x RuleFlow (<literal>.rfm</literal>) occorre specificare la proprietà di sistema -Ddrools.ruleflow.port=true all'avvio del server. Questa è una funzionalità sperimentale e si consiglia l'uso del formato Drools5 (<literal>.rf</literal>) se possibile."
+
+#. Tag: para
+#: Drools.xml:52
+#, no-c-format
+msgid "If you want to register a custom consequence exception handler through the RuleBaseConfiguration, you need to write the handler, for example:"
+msgstr "Se si vuole registrare un handler personalizzato per le eccezioni tramite RuleBaseConfiguration, occorre scrivere l'handler, per esempio:"
+
+#. Tag: programlisting
+#: Drools.xml:57
+#, no-c-format
+msgid ""
 "<![CDATA[@Scope(ScopeType.APPLICATION)\n"
 "@Startup\n"
 "@Name(\"myConsequenceExceptionHandler\")\n"
@@ -132,13 +156,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Drools.xml:46
+#: Drools.xml:59
 #, no-c-format
 msgid "and register it:"
 msgstr "e registrarlo:"
 
 #. Tag: programlisting
-#: Drools.xml:49
+#: Drools.xml:62
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-base name=\"policyPricingRules\" dsl-file=\"policyPricing.dsl\" consequence-exception-handler=\"#{myConsequenceExceptionHandler}\">\n"
@@ -154,13 +178,13 @@ msgstr ""
 "</drools:rule-base>]]>"
 
 #. Tag: para
-#: Drools.xml:51
+#: Drools.xml:64
 #, no-c-format
 msgid "In most rules-driven applications, rules need to be dynamically deployable, so a production application will want to use a Drools RuleAgent to manage the RuleBase. The RuleAgent can connect to a Drools rule server (BRMS) or hot deploy rules packages from a local file repository. The RulesAgent-managed RuleBase is also configurable in <literal>components.xml</literal>:"
 msgstr "Nella maggior parte delle applicazioni guidate dalle regole, le regole devono essere dinamicamente deployabili, e quindi un'applicazione in produzione dovrà usare un Drools RuleAgent per gestire la RuleBase. Il RuleAgent può connettersi al server di regole Drool (BRMS) od eseguire l'hot deploy dei pacchetti di regole dal repository locale. La RuleBase gestita dal RulesAgen è configurabile in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
-#: Drools.xml:59
+#: Drools.xml:72
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-agent name=\"insuranceRules\" \n"
@@ -170,13 +194,13 @@ msgstr ""
 "                    configurationFile=\"/WEB-INF/deployedrules.properties\" />]]>"
 
 #. Tag: para
-#: Drools.xml:61
+#: Drools.xml:74
 #, no-c-format
 msgid "The properties file contains properties specific to the RulesAgent. Here is an example configuration file from the Drools example distribution."
 msgstr "Il file delle proprietà contiene proprietà specifiche per RulesAgent. Ecco un file di configurazione d'esempio proveniente dalla distribuzione Drools."
 
 #. Tag: programlisting
-#: Drools.xml:64
+#: Drools.xml:77
 #, no-c-format
 msgid ""
 "newInstance=true\n"
@@ -192,13 +216,13 @@ msgstr ""
 "name=insuranceconfig"
 
 #. Tag: para
-#: Drools.xml:67
+#: Drools.xml:80
 #, no-c-format
 msgid "It is also possible to configure the options on the component directly, bypassing the configuration file."
 msgstr "E' anche possibile configurare le opzioni derettamente sul componente, bypassando il file di configurazione."
 
 #. Tag: programlisting
-#: Drools.xml:69
+#: Drools.xml:82
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-agent name=\"insuranceRules\"\n"
@@ -214,31 +238,31 @@ msgstr ""
 "   configuration-name=\"insuranceconfig\" />]]>"
 
 #. Tag: para
-#: Drools.xml:71
+#: Drools.xml:84
 #, no-c-format
 msgid "Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal> available to each conversation. (Each <literal>WorkingMemory</literal> accumulates facts relating to the current conversation.)"
 msgstr "Successivamente occorre rendere disponibile ad ogni conversazione un'istanza di <literal>org.drools.WorkingMemory</literal>. (Ogni <literal>WorkingMemory</literal> accumula fatti relativi alla conversazione corrente.)"
 
 #. Tag: programlisting
-#: Drools.xml:77
+#: Drools.xml:90
 #, no-c-format
 msgid "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" auto-create=\"true\" rule-base=\"#{policyPricingRules}\"/>]]>"
 msgstr "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" auto-create=\"true\" rule-base=\"#{policyPricingRules}\"/>]]>"
 
 #. Tag: para
-#: Drools.xml:79
+#: Drools.xml:92
 #, no-c-format
 msgid "Notice that we gave the <literal>policyPricingWorkingMemory</literal> a reference back to our rule base via the <literal>ruleBase</literal> configuration property."
 msgstr "Notare che è stato dato a <literal>policyPricingWorkingMemory</literal> un riferimento alla base di regole tramite la proprietà di configurazione <literal>ruleBase</literal>."
 
 #. Tag: para
-#: Drools.xml:85
+#: Drools.xml:98
 #, no-c-format
 msgid "We can also add means to be notified of rule engine events, including rules firing, objects being asserted, etc. by adding event listeners to WorkingMemory."
 msgstr "Si può anche aggiungere gli strumenti per essere notificati degli eventi rule engine, inclusi l'avvio delle regole, gli oggetti da asserire, ecc. aggiungendo event listener alla WorkingMemory."
 
 #. Tag: programlisting
-#: Drools.xml:90
+#: Drools.xml:103
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" auto-create=\"true\" rule-base=\"#{policyPricingRules}\">\n"
@@ -256,19 +280,19 @@ msgstr ""
 "</drools:managed-working-memory>]]>"
 
 #. Tag: title
-#: Drools.xml:94
+#: Drools.xml:107
 #, no-c-format
 msgid "Using rules from a Seam component"
 msgstr "Utilizzo delle regole da un componente SEAM"
 
 #. Tag: para
-#: Drools.xml:96
+#: Drools.xml:109
 #, no-c-format
 msgid "We can now inject our <literal>WorkingMemory</literal> into any Seam component, assert facts, and fire rules:"
 msgstr "Ora è possibile iniettare la <literal>WorkingMemory</literal> in un qualsiasi componente di Seam, asserire i fatti e lanciare le regole:"
 
 #. Tag: programlisting
-#: Drools.xml:101
+#: Drools.xml:114
 #, no-c-format
 msgid ""
 "<![CDATA[@In WorkingMemory policyPricingWorkingMemory;\n"
@@ -280,6 +304,8 @@ msgid ""
 "{\n"
 "        policyPricingWorkingMemory.insert(policy);\n"
 "        policyPricingWorkingMemory.insert(customer); \n"
+"        // if we have a ruleflow, start the process\n"
+"        policyPricingWorkingMemory.startProcess(startProcessId)\n"
 "    policyPricingWorkingMemory.fireAllRules();\n"
 "}]]>"
 msgstr ""
@@ -292,29 +318,33 @@ msgstr ""
 "{\n"
 "        policyPricingWorkingMemory.insert(policy);\n"
 "        policyPricingWorkingMemory.insert(customer); \n"
+"        // if we have a ruleflow, start the process\n"
+"        policyPricingWorkingMemory.startProcess(startProcessId)\n"
 "    policyPricingWorkingMemory.fireAllRules();\n"
 "}]]>"
 
 #. Tag: title
-#: Drools.xml:106
+#: Drools.xml:119
 #, no-c-format
 msgid "Using rules from a jBPM process definition"
 msgstr "Utilizzo delle regole da una definizione di processo jBPM"
 
 #. Tag: para
-#: Drools.xml:108
+#: Drools.xml:121
 #, no-c-format
 msgid "You can even allow a rule base to act as a jBPM action handler, decision handler, or assignment handler &#8212; in either a pageflow or business process definition."
 msgstr "Si può anche consentire alla base di regole di agire come action handler di jBPM, decision handler, o assignment handler &#8212; sia in una definizione di pageflow sia in un processo di business."
 
 #. Tag: programlisting
-#: Drools.xml:114
+#: Drools.xml:127
 #, no-c-format
 msgid ""
 "<![CDATA[<decision name=\"approval\">\n"
 "         \n"
 "    <handler class=\"org.jboss.seam.drools.DroolsDecisionHandler\">\n"
 "        <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>\n"
+"        <!-- if a ruleflow was added -->\n"
+"        <startProcessId>approvalruleflowid</startProcessId>\n"
 "        <assertObjects>\n"
 "            <element>#{customer}</element>\n"
 "            <element>#{order}</element>\n"
@@ -341,6 +371,8 @@ msgstr ""
 "         \n"
 "    <handler class=\"org.jboss.seam.drools.DroolsDecisionHandler\">\n"
 "        <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>\n"
+"        <!-- if a ruleflow was added -->\n"
+"        <startProcessId>approvalruleflowid</startProcessId>\n"
 "        <assertObjects>\n"
 "            <element>#{customer}</element>\n"
 "            <element>#{order}</element>\n"
@@ -364,19 +396,25 @@ msgstr ""
 "</decision>]]>"
 
 #. Tag: para
-#: Drools.xml:116
+#: Drools.xml:129
 #, no-c-format
 msgid "The <literal>&lt;assertObjects&gt;</literal> element specifies EL expressions that return an object or collection of objects to be asserted as facts into the <literal>WorkingMemory</literal>."
 msgstr "L'elemento <literal>&lt;assertObjects&gt;</literal> specifica le espressioni EL che restituiscono un oggetto od una collezione di oggetti da asserire come fatti nella <literal>WorkingMemory</literal>."
 
 #. Tag: para
-#: Drools.xml:122
+#: Drools.xml:135
+#, no-c-format
+msgid "The <literal>&lt;retractObjects&gt;</literal> element on the other hand specifies EL expressions that return an object or collection of objects to be retracted from the <literal>WorkingMemory</literal>."
+msgstr "L'elemento <literal>&lt;retractObjects&gt;</literal> specifica le espressioni EL che restituiscono un oggetto od una collezione di oggetti da Rritrarre dalla <literal>WorkingMemory</literal>."
+
+#. Tag: para
+#: Drools.xml:141
 #, no-c-format
 msgid "There is also support for using Drools for jBPM task assignments:"
 msgstr "Esiste anche il supporto per l'uso di Drools per le assegnazioni dei task in jBPM:"
 
 #. Tag: programlisting
-#: Drools.xml:126
+#: Drools.xml:145
 #, no-c-format
 msgid ""
 "<![CDATA[<task-node name=\"review\">\n"
@@ -413,13 +451,13 @@ msgstr ""
 
 # rivedere la frase.
 #. Tag: para
-#: Drools.xml:128
+#: Drools.xml:147
 #, no-c-format
 msgid "Certain objects are available to the rules as Drools globals, namely the jBPM <literal>Assignable</literal>, as <literal>assignable</literal> and a Seam <literal>Decision</literal> object, as <literal>decision</literal>. Rules which handle decisions should call <literal>decision.setOutcome(\"result\")</literal> to determine the result of the decision. Rules which perform assignments should set the actor id using the <literal>Assignable</literal>."
 msgstr "Alcuni oggetti sono consultabili dalle regole come Drools globals, chiamate <literal>Assignable</literal> in jBPM, come <literal>assignable</literal> ed oggetto <literal>Decision</literal> in Seam, come <literal>decision</literal>. Le regole che gestiscono le decisioni dovrebbero chiamare <literal>decision.setOutcome(\"result\")</literal> per determinare il risultato della decisione. Le regole che eseguono assegnazioni dovrebbero impostare l'actor id usando <literal>Assignable</literal>."
 
 #. Tag: programlisting
-#: Drools.xml:137
+#: Drools.xml:156
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.examples.shop\n"
@@ -451,7 +489,7 @@ msgstr ""
 "end]]>"
 
 #. Tag: programlisting
-#: Drools.xml:139
+#: Drools.xml:158
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.examples.shop\n"
@@ -481,13 +519,13 @@ msgstr ""
 "end]]>"
 
 #. Tag: para
-#: Drools.xml:142
+#: Drools.xml:161
 #, no-c-format
 msgid "You can find out more about Drools at <ulink url=\"http://www.drools.org\"></ulink>"
 msgstr "Si possono trovare altre informazioni su Drools all'indirizzo <ulink url=\"http://www.drools.org\"></ulink>"
 
 #. Tag: para
-#: Drools.xml:149
+#: Drools.xml:168
 #, no-c-format
 msgid "Seam comes with enough of Drools' dependencies to implement some simple rules. If you want to add extra capabilities to Drools you should download the full distribution and add in extra dependencies as needed."
 msgstr "Seam viene fornito con dipendenze Drools sufficienti per implementare alcune regole semplici. Per aggiungere ulteriori funzionalità a Drools occorre scaricare la distribuzione completa ed aggiungere le dipendenze necessarie."
