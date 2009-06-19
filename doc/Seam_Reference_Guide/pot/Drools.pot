@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-06-13 23:52+0000\n"
+"POT-Creation-Date: 2009-06-19 04:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -90,12 +90,41 @@ msgstr ""
 #: Drools.xml:39
 #, no-c-format
 msgid ""
+"Support for Drools RuleFlow is also available and you can simply add a "
+"<literal>.rf</literal> or a <literal>.rfm</literal> as part of your rule "
+"files as:"
+msgstr ""
+
+#. Tag: programlisting
+#: Drools.xml:44
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"        <drools:rule-base name=\"policyPricingRules\" rule-files="
+"\"policyPricingRules.drl, policyPricingRulesFlow.rf\"/>\n"
+"        ]]>"
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:46
+#, no-c-format
+msgid ""
+"Note that when using the Drools 4.x RuleFlow (<literal>.rfm</literal>) "
+"format, you need to specify the -Ddrools.ruleflow.port=true system property "
+"on server startup. This is however still an experimental feature and we "
+"advise to use the Drools5 (<literal>.rf</literal>) format if possible."
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:52
+#, no-c-format
+msgid ""
 "If you want to register a custom consequence exception handler through the "
 "RuleBaseConfiguration, you need to write the handler, for example:"
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:44
+#: Drools.xml:57
 #, no-c-format
 msgid ""
 "<![CDATA[@Scope(ScopeType.APPLICATION)\n"
@@ -122,13 +151,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:46
+#: Drools.xml:59
 #, no-c-format
 msgid "and register it:"
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:49
+#: Drools.xml:62
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-base name=\"policyPricingRules\" dsl-file="
@@ -141,7 +170,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:51
+#: Drools.xml:64
 #, no-c-format
 msgid ""
 "In most rules-driven applications, rules need to be dynamically deployable, "
@@ -152,7 +181,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:59
+#: Drools.xml:72
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-agent name=\"insuranceRules\" \n"
@@ -161,7 +190,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:61
+#: Drools.xml:74
 #, no-c-format
 msgid ""
 "The properties file contains properties specific to the RulesAgent. Here is "
@@ -169,7 +198,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:64
+#: Drools.xml:77
 #, no-c-format
 msgid ""
 "newInstance=true\n"
@@ -182,7 +211,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:67
+#: Drools.xml:80
 #, no-c-format
 msgid ""
 "It is also possible to configure the options on the component directly, "
@@ -190,7 +219,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:69
+#: Drools.xml:82
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:rule-agent name=\"insuranceRules\"\n"
@@ -203,7 +232,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:71
+#: Drools.xml:84
 #, no-c-format
 msgid ""
 "Next, we need to make an instance of <literal>org.drools.WorkingMemory</"
@@ -212,7 +241,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:77
+#: Drools.xml:90
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" "
@@ -220,7 +249,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:79
+#: Drools.xml:92
 #, no-c-format
 msgid ""
 "Notice that we gave the <literal>policyPricingWorkingMemory</literal> a "
@@ -229,7 +258,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:85
+#: Drools.xml:98
 #, no-c-format
 msgid ""
 "We can also add means to be notified of rule engine events, including rules "
@@ -238,7 +267,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:90
+#: Drools.xml:103
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\" "
@@ -251,13 +280,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Drools.xml:94
+#: Drools.xml:107
 #, no-c-format
 msgid "Using rules from a Seam component"
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:96
+#: Drools.xml:109
 #, no-c-format
 msgid ""
 "We can now inject our <literal>WorkingMemory</literal> into any Seam "
@@ -265,7 +294,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:101
+#: Drools.xml:114
 #, no-c-format
 msgid ""
 "<![CDATA[@In WorkingMemory policyPricingWorkingMemory;\n"
@@ -277,18 +306,20 @@ msgid ""
 "{\n"
 "        policyPricingWorkingMemory.insert(policy);\n"
 "        policyPricingWorkingMemory.insert(customer); \n"
+"        // if we have a ruleflow, start the process\n"
+"        policyPricingWorkingMemory.startProcess(startProcessId)\n"
 "    policyPricingWorkingMemory.fireAllRules();\n"
 "}]]>"
 msgstr ""
 
 #. Tag: title
-#: Drools.xml:106
+#: Drools.xml:119
 #, no-c-format
 msgid "Using rules from a jBPM process definition"
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:108
+#: Drools.xml:121
 #, no-c-format
 msgid ""
 "You can even allow a rule base to act as a jBPM action handler, decision "
@@ -297,7 +328,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:114
+#: Drools.xml:127
 #, no-c-format
 msgid ""
 "<![CDATA[<decision name=\"approval\">\n"
@@ -305,6 +336,8 @@ msgid ""
 "    <handler class=\"org.jboss.seam.drools.DroolsDecisionHandler\">\n"
 "        <workingMemoryName>orderApprovalRulesWorkingMemory</"
 "workingMemoryName>\n"
+"        <!-- if a ruleflow was added -->\n"
+"        <startProcessId>approvalruleflowid</startProcessId>\n"
 "        <assertObjects>\n"
 "            <element>#{customer}</element>\n"
 "            <element>#{order}</element>\n"
@@ -330,7 +363,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:116
+#: Drools.xml:129
 #, no-c-format
 msgid ""
 "The <literal>&lt;assertObjects&gt;</literal> element specifies EL "
@@ -339,13 +372,22 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:122
+#: Drools.xml:135
+#, no-c-format
+msgid ""
+"The <literal>&lt;retractObjects&gt;</literal> element on the other hand "
+"specifies EL expressions that return an object or collection of objects to "
+"be retracted from the <literal>WorkingMemory</literal>."
+msgstr ""
+
+#. Tag: para
+#: Drools.xml:141
 #, no-c-format
 msgid "There is also support for using Drools for jBPM task assignments:"
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:126
+#: Drools.xml:145
 #, no-c-format
 msgid ""
 "<![CDATA[<task-node name=\"review\">\n"
@@ -368,7 +410,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:128
+#: Drools.xml:147
 #, no-c-format
 msgid ""
 "Certain objects are available to the rules as Drools globals, namely the "
@@ -381,7 +423,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:137
+#: Drools.xml:156
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.examples.shop\n"
@@ -400,7 +442,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Drools.xml:139
+#: Drools.xml:158
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.examples.shop\n"
@@ -418,7 +460,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:142
+#: Drools.xml:161
 #, no-c-format
 msgid ""
 "You can find out more about Drools at <ulink url=\"http://www.drools.org\"></"
@@ -426,7 +468,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Drools.xml:149
+#: Drools.xml:168
 #, no-c-format
 msgid ""
 "Seam comes with enough of Drools' dependencies to implement some simple "
