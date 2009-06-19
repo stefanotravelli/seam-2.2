@@ -8,7 +8,7 @@ global Integer randomNumber
 global Game game
 
 rule High
-   #ruleflow-group "Guess"	
+   ruleflow-group "Guess"	
    when 
       Guess(guess: value>randomNumber)
    then 
@@ -16,7 +16,7 @@ rule High
 end
 
 rule Low
-   #ruleflow-group "Guess"
+   ruleflow-group "Guess"
    when
       Guess(guess: value<randomNumber)
    then 
@@ -24,7 +24,7 @@ rule Low
 end
 
 rule Win
-   #ruleflow-group "Decision"
+   ruleflow-group "Decision"
    when 
       Guess(value==randomNumber)
    then 
@@ -32,7 +32,7 @@ rule Win
 end
 
 rule Lose
-   #ruleflow-group "Decision"
+   ruleflow-group "Decision"
    when 
       Game(guessCount==9)
    then
@@ -43,7 +43,7 @@ rule Lose
 end
 
 rule Increment
-   #ruleflow-group "Increment"
+   ruleflow-group "Increment"
    salience -10
    when
       Guess()

@@ -11,11 +11,11 @@
             
     <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
     <!-- use this in order to load from decision table instead -->        
-    <!-- <drools:rule-base name="ruleBase" rule-files="numberguess.xls"/>  -->
+    <!-- <drools:rule-base name="ruleBase" rule-files="numberguess.xls"/> -->
     <!--  use this in order to load from a drl and also add a ruleflow -->
-    <!-- <drools:rule-base name="ruleBase" rule-files="numberguess.drl, numberguess.rf"/>  -->
+    <!-- <drools:rule-base name="ruleBase" rule-files="numberguessforflow.drl, numberguess.rf"/>  -->
     <!--  use this in order to load from a xls and also add a ruleflow -->
-    <!-- <drools:rule-base name="ruleBase" rule-files="numberguess.xls, numberguess.rf"/>  -->    
+    <!-- <drools:rule-base name="ruleBase" rule-files="numberguessforflow.xls, numberguess.rf"/> -->     
     <!--  use this if you want to register a custom consequence exception handler -->
     <!--  <drools:rule-base name="ruleBase" rule-files="numberguess.xls" consequence-exception-handler="#{gameConsequenceExceptionHandler}"/>  -->
     <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}">
