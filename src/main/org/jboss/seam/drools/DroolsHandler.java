@@ -19,26 +19,50 @@ import org.jbpm.jpdl.el.ELException;
  */
 public class DroolsHandler
 {
-   protected WorkingMemory getWorkingMemory(String workingMemoryName, List<String> expressions, ExecutionContext executionContext) 
+   protected WorkingMemory getWorkingMemory(String workingMemoryName, List<String> expressions, List<String> retractions, ExecutionContext executionContext) 
          throws ELException
    {
       WorkingMemory workingMemory = (WorkingMemory) Component.getInstance(workingMemoryName, true);
       
-      for (String objectName: expressions)
+      if(expressions != null && expressions.size() > 0) 
       {
-         Object object = Expressions.instance().createValueExpression(objectName).getValue();
-         //Object object = new SeamVariableResolver().resolveVariable(objectName);
-         // assert the object into the rules engine
-         if (object instanceof Iterable)
+         for (String objectName: expressions)
          {
-            for (Object element: (Iterable) object)
+            Object object = Expressions.instance().createValueExpression(objectName).getValue();
+            //Object object = new SeamVariableResolver().resolveVariable(objectName);
+            // assert the object into the rules engine
+            if (object instanceof Iterable)
             {
-               assertObject(workingMemory, element);
+               for (Object element: (Iterable) object)
+               {
+                  assertObject(workingMemory, element);
+               }
+            }
+            else
+            {
+               assertObject(workingMemory, object);
             }
          }
-         else
+      }
+      
+      if(retractions != null && retractions.size() > 0) 
+      {
+         for (String objectName: retractions)
          {
-            assertObject(workingMemory, object);
+            Object object = Expressions.instance().createValueExpression(objectName).getValue();
+            //Object object = new SeamVariableResolver().resolveVariable(objectName);
+            // retract the object from the rules engine
+            if (object instanceof Iterable)
+            {
+               for (Object element: (Iterable) object)
+               {
+                  retractObject(workingMemory, element);
+               }
+            }
+            else
+            {
+               retractObject(workingMemory, object);
+            }
          }
       }
       
@@ -60,4 +84,13 @@ public class DroolsHandler
          workingMemory.update(fact, element);
       }
    }
+   
+   private void retractObject(WorkingMemory workingMemory, Object element)
+   {
+      FactHandle fact = workingMemory.getFactHandle(element);
+      if (fact != null)
+      {
+         workingMemory.retract(fact);
+      }
+   } 
 }

@@ -70,7 +70,14 @@ public class RuleBase
                InputStreamReader source = new InputStreamReader(new ByteArrayInputStream(currentXMLBytes)); 
                
                builder.addPackageFromDrl(source);
-            } else {             
+            } 
+            else if(isRuleFlow(ruleFile)) 
+            {
+               log.debug("adding ruleflow: " + ruleFile);
+               builder.addRuleFlow( new InputStreamReader(stream) );
+            } 
+            else 
+            {                
                // read in the source
                Reader drlReader = new InputStreamReader(stream);
                
@@ -160,4 +167,9 @@ public class RuleBase
       return fileName != null && fileName.length() > 0 && fileName.endsWith(".xls");
    }
    
+   private boolean isRuleFlow(String fileName) 
+   {
+      //support both new drools5 and older drools4 formats
+      return fileName != null && fileName.length() > 0 && (fileName.endsWith(".rf") || fileName.endsWith(".rfm"));
+   } 
 }

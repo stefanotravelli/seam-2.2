@@ -327,6 +327,9 @@
 		<include name="drools-compiler.jar" if="drools.lib" />
 		<include name="drools-api.jar" if="drools.lib" />
 		<include name="drools-decisiontables.jar" if="drools.lib"/>
+		<include name="drools-templates.jar" if="drools.lib"/>
+		<include name="xstream.jar" if="drools.lib"/>
+		<include name="xpp3_min.jar" if="drools.lib"/>
 		<include name="jxl.jar" if="drools.lib"/>
 	</fileset>
 
@@ -477,6 +480,8 @@
 	<!-- binary resources to go in the jar -->
 		<fileset id="jar.binary.resources" dir="${resources.dir}">
 			<include name="*.xls" />
+			<include name="*.rf" />
+			<include name="*.rfm" />
 		</fileset>
 
 	<!-- resources to go in the jar for tomcat  -->

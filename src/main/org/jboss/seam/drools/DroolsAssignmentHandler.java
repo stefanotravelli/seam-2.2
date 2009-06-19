@@ -21,11 +21,17 @@ public class DroolsAssignmentHandler extends DroolsHandler implements Assignment
    
    public String workingMemoryName;
    public List<String> assertObjects;
+   public List<String> retractObjects;
+   public String startProcessId;
    
    public void assign(Assignable assignable, ExecutionContext executionContext) throws Exception
    {
-      WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, executionContext);
+      WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, retractObjects, executionContext);
       workingMemory.setGlobal( "assignable", assignable );
+      if(startProcessId != null && startProcessId.trim().length() > 0 ) 
+      {
+         workingMemory.startProcess(startProcessId);
+      }
       workingMemory.fireAllRules();
    }
    

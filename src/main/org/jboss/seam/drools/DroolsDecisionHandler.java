@@ -19,12 +19,18 @@ public class DroolsDecisionHandler extends DroolsHandler implements DecisionHand
    private static final long serialVersionUID = -8900810376838166513L;
    
    public List<String> assertObjects;
+   public List<String> retractObjects;
    public String workingMemoryName;
+   public String startProcessId;
    
    public String decide(ExecutionContext executionContext) throws Exception
    {
-      WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, executionContext);
+      WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, retractObjects, executionContext);
       workingMemory.setGlobal( "decision", new Decision() );
+      if(startProcessId != null && startProcessId.trim().length() > 0 ) 
+      {
+         workingMemory.startProcess(startProcessId);
+      }
       workingMemory.fireAllRules();
       return ( (Decision) workingMemory.getGlobal("decision") ).getOutcome();
    }

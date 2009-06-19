@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="numberguess" id="numberguessid" package-name="org.jboss.seam.example.numberguess" version="" routerLayout="2" >
+
+  <header>
+  </header>
+
+  <nodes>
+    <ruleSet id="17" name="Increment" x="336" y="156" width="80" height="40" ruleFlowGroup="Increment" />
+    <ruleSet id="13" name="Decision" x="216" y="156" width="80" height="40" ruleFlowGroup="Decision" />
+    <start id="8" name="Start" x="84" y="24" width="80" height="40" />
+    <end id="21" name="End" x="336" y="264" width="80" height="40" />
+    <ruleSet id="5" name="Guess" x="84" y="156" width="80" height="40" ruleFlowGroup="Guess" />
+  </nodes>
+
+  <connections>
+    <connection from="13" to="17" />
+    <connection from="5" to="13" />
+    <connection from="17" to="21" />
+    <connection from="8" to="5" />
+  </connections>
+
+</process>

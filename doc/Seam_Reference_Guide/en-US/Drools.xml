@@ -44,6 +44,21 @@
     </drools:rule-files>
 </drools:rule-base>]]></programlisting>
 
+		<para>
+             Support for Drools RuleFlow is also available and you can simply add a <literal>.rf</literal> or a <literal>.rfm</literal>
+             as part of your rule files as:
+         </para>
+         
+        <programlisting role="XML"><![CDATA[
+        <drools:rule-base name="policyPricingRules" rule-files="policyPricingRules.drl, policyPricingRulesFlow.rf"/>
+        ]]></programlisting>
+        
+        <para>
+             Note that when using the Drools 4.x RuleFlow (<literal>.rfm</literal>) format, you need to specify the -Ddrools.ruleflow.port=true
+             system property on server startup. This is however still an experimental feature and we advise to use the Drools5 (<literal>.rf</literal>)
+             format if possible.              
+        </para>
+
          <para>
              If you want to register a custom consequence exception handler through the RuleBaseConfiguration, you need to 
              write the handler, for example: 
@@ -151,6 +166,8 @@ public void pricePolicy() throws FactException
 {
 	policyPricingWorkingMemory.insert(policy);
 	policyPricingWorkingMemory.insert(customer); 
+	// if we have a ruleflow, start the process
+	policyPricingWorkingMemory.startProcess(startProcessId)
     policyPricingWorkingMemory.fireAllRules();
 }]]></programlisting>
      
@@ -169,6 +186,8 @@ public void pricePolicy() throws FactException
          
     <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
         <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
+        <!-- if a ruleflow was added -->
+        <startProcessId>approvalruleflowid</startProcessId>
         <assertObjects>
             <element>#{customer}</element>
             <element>#{order}</element>
@@ -195,6 +214,12 @@ public void pricePolicy() throws FactException
              The <literal>&lt;assertObjects&gt;</literal> element specifies EL expressions that
              return an object or collection of objects to be asserted as facts into the 
              <literal>WorkingMemory</literal>.
+         </para>
+         
+         <para>
+            The <literal>&lt;retractObjects&gt;</literal> element on the other hand specifies EL 
+            expressions that return an object or collection of objects to be retracted from the 
+            <literal>WorkingMemory</literal>.
          </para>
          
          <para>

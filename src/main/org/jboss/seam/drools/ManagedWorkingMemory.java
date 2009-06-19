@@ -106,7 +106,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
                } 
                else 
                {
-                  log.debug("event Listener is not of valid type - bypassing.");
+                  log.debug("event Listener " + eventListener + " is not of valid type - bypassing.");
                }
             }
             catch (Exception e)
