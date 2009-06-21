@@ -32,7 +32,7 @@ import org.jboss.seam.util.Strings;
 public class ResourceLoader
 {
    private static final LogProvider log = Logging.getLogProvider(ResourceLoader.class);
-
+   
    private String[] bundleNames = {"messages"};
    
    /**
@@ -52,12 +52,12 @@ public class ResourceLoader
    
    public InputStream getResourceAsStream(String resource)
    {
-      return Resources.getResourceAsStream( resource, ServletLifecycle.getServletContext() );
+      return Resources.getResourceAsStream( resource, ServletLifecycle.getCurrentServletContext() );
    }
-
+   
    public URL getResource(String resource) 
    {
-      return Resources.getResource( resource, ServletLifecycle.getServletContext() );
+      return Resources.getResource( resource, ServletLifecycle.getCurrentServletContext() );
    }
    
    /**
@@ -75,7 +75,7 @@ public class ResourceLoader
                bundleName, 
                Locale.instance(), 
                Thread.currentThread().getContextClassLoader() 
-            );
+         );
          log.debug("loaded resource bundle: " + bundleName);
          return bundle;
       }
@@ -92,14 +92,14 @@ public class ResourceLoader
       String concat = bundleNames==null ? "" : Strings.toString( ", ", (Object[]) bundleNames );
       return "ResourceBundle(" + concat + ")";
    }
-
+   
    public static ResourceLoader instance()
    {
-       if (!Contexts.isApplicationContextActive()) {
-           return new ResourceLoader();
-       } else {
-           return (ResourceLoader) Component.getInstance(ResourceLoader.class, ScopeType.STATELESS);
-       }
+      if (!Contexts.isApplicationContextActive()) {
+         return new ResourceLoader();
+      } else {
+         return (ResourceLoader) Component.getInstance(ResourceLoader.class, ScopeType.STATELESS);
+      }
    }
    
 }
