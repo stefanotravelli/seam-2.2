@@ -139,3 +139,23 @@ SEAM CODE GENERATION COMMANDS
 	  that allow them to be managed.
 
       Example: seam generate
+
+   add-identity-management
+     Adds Seam's identity management support to an existing project.  The
+     command modifies the component descriptor to activate the identity
+     management components, generates annotated User and UserRole entities,
+     and wires the identity management components to these entities. The
+     command also generates an administrative interface to manage the users
+     and roles.
+
+      Example: seam add-identity-management
+
+   add-ivy
+     Alters an existing project to use Ivy to manage the dependencies. The
+     command adds Ivy configuration files and a cooresponding Ant build file.
+     The Ant tasks invoke Ivy to download the dependency sets required to
+     build, test and deploy the application. The step of downloading the
+     dependencies is kept separate from the build life cycle.
+
+      Example: seam add-ivy
+
