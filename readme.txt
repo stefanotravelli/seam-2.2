@@ -30,3 +30,4 @@ Learn more
 
 * Read the documentation in the "doc/reference/en-US" directory
 * Read the online FAQ http://www.seamframework.org
+
