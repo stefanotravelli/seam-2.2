@@ -11,8 +11,6 @@ import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.compiler.RuleBuildError;
-import org.drools.decisiontable.InputType;
-import org.drools.decisiontable.SpreadsheetCompiler;
 import org.drools.spi.ConsequenceExceptionHandler;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -61,16 +59,13 @@ public class RuleBase
             
             if(isDecisionTable(ruleFile)) 
             {
-               log.debug("compiling decision table");
-               SpreadsheetCompiler compiler = new SpreadsheetCompiler();
-               String drl = compiler.compile(stream, InputType.XLS);
-               
-               log.debug("creating source");               
-               byte currentXMLBytes[] = drl.getBytes();
-               InputStreamReader source = new InputStreamReader(new ByteArrayInputStream(currentXMLBytes)); 
-               
-               builder.addPackageFromDrl(source);
-            } 
+		if (SpreadsheetCompiler.instance() != null) {
+		    builder.addPackageFromDrl(SpreadsheetCompiler.instance().compile(stream));
+		} else {
+		    throw new UnsupportedOperationException("Unable to compile decision table. You need drools-decisiontables.jar in your classpath");
+			
+		} 
+            }
             else if(isRuleFlow(ruleFile)) 
             {
                log.debug("adding ruleflow: " + ruleFile);
