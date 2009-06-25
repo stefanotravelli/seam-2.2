@@ -118,7 +118,7 @@ public class ContextTest {
         assert ((MockHttpSession) externalContext.getSession(false))
                 .getAttributes().size() == 4;
         assert ((MockServletContext) externalContext.getContext())
-                .getAttributes().size() == 11;
+                .getAttributes().size() == 12;
 
         FacesLifecycle.beginRequest(externalContext);
 
@@ -151,7 +151,7 @@ public class ContextTest {
         assert Contexts.getSessionContext().get("foo") == foo;
 
         assert Contexts.getConversationContext().getNames().length == 2;
-        assert Contexts.getApplicationContext().getNames().length == 11;
+        assert Contexts.getApplicationContext().getNames().length == 12;
         assert Contexts.getSessionContext().getNames().length == 2;
 
         assert seamVariableResolver.getValue(elContext, null, "zzz").equals(
@@ -186,7 +186,7 @@ public class ContextTest {
         assert ((MockHttpSession) externalContext.getSession(false))
                 .getAttributes().size() == 3; // foo, zzz, org.jboss.seam.core.conversationEntries
         assert ((MockServletContext) externalContext.getContext())
-                .getAttributes().size() == 11;
+                .getAttributes().size() == 12;
 
         ServletLifecycle.endSession(((HttpServletRequest) externalContext
                 .getRequest()).getSession());
