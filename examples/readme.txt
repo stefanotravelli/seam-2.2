@@ -30,6 +30,8 @@ excel/                Demo of excel export support.
                       
 groovybooking/        The Seam Booking demo ported to Groovy.
 
+guice/                An example demonstrating the use of Google Guice with Seam.
+
 hibernate/            The Seam Booking demo ported to Hibernate3.
 
 icefaces/             The Seam Booking demo with ICEfaces, instead of 
@@ -109,7 +111,7 @@ How to Build and Deploy an Example on JBoss AS
 
 1. Download and unzip JBoss AS 4.2.3.GA from:
    
-   http://labs.jboss.com/jbossas/downloads
+   http://jboss.org/jbossas/downloads
 
 2. Make sure you have an up to date version of Seam: 
 

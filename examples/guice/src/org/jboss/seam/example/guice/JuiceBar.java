@@ -11,8 +11,8 @@ import com.google.inject.Inject;
 @Guice // Activates @Inject on a Seam component
 public class JuiceBar
 {
-   @Inject private Juice juiceOfTheDay; // Guice looks at the variable type, not name
-   @Inject @Orange private Juice anotherJuice;
+   @Inject protected Juice juiceOfTheDay; // Guice looks at the variable type, not name
+   @Inject @Orange protected Juice anotherJuice;
 
    public Juice getJuiceOfTheDay()
    {

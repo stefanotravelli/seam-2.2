@@ -3,18 +3,14 @@ package org.jboss.seam.example.guice;
 /**
  * @author Pawel Wrzeszcz (pwrzeszcz [at] jboss . org)
  */
-public class JuiceImpl implements Juice
+public class OrangeJuice implements Juice
 {
-   private String name;
-   private int price;
+   private static final String name = "Orange Juice";
+   private static final int price = 12;
 
-   public JuiceImpl(String name, int price)
-   {
-      this.name = name;
-      this.price = price;
-   }
+   public OrangeJuice() {}
 
-    public String getName()
+   public String getName()
    {
       return name;
    }

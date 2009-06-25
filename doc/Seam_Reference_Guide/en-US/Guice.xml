@@ -10,7 +10,7 @@
       resolution. The Guice integration (part of the Seam IoC module) allows use of Guice injection
       for all Seam components annotated with the <literal>@Guice</literal> annotation. In addition
       to the regular bijection that Seam performs (which becomes optional), Seam also delegates
-      to known Guice injectors to satisify the dependencies of the component. Guice may be useful to
+      to known Guice injectors to satisfy the dependencies of the component. Guice may be useful to
       tie non-Seam parts of large or legacy applications together with Seam. 
    </para> 
 
@@ -40,7 +40,7 @@
 
       <para>
           This Guice injection will happen on every method call, just like with bijection. Guice
-          injects based on type and binding. To satisify the dependencies in the previous example,
+          injects based on type and binding. To satisfy the dependencies in the previous example,
           you might have bound the following implementations in a Guice module, where
           <literal>@Special</literal> is an annotation you define in your application.
       </para>
@@ -70,7 +70,7 @@
 
       <para>
          You tell Seam which Guice injector to use by hooking it into the injection property
-         of the Guice initization component in the Seam component descriptor (components.xml):
+         of the Guice initialization component in the Seam component descriptor (components.xml):
       </para>
 
       <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
