@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import domain.BlogEntry;
 
 /**
  * Index Blog entry at startup
@@ -29,10 +30,12 @@ public class IndexerService
 
    @Create
    public void index() {
+      entityManager.purgeAll( BlogEntry.class );
       List blogEntries = entityManager.createQuery("select be from BlogEntry be").getResultList();
       for (Object be : blogEntries) {
          entityManager.index(be);
       }
+      entityManager.flushToIndexes();
    }
 
    @Remove
