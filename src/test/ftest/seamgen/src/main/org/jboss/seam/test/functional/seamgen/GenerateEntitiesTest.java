@@ -123,8 +123,8 @@ public class GenerateEntitiesTest extends DatabaseTest
    {
       // TODO
       final String richFaces = "id=person:birthdateField:birthdateDayCell24";
-      final String iceFaces = "id=person:birthdateField:birthdate_calendar_1569";
-      final String icefacesCalendarButton = "person:birthdateField:birthdate_calendarButton";
+      final String iceFaces = "xpath=id('person:birthdateField')//table/tbody/tr[4]/td[4]/a";
+      final String icefacesCalendarButton = "id=person:birthdateField:birthdate_cb";
 
       if (browser.isElementPresent(richFaces))
       {
