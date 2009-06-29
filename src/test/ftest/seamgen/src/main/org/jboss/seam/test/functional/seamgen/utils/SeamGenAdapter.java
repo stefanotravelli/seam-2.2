@@ -96,7 +96,7 @@ public class SeamGenAdapter
 
    public void generateEntities()
    {
-      getAntCall().executeTarget("generate-entities");
+      getAntCall().executeTarget("generate");
    }
 
    /**

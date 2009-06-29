@@ -76,6 +76,8 @@ public class SeamGenTest
    protected static boolean WAR;
 
    protected static boolean DELETE_PROJECT;
+   
+   protected static boolean CONTROL_CONTAINER;
 
    protected static String TEST_SEAMGEN_PROPERTIES_FILE;
 
@@ -123,7 +125,9 @@ public class SeamGenTest
       loadFtestProperties();
       createOutputDir();
       startSeleniumServer();
-      container = startContainer(CONTAINER, CONTAINER_LOCATION);
+      if (CONTROL_CONTAINER) {
+         container = startContainer(CONTAINER, CONTAINER_LOCATION);
+      }
    }
 
    @AfterSuite
@@ -177,6 +181,7 @@ public class SeamGenTest
       CONTAINER_LOCATION = ftestProperties.getProperty(CONTAINER + ".home");
       DEPLOY_TIMEOUT = Integer.parseInt(ftestProperties.getProperty(CONTAINER + ".deploy.waittime")) * 1000; // miliseconds
       DELETE_PROJECT = Boolean.valueOf(ftestProperties.getProperty("seamgen.delete.project", "false"));
+      CONTROL_CONTAINER = Boolean.valueOf(ftestProperties.getProperty("seamgen.control.container", "false"));
 
       // load selenium constants
       SELENIUM_HOST = ftestProperties.getProperty("selenium.host");
