@@ -32,7 +32,7 @@ import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CellStyle;
 import org.jboss.seam.excel.css.ColumnStyle;
-import org.jboss.seam.excel.css.Parser;
+import org.jboss.seam.excel.css.CSSParser;
 import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UICellBase;
@@ -67,7 +67,7 @@ public class JXLHelper
    private static Log log = Logging.getLog(JXLHelper.class);
 
    // The CSS parser
-   private Parser parser = new Parser();
+   private CSSParser parser = new CSSParser();
 
    // A cache of cell info
    private CellInfoCache cellInfoCache = new CellInfoCache();

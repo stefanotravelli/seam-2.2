@@ -26,19 +26,13 @@ import org.jboss.seam.log.Logging;
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  */
-public class Parser
+public class CSSParser
 {
    // Where to look for the style
    private static final String STYLE_ATTRIBUTE = "style";
 
    // Where to look for the style class
    private static final String STYLE_CLASS_ATTRIBUTE = "styleClass";
-
-   // What separates multiple XLS-CSS attributes in a style string
-   private static final String STYLES_SEPARATOR = ";";
-
-   // What separates the key and value in a XLS-CSS style
-   private static final String STYLE_NAME_VALUE_SEPARATOR = ":";
 
    // What separates multiple style class references
    private static final String STYLE_SHORTHAND_SEPARATOR = " ";
@@ -59,12 +53,12 @@ public class Parser
    // A cache of previously parsed css, mapped on component
    private Map<UIComponent, StyleMap> cellStyleCache = new HashMap<UIComponent, StyleMap>();
 
-   private Log log = Logging.getLog(Parser.class);
+   private Log log = Logging.getLog(CSSParser.class);
 
    /**
     * Constructor, initializes the property builders
     */
-   public Parser()
+   public CSSParser()
    {
       initPropertyBuilders();
    }
@@ -76,7 +70,7 @@ public class Parser
     * @throws MalformedURLException If the URL was bad
     * @throws IOException If the URL could not be read
     */
-   public Parser(List<UILink> stylesheets) throws MalformedURLException, IOException
+   public CSSParser(List<UILink> stylesheets) throws MalformedURLException, IOException
    {
       initPropertyBuilders();
       loadStylesheets(stylesheets);
@@ -198,7 +192,7 @@ public class Parser
                 styleName = styleName.substring(1);
             }
             String styleString = css.substring(firstBrace + 1, secondBrace).trim();
-            StyleMap styleMap = parseStyleString(styleString);
+            StyleMap styleMap = StyleStringParser.of(styleString, propertyBuilders).parse();
             styleClasses.put(styleName, styleMap);
             css = css.substring(secondBrace + 1);
          }
@@ -311,7 +305,7 @@ public class Parser
       String componentStyleClass = getStyleProperty(component, STYLE_CLASS_ATTRIBUTE);
       if (componentStyleClass != null)
       {
-         String[] styleClasses = trimArray(componentStyleClass.split(STYLE_SHORTHAND_SEPARATOR));
+         String[] styleClasses = StyleStringParser.trimArray(componentStyleClass.split(STYLE_SHORTHAND_SEPARATOR));
          for (String styleClass : styleClasses)
          {
             if (!definedStyleClasses.containsKey(styleClass))
@@ -326,64 +320,39 @@ public class Parser
       String componentStyle = getStyleProperty(component, STYLE_ATTRIBUTE);
       if (componentStyle != null)
       {
-         styleMap.putAll(parseStyleString(componentStyle));
+         styleMap.putAll(StyleStringParser.of(componentStyle, propertyBuilders).parse());
       }
 
       cellStyleCache.put(component, styleMap);
       return styleMap;
    }
 
-   /**
-    * Parses a stringle style string
-    * 
-    * @param styleString The string to parse
-    * @return The parsed StyleMap
-    */
-   private StyleMap parseStyleString(String styleString)
-   {
-      StyleMap styleMap = new StyleMap();
-
-      String[] styles = trimArray(styleString.split(STYLES_SEPARATOR));
-      for (String style : styles)
-      {
-         int breakpoint = style.indexOf(STYLE_NAME_VALUE_SEPARATOR);
-         if (breakpoint < 0) {
-             log.warn("Style component #0 should be of form <key>#1<value>", style, STYLE_NAME_VALUE_SEPARATOR);
-             continue;
-         }
-         String styleName = style.substring(0, breakpoint).toLowerCase().trim();
-         if (!propertyBuilders.containsKey(styleName))
-         {
-            log.warn("No property builder (unknown style) for property #0", styleName);
-            continue;
-         }
-         PropertyBuilder propertyBuilder = propertyBuilders.get(styleName);
-         String styleValue = style.substring(breakpoint + 1);
-         String[] styleValues = trimArray(styleValue.trim().split(STYLE_SHORTHAND_SEPARATOR));
-         styleMap.putAll(propertyBuilder.parseProperty(styleName, styleValues));
-      }
-
-      return styleMap;
-   }
-
-   /**
-    * Utility for trimming (lowercase & trim) an array of string values
-    * 
-    * @param array The array to trim
-    * @return The trimmed array
-    */
-   private String[] trimArray(String[] array)
-   {
-      List<String> validValues = new ArrayList<String>();
-      for (int i = 0; i < array.length; i++)
-      {
-         if (!"".equals(array[i]) && !" ".equals(array[i]))
-         {
-            validValues.add(array[i].toLowerCase().trim());
-         }
-      }
-      return validValues.toArray(new String[validValues.size()]);
-   }
+//   private StyleMap parseStyleString(String styleString)
+//   {
+//      StyleMap styleMap = new StyleMap();
+//
+//      String[] styles = trimArray(styleString.split(STYLES_SEPARATOR));
+//      for (String style : styles)
+//      {
+//         int breakpoint = style.indexOf(STYLE_NAME_VALUE_SEPARATOR);
+//         if (breakpoint < 0) {
+//             log.warn("Style component #0 should be of form <key>#1<value>", style, STYLE_NAME_VALUE_SEPARATOR);
+//             continue;
+//         }
+//         String styleName = style.substring(0, breakpoint).toLowerCase().trim();
+//         if (!propertyBuilders.containsKey(styleName))
+//         {
+//            log.warn("No property builder (unknown style) for property #0", styleName);
+//            continue;
+//         }
+//         PropertyBuilder propertyBuilder = propertyBuilders.get(styleName);
+//         String styleValue = style.substring(breakpoint + 1);
+//         String[] styleValues = trimArray(styleValue.trim().split(STYLE_SHORTHAND_SEPARATOR));
+//         styleMap.putAll(propertyBuilder.parseProperty(styleName, styleValues));
+//      }
+//
+//      return styleMap;
+//   }
 
    /**
     * Setter for stylesheets. Loads them also.

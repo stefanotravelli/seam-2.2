@@ -27,7 +27,7 @@ import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CSSNames;
 import org.jboss.seam.excel.css.ColumnStyle;
-import org.jboss.seam.excel.css.Parser;
+import org.jboss.seam.excel.css.CSSParser;
 import org.jboss.seam.excel.css.StyleMap;
 import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.excel.ui.UICell;
@@ -78,7 +78,7 @@ public class ExcelExporter
    {
       excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
 
-      Parser parser = new Parser();
+      CSSParser parser = new CSSParser();
 
       // Gets the datatable
       UIData dataTable = (UIData) FacesContext.getCurrentInstance().getViewRoot().findComponent(dataTableId);
@@ -92,8 +92,8 @@ public class ExcelExporter
       excelWorkbook.createWorkbook(uiWorkbook);
       UIWorksheet uiWorksheet = new UIWorksheet();
       uiWorkbook.getChildren().add(uiWorksheet);
-      uiWorksheet.setStyle(Parser.getStyle(dataTable));
-      uiWorksheet.setStyleClass(Parser.getStyleClass(dataTable));
+      uiWorksheet.setStyle(CSSParser.getStyle(dataTable));
+      uiWorksheet.setStyleClass(CSSParser.getStyleClass(dataTable));
       excelWorkbook.createOrSelectWorksheet(uiWorksheet);
 
       // Saves the datatable var
@@ -141,7 +141,7 @@ public class ExcelExporter
    private Map<Integer, Integer> parseColumnWidths(UIWorksheet worksheet)
    {
       Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
-      Parser parser = new Parser();
+      CSSParser parser = new CSSParser();
 
       StyleMap styleMap = parser.getCascadedStyleMap(worksheet);
       for (Map.Entry<String, Object> entry : styleMap.entrySet())
@@ -235,8 +235,8 @@ public class ExcelExporter
          column.getChildren().add(cell);
          cell.setId(output.getId());
          cell.setValue(output.getValue());
-         cell.setStyle(Parser.getStyle(output));
-         cell.setStyleClass(Parser.getStyleClass(output));
+         cell.setStyle(CSSParser.getStyle(output));
+         cell.setStyleClass(CSSParser.getStyleClass(output));
 
          excelWorkbook.addItem(cell);
       }
