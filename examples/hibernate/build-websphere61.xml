@@ -21,7 +21,7 @@
 
 	<import file="../build.xml" />
 
-	    <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
+	<fileset id="noejb.war.lib.extras" dir="${seam.dir}">
         <!-- Seam deps -->
         <include name="lib/dom4j.jar" />
         <include name="lib/javassist.jar"/>
@@ -29,7 +29,8 @@
         <!-- Misc -->
         <include name="lib/commons-beanutils.jar"/>
     	<include name="lib/commons-digester.jar"/>
-    	<include name="lib/commons-collections.jar"/>        
+    	<include name="lib/commons-collections.jar"/>   
+	    
         <!-- JSF (and related) implementation -->
         <include name="lib/jsf-api.jar"/>
         <include name="lib/jsf-impl.jar"/>
@@ -37,12 +38,14 @@
         <include name="lib/el-api.jar" />  
         
         <!-- Hibernate and deps -->
-        <include name="lib/hibernate.jar"/>
+        <include name="lib/hibernate-core.jar"/>
         <include name="lib/hibernate-commons-annotations.jar"/>
         <include name="lib/hibernate-annotations.jar"/>
         <include name="lib/hibernate-entitymanager.jar"/>
         <include name="lib/hibernate-validator.jar"/>
         <include name="lib/persistence-api.jar" />
+	    <include name="lib/slf4j-api.jar"/>
+	    <include name="lib/slf4j-log4j12.jar"/>
         <include name="lib/cglib.jar"/>
         <include name="lib/antlr.jar" /> 
     </fileset>
