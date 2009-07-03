@@ -24,7 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<!-- Location of Seam -->
 	<dirname property="seam.dir" file="${ant.file.ftest.seamgen}/../../../../" />
-	
+
 	<!-- default property setup -->
 	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
 	<property name="common.src.dir" value="${ftest.dir}/src/main" />
@@ -35,7 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
 
 	<property file="${seam.dir}/${ftest.config.location}" />
-	
+
 	<!-- common path setup -->
 
 	<path id="classpath.build">
@@ -46,8 +46,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<path refid="classpath.build" />
 		<path location="${classes.dir}" />
 		<fileset dir="${seam.dir}/lib/gen" includes="*.jar" />
-		<fileset file="${java.home}/../lib/tools.jar"/>
-		<fileset file="${driver.jar}"/>
+		<fileset file="${java.home}/../lib/tools.jar" />
+		<fileset file="${driver.jar}" />
 		<!-- TODO why do we need this? -->
 		<fileset dir="${seam.dir}/lib" includes="*.jar" />
 	</path>
@@ -79,12 +79,29 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</copy>
 	</target>
 
-	<target name="seam-gen.richfaces.testsuite" depends="build" description="Run Richfaces testsuite">
-		<run.selenium.test suite="richfaces" />
+	<target name="seam-gen.richfaces.testsuite" description="Run Richfaces testsuite">
+		<antcall target="seam-gen.richfaces.testsuite.exploded" />
+		<antcall target="seam-gen.richfaces.testsuite.deployed" />
 	</target>
 
-	<target name="seam-gen.icefaces.testsuite" depends="build" description="Run Icefaces testsuite">
-		<run.selenium.test suite="icefaces" />
+	<target name="seam-gen.richfaces.testsuite.exploded" depends="build">
+		<run.selenium.test suite="richfaces-exploded" />
+	</target>
+
+	<target name="seam-gen.richfaces.testsuite.deployed" depends="build">
+		<run.selenium.test suite="richfaces-deployed" />
+	</target>
+
+	<target name="seam-gen.icefaces.testsuite" description="Run Icefaces testsuite">
+		<antcall target="seam-gen.icefaces.testsuite.exploded" />
+		<antcall target="seam-gen.icefaces.testsuite.deployed" />
+	</target>
+
+	<target name="seam-gen.icefaces.testsuite.exploded" depends="build">
+		<run.selenium.test suite="icefaces-exploded" />
+	</target>
+	<target name="seam-gen.icefaces.testsuite.deployed" depends="build">
+		<run.selenium.test suite="icefaces-deploy" />
 	</target>
 
 	<target name="seam-gen.smoke.testsuite" depends="build" description="Run smoke testsuite">

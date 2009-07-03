@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="seam-gen ICEfaces suite" parallel="false" verbose="3">
+<suite name="seam-gen ICEfaces suite" parallel="false" verbose="2">
 	<listeners>
 		<listener
 			class-name="org.jboss.seam.test.functional.seamgen.utils.SeleniumTestListener" />
 	</listeners>
 	<parameter name="suffix" value="001" />
+	<parameter name="icefaces" value="true" />
 	<test name="ICEfaces exploded Ear Test">
-		<parameter name="icefaces" value="true" />
 		<parameter name="type" value="ear" />
 		<classes>
 			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
@@ -23,7 +23,6 @@
 		</classes>
 	</test>
 	<test name="ICEfaces exploded War Test">
-		<parameter name="icefaces" value="true" />
 		<parameter name="type" value="war" />
 		<classes>
 			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
@@ -33,34 +32,6 @@
 				name="org.jboss.seam.test.functional.seamgen.HotDeploymentNewFormTest" />
 			<class
 				name="org.jboss.seam.test.functional.seamgen.HotDeploymentStaticTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
-		</classes>
-	</test>
-	<test name="ICEfaces Ear Test">
-		<parameter name="icefaces" value="true" />
-		<parameter name="type" value="ear" />
-		<parameter name="explode" value="false" />
-		<classes>
-			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.RoleTest" />
-		</classes>
-	</test>
-	<test name="ICEfaces War Test">
-		<parameter name="icefaces" value="true" />
-		<parameter name="type" value="war" />
-		<parameter name="explode" value="false" />
-		<classes>
-			<class name="org.jboss.seam.test.functional.seamgen.NewProjectTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.NewActionTest" />
-			<class name="org.jboss.seam.test.functional.seamgen.NewFormTest" />
 			<class name="org.jboss.seam.test.functional.seamgen.PersonTest" />
 			<class name="org.jboss.seam.test.functional.seamgen.VehicleTest" />
 			<class name="org.jboss.seam.test.functional.seamgen.UserTest" />
