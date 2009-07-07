@@ -49,9 +49,14 @@ public class Lifecycle
    
    public static void endApplication()
    {
+      endApplication(application);
+   }
+   
+   public static void endApplication(Map<String,Object> app)
+   {
       log.debug("Shutting down application and destroying contexts");
       
-      Context tempApplicationContext = new ApplicationContext( getApplication() );
+      Context tempApplicationContext = new ApplicationContext( app );
       Contexts.applicationContext.set(tempApplicationContext);
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
@@ -244,8 +249,12 @@ public class Lifecycle
       }
       
    }
-
    public static void endSession(Map<String, Object> session)
+   {
+      endSession(session, application);
+   }
+         
+   public static void endSession(Map<String, Object> session, Map<String,Object> app)
    {
       log.debug("End of session, destroying contexts");
       
@@ -258,7 +267,7 @@ public class Lifecycle
          throw new IllegalStateException("Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()");
       }
       
-      Context tempApplicationContext = new ApplicationContext( getApplication() );
+      Context tempApplicationContext = new ApplicationContext( app );
       Contexts.applicationContext.set(tempApplicationContext);
    
       //this is used just as a place to stick the ConversationManager

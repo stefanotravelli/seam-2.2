@@ -141,7 +141,12 @@ public class ServletLifecycle
    
    public static void endApplication()
    {
-      Lifecycle.endApplication();
+      endApplication(servletContext);
+   }
+   
+   public static void endApplication(ServletContext context)
+   {
+      Lifecycle.endApplication(new ServletApplicationMap( context));
       servletContext=null;
    }
    
@@ -152,7 +157,7 @@ public class ServletLifecycle
    
    public static void endSession(HttpSession session)
    {
-      Lifecycle.endSession( new ServletSessionMap(session) );
+      Lifecycle.endSession( new ServletSessionMap(session) , new ServletApplicationMap(session.getServletContext()));
    }
    
    public static void resumeConversation(HttpServletRequest request)

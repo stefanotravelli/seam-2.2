@@ -38,7 +38,7 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    
    public void contextDestroyed(ServletContextEvent event) 
    {
-      ServletLifecycle.endApplication();
+      ServletLifecycle.endApplication(event.getServletContext());
    }
    
    public void sessionCreated(HttpSessionEvent event) 
