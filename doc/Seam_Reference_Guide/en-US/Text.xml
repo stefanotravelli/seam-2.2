@@ -226,4 +226,72 @@ cool</a>, or even include an image: <img src="/logo.jpg"/>]]></programlisting>
          
     </section>
     
+   <section>
+       <title>Using the SeamTextParser</title>
+
+       <para>
+           The <literal>&lt;s:formattedText/&gt;</literal> JSF component internally uses the
+           <literal>org.jboss.seam.text.SeamTextParser</literal>. You can use that class directly and implement
+           your own text parsing, rendering, or HTML sanitation procedure. This is especially useful if you have
+           a custom frontend for entering rich text, such as a Javascript-based HTML editor, and you want to validate
+           user input to protect your website against Cross-Site Scripting (XSS) attacks. Another usecase
+           are custom wiki text parsing and rendering engines.
+       </para>
+
+       <para>
+           The following example defines a custom text parser that overrides the default HTML sanitizer:
+       </para>
+
+       <programlisting role="JAVA"><![CDATA[public class MyTextParser extends SeamTextParser {
+
+    public MyTextParser(String myText) {
+        super(new SeamTextLexer(new StringReader(myText)));
+
+        setSanitizer(
+            new DefaultSanitizer() {
+                @Override
+                public void validateHtmlElement(Token element) throws SemanticException {
+                    // TODO: I want to validate HTML elements myself!
+                }
+            }
+        );
+    }
+
+    // Customizes rendering of Seam text links such as [Some Text=>http://example.com]
+    @Override
+    protected String linkTag(String descriptionText, String linkText) {
+        return "<a href=\"" + linkText + "\">My Custom Link: " + descriptionText + "</a>";
+    }
+
+    // Renders a <p> or equivalent tag
+    @Override
+    protected String paragraphOpenTag() {
+        return "<p class=\"myCustomStyle\">";
+    }
+
+    public void parse() throws ANTLRException {
+        startRule();
+    }
+    
+}]]></programlisting>
+
+       <para>
+           The <literal>linkTag()</literal> and <literal>paragraphOpenTag()</literal> methods are just some of many
+           you can override to customize rendered output. These methods generally return <literal>String</literal>.
+           See the Javadoc for more details.
+       </para>
+
+       <para>
+           Also consult the Javadoc of <literal>org.jboss.seam.text.SeamTextParser.DefaultSanitizer</literal> for
+           more information on what HTML elements, attributes, and attribute values or filtered by default.
+       </para>
+
+   </section>
+
 </chapter>
+
+
+<!--
+        <programlisting role="JAVA"><![CDATA[
+]]></programlisting>
+-->

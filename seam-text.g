@@ -91,6 +91,7 @@ options
     /**
      * Implementation of the rules in http://wiki.whatwg.org/wiki/Sanitization_rules
      *
+     * <pre>
      * Changes and additions:
      *
      * 1. Expanded all -* wildcard values to their full CSS property name (e.g. border-*).
@@ -107,9 +108,9 @@ options
      *
      * 7. Not implemented filtering of CSS url() - it's an invalid value always.
      *
-     * 8. Removed all <form>, <input> and other form tags. Attackers might use them compromise "outer" forms when entering
-     *    markup in a textarea.
-     *
+     * 8. Removed all &lt;form&gt;, &lt;input&gt; and other form tags. Attackers might use them to compromise
+     *    "outer" forms when entering such markup in a textarea.
+     * </pre>
      *
      */
     public static class DefaultSanitizer implements SeamTextParser.Sanitizer {
