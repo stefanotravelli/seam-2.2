@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:10+0000\n"
+"POT-Creation-Date: 2009-07-07 16:48+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -380,4 +380,92 @@ msgstr ""
 #: Text.xml:133
 #, no-c-format
 msgid "But you can do much more if you want!"
+msgstr ""
+
+#. Tag: title
+#: Text.xml:140
+#, no-c-format
+msgid "Using the SeamTextParser"
+msgstr ""
+
+#. Tag: para
+#: Text.xml:142
+#, no-c-format
+msgid ""
+"The <literal>&lt;s:formattedText/&gt;</literal> JSF component internally "
+"uses the <literal>org.jboss.seam.text.SeamTextParser</literal>. You can use "
+"that class directly and implement your own text parsing, rendering, or HTML "
+"sanitation procedure. This is especially useful if you have a custom "
+"frontend for entering rich text, such as a Javascript-based HTML editor, and "
+"you want to validate user input to protect your website against Cross-Site "
+"Scripting (XSS) attacks. Another usecase are custom wiki text parsing and "
+"rendering engines."
+msgstr ""
+
+#. Tag: para
+#: Text.xml:151
+#, no-c-format
+msgid ""
+"The following example defines a custom text parser that overrides the "
+"default HTML sanitizer:"
+msgstr ""
+
+#. Tag: programlisting
+#: Text.xml:155
+#, no-c-format
+msgid ""
+"<![CDATA[public class MyTextParser extends SeamTextParser {\n"
+"\n"
+"    public MyTextParser(String myText) {\n"
+"        super(new SeamTextLexer(new StringReader(myText)));\n"
+"\n"
+"        setSanitizer(\n"
+"            new DefaultSanitizer() {\n"
+"                @Override\n"
+"                public void validateHtmlElement(Token element) throws "
+"SemanticException {\n"
+"                    // TODO: I want to validate HTML elements myself!\n"
+"                }\n"
+"            }\n"
+"        );\n"
+"    }\n"
+"\n"
+"    // Customizes rendering of Seam text links such as [Some Text=>http://"
+"example.com]\n"
+"    @Override\n"
+"    protected String linkTag(String descriptionText, String linkText) {\n"
+"        return \"<a href=\\\"\" + linkText + \"\\\">My Custom Link: \" + "
+"descriptionText + \"</a>\";\n"
+"    }\n"
+"\n"
+"    // Renders a <p> or equivalent tag\n"
+"    @Override\n"
+"    protected String paragraphOpenTag() {\n"
+"        return \"<p class=\\\"myCustomStyle\\\">\";\n"
+"    }\n"
+"\n"
+"    public void parse() throws ANTLRException {\n"
+"        startRule();\n"
+"    }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Text.xml:157
+#, no-c-format
+msgid ""
+"The <literal>linkTag()</literal> and <literal>paragraphOpenTag()</literal> "
+"methods are just some of many you can override to customize rendered output. "
+"These methods generally return <literal>String</literal>. See the Javadoc "
+"for more details."
+msgstr ""
+
+#. Tag: para
+#: Text.xml:163
+#, no-c-format
+msgid ""
+"Also consult the Javadoc of <literal>org.jboss.seam.text.SeamTextParser."
+"DefaultSanitizer</literal> for more information on what HTML elements, "
+"attributes, and attribute values or filtered by default."
 msgstr ""
