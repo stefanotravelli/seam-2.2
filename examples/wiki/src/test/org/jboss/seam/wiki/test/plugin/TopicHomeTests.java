@@ -15,7 +15,7 @@ import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.plugin.forum.TopicHome;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 public class TopicHomeTests extends DBUnitSeamTest {

@@ -7,8 +7,11 @@
 package org.jboss.seam.wiki.test.model;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
@@ -17,10 +20,16 @@ public class URLTests extends DBUnitSeamTest {
 
     protected void prepareDBUnitOperations() {
         beforeTestOperations.add(
-            new DataSetOperation("org/jboss/seam/wiki/test/WikiBaseData.dbunit.xml", DatabaseOperation.CLEAN_INSERT)
+            new DataSetOperation(
+                    "org/jboss/seam/wiki/test/WikiBaseData.dbunit.xml",
+                    DatabaseOperation.CLEAN_INSERT
+            )
         );
         beforeTestOperations.add(
-            new DataSetOperation("org/jboss/seam/wiki/test/UploadData.dbunit.xml", DatabaseOperation.INSERT)
+            new DataSetOperation(
+                    "org/jboss/seam/wiki/test/UploadData.dbunit.xml",
+                    DatabaseOperation.INSERT
+            )
         );
     }
 

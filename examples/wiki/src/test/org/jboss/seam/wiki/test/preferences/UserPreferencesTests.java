@@ -13,7 +13,7 @@ import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.preferences.PreferenceValue;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 import java.util.List;

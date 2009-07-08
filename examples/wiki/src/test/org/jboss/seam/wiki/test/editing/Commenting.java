@@ -11,7 +11,7 @@ import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.CommentQuery;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.contexts.Contexts;
 import org.testng.annotations.Test;
 

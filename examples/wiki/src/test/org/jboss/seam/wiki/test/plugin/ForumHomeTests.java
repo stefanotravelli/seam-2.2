@@ -13,7 +13,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.plugin.forum.ForumHome;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 public class ForumHomeTests extends DBUnitSeamTest {

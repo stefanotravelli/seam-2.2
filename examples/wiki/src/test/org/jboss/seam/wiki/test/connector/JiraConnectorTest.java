@@ -6,7 +6,7 @@
  */
 package org.jboss.seam.wiki.test.connector;
 
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.connectors.jira.JiraDAO;
 import org.jboss.seam.wiki.connectors.jira.JiraIssueListConnector;
 import org.jboss.seam.wiki.connectors.jira.JiraIssue;

@@ -10,7 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.UserPasswordReset;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.util.Hash;
 import org.testng.annotations.Test;
 

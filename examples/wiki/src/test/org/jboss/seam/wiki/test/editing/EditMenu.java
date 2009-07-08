@@ -11,7 +11,7 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiMenuItem;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 public class EditMenu extends DBUnitSeamTest {

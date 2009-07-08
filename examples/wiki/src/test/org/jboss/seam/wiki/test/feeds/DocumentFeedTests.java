@@ -13,7 +13,7 @@ import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.ui.FeedServlet;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 public class DocumentFeedTests extends DBUnitSeamTest {

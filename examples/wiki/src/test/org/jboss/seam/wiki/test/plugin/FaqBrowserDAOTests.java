@@ -7,7 +7,7 @@
 package org.jboss.seam.wiki.test.plugin;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.plugin.faqBrowser.FaqBrowserDAO;

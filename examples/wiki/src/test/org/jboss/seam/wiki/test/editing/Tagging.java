@@ -11,7 +11,7 @@ import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.action.TagQuery;
 import org.jboss.seam.wiki.core.action.UploadHome;
 import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 import java.util.List;

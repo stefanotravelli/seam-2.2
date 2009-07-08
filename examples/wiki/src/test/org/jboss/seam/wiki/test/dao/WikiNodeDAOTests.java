@@ -9,7 +9,7 @@ package org.jboss.seam.wiki.test.dao;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 import java.util.List;

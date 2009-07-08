@@ -8,7 +8,7 @@ package org.jboss.seam.wiki.test.nestedset;
 
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetQueryBuilder;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;

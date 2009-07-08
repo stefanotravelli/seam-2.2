@@ -7,7 +7,7 @@
 package org.jboss.seam.wiki.test.plugin;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.plugin.forum.*;
@@ -29,7 +29,7 @@ public class ForumQueryTests extends DBUnitSeamTest {
 
     @Test
     public void findForums() throws Exception {
-        if (!database.equals(Database.mysql)) return;
+        if (!database.equals(Database.MYSQL)) return;
 
         loginMember();
 
@@ -67,7 +67,7 @@ public class ForumQueryTests extends DBUnitSeamTest {
 
     @Test
     public void findTopicsOne() throws Exception {
-        if (!database.equals(Database.mysql)) return;
+        if (!database.equals(Database.MYSQL)) return;
 
         loginMember();
 
@@ -103,7 +103,7 @@ public class ForumQueryTests extends DBUnitSeamTest {
 
     @Test
     public void findTopicsTwo() throws Exception {
-        if (!database.equals(Database.mysql)) return;
+        if (!database.equals(Database.MYSQL)) return;
 
         loginMember();
 

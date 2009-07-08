@@ -10,7 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.Menu;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 public class DisplayMenu extends DBUnitSeamTest {

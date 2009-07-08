@@ -10,7 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.Clipboard;
 import org.jboss.seam.wiki.core.action.DirectoryBrowser;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 import java.util.List;

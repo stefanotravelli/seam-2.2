@@ -536,13 +536,13 @@ public class MockPaymentProcessor extends PaymentProcessor {
           <title>Integration Testing with Mock Data</title>
           
           <para>
-            If you need to insert or clean data in your database before each 
+            If you want to insert or clean data in your database before each
             test you can use Seam's integration with DBUnit.  To do this, extend 
-            <literal>DBUnitSeamTest</literal> rather than SeamTest.
+            <literal>DBUnitSeamTest</literal> rather than <literal>SeamTest</literal>.
          </para>
          
          <para>
-            You need to provide a dataset for DBUnit.  
+            You have to provide a dataset for DBUnit.
          </para>
          
          <caution>
@@ -566,7 +566,8 @@ public class MockPaymentProcessor extends PaymentProcessor {
 </dataset>]]></programlisting>
 
          <para>
-            and tell Seam about it by overriding <literal>prepareDBUnitOperations()</literal>:
+            In your test class, configure your dataset with overriding
+            <literal>prepareDBUnitOperations()</literal>:
          </para>
       
          <programlisting role="JAVA"><![CDATA[protected void prepareDBUnitOperations() {
@@ -593,36 +594,31 @@ public class MockPaymentProcessor extends PaymentProcessor {
            setting a TestNG test parameter named <literal>datasourceJndiName</literal>:
          </para>
          
-         <programlisting role="XML">
-   <![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]>
-         </programlisting> 
+         <programlisting role="XML"><![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]></programlisting>
          
          <para>
             DBUnitSeamTest has support for MySQL and HSQL - you need to tell it
-            which database is being used:
+            which database is being used, otherwise it defaults to HSQL:
          </para>
          
-         <programlisting><![CDATA[<parameter name="database" value="HSQL" />]]></programlisting>
+          <programlisting role="XML"><![CDATA[<parameter name="database" value="MYSQL" />]]></programlisting>
          
          <para>
             It also allows you to insert binary data into the test data set (n.b.
             this is untested on Windows). You need to tell it where to locate
-            these resources:
+            these resources on your classpath:
          </para>
          
-         <programlisting><![CDATA[<parameter name="binaryDir" value="images/" />]]></programlisting> 
+          <programlisting role="XML"><![CDATA[<parameter name="binaryDir" value="images/" />]]></programlisting> 
           
          <para>
-            You <emphasis>must</emphasis> specify these three parameters in your
-            <literal>testng.xml</literal>.
+            You do not have to configure any of these parameters if you use HSQL and have
+            no binary imports. However, unless you specify <literal>datasourceJndiName</literal>
+            in your test configuration, you will have to call <literal>setDatabaseJndiName()</literal>
+            before your test runs. If you are not using HSQL or MySQL, you need to override some
+            methods. See the Javadoc of <literal>DBUnitSeamTest</literal> for more details.
          </para>
          
-         <para>
-            If you want to use DBUnitSeamTest with another database, you'll need
-            to implement some methods. Read the javadoc of 
-            <literal>AbstractDBUnitSeamTest</literal> for more.
-         </para> 
-          
         </section>
         
         <section id="testing.mail">

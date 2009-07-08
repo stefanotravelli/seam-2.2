@@ -10,7 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.connectors.feed.FeedAggregatorDAO;
 import org.jboss.seam.wiki.connectors.feed.FeedEntryDTO;
 import org.jboss.seam.wiki.connectors.feed.FeedConnector;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.annotations.Name;

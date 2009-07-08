@@ -16,7 +16,7 @@ import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.core.wikitext.renderer.NullWikiTextRenderer;
 import org.jboss.seam.wiki.plugin.basic.LastModifiedDocumentsPreferences;
 import org.jboss.seam.wiki.preferences.Preferences;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 /**

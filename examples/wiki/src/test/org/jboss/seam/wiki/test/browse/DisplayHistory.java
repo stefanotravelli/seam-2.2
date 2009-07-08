@@ -9,7 +9,7 @@ package org.jboss.seam.wiki.test.browse;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.DocumentHistory;
 import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
