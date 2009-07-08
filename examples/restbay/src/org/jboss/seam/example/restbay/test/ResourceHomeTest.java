@@ -1,8 +1,11 @@
 package org.jboss.seam.example.restbay.test;
 
-import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
+import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -13,7 +16,7 @@ import static org.testng.Assert.assertEquals;
  * @author Jozef Hartinger
  * 
  */
-public class ResourceHomeTest extends ResourceSeamTest
+public class ResourceHomeTest extends SeamTest
 {
 
    @DataProvider(name = "queryPaths")
@@ -28,18 +31,18 @@ public class ResourceHomeTest extends ResourceSeamTest
       final String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><categoryId>1</categoryId><name>Antiques</name></category>";
       final String path = "/restv1" + resourcePath + "/1";
 
-      new ResourceRequest(Method.GET, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "application/xml");
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getContentAsString(), expectedResponse, "Unexpected response.");
          }
@@ -55,10 +58,10 @@ public class ResourceHomeTest extends ResourceSeamTest
       final String mediaType = "application/xml";
       final String path = "/restv1" + resourcePath;
 
-      new ResourceRequest(Method.POST, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.POST, path)
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             // TODO for some reason content type must be set using both these
@@ -69,7 +72,7 @@ public class ResourceHomeTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 201, "Unexpected response code.");
          }
@@ -84,11 +87,11 @@ public class ResourceHomeTest extends ResourceSeamTest
       final String mediaType = "application/xml";
       final String path = "/restv1" + resourcePath + "/5";
 
-      new ResourceRequest(Method.PUT, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.PUT, path)
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.setContentType(mediaType);
@@ -97,25 +100,25 @@ public class ResourceHomeTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 204, "Unexpected response code.");
          }
 
       }.run();
 
-      new ResourceRequest(Method.GET, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", mediaType);
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 200, "Unexpected response code.");
             assertEquals(response.getContentAsString(), body, "Unexpected response.");
@@ -131,29 +134,29 @@ public class ResourceHomeTest extends ResourceSeamTest
 
       final String path = "/restv1/configuredCategory/15004";
 
-      new ResourceRequest(Method.DELETE, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.DELETE, path)
       {
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 204, "Unexpected response code.");
          }
 
       }.run();
 
-      new ResourceRequest(Method.GET, path)
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "application/xml");
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 404, "Unexpected response code.");
          }

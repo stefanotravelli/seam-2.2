@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.resteasy.testfwk;
+package org.jboss.seam.mock;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,10 +35,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * Mock implementation of the {@link javax.servlet.http.HttpServletResponse}
@@ -48,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Rod Johnson
  * @since 1.0.2
  */
-public class MockHttpServletResponse implements HttpServletResponse {
+public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 
 	public static final int DEFAULT_SERVER_PORT = 80;
 
@@ -89,7 +88,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	private final List cookies = new ArrayList();
 
 	/**
-	 * The key is the lowercase header name; the value is a {@link HeaderValueHolder} object.
+	 * The key is the lowercase header name; the value is a {@link org.jboss.seam.mock.HeaderValueHolder} object.
 	 */
 	private final Map headers = new HashMap();
 

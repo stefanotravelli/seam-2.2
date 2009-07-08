@@ -2,10 +2,14 @@ package org.jboss.seam.example.restbay.test;
 
 import static org.testng.Assert.assertEquals;
 
-import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.ResourceRequestEnvironment;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,25 +19,34 @@ import java.util.Map;
  *
  * @author Jozef Hartinger
  */
-public class SecurityTest extends ResourceSeamTest
+public class SecurityTest extends SeamTest
 {
 
-   @Override
-   public Map<String, Object> getDefaultHeaders()
+   ResourceRequestEnvironment requestEnv;
+
+   @BeforeClass
+   public void prepareEnv() throws Exception
    {
-      return new HashMap<String, Object>()
-      {{
-            put("Accept", "text/plain");
-      }};
+      requestEnv = new ResourceRequestEnvironment(this)
+      {
+         @Override
+         public Map<String, Object> getDefaultHeaders()
+         {
+            return new HashMap<String, Object>()
+            {{
+                  put("Accept", "text/plain");
+               }};
+         }
+      };
    }
 
    @Test
    public void basicAuthTest() throws Exception
    {
-      new ResourceRequest(Method.GET, "/restv1/secured/admin")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/admin")
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "text/plain");
@@ -41,7 +54,7 @@ public class SecurityTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 200, "Unexpected response code.");
             assertEquals(response.getContentAsString(), "false", "Unexpected response.");
@@ -53,10 +66,10 @@ public class SecurityTest extends ResourceSeamTest
    @Test
    public void invalidCredentialsBasicAuthTest() throws Exception
    {
-      new ResourceRequest(Method.GET, "/restv1/secured")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured")
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "text/plain");
@@ -64,7 +77,7 @@ public class SecurityTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(
                   response.getHeader("WWW-Authenticate"),
@@ -80,10 +93,10 @@ public class SecurityTest extends ResourceSeamTest
    @Test
    public void adminRoleTest() throws Exception
    {
-      new ResourceRequest(Method.GET, "/restv1/secured/admin")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/admin")
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "text/plain");
@@ -91,7 +104,7 @@ public class SecurityTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 200, "Unexpected response code.");
             assertEquals(response.getContentAsString(), "true");
@@ -103,10 +116,10 @@ public class SecurityTest extends ResourceSeamTest
    @Test
    public void adminRoleTestWithRestriction() throws Exception
    {
-      new ResourceRequest(Method.GET, "/restv1/secured/restrictedAdmin")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/restrictedAdmin")
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "text/plain");
@@ -114,7 +127,7 @@ public class SecurityTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(response.getStatus(), 200, "Unexpected response code.");
             assertEquals(response.getContentAsString(), "true");
@@ -126,10 +139,10 @@ public class SecurityTest extends ResourceSeamTest
    @Test
    public void invalidAdminAuthorization() throws Exception
    {
-      new ResourceRequest(Method.GET, "/restv1/secured/restrictedAdmin")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/restrictedAdmin")
       {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "text/plain");
@@ -137,7 +150,7 @@ public class SecurityTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             // See AuthorizationException mapping to 403 in pages.xml!
             assertEquals(response.getStatus(), 403, "Unexpected response code.");

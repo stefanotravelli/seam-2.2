@@ -14,51 +14,56 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.resteasy.testfwk;
+package org.jboss.seam.mock;
 
+import javax.servlet.ServletInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.servlet.ServletInputStream;
-
 /**
  * Delegating implementation of {@link javax.servlet.ServletInputStream}.
- *
+ * <p/>
  * <p>Used by {@link MockHttpServletRequest}; typically not directly
  * used for testing application controllers.
  *
  * @author Juergen Hoeller
- * @since 1.0.2
  * @see MockHttpServletRequest
+ * @since 1.0.2
  */
-public class DelegatingServletInputStream extends ServletInputStream {
+public class DelegatingServletInputStream extends ServletInputStream
+{
 
-	private final InputStream sourceStream;
-
-
-	/**
-	 * Create a DelegatingServletInputStream for the given source stream.
-	 * @param sourceStream the source stream (never <code>null</code>)
-	 */
-	public DelegatingServletInputStream(InputStream sourceStream) {
-		this.sourceStream = sourceStream;
-	}
-
-	/**
-	 * Return the underlying source stream (never <code>null</code>).
-	 */
-	public final InputStream getSourceStream() {
-		return this.sourceStream;
-	}
+   private final InputStream sourceStream;
 
 
-	public int read() throws IOException {
-		return this.sourceStream.read();
-	}
+   /**
+    * Create a DelegatingServletInputStream for the given source stream.
+    *
+    * @param sourceStream the source stream (never <code>null</code>)
+    */
+   public DelegatingServletInputStream(InputStream sourceStream)
+   {
+      this.sourceStream = sourceStream;
+   }
 
-	public void close() throws IOException {
-		super.close();
-		this.sourceStream.close();
+   /**
+    * Return the underlying source stream (never <code>null</code>).
+    */
+   public final InputStream getSourceStream()
+   {
+      return this.sourceStream;
+   }
+
+
+   public int read() throws IOException
+   {
+      return this.sourceStream.read();
+   }
+
+   public void close() throws IOException
+   {
+      super.close();
+      this.sourceStream.close();
 	}
 
 }

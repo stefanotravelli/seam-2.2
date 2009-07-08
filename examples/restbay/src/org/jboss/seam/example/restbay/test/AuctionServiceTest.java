@@ -1,33 +1,50 @@
 package org.jboss.seam.example.restbay.test;
 
-import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.ResourceRequestEnvironment;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuctionServiceTest extends ResourceSeamTest
+public class AuctionServiceTest extends SeamTest
 {
 
-   @Override
-   public Map<String, Object> getDefaultHeaders()
+   ResourceRequestEnvironment requestEnv;
+
+   @BeforeClass
+   public void prepareEnv() throws Exception
    {
-      return new HashMap<String, Object>()
-      {{
-            put("Accept", "text/plain");
-      }};
+      requestEnv = new ResourceRequestEnvironment(this)
+      {
+         @Override
+         public Map<String, Object> getDefaultHeaders()
+         {
+            return new HashMap<String, Object>()
+            {{
+                  put("Accept", "text/plain");
+               }};
+         }
+      };
    }
 
    @Test
    public void testCategories() throws Exception
    {
 
-      new ResourceRequest(Method.GET, "/restv1/category")
+      // Just verify we can do that, even if it doesn't make much sense
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/restv1/category").run();
+
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/category")
       {
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
             String[] lines = response.getContentAsString().split("\n");
@@ -38,11 +55,11 @@ public class AuctionServiceTest extends ResourceSeamTest
 
       }.run();
 
-      new ResourceRequest(Method.GET, "/restv1/category/1")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/category/1")
       {
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
             assert response.getContentAsString().equals("Antiques");
@@ -56,11 +73,11 @@ public class AuctionServiceTest extends ResourceSeamTest
    public void testAuctions() throws Exception
    {
 
-      new ResourceRequest(Method.GET, "/restv1/auction")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/auction")
       {
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
             // TODO: Assert content
@@ -68,11 +85,11 @@ public class AuctionServiceTest extends ResourceSeamTest
 
       }.run();
 
-      new ResourceRequest(Method.GET, "/restv1/auction/19264723")
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/auction/19264723")
       {
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
             assert response.getContentAsString().equals("Whistler's Mother, original painting by James McNeill Whistler");

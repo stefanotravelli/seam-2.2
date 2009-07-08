@@ -599,40 +599,49 @@ public class MyCustomerResourceBean implements MyCustomerResource {
          <title>Testing resources and providers</title>
          
          <para>
-            Seam includes an extended unit testing superclass that helps you in creating unit tests for a RESTful
-            architecture. Extend the <literal>ResourceSeamTest</literal> class to emulate HTTP requests/response cycles:
+            Seam includes a unit testing utility class that helps you create unit tests for a RESTful
+            architecture. Extend the <literal>SeamTest</literal> class as usual and use the
+            <literal>ResourceRequestEnvironment.ResourceRequest</literal> to emulate HTTP requests/response cycles:
          </para>
       
-         <programlisting role="JAVA"><![CDATA[import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
+         <programlisting role="JAVA"><![CDATA[import org.jboss.seam.mock.ResourceRequestEnvironment;
+import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 
-public class MyTest extends ResourceSeamTest {
+public class MyTest extends SeamTest {
 
-   @Override
-   public Map<String, Object> getDefaultHeaders()
-   {
-      return new HashMap<String, Object>()
-      {{
-            put("Accept", "text/plain");
-      }};
+   ResourceRequestEnvironment sharedEnvironment;
+
+   @BeforeClass
+   public void prepareSharedEnvironment() throws Exception {
+       sharedEnvironment = new ResourceRequestEnvironment(this) {
+            @Override
+            public Map<String, Object> getDefaultHeaders() {
+               return new HashMap<String, Object>() {{
+                   put("Accept", "text/plain");
+               }};
+            }
+         };
    }
 
    @Test
    public void test() throws Exception
    {
-      new ResourceRequest(Method.GET, "/my/relative/uri)
-      {
+      //Not shared: new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/my/relative/uri)
 
+      new ResourceRequest(sharedEnvironment, Method.GET, "/my/relative/uri)
+      {
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             request.addQueryParameter("foo", "123");
             request.addHeader("Accept-Language", "en_US, de");
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
             assert response.getContentAsString().equals("foobar");
@@ -640,28 +649,20 @@ public class MyTest extends ResourceSeamTest {
 
       }.run();
    }
-
 }]]></programlisting>
 
          <para>
             This test only executes local calls, it does not communicate with the <literal>SeamResourceServlet</literal>
             through TCP. The mock request is passed through the Seam servlet and filters and the response is then
-            available for test assertions. Overriding the <literal>getDefaultHeaders()</literal> method allows you
-            to set request headers for every test method in the test class.
+            available for test assertions. Overriding the <literal>getDefaultHeaders()</literal> method in a shared
+            instance of <literal>ResourceRequestEnvironment</literal> allows you to set request headers for every
+            test method in the test class.
          </para>
 
          <para>
             Note that a <literal>ResourceRequest</literal> has to be executed in a <literal>@Test</literal> method
-            or in a <literal>@BeforeMethod</literal> callback. You can and should not execute it in any other callback,
-            such as <literal>@BeforeClass</literal>. (This is an implementation limitation we will remove in a future
-            update.)
-         </para>
-
-         <para>
-            Also note that the imported mock objects are not the same as the mock objects you use in other Seam unit
-            tests, which are in the package <literal>org.jboss.seam.mock</literal>. The
-            <literal>org.jboss.seam.resteasy.testfwk</literal> variations mimic real requests and responses much
-            more closely.
+            or in a <literal>@BeforeMethod</literal> callback. You can not execute it in any other callback,
+            such as <literal>@BeforeClass</literal>.
          </para>
 
       </sect2>

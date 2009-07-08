@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.resteasy.testfwk;
-
-import java.io.IOException;
-import java.io.OutputStream;
+package org.jboss.seam.mock;
 
 import javax.servlet.ServletOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 
 /**
@@ -72,6 +71,6 @@ public class DelegatingServletOutputStream extends ServletOutputStream
    {
       super.close();
       this.targetStream.close();
-	}
+   }
 
 }

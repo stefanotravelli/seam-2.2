@@ -32,4 +32,14 @@
       </classes>
     </test>
 
+    <test name="RestBay: DBUnit Integration">
+
+        <parameter name="database" value="hsql"/>
+        <parameter name="datasourceJndiName" value="java:/restbayDatasource"/>
+
+        <classes>
+            <class name="org.jboss.seam.example.restbay.test.CategoryServiceDBUnitTest"/>
+        </classes>
+    </test>
+
 </suite>
