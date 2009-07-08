@@ -29,6 +29,8 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    public static final String NAME = "warRootDeploymentStrategy";
    
    private DotPageDotXmlDeploymentHandler dotPageDotXmlDeploymentHandler;
+
+   private PagesDotXmlDeploymentHandler pagesDotXmlDeploymentHandler;
    
    public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot)
    {
@@ -51,7 +53,10 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
          this.warRoot = new File[0];
       }
       dotPageDotXmlDeploymentHandler = new DotPageDotXmlDeploymentHandler();
+      pagesDotXmlDeploymentHandler = new PagesDotXmlDeploymentHandler();
       getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, dotPageDotXmlDeploymentHandler);
+      getDeploymentHandlers().put(PagesDotXmlDeploymentHandler.NAME, pagesDotXmlDeploymentHandler);
+      
    }
    
    @Override
