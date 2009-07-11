@@ -24,9 +24,12 @@ package org.jboss.seam.example.tasks.test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
-import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
+import org.jboss.seam.mock.SeamTest;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
+import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -36,7 +39,7 @@ import org.testng.annotations.Test;
  * @author Jozef Hartinger
  *
  */
-public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
+public class ResolvedTaskResourceQueryTest extends SeamTest
 {
 
    // We could do this BeforeClass only once but we can't do ResourceRequests there
@@ -46,11 +49,11 @@ public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
       final String mimeType = "application/xml";
       final String representation = "<task><id>14</id></task>";
       
-      new ResourceRequest(Method.PUT, "/v1/auth/category/School/resolved/14")
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.PUT, "/v1/auth/category/School/resolved/14")
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
@@ -60,7 +63,7 @@ public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
             assertEquals(response.getStatus(), 204, "Unexpected response code.");
@@ -81,18 +84,18 @@ public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
    @Test(dataProvider="data")
    public void editTaskTest(final String mimeType, final String expectedResponsePart) throws Exception
    {
-      new ResourceRequest(Method.GET, "/v1/user/demo/tasks/resolved")
+      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/v1/user/demo/tasks/resolved")
       {
 
          @Override
-         protected void prepareRequest(MockHttpServletRequest request)
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
          {
             super.prepareRequest(request);
             request.addHeader("Accept", mimeType);
          }
 
          @Override
-         protected void onResponse(MockHttpServletResponse response)
+         protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
             assertEquals(response.getStatus(), 200, "Unexpected response code.");
