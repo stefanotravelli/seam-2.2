@@ -299,6 +299,10 @@ public class ResteasyBootstrap
    {
 
       Set<Class> handledResources = new HashSet(); // Stuff we don't want to examine twice
+      // These classes themselves should not be registered at all
+      // Configured ResourceHome and ResourceQuery components will be registered later
+      handledResources.add(ResourceHome.class);
+      handledResources.add(ResourceQuery.class);
 
       for (Component seamComponent : seamComponents)
       {
@@ -310,8 +314,6 @@ public class ResteasyBootstrap
                seamComponent.getBeanClass().equals(ResourceQuery.class))
          {
             registerHomeQueryResources(seamComponent);
-            handledResources.add(ResourceHome.class);
-            handledResources.add(ResourceQuery.class);
             continue;
          }
 
