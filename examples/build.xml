@@ -1158,22 +1158,17 @@
         <fail if="incompatible.jdk">You are using an incompatible JDK 6. Please use Sun JDK 6 Update 4 (1.6.0_04) or newer or use Open JDK 6.</fail>
 		<taskdef resource="testngtasks" classpathref="test.classpath" />
 		<testng outputdir="${test-report.dir}">
-		  <jvmarg line="-Xmx800M" />
-		  <jvmarg line="-Djava.awt.headless=true" />
-		  <jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
-		  <jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}" />
-
-		  <jvmarg line="-Xdebug" />
-		  <jvmarg line="-Xnoagent" />
-		  <jvmarg line="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000" />
-
+         <jvmarg line="-Xmx800M" />
+         <jvmarg line="-Djava.awt.headless=true" />
+			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}" />
 		    <!--added for JDK6 compatibility with JBoss embedded-->
 		    <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
-		    <jvmarg line="${testng.jvmargs}" />
-		    <classpath>
-         	      <path refid="test.classpath" />
-         	      <path refid="runtime.emma.path" />
-		    </classpath>
+			<jvmarg line="${testng.jvmargs}" />
+			<classpath>
+         	<path refid="test.classpath" />
+         	<path refid="runtime.emma.path" />
+         </classpath>
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
