@@ -5,7 +5,9 @@
         xmlns:f="http://java.sun.com/jsf/core">
     
     <span class="menuItem">
-        <h:inputText id="field" value="#{searchService.searchPattern}"/>
+        <h:inputText id="field" value="#{searchService.searchPattern}">
+            <f:validateLength minimum="3" maximum="5"/>
+        </h:inputText>
         <h:commandButton id="submit" value="Search" action="/search.xhtml"/>
         <s:conversationPropagation type="none"/> 
     </span>

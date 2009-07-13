@@ -1,6 +1,7 @@
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:pdf="http://jboss.com/products/seam/pdf"
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:navigation="http://jboss.com/products/seam/navigation"
             xmlns:framework="http://jboss.com/products/seam/framework"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -14,6 +15,8 @@
         <property name="useExtensions">true</property>
         <property name="errorPage">/pdfMissing.seam</property>
     </component>
+
+    <navigation:pages https-port="8443" />
 
     <pdf:key-store-config key-store="pdf.keystore"
                           key-store-password="storepass"
