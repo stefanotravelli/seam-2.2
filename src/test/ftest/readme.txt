@@ -26,6 +26,7 @@ UNDER DEVELOPMENT NOT COMPLETE
 
 How To:
 ----------
+* Build seam from $SEAM_HOME directory to update maven repository for current snapshot
 * Follow specific instructions for your OS
 * Change to the $SEAM_HOME/src/test/ftest directory
 * Set jboss*.home properties in ftest.properties to point to your application server locations
@@ -57,6 +58,7 @@ Windows Setup
 	* Set selenium.browser=*iexploreproxy in ftest.properties
 	* Set selenium.server.cmd.args= -singleWindow in ftest.properties - some tests are behaving unexpectedly in multiwindow mode on IE
 	* Set security and privacy levels to lowest possible and turn off pop-up blocker in Internet options -> Security -> Custom level
+
 
 Unix/Linux Setup
 -----------------
