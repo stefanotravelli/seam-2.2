@@ -22,7 +22,7 @@ public class SeleniumRSSTest extends SeamSeleniumTest
    /**
     * Place holder - just verifies that example deploys
     */
-   @Test
+   @Test(alwaysRun=false)
    public void homePageLoadTest()
    {
       assertEquals("Unexpected page title.", HOME_PAGE_TITLE, browser.getTitle());
