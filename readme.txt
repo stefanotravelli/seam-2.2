@@ -1,7 +1,7 @@
 
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 2.2.0.GA, June 2009
+version 2.2.0.GA, July 2009
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt). 
@@ -9,7 +9,7 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 4.2.3.GA.  
+1. Install JBoss AS 5.1.0.GA.  
 
 2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
@@ -30,4 +30,19 @@ Learn more
 
 * Read the documentation in the "doc/reference/en-US" directory
 * Read the online FAQ http://www.seamframework.org
+
+Notes for this release
+----------------------
+
+Running the examples with embedded JBoss on Tomcat 6 requires the following 
+additional JARs be updated/added to the Tomcat lib directory after normal 
+embedded JBoss embedded instal
+
+lib/test/hibernate-all.jar
+lib/test/thirdparty-all.jar
+lib/slf4j-api.jar
+lib/sl4j-log4j12.jar
+lib/hsqldb.jar
+
+Running the examples 
 
