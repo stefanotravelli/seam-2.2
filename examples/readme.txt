@@ -11,6 +11,15 @@ refered to later as ${example.name}, is equivalent to the name of the folder
 unless the folder name begins with seam, in which case the prefix "seam" is
 omitted (i.e. seamspace -> space).
 
+------------------------------------------------------------------------------
+If you are just getting started with Seam, it's highly recommended that you
+study the jee5/booking example first. This example is designed to run
+unmodified on a Java EE 5-compliant application server. Of course, the real
+world is never so ideal. Therefore, you'll find modifications that you need to
+make for various application servers in the example's readme.txt file. These
+instructions can also be found in the Seam reference documentation.
+------------------------------------------------------------------------------
+
 
 blog/                 The Seam blog example, showing how to write
                       RESTful applications using Seam.
