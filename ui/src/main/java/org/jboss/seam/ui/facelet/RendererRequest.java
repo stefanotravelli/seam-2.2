@@ -48,10 +48,19 @@ public class RendererRequest
       response = new MockHttpServletResponse();
 
       setContextClassLoader();
+      
+      // If a FacesContext isn't available, set one up
+      if (FacesContext.getCurrentInstance() == null)
+      {
+         facesContext = RendererFacesContextFactory.instance().getFacesContext(request, response);
+      }
+      else
+      {
+         facesContext = FacesContext.getCurrentInstance();
+      }
 
       // Generate the FacesContext from the JSF FacesContextFactory
       originalFacesContext = FacesContext.getCurrentInstance();
-      facesContext = RendererFacesContextFactory.instance().getFacesContext(request, response);
       DelegatingFacesContext.setCurrentInstance(facesContext);
 
       // Create the viewRoot
