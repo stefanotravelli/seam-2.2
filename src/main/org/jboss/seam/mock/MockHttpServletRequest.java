@@ -251,7 +251,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public StringBuffer getRequestURL()
    {
-      return (requestURL != null ? requestURL : new StringBuffer(requestURI)); 
+      return (requestURL != null ? requestURL : new StringBuffer(getRequestURI())); 
    }
 
    public String getServletPath()
