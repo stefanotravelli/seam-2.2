@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.context.ExternalContext;
+import javax.portlet.PortletRequest;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
@@ -42,11 +44,89 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Set<String> principalRoles;
    private Cookie[] cookies;
    private String method;
+   private HttpServletRequest httpServletRequest;
+   private PortletRequest portletRequest;
+   private String authType;
+   private String pathInfo;
+   private String pathTranslated;
+   private String contextPath;
+   private String queryString;
+   private String requestedSessionId;
+   private String requestURI;
+   private StringBuffer requestURL;
+   private String servletPath;
+   private String characterEncoding;
+   private int contentLength;
+   private String contentType;
+   private ServletInputStream inputStream;
+   private String protocol;
+   private String scheme;
+   private String serverName;
+   private int serverPort;
+   private BufferedReader reader;
+   private String remoteAddr;
+   private String remoteHost;
+   private Locale locale;
    private Enumeration locales;
+   private boolean isSecure;
+   private int remotePort;
+   private String localName;
+   private String localAddr;
+   private int localPort;
+
+   
    
    public MockHttpServletRequest(HttpSession session)
    {
       this(session, null, new HashSet<String>());
+   }
+   
+   public MockHttpServletRequest(HttpSession session, ExternalContext externalContext) 
+   {
+      this(session, null, new HashSet<String>());
+      Object request = externalContext.getRequest();
+      if(externalContext != null && (request instanceof HttpServletRequest)) 
+      {
+         httpServletRequest = (HttpServletRequest)request;
+         authType = httpServletRequest.getAuthType();
+         pathInfo = httpServletRequest.getPathInfo();
+         pathTranslated = httpServletRequest.getPathTranslated();
+         contextPath = httpServletRequest.getContextPath();
+         queryString = httpServletRequest.getQueryString();
+         requestedSessionId = httpServletRequest.getRequestedSessionId();
+         requestURI = httpServletRequest.getRequestURI();
+         requestURL = httpServletRequest.getRequestURL();
+         servletPath = httpServletRequest.getServletPath();
+         characterEncoding = httpServletRequest.getCharacterEncoding();
+         contentLength = httpServletRequest.getContentLength();
+         contentType = httpServletRequest.getContentType();
+         protocol = httpServletRequest.getProtocol();
+         scheme = httpServletRequest.getScheme();
+         serverName = httpServletRequest.getServerName();
+         serverPort = httpServletRequest.getServerPort();
+         remoteAddr = httpServletRequest.getRemoteAddr();
+         remoteHost = httpServletRequest.getRemoteHost();
+         locale = httpServletRequest.getLocale();
+         locales = httpServletRequest.getLocales();
+         isSecure = httpServletRequest.isSecure();
+         remotePort = httpServletRequest.getRemotePort();
+         localName = httpServletRequest.getLocalName();
+         localAddr = httpServletRequest.getLocalAddr();
+         localPort = httpServletRequest.getLocalPort();
+         
+      } else if(externalContext != null && (request instanceof PortletRequest)) 
+      {
+         portletRequest = (PortletRequest)request;
+         authType = portletRequest.getAuthType();
+         contextPath = portletRequest.getContextPath();
+         requestedSessionId = portletRequest.getRequestedSessionId();
+         scheme = portletRequest.getScheme();
+         serverName = portletRequest.getServerName();
+         serverPort = portletRequest.getServerPort();
+         locale = portletRequest.getLocale();
+         locales = portletRequest.getLocales();
+         isSecure = portletRequest.isSecure();
+      }
    }
 
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles)
@@ -78,8 +158,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    
    public String getAuthType()
    {
-      //TODO
-      return null;
+      return authType;
    }
 
    public Cookie[] getCookies()
@@ -120,25 +199,22 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getPathInfo()
    {
-      //TODO
-      return null;
+      return pathInfo;
    }
 
    public String getPathTranslated()
    {
-      //TODO
-      return null;
+      return pathTranslated;
    }
 
    public String getContextPath()
    {
-      return "/project";
+      return (contextPath != null ? contextPath : "/project");
    }
 
    public String getQueryString()
    {
-      //TODO
-      return null;
+      return queryString;
    }
 
    public String getRemoteUser()
@@ -165,23 +241,22 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getRequestedSessionId()
    {
-      //TODO
-      return null;
+      return requestedSessionId;
    }
 
    public String getRequestURI()
    {
-      return "http://localhost:8080/myproject/page.seam";
+      return (requestURI != null ? requestURI : "http://localhost:8080/myproject/page.seam");
    }
 
    public StringBuffer getRequestURL()
    {
-      return new StringBuffer( getRequestURI() );
+      return (requestURL != null ? requestURL : new StringBuffer(requestURI)); 
    }
 
    public String getServletPath()
    {
-      return "/page.seam";
+      return (servletPath != null ? servletPath : "/page.seam");
    }
 
    public HttpSession getSession(boolean create)
@@ -226,8 +301,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getCharacterEncoding()
    {
-      //TODO
-      return null;
+      return characterEncoding;
    }
 
    public void setCharacterEncoding(String enc)
@@ -239,20 +313,17 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public int getContentLength()
    {
-      //TODO
-      return 0;
+      return contentLength;
    }
 
    public String getContentType()
    {
-      //TODO
-      return null;
+      return contentType;
    }
 
    public ServletInputStream getInputStream() throws IOException
    {
-      //TODO
-      return null;
+      return inputStream;
    }
 
    public String getParameter(String param)
@@ -278,44 +349,37 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getProtocol()
    {
-      //TODO
-      return null;
+      return protocol;
    }
 
    public String getScheme()
    {
-      //TODO
-      return null;
+      return scheme;
    }
 
    public String getServerName()
    {
-      //TODO
-      return null;
+      return serverName;
    }
 
    public int getServerPort()
    {
-      //TODO
-      return 0;
+      return serverPort;
    }
 
    public BufferedReader getReader() throws IOException
    {
-      //TODO
-      return null;
+      return reader;
    }
 
    public String getRemoteAddr()
    {
-      //TODO
-      return null;
+      return remoteAddr;
    }
 
    public String getRemoteHost()
    {
-      //TODO
-      return null;
+      return remoteHost;
    }
 
    public void setAttribute(String att, Object value)
@@ -337,8 +401,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public Locale getLocale()
    {
-      //TODO
-      return null;
+      return locale;
    }
 
    public Enumeration getLocales()
@@ -348,44 +411,45 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public boolean isSecure()
    {
-      //TODO
-      return false;
+      return isSecure;
    }
 
    public RequestDispatcher getRequestDispatcher(String path)
    {
-      //TODO
+      if(httpServletRequest != null) 
+      {
+         return httpServletRequest.getRequestDispatcher(path);
+      }
       return null;
    }
 
    public String getRealPath(String path)
    {
-      //TODO
+      if(httpServletRequest != null) 
+      {
+         return httpServletRequest.getRealPath(path);
+      }
       return null;
    }
 
    public int getRemotePort()
    {
-      //TODO
-      return 0;
+      return remotePort;
    }
 
    public String getLocalName()
    {
-      //TODO
-      return null;
+      return localName;
    }
 
    public String getLocalAddr()
    {
-      //TODO
-      return null;
+      return localAddr;
    }
 
    public int getLocalPort()
    {
-      //TODO
-      return 0;
+      return localPort;
    }
 
    public Map<String, String[]> getHeaders()
