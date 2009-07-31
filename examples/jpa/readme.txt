@@ -39,8 +39,8 @@ WebLogic 10.X:
   * See Weblogic reference guide chapter for full details.
 
 WebSphere 6.1:
-
   * Install and run WebSphere 6.1
+  * The "Default Applications" must be installed because this app will the Derby database that is installe with teh default application
   * Set a Websphere web container custom property "com.ibm.ws.webcontainer.invokefilterscompatibility" to true.  See Seam reference guide chapter for details.
   * Set a Websphere web container custom property "prependSlashToResource" to true.  See Seam reference guide chapter for details.
   * ant websphere61
@@ -48,6 +48,14 @@ WebSphere 6.1:
   * From the "Enterprise Applications" list select: "jboss-seam-jpa" --> "Manager Modules" --> "jboss-seam-jpa.war" --> "Classes loaded with application class loader first", and then Apply
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
+
+WebSphere 7.0:
+  * Install and run WebSphere 7.0
+  * The "Default Applications" must be installed because this app will the Derby database that is installe with teh default application
+  * ant websphere7
+  * Deploy dist-websphere7/jboss-seam-jpa.war and specify a context_root (choose the "fast path" and keep all the defaults)
+  * Start the application
+  * Access it at http://localhost:9080/<context_root>
 
 Tomcat with JBoss Embedded:
   * Install Tomcat
