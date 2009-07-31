@@ -22,7 +22,7 @@ public class AsynchronousExceptionHandler
    
    public void handleException(Exception throwable)
    {
-      log.error("Exeception thrown whilst executing asynchronous call", throwable);
+      log.error("Exception thrown whilst executing asynchronous call", throwable);
    }
    
    public static AsynchronousExceptionHandler instance()
