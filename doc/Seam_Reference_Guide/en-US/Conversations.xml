@@ -177,12 +177,16 @@
         <para>
             The <literal>conversationPropagation</literal> request parameter, or 
             the <literal>&lt;s:conversationPropagation&gt;</literal> tag may even
-            be used to begin and end conversation, or begin a nested 
-            conversation.
+            be used to begin a conversation, end the current conversation, 
+            destroy the entire conversation stack, or begin a nested conversation.
         </para>
 
         <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Exit">
     <s:conversationPropagation type="end"/>
+</h:commandLink>]]></programlisting>
+
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Exit">
+    <s:conversationPropagation type="endRoot"/>
 </h:commandLink>]]></programlisting>
 
         <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Select Child">

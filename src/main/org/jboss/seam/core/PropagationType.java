@@ -11,5 +11,6 @@ public enum PropagationType
    JOIN,
    NEST,
    NONE,
-   END
+   END,
+   ENDROOT
 }

@@ -67,7 +67,7 @@ public class ConversationPropagation
          parentConversationId = null;
          validateLongRunningConversation = false;
       }
-      else if ( propagationType == PropagationType.END )
+      else if (( propagationType == PropagationType.END ) || ( propagationType == PropagationType.ENDROOT ))
       {
          validateLongRunningConversation = false;
       }

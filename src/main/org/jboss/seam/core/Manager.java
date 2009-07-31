@@ -571,6 +571,9 @@ public class Manager
          case END:
             endConversation(false);
             break;
+         case ENDROOT:
+            endRootConversation(false);
+            break;
       }
    }
    
