@@ -200,13 +200,24 @@ public class ManagedPersistenceContext
    private void close()
    {
       boolean transactionActive = false;
+      
       try
       {
-         transactionActive = Transaction.instance().isActive();
+         UserTransaction tx = Transaction.instance();
+         try 
+         {
+            transactionActive = tx.isActive();
+         }
+         catch (SystemException se)
+         {
+            log.debug("could not get transaction status while destroying persistence context");
+         }
       }
-      catch (SystemException se)
+      catch (Exception e)
       {
-         log.debug("could not get transaction status while destroying persistence context");
+         // WebSphere throws a javax.naming.ConfigurationException when Transaction.instance() is called during HTTP Session expiration 
+         // and there is no JNDI lookup possible. See details there: JBSEAM-4332
+         log.warn("could not get transaction while destroying persistence context. (called during session expiration ?)");
       }
       
       if ( transactionActive )
