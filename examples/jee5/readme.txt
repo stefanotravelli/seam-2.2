@@ -137,9 +137,9 @@ additional information.
   
 - http://seamframework.org/Documentation
   
-WebSphere 6.1.0.13 with EJB3 feature pack
----------------------------
-The instructions for integration with Websphere are fairly verbose.  Please 
+WebSphere 7
+-----------
+The instructions for integration with WebSphere are fairly verbose.  Please 
 refer to the Seam reference guide for additional information.
 
 - http://seamframework.org/Documentation

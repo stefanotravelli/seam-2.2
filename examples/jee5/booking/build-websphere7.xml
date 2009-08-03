@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<project name="Booking WebSphere 7" default="clean.archive" basedir=".">
+
+   <!-- Public targets -->
+   <target name="clean.archive" depends="clean,archive" />
+
+   <!-- Naming -->
+    <property name="Name"                  value="Java EE 5 Booking Example"/>
+    <property name="example.name"          value="jboss-seam-jee5-booking"/>
+
+   <!-- Define topology -->
+   <property name="resources.dir"          value="resources-websphere7" />
+   <property name="dist.dir"               value="dist-websphere7" />
+   <property name="exploded-archives.dir"  value="exploded-archives-websphere7" />
+
+   <!-- Libraries to include in ear -->
+   <property name="seam.ui.lib"           value="true" />
+   <property name="seam.debug.lib"        value="true" />
+   <property name="facelets.lib"          value="true" />
+   <property name="richfaces.lib"         value="true" />
+   <property name="el-ri.lib"             value="true" />
+   
+   <!-- Common build file -->
+   <import file="../../build.xml" />
+
+   <!-- Extras files for WebSphere -->
+	
+   <fileset id="ear.lib.extras" dir="${seam.dir}">
+      <!-- Seam deps -->
+      <include name="lib/javassist.jar" />
+
+      <!-- Misc -->
+      <include name="lib/commons-beanutils.jar" />
+      <include name="lib/commons-digester.jar" />
+      <include name="lib/commons-collections.jar" />
+
+      <!-- Hibernate and deps -->
+      <include name="lib/hibernate-core.jar" />
+      <include name="lib/hibernate-commons-annotations.jar" />
+      <include name="lib/hibernate-annotations.jar" />
+      <include name="lib/hibernate-entitymanager.jar" />
+      <include name="lib/hibernate-validator.jar" />
+
+      <include name="lib/antlr.jar" />
+      <include name="lib/dom4j.jar" />
+
+      <include name="lib/slf4j-api.jar" />
+      <include name="lib/slf4j-log4j12.jar" />
+   	
+      <include name="lib/log4j.jar" />
+    </fileset>
+
+   <fileset id="jar.extras" dir="${resources.dir}/JAR">
+      <include name="**/*.*" />
+   </fileset>
+
+   <fileset id="war.extras" dir="${resources.dir}">
+      <include name="WEB-INF/classes/**/*" />
+   </fileset>
+
+</project>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar-bnd
+	xmlns="http://websphere.ibm.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-bnd_1_0.xsd"
+	version="1.0">
+
+   <!--  
+     This file is required for this sample because:
+     - by default WAS binds the EJB with the fully qualified name of the interface
+     - in component.xml. #{ejbname} resolves to the unqualified name of the implementation class, 
+       not the name of the fully qualified interface (use by WebSphere to bind its bean by default)
+     - a (better?) alternative to this file is using the @JndiName seam annotation in each bean
+     
+     When using thsi file, set "jndi-pattern" to "ejblocal:#{ejbName}" in components.xml
+    -->
+
+   <session name="AuthenticatorAction"  simple-binding-name="AuthenticatorAction" />
+   <session name="BookingListAction"    simple-binding-name="BookingListAction" />
+   <session name="ChangePasswordAction" simple-binding-name="ChangePasswordAction" />
+   <session name="HotelBookingAction"   simple-binding-name="HotelBookingAction" />
+   <session name="HotelSearchingAction" simple-binding-name="HotelSearchingAction" />
+   <session name="RegisterAction"       simple-binding-name="RegisterAction" />
+
+</ejb-jar-bnd>	

@@ -64,43 +64,10 @@
   <!-- JEE5 EJB3 names -->
 
   <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.Authenticator</local>
-  </ejb-local-ref>	
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/BookingListAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.BookingList</local>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/RegisterAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.Register</local>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.ChangePassword</local>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.HotelBooking</local>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction/local</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>org.jboss.seam.example.booking.HotelSearching</local>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations/local</ejb-ref-name>
+  
+    <!--  This matches the pattern set in components.xml -->
+     
+    <ejb-ref-name>ejblocal:EjbSynchronizations</ejb-ref-name>
     <ejb-ref-type>Session</ejb-ref-type>
     <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
   </ejb-local-ref>

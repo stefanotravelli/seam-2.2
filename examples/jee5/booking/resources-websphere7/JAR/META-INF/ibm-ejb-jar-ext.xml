@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar-ext
+	xmlns="http://websphere.ibm.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-ext_1_0.xsd"
+	version="1.0">
+
+   <!--  Set the expiration timeout to :
+        10 minutes : HTTP Session timeout set in web.xml
+        +5 minutes : it takes some time for WebSphere to trigger the session expiration
+       = 900 seconds 
+   -->
+        
+   <session name="BookingListAction"><time-out value="900"/></session>
+   <session name="ChangePasswordAction"><time-out value="900"/></session>
+   <session name="HotelBookingAction"><time-out value="900"/></session>
+   <session name="HotelSearchingAction"><time-out value="900"/></session>
+   <session name="RegisterAction"><time-out value="900"/></session>
+   
+</ejb-jar-ext>
