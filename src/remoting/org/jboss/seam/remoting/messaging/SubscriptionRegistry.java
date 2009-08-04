@@ -18,8 +18,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -33,9 +31,6 @@ import org.jboss.seam.log.Logging;
 @Install(value = false, precedence=BUILT_IN)
 public class SubscriptionRegistry
 {
-  public static final String CONTEXT_USER_TOKENS =
-      "org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens";
-
   private static final LogProvider log = Logging.getLogProvider(SubscriptionRegistry.class);
 
   private String connectionProvider;
@@ -131,30 +126,35 @@ public class SubscriptionRegistry
     }
   }
 
-  /**
-   *
-   * @return Set
-   */
-  public Set getUserTokens()
+  public UserTokens getUserTokens()
   {
-    Context session = Contexts.getSessionContext();
-    if (session.get(CONTEXT_USER_TOKENS) == null)
-    {
-      synchronized(session)
-      {
-        if (session.get(CONTEXT_USER_TOKENS) == null)
-          session.set(CONTEXT_USER_TOKENS, new HashSet<String> ());
-      }
-    }
-    return (Set) session.get(CONTEXT_USER_TOKENS);
+    return (UserTokens) Component.getInstance(UserTokens.class);
   }
 
   public RemoteSubscriber getSubscription(String token)
   {
-    if (!getUserTokens().contains(token))
-      throw new IllegalArgumentException(
-        "Invalid token argument - token not found in Session Context.");
-
+    if (!getUserTokens().contains(token)) {
+      throw new IllegalArgumentException("Invalid token argument - token not found in Session Context.");
+    }
+    
     return subscriptions.get(token);
+  }
+  
+  public Set<String> getAllTokens() {
+      return subscriptions.keySet();
+  }
+
+  public void cleanupTokens(Set<String> tokens)
+  {
+       for (String token: tokens) {
+          RemoteSubscriber subscriber = subscriptions.remove(token);
+          if (subscriber!=null) {
+             try {
+                 subscriber.unsubscribe();
+             } catch (Exception e) {
+                log.debug("problem cleaning up subcription", e);
+             }
+          }          
+       }
   }
 }
