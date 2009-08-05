@@ -6,7 +6,7 @@ import com.lowagie.text.*;
 
 public class UIFont extends ITextComponent
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.pdf.ui.UIParagraph";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.pdf.ui.UIFont";
 
    Font font;
 
@@ -15,6 +15,7 @@ public class UIFont extends ITextComponent
    int size = Font.UNDEFINED;
    String style;
    String color;
+   boolean embedded = false;
 
    public String getName()
    {
@@ -70,6 +71,14 @@ public class UIFont extends ITextComponent
    {
       this.color = color;
    }
+      
+   public boolean getEmbedded() {
+      return (Boolean) valueBinding("embedded", embedded);
+   }
+   
+   public void setEmbedded(boolean embedded) {
+      this.embedded = embedded;
+   }
 
    @Override
    public Font getFont()
@@ -92,22 +101,17 @@ public class UIFont extends ITextComponent
    @Override
    public void createITextObject(FacesContext context)
    {
-      if (encoding == null)
-      {
+      if (encoding == null) {
          font = FontFactory.getFont(getName(), getSize());
+      } else {
+         font = FontFactory.getFont(getName(), getEncoding(), getEmbedded(), getSize());
       }
-      else
-      {
-         font = FontFactory.getFont(getName(), getEncoding(), getSize());
-      }
-
-      if (getStyle() != null)
-      {
+      
+      if (getStyle() != null) {
          font.setStyle(getStyle());
       }
-
-      if (getColor() != null)
-      {
+      
+      if (getColor() != null) {
          font.setColor(ITextUtils.colorValue(getColor()));
       }
    }
