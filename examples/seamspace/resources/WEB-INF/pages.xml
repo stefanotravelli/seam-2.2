@@ -95,10 +95,10 @@
       </navigation>
     </page>
     
-    <page view-id="/friendrequest.xhtml">
+    <page view-id="/friendrequest.xhtml">    
       <restrict>#{identity.loggedIn}</restrict>
       <param name="name" value="#{selectedMember.memberName}"/>
-      <navigation from-action="#{friend.saveRequest}">
+      <navigation from-action="#{friendAction.saveRequest}">
         <redirect view-id="/profile.xhtml">
           <param name="name" value="#{friendRequest.member.memberName}"/>
         </redirect>

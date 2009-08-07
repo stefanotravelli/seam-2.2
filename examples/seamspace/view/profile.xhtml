@@ -78,7 +78,7 @@
           <br class="clear"/>
         
           <s:span rendered="#{selectedMember.memberId != authenticatedMember.memberId and s:hasPermission(selectedMember, 'createFriendRequest')}">
-            [<s:link view="/friendrequest.seam" value="Send a friend request" propagation="none"/>]
+            [<s:link view="/friendrequest.seam" action="#{friendAction.createRequest}" value="Send a friend request"><f:param name="name" value="#{selectedMember.memberName}"/></s:link>]
           </s:span>
           
         </s:div>

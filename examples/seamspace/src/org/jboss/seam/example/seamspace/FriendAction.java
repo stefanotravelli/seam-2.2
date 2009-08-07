@@ -73,7 +73,7 @@ public class FriendAction implements Serializable
       entityManager.persist(friendComment);
    }
    
-   @Factory("friendRequest") @Begin
+   @Begin
    public void createRequest()
    {
       try
@@ -101,6 +101,7 @@ public class FriendAction implements Serializable
    {
       friendRequest.getMember().getFriends().add(friendRequest);
       entityManager.persist(friendRequest);      
+      FacesMessages.instance().add("Friend request sent");      
    }
    
    @Remove @Destroy
