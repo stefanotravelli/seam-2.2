@@ -223,4 +223,25 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<server:start name="${container.profile}" />
 	</target>
 
+	<target name="stop.container.jboss"  depends="container.properties" >
+		<sequential>
+			<echo message="Shutting down JBoss server"/>
+			<java classname="org.jboss.Shutdown" fork="false" dir="${container.home}/bin">
+				<classpath>
+					<pathelement location="${container.home}/bin/shutdown.jar" />
+					<!--<pathelement location="${container.home}/client/jbossall-client.jar" />-->
+				</classpath>
+				<arg value="--server"/>
+				<arg value="jnp://localhost:1099"/>
+				<arg value="--shutdown"/>
+			</java>
+			<waitfor maxwait="300" maxwaitunit="second">
+				<not>
+					<socket server="localhost" port="1099" />
+				</not>
+			</waitfor>
+			<sleep seconds="3"/>
+		</sequential>
+	</target>
+
 </project>

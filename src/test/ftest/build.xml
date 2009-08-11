@@ -42,6 +42,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</fileset>
 	</path>
 
+	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
+
 	<target name="testall" description="Run functional testsuite based on container property">
 		<fail unless="container">Please set container property.</fail>
 		<antcall target="testall.${container}" />
@@ -49,7 +52,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<target name="testall.jboss4" description="Run functional testsuite for JBoss 4">
 		<property name="container" value="jboss4" />
-		<antcall target="start.container.before.suite" />
+		<antcall target="start.container" />
 		<antcall target="start.selenium.server" />
 		<!-- Execute tests for all examples jboss-->
 		<testexample name="blog" />
@@ -82,11 +85,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="wicket" />
 		<testexample name="wicket-runtime" />
 		<antcall target="stop.selenium.server" />
+		<antcall target="stop.container" />
 	</target>
 	
 	<target name="testall.jboss5" description="Run functional testsuite for JBoss 5">
 		<property name="container" value="jboss5" />
-		<antcall target="start.container.before.suite" />
+		<antcall target="start.container" />
 		<antcall target="start.selenium.server" />
 		<!-- Execute tests for all examples jboss-->
 		<testexample name="blog" />
@@ -119,6 +123,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="wicket" />
 		<testexample name="wicket-runtime" />
 		<antcall target="stop.selenium.server" />
+		<antcall target="stop.container" />
 	</target>
 
 	<target name="testall.jboss-embedded" description="Run functional testsuite for JBoss Embedded">
@@ -159,7 +164,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<property name="container" value="jboss4" />
 		<antcall target="test.single.example" />
 	</target>
-	
+
 	<target name="test.jboss5" description="Run tests for single example on JBoss 5">
 		<property name="container" value="jboss5" />
 		<antcall target="test.single.example" />
@@ -279,6 +284,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<attribute name="path" default="examples/@{name}" />
 		<attribute name="message" default="Running functional tests on @{name} example" />
 		<sequential>
+			<groovy>
+				<![CDATA[
+				def testExamplesRunSoFar = properties['testExamplesRunSoFar'] == null ? 0 : Integer.valueOf(properties['testExamplesRunSoFar']);
+				def jbossDeploymentsRestart = properties['jboss.deployments.restart'] == null ? 0 : Integer.valueOf(properties['jboss.deployments.restart']);
+				if (jbossDeploymentsRestart > 0 && testExamplesRunSoFar > 0 && testExamplesRunSoFar % jbossDeploymentsRestart  == 0 ) {
+				ant.antcall(target:"restart.container");
+				}
+				testExamplesRunSoFar++;
+				properties['testExamplesRunSoFar'] = testExamplesRunSoFar;
+				]]>
+			</groovy>
 			<echo>@{message}</echo>
 			<callExample path="@{path}" target="test" />
 		</sequential>
@@ -312,8 +328,22 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			</ant>
 		</sequential>
 	</macrodef>
+
+	<target name="restart.container" if="run.container.per.suite">
+		<echo>Restarting container</echo>
+		<antcall target="stop.container" >
+		</antcall>
+		<antcall target="start.container" >
+		</antcall>
+	</target>
 	
-	<target name="start.container.before.suite" if="run.container.per.suite">
+	<target name="stop.container" if="run.container.per.suite">
+		<echo>Stopping container</echo>
+		<ant antfile="examples/build.xml" target="stop.container.jboss" inheritall="false">
+			<property name="container" value="${container}" />
+		</ant>	
+	</target>
+	<target name="start.container" if="run.container.per.suite">
 		<echo>Starting container</echo>
 		<ant antfile="examples/build.xml" target="start.container.jboss" inheritall="false">
 			<property name="container" value="${container}" />
