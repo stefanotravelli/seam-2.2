@@ -1,11 +1,9 @@
-package org.jboss.seam.excel;
+package org.jboss.seam.example.excel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;

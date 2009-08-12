@@ -1,16 +1,13 @@
-package org.jboss.seam.excel.test;
+package org.jboss.seam.example.excel.test;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
 
-import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.excel.ExcelTest.Person;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
