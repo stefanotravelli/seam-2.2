@@ -8,6 +8,7 @@ package org.jboss.seam.test.unit;
 
 import static org.testng.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -51,6 +53,7 @@ import org.jboss.seam.remoting.wrapper.NumberWrapper;
 import org.jboss.seam.remoting.wrapper.StringWrapper;
 import org.jboss.seam.remoting.wrapper.WrapperFactory;
 import org.testng.annotations.Test;
+import org.w3c.dom.Node;
 import org.jboss.seam.remoting.InterfaceGenerator;
 import java.math.BigInteger;
 import java.math.BigDecimal;
@@ -599,12 +602,24 @@ public class RemotingTest
       {
       }
 
-      byte[] expected = ("<map><element><k><str>foo</str></k><v><str>aaaaa</str></v></element>"
-            + "<element><k><str>bar</str></k><v><str>zzzzz</str></v></element></map>")
-            .getBytes();
+      // ensure when we marshal/unmarshal the values in the map remain the same      
       ByteArrayOutputStream out = new ByteArrayOutputStream();
       wrapper.marshal(out);
-      assertEquals(expected, out.toByteArray());
+      
+      SAXReader xmlReader = new SAXReader();
+      Document doc = xmlReader.read( new ByteArrayInputStream(out.toByteArray()) );     
+      
+      Element root = doc.getRootElement();      
+      
+      MapWrapper other = new MapWrapper();
+      other.setCallContext(new CallContext());
+      other.setElement(root);
+      
+      Map otherMap = (Map) other.convert(Map.class);
+      for (Object key : otherMap.keySet())
+      {
+         assert otherMap.get(key).equals(m.get(key));
+      }      
 
       // test conversionScore() method
       assert ConversionScore.exact == wrapper.conversionScore(Map.class);

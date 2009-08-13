@@ -53,6 +53,11 @@ public class MapWrapper extends BaseWrapper implements Wrapper
 
    public Object convert(Type type) throws ConversionException
    {
+      if (context == null)
+      {
+         throw new IllegalStateException("No call context has been set");
+      }
+      
       Class typeClass = null;
       Type keyType = null;
       Type valueType = null;
@@ -113,7 +118,8 @@ public class MapWrapper extends BaseWrapper implements Wrapper
          Element keyElement = (Element) e.element("k").elementIterator().next();
          Element valueElement = (Element) e.element("v").elementIterator().next();
 
-         ((Map) value).put(context.createWrapperFromElement(keyElement).convert(keyType), context.createWrapperFromElement(valueElement).convert(valueType));
+         ((Map) value).put(context.createWrapperFromElement(keyElement).convert(keyType), 
+               context.createWrapperFromElement(valueElement).convert(valueType));
       }
 
       return value;
