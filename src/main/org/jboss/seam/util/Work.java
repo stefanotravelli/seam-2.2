@@ -29,12 +29,26 @@ public abstract class Work<T>
    
    public final T workInTransaction() throws Exception
    {      
-      org.jboss.seam.transaction.UserTransaction transaction = Transaction.instance();
+      org.jboss.seam.transaction.UserTransaction transaction = null;
+      boolean transactionActive = false;
+      boolean newTransactionRequired = false;
+      UserTransaction userTransaction = null;
       
-      boolean transactionActive = transaction.isActiveOrMarkedRollback()
+      try {
+          transaction = Transaction.instance();
+      
+          transactionActive =  transaction.isActiveOrMarkedRollback()
               || transaction.isRolledBack(); //TODO: temp workaround, what should we really do in this case??
-      boolean newTransactionRequired = isNewTransactionRequired(transactionActive);
-      UserTransaction userTransaction = newTransactionRequired ? transaction : null;
+          newTransactionRequired = isNewTransactionRequired(transactionActive);          
+          userTransaction = newTransactionRequired ? transaction : null;
+      } catch (IllegalStateException e) {
+         // for shutdown case, when we can't get the tx object because the event context is gone
+         // but we should still check if a tx is required and fail accordingly if it is
+         newTransactionRequired = isNewTransactionRequired(false);
+         if (newTransactionRequired) {
+            throw e;
+         }
+      }
       
       try
       {
