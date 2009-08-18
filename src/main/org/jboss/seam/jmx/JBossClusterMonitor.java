@@ -139,11 +139,9 @@ public class JBossClusterMonitor
    
    protected MBeanServer locateJBoss()
    {
-      for (Iterator i = MBeanServerFactory.findMBeanServer(null).iterator(); i.hasNext(); )
-      {
-         MBeanServer server = (MBeanServer) i.next();
-         if (server.getDefaultDomain().equals("jboss"))
-         {
+      for (Object o: MBeanServerFactory.findMBeanServer(null)) {
+         MBeanServer server = (MBeanServer) o;
+         if ("jboss".equals(server.getDefaultDomain())) {
             return server;
          }
       }
