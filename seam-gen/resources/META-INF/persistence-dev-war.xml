@@ -13,8 +13,7 @@
          <property name="hibernate.hbm2ddl.auto" value="@hbm2ddl@"/>
          <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.format_sql" value="true"/>@catalogProperty@@schemaProperty@
-         <!-- Only relevant if Seam is loading the persistence unit (Java SE bootstrap) -->
-         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>
       </properties>
    </persistence-unit>
     
