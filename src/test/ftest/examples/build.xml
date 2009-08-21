@@ -231,9 +231,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 					<pathelement location="${container.home}/bin/shutdown.jar" />
 					<!--<pathelement location="${container.home}/client/jbossall-client.jar" />-->
 				</classpath>
-				<arg value="--server"/>
-				<arg value="jnp://localhost:1099"/>
 				<arg value="--shutdown"/>
+				<arg value="-u"/>
+				<arg value="${jboss.jmx.username}"/>
+				<arg value="-p"/>
+				<arg value="${jboss.jmx.password}"/>
 			</java>
 			<waitfor maxwait="300" maxwaitunit="second">
 				<not>
