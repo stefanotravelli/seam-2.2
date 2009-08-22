@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-06-25 15:02+0000\n"
+"POT-Creation-Date: 2009-08-22 13:17+0000\n"
 "PO-Revision-Date: 2008-12-14 05:13+0900\n"
 "Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -16,24 +16,43 @@ msgstr ""
 #. Tag: title
 #: Websphere.xml:2
 #, fuzzy, no-c-format
-msgid "Seam on IBM's Websphere AS"
+msgid "Seam on IBM's WebSphere AS v7"
 msgstr "IBM Websphere 上の Seam"
 
-#. Tag: para
-#: Websphere.xml:4
-#, no-c-format
-msgid ""
-"Websphere AS V7 is IBM's application server offering. This release is fully "
-"Java EE 5 certified."
-msgstr ""
+#. Tag: title
+#: Websphere.xml:5
+#, fuzzy, no-c-format
+msgid "WebSphere AS environment and version recommendation"
+msgstr "Websphere 環境とデプロイメント情報"
 
 #. Tag: para
 #: Websphere.xml:7
+#, no-c-format
+msgid ""
+"WebSphere Application Server v7 is IBM's application server offering. This "
+"release is fully Java EE 5 certified."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:12
 #, fuzzy, no-c-format
 msgid ""
-"First we will go over some basic information about the Websphere AS "
-"environment that we used for these examples. We will go over the details of "
-"those steps with the JEE5 booking example. We will also deploy the JPA "
+"WebSphere AS being a commercial product, we will not discuss the details of "
+"its installation. At best, we will instruct you to follow the directions "
+"provided by your particular installation type and license."
+msgstr ""
+"WebSphere は商用製品なので、特定のインストールタイプやライセンスについて提供"
+"される手順などのインストールの詳細については説明しません。ここでは、すべての"
+"サンプルを動作させるのに必要となる使用したサーバの正確なバージョンと、インス"
+"トールのヒント、カスタムプロパティについて詳しく述べます。"
+
+#. Tag: para
+#: Websphere.xml:18
+#, fuzzy, no-c-format
+msgid ""
+"First, we will go over some basic considerations on how to run Seam "
+"applications under WebSphere AS v7. We will go over the details of these "
+"steps using the JEE5 booking example. We will also deploy the JPA (non-EJB3) "
 "example application."
 msgstr ""
 "最初に、サンプルのために使用する WebSphere 環境に関しての基礎的な情報を詳しく"
@@ -41,660 +60,607 @@ msgstr ""
 "ことができるようになりました。jee5 サンプルでそれらのステップの詳細を説明しま"
 "す。次に、JPA サンプルアプリケーションをデプロイします。"
 
-#. Tag: title
-#: Websphere.xml:13
-#, fuzzy, no-c-format
-msgid "Websphere AS environment and deployment information"
-msgstr "Websphere 環境とデプロイメント情報"
-
-#. Tag: para
-#: Websphere.xml:15
-#, fuzzy, no-c-format
-msgid ""
-"Websphere AS is a commercial product and so we will not discuss the details "
-"of its installation other than to say follow the directions provided by your "
-"particular installation type and license. This section will detail the exact "
-"server versions used, installation tips, and some custom properties that are "
-"needed for all of the examples."
-msgstr ""
-"WebSphere は商用製品なので、特定のインストールタイプやライセンスについて提供"
-"される手順などのインストールの詳細については説明しません。ここでは、すべての"
-"サンプルを動作させるのに必要となる使用したサーバの正確なバージョンと、インス"
-"トールのヒント、カスタムプロパティについて詳しく述べます。"
-
-#. Tag: title
-#: Websphere.xml:23
-#, fuzzy, no-c-format
-msgid "Installation versions"
-msgstr "インストールするバージョンとヒント"
-
 #. Tag: para
 #: Websphere.xml:24
-#, fuzzy, no-c-format
-msgid ""
-"All of the examples and information in this chapter are based on the version "
-"V7 of Websphere AS at the time of this writing."
-msgstr ""
-"この章のサンプルと情報は、すべて執筆時の Websphere のバージョン 6.1 に基づい"
-"ています。"
-
-#. Tag: ulink
-#: Websphere.xml:29
-#, fuzzy, no-c-format
-msgid "Websphere Application Server V7"
-msgstr "Websphere Application Server 6.1"
-
-#. Tag: para
-#: Websphere.xml:34
 #, no-c-format
 msgid ""
-"After installing Websphere AS, create server profile with Profile Management "
-"Tool, if you didn't create profile in installation process."
+"All of the examples and information in this chapter are based on WebSphere "
+"AS v7. A trial version can be downloaded here : <ulink url=\"http://www.ibm."
+"com/developerworks/downloads/ws/was\"> WebSphere Application Server V7</"
+"ulink>"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:29
+#, no-c-format
+msgid ""
+"WebSphere v7.0.0.3 is the minimal recommended version of WebSphere v7 to use "
+"with Seam. Earlier versions of WebSphere have bugs in the EJB container that "
+"will cause various exceptions to occur at runtime."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:35
+#, no-c-format
+msgid ""
+"The following sections in this chapter assume that WebSphere is correctly "
+"installed and is functional, and a profile has been successfully created."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:40
+#, no-c-format
+msgid ""
+"This chapter explain how to compile, deploy and run some sample applications "
+"in WebSphere. These sample applications require a database. WebSphere comes "
+"by default with a set of sample applications called \"Default Application\". "
+"This set of sample applications use a Derby database running on the Derby "
+"instance installed with WebSphere. In order to keep this simple we'll use "
+"this Derby database created for the \"Default Applications\". However, to "
+"run the sample application with the Derby database \"as-is\", a patched "
+"Hibernate dialect must be used (The patch changes the default \"auto\" key "
+"generation strategy) as explained in <xref linkend=\"glassfish\"/>. If you "
+"want to use another database, it's just a matter of creating a connection "
+"pool in WebSphere pointing to this database, declare the correct Hibernate "
+"dialect and set the correct JNDI name in <literal>persistence.xml</literal>."
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:42
+#: Websphere.xml:53
+#, no-c-format
+msgid "Configuring the WebSphere Web Container"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:54
+#, no-c-format
+msgid ""
+"This step is mandatory in order to have Seam applications run with WebSphere "
+"v7. Two extra properties must be added to the Web Container. Please refer to "
+"the IBM WebSphere Information Center for further explanations on those "
+"properties."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:58
+#, no-c-format
+msgid "To add the extra properties:"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:61
+#, fuzzy, no-c-format
+msgid "Open the WebSphere administration console"
+msgstr "管理コンソールへログインしてください。"
+
+#. Tag: listitem
+#: Websphere.xml:64
+#, no-c-format
+msgid ""
+"Select the <literal>Servers/Server Types/WebSphere Application Servers</"
+"literal> in the left navigation menu"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:67
+#, no-c-format
+msgid "Click on the server name (<literal>server1</literal>)"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:70
+#, no-c-format
+msgid ""
+"On the right navigation menu, select <literal>Web Container Settings/Web "
+"container</literal>)"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:73
+#, no-c-format
+msgid ""
+"On the right navigation menu, select <literal>custom properties</literal>) "
+"and add the following properties:"
+msgstr ""
+
+#. Tag: literal
+#: Websphere.xml:77
+#, no-c-format
+msgid "prependSlashToResource = true"
+msgstr ""
+
+#. Tag: literal
+#: Websphere.xml:80
+#, no-c-format
+msgid "com.ibm.ws.webcontainer.invokefilterscompatibility = true"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:84
+#, fuzzy, no-c-format
+msgid "Save and restart the server"
+msgstr "サーバの再起動についてのメモ"
+
+#. Tag: title
+#: Websphere.xml:92
+#, no-c-format
+msgid "Seam and the WebSphere JNDI name space"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:93
+#, no-c-format
+msgid ""
+"In order to use component injection, Seam needs to know how to lookup for "
+"session beans bound to the JNDI name space. Seam provides two mechanisms to "
+"configure the way it will search for such resources:"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:97
+#, no-c-format
+msgid ""
+"The global <literal>jndi-pattern</literal> switch on the <literal>&lt;core:"
+"init&gt;</literal>. in <literal>components.xml</literal>. The switch can use "
+"a special placeholder \"<literal>#{ejbName}</literal>\" that resolves to the "
+"unqualified name of the EJB"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:102
+#, fuzzy, no-c-format
+msgid "The <literal>@JndiName</literal> annotation"
+msgstr "<literal>Next</literal> ボタンを選択してください。"
+
+#. Tag: para
+#: Websphere.xml:108
+#, no-c-format
+msgid "gives detailed explanations on how those mechanisms work."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:112
+#, no-c-format
+msgid ""
+"By default, WebSphere will bind the session bean in its local JNDI name "
+"space under a \"short\" binding name that adheres to the following pattern "
+"<literal>ejblocal:&lt;package.qualified.local.interface.name&gt;</literal>."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:117
+#, no-c-format
+msgid ""
+"For a detailed description on how WebSphere v7 organizes and binds EJBs in "
+"its JNDI name spaces, please refer to the WebSphere Information Center."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:120
+#, no-c-format
+msgid ""
+"As explained before, Seam needs to lookup for session bean as they appear in "
+"JNDI. Basically, there are three strategies, in order of complexity:"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:124
+#, no-c-format
+msgid ""
+"Specify which JNDI name Seam must use for each session bean using the "
+"<literal>@JndiName</literal> annotation in the java source file"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:127
+#, no-c-format
+msgid ""
+"Override the default session bean names generated by WebSphere to conform to "
+"the <literal>jndi-pattern</literal> attribute"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:130
+#, no-c-format
+msgid "Use EJB references"
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:137
+#, no-c-format
+msgid "Strategy 1: Specify which JNDI name Seam must use for each Session Bean"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:138
+#, no-c-format
+msgid ""
+"This strategy is the simplest and fastest one regarding development. It uses "
+"the WebSphere v7 default binding mechanism. To use this strategy:"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:141
+#, no-c-format
+msgid ""
+"Add a <literal>@JndiName(\"ejblocal:&lt;package.qualified.local.interface."
+"name&gt;)</literal> annotation to each session bean that is a Seam component."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:145 Websphere.xml:188
+#, no-c-format
+msgid ""
+"<para>In <literal>components.xml</literal>, add the following line:</para>"
+msgstr ""
+
+#. Tag: programlisting
+#: Websphere.xml:147 Websphere.xml:220
+#, fuzzy, no-c-format
+msgid "<![CDATA[<core:init jndi-name=\"java:comp/env/#{ejbName}\" />]]>"
+msgstr ""
+"<![CDATA[\n"
+"<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug="
+"\"true\"/>\n"
+"                  ]]>"
+
+#. Tag: para
+#: Websphere.xml:151
+#, no-c-format
+msgid ""
+"Add a file named <literal>WEB-INF/classes/seam-jndi.properties</literal> in "
+"the web module with the following content:"
+msgstr ""
+
+#. Tag: programlisting
+#: Websphere.xml:153
+#, no-c-format
+msgid ""
+"com.ibm.websphere.naming.hostname.normalizer=com.ibm.ws.naming.util."
+"DefaultHostnameNormalizer\n"
+"java.naming.factory.initial=com.ibm.websphere.naming."
+"WsnInitialContextFactory\n"
+"com.ibm.websphere.naming.name.syntax=jndi\n"
+"com.ibm.websphere.naming.namespace.connection=lazy\n"
+"com.ibm.ws.naming.ldap.ldapinitctxfactory=com.sun.jndi.ldap.LdapCtxFactory\n"
+"com.ibm.websphere.naming.jndicache.cacheobject=populated\n"
+"com.ibm.websphere.naming.namespaceroot=defaultroot\n"
+"com.ibm.ws.naming.wsn.factory.initial=com.ibm.ws.naming.util."
+"WsnInitCtxFactory\n"
+"com.ibm.websphere.naming.jndicache.maxcachelife=0\n"
+"com.ibm.websphere.naming.jndicache.maxentrylife=0\n"
+"com.ibm.websphere.naming.jndicache.cachename=providerURL\n"
+"java.naming.provider.url=corbaloc:rir:/NameServiceServerRoot\n"
+"java.naming.factory.url.pkgs=com.ibm.ws.runtime:com.ibm.ws.naming"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:157
+#, fuzzy, no-c-format
+msgid "At the end of <literal>web.xml</literal>, add the following lines:"
+msgstr "<literal>build.xml</literal> ファイルの更新"
+
+#. Tag: programlisting
+#: Websphere.xml:159
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>\n"
+"   <ejb-ref-name>EjbSynchronizations</ejb-ref-name>\n"
+"   <ejb-ref-type>Session</ejb-ref-type>\n"
+"   <local-home></local-home>\n"
+"   <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+" </ejb-local-ref>]]>"
+msgstr ""
+"<![CDATA[\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local-home></local-home>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>\n"
+"]]>"
+
+#. Tag: para
+#: Websphere.xml:164
+#, no-c-format
+msgid ""
+"That's all folks! No need to update any file during the development, nor to "
+"define any EJB to EJB or web to EJB reference!"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:167
+#, no-c-format
+msgid ""
+"Compared to the other strategies, this strategy has the advantage not to "
+"have to manage any EJBs reference and also not to have to maintain extra "
+"files. The only drawback is one extra line in the java source code with the "
+"<literal>@JndiName</literal> annotation"
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:174
+#, no-c-format
+msgid "Strategy 2: Override the default names generated by WebSphere"
+msgstr ""
+
+#. Tag: section
+#: Websphere.xml:174
+#, no-c-format
+msgid ""
+"There is no simple way to globally override the default naming strategy for "
+"session beans in WebSphere. However, WebSphere provides a way to override "
+"the name of each bean."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:177
+#, no-c-format
+msgid "To use this strategy:"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:181
+#, no-c-format
+msgid ""
+"Add a file named <literal>META-INF/ibm-ejb-jar-ext.xml</literal> in the EJB "
+"module and add an entry for each session bean like this: <programlisting "
+"role=\"XML\"><![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<ejb-jar-bnd\n"
+"  xmlns=\"http://websphere.ibm.com/xml/ns/javaee\"\n"
+"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"  xsi:schemaLocation=\"http://websphere.ibm.com/xml/ns/javaee \n"
+"                      http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-"
+"bnd_1_0.xsd\"\n"
+"  version=\"1.0\">\n"
+"\n"
+" <session name=\"AuthenticatorAction\" simple-binding-name="
+"\"AuthenticatorAction\" />\n"
+" <session name=\"BookingListAction\" simple-binding-name=\"BookingListAction"
+"\" />\n"
+" \n"
+"</ejb-jar-bnd>]]></programlisting> WebSphere will then bind the "
+"<literal>AuthenticatorAction</literal> EJB to the <literal>ejblocal:"
+"AuthenticatorAction</literal> JNDI name"
+msgstr ""
+
+#. Tag: programlisting
+#: Websphere.xml:190
+#, fuzzy, no-c-format
+msgid "<![CDATA[<core:init jndi-name=\"ejblocal:#{ejbName}\" />]]>"
+msgstr ""
+"<![CDATA[\n"
+"<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug="
+"\"true\"/>\n"
+"                  ]]>"
+
+#. Tag: para
+#: Websphere.xml:194
+#, no-c-format
+msgid ""
+"Add a file named <literal>WEB-INF/classes/seam-jndi.properties</literal> as "
+"described in strategy 1"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:199
+#, no-c-format
+msgid ""
+"In <literal>web.xml</literal>, add the following lines (Note the different "
+"<literal>ejb-ref-name</literal> value):"
+msgstr ""
+
+#. Tag: programlisting
+#: Websphere.xml:201
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>\n"
+"   <ejb-ref-name>ejblocal:EjbSynchronizations</ejb-ref-name>\n"
+"   <ejb-ref-type>Session</ejb-ref-type>\n"
+"   <local-home></local-home>\n"
+"   <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+" </ejb-local-ref>]]>"
+msgstr ""
+"<![CDATA[\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local-home></local-home>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>\n"
+"]]>"
+
+#. Tag: para
+#: Websphere.xml:206
+#, no-c-format
+msgid ""
+"Compared to the first strategy, this strategy requires to maintain an extra "
+"file (<literal>META-INF/ibm-ejb-jar-ext.xml</literal>), where a line must be "
+"added each time a new session bean is added to the application), but still "
+"does not require to maintain EJB reference between beans."
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:215
+#, no-c-format
+msgid "Strategy 3: Use EJB references"
+msgstr ""
+
+#. Tag: section
+#: Websphere.xml:215
+#, no-c-format
+msgid ""
+"This strategy is based on the usage of EJB references, from EJB to EJB and "
+"from the web module to EJB. To use it:"
+msgstr ""
+
+#. Tag: listitem
+#: Websphere.xml:218
+#, no-c-format
+msgid ""
+"<listitem>In <literal>components.xml</literal>, add the following line:</"
+"listitem>"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:223
+#, no-c-format
+msgid ""
+"Follow the instructions in <xref linkend=\"config.integration.ejb.container"
+"\"/> to declare the references from web to EJB and from EJB to EJB"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:228
+#, no-c-format
+msgid ""
+"This is the most tedious strategy as each session bean referenced by another "
+"session bean (i.e. \"injected\") as to be declared in <literal>ejb-jar.xml</"
+"literal> file. Also, each new session bean has to be added to the list of "
+"referenced bean in <literal>web.xml</literal>"
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:239
+#, no-c-format
+msgid "Configuring timeouts for Stateful Session Beans"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:240
+#, no-c-format
+msgid ""
+"A timeout value has to be set for each stateful session bean used in the "
+"application because stateful bean must not expire in WebSphere while Seam "
+"might still need thenm. At the time of writing this document, WebSphere does "
+"not provide a way to configure a global timeout at neither the cluster, "
+"server, application nor ejb-jar level. It has to be done for each stateful "
+"bean individually. This is done by adding a file named <literal>META-INF/ibm-"
+"ejb-jar-ext.xml</literal> in the EJB module, and declare the timeout value "
+"for each bean:"
+msgstr ""
+
+#. Tag: programlisting
+#: Websphere.xml:246
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<ejb-jar-ext \n"
+"  xmlns=\"http://websphere.ibm.com/xml/ns/javaee\"\n"
+"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"  xsi:schemaLocation=\"http://websphere.ibm.com/xml/ns/javaee \n"
+"                      http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-"
+"ext_1_0.xsd\"\n"
+"  version=\"1.0\">\n"
+"\n"
+"  <session name=\"BookingListAction\"><time-out value=\"605\"/></session>\n"
+"  <session name=\"ChangePasswordAction\"><time-out value=\"605\"/></"
+"session>\n"
+"   \n"
+"</ejb-jar-ext>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<web-app version=\"2.4\" \n"
+"         xmlns=\"http://java.sun.com/xml/ns/j2ee\"\n"
+"         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"         xsi:schemaLocation=\"http://java.sun.com/xml/ns/j2ee \n"
+"                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+"\">\n"
+"                  ]]>"
+
+#. Tag: para
+#: Websphere.xml:248
+#, no-c-format
+msgid ""
+"The <literal>time-out</literal> is expressed in seconds and must be higher "
+"than the Seam conversation expiration timeout and a few minutes higher than "
+"the user's HTTP session timeout (The session expiration timeout can trigger "
+"a few minutes after the number of minutes declared to expire s for the HTTP "
+"session expiration)."
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:257
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example"
 msgstr "<literal>jee5/booking</literal> サンプル"
 
 #. Tag: para
-#: Websphere.xml:44
-#, no-c-format
+#: Websphere.xml:259
+#, fuzzy, no-c-format
 msgid ""
-"The <literal>jee5/booking</literal> example is based on the Hotel Booking "
-"example (which runs on JBoss AS). Out of the box it is designed to run on "
-"Glassfish, but with the steps below it can be deployed to Websphere. It is "
-"located in the <literal>$SEAM_DIST/examples/jee5/booking</literal> directory."
+"The<literal>jee5/booking</literal>example is based on the Hotel Booking "
+"example (which runs on JBoss AS). Out of the box, it is designed to run on "
+"Glassfish, but with the following steps, it can be deployed on WebSphere. It "
+"is located in the <literal>$SEAM_DIST/examples/jee5/booking</literal> "
+"directory."
 msgstr ""
 "<literal>jee5/booking</literal> サンプルは、(JBoss AS 上で動作する) ホテル予"
 "約サンプルに基づいています。そのままで GlassFish 上で動作するように設計されて"
 "いますが、以下の手順で Websphere 上でも動作させることができます。このサンプル"
 "は <literal>$SEAM_DIST/examples/jee5/booking</literal> にあります。"
 
-#. Tag: title
-#: Websphere.xml:52 Websphere.xml:710
-#, no-c-format
-msgid "<title>Configuration file changes</title>"
-msgstr "<title>構成ファイルの変更</title>"
-
 #. Tag: para
-#: Websphere.xml:54
+#: Websphere.xml:265
 #, no-c-format
 msgid ""
-"Below are the configuration file changes that are need to the base example."
-msgstr "雛形のサンプルに対して必要となる構成ファイルの変更点は以下の通りです。"
-
-#. Tag: literal
-#: Websphere.xml:60 Websphere.xml:784
-#, no-c-format
-msgid "resources/WEB-INF/components.xml"
-msgstr "resources/WEB-INF/components.xml"
-
-#. Tag: para
-#: Websphere.xml:63
-#, fuzzy, no-c-format
-msgid ""
-"We need to change the way that we look up EJBs for WAS. We need to remove "
-"the <literal>/local</literal> from the end of the <literal>jndi-pattern</"
-"literal> attribute. It should look like this:"
+"For running this example, we'll use the second JNDI mapping strategy "
+"(\"Override the default names generated by WebSphere\") as we don't want to "
+"change the java code to add the <literal>@JndiName</literal> annotation as "
+"in the first strategy."
 msgstr ""
-"WebSphere では EJB をルックアップする際の名前を変更する必要があります。"
-"<literal>jndi-pattern</literal> 属性の最後から <literal>/local</literal> を取"
-"り除く必要があります。以下のように変更します。"
-
-#. Tag: programlisting
-#: Websphere.xml:70
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug="
-"\"true\"/>\n"
-"                  ]]>"
-msgstr ""
-"<![CDATA[\n"
-"<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug="
-"\"true\"/>\n"
-"                  ]]>"
-
-#. Tag: literal
-#: Websphere.xml:76
-#, fuzzy, no-c-format
-msgid "resources/META-INF/ejb-jar.xml"
-msgstr "resources/META-INF/jboss-app.xml"
-
-#. Tag: para
-#: Websphere.xml:79
-#, no-c-format
-msgid ""
-"We need to replace the /local string from <literal>ejb-ref-name</literal>. "
-"See at the following final code:"
-msgstr ""
-
-#. Tag: programlisting
-#: Websphere.xml:82
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"   <enterprise-beans>\n"
-"      <!-- EJB reference required when one Seam EJB component references "
-"another Seam EJB component using @In -->\n"
-"      <!-- Not required if you inject using @EJB, but then you lose state "
-"management and client-side interceptors (e.g., security) -->\n"
-"      <session>\n"
-"         <ejb-name>RegisterAction</ejb-name>\n"
-"         <ejb-local-ref>\n"
-"            <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-"
-"name>\n"
-"            <ejb-ref-type>Session</ejb-ref-type>\n"
-"            <local>org.jboss.seam.example.booking.Authenticator</local>\n"
-"         </ejb-local-ref>\n"
-"      </session>\n"
-"   </enterprise-beans>]]>"
-msgstr ""
-
-#. Tag: literal
-#: Websphere.xml:88 Websphere.xml:816
-#, no-c-format
-msgid "resources/WEB-INF/web.xml"
-msgstr "resources/WEB-INF/web.xml"
-
-#. Tag: para
-#: Websphere.xml:91
-#, fuzzy, no-c-format
-msgid ""
-"We have to make some changes to the EJB references in the <literal>web.xml</"
-"literal>. These changes are what will allow WAS to bind automatically the "
-"EJB3 references in the web module to the the actual EJB3 beans in the EAR "
-"module. Replace all of the /local strings in <literal>ejb-local-refs</"
-"literal> when the values below."
-msgstr ""
-"次に、<literal>web.xml</literal>  の EJB 参照について変更を行う必要がありま"
-"す。これらは、WebSphere が Web モジュール内の EJB2 参照を、実際には EAR モ"
-"ジュール内にある EJB3 の Bean にバインドすることを可能にするための変更です。"
-"すべての <literal>ejb-local-refs</literal> を以下の値で置き換えてください。"
-
-#. Tag: programlisting
-#: Websphere.xml:100
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"  <!-- JEE5 EJB3 names -->\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.Authenticator</local>\n"
-"  </ejb-local-ref>        \n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.BookingList</local>\n"
-"  </ejb-local-ref>\n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.Register</local>\n"
-"  </ejb-local-ref>\n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.ChangePassword</local>\n"
-"  </ejb-local-ref>\n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.HotelBooking</local>\n"
-"  </ejb-local-ref>\n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.example.booking.HotelSearching</local>\n"
-"  </ejb-local-ref>\n"
-"\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>]]>"
-msgstr ""
-"<![CDATA[\n"
-"  <!-- JEE5 EJB3 names -->\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.Authenticator</local>\n"
-"  </ejb-local-ref>\n"
-"  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"     <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.BookingList</local>\n"
-"  </ejb-local-ref>\n"
-"  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"     <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.Register</local>\n"
-"  </ejb-local-ref>\n"
-"  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"     <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.ChangePassword</local>\n"
-"  </ejb-local-ref>\n"
-"  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"     <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.HotelBooking</local>\n"
-"  </ejb-local-ref>\n"
-"  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"     <local-home></local-home>\n"
-"    <local>org.jboss.seam.example.booking.HotelSearching</local> \n"
-"  </ejb-local-ref>\n"
-"    \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:102
-#, fuzzy, no-c-format
-msgid ""
-"Note also that <literal>EjbSynchronizations</literal> is a built-in Seam EJB "
-"and not part of the Hotel Booking example. This means that if your "
-"application's <literal>components.xml</literal> specifies "
-"<literal>transaction:ejb-transaction</literal>, then you must include:"
-msgstr ""
-"<literal>EjbSynchronizations</literal> は Seam の組み込みEJB であって、ホテル"
-"予約サンプルの一部ではないことにも注意してください。このことにより、アプリ"
-"ケーションの <literal>components.xml</literal> の中で <literal>transaction:"
-"ejb-transaction</literal> を指定すれば、web.xml  の中に以下の設定を含めなけれ"
-"ばならないことになります。"
-
-#. Tag: programlisting
-#: Websphere.xml:107
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>]]>"
-msgstr ""
-"<![CDATA[\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:108
-#, no-c-format
-msgid ""
-"in your web.xml. If you don't include it, you'll get the following error:"
-msgstr "web.xml  の中で上記の設定を行わなければ、以下のエラーが発生します。"
-
-#. Tag: programlisting
-#: Websphere.xml:109
-#, no-c-format
-msgid "Name comp/env/myapp/EjbSynchronizations not found in context java:"
-msgstr "Name comp/env/myapp/EjbSynchronizations not found in context java:"
-
-#. Tag: literal
-#: Websphere.xml:114
-#, no-c-format
-msgid "resources/META-INF/persistence.xml"
-msgstr "resources/META-INF/persistence.xml"
-
-#. Tag: para
-#: Websphere.xml:117
-#, fuzzy, no-c-format
-msgid ""
-"For this example we will be using the default datasource that comes with "
-"WAS. To do this change the <literal>jta-data-source</literal> element:"
-msgstr ""
-"このサンプルでは、Websphere のデフォルトのデータソースを使用します。そのた"
-"め、<literal>jta-data-source</literal> 要素を変更します。"
-
-#. Tag: programlisting
-#: Websphere.xml:120
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<jta-data-source>DefaultDatasource</jta-data-source>\n"
-"                  ]]>"
-msgstr ""
-"<![CDATA[\n"
-"<jta-data-source>DefaultDatasource</jta-data-source>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:121
-#, no-c-format
-msgid ""
-"Then we need to adjust some of the hibernate properties. First comment out "
-"the Glassfish properties. Next you need to add/change the properties:"
-msgstr ""
-"Hibernate プロパティを設定する必要があります。まず最初に GlassFish プロパティ"
-"をコメントアウトします。次に以下のプロパティを追加修正する必要があります。"
-
-#. Tag: programlisting
-#: Websphere.xml:126
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<!--<property name=\"hibernate.transaction.flush_before_completion\" value="
-"\"true\"/>-->\n"
-"<property name=\"hibernate.cache.provider_class\" \n"
-"                  value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
-"<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
-"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
-"          value=\"org.hibernate.transaction."
-"WebSphereExtendedJTATransactionLookup\"/>\n"
-"                  ]]>"
-msgstr ""
-"<![CDATA[\n"
-"<!--<property name=\"hibernate.transaction.flush_before_completion\" value="
-"\"true\"/>-->\n"
-"<property name=\"hibernate.cache.provider_class\" \n"
-"          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
-"<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
-"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
-"          value=\"org.hibernate.transaction."
-"WebSphereExtendedJTATransactionLookup\"/>\n"
-"                  ]]>"
-
-#. Tag: para
-#: Websphere.xml:130
-#, fuzzy, no-c-format
-msgid ""
-"<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; "
-"Standard Hibernate transaction manager property for WAS 6.X and 7"
-msgstr ""
-"<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; "
-"Websphere 6.X 用の標準 Hibernate トランザクションマネージャ"
-
-#. Tag: para
-#: Websphere.xml:136
-#, fuzzy, no-c-format
-msgid ""
-"<literal>hibernate.transaction.flush_before_completion</literal> &#8212; "
-"This is commented out because we want the container to manage the "
-"transactions. Also if this is set to <literal>true</literal> an exception "
-"will be thrown by WAS when the EJBContext is looked up."
-msgstr ""
-"<literal>hibernate.transaction.flush_before_completion</literal> &#8212; コメ"
-"ントアウトします。コンテナ管理トランザクションを使用するためです。これを "
-"<literal>true</literal> に設定すると、EJBContext をルックアップした時に、"
-"Websphere が例外をスローします。"
-
-#. Tag: programlisting
-#: Websphere.xml:145
-#, no-c-format
-msgid ""
-"<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
-"                 EJBContext may only be looked up by or injected into an "
-"EJB]]>"
-msgstr ""
-"<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
-"                 EJBContext may only be looked up by or injected into an "
-"EJB]]>"
-
-#. Tag: para
-#: Websphere.xml:148
-#, fuzzy, no-c-format
-msgid ""
-"<literal>hibernate.dialect</literal> &#8212; From WAS 6.1.0.9 on the "
-"embedded DB was switched to the same Derby DB as is in Glassfish v2."
-msgstr ""
-"<literal>hibernate.dialect</literal> &#8212; WebSphere 6.1.0.9 から組み込み "
-"DB は、GlassFish と同じ Derby DB に変更されました。 "
-
-#. Tag: literal
-#: Websphere.xml:158 Websphere.xml:750
-#, fuzzy, no-c-format
-msgid "src/GlassfishDerbyDialect.java"
-msgstr "resources/GlassfishDerbyDialect.class"
-
-#. Tag: para
-#: Websphere.xml:161
-#, fuzzy, no-c-format
-msgid ""
-"You will need to get the <literal>GlassfishDerbyDialect.java</literal> and "
-"copy it into the <literal>/src</literal> directory. The java class exists in "
-"the JPA example source directory and can be copied using the command below "
-"assuming you are in <literal>jee5/booking</literal> directory:"
-msgstr ""
-"<literal>GlassfishDerbyDialect.class</literal> を入手して  <literal>/"
-"resources</literal> ディレクトリにコピーしなければなりません。このクラスは "
-"JPA サンプルの中にあり、<literal>jee5/booking</literal> ディレクトリから以下"
-"のコマンドを使用してコピーできます。"
-
-#. Tag: programlisting
-#: Websphere.xml:169
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"cp ../../jpa/src/GlassfishDerbyDialect.java\n"
-"   ./src]]>"
-msgstr ""
-"<![CDATA[\n"
-"cp ../../jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialect."
-"class\n"
-"   ./resources]]>"
-
-#. Tag: para
-#: Websphere.xml:170
-#, fuzzy, no-c-format
-msgid ""
-"This class will be put into the <literal>jboss-seam-jee5.jar</literal> file."
-msgstr ""
-"後で説明するように、このクラスを <literal>jboss-seam-jee5.jar</literal> ファ"
-"イルの中に入れるように、build.xml を変更しなければなりません。"
-
-#. Tag: literal
-#: Websphere.xml:175
-#, no-c-format
-msgid "resources/import.sql"
-msgstr "resources/import.sql"
-
-#. Tag: para
-#: Websphere.xml:178
-#, no-c-format
-msgid ""
-"This file must also be copied from the JPA example because either the Derby "
-"DB or the dialect does not support changes to the <literal>ID</literal> "
-"column. The files are identical except for the column difference. Use the "
-"following command to make the copy"
-msgstr ""
-"Derby DB とダイアレクトのいずれも <literal>ID</literal> カラムの生成をサポー"
-"トしないので、JPA サンプルからこのファイルをコピーしなければなりません。ファ"
-"イルは、ID カラムの違い以外は同一です。 以下のコマンドを使用してコピーしてく"
-"ださい"
-
-#. Tag: programlisting
-#: Websphere.xml:185
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"cp ../../jpa/resources-websphere7/import.sql ./resources]]>"
-msgstr ""
-"<![CDATA[\n"
-"cp ../../jpa/resources-websphere61/import.sql ./resources]]>"
 
 #. Tag: title
-#: Websphere.xml:194
+#: Websphere.xml:271
 #, no-c-format
 msgid "Building the <literal>jee5/booking</literal> example"
 msgstr "<literal>jee5/booking</literal> サンプルのビルド"
 
 #. Tag: para
-#: Websphere.xml:197
+#: Websphere.xml:273
 #, fuzzy, no-c-format
 msgid ""
-"In order to get the changes we have made into our application we need to "
-"make some changes to the <literal>build.xml</literal>. There are also some "
-"additional jars that are required by our application in order to work with "
-"WAS. This section will cover what changes are needed to the <literal>build."
-"xml</literal>."
+"Building it only requires running the correct ant command: "
+"<programlisting>ant -f build-websphere7.xml</programlisting> This will "
+"create container specific distribution and exploded archive directories with "
+"the <literal>websphere7</literal> label."
 msgstr ""
-"アプリケーションに行った変更を有効にするには、<literal>build.xml</literal> を"
-"変更する必要があります。アプリケーションを Websphere で動作させるためには、"
-"jar を追加する必要があります。ここでは、 <literal>build.xml</literal> で必要"
-"となる変更点を説明します。"
+"ビルドに必要なことは、正しく ant コマンドを実行することです。 "
+"<programlisting>ant websphere61</programlisting> これは、コンテナに対応した"
+"アーカイブと、<literal>websphere61</literal> という名前の展開形式のディレクト"
+"リアーカイブを作成します。"
 
 #. Tag: title
-#: Websphere.xml:204
+#: Websphere.xml:280
 #, fuzzy, no-c-format
-msgid "Library dependency changes"
-msgstr "Hibernate 依存関係を追加してください。"
+msgid "Deploying the <literal>jee5/booking</literal> example"
+msgstr "<literal>jee5/booking</literal> サンプルのビルド"
 
 #. Tag: para
-#: Websphere.xml:205
-#, fuzzy, no-c-format
-msgid ""
-"We remove the <literal>log4j.jar</literal> so that all of the log output "
-"from our application will be added to the WAS log. Additional steps are "
-"required to fully configure log4j and those are outside of the scope of this "
-"document."
-msgstr ""
-"最後に、アプリケーションからのログ出力すべてが WebSphere のログに追加されるよ"
-"うにするために、<literal>log4j.jar</literal> を削除します。log4j を完全に構成"
-"するには追加の手順が必要ですが、それはこのドキュメントの範囲を越えます。"
-
-#. Tag: title
-#: Websphere.xml:213
-#, no-c-format
-msgid "Updating the <literal>build.xml</literal> file"
-msgstr "<literal>build.xml</literal> ファイルの更新"
-
-#. Tag: para
-#: Websphere.xml:215
+#: Websphere.xml:281
 #, fuzzy, no-c-format
 msgid ""
-"Add the following entry to the bottom of the <literal>build.xml</literal> "
-"file. This overrides the default fileset that is used to populate the "
-"<literal>jboss-seam-jee5.jar</literal>. :"
-msgstr ""
-"以下のエントリを <literal>build.xml</literal> ファイルの最後に追加してくださ"
-"い。これは、 <literal>jboss-seam-jee5.jar</literal> に含めるのに使用するデ"
-"フォルトの fileset を再設定します。主な変更点は、  "
-"<literal>GlassfishDerbyDialect.class</literal> の追加です。"
-
-#. Tag: programlisting
-#: Websphere.xml:223
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"   <fileset id=\"jar.resources\" dir=\"${resources.dir}\">\n"
-"      <include name=\"import.sql\" />\n"
-"      <include name=\"seam.properties\" />\n"
-"      <include name=\"META-INF/persistence.xml\" />\n"
-"      <include name=\"META-INF/ejb-jar.xml\" />\n"
-"   </fileset>]]>"
-msgstr ""
-"<![CDATA[\n"
-"   <fileset id=\"jar.resources\" dir=\"${resources.dir}\">\n"
-"      <include name=\"import.sql\" />\n"
-"      <include name=\"seam.properties\" />\n"
-"      <include name=\"GlassfishDerbyDialect.class\" />\n"
-"      <include name=\"META-INF/persistence.xml\" />\n"
-"      <include name=\"META-INF/ejb-jar.xml\" />\n"
-"   </fileset>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:225
-#, no-c-format
-msgid ""
-"Now all that is left is to execute the <literal>ant archive</literal> task "
-"and the built application will be in the <literal>jee5/booking/dist</"
-"literal> directory."
-msgstr ""
-"最後に残された作業は、 <literal>ant archive</literal> タスクを実行することで"
-"す。アプリケーションは、<literal>jee5/booking/dist</literal> ディレクトリにビ"
-"ルドされます。"
-
-#. Tag: title
-#: Websphere.xml:234
-#, no-c-format
-msgid "Deploying the application to Websphere"
-msgstr "Websphere へのアプリケーションのデプロイ"
-
-#. Tag: para
-#: Websphere.xml:236
-#, no-c-format
-msgid ""
-"So now we have everything we need in place. All that is left is to deploy it "
-"- just a few steps more."
-msgstr ""
-"必要なものはすべて所定の位置に揃いました。残されたことはデプロイすることです "
-"- あとわずか数ステップの手順です。"
-
-#. Tag: para
-#: Websphere.xml:238
-#, no-c-format
-msgid ""
-"For this we will use Websphere's administration console. As before there are "
-"some tricks and tips that must be followed."
-msgstr ""
-"デプロイには、WebSphere の管理コンソールを使用します。従来どおり従われなけれ"
-"ばならない手順とヒントがあります。"
-
-#. Tag: para
-#: Websphere.xml:241
-#, fuzzy, no-c-format
-msgid ""
-"The steps below are for the WAS version stated above. The ports are default "
-"values, if you changed them substitute your values."
+"The steps below are for the WAS version stated above.The ports are default "
+"values, if you changed them, you must substitute the values."
 msgstr ""
 "以下の手順は、上記で述べたバージョンの WebSphere での手順です。それ以外の環境"
 "では、わずかに異なるかもしれません。"
 
-#. Tag: para
-#: Websphere.xml:245
+#. Tag: listitem
+#: Websphere.xml:284
 #, no-c-format
 msgid ""
-"Log in to the administration console <programlisting><![CDATA[https://"
-"localhost:9043/admin]]></programlisting> or"
+"Log in to the administration console <programlisting><![CDATA[http://"
+"localhost:9060/admin]]></programlisting> Enter your userid annd/or your "
+"password if security is enabled for the console."
 msgstr ""
-
-#. Tag: programlisting
-#: Websphere.xml:250
-#, fuzzy, no-c-format
-msgid "<![CDATA[http://localhost:9060/admin]]>"
-msgstr ""
-"<![CDATA[\n"
-"https://localhost:9043/ibm/console]]>"
 
 #. Tag: para
-#: Websphere.xml:254
+#: Websphere.xml:291
 #, fuzzy, no-c-format
 msgid ""
-"Access the <literal>Websphere enterprise applications</literal> menu option "
+"Go to the <literal>WebSphere enterprise applications</literal> menu option "
 "under the <literal>Applications --> Application Type</literal> left side "
 "menu."
 msgstr ""
@@ -703,7 +669,7 @@ msgstr ""
 "literal> メニューオプションにアクセスしてください。"
 
 #. Tag: para
-#: Websphere.xml:259
+#: Websphere.xml:298
 #, fuzzy, no-c-format
 msgid ""
 "At the top of the <literal>Enterprise Applications</literal> table select "
@@ -715,76 +681,91 @@ msgstr ""
 "い。以下はインストールウィザードページの各々で、実行すべき手順です。"
 
 #. Tag: literal
-#: Websphere.xml:265 Websphere.xml:461
+#: Websphere.xml:304
 #, no-c-format
 msgid "Preparing for the application installation"
 msgstr "アプリケーションのインストール準備"
 
 #. Tag: para
-#: Websphere.xml:269
-#, no-c-format
+#: Websphere.xml:307
+#, fuzzy, no-c-format
 msgid ""
-"Browse to the <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</"
-"literal> file using the file upload widget."
+"Browse to the <literal>examples/jee5/booking/dist-websphere7/jboss-seam-jee5."
+"ear</literal> file using the file upload widget."
 msgstr ""
 "ファイルアップロードのウィジェットを使用して、ブラウザで <literal>examples/"
 "jee5/booking/dist/jboss-seam-jee5.ear</literal> ファイルを指定してください。"
 
 #. Tag: para
-#: Websphere.xml:275 Websphere.xml:285 Websphere.xml:304 Websphere.xml:476
-#: Websphere.xml:496
+#: Websphere.xml:313 Websphere.xml:323 Websphere.xml:341
 #, no-c-format
 msgid "Select the <literal>Next</literal> button."
 msgstr "<literal>Next</literal> ボタンを選択してください。"
 
 #. Tag: para
-#: Websphere.xml:280 Websphere.xml:471
+#: Websphere.xml:318
 #, fuzzy, no-c-format
 msgid "Select the <literal>Fast Path</literal> button."
 msgstr "<literal>Next</literal> ボタンを選択してください。"
 
 #. Tag: literal
-#: Websphere.xml:292
+#: Websphere.xml:332
 #, no-c-format
 msgid "Select installation options"
 msgstr "インストールオプションの選択"
 
 #. Tag: para
-#: Websphere.xml:296
+#: Websphere.xml:335
 #, fuzzy, no-c-format
 msgid ""
-"Select the <literal>Deploy enterprise beans</literal> and <literal>Allow EJB "
-"reference targets to resolve automatically</literal> check boxes. This is "
-"needed unless you used a Websphere AS tool to package the application."
+"Select the <literal>Deploy enterprise beans and Allow EJB reference targets "
+"to resolve automatically</literal> check boxes at the bottom of the page. "
+"This will let WebSphere use its simplified JNDI reference mapping."
 msgstr ""
 "<literal>Deploy enterprise beans</literal> チェックボックスを選択してくださ"
 "い。アプリケーションのパッケージングに WebSphere ツールを使用していなければ、"
 "これが必要となります。"
 
 #. Tag: literal
-#: Websphere.xml:313
+#: Websphere.xml:350
 #, no-c-format
 msgid "Map modules to servers"
 msgstr "サーバへモジュールのマップ"
 
 #. Tag: para
-#: Websphere.xml:317
-#, no-c-format
+#: Websphere.xml:353
+#, fuzzy, no-c-format
 msgid ""
 "No changes needed here as we only have one server. Select the <literal>Next</"
-"literal> button."
+"literal>button."
 msgstr ""
 "一台のサーバで使用する限りでは変更は必要ありません。<literal>Next</literal> "
 "ボタンを選択してください。"
 
 #. Tag: literal
-#: Websphere.xml:325
+#: Websphere.xml:362
+#, fuzzy, no-c-format
+msgid "Map virtual hosts for Web modules"
+msgstr "仮想ホストへの Web モジュールのマップ"
+
+#. Tag: para
+#: Websphere.xml:365
+#, fuzzy, no-c-format
+msgid ""
+"No changes needed here as we only have one virtual host. Select the "
+"<literal>Next</literal>button."
+msgstr ""
+"一台のサーバで使用する限りでは変更は必要ありません。<literal>Next</literal> "
+"ボタンを選択してください。"
+
+#. Tag: literal
+#: Websphere.xml:374
 #, no-c-format
 msgid "Summary"
 msgstr "Summary (要約)"
 
 #. Tag: para
-#: Websphere.xml:328
+#: Websphere.xml:377
 #, no-c-format
 msgid "No changes needed here. Select the <literal>Finish</literal> button."
 msgstr ""
@@ -792,114 +773,34 @@ msgstr ""
 "さい。"
 
 #. Tag: literal
-#: Websphere.xml:335
+#: Websphere.xml:384
 #, no-c-format
 msgid "Installation"
 msgstr "Installation (インストール)"
 
 #. Tag: para
-#: Websphere.xml:338
-#, no-c-format
-msgid "Now you will see it installing and deploying your application."
+#: Websphere.xml:387
+#, fuzzy, no-c-format
+msgid "Now you will see WebSphere installing and deploying your application."
 msgstr "アプリケーションがインストールされてデプロイされます。"
 
 #. Tag: para
-#: Websphere.xml:343
+#: Websphere.xml:390
 #, fuzzy, no-c-format
 msgid ""
-"When it finishes select the <literal>Save</literal> link and you will be "
-"returned to the <literal>Enterprise Applications</literal> table."
+"When done, select the <literal>Save</literal> link and you will be returned "
+"to the <literal>Enterprise Applications</literal> table."
 msgstr ""
 "<literal>Save (保存)</literal> リンクを選択すると、<literal>Enterprise "
 "Applications (エンタープライズアプリケーション)</literal> テーブルに戻りま"
 "す。"
 
 #. Tag: para
-#: Websphere.xml:355
-#, no-c-format
-msgid ""
-"Now that we have our application installed we need to make some adjustments "
-"to it before we can start it:"
-msgstr ""
-"アプリケーションのインストールが完了しましたが、実行の前にいくつかの調整をす"
-"る必要があります。"
-
-#. Tag: para
-#: Websphere.xml:359
-#, no-c-format
-msgid ""
-"Starting from the <literal>Enterprise Applications</literal> table select "
-"the <literal>Seam Booking</literal> link."
-msgstr ""
-"<literal>Enterprise Applications (エンタープライズアプリケーション)</"
-"literal> テーブルで <literal>Seam Booking</literal> リンクを選択するところか"
-"ら始めてください。"
-
-#. Tag: para
-#: Websphere.xml:365
-#, no-c-format
-msgid "Select the <literal>Manage Modules</literal> link."
-msgstr "<literal>Manage Modules</literal> リンクを選択してください。"
-
-#. Tag: para
-#: Websphere.xml:369
-#, fuzzy, no-c-format
-msgid "Select the <literal>jboss-seam-jee5-booking.war</literal> link."
-msgstr "<literal>jboss-seam-jee5.war</literal> リンクを選択してください。"
-
-#. Tag: para
-#: Websphere.xml:374
+#: Websphere.xml:399
 #, fuzzy, no-c-format
 msgid ""
-"Change the <literal>Class loader order</literal> combo box to "
-"<literal>Classes loaded with application class loader first (parent last)</"
-"literal>."
-msgstr ""
-"<literal>Class loader order</literal> コンボボックスを <literal>Classes "
-"loaded with application class loader first</literal> に変更してください。"
-
-#. Tag: para
-#: Websphere.xml:380 Websphere.xml:397
-#, no-c-format
-msgid ""
-"Select <literal>Apply</literal> and then <literal>Save</literal> options."
-msgstr ""
-"<literal>Apply (適用)</literal> を選択し、<literal>Save (保存)</literal> オプ"
-"ションを選択してください。"
-
-#. Tag: para
-#: Websphere.xml:384
-#, fuzzy, no-c-format
-msgid "Return to the <literal>Seam Booking</literal> page."
-msgstr "<literal>Seam Booking</literal> ページに戻ります。"
-
-#. Tag: para
-#: Websphere.xml:387
-#, no-c-format
-msgid ""
-"On this page select the <literal>Class loading and update detection</"
-"literal> link."
-msgstr ""
-"このページで <literal>Class loading and update detection</literal> リンクを選"
-"択してください。"
-
-#. Tag: para
-#: Websphere.xml:392
-#, no-c-format
-msgid ""
-"Select the radio button for <literal>Classes loaded with application class "
-"loader first</literal>."
-msgstr ""
-"ラジオボタンで <literal>Classes loaded with application class loader first</"
-"literal> を選択してください。"
-
-#. Tag: para
-#: Websphere.xml:403
-#, no-c-format
-msgid ""
-"To start the application return to the <literal>Enterprise Applications</"
-"literal> table and select our application in the list. Then choose the "
-"<literal>Start</literal> button at the top of the table."
+"To start the application select our application in the list, then click on "
+"the <literal>Start</literal> button at the top of the table."
 msgstr ""
 "アプリケーションを開始するために <literal>Enterprise Applications (エンタープ"
 "ライズアプリケーション)</literal> テーブルに戻って、リストの中からサンプルの"
@@ -907,29 +808,128 @@ msgstr ""
 "literal> ボタンを選択してください。"
 
 #. Tag: para
-#: Websphere.xml:410
+#: Websphere.xml:409
 #, fuzzy, no-c-format
 msgid ""
 "You can now access the application at <literal>http://localhost:9080/seam-"
-"jee5-booking/index.html</literal> ."
+"jee5-booking</literal>"
 msgstr ""
 "<literal>http://localhost:9080/seam-jee5/</literal> からアプリケーションにア"
 "クセスできます。"
 
 #. Tag: title
-#: Websphere.xml:431
+#: Websphere.xml:418
+#, no-c-format
+msgid "Deviation from the original base files"
+msgstr ""
+
+#. Tag: section
+#: Websphere.xml:418
+#, no-c-format
+msgid ""
+"Below are the differences between the base configuration files and the "
+"WebSphere specific files held in the <literal>resources-websphere7</literal> "
+"directory."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:422
+#, no-c-format
+msgid ""
+"<literal>META-INF/ejb-jar.xml</literal> &#8212; Removed all the EJB "
+"references"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:428
+#, no-c-format
+msgid ""
+"<literal>META-INF/ibm-ejb-jar-bnd.xml</literal> &#8212; This WebSphere "
+"specific file has been added as we use the second JNDI mapping strategy. It "
+"defines, for each session bean, the name WebSphere will use to bind it its "
+"JNDI name space"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:435
+#, no-c-format
+msgid ""
+"<literal>META-INF/ibm-ejb-jar-ext.xml</literal> &#8212; This WebSphere "
+"specific file defines to WebSphere, the timeout value for each stateful bean"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:441
+#, fuzzy, no-c-format
+msgid ""
+"<literal>META-INF/persistence.xml</literal> &#8212; The main changes here "
+"are for the datasource JNDI path, switching to the WebSphere transaction "
+"manager lookup class, turning off the <literal>hibernate.transaction."
+"flush_before_completion</literal> toggle, and forcing the Hibernate dialect "
+"to be <literal>GlassfishDerbyDialect</literal> how as using the integrated "
+"Derby database"
+msgstr ""
+"<literal>META-INF/persistence.xml</literal> &#8212; 必要な主な変更点は、デー"
+"タソース JNDI の変更、トランザクションマネージャのルックアップクラスを "
+"Websphere 6.1 トランザクションマネージャのルックアップクラスに変更、"
+"Hibernate ダイアレクトを <literal>GlassFishDerbyDialect</literal> に変更する"
+"ことです。"
+
+#. Tag: para
+#: Websphere.xml:451
+#, fuzzy, no-c-format
+msgid ""
+"<literal>WEB-INF/components.xml</literal> &#8212; the change here is "
+"<literal>jndi-pattern</literal> to use <literal>ejblocal:#{ejbname}</"
+"literal> as using the second JNDI matching strategy"
+msgstr ""
+"<literal>WEB-INF/web.xml</literal> &#8212; 唯一の重要な変更点は、Websphere "
+"6.1 が <literal>Servlet 2.4</literal> のみしかサポートしないために、ファイル"
+"の先頭を変更することです。"
+
+#. Tag: para
+#: Websphere.xml:459
+#, no-c-format
+msgid ""
+"<literal>WEB-INF/web.xml</literal> &#8212; Remove all the <literal>ejb-local "
+"ref</literal> except the one for <literal>EjbSynchronizations</literal> "
+"bean. Changed the ref fo this bean to <literal>ejblocal:EjbSynchronizations</"
+"literal>"
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:467 Websphere.xml:549
+#, fuzzy, no-c-format
+msgid ""
+"<literal>import.sql</literal> &#8212; due to the cutomized hibernate Derby "
+"dialect, the <literal>ID</literal> column can not be populated by this file "
+"and was removed."
+msgstr ""
+"<literal>import.sql</literal> &#8212; ダイアレクトと Derby DB のいずれでも "
+"<literal>ID</literal> カラムは生成されないので、このファイルから削除されてい"
+"ます。"
+
+#. Tag: para
+#: Websphere.xml:474
+#, no-c-format
+msgid ""
+"Also the build procedure has been changed to include the <literal>log4j.jar</"
+"literal> file and exclude the <literal>concurrent.jar</literal> and "
+"<literal>jboss-common-core.jar</literal> files."
+msgstr ""
+
+#. Tag: title
+#: Websphere.xml:486
 #, no-c-format
 msgid "The <literal>jpa</literal> booking example"
 msgstr "<literal>jpa</literal> booking サンプル"
 
 #. Tag: para
-#: Websphere.xml:432
+#: Websphere.xml:488
 #, fuzzy, no-c-format
 msgid ""
-"Thankfully getting the <literal>jpa</literal> example to work is much easier "
-"than the <literal>jee5</literal> example. This is the Hotel Booking example "
-"implemented in Seam POJOs and using Hibernate JPA with JPA transactions. It "
-"does not use EJB3."
+"This is the Hotel Booking example implemented in Seam POJOs and using "
+"Hibernate JPA with JPA transactions. It does not use EJB3."
 msgstr ""
 "幸いなことに <literal>jpa</literal> サンプルを動作させるのは、 "
 "<literal>jee5</literal> サンプルよりも簡単です。これはホテル予約サンプルを "
@@ -937,33 +937,33 @@ msgstr ""
 "します。 実行には EJB3 サポートを必要としません。"
 
 #. Tag: para
-#: Websphere.xml:437
-#, no-c-format
+#: Websphere.xml:493
+#, fuzzy, no-c-format
 msgid ""
 "The example already has a breakout of configurations and build scripts for "
-"many of the common containers including Websphere."
+"many of the common containers including WebSphere."
 msgstr ""
 "サンプルには、Websphere も含めた多くのコンテナ用の構成とビルドスクリプトが既"
 "に用意されています。"
 
 #. Tag: para
-#: Websphere.xml:440
-#, no-c-format
+#: Websphere.xml:498
+#, fuzzy, no-c-format
 msgid ""
-"First thing we are going to do is build and deploy that example. Then we'll "
+"First thing, we are going to do is build and deploy that example. Then we'll "
 "go over some key changes that we needed."
 msgstr ""
 "最初に行うことは、サンプルのビルトとデプロイです。そのあとに必要な設定変更を"
 "行います。"
 
 #. Tag: title
-#: Websphere.xml:444
+#: Websphere.xml:504
 #, no-c-format
 msgid "Building the <literal>jpa</literal> example"
 msgstr "<literal>jpa</literal> サンプルのビルド"
 
 #. Tag: para
-#: Websphere.xml:445
+#: Websphere.xml:505
 #, fuzzy, no-c-format
 msgid ""
 "Building it only requires running the correct ant command: "
@@ -977,155 +977,69 @@ msgstr ""
 "リアーカイブを作成します。"
 
 #. Tag: title
-#: Websphere.xml:451
+#: Websphere.xml:514
 #, no-c-format
 msgid "Deploying the <literal>jpa</literal> example"
 msgstr "<literal>jpa</literal> サンプルのデプロイ"
 
 #. Tag: para
-#: Websphere.xml:452
+#: Websphere.xml:515
 #, no-c-format
 msgid ""
-"This is similar to the <literal>jee5</literal> example at <xref linkend="
-"\"jee5-websphere-deploy\"/>, but without so many steps."
+"Deploying <literal>jpa</literal> application is very similar to the "
+"<literal>jee5/booking</literal> example at <xref linkend=\"jee5-websphere-"
+"deploy\"/>. The main difference is, that this time, we will deploy a war "
+"file instead of an ear file, and we'll have to manually specify the context "
+"root of the application."
 msgstr ""
-"これは <literal>jee5</literal> サンプルの <xref linkend=\"jee5-websphere-"
-"deploy\"/> と類似していますが、多くの手順は必要ありません。"
 
 #. Tag: para
-#: Websphere.xml:457
+#: Websphere.xml:521
 #, no-c-format
 msgid ""
-"From the <literal>Enterprise Applications</literal> table select the "
-"<literal>Install</literal> button."
+"Follow the same instructions as for the <literal>jee5/booking</literal> "
+"sample. Select the <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</"
+"literal> file on the first page and on the <literal>Map context roots for "
+"Web modules</literal> page (after the <literal>Map virtual host for Web "
+"module</literal>), enter the context root you want to use for your "
+"application in the <literal>Contect Root</literal> input field."
 msgstr ""
-"<literal>Enterprise Applications (エンタープライズアプリケーション)</"
-"literal> テーブルから <literal>Install (インストール)</literal> ボタンを選択"
-"してください。"
 
 #. Tag: para
-#: Websphere.xml:465
+#: Websphere.xml:528
 #, fuzzy, no-c-format
 msgid ""
-"Browse to the <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</"
-"literal> file using the file upload widget."
-msgstr ""
-"ファイルアップロードのウィジェットを使用して、ブラウザで <literal>examples/"
-"jpa/dist-websphere61/jboss-seam-jpa.war</literal> ファイルを指定してくださ"
-"い。"
-
-#. Tag: para
-#: Websphere.xml:483
-#, no-c-format
-msgid ""
-"Select the <literal>Next</literal> button for the next three pages, no "
-"changes are needed."
-msgstr ""
-"<literal>Next</literal> ボタンを選択して、3 ページ先まで進んでください。そこ"
-"まで変更は必要ありません。"
-
-#. Tag: literal
-#: Websphere.xml:488
-#, fuzzy, no-c-format
-msgid "Map context roots for Web modules"
-msgstr "仮想ホストへの Web モジュールのマップ"
-
-#. Tag: para
-#: Websphere.xml:491
-#, no-c-format
-msgid ""
-"In the <literal>Context root</literal> text box enter <literal>jboss-seam-"
-"jpa</literal>."
-msgstr ""
-"<literal>Context root</literal> テキストボックスに <literal>jboss-seam-jpa</"
-"literal>を入力してください。"
-
-#. Tag: para
-#: Websphere.xml:502
-#, no-c-format
-msgid "<literal>Summary</literal> page"
-msgstr "<literal>Summary (要約)</literal> ページ"
-
-#. Tag: para
-#: Websphere.xml:505
-#, no-c-format
-msgid ""
-"Review the settings if you wish and select the <literal>Finish</literal> "
-"button to install the application. When installation finished select the "
-"<literal> Save</literal> link and you will be returned to the "
-"<literal>Enterprise Applications</literal> table."
-msgstr ""
-"お望みなら設定を確認して、<literal>Finish (完了)</literal> ボタンを選択してア"
-"プリケーションのインストールを完了してください。インストールが完了して "
-"<literal> Save (保存)</literal> リンクを選択すると <literal>Enterprise "
-"Applications (エンタープライズアプリケーション)</literal>テーブルに戻ります。"
-
-#. Tag: para
-#: Websphere.xml:519
-#, fuzzy, no-c-format
-msgid ""
-"As with the <literal>jee5</literal> example there are some class loader "
-"changes needed before we start the application. Follow the instructions at "
-"<xref linkend=\"websphere-app-adj-after-install\"/> but exchange "
-"<literal>jboss-seam-jpa_war</literal> for <literal>Seam Booking</literal>."
-msgstr ""
-"<literal>jee5</literal> サンプルについては、アプリケーションの実行に前にクラ"
-"スローダを変更する必要があります。<xref linkend=\"websphere-app-adj-after-"
-"install\"/> の手順に従ってください。但し、<literal>Seam Booking</literal> を"
-"<literal>jboss-seam-jpa</literal> と置き換えて使用してください。"
-
-#. Tag: para
-#: Websphere.xml:526
-#, no-c-format
-msgid ""
-"Finally start the application by selecting it in the <literal>Enterprise "
-"Applications</literal> table and clicking the <literal>Start</literal> "
-"button."
-msgstr ""
-"最後にアプリケーションを開始するには、<literal>Enterprise Applications (エン"
-"タープライズアプリケーション)</literal> テーブルでアプリケーションを選択して "
-"<literal>Start (開始)</literal> ボタンをクリックしてください。"
-
-#. Tag: para
-#: Websphere.xml:532
-#, no-c-format
-msgid ""
-"You can now access the application at the <literal>http://localhost:9080/"
-"jboss-seam-jpa/index.html</literal>."
+"When started, you can now access the application at the <literal>http://"
+"localhost:9080/&lt;context root&gt;</literal>."
 msgstr ""
 "<literal>http://localhost:9080/jboss-seam-jpa/index.html</literal> からアプリ"
 "ケーションにアクセスできます。"
 
 #. Tag: title
-#: Websphere.xml:540
-#, fuzzy, no-c-format
-msgid "What's different for Websphere AS V7"
-msgstr "Websphere 6.1 での変更点"
-
-#. Tag: para
-#: Websphere.xml:541
-#, fuzzy, no-c-format
-msgid ""
-"The differences between the JPA examples that deploys to JBoss 4.2 and "
-"Websphere AS V7 are mostly expected; library and configuration file changes."
-msgstr ""
-"JBoss 4.2 と Websphere 6.1 にデプロイされる JPA サンプルの相違点は、多くがラ"
-"イブラリと構成ファイルです。"
-
-#. Tag: para
-#: Websphere.xml:546
+#: Websphere.xml:534
 #, no-c-format
-msgid "<para>Configuration file changes</para>"
-msgstr "<para>構成ファイルの変更</para>"
+msgid "Deviation from the generic base files"
+msgstr ""
+
+#. Tag: section
+#: Websphere.xml:534
+#, no-c-format
+msgid ""
+"Below are the configuration file differences between the base configuration "
+"files and the files customized for WebSphere held in the <literal>resources-"
+"websphere7</literal> directory."
+msgstr ""
 
 #. Tag: para
-#: Websphere.xml:549
+#: Websphere.xml:539
 #, fuzzy, no-c-format
 msgid ""
-"<literal>META-INF/persistence.xml</literal> &#8212; the main changes here "
-"are for the datasource JNDI path, switching to the Websphere transaction "
-"manager look up class, and changing the hibernate dialect to be "
-"<literal>GlassfishDerbyDialect</literal> ."
+"<literal>META-INF/persistence.xml</literal> &#8212; The main changes here "
+"are for the datasource JNDI path, switching to the WebSphere transaction "
+"manager look up class, turning off the <literal>hibernate.transaction."
+"flush_before_completion</literal> toggle, and forcing the Hibernate dialect "
+"to be <literal>GlassfishDerbyDialect</literal> how as using the integrated "
+"Derby database"
 msgstr ""
 "<literal>META-INF/persistence.xml</literal> &#8212; 必要な主な変更点は、デー"
 "タソース JNDI の変更、トランザクションマネージャのルックアップクラスを "
@@ -1134,1120 +1048,1457 @@ msgstr ""
 "ことです。"
 
 #. Tag: para
-#: Websphere.xml:559
-#, fuzzy, no-c-format
-msgid ""
-"<literal>WEB-INF/components.xml</literal> &#8212; the change here is "
-"<literal>jndi-pattern</literal> without /local string."
-msgstr ""
-"<literal>WEB-INF/web.xml</literal> &#8212; 唯一の重要な変更点は、Websphere "
-"6.1 が <literal>Servlet 2.4</literal> のみしかサポートしないために、ファイル"
-"の先頭を変更することです。"
-
-#. Tag: para
-#: Websphere.xml:565
+#: Websphere.xml:556
 #, no-c-format
 msgid ""
-"<literal>META-INF/ejb-jar.xml</literal> &#8212; the same change in "
-"<literal>ejb-ref-name</literal>, where is replace /local string in "
-"<literal>jboss-seam-jee5/AuthenticatorAction</literal>."
+"Also the build procedure have been changed to include the <literal>log4j."
+"jar</literal> file and exclude the <literal>concurrent.jar</literal> and "
+"<literal>jboss-common-core.jar</literal> files."
 msgstr ""
 
-#. Tag: para
-#: Websphere.xml:572
-#, fuzzy, no-c-format
-msgid ""
-"<literal>src/GlassfishDerbyDialect.java </literal> &#8212; this class is "
-"needed for the hibernate dialect change to <literal>GlassfishDerbyDialect</"
-"literal>"
-msgstr ""
-"<literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal> &#8212; このク"
-"ラスは、Hibernate ダイアレクトを <literal>GlassFishDerbyDialect</literal> に"
-"変更するのに必要です。"
-
-#. Tag: para
-#: Websphere.xml:580
-#, no-c-format
-msgid ""
-"<literal>import.sql</literal> &#8212; either for the dialect or Derby DB the "
-"<literal>ID</literal> column can not be populated by this file and was "
-"removed."
-msgstr ""
-"<literal>import.sql</literal> &#8212; ダイアレクトと Derby DB のいずれでも "
-"<literal>ID</literal> カラムは生成されないので、このファイルから削除されてい"
-"ます。"
-
-#. Tag: para
-#: Websphere.xml:589
-#, no-c-format
-msgid "Changes for dependent libraries"
-msgstr "依存ライブラリの変更"
-
-#. Tag: para
-#: Websphere.xml:590
-#, fuzzy, no-c-format
-msgid ""
-"The Websphere version requires several library packages because they are not "
-"included as they are with JBoss AS. These are primarily for hibernate and "
-"their dependencies. Below are listed only the additional jars needed above "
-"and beyond the JBoss <literal>JPA</literal> example."
-msgstr ""
-"<literal>WEB-INF/lib</literal> &#8212; Websphere には、JBoss AS に含まれてい"
-"たライブラリのうちでないものがあるので、いくつかのライブラリパッケージが必要"
-"となります。これらは、主に Hibernate や JSF-RI サポートのためのライブラリとそ"
-"の依存ライブラリです。以下は、JBoss <literal>JPA</literal> サンプルに必要な追"
-"加の jar のリストです。"
-
-#. Tag: para
-#: Websphere.xml:597
-#, no-c-format
-msgid "To use Hibernate as your JPA provider you need the following jars:"
-msgstr ""
-"Hibernate を JPA provider プロバイダとして使用するためには、以下の jar が必要"
-"です。"
-
-#. Tag: literal
-#: Websphere.xml:602
-#, no-c-format
-msgid "hibernate.jar"
-msgstr "hibernate.jar"
-
-#. Tag: literal
-#: Websphere.xml:607
-#, no-c-format
-msgid "hibernate-annotations.jar"
-msgstr "hibernate-annotations.jar"
-
-#. Tag: literal
-#: Websphere.xml:612
-#, no-c-format
-msgid "hibernate-commons-annotations.jar"
-msgstr "hibernate-commons-annotations.jar"
-
-#. Tag: literal
-#: Websphere.xml:617
-#, no-c-format
-msgid "hibernate-entitymanager.jar"
-msgstr "hibernate-entitymanager.jar"
-
-#. Tag: literal
-#: Websphere.xml:622
-#, no-c-format
-msgid "hibernate-validator.jar"
-msgstr "hibernate-validator.jar"
-
-#. Tag: literal
-#: Websphere.xml:627
-#, no-c-format
-msgid "commons-collections.jar"
-msgstr "commons-collections.jar"
-
-#. Tag: literal
-#: Websphere.xml:632
-#, no-c-format
-msgid "jboss-common-core.jar"
-msgstr "jboss-common-core.jar"
-
-#. Tag: para
-#: Websphere.xml:638
-#, no-c-format
-msgid "Various third party jars that Websphere needs:"
-msgstr "WebSphere が必要とするさまざまなサードパーティ jar。"
-
-#. Tag: literal
-#: Websphere.xml:641
-#, no-c-format
-msgid "antlr.jar"
-msgstr "antlr.jar"
-
-#. Tag: literal
-#: Websphere.xml:645
-#, no-c-format
-msgid "cglib.jar"
-msgstr "cglib.jar"
-
-#. Tag: literal
-#: Websphere.xml:649
-#, no-c-format
-msgid "asm.jar"
-msgstr "asm.jar"
-
-#. Tag: literal
-#: Websphere.xml:653
-#, no-c-format
-msgid "dom4j.jar"
-msgstr "dom4j.jar"
-
-#. Tag: literal
-#: Websphere.xml:658
-#, no-c-format
-msgid "javassist.jar"
-msgstr "javassist.jar"
-
-#. Tag: literal
-#: Websphere.xml:663
-#, no-c-format
-msgid "concurrent.jar"
-msgstr "concurrent.jar"
-
-#. Tag: title
-#: Websphere.xml:678
-#, fuzzy, no-c-format
-msgid ""
-"Deploying an application created using <literal>seam-gen</literal> on "
-"Websphere V7"
-msgstr ""
-"<literal>seam-gen</literal> により生成されたアプリケーションの Websphere "
-"6.1.0.13 へのデプロイ"
-
-#. Tag: para
-#: Websphere.xml:681
-#, no-c-format
-msgid ""
-"<literal>seam-gen</literal> is a very useful tool for developers to quickly "
-"get an application up and running, and provides a foundation to add your own "
-"functionality. Out of box <literal>seam-gen</literal> will produce "
-"applications configured to run on JBoss AS. These instructions will show the "
-"steps needed to get it to run on Websphere. As stated above in <xref linkend="
-"\"jee5-websphere-section\"/> there are some tricky changes needed to get an "
-"EJB3 application running. This section will take you through the exact steps."
-msgstr ""
-"<literal>seam-gen</literal> は、開発者が素早くアプリケーションを準備して動作"
-"させるのにとても役に立つツールで、独自の機能を追加するための雛形を用意しま"
-"す。<literal>seam-gen</literal> はそのままで JBoss AS で動作するように構成さ"
-"れたアプリケーションを生成します。以下の手順では、Websphere 上で動作させるた"
-"めに必要なステップを示します。<xref linkend=\"jee5-websphere-section\"/> で述"
-"べたように、EJB3 アプリケーションを動作させるには変更が必要です。このセクショ"
-"ンでは、その正確な手順を示します。"
-
-#. Tag: title
-#: Websphere.xml:691
-#, no-c-format
-msgid "Running <literal>seam-gen</literal> Setup"
-msgstr "<literal>seam-gen</literal> セットアップの実行"
-
-#. Tag: para
-#: Websphere.xml:692
-#, no-c-format
-msgid ""
-"The first step is setting up <literal>seam-gen</literal> to construct the "
-"base project. There are several choices made below, specifically the "
-"datasource and hibernate values that we will adjust once the project is "
-"created."
-msgstr ""
-"第一ステップは、雛形となるプロジェクトを生成できるように <literal>seam-gen</"
-"literal> をセットアップすることです。以下に実行したように、設定すべき項目がい"
-"くつかあります。特に、データソースと Hibernate の設定値は、プロジェクトを生成"
-"する環境に合わせて設定します。"
-
-#. Tag: programlisting
-#: Websphere.xml:698
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"./seam setup\n"
-"Buildfile: build.xml\n"
-"\n"
-"init:\n"
-"\n"
-"setup:\n"
-"     [echo] Welcome to seam-gen :-)\n"
-"    [input] Enter your Java project workspace (the directory that contains "
-"your \n"
-"Seam projects) [C:/Projects] [C:/Projects]\n"
-"/home/jbalunas/workspace\n"
-"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
-"GA] \n"
-"[C:/Program Files/jboss-4.2.3.GA]\n"
-"/home/jbalunas/jboss/jboss-4.2.3.GA\n"
-"    [input] Enter the project name [myproject] [myproject]\n"
-"websphere_example\n"
-"     [echo] Accepted project name as: websphere_example\n"
-"    [input] Do you want to use ICEFaces instead of RichFaces [n] (y, [n], )\n"
-"\n"
-"    [input] skipping input as property icefaces.home.new has already been "
-"set.\n"
-"    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, "
-"wine, \n"
-"deepMarine, emeraldTown, sakura, DEFAULT)\n"
-"\n"
-"    [input] Is this project deployed as an EAR (with EJB components) or a "
-"WAR \n"
-"(with no EJB support) [ear]  ([ear], war, )\n"
-"\n"
-"    [input] Enter the Java package name for your session beans [org.jboss."
-"seam.\n"
-"tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]\n"
-"org.jboss.seam.tutorial.websphere.action \n"
-"    [input] Enter the Java package name for your entity beans [org.jboss."
-"seam.\n"
-"tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]\n"
-"org.jboss.seam.tutorial.websphere.model  \n"
-"    [input] Enter the Java package name for your test cases [org.jboss."
-"seam.\n"
-"tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action."
-"test]\n"
-"org.jboss.seam.tutorial.websphere.test\n"
-"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
-"oracle,\n"
-" postgres, mssql, db2, sybase, enterprisedb, h2)\n"
-"\n"
-"    [input] Enter the Hibernate dialect for your database [org.hibernate.\n"
-"dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
-"\n"
-"    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/lib/"
-"hsqldb.jar] \n"
-"[/tmp/seam/lib/hsqldb.jar]\n"
-"\n"
-"    [input] Enter JDBC driver class for your database [org.hsqldb."
-"jdbcDriver] \n"
-"[org.hsqldb.jdbcDriver]\n"
-"\n"
-"    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] \n"
-"[jdbc:hsqldb:.]\n"
-"\n"
-"    [input] Enter database username [sa] [sa]\n"
-"\n"
-"    [input] Enter database password [] []\n"
-"\n"
-"    [input] Enter the database schema name (it is OK to leave this blank) [] "
-"[]\n"
-"\n"
-"    [input] Enter the database catalog name (it is OK to leave this blank) "
-"[] []\n"
-"\n"
-"    [input] Are you working with tables that already exist in the database? "
-"[n]\n"
-"  (y, [n], )\n"
-"\n"
-"    [input] Do you want to drop and recreate the database tables and data "
-"in \n"
-"import.sql each time you deploy? [n]  (y, [n], )\n"
-"\n"
-"[propertyfile] Creating new property file: \n"
-"/rhdev/projects/jboss-seam/svn-seam_2_2/jboss-seam-2_2/seam-gen/build."
-"properties\n"
-"     [echo] Installing JDBC driver jar to JBoss server\n"
-"     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/"
-"default/lib\n"
-"     [echo] Type 'seam create-project' to create the new project\n"
-"\n"
-"BUILD SUCCESSFUL\n"
-"Total time: 3 minutes 5 seconds]]>"
-msgstr ""
-"<![CDATA[\n"
-"./seam setup\n"
-"Buildfile: build.xml\n"
-"\n"
-"init:\n"
-"\n"
-"setup:\n"
-"     [echo] Welcome to seam-gen :-)\n"
-"    [input] Enter your Java project workspace (the directory that contains "
-"your \n"
-"Seam projects) [C:/Projects] [C:/Projects]\n"
-"/home/jbalunas/workspace\n"
-"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
-"GA] \n"
-"[C:/Program Files/jboss-4.2.3.GA]\n"
-"/home/jbalunas/jboss/jboss-4.2.3.GA\n"
-"    [input] Enter the project name [myproject] [myproject]\n"
-"websphere_example\n"
-"     [echo] Accepted project name as: websphere_example\n"
-"    [input] Do you want to use ICEFaces instead of RichFaces [n] (y, [n], )\n"
-"\n"
-"    [input] skipping input as property icefaces.home.new has already been "
-"set.\n"
-"    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, "
-"wine, \n"
-"deepMarine, emeraldTown, sakura, DEFAULT)\n"
-"\n"
-"    [input] Is this project deployed as an EAR (with EJB components) or a "
-"WAR \n"
-"(with no EJB support) [ear]  ([ear], war, )\n"
-"\n"
-"    [input] Enter the Java package name for your session beans [org.jboss."
-"seam.\n"
-"tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]\n"
-"org.jboss.seam.tutorial.websphere.action \n"
-"    [input] Enter the Java package name for your entity beans [org.jboss."
-"seam.\n"
-"tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]\n"
-"org.jboss.seam.tutorial.websphere.model  \n"
-"    [input] Enter the Java package name for your test cases [org.jboss."
-"seam.\n"
-"tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action."
-"test]\n"
-"org.jboss.seam.tutorial.websphere.test\n"
-"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
-"oracle,\n"
-" postgres, mssql, db2, sybase, enterprisedb, h2)\n"
-"\n"
-"    [input] Enter the Hibernate dialect for your database [org.hibernate.\n"
-"dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
-"\n"
-"    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/lib/"
-"hsqldb.jar] \n"
-"[/tmp/seam/lib/hsqldb.jar]\n"
-"\n"
-"    [input] Enter JDBC driver class for your database [org.hsqldb."
-"jdbcDriver] \n"
-"[org.hsqldb.jdbcDriver]\n"
-"\n"
-"    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] \n"
-"[jdbc:hsqldb:.]\n"
-"\n"
-"    [input] Enter database username [sa] [sa]\n"
-"\n"
-"    [input] Enter database password [] []\n"
-"\n"
-"    [input] Enter the database schema name (it is OK to leave this blank) [] "
-"[]\n"
-"\n"
-"    [input] Enter the database catalog name (it is OK to leave this blank) "
-"[] []\n"
-"\n"
-"    [input] Are you working with tables that already exist in the database? "
-"[n]\n"
-"  (y, [n], )\n"
-"\n"
-"    [input] Do you want to drop and recreate the database tables and data "
-"in \n"
-"import.sql each time you deploy? [n]  (y, [n], )\n"
-"\n"
-"[propertyfile] Creating new property file: \n"
-"/rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build."
-"properties\n"
-"     [echo] Installing JDBC driver jar to JBoss server\n"
-"     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/"
-"default/lib\n"
-"     [echo] Type 'seam create-project' to create the new project\n"
-"\n"
-"BUILD SUCCESSFUL\n"
-"Total time: 3 minutes 5 seconds]]>"
-
-#. Tag: para
-#: Websphere.xml:700
-#, no-c-format
-msgid ""
-"Type <literal>./seam new-project</literal> to create your project and "
-"<literal>cd /home/jbalunas/workspace/websphere_example</literal> to the "
-"newly created structure."
-msgstr ""
-"プロジェクトを作成するためには、<literal>$ ./seam new-project</literal> と入"
-"力してください。そして <literal>cd /home/jbalunas/workspace/"
-"websphere_example</literal> と入力して新しく作成されたディレクトリへ移動して"
-"ください。"
-
-#. Tag: title
-#: Websphere.xml:707
-#, no-c-format
-msgid "Changes needed for deployment to Websphere"
-msgstr "Websphere へのデプロイに必要な変更点"
-
-#. Tag: para
-#: Websphere.xml:708
-#, no-c-format
-msgid "We now need to make some changes to the generated project."
-msgstr "生成されたプロジェクトに変更を行う必要があります。"
-
-#. Tag: literal
-#: Websphere.xml:714
-#, no-c-format
-msgid "resources/META-INF/persistence-dev.xml"
-msgstr "resources/META-INF/persistence-dev.xml"
-
-#. Tag: para
-#: Websphere.xml:719
-#, no-c-format
-msgid ""
-"Alter the <literal>jta-data-source</literal> to be "
-"<literal>DefaultDatasource</literal>. We are going to be using the "
-"integrated Websphere DB."
-msgstr ""
-"<literal>jta-data-source</literal> を <literal>DefaultDatasource</literal> に"
-"修正してください。組み込みの Websphere DB を使用します。"
-
-#. Tag: para
-#: Websphere.xml:726
-#, no-c-format
-msgid ""
-"Add or change the properties below. These are described in detail at <xref "
-"linkend=\"jee5-websphere-section\"/>:"
-msgstr ""
-"以下のプロパティを追加修正してください。<xref linkend=\"jee5-websphere-"
-"section\"/> に詳細が説明されています。"
-
-#. Tag: programlisting
-#: Websphere.xml:731
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
-"<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
-"<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
-"<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
-"<property name=\"hibernate.cache.provider_class\" \n"
-"          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
-"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
-"          value=\"org.hibernate.transaction."
-"WebSphereExtendedJTATransactionLookup\"/>]]>"
-msgstr ""
-"<![CDATA[\n"
-"<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
-"<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
-"<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
-"<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
-"<property name=\"hibernate.cache.provider_class\" \n"
-"          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
-"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
-"          value=\"org.hibernate.transaction."
-"WebSphereExtendedJTATransactionLookup\"/>]]>"
-
-#. Tag: para
-#: Websphere.xml:734
-#, no-c-format
-msgid ""
-"Remove the JBoss AS specific method of exposing the EntityManagerFactory:"
-msgstr ""
-"EntityManagerFactory を定義する JBoss AS 固有のメソッドを取り除いてください。"
-
-#. Tag: programlisting
-#: Websphere.xml:737
-#, no-c-format
-msgid ""
-"<![CDATA[<property \n"
-" name=\"jboss.entity.manager.factory.jndi.name\" \n"
-" value=\"java:/websphere_exampleEntityManagerFactory\">]]>"
-msgstr ""
-"<![CDATA[<property \n"
-" name=\"jboss.entity.manager.factory.jndi.name\" \n"
-" value=\"java:/websphere_exampleEntityManagerFactory\">\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:740
-#, no-c-format
-msgid ""
-"You'll need to alter <literal>persistence-prod.xml</literal> as well if you "
-"want to deploy to Websphere using the prod profile."
-msgstr ""
-"prod プロファイルを使用して Websphere にデプロイしたければ、"
-"<literal>persistence-prod.xml</literal> も同様に修正する必要があります。"
-
-#. Tag: para
-#: Websphere.xml:753
-#, fuzzy, no-c-format
-msgid ""
-"As with other examples we need to include this java class for DB support. It "
-"can be copied from the <literal>jpa</literal> example into the "
-"<literal>websphere_example/src</literal> directory."
-msgstr ""
-"他のサンプルと同様に、データベースサポートのためのこのクラスを含める必要があ"
-"ります。<literal>jpa</literal> サンプルから  <literal>websphere_example/"
-"resources</literal> ディレクトリへコピーしてください。"
-
-#. Tag: programlisting
-#: Websphere.xml:759
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"cp $SEAM/examples/jpa/src/GlassfishDerbyDialect.java\n"
-"   ./src]]>"
-msgstr ""
-"<![CDATA[\n"
-"cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/"
-"GlassfishDerbyDialect.class\n"
-"   ./resources]]>"
-
-#. Tag: literal
-#: Websphere.xml:765
-#, no-c-format
-msgid "resources/META-INF/jboss-app.xml"
-msgstr "resources/META-INF/jboss-app.xml"
-
-#. Tag: para
-#: Websphere.xml:768
-#, no-c-format
-msgid ""
-"You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-"
-"app.xml</literal> is used to enable classloading isolation in JBoss AS)"
-msgstr ""
-"JBoss AS にはデプロイしないのでこのファイルを削除できます (JBoss AS では "
-"<literal>jboss-app.xml</literal> を使用して、クラスローディングの分離を有効に"
-"します)"
-
-#. Tag: literal
-#: Websphere.xml:774
-#, no-c-format
-msgid "resources/*-ds.xml"
-msgstr "resources/*-ds.xml"
-
-#. Tag: para
-#: Websphere.xml:777
-#, no-c-format
-msgid ""
-"You can delete these file as we aren't deploying to JBoss AS (these files "
-"define datasources in JBoss AS, we are using Websphere's default datasource)"
-msgstr ""
-"JBoss AS にはデプロイしないのでこのファイルを削除できます (これらのファイル"
-"は、JBoss AS ではデータソースを定義していますが、Websphere ではデフォルトの"
-"データソースを使用しています)"
-
-#. Tag: para
-#: Websphere.xml:789
-#, no-c-format
-msgid ""
-"Enable container managed transaction integration - add the <literal> &lt;"
-"transaction:ejb-transaction /&gt; </literal> component, and it's namespace "
-"declaration <literal> xmlns:transaction=\"http://jboss.com/products/seam/"
-"transaction\" </literal>"
-msgstr ""
-"コンテナ管理トランザクション統合を有効にします - <literal> &lt;transaction:"
-"ejb-transaction /&gt; </literal> コンポーネントと、その名前空間宣言  "
-"<literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</"
-"literal> を追記してください"
-
-#. Tag: para
-#: Websphere.xml:798
-#, no-c-format
-msgid ""
-"Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/"
-"websphere_example/#{ejbName} </literal>"
-msgstr ""
-"<literal>jndi-pattern</literal> を <literal>java:comp/env/websphere_example/#"
-"{ejbName}</literal> に修正します"
-
-#. Tag: para
-#: Websphere.xml:804
-#, no-c-format
-msgid ""
-"We do not need <literal>managed-persistence-context</literal> for this "
-"example and so can delete its entry."
-msgstr ""
-"このサンプルでは、<literal>managed-persistence-context</literal> は必要ではな"
-"いので、そのエントリは削除します。"
-
-#. Tag: programlisting
-#: Websphere.xml:810
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<persistence:managed-persistence-context name=\"entityManager\"\n"
-"             auto-create=\"true\"\n"
-"             persistence-unit-jndi-name=\"java:/"
-"websphere_exampleEntityManagerFactory\"/> ]]>"
-msgstr ""
-"<![CDATA[\n"
-"<persistence:managed-persistence-context name=\"entityManager\"\n"
-"             auto-create=\"true\"\n"
-"             persistence-unit-jndi-name=\"java:/"
-"websphere_exampleEntityManagerFactory\"/> ]]>"
-
-#. Tag: para
-#: Websphere.xml:819
-#, fuzzy, no-c-format
-msgid ""
-"As with the <literal>jee5/booking</literal> example we need to add EJB "
-"references to the web.xml. These references require replacing /local string "
-"in <literal>ejb-ref-name</literal> to flag them for Websphere to perform the "
-"proper binding."
-msgstr ""
-"<literal>jee5/booking</literal> サンプルと同様に、web.xml に EJB 参照を加える"
-"必要があります。これらの EJB 参照には、Websphere が適切なバインディングを実行"
-"するために空の <literal>local-home</literal> を設定することが必要となります。"
-
-#. Tag: programlisting
-#: Websphere.xml:826
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[  \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</local>\n"
-"  </ejb-local-ref>        \n"
-"   \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>  \n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>]]>"
-msgstr ""
-"<![CDATA[\n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</local>\n"
-"  </ejb-local-ref>\n"
-"   \n"
-"  <ejb-local-ref>\n"
-"    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>\n"
-"    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
-"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
-"  </ejb-local-ref>\n"
-"]]>"
-
-#. Tag: title
-#: Websphere.xml:832
-#, no-c-format
-msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
-msgstr "<literal>AuthenticatorAction</literal> EJB の作成"
-
-#. Tag: para
-#: Websphere.xml:834
-#, no-c-format
-msgid ""
-"We want to take the existing <literal>Authenticator</literal> Seam POJO "
-"component and create an EJB3 out of it."
-msgstr ""
-"既存の <literal>Authenticator</literal> Seam POJO コンポーネントを利用して、"
-"EJB3 を作成します。"
-
-#. Tag: para
-#: Websphere.xml:837
-#, no-c-format
-msgid "Change the generated Authenticator class"
-msgstr ""
-
-#. Tag: para
-#: Websphere.xml:840
-#, no-c-format
-msgid "Rename the class to <literal>AuthenticatorAction</literal>"
-msgstr "クラス名を <literal>AuthenticatorAction</literal> に変更します"
-
-#. Tag: para
-#: Websphere.xml:844
-#, no-c-format
-msgid ""
-"Add the <literal>@Stateless</literal> annotation to the new "
-"<literal>AuthenticatorAction</literal> class."
-msgstr ""
-"<literal>@Stateless</literal> アノテーションを新しい "
-"<literal>AuthenticatorAction</literal> クラスに付与します。"
-
-#. Tag: para
-#: Websphere.xml:850
-#, no-c-format
-msgid ""
-"Create an interface called <literal>Authenticator</literal> which "
-"<literal>AuthenticatorAction</literal> implements (EJB3 requires session "
-"beans to have a local interface). Annotate the interface with "
-"<literal>@Local</literal> , and add a single method with same signature as "
-"the <literal>authenticate</literal> in <literal>AuthenticatorAction</"
-"literal> ."
-msgstr ""
-"<literal>AuthenticatorAction</literal> が実装する <literal>Authenticator</"
-"literal> という名前のインタフェースを作成してください (EJB3 ではセッション "
-"Bean にローカルインタフェースが必要)。インタフェースに <literal>@Local</"
-"literal> アノテーションを付与し、<literal>AuthenticatorAction</literal> の "
-"<literal>authenticate</literal> と同じシグニチャのメソッドを一つ追加してくだ"
-"さい。"
-
-#. Tag: programlisting
-#: Websphere.xml:863
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"@Name(\"authenticator\") @Stateless public class\n"
-"            AuthenticatorAction implements Authenticator {]]>"
-msgstr ""
-"<![CDATA[\n"
-"@Name(\"authenticator\")\n"
-"@Stateless\n"
-"public class AuthenticatorAction implements Authenticator {]]>"
-
-#. Tag: programlisting
-#: Websphere.xml:866
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"@Local public interface Authenticator { \n"
-"  public boolean authenticate(); \n"
-"}]]>"
-msgstr ""
-"<![CDATA[\n"
-"@Local\n"
-"public interface Authenticator { \n"
-"  public boolean authenticate(); \n"
-"}]]>"
-
-#. Tag: para
-#: Websphere.xml:869
-#, no-c-format
-msgid ""
-"We've already added its reference to the <literal>web.xml</literal> file so "
-"are good to go."
-msgstr ""
-"すでに <literal>web.xml</literal> ファイルには EJB 参照を追加したので、次に進"
-"めます。"
-
-#. Tag: title
-#: Websphere.xml:875
-#, no-c-format
-msgid ""
-"Extra jar dependencies and other changes to the <literal>build.xml</literal>"
-msgstr "<literal>build.xml</literal> への jar 依存関係の追加とその他の変更点"
-
-#. Tag: para
-#: Websphere.xml:877
-#, no-c-format
-msgid ""
-"This application has similar requirements as the <literal>jee5/booking</"
-"literal> example."
-msgstr ""
-"このアプリケーションは、<literal>jee5/booking</literal> サンプルと同様の変更"
-"が必要となります。"
-
-#. Tag: para
-#: Websphere.xml:882
-#, no-c-format
-msgid ""
-"Change the default target to <literal>archive</literal> (we aren't going to "
-"cover automatic deployment to Websphere)."
-msgstr ""
-"デフォルトのターゲットを <literal>archive</literal> に変更します (Websphere "
-"への自動的なデプロイを行いません)。"
-
-#. Tag: programlisting
-#: Websphere.xml:888
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<project name=\"websphere_example\" default=\"archive\" basedir=\".\">]]>"
-msgstr ""
-"<![CDATA[\n"
-"<project name=\"websphere_example\" default=\"archive\" basedir=\".\">\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:892
-#, no-c-format
-msgid ""
-"Websphere looks for the drools <literal>/security.drl</literal> file in the "
-"root of the <literal>war</literal> file instead of the root of the "
-"<literal>websphere_example.jar</literal> so we need to have the "
-"<literal>build.xml</literal> move it to the correct location at build time. "
-"The following must be added at the top of the <literal> &lt;target name=\"war"
-"\" depends=\"compile\" description=\"Build the distribution .war file\"&gt; "
-"</literal> target."
-msgstr ""
-"Websphere は、<literal>websphere_example.jar</literal> のルートではなく "
-"<literal>war</literal> ファイルのルートで drools の <literal>/security.drl</"
-"literal> ファイルを探すので、ビルド時には正しい場所へ移動させるように "
-"<literal>build.xml</literal> に設定する必要があります。以下の変更は、"
-"<literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build "
-"the distribution .war file\"&gt; </literal> ターゲットの先頭に追加しなければ"
-"なりません。"
-
-#. Tag: programlisting
-#: Websphere.xml:903
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<copy todir=\"${war.dir}\">\n"
-"   <fileset dir=\"${basedir}/resources\" >\n"
-"       <include name=\"*.drl\" />\n"
-"   </fileset>\n"
-"</copy>]]>"
-msgstr ""
-"<![CDATA[\n"
-"<copy todir=\"${war.dir}\">\n"
-"   <fileset dir=\"${basedir}/resources\" >\n"
-"       <include name=\"*.drl\" />\n"
-"   </fileset>\n"
-"</copy>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:906
-#, no-c-format
-msgid ""
-"Now we need to get extra jars into the <literal>build.xml</literal>. Look "
-"for the <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> section of the "
-"task below. Add the new includes at the bottom of the fileset."
-msgstr ""
-"追加の jar を <literal>build.xml</literal> に入れる必要があります。以下のタス"
-"クの <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> セクションを探して"
-"ください。fileset  の最後に新しい include を追加してください。"
-
-#. Tag: programlisting
-#: Websphere.xml:914
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<target name=\"ear\" description=\"Build the EAR\">\n"
-"    <copy todir=\"${ear.dir}\">\n"
-"            <fileset dir=\"${basedir}/resources\">\n"
-"                    <include name=\"*jpdl.xml\" />\n"
-"                    <include name=\"*hibernate.cfg.xml\" />\n"
-"                    <include name=\"jbpm.cfg.xml\" />\n"
-"            </fileset>\n"
-"\n"
-"            <fileset dir=\"${basedir}\">\n"
-"                    <include name=\"lib/jbpm*.jar\" />\n"
-"                    <include name=\"lib/jboss-el.jar\" />\n"
-"                    <include name=\"lib/drools-*.jar\"/>\n"
-"                    <include name=\"lib/core.jar\"/>\n"
-"                    <include name=\"lib/janino*.jar\"/>\n"
-"                    <include name=\"lib/antlr-*.jar\"/>\n"
-"                    <include name=\"lib/mvel*.jar\"/>\n"
-"                  <include name=\"lib/richfaces-api*.jar\" />\n"
-"            </fileset>\n"
-"    </copy>\n"
-"    <copy todir=\"${ear.dir}/META-INF\">\n"
-"            <fileset dir=\"${basedir}/resources/META-INF\">\n"
-"                    <include name=\"application.xml\" />\n"
-"                    <include name=\"jboss-app.xml\" />\n"
-"            </fileset>\n"
-"    </copy>\n"
-"</target>]]>"
-msgstr ""
-"<![CDATA[\n"
-"<target name=\"ear\" description=\"Build the EAR\">\n"
-"    <copy todir=\"${ear.dir}\">\n"
-"            <fileset dir=\"${basedir}/resources\">\n"
-"                    <include name=\"*jpdl.xml\" />\n"
-"                    <include name=\"*hibernate.cfg.xml\" />\n"
-"                    <include name=\"jbpm.cfg.xml\" />\n"
-"            </fileset>\n"
-"         <fileset dir=\"${lib.dir}\">\n"
-"               <include name=\"jboss-seam.jar\" />\n"
-"         </fileset>\n"
-"            <fileset dir=\"${basedir}\">\n"
-"                    <include name=\"lib/jbpm*.jar\" />\n"
-"                    <include name=\"lib/jboss-el.jar\" />\n"
-"                    <include name=\"lib/drools-*.jar\"/>\n"
-"                    <include name=\"lib/core.jar\"/>\n"
-"                    <include name=\"lib/janino*.jar\"/>\n"
-"                    <include name=\"lib/antlr-*.jar\"/>\n"
-"                    <include name=\"lib/mvel*.jar\"/>\n"
-"                  <include name=\"lib/richfaces-api*.jar\" />\n"
-"            </fileset>\n"
-"    </copy>\n"
-"    <copy todir=\"${ear.dir}/META-INF\">\n"
-"            <fileset dir=\"${basedir}/resources/META-INF\">\n"
-"                    <include name=\"application.xml\" />\n"
-"                    <include name=\"jboss-app.xml\" />\n"
-"            </fileset>\n"
-"    </copy>\n"
-"</target>\n"
-"]]>"
-
-#. Tag: para
-#: Websphere.xml:917
-#, no-c-format
-msgid "Hibernate dependencies"
-msgstr "Hibernate 依存関係を追加してください。"
-
-#. Tag: programlisting
-#: Websphere.xml:918
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"   <!-- Hibernate and deps -->\n"
-"   <include name=\"lib/hibernate.jar\"/>\n"
-"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"   <include name=\"lib/hibernate-validator.jar\"/>\n"
-"   <include name=\"lib/jboss-common-core.jar\" />]]>"
-msgstr ""
-"<![CDATA[\n"
-"   <!-- Hibernate and deps -->\n"
-"   <include name=\"lib/hibernate.jar\"/>\n"
-"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"   <include name=\"lib/hibernate-validator.jar\"/>\n"
-"   <include name=\"lib/jboss-common-core.jar\" />]]>"
-
-#. Tag: para
-#: Websphere.xml:921
-#, no-c-format
-msgid "Third party dependencies."
-msgstr "サードパーティ依存関係を追加してください。"
-
-#. Tag: programlisting
-#: Websphere.xml:922
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"   <!-- 3rd party and supporting jars -->\n"
-"   <!--<include name=\"lib/log4j.jar\" />-->\n"
-"   <include name=\"lib/javassist.jar\"/>\n"
-"   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/concurrent.jar\" />\n"
-"   <include name=\"lib/cglib.jar\"/>\n"
-"   <include name=\"lib/asm.jar\"/>\n"
-"   <include name=\"lib/antlr.jar\" />\n"
-"   <include name=\"lib/commons-logging.jar\" />\n"
-"   <include name=\"lib/commons-collections.jar\" />]]>"
-msgstr ""
-"<![CDATA[\n"
-"   <!-- 3rd party and supporting jars -->\n"
-"   <!--<include name=\"lib/log4j.jar\" />-->\n"
-"   <include name=\"lib/javassist.jar\"/>\n"
-"   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/concurrent.jar\" />\n"
-"   <include name=\"lib/cglib.jar\"/>\n"
-"   <include name=\"lib/asm.jar\"/>\n"
-"   <include name=\"lib/antlr.jar\" />\n"
-"   <include name=\"lib/commons-logging.jar\" />\n"
-"   <include name=\"lib/commons-collections.jar\" />]]>"
-
-#. Tag: para
-#: Websphere.xml:925
-#, fuzzy, no-c-format
-msgid ""
-"<literal>jboss-seam.jar</literal> - this is needed in the <literal>ear</"
-"literal> base directory."
-msgstr ""
-"<literal>jboss-seam.jar</literal> - これは <literal>ear</literal> のベースと "
-"<literal>/lib</literal> ディレクトリの両方で必要となります。"
-
-#. Tag: programlisting
-#: Websphere.xml:928
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"   <!-- seam jar -->\n"
-"   <include name=\"lib/jboss-seam.jar\" />]]>"
-msgstr ""
-"<![CDATA[\n"
-"   <!-- seam jar -->\n"
-"   <include name=\"lib/jboss-seam.jar\" />]]>"
-
-#. Tag: para
-#: Websphere.xml:932
-#, no-c-format
-msgid "You should end up with something like:"
-msgstr "最後には以下のようになります。"
-
-#. Tag: programlisting
-#: Websphere.xml:933
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[<fileset dir=\"${basedir}\">\n"
-"               \n"
-"   <include name=\"lib/jbpm*.jar\" />\n"
-"   <include name=\"lib/jboss-el.jar\" />\n"
-"   <include name=\"lib/drools-*.jar\"/>\n"
-"   <include name=\"lib/core.jar\"/>\n"
-"   <include name=\"lib/janino*.jar\"/>\n"
-"   <include name=\"lib/antlr-*.jar\"/>\n"
-"   <include name=\"lib/mvel*.jar\"/>\n"
-"   <include name=\"lib/richfaces-api*.jar\" />\n"
-"                                 \n"
-"   <!-- Hibernate and deps -->\n"
-"   <include name=\"lib/hibernate.jar\"/>\n"
-"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"   <include name=\"lib/hibernate-validator.jar\"/>\n"
-"   <include name=\"lib/jboss-common-core.jar\" />\n"
-"\n"
-"   <!-- 3rd party and supporting jars -->\n"
-"   <include name=\"lib/javassist.jar\"/>\n"
-"   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/concurrent.jar\" />\n"
-"   <include name=\"lib/cglib.jar\"/>\n"
-"   <include name=\"lib/asm.jar\"/>\n"
-"   <include name=\"lib/antlr.jar\" />\n"
-"   <include name=\"lib/commons-logging.jar\" />\n"
-"   <include name=\"lib/commons-collections.jar\" />\n"
-"               \n"
-"   <!-- seam jar -->\n"
-"   <include name=\"lib/jboss-seam.jar\" />\n"
-"                           \n"
-"</fileset>]]>"
-msgstr ""
-"<![CDATA[<fileset dir=\"${basedir}\">\n"
-"               \n"
-"   <include name=\"lib/jbpm*.jar\" />\n"
-"   <include name=\"lib/jboss-el.jar\" />\n"
-"   <include name=\"lib/drools-*.jar\"/>\n"
-"   <include name=\"lib/core.jar\"/>\n"
-"   <include name=\"lib/janino*.jar\"/>\n"
-"   <include name=\"lib/antlr-*.jar\"/>\n"
-"   <include name=\"lib/mvel*.jar\"/>\n"
-"   <include name=\"lib/richfaces-api*.jar\" />\n"
-"                                 \n"
-"   <!-- Hibernate and deps -->\n"
-"   <include name=\"lib/hibernate.jar\"/>\n"
-"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"   <include name=\"lib/hibernate-validator.jar\"/>\n"
-"   <include name=\"lib/jboss-common-core.jar\" />\n"
-"               \n"
-"   <!-- jsf libs -->\n"
-"   <include name=\"lib/jsf-api.jar\" />\n"
-"   <include name=\"lib/jsf-impl.jar\" />\n"
-"   <include name=\"lib/el-api.jar\" />\n"
-"   <include name=\"lib/el-ri.jar\"/>\n"
-"               \n"
-"   <!-- 3rd party and supporting jars -->\n"
-"   <include name=\"lib/javassist.jar\"/>\n"
-"   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/concurrent.jar\" />\n"
-"   <include name=\"lib/cglib.jar\"/>\n"
-"   <include name=\"lib/asm.jar\"/>\n"
-"   <include name=\"lib/antlr.jar\" />\n"
-"   <include name=\"lib/commons-logging.jar\" />\n"
-"   <include name=\"lib/commons-collections.jar\" />\n"
-"               \n"
-"   <!-- seam jar -->\n"
-"   <include name=\"lib/jboss-seam.jar\" />\n"
-"                           \n"
-"</fileset>\n"
-"]]>"
-
-#. Tag: title
-#: Websphere.xml:940
-#, no-c-format
-msgid "Building and deploying the seam-gen'd application to Websphere"
-msgstr "seam-gen 生成アプリケーションのビルドと WebSphere へのデプロイ"
-
-#. Tag: para
-#: Websphere.xml:945
-#, no-c-format
-msgid ""
-"Build your application by calling <literal>ant</literal> in the base "
-"directory of your project (ex. <literal>/home/jbalunas/workspace/"
-"websphere_example</literal> ). The target of the build will be <literal>dist/"
-"websphere_example.ear</literal> ."
-msgstr ""
-"プロジェクトのベースディレクトリ (例えば <literal>/home/jbalunas/workspace/"
-"websphere_example</literal>) で <literal>ant</literal> を実行してアプリケー"
-"ションをビルドしてください。ビルドされるターゲットファイルは <literal>dist/"
-"websphere_example.ear</literal> です。"
-
-#. Tag: para
-#: Websphere.xml:954
-#, no-c-format
-msgid ""
-"To deploy the application follow the instructions here : <xref linkend="
-"\"jee5-websphere-deploy\"/> but use references to this project "
-"<literal>websphere_example</literal> instead of <literal>jboss-seam-jee5</"
-"literal>."
-msgstr ""
-"アプリケーションをデプロイするには、 <xref linkend=\"jee5-websphere-deploy\"/"
-"> の手順に従ってください 。但し、<literal>jboss-seam-jee5</literal> の代わり"
-"にこのプロジェクト <literal>websphere_example</literal> へ置き換えて使用して"
-"ください。"
-
-#. Tag: para
-#: Websphere.xml:960
-#, no-c-format
-msgid ""
-"Checkout the app at: <literal>http://localhost:9080/websphere_example/index."
-"html</literal>"
-msgstr ""
-"<literal>http://localhost:9080/websphere_example/index.html</literal> をブラ"
-"ウズしてアプリケーションを確認してください。"
+#, fuzzy
+#~ msgid "Installation versions"
+#~ msgstr "インストールするバージョンとヒント"
+
+#, fuzzy
+#~ msgid ""
+#~ "All of the examples and information in this chapter are based on the "
+#~ "version V7 of Websphere AS at the time of this writing."
+#~ msgstr ""
+#~ "この章のサンプルと情報は、すべて執筆時の Websphere のバージョン 6.1 に基づ"
+#~ "いています。"
+
+#, fuzzy
+#~ msgid "Websphere Application Server V7"
+#~ msgstr "Websphere Application Server 6.1"
+
+#~ msgid "<title>Configuration file changes</title>"
+#~ msgstr "<title>構成ファイルの変更</title>"
+
+#~ msgid ""
+#~ "Below are the configuration file changes that are need to the base "
+#~ "example."
+#~ msgstr ""
+#~ "雛形のサンプルに対して必要となる構成ファイルの変更点は以下の通りです。"
+
+#~ msgid "resources/WEB-INF/components.xml"
+#~ msgstr "resources/WEB-INF/components.xml"
+
+#, fuzzy
+#~ msgid ""
+#~ "We need to change the way that we look up EJBs for WAS. We need to remove "
+#~ "the <literal>/local</literal> from the end of the <literal>jndi-pattern</"
+#~ "literal> attribute. It should look like this:"
+#~ msgstr ""
+#~ "WebSphere では EJB をルックアップする際の名前を変更する必要があります。"
+#~ "<literal>jndi-pattern</literal> 属性の最後から <literal>/local</literal> "
+#~ "を取り除く必要があります。以下のように変更します。"
+
+#, fuzzy
+#~ msgid "resources/META-INF/ejb-jar.xml"
+#~ msgstr "resources/META-INF/jboss-app.xml"
+
+#~ msgid "resources/WEB-INF/web.xml"
+#~ msgstr "resources/WEB-INF/web.xml"
+
+#, fuzzy
+#~ msgid ""
+#~ "We have to make some changes to the EJB references in the <literal>web."
+#~ "xml</literal>. These changes are what will allow WAS to bind "
+#~ "automatically the EJB3 references in the web module to the the actual "
+#~ "EJB3 beans in the EAR module. Replace all of the /local strings in "
+#~ "<literal>ejb-local-refs</literal> when the values below."
+#~ msgstr ""
+#~ "次に、<literal>web.xml</literal>  の EJB 参照について変更を行う必要があり"
+#~ "ます。これらは、WebSphere が Web モジュール内の EJB2 参照を、実際には EAR "
+#~ "モジュール内にある EJB3 の Bean にバインドすることを可能にするための変更で"
+#~ "す。すべての <literal>ejb-local-refs</literal> を以下の値で置き換えてくだ"
+#~ "さい。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "  <!-- JEE5 EJB3 names -->\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.Authenticator</local>\n"
+#~ "  </ejb-local-ref>        \n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.BookingList</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.Register</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.ChangePassword</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.HotelBooking</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.example.booking.HotelSearching</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+#~ "  </ejb-local-ref>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "  <!-- JEE5 EJB3 names -->\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.Authenticator</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "     <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.BookingList</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "     <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.Register</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "     <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.ChangePassword</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "     <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.HotelBooking</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "     <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.example.booking.HotelSearching</local> \n"
+#~ "  </ejb-local-ref>\n"
+#~ "    \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "Note also that <literal>EjbSynchronizations</literal> is a built-in Seam "
+#~ "EJB and not part of the Hotel Booking example. This means that if your "
+#~ "application's <literal>components.xml</literal> specifies "
+#~ "<literal>transaction:ejb-transaction</literal>, then you must include:"
+#~ msgstr ""
+#~ "<literal>EjbSynchronizations</literal> は Seam の組み込みEJB であって、ホ"
+#~ "テル予約サンプルの一部ではないことにも注意してください。このことにより、ア"
+#~ "プリケーションの <literal>components.xml</literal> の中で "
+#~ "<literal>transaction:ejb-transaction</literal> を指定すれば、web.xml  の中"
+#~ "に以下の設定を含めなければならないことになります。"
+
+#~ msgid ""
+#~ "in your web.xml. If you don't include it, you'll get the following error:"
+#~ msgstr "web.xml  の中で上記の設定を行わなければ、以下のエラーが発生します。"
+
+#~ msgid "Name comp/env/myapp/EjbSynchronizations not found in context java:"
+#~ msgstr "Name comp/env/myapp/EjbSynchronizations not found in context java:"
+
+#~ msgid "resources/META-INF/persistence.xml"
+#~ msgstr "resources/META-INF/persistence.xml"
+
+#, fuzzy
+#~ msgid ""
+#~ "For this example we will be using the default datasource that comes with "
+#~ "WAS. To do this change the <literal>jta-data-source</literal> element:"
+#~ msgstr ""
+#~ "このサンプルでは、Websphere のデフォルトのデータソースを使用します。そのた"
+#~ "め、<literal>jta-data-source</literal> 要素を変更します。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<jta-data-source>DefaultDatasource</jta-data-source>\n"
+#~ "                  ]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<jta-data-source>DefaultDatasource</jta-data-source>\n"
+#~ "]]>"
+
+#~ msgid ""
+#~ "Then we need to adjust some of the hibernate properties. First comment "
+#~ "out the Glassfish properties. Next you need to add/change the properties:"
+#~ msgstr ""
+#~ "Hibernate プロパティを設定する必要があります。まず最初に GlassFish プロパ"
+#~ "ティをコメントアウトします。次に以下のプロパティを追加修正する必要がありま"
+#~ "す。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<!--<property name=\"hibernate.transaction.flush_before_completion\" "
+#~ "value=\"true\"/>-->\n"
+#~ "<property name=\"hibernate.cache.provider_class\" \n"
+#~ "                  value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+#~ "<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+#~ "<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+#~ "          value=\"org.hibernate.transaction."
+#~ "WebSphereExtendedJTATransactionLookup\"/>\n"
+#~ "                  ]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<!--<property name=\"hibernate.transaction.flush_before_completion\" "
+#~ "value=\"true\"/>-->\n"
+#~ "<property name=\"hibernate.cache.provider_class\" \n"
+#~ "          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+#~ "<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+#~ "<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+#~ "          value=\"org.hibernate.transaction."
+#~ "WebSphereExtendedJTATransactionLookup\"/>\n"
+#~ "                  ]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; "
+#~ "Standard Hibernate transaction manager property for WAS 6.X and 7"
+#~ msgstr ""
+#~ "<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; "
+#~ "Websphere 6.X 用の標準 Hibernate トランザクションマネージャ"
+
+#, fuzzy
+#~ msgid ""
+#~ "<literal>hibernate.transaction.flush_before_completion</literal> &#8212; "
+#~ "This is commented out because we want the container to manage the "
+#~ "transactions. Also if this is set to <literal>true</literal> an exception "
+#~ "will be thrown by WAS when the EJBContext is looked up."
+#~ msgstr ""
+#~ "<literal>hibernate.transaction.flush_before_completion</literal> &#8212; "
+#~ "コメントアウトします。コンテナ管理トランザクションを使用するためです。これ"
+#~ "を <literal>true</literal> に設定すると、EJBContext をルックアップした時"
+#~ "に、Websphere が例外をスローします。"
+
+#~ msgid ""
+#~ "<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
+#~ "                 EJBContext may only be looked up by or injected into an "
+#~ "EJB]]>"
+#~ msgstr ""
+#~ "<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
+#~ "                 EJBContext may only be looked up by or injected into an "
+#~ "EJB]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "<literal>hibernate.dialect</literal> &#8212; From WAS 6.1.0.9 on the "
+#~ "embedded DB was switched to the same Derby DB as is in Glassfish v2."
+#~ msgstr ""
+#~ "<literal>hibernate.dialect</literal> &#8212; WebSphere 6.1.0.9 から組み込"
+#~ "み DB は、GlassFish と同じ Derby DB に変更されました。 "
+
+#, fuzzy
+#~ msgid "src/GlassfishDerbyDialect.java"
+#~ msgstr "resources/GlassfishDerbyDialect.class"
+
+#, fuzzy
+#~ msgid ""
+#~ "You will need to get the <literal>GlassfishDerbyDialect.java</literal> "
+#~ "and copy it into the <literal>/src</literal> directory. The java class "
+#~ "exists in the JPA example source directory and can be copied using the "
+#~ "command below assuming you are in <literal>jee5/booking</literal> "
+#~ "directory:"
+#~ msgstr ""
+#~ "<literal>GlassfishDerbyDialect.class</literal> を入手して  <literal>/"
+#~ "resources</literal> ディレクトリにコピーしなければなりません。このクラス"
+#~ "は JPA サンプルの中にあり、<literal>jee5/booking</literal> ディレクトリか"
+#~ "ら以下のコマンドを使用してコピーできます。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "cp ../../jpa/src/GlassfishDerbyDialect.java\n"
+#~ "   ./src]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "cp ../../jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialect."
+#~ "class\n"
+#~ "   ./resources]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "This class will be put into the <literal>jboss-seam-jee5.jar</literal> "
+#~ "file."
+#~ msgstr ""
+#~ "後で説明するように、このクラスを <literal>jboss-seam-jee5.jar</literal> "
+#~ "ファイルの中に入れるように、build.xml を変更しなければなりません。"
+
+#~ msgid "resources/import.sql"
+#~ msgstr "resources/import.sql"
+
+#~ msgid ""
+#~ "This file must also be copied from the JPA example because either the "
+#~ "Derby DB or the dialect does not support changes to the <literal>ID</"
+#~ "literal> column. The files are identical except for the column "
+#~ "difference. Use the following command to make the copy"
+#~ msgstr ""
+#~ "Derby DB とダイアレクトのいずれも <literal>ID</literal> カラムの生成をサ"
+#~ "ポートしないので、JPA サンプルからこのファイルをコピーしなければなりませ"
+#~ "ん。ファイルは、ID カラムの違い以外は同一です。 以下のコマンドを使用してコ"
+#~ "ピーしてください"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "cp ../../jpa/resources-websphere7/import.sql ./resources]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "cp ../../jpa/resources-websphere61/import.sql ./resources]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "In order to get the changes we have made into our application we need to "
+#~ "make some changes to the <literal>build.xml</literal>. There are also "
+#~ "some additional jars that are required by our application in order to "
+#~ "work with WAS. This section will cover what changes are needed to the "
+#~ "<literal>build.xml</literal>."
+#~ msgstr ""
+#~ "アプリケーションに行った変更を有効にするには、<literal>build.xml</"
+#~ "literal> を変更する必要があります。アプリケーションを Websphere で動作させ"
+#~ "るためには、jar を追加する必要があります。ここでは、 <literal>build.xml</"
+#~ "literal> で必要となる変更点を説明します。"
+
+#, fuzzy
+#~ msgid "Library dependency changes"
+#~ msgstr "Hibernate 依存関係を追加してください。"
+
+#, fuzzy
+#~ msgid ""
+#~ "We remove the <literal>log4j.jar</literal> so that all of the log output "
+#~ "from our application will be added to the WAS log. Additional steps are "
+#~ "required to fully configure log4j and those are outside of the scope of "
+#~ "this document."
+#~ msgstr ""
+#~ "最後に、アプリケーションからのログ出力すべてが WebSphere のログに追加され"
+#~ "るようにするために、<literal>log4j.jar</literal> を削除します。log4j を完"
+#~ "全に構成するには追加の手順が必要ですが、それはこのドキュメントの範囲を越え"
+#~ "ます。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Add the following entry to the bottom of the <literal>build.xml</literal> "
+#~ "file. This overrides the default fileset that is used to populate the "
+#~ "<literal>jboss-seam-jee5.jar</literal>. :"
+#~ msgstr ""
+#~ "以下のエントリを <literal>build.xml</literal> ファイルの最後に追加してくだ"
+#~ "さい。これは、 <literal>jboss-seam-jee5.jar</literal> に含めるのに使用する"
+#~ "デフォルトの fileset を再設定します。主な変更点は、  "
+#~ "<literal>GlassfishDerbyDialect.class</literal> の追加です。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "   <fileset id=\"jar.resources\" dir=\"${resources.dir}\">\n"
+#~ "      <include name=\"import.sql\" />\n"
+#~ "      <include name=\"seam.properties\" />\n"
+#~ "      <include name=\"META-INF/persistence.xml\" />\n"
+#~ "      <include name=\"META-INF/ejb-jar.xml\" />\n"
+#~ "   </fileset>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "   <fileset id=\"jar.resources\" dir=\"${resources.dir}\">\n"
+#~ "      <include name=\"import.sql\" />\n"
+#~ "      <include name=\"seam.properties\" />\n"
+#~ "      <include name=\"GlassfishDerbyDialect.class\" />\n"
+#~ "      <include name=\"META-INF/persistence.xml\" />\n"
+#~ "      <include name=\"META-INF/ejb-jar.xml\" />\n"
+#~ "   </fileset>\n"
+#~ "]]>"
+
+#~ msgid ""
+#~ "Now all that is left is to execute the <literal>ant archive</literal> "
+#~ "task and the built application will be in the <literal>jee5/booking/dist</"
+#~ "literal> directory."
+#~ msgstr ""
+#~ "最後に残された作業は、 <literal>ant archive</literal> タスクを実行すること"
+#~ "です。アプリケーションは、<literal>jee5/booking/dist</literal> ディレクト"
+#~ "リにビルドされます。"
+
+#~ msgid "Deploying the application to Websphere"
+#~ msgstr "Websphere へのアプリケーションのデプロイ"
+
+#~ msgid ""
+#~ "So now we have everything we need in place. All that is left is to deploy "
+#~ "it - just a few steps more."
+#~ msgstr ""
+#~ "必要なものはすべて所定の位置に揃いました。残されたことはデプロイすることで"
+#~ "す - あとわずか数ステップの手順です。"
+
+#~ msgid ""
+#~ "For this we will use Websphere's administration console. As before there "
+#~ "are some tricks and tips that must be followed."
+#~ msgstr ""
+#~ "デプロイには、WebSphere の管理コンソールを使用します。従来どおり従われなけ"
+#~ "ればならない手順とヒントがあります。"
+
+#, fuzzy
+#~ msgid "<![CDATA[http://localhost:9060/admin]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "https://localhost:9043/ibm/console]]>"
+
+#~ msgid ""
+#~ "Now that we have our application installed we need to make some "
+#~ "adjustments to it before we can start it:"
+#~ msgstr ""
+#~ "アプリケーションのインストールが完了しましたが、実行の前にいくつかの調整を"
+#~ "する必要があります。"
+
+#~ msgid ""
+#~ "Starting from the <literal>Enterprise Applications</literal> table select "
+#~ "the <literal>Seam Booking</literal> link."
+#~ msgstr ""
+#~ "<literal>Enterprise Applications (エンタープライズアプリケーション)</"
+#~ "literal> テーブルで <literal>Seam Booking</literal> リンクを選択するところ"
+#~ "から始めてください。"
+
+#~ msgid "Select the <literal>Manage Modules</literal> link."
+#~ msgstr "<literal>Manage Modules</literal> リンクを選択してください。"
+
+#, fuzzy
+#~ msgid "Select the <literal>jboss-seam-jee5-booking.war</literal> link."
+#~ msgstr "<literal>jboss-seam-jee5.war</literal> リンクを選択してください。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Change the <literal>Class loader order</literal> combo box to "
+#~ "<literal>Classes loaded with application class loader first (parent last)"
+#~ "</literal>."
+#~ msgstr ""
+#~ "<literal>Class loader order</literal> コンボボックスを <literal>Classes "
+#~ "loaded with application class loader first</literal> に変更してください。"
+
+#~ msgid ""
+#~ "Select <literal>Apply</literal> and then <literal>Save</literal> options."
+#~ msgstr ""
+#~ "<literal>Apply (適用)</literal> を選択し、<literal>Save (保存)</literal> "
+#~ "オプションを選択してください。"
+
+#, fuzzy
+#~ msgid "Return to the <literal>Seam Booking</literal> page."
+#~ msgstr "<literal>Seam Booking</literal> ページに戻ります。"
+
+#~ msgid ""
+#~ "On this page select the <literal>Class loading and update detection</"
+#~ "literal> link."
+#~ msgstr ""
+#~ "このページで <literal>Class loading and update detection</literal> リンク"
+#~ "を選択してください。"
+
+#~ msgid ""
+#~ "Select the radio button for <literal>Classes loaded with application "
+#~ "class loader first</literal>."
+#~ msgstr ""
+#~ "ラジオボタンで <literal>Classes loaded with application class loader "
+#~ "first</literal> を選択してください。"
+
+#~ msgid ""
+#~ "This is similar to the <literal>jee5</literal> example at <xref linkend="
+#~ "\"jee5-websphere-deploy\"/>, but without so many steps."
+#~ msgstr ""
+#~ "これは <literal>jee5</literal> サンプルの <xref linkend=\"jee5-websphere-"
+#~ "deploy\"/> と類似していますが、多くの手順は必要ありません。"
+
+#~ msgid ""
+#~ "From the <literal>Enterprise Applications</literal> table select the "
+#~ "<literal>Install</literal> button."
+#~ msgstr ""
+#~ "<literal>Enterprise Applications (エンタープライズアプリケーション)</"
+#~ "literal> テーブルから <literal>Install (インストール)</literal> ボタンを選"
+#~ "択してください。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Browse to the <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</"
+#~ "literal> file using the file upload widget."
+#~ msgstr ""
+#~ "ファイルアップロードのウィジェットを使用して、ブラウザで "
+#~ "<literal>examples/jpa/dist-websphere61/jboss-seam-jpa.war</literal> ファイ"
+#~ "ルを指定してください。"
+
+#~ msgid ""
+#~ "Select the <literal>Next</literal> button for the next three pages, no "
+#~ "changes are needed."
+#~ msgstr ""
+#~ "<literal>Next</literal> ボタンを選択して、3 ページ先まで進んでください。そ"
+#~ "こまで変更は必要ありません。"
+
+#~ msgid ""
+#~ "In the <literal>Context root</literal> text box enter <literal>jboss-seam-"
+#~ "jpa</literal>."
+#~ msgstr ""
+#~ "<literal>Context root</literal> テキストボックスに <literal>jboss-seam-"
+#~ "jpa</literal>を入力してください。"
+
+#~ msgid "<literal>Summary</literal> page"
+#~ msgstr "<literal>Summary (要約)</literal> ページ"
+
+#~ msgid ""
+#~ "Review the settings if you wish and select the <literal>Finish</literal> "
+#~ "button to install the application. When installation finished select the "
+#~ "<literal> Save</literal> link and you will be returned to the "
+#~ "<literal>Enterprise Applications</literal> table."
+#~ msgstr ""
+#~ "お望みなら設定を確認して、<literal>Finish (完了)</literal> ボタンを選択し"
+#~ "てアプリケーションのインストールを完了してください。インストールが完了し"
+#~ "て <literal> Save (保存)</literal> リンクを選択すると <literal>Enterprise "
+#~ "Applications (エンタープライズアプリケーション)</literal>テーブルに戻りま"
+#~ "す。"
+
+#, fuzzy
+#~ msgid ""
+#~ "As with the <literal>jee5</literal> example there are some class loader "
+#~ "changes needed before we start the application. Follow the instructions "
+#~ "at <xref linkend=\"websphere-app-adj-after-install\"/> but exchange "
+#~ "<literal>jboss-seam-jpa_war</literal> for <literal>Seam Booking</literal>."
+#~ msgstr ""
+#~ "<literal>jee5</literal> サンプルについては、アプリケーションの実行に前にク"
+#~ "ラスローダを変更する必要があります。<xref linkend=\"websphere-app-adj-"
+#~ "after-install\"/> の手順に従ってください。但し、<literal>Seam Booking</"
+#~ "literal> を<literal>jboss-seam-jpa</literal> と置き換えて使用してくださ"
+#~ "い。"
+
+#~ msgid ""
+#~ "Finally start the application by selecting it in the <literal>Enterprise "
+#~ "Applications</literal> table and clicking the <literal>Start</literal> "
+#~ "button."
+#~ msgstr ""
+#~ "最後にアプリケーションを開始するには、<literal>Enterprise Applications (エ"
+#~ "ンタープライズアプリケーション)</literal> テーブルでアプリケーションを選択"
+#~ "して <literal>Start (開始)</literal> ボタンをクリックしてください。"
+
+#, fuzzy
+#~ msgid "What's different for Websphere AS V7"
+#~ msgstr "Websphere 6.1 での変更点"
+
+#, fuzzy
+#~ msgid ""
+#~ "The differences between the JPA examples that deploys to JBoss 4.2 and "
+#~ "Websphere AS V7 are mostly expected; library and configuration file "
+#~ "changes."
+#~ msgstr ""
+#~ "JBoss 4.2 と Websphere 6.1 にデプロイされる JPA サンプルの相違点は、多くが"
+#~ "ライブラリと構成ファイルです。"
+
+#~ msgid "<para>Configuration file changes</para>"
+#~ msgstr "<para>構成ファイルの変更</para>"
+
+#, fuzzy
+#~ msgid ""
+#~ "<literal>src/GlassfishDerbyDialect.java </literal> &#8212; this class is "
+#~ "needed for the hibernate dialect change to "
+#~ "<literal>GlassfishDerbyDialect</literal>"
+#~ msgstr ""
+#~ "<literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal> &#8212; こ"
+#~ "のクラスは、Hibernate ダイアレクトを <literal>GlassFishDerbyDialect</"
+#~ "literal> に変更するのに必要です。"
+
+#~ msgid "Changes for dependent libraries"
+#~ msgstr "依存ライブラリの変更"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Websphere version requires several library packages because they are "
+#~ "not included as they are with JBoss AS. These are primarily for hibernate "
+#~ "and their dependencies. Below are listed only the additional jars needed "
+#~ "above and beyond the JBoss <literal>JPA</literal> example."
+#~ msgstr ""
+#~ "<literal>WEB-INF/lib</literal> &#8212; Websphere には、JBoss AS に含まれて"
+#~ "いたライブラリのうちでないものがあるので、いくつかのライブラリパッケージが"
+#~ "必要となります。これらは、主に Hibernate や JSF-RI サポートのためのライブ"
+#~ "ラリとその依存ライブラリです。以下は、JBoss <literal>JPA</literal> サンプ"
+#~ "ルに必要な追加の jar のリストです。"
+
+#~ msgid "To use Hibernate as your JPA provider you need the following jars:"
+#~ msgstr ""
+#~ "Hibernate を JPA provider プロバイダとして使用するためには、以下の jar が"
+#~ "必要です。"
+
+#~ msgid "hibernate.jar"
+#~ msgstr "hibernate.jar"
+
+#~ msgid "hibernate-annotations.jar"
+#~ msgstr "hibernate-annotations.jar"
+
+#~ msgid "hibernate-commons-annotations.jar"
+#~ msgstr "hibernate-commons-annotations.jar"
+
+#~ msgid "hibernate-entitymanager.jar"
+#~ msgstr "hibernate-entitymanager.jar"
+
+#~ msgid "hibernate-validator.jar"
+#~ msgstr "hibernate-validator.jar"
+
+#~ msgid "commons-collections.jar"
+#~ msgstr "commons-collections.jar"
+
+#~ msgid "jboss-common-core.jar"
+#~ msgstr "jboss-common-core.jar"
+
+#~ msgid "Various third party jars that Websphere needs:"
+#~ msgstr "WebSphere が必要とするさまざまなサードパーティ jar。"
+
+#~ msgid "antlr.jar"
+#~ msgstr "antlr.jar"
+
+#~ msgid "cglib.jar"
+#~ msgstr "cglib.jar"
+
+#~ msgid "asm.jar"
+#~ msgstr "asm.jar"
+
+#~ msgid "dom4j.jar"
+#~ msgstr "dom4j.jar"
+
+#~ msgid "javassist.jar"
+#~ msgstr "javassist.jar"
+
+#~ msgid "concurrent.jar"
+#~ msgstr "concurrent.jar"
+
+#, fuzzy
+#~ msgid ""
+#~ "Deploying an application created using <literal>seam-gen</literal> on "
+#~ "Websphere V7"
+#~ msgstr ""
+#~ "<literal>seam-gen</literal> により生成されたアプリケーションの Websphere "
+#~ "6.1.0.13 へのデプロイ"
+
+#~ msgid ""
+#~ "<literal>seam-gen</literal> is a very useful tool for developers to "
+#~ "quickly get an application up and running, and provides a foundation to "
+#~ "add your own functionality. Out of box <literal>seam-gen</literal> will "
+#~ "produce applications configured to run on JBoss AS. These instructions "
+#~ "will show the steps needed to get it to run on Websphere. As stated above "
+#~ "in <xref linkend=\"jee5-websphere-section\"/> there are some tricky "
+#~ "changes needed to get an EJB3 application running. This section will take "
+#~ "you through the exact steps."
+#~ msgstr ""
+#~ "<literal>seam-gen</literal> は、開発者が素早くアプリケーションを準備して動"
+#~ "作させるのにとても役に立つツールで、独自の機能を追加するための雛形を用意し"
+#~ "ます。<literal>seam-gen</literal> はそのままで JBoss AS で動作するように構"
+#~ "成されたアプリケーションを生成します。以下の手順では、Websphere 上で動作さ"
+#~ "せるために必要なステップを示します。<xref linkend=\"jee5-websphere-section"
+#~ "\"/> で述べたように、EJB3 アプリケーションを動作させるには変更が必要です。"
+#~ "このセクションでは、その正確な手順を示します。"
+
+#~ msgid "Running <literal>seam-gen</literal> Setup"
+#~ msgstr "<literal>seam-gen</literal> セットアップの実行"
+
+#~ msgid ""
+#~ "The first step is setting up <literal>seam-gen</literal> to construct the "
+#~ "base project. There are several choices made below, specifically the "
+#~ "datasource and hibernate values that we will adjust once the project is "
+#~ "created."
+#~ msgstr ""
+#~ "第一ステップは、雛形となるプロジェクトを生成できるように <literal>seam-"
+#~ "gen</literal> をセットアップすることです。以下に実行したように、設定すべき"
+#~ "項目がいくつかあります。特に、データソースと Hibernate の設定値は、プロ"
+#~ "ジェクトを生成する環境に合わせて設定します。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "./seam setup\n"
+#~ "Buildfile: build.xml\n"
+#~ "\n"
+#~ "init:\n"
+#~ "\n"
+#~ "setup:\n"
+#~ "     [echo] Welcome to seam-gen :-)\n"
+#~ "    [input] Enter your Java project workspace (the directory that "
+#~ "contains your \n"
+#~ "Seam projects) [C:/Projects] [C:/Projects]\n"
+#~ "/home/jbalunas/workspace\n"
+#~ "    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
+#~ "GA] \n"
+#~ "[C:/Program Files/jboss-4.2.3.GA]\n"
+#~ "/home/jbalunas/jboss/jboss-4.2.3.GA\n"
+#~ "    [input] Enter the project name [myproject] [myproject]\n"
+#~ "websphere_example\n"
+#~ "     [echo] Accepted project name as: websphere_example\n"
+#~ "    [input] Do you want to use ICEFaces instead of RichFaces [n] (y, "
+#~ "[n], )\n"
+#~ "\n"
+#~ "    [input] skipping input as property icefaces.home.new has already been "
+#~ "set.\n"
+#~ "    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, "
+#~ "wine, \n"
+#~ "deepMarine, emeraldTown, sakura, DEFAULT)\n"
+#~ "\n"
+#~ "    [input] Is this project deployed as an EAR (with EJB components) or a "
+#~ "WAR \n"
+#~ "(with no EJB support) [ear]  ([ear], war, )\n"
+#~ "\n"
+#~ "    [input] Enter the Java package name for your session beans [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]\n"
+#~ "org.jboss.seam.tutorial.websphere.action \n"
+#~ "    [input] Enter the Java package name for your entity beans [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]\n"
+#~ "org.jboss.seam.tutorial.websphere.model  \n"
+#~ "    [input] Enter the Java package name for your test cases [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action."
+#~ "test]\n"
+#~ "org.jboss.seam.tutorial.websphere.test\n"
+#~ "    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
+#~ "oracle,\n"
+#~ " postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+#~ "\n"
+#~ "    [input] Enter the Hibernate dialect for your database [org."
+#~ "hibernate.\n"
+#~ "dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
+#~ "\n"
+#~ "    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/"
+#~ "lib/hsqldb.jar] \n"
+#~ "[/tmp/seam/lib/hsqldb.jar]\n"
+#~ "\n"
+#~ "    [input] Enter JDBC driver class for your database [org.hsqldb."
+#~ "jdbcDriver] \n"
+#~ "[org.hsqldb.jdbcDriver]\n"
+#~ "\n"
+#~ "    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] \n"
+#~ "[jdbc:hsqldb:.]\n"
+#~ "\n"
+#~ "    [input] Enter database username [sa] [sa]\n"
+#~ "\n"
+#~ "    [input] Enter database password [] []\n"
+#~ "\n"
+#~ "    [input] Enter the database schema name (it is OK to leave this blank) "
+#~ "[] []\n"
+#~ "\n"
+#~ "    [input] Enter the database catalog name (it is OK to leave this "
+#~ "blank) [] []\n"
+#~ "\n"
+#~ "    [input] Are you working with tables that already exist in the "
+#~ "database? [n]\n"
+#~ "  (y, [n], )\n"
+#~ "\n"
+#~ "    [input] Do you want to drop and recreate the database tables and data "
+#~ "in \n"
+#~ "import.sql each time you deploy? [n]  (y, [n], )\n"
+#~ "\n"
+#~ "[propertyfile] Creating new property file: \n"
+#~ "/rhdev/projects/jboss-seam/svn-seam_2_2/jboss-seam-2_2/seam-gen/build."
+#~ "properties\n"
+#~ "     [echo] Installing JDBC driver jar to JBoss server\n"
+#~ "     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/"
+#~ "default/lib\n"
+#~ "     [echo] Type 'seam create-project' to create the new project\n"
+#~ "\n"
+#~ "BUILD SUCCESSFUL\n"
+#~ "Total time: 3 minutes 5 seconds]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "./seam setup\n"
+#~ "Buildfile: build.xml\n"
+#~ "\n"
+#~ "init:\n"
+#~ "\n"
+#~ "setup:\n"
+#~ "     [echo] Welcome to seam-gen :-)\n"
+#~ "    [input] Enter your Java project workspace (the directory that "
+#~ "contains your \n"
+#~ "Seam projects) [C:/Projects] [C:/Projects]\n"
+#~ "/home/jbalunas/workspace\n"
+#~ "    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3."
+#~ "GA] \n"
+#~ "[C:/Program Files/jboss-4.2.3.GA]\n"
+#~ "/home/jbalunas/jboss/jboss-4.2.3.GA\n"
+#~ "    [input] Enter the project name [myproject] [myproject]\n"
+#~ "websphere_example\n"
+#~ "     [echo] Accepted project name as: websphere_example\n"
+#~ "    [input] Do you want to use ICEFaces instead of RichFaces [n] (y, "
+#~ "[n], )\n"
+#~ "\n"
+#~ "    [input] skipping input as property icefaces.home.new has already been "
+#~ "set.\n"
+#~ "    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, "
+#~ "wine, \n"
+#~ "deepMarine, emeraldTown, sakura, DEFAULT)\n"
+#~ "\n"
+#~ "    [input] Is this project deployed as an EAR (with EJB components) or a "
+#~ "WAR \n"
+#~ "(with no EJB support) [ear]  ([ear], war, )\n"
+#~ "\n"
+#~ "    [input] Enter the Java package name for your session beans [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]\n"
+#~ "org.jboss.seam.tutorial.websphere.action \n"
+#~ "    [input] Enter the Java package name for your entity beans [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]\n"
+#~ "org.jboss.seam.tutorial.websphere.model  \n"
+#~ "    [input] Enter the Java package name for your test cases [org.jboss."
+#~ "seam.\n"
+#~ "tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action."
+#~ "test]\n"
+#~ "org.jboss.seam.tutorial.websphere.test\n"
+#~ "    [input] What kind of database are you using? [hsql]  ([hsql], mysql, "
+#~ "oracle,\n"
+#~ " postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+#~ "\n"
+#~ "    [input] Enter the Hibernate dialect for your database [org."
+#~ "hibernate.\n"
+#~ "dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]\n"
+#~ "\n"
+#~ "    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/"
+#~ "lib/hsqldb.jar] \n"
+#~ "[/tmp/seam/lib/hsqldb.jar]\n"
+#~ "\n"
+#~ "    [input] Enter JDBC driver class for your database [org.hsqldb."
+#~ "jdbcDriver] \n"
+#~ "[org.hsqldb.jdbcDriver]\n"
+#~ "\n"
+#~ "    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] \n"
+#~ "[jdbc:hsqldb:.]\n"
+#~ "\n"
+#~ "    [input] Enter database username [sa] [sa]\n"
+#~ "\n"
+#~ "    [input] Enter database password [] []\n"
+#~ "\n"
+#~ "    [input] Enter the database schema name (it is OK to leave this blank) "
+#~ "[] []\n"
+#~ "\n"
+#~ "    [input] Enter the database catalog name (it is OK to leave this "
+#~ "blank) [] []\n"
+#~ "\n"
+#~ "    [input] Are you working with tables that already exist in the "
+#~ "database? [n]\n"
+#~ "  (y, [n], )\n"
+#~ "\n"
+#~ "    [input] Do you want to drop and recreate the database tables and data "
+#~ "in \n"
+#~ "import.sql each time you deploy? [n]  (y, [n], )\n"
+#~ "\n"
+#~ "[propertyfile] Creating new property file: \n"
+#~ "/rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build."
+#~ "properties\n"
+#~ "     [echo] Installing JDBC driver jar to JBoss server\n"
+#~ "     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/"
+#~ "default/lib\n"
+#~ "     [echo] Type 'seam create-project' to create the new project\n"
+#~ "\n"
+#~ "BUILD SUCCESSFUL\n"
+#~ "Total time: 3 minutes 5 seconds]]>"
+
+#~ msgid ""
+#~ "Type <literal>./seam new-project</literal> to create your project and "
+#~ "<literal>cd /home/jbalunas/workspace/websphere_example</literal> to the "
+#~ "newly created structure."
+#~ msgstr ""
+#~ "プロジェクトを作成するためには、<literal>$ ./seam new-project</literal> と"
+#~ "入力してください。そして <literal>cd /home/jbalunas/workspace/"
+#~ "websphere_example</literal> と入力して新しく作成されたディレクトリへ移動し"
+#~ "てください。"
+
+#~ msgid "Changes needed for deployment to Websphere"
+#~ msgstr "Websphere へのデプロイに必要な変更点"
+
+#~ msgid "We now need to make some changes to the generated project."
+#~ msgstr "生成されたプロジェクトに変更を行う必要があります。"
+
+#~ msgid "resources/META-INF/persistence-dev.xml"
+#~ msgstr "resources/META-INF/persistence-dev.xml"
+
+#~ msgid ""
+#~ "Alter the <literal>jta-data-source</literal> to be "
+#~ "<literal>DefaultDatasource</literal>. We are going to be using the "
+#~ "integrated Websphere DB."
+#~ msgstr ""
+#~ "<literal>jta-data-source</literal> を <literal>DefaultDatasource</"
+#~ "literal> に修正してください。組み込みの Websphere DB を使用します。"
+
+#~ msgid ""
+#~ "Add or change the properties below. These are described in detail at "
+#~ "<xref linkend=\"jee5-websphere-section\"/>:"
+#~ msgstr ""
+#~ "以下のプロパティを追加修正してください。<xref linkend=\"jee5-websphere-"
+#~ "section\"/> に詳細が説明されています。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+#~ "<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
+#~ "<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
+#~ "<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
+#~ "<property name=\"hibernate.cache.provider_class\" \n"
+#~ "          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+#~ "<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+#~ "          value=\"org.hibernate.transaction."
+#~ "WebSphereExtendedJTATransactionLookup\"/>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+#~ "<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
+#~ "<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
+#~ "<property name=\"hibernate.format_sql\" value=\"true\"/>\n"
+#~ "<property name=\"hibernate.cache.provider_class\" \n"
+#~ "          value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+#~ "<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+#~ "          value=\"org.hibernate.transaction."
+#~ "WebSphereExtendedJTATransactionLookup\"/>]]>"
+
+#~ msgid ""
+#~ "Remove the JBoss AS specific method of exposing the EntityManagerFactory:"
+#~ msgstr ""
+#~ "EntityManagerFactory を定義する JBoss AS 固有のメソッドを取り除いてくださ"
+#~ "い。"
+
+#~ msgid ""
+#~ "<![CDATA[<property \n"
+#~ " name=\"jboss.entity.manager.factory.jndi.name\" \n"
+#~ " value=\"java:/websphere_exampleEntityManagerFactory\">]]>"
+#~ msgstr ""
+#~ "<![CDATA[<property \n"
+#~ " name=\"jboss.entity.manager.factory.jndi.name\" \n"
+#~ " value=\"java:/websphere_exampleEntityManagerFactory\">\n"
+#~ "]]>"
+
+#~ msgid ""
+#~ "You'll need to alter <literal>persistence-prod.xml</literal> as well if "
+#~ "you want to deploy to Websphere using the prod profile."
+#~ msgstr ""
+#~ "prod プロファイルを使用して Websphere にデプロイしたければ、"
+#~ "<literal>persistence-prod.xml</literal> も同様に修正する必要があります。"
+
+#, fuzzy
+#~ msgid ""
+#~ "As with other examples we need to include this java class for DB support. "
+#~ "It can be copied from the <literal>jpa</literal> example into the "
+#~ "<literal>websphere_example/src</literal> directory."
+#~ msgstr ""
+#~ "他のサンプルと同様に、データベースサポートのためのこのクラスを含める必要が"
+#~ "あります。<literal>jpa</literal> サンプルから  <literal>websphere_example/"
+#~ "resources</literal> ディレクトリへコピーしてください。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "cp $SEAM/examples/jpa/src/GlassfishDerbyDialect.java\n"
+#~ "   ./src]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/"
+#~ "GlassfishDerbyDialect.class\n"
+#~ "   ./resources]]>"
+
+#~ msgid "resources/META-INF/jboss-app.xml"
+#~ msgstr "resources/META-INF/jboss-app.xml"
+
+#~ msgid ""
+#~ "You can delete this file as we aren't deploying to JBoss AS "
+#~ "( <literal>jboss-app.xml</literal> is used to enable classloading "
+#~ "isolation in JBoss AS)"
+#~ msgstr ""
+#~ "JBoss AS にはデプロイしないのでこのファイルを削除できます (JBoss AS では "
+#~ "<literal>jboss-app.xml</literal> を使用して、クラスローディングの分離を有"
+#~ "効にします)"
+
+#~ msgid "resources/*-ds.xml"
+#~ msgstr "resources/*-ds.xml"
+
+#~ msgid ""
+#~ "You can delete these file as we aren't deploying to JBoss AS (these files "
+#~ "define datasources in JBoss AS, we are using Websphere's default "
+#~ "datasource)"
+#~ msgstr ""
+#~ "JBoss AS にはデプロイしないのでこのファイルを削除できます (これらのファイ"
+#~ "ルは、JBoss AS ではデータソースを定義していますが、Websphere ではデフォル"
+#~ "トのデータソースを使用しています)"
+
+#~ msgid ""
+#~ "Enable container managed transaction integration - add the <literal> &lt;"
+#~ "transaction:ejb-transaction /&gt; </literal> component, and it's "
+#~ "namespace declaration <literal> xmlns:transaction=\"http://jboss.com/"
+#~ "products/seam/transaction\" </literal>"
+#~ msgstr ""
+#~ "コンテナ管理トランザクション統合を有効にします - <literal> &lt;"
+#~ "transaction:ejb-transaction /&gt; </literal> コンポーネントと、その名前空"
+#~ "間宣言  <literal>xmlns:transaction=\"http://jboss.com/products/seam/"
+#~ "transaction\"</literal> を追記してください"
+
+#~ msgid ""
+#~ "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/"
+#~ "websphere_example/#{ejbName} </literal>"
+#~ msgstr ""
+#~ "<literal>jndi-pattern</literal> を <literal>java:comp/env/"
+#~ "websphere_example/#{ejbName}</literal> に修正します"
+
+#~ msgid ""
+#~ "We do not need <literal>managed-persistence-context</literal> for this "
+#~ "example and so can delete its entry."
+#~ msgstr ""
+#~ "このサンプルでは、<literal>managed-persistence-context</literal> は必要で"
+#~ "はないので、そのエントリは削除します。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<persistence:managed-persistence-context name=\"entityManager\"\n"
+#~ "             auto-create=\"true\"\n"
+#~ "             persistence-unit-jndi-name=\"java:/"
+#~ "websphere_exampleEntityManagerFactory\"/> ]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<persistence:managed-persistence-context name=\"entityManager\"\n"
+#~ "             auto-create=\"true\"\n"
+#~ "             persistence-unit-jndi-name=\"java:/"
+#~ "websphere_exampleEntityManagerFactory\"/> ]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "As with the <literal>jee5/booking</literal> example we need to add EJB "
+#~ "references to the web.xml. These references require replacing /local "
+#~ "string in <literal>ejb-ref-name</literal> to flag them for Websphere to "
+#~ "perform the proper binding."
+#~ msgstr ""
+#~ "<literal>jee5/booking</literal> サンプルと同様に、web.xml に EJB 参照を加"
+#~ "える必要があります。これらの EJB 参照には、Websphere が適切なバインディン"
+#~ "グを実行するために空の <literal>local-home</literal> を設定することが必要"
+#~ "となります。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[  \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</"
+#~ "local>\n"
+#~ "  </ejb-local-ref>        \n"
+#~ "   \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>  \n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+#~ "  </ejb-local-ref>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</"
+#~ "local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "   \n"
+#~ "  <ejb-local-ref>\n"
+#~ "    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>\n"
+#~ "    <ejb-ref-type>Session</ejb-ref-type>\n"
+#~ "    <local-home></local-home>\n"
+#~ "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+#~ "  </ejb-local-ref>\n"
+#~ "]]>"
+
+#~ msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
+#~ msgstr "<literal>AuthenticatorAction</literal> EJB の作成"
+
+#~ msgid ""
+#~ "We want to take the existing <literal>Authenticator</literal> Seam POJO "
+#~ "component and create an EJB3 out of it."
+#~ msgstr ""
+#~ "既存の <literal>Authenticator</literal> Seam POJO コンポーネントを利用し"
+#~ "て、EJB3 を作成します。"
+
+#~ msgid "Rename the class to <literal>AuthenticatorAction</literal>"
+#~ msgstr "クラス名を <literal>AuthenticatorAction</literal> に変更します"
+
+#~ msgid ""
+#~ "Add the <literal>@Stateless</literal> annotation to the new "
+#~ "<literal>AuthenticatorAction</literal> class."
+#~ msgstr ""
+#~ "<literal>@Stateless</literal> アノテーションを新しい "
+#~ "<literal>AuthenticatorAction</literal> クラスに付与します。"
+
+#~ msgid ""
+#~ "Create an interface called <literal>Authenticator</literal> which "
+#~ "<literal>AuthenticatorAction</literal> implements (EJB3 requires session "
+#~ "beans to have a local interface). Annotate the interface with "
+#~ "<literal>@Local</literal> , and add a single method with same signature "
+#~ "as the <literal>authenticate</literal> in <literal>AuthenticatorAction</"
+#~ "literal> ."
+#~ msgstr ""
+#~ "<literal>AuthenticatorAction</literal> が実装する <literal>Authenticator</"
+#~ "literal> という名前のインタフェースを作成してください (EJB3 ではセッショ"
+#~ "ン Bean にローカルインタフェースが必要)。インタフェースに "
+#~ "<literal>@Local</literal> アノテーションを付与し、"
+#~ "<literal>AuthenticatorAction</literal> の <literal>authenticate</literal> "
+#~ "と同じシグニチャのメソッドを一つ追加してください。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "@Name(\"authenticator\") @Stateless public class\n"
+#~ "            AuthenticatorAction implements Authenticator {]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "@Name(\"authenticator\")\n"
+#~ "@Stateless\n"
+#~ "public class AuthenticatorAction implements Authenticator {]]>"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "@Local public interface Authenticator { \n"
+#~ "  public boolean authenticate(); \n"
+#~ "}]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "@Local\n"
+#~ "public interface Authenticator { \n"
+#~ "  public boolean authenticate(); \n"
+#~ "}]]>"
+
+#~ msgid ""
+#~ "We've already added its reference to the <literal>web.xml</literal> file "
+#~ "so are good to go."
+#~ msgstr ""
+#~ "すでに <literal>web.xml</literal> ファイルには EJB 参照を追加したので、次"
+#~ "に進めます。"
+
+#~ msgid ""
+#~ "Extra jar dependencies and other changes to the <literal>build.xml</"
+#~ "literal>"
+#~ msgstr ""
+#~ "<literal>build.xml</literal> への jar 依存関係の追加とその他の変更点"
+
+#~ msgid ""
+#~ "This application has similar requirements as the <literal>jee5/booking</"
+#~ "literal> example."
+#~ msgstr ""
+#~ "このアプリケーションは、<literal>jee5/booking</literal> サンプルと同様の変"
+#~ "更が必要となります。"
+
+#~ msgid ""
+#~ "Change the default target to <literal>archive</literal> (we aren't going "
+#~ "to cover automatic deployment to Websphere)."
+#~ msgstr ""
+#~ "デフォルトのターゲットを <literal>archive</literal> に変更します "
+#~ "(Websphere への自動的なデプロイを行いません)。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<project name=\"websphere_example\" default=\"archive\" basedir=\".\">]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<project name=\"websphere_example\" default=\"archive\" basedir=\".\">\n"
+#~ "]]>"
+
+#~ msgid ""
+#~ "Websphere looks for the drools <literal>/security.drl</literal> file in "
+#~ "the root of the <literal>war</literal> file instead of the root of the "
+#~ "<literal>websphere_example.jar</literal> so we need to have the "
+#~ "<literal>build.xml</literal> move it to the correct location at build "
+#~ "time. The following must be added at the top of the <literal> &lt;target "
+#~ "name=\"war\" depends=\"compile\" description=\"Build the distribution ."
+#~ "war file\"&gt; </literal> target."
+#~ msgstr ""
+#~ "Websphere は、<literal>websphere_example.jar</literal> のルートではなく "
+#~ "<literal>war</literal> ファイルのルートで drools の <literal>/security."
+#~ "drl</literal> ファイルを探すので、ビルド時には正しい場所へ移動させるよう"
+#~ "に <literal>build.xml</literal> に設定する必要があります。以下の変更は、"
+#~ "<literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build "
+#~ "the distribution .war file\"&gt; </literal> ターゲットの先頭に追加しなけれ"
+#~ "ばなりません。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<copy todir=\"${war.dir}\">\n"
+#~ "   <fileset dir=\"${basedir}/resources\" >\n"
+#~ "       <include name=\"*.drl\" />\n"
+#~ "   </fileset>\n"
+#~ "</copy>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<copy todir=\"${war.dir}\">\n"
+#~ "   <fileset dir=\"${basedir}/resources\" >\n"
+#~ "       <include name=\"*.drl\" />\n"
+#~ "   </fileset>\n"
+#~ "</copy>\n"
+#~ "]]>"
+
+#~ msgid ""
+#~ "Now we need to get extra jars into the <literal>build.xml</literal>. Look "
+#~ "for the <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> section of "
+#~ "the task below. Add the new includes at the bottom of the fileset."
+#~ msgstr ""
+#~ "追加の jar を <literal>build.xml</literal> に入れる必要があります。以下の"
+#~ "タスクの <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> セクション"
+#~ "を探してください。fileset  の最後に新しい include を追加してください。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "<target name=\"ear\" description=\"Build the EAR\">\n"
+#~ "    <copy todir=\"${ear.dir}\">\n"
+#~ "            <fileset dir=\"${basedir}/resources\">\n"
+#~ "                    <include name=\"*jpdl.xml\" />\n"
+#~ "                    <include name=\"*hibernate.cfg.xml\" />\n"
+#~ "                    <include name=\"jbpm.cfg.xml\" />\n"
+#~ "            </fileset>\n"
+#~ "\n"
+#~ "            <fileset dir=\"${basedir}\">\n"
+#~ "                    <include name=\"lib/jbpm*.jar\" />\n"
+#~ "                    <include name=\"lib/jboss-el.jar\" />\n"
+#~ "                    <include name=\"lib/drools-*.jar\"/>\n"
+#~ "                    <include name=\"lib/core.jar\"/>\n"
+#~ "                    <include name=\"lib/janino*.jar\"/>\n"
+#~ "                    <include name=\"lib/antlr-*.jar\"/>\n"
+#~ "                    <include name=\"lib/mvel*.jar\"/>\n"
+#~ "                  <include name=\"lib/richfaces-api*.jar\" />\n"
+#~ "            </fileset>\n"
+#~ "    </copy>\n"
+#~ "    <copy todir=\"${ear.dir}/META-INF\">\n"
+#~ "            <fileset dir=\"${basedir}/resources/META-INF\">\n"
+#~ "                    <include name=\"application.xml\" />\n"
+#~ "                    <include name=\"jboss-app.xml\" />\n"
+#~ "            </fileset>\n"
+#~ "    </copy>\n"
+#~ "</target>]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<target name=\"ear\" description=\"Build the EAR\">\n"
+#~ "    <copy todir=\"${ear.dir}\">\n"
+#~ "            <fileset dir=\"${basedir}/resources\">\n"
+#~ "                    <include name=\"*jpdl.xml\" />\n"
+#~ "                    <include name=\"*hibernate.cfg.xml\" />\n"
+#~ "                    <include name=\"jbpm.cfg.xml\" />\n"
+#~ "            </fileset>\n"
+#~ "         <fileset dir=\"${lib.dir}\">\n"
+#~ "               <include name=\"jboss-seam.jar\" />\n"
+#~ "         </fileset>\n"
+#~ "            <fileset dir=\"${basedir}\">\n"
+#~ "                    <include name=\"lib/jbpm*.jar\" />\n"
+#~ "                    <include name=\"lib/jboss-el.jar\" />\n"
+#~ "                    <include name=\"lib/drools-*.jar\"/>\n"
+#~ "                    <include name=\"lib/core.jar\"/>\n"
+#~ "                    <include name=\"lib/janino*.jar\"/>\n"
+#~ "                    <include name=\"lib/antlr-*.jar\"/>\n"
+#~ "                    <include name=\"lib/mvel*.jar\"/>\n"
+#~ "                  <include name=\"lib/richfaces-api*.jar\" />\n"
+#~ "            </fileset>\n"
+#~ "    </copy>\n"
+#~ "    <copy todir=\"${ear.dir}/META-INF\">\n"
+#~ "            <fileset dir=\"${basedir}/resources/META-INF\">\n"
+#~ "                    <include name=\"application.xml\" />\n"
+#~ "                    <include name=\"jboss-app.xml\" />\n"
+#~ "            </fileset>\n"
+#~ "    </copy>\n"
+#~ "</target>\n"
+#~ "]]>"
+
+#~ msgid "Hibernate dependencies"
+#~ msgstr "Hibernate 依存関係を追加してください。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "   <!-- Hibernate and deps -->\n"
+#~ "   <include name=\"lib/hibernate.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-validator.jar\"/>\n"
+#~ "   <include name=\"lib/jboss-common-core.jar\" />]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "   <!-- Hibernate and deps -->\n"
+#~ "   <include name=\"lib/hibernate.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-validator.jar\"/>\n"
+#~ "   <include name=\"lib/jboss-common-core.jar\" />]]>"
+
+#~ msgid "Third party dependencies."
+#~ msgstr "サードパーティ依存関係を追加してください。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "   <!-- 3rd party and supporting jars -->\n"
+#~ "   <!--<include name=\"lib/log4j.jar\" />-->\n"
+#~ "   <include name=\"lib/javassist.jar\"/>\n"
+#~ "   <include name=\"lib/dom4j.jar\" />\n"
+#~ "   <include name=\"lib/concurrent.jar\" />\n"
+#~ "   <include name=\"lib/cglib.jar\"/>\n"
+#~ "   <include name=\"lib/asm.jar\"/>\n"
+#~ "   <include name=\"lib/antlr.jar\" />\n"
+#~ "   <include name=\"lib/commons-logging.jar\" />\n"
+#~ "   <include name=\"lib/commons-collections.jar\" />]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "   <!-- 3rd party and supporting jars -->\n"
+#~ "   <!--<include name=\"lib/log4j.jar\" />-->\n"
+#~ "   <include name=\"lib/javassist.jar\"/>\n"
+#~ "   <include name=\"lib/dom4j.jar\" />\n"
+#~ "   <include name=\"lib/concurrent.jar\" />\n"
+#~ "   <include name=\"lib/cglib.jar\"/>\n"
+#~ "   <include name=\"lib/asm.jar\"/>\n"
+#~ "   <include name=\"lib/antlr.jar\" />\n"
+#~ "   <include name=\"lib/commons-logging.jar\" />\n"
+#~ "   <include name=\"lib/commons-collections.jar\" />]]>"
+
+#, fuzzy
+#~ msgid ""
+#~ "<literal>jboss-seam.jar</literal> - this is needed in the <literal>ear</"
+#~ "literal> base directory."
+#~ msgstr ""
+#~ "<literal>jboss-seam.jar</literal> - これは <literal>ear</literal> のベース"
+#~ "と <literal>/lib</literal> ディレクトリの両方で必要となります。"
+
+#~ msgid ""
+#~ "<![CDATA[\n"
+#~ "   <!-- seam jar -->\n"
+#~ "   <include name=\"lib/jboss-seam.jar\" />]]>"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "   <!-- seam jar -->\n"
+#~ "   <include name=\"lib/jboss-seam.jar\" />]]>"
+
+#~ msgid "You should end up with something like:"
+#~ msgstr "最後には以下のようになります。"
+
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[<fileset dir=\"${basedir}\">\n"
+#~ "               \n"
+#~ "   <include name=\"lib/jbpm*.jar\" />\n"
+#~ "   <include name=\"lib/jboss-el.jar\" />\n"
+#~ "   <include name=\"lib/drools-*.jar\"/>\n"
+#~ "   <include name=\"lib/core.jar\"/>\n"
+#~ "   <include name=\"lib/janino*.jar\"/>\n"
+#~ "   <include name=\"lib/antlr-*.jar\"/>\n"
+#~ "   <include name=\"lib/mvel*.jar\"/>\n"
+#~ "   <include name=\"lib/richfaces-api*.jar\" />\n"
+#~ "                                 \n"
+#~ "   <!-- Hibernate and deps -->\n"
+#~ "   <include name=\"lib/hibernate.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-validator.jar\"/>\n"
+#~ "   <include name=\"lib/jboss-common-core.jar\" />\n"
+#~ "\n"
+#~ "   <!-- 3rd party and supporting jars -->\n"
+#~ "   <include name=\"lib/javassist.jar\"/>\n"
+#~ "   <include name=\"lib/dom4j.jar\" />\n"
+#~ "   <include name=\"lib/concurrent.jar\" />\n"
+#~ "   <include name=\"lib/cglib.jar\"/>\n"
+#~ "   <include name=\"lib/asm.jar\"/>\n"
+#~ "   <include name=\"lib/antlr.jar\" />\n"
+#~ "   <include name=\"lib/commons-logging.jar\" />\n"
+#~ "   <include name=\"lib/commons-collections.jar\" />\n"
+#~ "               \n"
+#~ "   <!-- seam jar -->\n"
+#~ "   <include name=\"lib/jboss-seam.jar\" />\n"
+#~ "                           \n"
+#~ "</fileset>]]>"
+#~ msgstr ""
+#~ "<![CDATA[<fileset dir=\"${basedir}\">\n"
+#~ "               \n"
+#~ "   <include name=\"lib/jbpm*.jar\" />\n"
+#~ "   <include name=\"lib/jboss-el.jar\" />\n"
+#~ "   <include name=\"lib/drools-*.jar\"/>\n"
+#~ "   <include name=\"lib/core.jar\"/>\n"
+#~ "   <include name=\"lib/janino*.jar\"/>\n"
+#~ "   <include name=\"lib/antlr-*.jar\"/>\n"
+#~ "   <include name=\"lib/mvel*.jar\"/>\n"
+#~ "   <include name=\"lib/richfaces-api*.jar\" />\n"
+#~ "                                 \n"
+#~ "   <!-- Hibernate and deps -->\n"
+#~ "   <include name=\"lib/hibernate.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+#~ "   <include name=\"lib/hibernate-validator.jar\"/>\n"
+#~ "   <include name=\"lib/jboss-common-core.jar\" />\n"
+#~ "               \n"
+#~ "   <!-- jsf libs -->\n"
+#~ "   <include name=\"lib/jsf-api.jar\" />\n"
+#~ "   <include name=\"lib/jsf-impl.jar\" />\n"
+#~ "   <include name=\"lib/el-api.jar\" />\n"
+#~ "   <include name=\"lib/el-ri.jar\"/>\n"
+#~ "               \n"
+#~ "   <!-- 3rd party and supporting jars -->\n"
+#~ "   <include name=\"lib/javassist.jar\"/>\n"
+#~ "   <include name=\"lib/dom4j.jar\" />\n"
+#~ "   <include name=\"lib/concurrent.jar\" />\n"
+#~ "   <include name=\"lib/cglib.jar\"/>\n"
+#~ "   <include name=\"lib/asm.jar\"/>\n"
+#~ "   <include name=\"lib/antlr.jar\" />\n"
+#~ "   <include name=\"lib/commons-logging.jar\" />\n"
+#~ "   <include name=\"lib/commons-collections.jar\" />\n"
+#~ "               \n"
+#~ "   <!-- seam jar -->\n"
+#~ "   <include name=\"lib/jboss-seam.jar\" />\n"
+#~ "                           \n"
+#~ "</fileset>\n"
+#~ "]]>"
+
+#~ msgid "Building and deploying the seam-gen'd application to Websphere"
+#~ msgstr "seam-gen 生成アプリケーションのビルドと WebSphere へのデプロイ"
+
+#~ msgid ""
+#~ "Build your application by calling <literal>ant</literal> in the base "
+#~ "directory of your project (ex. <literal>/home/jbalunas/workspace/"
+#~ "websphere_example</literal> ). The target of the build will be "
+#~ "<literal>dist/websphere_example.ear</literal> ."
+#~ msgstr ""
+#~ "プロジェクトのベースディレクトリ (例えば <literal>/home/jbalunas/"
+#~ "workspace/websphere_example</literal>) で <literal>ant</literal> を実行し"
+#~ "てアプリケーションをビルドしてください。ビルドされるターゲットファイルは "
+#~ "<literal>dist/websphere_example.ear</literal> です。"
+
+#~ msgid ""
+#~ "To deploy the application follow the instructions here : <xref linkend="
+#~ "\"jee5-websphere-deploy\"/> but use references to this project "
+#~ "<literal>websphere_example</literal> instead of <literal>jboss-seam-jee5</"
+#~ "literal>."
+#~ msgstr ""
+#~ "アプリケーションをデプロイするには、 <xref linkend=\"jee5-websphere-deploy"
+#~ "\"/> の手順に従ってください 。但し、<literal>jboss-seam-jee5</literal> の"
+#~ "代わりにこのプロジェクト <literal>websphere_example</literal> へ置き換えて"
+#~ "使用してください。"
+
+#~ msgid ""
+#~ "Checkout the app at: <literal>http://localhost:9080/websphere_example/"
+#~ "index.html</literal>"
+#~ msgstr ""
+#~ "<literal>http://localhost:9080/websphere_example/index.html</literal> をブ"
+#~ "ラウズしてアプリケーションを確認してください。"
 
 #~ msgid ""
 #~ "Websphere 6.1.x is IBM's application server offering. The latest release "
@@ -2298,9 +2549,6 @@ msgstr ""
 #~ msgstr ""
 #~ "WebSphere には最新の fix pack を適用することを強く推奨します。執筆時点での"
 #~ "最新の fix pack は、6.1.0.19 です。"
-
-#~ msgid "A note about restarting the server"
-#~ msgstr "サーバの再起動についてのメモ"
 
 #~ msgid ""
 #~ "There are times that restarting the server will be required after "
@@ -2545,9 +2793,6 @@ msgstr ""
 #~ "ジュールが初期化されるときには、ear の lib ディレクトリにある jar が利用で"
 #~ "きません。"
 
-#~ msgid "Log in to the administration console"
-#~ msgstr "管理コンソールへログインしてください。"
-
 #~ msgid ""
 #~ "<literal>Map EJB references to beans</literal> This page will list all of "
 #~ "the beans that we entered in the web.xml."
@@ -2662,27 +2907,6 @@ msgstr ""
 #~ "<literal>Servlet 2.4</literal> を使用する必要があります。この変更のため"
 #~ "に、<literal>web.xml</literal> ファイルの先頭を以下のように変更する必要が"
 #~ "あります。"
-
-#~ msgid ""
-#~ "<![CDATA[\n"
-#~ "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-#~ "<web-app version=\"2.4\" \n"
-#~ "         xmlns=\"http://java.sun.com/xml/ns/j2ee\"\n"
-#~ "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-#~ "         xsi:schemaLocation=\"http://java.sun.com/xml/ns/j2ee \n"
-#~ "                             http://java.sun.com/xml/ns/j2ee/web-app_2_4."
-#~ "xsd\">\n"
-#~ "                  ]]>"
-#~ msgstr ""
-#~ "<![CDATA[\n"
-#~ "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-#~ "<web-app version=\"2.4\" \n"
-#~ "         xmlns=\"http://java.sun.com/xml/ns/j2ee\"\n"
-#~ "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-#~ "         xsi:schemaLocation=\"http://java.sun.com/xml/ns/j2ee \n"
-#~ "                             http://java.sun.com/xml/ns/j2ee/web-app_2_4."
-#~ "xsd\">\n"
-#~ "                  ]]>"
 
 #~ msgid ""
 #~ "We need to ge the <literal>GlassfishDerbyDialect.class</literal> into our "
