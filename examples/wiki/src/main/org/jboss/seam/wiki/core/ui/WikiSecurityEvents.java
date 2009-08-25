@@ -16,6 +16,8 @@ import org.jboss.seam.security.FacesSecurityEvents;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.wiki.core.action.WikiRequestResolver;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.Component;
 
 /**
  * Overrides the "login failed" message and turns it into a WARN (we don't want INFO here).
@@ -47,7 +49,7 @@ public class WikiSecurityEvents extends FacesSecurityEvents {
         );
 
         Contexts.getSessionContext().set(
-                WikiRequestResolver.SESSION_MSG_DATA, Identity.instance().getCredentials().getUsername()
+                WikiRequestResolver.SESSION_MSG_DATA, ((User)Component.getInstance("currentUser")).getFullname()
         );
 
     }

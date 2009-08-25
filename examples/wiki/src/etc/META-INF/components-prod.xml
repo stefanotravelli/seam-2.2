@@ -38,6 +38,15 @@
     -->
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
 
+    <web:cache-control-filter name="resourcesCacheControlFilter"
+                              regex-url-pattern=".*(\.gif|\.png|\.jpg|\.jpeg|\.css|\.js)"
+                              value="max-age=86400"/> <!-- 1 day -->
+
+    <web:cache-control-filter name="userPortraitCacheControlFilter"
+                              url-pattern="/seam/resource/wikiUserPortrait/*"
+                              value="max-age=432000"/> <!-- 5 days -->
+
+
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
     <!-- Running in regular JBoss AS, Seam starts the persistence unit -->

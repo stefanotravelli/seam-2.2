@@ -10,23 +10,22 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.util.Resources;
-import org.jboss.seam.web.AbstractResource;
+import org.jboss.seam.web.ConditionalAbstractResource;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.core.plugin.metamodel.PluginModule;
-import org.jboss.seam.core.Expressions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,7 +48,7 @@ import java.util.regex.Pattern;
 @Scope(APPLICATION)
 @Name("wikiPluginThemeResource")
 @BypassInterceptors
-public class WikiPluginThemeResource extends AbstractResource {
+public class WikiPluginThemeResource extends ConditionalAbstractResource {
 
     private Log log = Logging.getLog(WikiPluginThemeResource.class);
 
@@ -61,6 +60,18 @@ public class WikiPluginThemeResource extends AbstractResource {
 
     // Resources that are interpolated, i.e. which are text files that contain EL expressions
     private String[] interpolatedResourcesExtensions = new String[]{"css"};
+
+    private Map<String, String> mimeTypesExtensions = new HashMap() {{
+        put("css", "text/css");
+        put("txt", "text/plain");
+        put("js", "text/javascript");
+        put("png", "image/png");
+        put("jpg", "image/jpg");
+        put("jpeg", "image/jpeg");
+        put("gif", "image/gif");
+        put("swf", "application/x-shockwave-flash");
+        put("flv", "video/x-flv");
+    }};
 
     @Override
     public String getResourcePath() {
@@ -146,24 +157,52 @@ public class WikiPluginThemeResource extends AbstractResource {
 
             boolean isInterpolated = false;
             for (String interpolatedResourcesExtension : interpolatedResourcesExtensions) {
-                if (interpolatedResourcesExtension.equals(themeResourceExtension)) isInterpolated = true;
+                if (interpolatedResourcesExtension.equals(themeResourceExtension)) {
+                    isInterpolated = true;
+                    break;
+                }
             }
 
+            String contentType = mimeTypesExtensions.get(themeResourceExtension);
+
             if (isInterpolated) {
-                log.debug("serving interpolated resource: " + resourcePath);
+
+                if (contentType == null) {
+                    contentType = "text/plain";
+                }
+                response.setContentType(contentType);
+
                 CharSequence textFile = readFile(in);
                 textFile = parseEL(textFile);
-                response.getWriter().write(textFile.toString());
-                response.getWriter().flush();
+
+                String entityTag = createEntityTag(textFile.toString(), false);
+                Long lastModified = getLastModifiedTimestamp(resourcePath);
+
+                if (!sendConditional(request, response, entityTag, lastModified)) {
+                    log.debug("serving interpolated resource: " + resourcePath);
+                    OutputStreamWriter outStream = new OutputStreamWriter(selectOutputStream(request, response));
+                    outStream.write(textFile.toString());
+                    outStream.close();
+                }
             } else {
                 log.debug("serving resource: " + resourcePath);
-                byte[] buffer = new byte[1024];
-                int read = in.read(buffer);
-                while (read != -1) {
-                    response.getOutputStream().write(buffer, 0, read);
-                    read = in.read(buffer);
+
+                if (contentType == null) {
+                    contentType = "application/octet-stream";
                 }
-                response.getOutputStream().flush();
+                response.setContentType(contentType);
+
+                // We can't produce an entity tag because we stream the bytes through (or not, through the gzip wrapper)
+                if (!sendConditional(request, response, null, getLastModifiedTimestamp(resourcePath))) {
+                    OutputStream outStream = selectOutputStream(request, response);
+                    byte[] buffer = new byte[1024];
+                    int read = in.read(buffer);
+                    while (read != -1) {
+                        outStream.write(buffer, 0, read);
+                        read = in.read(buffer);
+                    }
+                    outStream.close();
+                }
             }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, resourcePath);

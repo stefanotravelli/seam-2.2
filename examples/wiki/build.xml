@@ -165,7 +165,8 @@
                     destdir="${classes.dir}"
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
-                     nowarn="${javac.nowarn}">
+                     nowarn="${javac.nowarn}"
+                    target="1.5">
             <src path="${src.java.dir}"/>
             <src path="${src.plugin.dir}"/>
         </javac>
@@ -399,7 +400,8 @@
                     destdir="${testclasses.dir}"
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
-                     nowarn="${javac.nowarn}">
+                     nowarn="${javac.nowarn}"
+                     target="1.5">
         	<classpath>
             	<path refid="test.classpath" />
             	<path refid="runtime.emma.path" />

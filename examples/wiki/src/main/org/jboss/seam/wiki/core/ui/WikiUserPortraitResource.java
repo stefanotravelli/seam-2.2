@@ -90,8 +90,6 @@ public class WikiUserPortraitResource extends AbstractResource {
             return;
         }
 
-        response.addHeader("Cache-Control", "max-age=600"); // 10 minutes freshness in browser cache
-
         byte[] image = imageSize.equals("l") ? user.getProfile().getImage() : user.getProfile().getSmallImage();
         response.setContentType(user.getProfile().getImageContentType());
         response.setContentLength(image.length);
