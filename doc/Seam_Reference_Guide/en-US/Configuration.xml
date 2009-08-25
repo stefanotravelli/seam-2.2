@@ -374,7 +374,35 @@
 
             </sect3>
 
-            
+            <sect3>
+                <title>Enabling HTTP cache-control headers</title>
+                <para>
+                    Seam does <emphasis>not</emphasis> automatically add <literal>cache-control</literal> HTTP headers to
+                    any resources served by the Seam resource servlet, or directly from your view directory by the servlet
+                    container. This means that your images, Javascript and CSS files, and resource representations from
+                    Seam resource servlet such as Seam Remoting Javascript interfaces are usually not cached by the browser.
+                    This is convenient in development but should be changed in production when optimizing the application.
+                </para>
+
+                <para>
+                    You can configure a Seam filter to enable automatic addition of <literal>cache-control</literal> headers
+                    depending on the requested URI in <literal>components.xml</literal>:
+                </para>
+
+                <programlisting role="XML"><![CDATA[<web:cache-control-filter name="commonTypesCacheControlFilter"
+                          regex-url-pattern=".*(\.gif|\.png|\.jpg|\.jpeg|\.css|\.js)"
+                          value="max-age=86400"/> <!-- 1 day -->
+
+<web:cache-control-filter name="anotherCacheControlFilter"
+                          url-pattern="/my/cachable/resources/*"
+                          value="max-age=432000"/> <!-- 5 days -->]]></programlisting>
+
+                <para>
+                    You do not have to name the filters unless you have more than one filter enabled.
+                </para>
+
+            </sect3>
+
             <sect3>
                 <title>Adding custom filters</title>
                 <para> Seam can install your filters for you, allowing you to specify <emphasis>where</emphasis> in the

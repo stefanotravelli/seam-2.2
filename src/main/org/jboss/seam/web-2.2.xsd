@@ -185,4 +185,15 @@ formatted log output if desired, by adding %X{username} to the pattern.</xs:docu
         </xs:attribute>
     </xs:attributeGroup>
    
+    <xs:element name="cache-control-filter">
+        <xs:annotation>
+            <xs:documentation>Sets the HTTP Cache-Control header</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attribute name="value" type="components:string"/>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>
