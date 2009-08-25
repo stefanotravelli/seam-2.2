@@ -113,6 +113,35 @@ public class SeamSelenium extends DefaultSelenium
    }
 
    /**
+    * Waits until element is asynchronously loaded on page. Uses global Selenium
+    * timeout
+    * 
+    * @param locator Locator of element
+    */
+   public void waitForElement(final String locator)
+   {
+      waitForElement(locator, Long.valueOf(timeout));
+   }
+
+   /**
+    * Waits until element is asynchronously loaded on page.
+    * 
+    * @param timeout Timeout in milliseconds
+    * @param locator Locator of element
+    */
+   public void waitForElement(final String locator, long timeout)
+   {
+      new Wait()
+      {
+         @Override
+         public boolean until()
+         {
+            return isElementPresent(locator);
+         }
+      }.wait("Timeout while waiting for asynchronous update of " + locator, timeout);
+   }
+
+   /**
     * Returns true if icefaces detection is turned on
     */
    public boolean isIcefacesDetection()

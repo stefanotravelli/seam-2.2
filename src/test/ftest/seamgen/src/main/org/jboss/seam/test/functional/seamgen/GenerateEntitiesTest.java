@@ -24,9 +24,8 @@ package org.jboss.seam.test.functional.seamgen;
 import java.io.InputStream;
 import java.util.Date;
 
+import org.jboss.seam.example.common.test.selenium.SeleniumDateSelector;
 import org.testng.annotations.BeforeGroups;
-
-import com.thoughtworks.selenium.Wait;
 
 /**
  * This class and its subclasses test seam-gen's "generate-entities" feature.
@@ -116,33 +115,28 @@ public class GenerateEntitiesTest extends DatabaseTest
    }
 
    /**
-    * Select a date using icefaces or richfaces calendar component. Selecting
-    * hardcoded values is only implemented yet.
+    * Selects a date using icefaces or richfaces calendar component.
+    * @param date Date to be selected 
     */
    public void selectDate(Date date)
    {
-      // TODO
-      final String richFaces = "id=person:birthdateField:birthdateDayCell24";
-      final String iceFaces = "xpath=id('person:birthdateField')//table/tbody/tr[4]/td[4]/a";
-      final String icefacesCalendarButton = "id=person:birthdateField:birthdate_cb";
 
-      if (browser.isElementPresent(richFaces))
+      final String richFacesButton = "id=person:birthdateField:birthdatePopupButton"; 
+      final String richFacesCalendar = "xpath=//div[@class='rich-calendar-tool-btn' and text()='Today']"; 
+      final String iceFacesButton = "id=person:birthdateField:birthdate_cb";
+      final String iceFacesCalendar = "id=person:birthdateField:birthdate_ct";
+
+      if (browser.isElementPresent(richFacesButton))
       {
-         browser.click(richFaces);
+         browser.click(richFacesButton);
+         browser.waitForElement(richFacesCalendar);
+         SeleniumDateSelector.RICHFACES.setDate(browser, date);
       }
-      else if (browser.isElementPresent(icefacesCalendarButton))
+      else if (browser.isElementPresent(iceFacesButton))
       {
-         browser.click(icefacesCalendarButton);
-         new Wait()
-         {
-
-            @Override
-            public boolean until()
-            {
-               return browser.isElementPresent(iceFaces);
-            }
-         }.wait("Calendar did not appear.", Long.valueOf(SELENIUM_TIMEOUT));
-         browser.click(iceFaces);
+         browser.click(iceFacesButton);
+         browser.waitForElement(iceFacesCalendar);
+         SeleniumDateSelector.ICEFACES.setDate(browser, date);
       }
       else
       {

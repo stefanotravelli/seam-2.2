@@ -21,12 +21,12 @@
  */
 package org.jboss.seam.test.functional.seamgen;
 
-import java.util.Date;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Calendar;
 
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
 
 /**
  * This test verifies CRUD functionality on the Person table.
@@ -51,7 +51,9 @@ public class PersonTest extends GenerateEntitiesTest
       String username = "tester";
       String address = "test address";
       String name = "John Doe";
-      createNewPerson(username, address, new Date(), name);
+      Calendar cal = Calendar.getInstance();
+      cal.set(1991, 10, 20);
+      createNewPerson(username, address, cal.getTime(), name);
 
       assertTrue(browser.isElementPresent(MESSAGES), "Confirmation message expected.");
       assertEquals(browser.getText(MESSAGES), "Successfully created", "Unexpected confirmation message");
@@ -77,7 +79,9 @@ public class PersonTest extends GenerateEntitiesTest
       String editButton = String.format(PERSON_LIST_EDIT_BUTTON_BY_NAME, username);
       browser.clickAndWait(editButton);
       // update the entity
-      fillPersonEditPage(username, address, new Date(), name);
+      Calendar cal = Calendar.getInstance();
+      cal.set(1984, 02, 29);
+      fillPersonEditPage(username, address, cal.getTime(), name);
       browser.clickAndWait(PERSON_UPDATE);
       // verify
       assertTrue(browser.isElementPresent(MESSAGES), "Confirmation message expected.");
