@@ -115,6 +115,21 @@ public class BasicServiceTest extends SeamTest
       };
    }
 
+   @Test
+   public void testRootResource() throws Exception {
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/")
+      {
+
+         @Override
+         protected void onResponse(EnhancedMockHttpServletResponse response)
+         {
+            assertEquals(response.getStatus(), 200);
+            assertEquals(response.getContentAsString(), "Root");
+         }
+
+      }.run();
+   }
+
    @Test(dataProvider = "queryPaths")
    public void testExeptionMapping(final String resourcePath) throws Exception
    {
