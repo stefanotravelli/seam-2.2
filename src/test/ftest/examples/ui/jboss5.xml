@@ -1,5 +1,4 @@
-
-	<!--
+<!--
 		JBoss, Home of Professional Open Source Copyright 2008, Red Hat
 		Middleware LLC, and individual contributors by the @authors tag. See
 		the copyright.txt in the distribution for a full listing of individual
@@ -14,13 +13,14 @@
 		Lesser General Public License along with this software; if not, write
 		to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
 		Boston, MA 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-	--> 
+--> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 <suite name="UI example" verbose="2" parallel="false">
 	<test name="ui_jboss5">
-		<parameter name="PROPERTY_FILE" value="" />
+		<parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/ui/test/selenium/ui.properties" />
 		<classes>
 			<class name="org.jboss.seam.example.ui.test.selenium.SeleniumUITest" />
+			<class name="org.jboss.seam.example.ui.test.htmlunit.HtmlUnitUITest" />
 		</classes>
 	</test>
 </suite>

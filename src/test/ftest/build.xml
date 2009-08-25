@@ -36,12 +36,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="lib.dir" value="${ftest.dir}/lib" />
 	<property name="log.dir" value="${ftest.dir}/log" />
 
+	<!-- Build resources -->	
+	<import file="${seam.dir}/build/common.build.xml" />
+	
 	<path id="selenium.server.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="selenium-server-standalone.jar" />
 		</fileset>
 	</path>
-
+	
 	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
 	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
 
@@ -335,11 +338,39 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<callExample path="@{path}" target="undeploy.example" />
 		</sequential>
 	</macrodef>
-
+	
+	<!-- Target for declaring needed libraries for ftest tests  -->
+	<target name="importlibraries">
+				<copyInlineDependencies id="allexamples" scope="compile" todir="${lib.dir}">
+					<dependency groupId="net.sourceforge.htmlunit" artifactId="htmlunit" version="2.3"/>
+					<dependency groupId="commons-httpclient" artifactId="commons-httpclient" version="3.1"/>
+					<dependency groupId="org.w3c" artifactId="sac" version="1.3"/>
+					<dependency groupId="commons-io" artifactId="commons-io" version="1.3.1"/>
+					<dependency groupId="commons-lang" artifactId="commons-lang" version="2.3"/>
+					<dependency groupId="apache-xerces" artifactId="xercesImpl" version="2.9.0"/>
+					<dependency groupId="commons-collections" artifactId="commons-collections" version="3.1"/>
+					<dependency groupId="commons-lang" artifactId="commons-lang" version="2.3"/>
+					<dependency groupId="apache-xalan" artifactId="xalan" version="j_2.7.0"/>
+					<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
+					<dependency groupId="commons-logging" artifactId="commons-logging" version="1.1.1"/>
+					<dependency groupId="net.sourceforge.cssparser" artifactId="cssparser" version="0.9.5"/>
+					<dependency groupId="net.sourceforge.htmlunit" artifactId="htmlunit-core-js" version="2.4"/>
+					<dependency groupId="net.sourceforge.nekohtml" artifactId="nekohtml" version="1.9.9"/>
+					<dependency groupId="apache-xalan" artifactId="serializer" version="j_2.7.0"/>
+					<dependency groupId="xml-apis" artifactId="xml-apis" version="1.3.03"/>
+				</copyInlineDependencies>
+	</target>
+	
+	
+	
 	<macrodef name="callExample">
 		<attribute name="path" />
 		<attribute name="target" />
 		<sequential>
+			
+			<!-- Added for downloading libraries   -->
+			<antcall target="importlibraries"> </antcall> 
+			
 			<ant dir="@{path}" target="@{target}" inheritall="false">
 				<property name="container" value="${container}">
 				</property>
