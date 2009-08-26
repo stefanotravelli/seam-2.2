@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-08-22 13:17+0000\n"
+"POT-Creation-Date: 2009-08-26 18:48+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -76,25 +76,27 @@ msgstr ""
 #, no-c-format
 msgid ""
 "The following sections in this chapter assume that WebSphere is correctly "
-"installed and is functional, and a profile has been successfully created."
+"installed and is functional, and a WebSphere \"profile\" has been "
+"successfully created."
 msgstr ""
 
 #. Tag: para
 #: Websphere.xml:40
 #, no-c-format
 msgid ""
-"This chapter explain how to compile, deploy and run some sample applications "
-"in WebSphere. These sample applications require a database. WebSphere comes "
-"by default with a set of sample applications called \"Default Application\". "
-"This set of sample applications use a Derby database running on the Derby "
-"instance installed with WebSphere. In order to keep this simple we'll use "
-"this Derby database created for the \"Default Applications\". However, to "
-"run the sample application with the Derby database \"as-is\", a patched "
-"Hibernate dialect must be used (The patch changes the default \"auto\" key "
-"generation strategy) as explained in <xref linkend=\"glassfish\"/>. If you "
-"want to use another database, it's just a matter of creating a connection "
-"pool in WebSphere pointing to this database, declare the correct Hibernate "
-"dialect and set the correct JNDI name in <literal>persistence.xml</literal>."
+"This chapter explains how to compile, deploy and run some sample "
+"applications in WebSphere. These sample applications require a database. "
+"WebSphere comes by default with a set of sample applications called "
+"\"Default Application\". This set of sample applications use a Derby "
+"database running on the Derby instance installed within WebSphere. In order "
+"to keep this simple we'll use this Derby database created for the \"Default "
+"Applications\". However, to run the sample application with the Derby "
+"database \"as-is\", a patched Hibernate dialect must be used (The patch "
+"changes the default \"auto\" key generation strategy) as explained in <xref "
+"linkend=\"glassfish\"/>. If you want to use another database, it's just a "
+"matter of creating a connection pool in WebSphere pointing to this database, "
+"declare the correct Hibernate dialect and set the correct JNDI name in "
+"<literal>persistence.xml</literal>."
 msgstr ""
 
 #. Tag: title
@@ -144,14 +146,14 @@ msgstr ""
 #, no-c-format
 msgid ""
 "On the right navigation menu, select <literal>Web Container Settings/Web "
-"container</literal>)"
+"container</literal>"
 msgstr ""
 
 #. Tag: listitem
 #: Websphere.xml:73
 #, no-c-format
 msgid ""
-"On the right navigation menu, select <literal>custom properties</literal>) "
+"On the right navigation menu, select <literal>custom properties</literal> "
 "and add the following properties:"
 msgstr ""
 
@@ -170,7 +172,7 @@ msgstr ""
 #. Tag: listitem
 #: Websphere.xml:84
 #, no-c-format
-msgid "Save and restart the server"
+msgid "Save the configuration and restart the server"
 msgstr ""
 
 #. Tag: title
@@ -189,38 +191,38 @@ msgid ""
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:97
+#: Websphere.xml:96
 #, no-c-format
 msgid ""
 "The global <literal>jndi-pattern</literal> switch on the <literal>&lt;core:"
-"init&gt;</literal>. in <literal>components.xml</literal>. The switch can use "
-"a special placeholder \"<literal>#{ejbName}</literal>\" that resolves to the "
-"unqualified name of the EJB"
+"init&gt;</literal>tag in <literal>components.xml</literal>. The switch can "
+"use a special placeholder \"<literal>#{ejbName}</literal>\" that resolves to "
+"the unqualified name of the EJB"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:102
+#: Websphere.xml:100
 #, no-c-format
 msgid "The <literal>@JndiName</literal> annotation"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:108
+#: Websphere.xml:106
 #, no-c-format
 msgid "gives detailed explanations on how those mechanisms work."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:112
+#: Websphere.xml:110
 #, no-c-format
 msgid ""
-"By default, WebSphere will bind the session bean in its local JNDI name "
-"space under a \"short\" binding name that adheres to the following pattern "
+"By default, WebSphere will bind session beans in its local JNDI name space "
+"under a \"short\" binding name that adheres to the following pattern "
 "<literal>ejblocal:&lt;package.qualified.local.interface.name&gt;</literal>."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:117
+#: Websphere.xml:115
 #, no-c-format
 msgid ""
 "For a detailed description on how WebSphere v7 organizes and binds EJBs in "
@@ -228,7 +230,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:120
+#: Websphere.xml:118
 #, no-c-format
 msgid ""
 "As explained before, Seam needs to lookup for session bean as they appear in "
@@ -236,35 +238,35 @@ msgid ""
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:124
+#: Websphere.xml:121
 #, no-c-format
 msgid ""
 "Specify which JNDI name Seam must use for each session bean using the "
-"<literal>@JndiName</literal> annotation in the java source file"
+"<literal>@JndiName</literal> annotation in the java source file,"
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:127
+#: Websphere.xml:123
 #, no-c-format
 msgid ""
 "Override the default session bean names generated by WebSphere to conform to "
-"the <literal>jndi-pattern</literal> attribute"
+"the <literal>jndi-pattern</literal> attribute,"
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:130
+#: Websphere.xml:126
 #, no-c-format
-msgid "Use EJB references"
+msgid "Use EJB references."
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:137
+#: Websphere.xml:133
 #, no-c-format
 msgid "Strategy 1: Specify which JNDI name Seam must use for each Session Bean"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:138
+#: Websphere.xml:134
 #, no-c-format
 msgid ""
 "This strategy is the simplest and fastest one regarding development. It uses "
@@ -272,7 +274,7 @@ msgid ""
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:141
+#: Websphere.xml:137
 #, no-c-format
 msgid ""
 "Add a <literal>@JndiName(\"ejblocal:&lt;package.qualified.local.interface."
@@ -280,20 +282,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:145 Websphere.xml:188
+#: Websphere.xml:141 Websphere.xml:184
 #, no-c-format
 msgid ""
 "<para>In <literal>components.xml</literal>, add the following line:</para>"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:147 Websphere.xml:220
+#: Websphere.xml:143 Websphere.xml:216
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"java:comp/env/#{ejbName}\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:151
+#: Websphere.xml:147
 #, no-c-format
 msgid ""
 "Add a file named <literal>WEB-INF/classes/seam-jndi.properties</literal> in "
@@ -301,7 +303,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:153
+#: Websphere.xml:149
 #, no-c-format
 msgid ""
 "com.ibm.websphere.naming.hostname.normalizer=com.ibm.ws.naming.util."
@@ -323,13 +325,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:157
+#: Websphere.xml:153
 #, no-c-format
 msgid "At the end of <literal>web.xml</literal>, add the following lines:"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:159
+#: Websphere.xml:155
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -341,7 +343,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:164
+#: Websphere.xml:160
 #, no-c-format
 msgid ""
 "That's all folks! No need to update any file during the development, nor to "
@@ -349,23 +351,23 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:167
+#: Websphere.xml:163
 #, no-c-format
 msgid ""
-"Compared to the other strategies, this strategy has the advantage not to "
-"have to manage any EJBs reference and also not to have to maintain extra "
+"Compared to the other strategies, this strategy has the advantage to not "
+"have to manage any EJBs reference and also to not have to maintain extra "
 "files. The only drawback is one extra line in the java source code with the "
 "<literal>@JndiName</literal> annotation"
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:174
+#: Websphere.xml:170
 #, no-c-format
 msgid "Strategy 2: Override the default names generated by WebSphere"
 msgstr ""
 
 #. Tag: section
-#: Websphere.xml:174
+#: Websphere.xml:170
 #, no-c-format
 msgid ""
 "There is no simple way to globally override the default naming strategy for "
@@ -374,13 +376,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:177
+#: Websphere.xml:173
 #, no-c-format
 msgid "To use this strategy:"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:181
+#: Websphere.xml:177
 #, no-c-format
 msgid ""
 "Add a file named <literal>META-INF/ibm-ejb-jar-ext.xml</literal> in the EJB "
@@ -405,13 +407,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:190
+#: Websphere.xml:186
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"ejblocal:#{ejbName}\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:194
+#: Websphere.xml:190
 #, no-c-format
 msgid ""
 "Add a file named <literal>WEB-INF/classes/seam-jndi.properties</literal> as "
@@ -419,7 +421,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:199
+#: Websphere.xml:195
 #, no-c-format
 msgid ""
 "In <literal>web.xml</literal>, add the following lines (Note the different "
@@ -427,7 +429,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:201
+#: Websphere.xml:197
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -439,7 +441,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:206
+#: Websphere.xml:202
 #, no-c-format
 msgid ""
 "Compared to the first strategy, this strategy requires to maintain an extra "
@@ -449,13 +451,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:215
+#: Websphere.xml:211
 #, no-c-format
 msgid "Strategy 3: Use EJB references"
 msgstr ""
 
 #. Tag: section
-#: Websphere.xml:215
+#: Websphere.xml:211
 #, no-c-format
 msgid ""
 "This strategy is based on the usage of EJB references, from EJB to EJB and "
@@ -463,7 +465,7 @@ msgid ""
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:218
+#: Websphere.xml:214
 #, no-c-format
 msgid ""
 "<listitem>In <literal>components.xml</literal>, add the following line:</"
@@ -471,7 +473,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:223
+#: Websphere.xml:219
 #, no-c-format
 msgid ""
 "Follow the instructions in <xref linkend=\"config.integration.ejb.container"
@@ -479,7 +481,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:228
+#: Websphere.xml:224
 #, no-c-format
 msgid ""
 "This is the most tedious strategy as each session bean referenced by another "
@@ -489,27 +491,27 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:239
+#: Websphere.xml:235
 #, no-c-format
 msgid "Configuring timeouts for Stateful Session Beans"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:240
+#: Websphere.xml:236
 #, no-c-format
 msgid ""
 "A timeout value has to be set for each stateful session bean used in the "
 "application because stateful bean must not expire in WebSphere while Seam "
-"might still need thenm. At the time of writing this document, WebSphere does "
+"might still need them. At the time of writing this document, WebSphere does "
 "not provide a way to configure a global timeout at neither the cluster, "
 "server, application nor ejb-jar level. It has to be done for each stateful "
-"bean individually. This is done by adding a file named <literal>META-INF/ibm-"
-"ejb-jar-ext.xml</literal> in the EJB module, and declare the timeout value "
-"for each bean:"
+"bean individually. By default, the default timeout is 10 minutes. This is "
+"done by adding a file named <literal>META-INF/ibm-ejb-jar-ext.xml</literal> "
+"in the EJB module, and declare the timeout value for each bean:"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:246
+#: Websphere.xml:242
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -529,24 +531,24 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:248
+#: Websphere.xml:244
 #, no-c-format
 msgid ""
 "The <literal>time-out</literal> is expressed in seconds and must be higher "
 "than the Seam conversation expiration timeout and a few minutes higher than "
 "the user's HTTP session timeout (The session expiration timeout can trigger "
-"a few minutes after the number of minutes declared to expire s for the HTTP "
-"session expiration)."
+"a few minutes after the number of minutes declared to expire the HTTP "
+"session)."
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:257
+#: Websphere.xml:253
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:259
+#: Websphere.xml:255
 #, no-c-format
 msgid ""
 "The<literal>jee5/booking</literal>example is based on the Hotel Booking "
@@ -557,23 +559,32 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:265
+#: Websphere.xml:261
 #, no-c-format
 msgid ""
-"For running this example, we'll use the second JNDI mapping strategy "
-"(\"Override the default names generated by WebSphere\") as we don't want to "
-"change the java code to add the <literal>@JndiName</literal> annotation as "
-"in the first strategy."
+"The example already has a breakout of configurations and build scripts for "
+"WebSphere. First thing, we are going to do is build and deploy this example. "
+"Then we'll go over some key changes that we needed."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:266
+#, no-c-format
+msgid ""
+"The tailored configuration files for WebSphere use the second JNDI mapping "
+"strategy (\"Override the default names generated by WebSphere\") as the goal "
+"was to not change any java code to add the <literal>@JndiName</literal> "
+"annotation as in the first strategy."
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:271
+#: Websphere.xml:272
 #, no-c-format
 msgid "Building the <literal>jee5/booking</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:273
+#: Websphere.xml:274
 #, no-c-format
 msgid ""
 "Building it only requires running the correct ant command: "
@@ -583,21 +594,21 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:280
+#: Websphere.xml:281
 #, no-c-format
 msgid "Deploying the <literal>jee5/booking</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:281
+#: Websphere.xml:282
 #, no-c-format
 msgid ""
-"The steps below are for the WAS version stated above.The ports are default "
-"values, if you changed them, you must substitute the values."
+"The steps below are for the WAS version stated above.The ports are the "
+"default values, if you changed them, you must substitute the values."
 msgstr ""
 
 #. Tag: listitem
-#: Websphere.xml:284
+#: Websphere.xml:285
 #, no-c-format
 msgid ""
 "Log in to the administration console <programlisting><![CDATA[http://"
@@ -606,7 +617,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:291
+#: Websphere.xml:292
 #, no-c-format
 msgid ""
 "Go to the <literal>WebSphere enterprise applications</literal> menu option "
@@ -615,7 +626,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:298
+#: Websphere.xml:299
 #, no-c-format
 msgid ""
 "At the top of the <literal>Enterprise Applications</literal> table select "
@@ -624,13 +635,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:304
+#: Websphere.xml:305
 #, no-c-format
 msgid "Preparing for the application installation"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:307
+#: Websphere.xml:308
 #, no-c-format
 msgid ""
 "Browse to the <literal>examples/jee5/booking/dist-websphere7/jboss-seam-jee5."
@@ -638,25 +649,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:313 Websphere.xml:323 Websphere.xml:341
+#: Websphere.xml:314 Websphere.xml:324 Websphere.xml:342
 #, no-c-format
 msgid "Select the <literal>Next</literal> button."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:318
+#: Websphere.xml:319
 #, no-c-format
 msgid "Select the <literal>Fast Path</literal> button."
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:332
+#: Websphere.xml:333
 #, no-c-format
 msgid "Select installation options"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:335
+#: Websphere.xml:336
 #, no-c-format
 msgid ""
 "Select the <literal>Deploy enterprise beans and Allow EJB reference targets "
@@ -665,13 +676,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:350
+#: Websphere.xml:351
 #, no-c-format
 msgid "Map modules to servers"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:353
+#: Websphere.xml:354
 #, no-c-format
 msgid ""
 "No changes needed here as we only have one server. Select the <literal>Next</"
@@ -679,13 +690,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:362
+#: Websphere.xml:363
 #, no-c-format
 msgid "Map virtual hosts for Web modules"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:365
+#: Websphere.xml:366
 #, no-c-format
 msgid ""
 "No changes needed here as we only have one virtual host. Select the "
@@ -693,31 +704,31 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:374
+#: Websphere.xml:375
 #, no-c-format
 msgid "Summary"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:377
+#: Websphere.xml:378
 #, no-c-format
 msgid "No changes needed here. Select the <literal>Finish</literal> button."
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:384
+#: Websphere.xml:385
 #, no-c-format
 msgid "Installation"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:387
+#: Websphere.xml:388
 #, no-c-format
 msgid "Now you will see WebSphere installing and deploying your application."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:390
+#: Websphere.xml:391
 #, no-c-format
 msgid ""
 "When done, select the <literal>Save</literal> link and you will be returned "
@@ -725,15 +736,15 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:399
+#: Websphere.xml:400
 #, no-c-format
 msgid ""
-"To start the application select our application in the list, then click on "
+"To start the application, select the application in the list, then click on "
 "the <literal>Start</literal> button at the top of the table."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:409
+#: Websphere.xml:410
 #, no-c-format
 msgid ""
 "You can now access the application at <literal>http://localhost:9080/seam-"
@@ -741,13 +752,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:418
+#: Websphere.xml:419
 #, no-c-format
 msgid "Deviation from the original base files"
 msgstr ""
 
 #. Tag: section
-#: Websphere.xml:418
+#: Websphere.xml:419
 #, no-c-format
 msgid ""
 "Below are the differences between the base configuration files and the "
@@ -756,7 +767,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:422
+#: Websphere.xml:423
 #, no-c-format
 msgid ""
 "<literal>META-INF/ejb-jar.xml</literal> &#8212; Removed all the EJB "
@@ -764,37 +775,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:428
+#: Websphere.xml:429
 #, no-c-format
 msgid ""
 "<literal>META-INF/ibm-ejb-jar-bnd.xml</literal> &#8212; This WebSphere "
 "specific file has been added as we use the second JNDI mapping strategy. It "
-"defines, for each session bean, the name WebSphere will use to bind it its "
-"JNDI name space"
+"defines, for each session bean, the name WebSphere will use to bind it in "
+"its JNDI name space"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:435
+#: Websphere.xml:436
 #, no-c-format
 msgid ""
 "<literal>META-INF/ibm-ejb-jar-ext.xml</literal> &#8212; This WebSphere "
-"specific file defines to WebSphere, the timeout value for each stateful bean"
+"specific file defines the timeout value for each stateful bean"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:441
+#: Websphere.xml:442
 #, no-c-format
 msgid ""
 "<literal>META-INF/persistence.xml</literal> &#8212; The main changes here "
 "are for the datasource JNDI path, switching to the WebSphere transaction "
 "manager lookup class, turning off the <literal>hibernate.transaction."
 "flush_before_completion</literal> toggle, and forcing the Hibernate dialect "
-"to be <literal>GlassfishDerbyDialect</literal> how as using the integrated "
-"Derby database"
+"to be <literal>GlassfishDerbyDialect</literal> as we are using the "
+"integrated Derby database"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:451
+#: Websphere.xml:452
 #, no-c-format
 msgid ""
 "<literal>WEB-INF/components.xml</literal> &#8212; the change here is "
@@ -803,7 +814,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:459
+#: Websphere.xml:460
 #, no-c-format
 msgid ""
 "<literal>WEB-INF/web.xml</literal> &#8212; Remove all the <literal>ejb-local "
@@ -813,7 +824,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:467 Websphere.xml:549
+#: Websphere.xml:468
 #, no-c-format
 msgid ""
 "<literal>import.sql</literal> &#8212; due to the cutomized hibernate Derby "
@@ -822,7 +833,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:474
+#: Websphere.xml:475
 #, no-c-format
 msgid ""
 "Also the build procedure has been changed to include the <literal>log4j.jar</"
@@ -831,13 +842,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:486
+#: Websphere.xml:487
 #, no-c-format
 msgid "The <literal>jpa</literal> booking example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:488
+#: Websphere.xml:489
 #, no-c-format
 msgid ""
 "This is the Hotel Booking example implemented in Seam POJOs and using "
@@ -845,7 +856,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:493
+#: Websphere.xml:494
 #, no-c-format
 msgid ""
 "The example already has a breakout of configurations and build scripts for "
@@ -853,7 +864,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:498
+#: Websphere.xml:499
 #, no-c-format
 msgid ""
 "First thing, we are going to do is build and deploy that example. Then we'll "
@@ -861,13 +872,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:504
+#: Websphere.xml:505
 #, no-c-format
 msgid "Building the <literal>jpa</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:505
+#: Websphere.xml:506
 #, no-c-format
 msgid ""
 "Building it only requires running the correct ant command: "
@@ -877,13 +888,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:514
+#: Websphere.xml:515
 #, no-c-format
 msgid "Deploying the <literal>jpa</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:515
+#: Websphere.xml:516
 #, no-c-format
 msgid ""
 "Deploying <literal>jpa</literal> application is very similar to the "
@@ -894,7 +905,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:521
+#: Websphere.xml:522
 #, no-c-format
 msgid ""
 "Follow the same instructions as for the <literal>jee5/booking</literal> "
@@ -902,11 +913,11 @@ msgid ""
 "literal> file on the first page and on the <literal>Map context roots for "
 "Web modules</literal> page (after the <literal>Map virtual host for Web "
 "module</literal>), enter the context root you want to use for your "
-"application in the <literal>Contect Root</literal> input field."
+"application in the <literal>Context Root</literal> input field."
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:528
+#: Websphere.xml:529
 #, no-c-format
 msgid ""
 "When started, you can now access the application at the <literal>http://"
@@ -914,13 +925,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:534
+#: Websphere.xml:535
 #, no-c-format
 msgid "Deviation from the generic base files"
 msgstr ""
 
 #. Tag: section
-#: Websphere.xml:534
+#: Websphere.xml:535
 #, no-c-format
 msgid ""
 "Below are the configuration file differences between the base configuration "
@@ -929,7 +940,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:539
+#: Websphere.xml:540
 #, no-c-format
 msgid ""
 "<literal>META-INF/persistence.xml</literal> &#8212; The main changes here "
@@ -941,7 +952,16 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:556
+#: Websphere.xml:550
+#, no-c-format
+msgid ""
+"<literal>import.sql</literal> &#8212; due to the customized hibernate Derby "
+"dialect, the <literal>ID</literal> column can not be populated by this file "
+"and was removed."
+msgstr ""
+
+#. Tag: para
+#: Websphere.xml:557
 #, no-c-format
 msgid ""
 "Also the build procedure have been changed to include the <literal>log4j."

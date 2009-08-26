@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-07-08 14:32+0000\n"
+"POT-Creation-Date: 2009-08-26 18:48+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -392,48 +392,56 @@ msgstr ""
 #: Webservices.xml:186
 #, no-c-format
 msgid ""
-"The URI starts with the pattern mapped in <literal>web.xml</literal> for the "
-"<literal>SeamResourceServlet</literal>, e.g <literal>/seam/resource</"
-"literal> if you follow the common examples. Change this setting to expose "
-"your RESTful resources under a different base. Note that this is a global "
-"change and other Seam resources (e.g. <literal>s:graphicImage</literal>) are "
-"then also served under that base path."
+"The URI starts with the host and context path of your application, e.g. "
+"<literal>http://your.hostname/myapp</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:195
+#: Webservices.xml:192
+#, no-c-format
+msgid ""
+"Then the pattern mapped in <literal>web.xml</literal> for the "
+"<literal>SeamResourceServlet</literal>, e.g <literal>/seam/resource</"
+"literal> if you follow the common examples, is appended. Change this setting "
+"to expose your RESTful resources under a different base. Note that this is a "
+"global change and other Seam resources (e.g. <literal>s:graphicImage</"
+"literal>) are then also served under that base path."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:201
 #, no-c-format
 msgid ""
 "The RESTEasy integration for Seam then appends a configurable string to the "
 "base path, by default this is <literal>/rest</literal>. Hence, the full base "
-"path of your resources would e.g. be <literal>/seam/resource/rest</literal>. "
-"We recommend that you change this string in your application, you could for "
-"example add a version number to prepare for a future REST API upgrade of "
-"your services (old clients would keep the old URI base): <literal>/seam/"
-"resource/restv1</literal>."
+"path of your resources would e.g. be <literal>/myapp/seam/resource/rest</"
+"literal>. We recommend that you change this string in your application, you "
+"could for example add a version number to prepare for a future REST API "
+"upgrade of your services (old clients would keep the old URI base): "
+"<literal>/myapp/seam/resource/restv1</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:204
+#: Webservices.xml:210
 #, no-c-format
 msgid ""
 "Finally, the actual resource is available under the defined <literal>@Path</"
 "literal>, e.g. a resource mapped with <literal>@Path(\"/customer\")</"
-"literal> would be available under <literal>/seam/resource/rest/customer</"
-"literal>."
+"literal> would be available under <literal>/myapp/seam/resource/rest/"
+"customer</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:212
+#: Webservices.xml:218
 #, no-c-format
 msgid ""
 "As an example, the following resource definition would return a plaintext "
 "representation for any GET requests using the URI <literal>http://your."
-"hostname/seam/resource/rest/customer/123</literal>:"
+"hostname/myapp/seam/resource/rest/customer/123</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:217
+#: Webservices.xml:223
 #, no-c-format
 msgid ""
 "<![CDATA[@Path(\"/customer\")\n"
@@ -450,7 +458,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:219
+#: Webservices.xml:225
 #, no-c-format
 msgid ""
 "No additional configuration is required, you do not have to edit "
@@ -461,7 +469,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:225
+#: Webservices.xml:231
 #, no-c-format
 msgid ""
 "<![CDATA[<components\n"
@@ -476,54 +484,30 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:227
+#: Webservices.xml:233
 #, no-c-format
 msgid ""
 "You can then change the <literal>/rest</literal> prefix as mentioned earlier:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:231
+#: Webservices.xml:237
 #, no-c-format
 msgid "<![CDATA[<resteasy:application resource-path-prefix=\"/restv1\"/>]]>"
-msgstr ""
-
-#. Tag: para
-#: Webservices.xml:233
-#, no-c-format
-msgid ""
-"The full base path to your resources is now <literal>/seam/resource/restv1/"
-"{resource}</literal> - note that your <literal>@Path</literal> definitions "
-"and mappings do NOT change. This is an application-wide switch usually used "
-"for versioning of the HTTP API."
 msgstr ""
 
 #. Tag: para
 #: Webservices.xml:239
 #, no-c-format
 msgid ""
-"You can disable stripping of the base path if you'd like to map the full "
-"path in your resources:"
-msgstr ""
-
-#. Tag: programlisting
-#: Webservices.xml:243
-#, no-c-format
-msgid "<![CDATA[<resteasy:application strip-seam-resource-path=\"false\"/>]]>"
+"The full base path to your resources is now <literal>/myapp/seam/resource/"
+"restv1/{resource}</literal> - note that your <literal>@Path</literal> "
+"definitions and mappings do NOT change. This is an application-wide switch "
+"usually used for versioning of the HTTP interface."
 msgstr ""
 
 #. Tag: para
 #: Webservices.xml:245
-#, no-c-format
-msgid ""
-"The path of a resource is now mapped with e.g. <literal>@Path(\"/seam/"
-"resource/rest/customer\")</literal>. We do not recommend disabling this "
-"feature, as your resource class mappings are then bound to a particular "
-"deployment scenario."
-msgstr ""
-
-#. Tag: para
-#: Webservices.xml:251
 #, no-c-format
 msgid ""
 "Seam will scan your classpath for any deployed <literal>@javax.ws.rs.Path</"
@@ -532,7 +516,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:257
+#: Webservices.xml:251
 #, no-c-format
 msgid ""
 "<![CDATA[<resteasy:application\n"
@@ -554,7 +538,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:259
+#: Webservices.xml:253
 #, no-c-format
 msgid ""
 "The <literal>use-built-in-providers</literal> switch enables (default) or "
@@ -564,7 +548,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:265
+#: Webservices.xml:259
 #, no-c-format
 msgid ""
 "RESTEasy supports plain EJBs (EJBs that are not Seam components) as "
@@ -576,20 +560,21 @@ msgid ""
 "<literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean "
 "implementation class. This allows you to keep your application deployment-"
 "portable with the global Seam <literal>jndi-pattern</literal> switch on "
-"<literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be "
-"found even if scanning of resources is enabled, you always have to list them "
-"manually. Again, this is only relevant for EJB resources that are not also "
-"Seam components and that do not have a <literal>@Name</literal> annotation."
+"<literal>&lt;core:init/&gt;</literal>. Note that plain (non-Seam component) "
+"EJB resources will not be found even if scanning of resources is enabled, "
+"you always have to list them manually. Again, this whole paragraph is only "
+"relevant for EJB resources that are not also Seam components and that do not "
+"have an <literal>@Name</literal> annotation."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:277
+#: Webservices.xml:272
 #, no-c-format
 msgid "Finally, you can configure media type and language URI extensions:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:281
+#: Webservices.xml:276
 #, no-c-format
 msgid ""
 "<![CDATA[<resteasy:application>\n"
@@ -606,7 +591,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:283
+#: Webservices.xml:278
 #, no-c-format
 msgid ""
 "This definition would map the URI suffix of <literal>.txt.deutsch</literal> "
@@ -616,13 +601,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:292
+#: Webservices.xml:287
 #, no-c-format
 msgid "Resources and providers as Seam components"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:294
+#: Webservices.xml:289
 #, no-c-format
 msgid ""
 "Any resource and provider instances are managed by RESTEasy by default. That "
@@ -633,7 +618,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:301
+#: Webservices.xml:296
 #, no-c-format
 msgid ""
 "You can write resources and providers as Seam components and benefit from "
@@ -642,7 +627,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:307
+#: Webservices.xml:302
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"customerResource\")\n"
@@ -663,7 +648,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:309
+#: Webservices.xml:304
 #, no-c-format
 msgid ""
 "An instance of <literal>customerResource</literal> is now handled by Seam "
@@ -677,7 +662,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:318
+#: Webservices.xml:313
 #, no-c-format
 msgid ""
 "You can annotate an interface and keep the implementation free from JAX-RS "
@@ -685,7 +670,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:322
+#: Webservices.xml:317
 #, no-c-format
 msgid ""
 "<![CDATA[@Path(\"/customer\")\n"
@@ -700,7 +685,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:324
+#: Webservices.xml:319
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"customerResource\")\n"
@@ -718,7 +703,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:326
+#: Webservices.xml:321
 #, no-c-format
 msgid ""
 "You can use <literal>SESSION</literal>-scoped Seam components. By default, "
@@ -733,7 +718,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:335
+#: Webservices.xml:330
 #, no-c-format
 msgid ""
 "Assuming that your Seam application only uses event, application, or "
@@ -745,7 +730,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:342
+#: Webservices.xml:337
 #, no-c-format
 msgid ""
 "If your RESTful Seam application has to preserve session state across REST "
@@ -753,14 +738,14 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:347
+#: Webservices.xml:342
 #, no-c-format
 msgid ""
 "<![CDATA[<resteasy:application destroy-session-after-request=\"false\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:349
+#: Webservices.xml:344
 #, no-c-format
 msgid ""
 "Every REST HTTP request will now create a new session that will only be "
@@ -771,7 +756,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:356
+#: Webservices.xml:351
 #, no-c-format
 msgid ""
 "<literal>CONVERSATION</literal>-scoped resource components and mapping of "
@@ -780,7 +765,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:361
+#: Webservices.xml:356
 #, no-c-format
 msgid ""
 "EJB Seam components are supported. Always annotate the local business "
@@ -789,7 +774,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:366
+#: Webservices.xml:361
 #, no-c-format
 msgid ""
 "Provider classes can also be Seam components, only <literal>APPLICATION</"
@@ -799,13 +784,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:375
+#: Webservices.xml:370
 #, no-c-format
 msgid "Securing resources"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:377
+#: Webservices.xml:372
 #, no-c-format
 msgid ""
 "You can enable the Seam authentication filter for HTTP Basic and Digest "
@@ -813,7 +798,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:382
+#: Webservices.xml:377
 #, no-c-format
 msgid ""
 "<![CDATA[<web:authentication-filter url-pattern=\"/seam/resource/rest/*\" "
@@ -821,14 +806,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:384
+#: Webservices.xml:379
 #, no-c-format
 msgid ""
 "See the Seam security chapter on how to write an authentication routine."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:388
+#: Webservices.xml:383
 #, no-c-format
 msgid ""
 "After successful authentication, authorization rules with the common "
@@ -839,13 +824,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:398
+#: Webservices.xml:393
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:400
+#: Webservices.xml:395
 #, no-c-format
 msgid ""
 "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked "
@@ -858,7 +843,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:408
+#: Webservices.xml:403
 #, no-c-format
 msgid ""
 "Exception handling within Seam requires that the Seam filter is executed for "
@@ -870,7 +855,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:415
+#: Webservices.xml:410
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -885,7 +870,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:417
+#: Webservices.xml:412
 #, no-c-format
 msgid ""
 "To convert the unchecked <literal>UnsupportedOperationException</literal> "
@@ -895,7 +880,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:423
+#: Webservices.xml:418
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -906,13 +891,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:425
+#: Webservices.xml:420
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:429
+#: Webservices.xml:424
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
@@ -924,7 +909,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:431
+#: Webservices.xml:426
 #, no-c-format
 msgid ""
 "You do not have to send an HTTP error to the client if an exception occurs. "
@@ -935,7 +920,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:438
+#: Webservices.xml:433
 #, no-c-format
 msgid ""
 "Note that the HTTP response still passes through the servlet container, so "
@@ -946,13 +931,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:447
+#: Webservices.xml:442
 #, no-c-format
 msgid "Testing resources and providers"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:449
+#: Webservices.xml:444
 #, no-c-format
 msgid ""
 "Seam includes a unit testing utility class that helps you create unit tests "
@@ -962,7 +947,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:455
+#: Webservices.xml:450
 #, no-c-format
 msgid ""
 "<![CDATA[import org.jboss.seam.mock.ResourceRequestEnvironment;\n"
@@ -1019,7 +1004,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:457
+#: Webservices.xml:452
 #, no-c-format
 msgid ""
 "This test only executes local calls, it does not communicate with the "
@@ -1032,7 +1017,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:465
+#: Webservices.xml:460
 #, no-c-format
 msgid ""
 "Note that a <literal>ResourceRequest</literal> has to be executed in a "
