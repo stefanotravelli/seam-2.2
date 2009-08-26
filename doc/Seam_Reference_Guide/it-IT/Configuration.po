@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-24 13:07+0100\n"
+"POT-Creation-Date: 2009-08-26 18:47+0000\n"
+"PO-Revision-Date: 2009-08-26 21:08+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -596,20 +596,65 @@ msgstr "Il filtro del contesto si aspetta di trovare l'id della conversazione di
 msgid "You are also responsible for ensuring propagation of any new conversation id back to the client. Seam exposes the conversation id as a property of the built in component <literal>conversation</literal>."
 msgstr "Si è responsabili della propagazione di ogni nuovo id della conversazione attraverso il client. Seam espone l'id di conversazione come proprietà del componente predefinito <literal>conversation</literal>."
 
+# controllare
 #. Tag: title
+#: Configuration.xml:325
+#, no-c-format
+msgid "Enabling HTTP cache-control headers"
+msgstr "Abilitazione delle intestazioni HTTP cache-control"
+
+#. Tag: para
 #: Configuration.xml:326
+#, no-c-format
+msgid "Seam does <emphasis>not</emphasis> automatically add <literal>cache-control</literal> HTTP headers to any resources served by the Seam resource servlet, or directly from your view directory by the servlet container. This means that your images, Javascript and CSS files, and resource representations from Seam resource servlet such as Seam Remoting Javascript interfaces are usually not cached by the browser. This is convenient in development but should be changed in production when optimizing the application."
+msgstr "Seam <emphasis>non</emphasis> aggiunge automaticamente le intestazioni HTTP <literal>cache-control</literal> alle risorse servite dal servlet resource Seam, o direttamente dalla directory di vista dal servlet container. Questo significa che le immagini, Javascript ed i file CSS, e le rappresentazioni delle risorse da parte del resource servlet di Seam quali le interfacce Seam Remoting Javascript solitamente non vengono messe nella cache del browser. Questo va bene in fase di sviluppo ma dovrebbe essere cambiato in fase di produzione quando si ottimizza l'applicazione."
+
+#. Tag: para
+#: Configuration.xml:334
+#, no-c-format
+msgid "You can configure a Seam filter to enable automatic addition of <literal>cache-control</literal> headers depending on the requested URI in <literal>components.xml</literal>:"
+msgstr "Si può configurare un filtro Seam ed abilitare l'aggiunta automatica delle intestazioni <literal>cache-control</literal> che dipendono dall'URI richiesta in <literal>components.xml</literal>:"
+
+#. Tag: programlisting
+#: Configuration.xml:339
+#, no-c-format
+msgid ""
+"<![CDATA[<web:cache-control-filter name=\"commonTypesCacheControlFilter\"\n"
+"                          regex-url-pattern=\".*(\\.gif|\\.png|\\.jpg|\\.jpeg|\\.css|\\.js)\"\n"
+"                          value=\"max-age=86400\"/> <!-- 1 day -->\n"
+"\n"
+"<web:cache-control-filter name=\"anotherCacheControlFilter\"\n"
+"                          url-pattern=\"/my/cachable/resources/*\"\n"
+"                          value=\"max-age=432000\"/> <!-- 5 days -->]]>"
+msgstr ""
+"<![CDATA[<web:cache-control-filter name=\"commonTypesCacheControlFilter\"\n"
+"                          regex-url-pattern=\".*(\\.gif|\\.png|\\.jpg|\\.jpeg|\\.css|\\.js)\"\n"
+"                          value=\"max-age=86400\"/> <!-- 1 day -->\n"
+"\n"
+"<web:cache-control-filter name=\"anotherCacheControlFilter\"\n"
+"                          url-pattern=\"/my/cachable/resources/*\"\n"
+"                          value=\"max-age=432000\"/> <!-- 5 days -->]]>"
+
+#. Tag: para
+#: Configuration.xml:341
+#, no-c-format
+msgid "You do not have to name the filters unless you have more than one filter enabled."
+msgstr "Non occorre dare il nome ai filtri amenoché vi sia più di un filtro abilitato."
+
+#. Tag: title
+#: Configuration.xml:348
 #, no-c-format
 msgid "Adding custom filters"
 msgstr "Aggiunta di filtri personalizzati"
 
 #. Tag: para
-#: Configuration.xml:327
+#: Configuration.xml:349
 #, no-c-format
 msgid "Seam can install your filters for you, allowing you to specify <emphasis>where</emphasis> in the chain your filter is placed (the servlet specification doesn't provide a well defined order if you specify your filters in a <literal>web.xml</literal>). Just add the <literal>@Filter</literal> annotation to your Seam component (which must implement <literal>javax.servlet.Filter</literal>):"
 msgstr "Seam può installare i filtri per voi, consentendo di specificare <emphasis>dove</emphasis> debba essere collocato il filtro nella catena (la specifica servlet non fornisce un ordine ben definito se si specificano i filtri in <literal>web.xml</literal>). Si aggiunga l'annotazione <literal>@Filter</literal> al componente Seam (che deve implementare <literal>javax.servlet.Filter</literal>):"
 
 #. Tag: programlisting
-#: Configuration.xml:332
+#: Configuration.xml:354
 #, no-c-format
 msgid ""
 "<![CDATA[@Startup\n"
@@ -627,31 +672,31 @@ msgstr ""
 "public class MultipartFilter extends AbstractFilter {]]>"
 
 #. Tag: para
-#: Configuration.xml:334
+#: Configuration.xml:356
 #, no-c-format
 msgid "Adding the <literal>@Startup</literal> annotation means thar the component is available during Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter should be further down the chain than the RichFaces filter (<literal>@Filter(within=\"org.jboss.seam.web.ajax4jsfFilter\")</literal>)."
 msgstr "Aggiungere l'annotazione <literal>@Startup</literal> significa che il componente è disponibile durante lo startup di Seam; la bijection non è disponibile qua (<literal>@BypassInterceptors</literal>); ed il filtro dovrebbe essere più in fondo alla catena rispetto al filtro RichFaces (<literal>@Filter(within=\"org.jboss.seam.web.ajax4jsfFilter\")</literal>)."
 
 #. Tag: title
-#: Configuration.xml:343
+#: Configuration.xml:365
 #, no-c-format
 msgid "Integrating Seam with your EJB container"
 msgstr "Integrazione di Seam con l'EJB container"
 
 #. Tag: para
-#: Configuration.xml:345
+#: Configuration.xml:367
 #, no-c-format
 msgid "In a Seam application, EJB components have a certain duality, as they are managed by both the EJB container and Seam. Actually, it's more that Seam resolves EJB component references, manages the lifetime of stateful session bean components, and also participates in each method call via interceptors. Let's start with the configuration of the Seam interceptor chain."
 msgstr "Nelle applicazioni Seam i componenti EJB hanno una certa dualità, poiché sono gestiti da entrambi: il container EJB e Seam. In verità Seam risolve i riferimenti ai componenti EJB, gestisce il ciclo di vita dei componenti bean con sessione stateful, e partecipa anche ad ogni chiamata di metodo via interceptor. Iniziamo con la configurazione della catena interceptor di Seam."
 
 #. Tag: para
-#: Configuration.xml:350
+#: Configuration.xml:372
 #, no-c-format
 msgid "We need to apply the <literal>SeamInterceptor</literal> to our Seam EJB components. This interceptor delegates to a set of built-in server-side interceptors that handle such concerns as bijection, conversation demarcation, and business process signals. The simplest way to do this across an entire application is to add the following interceptor configuration in <literal>ejb-jar.xml</literal>:"
 msgstr "Occorre applicare <literal>SeamInterceptor</literal> ai componenti EJB di Seam. Quest'interceptor delega ad un set di interceptor predefiniti lato server che gestiscono i concern quali la bijection, la demarcazione delle conversazioni ed i segnali del processo di business. Il modo più semplice per fare questo in tutta l'applicazione è aggiungere la seguente configurazione per l'interceptor in <literal>ejb-jar.xml</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:355
+#: Configuration.xml:377
 #, no-c-format
 msgid ""
 "<![CDATA[<interceptors>\n"
@@ -683,79 +728,79 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Configuration.xml:357
+#: Configuration.xml:379
 #, no-c-format
 msgid "Seam needs to know where to go to find session beans in JNDI. One way to do this is specify the <literal>@JndiName</literal> annotation on every session bean Seam component. However, this is quite tedious. A better approach is to specify a pattern that Seam can use to calculate the JNDI name from the EJB name. Unfortunately, there is no standard mapping to global JNDI defined in the EJB3 specification, so this mapping is vendor-specific (and may depend on your own naming conventions as well). We usually specify this option in <literal>components.xml</literal>."
 msgstr "Seam necessita di sapere dove trovare i session bean in JNDI. Un modo per farlo è specificare l'annotazione <literal>@JndiName</literal> su ogni componente session bean. Comunque questa modalità è abbastanza noiosa. Un approccio migliore è specificare un pattern che Seam usa per calcolare il nome JNDI dal nome EJB. Sfortunatamente nella specifica EJB3 non è definita una mappatura standard al JNDI globale, quindi questa mappatura è specificata dal venditore (e può dipendere anche dalle proprie convenzioni di nome). Solitamente si specifica quest'opzione in <literal>components.xml</literal>."
 
 #. Tag: para
-#: Configuration.xml:364
+#: Configuration.xml:386
 #, no-c-format
 msgid "For JBoss AS, the following pattern is correct:"
 msgstr "Per JBoss AS ilseguente pattern è corretto:"
 
 #. Tag: programlisting
-#: Configuration.xml:366
+#: Configuration.xml:388
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"earName/#{ejbName}/local\" />]]>"
 msgstr "<![CDATA[<core:init jndi-name=\"earName/#{ejbName}/local\" />]]>"
 
 #. Tag: para
-#: Configuration.xml:368
+#: Configuration.xml:390
 #, no-c-format
 msgid "In this case, <literal>earName</literal> is the name of the EAR in which the bean is deployed, Seam replaces <literal>#{ejbName}</literal> with the name of the EJB, and the final segment represents the type of interface (local or remote)."
 msgstr "In questo caso <literal>earName</literal> è il nome dell'EAR in cui viene deployato il bean, Seam sostituisce <literal>#{ejbName}</literal> con il nome dell'EJB ed il segmento finale rappresenta il tipo di interfaccia (locale o remota)."
 
 #. Tag: para
-#: Configuration.xml:372
+#: Configuration.xml:394
 #, no-c-format
 msgid "Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the first segment is dropped since there is no EAR, leaving us with the following pattern:"
 msgstr "Fuori dal contesto di un EAR (quando si usa il container JBoss Embeddable EJB3) il primo segmento viene ignorato poiché non c'è alcun EAR, rimanendo quindi con il seguente pattern:"
 
 #. Tag: programlisting
-#: Configuration.xml:375
+#: Configuration.xml:397
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"#{ejbName}/local\" />]]>"
 msgstr "<![CDATA[<core:init jndi-name=\"#{ejbName}/local\" />]]>"
 
 #. Tag: para
-#: Configuration.xml:377
+#: Configuration.xml:399
 #, no-c-format
 msgid "How these JNDI names are resolved and somehow locate an EJB component might appear a bit like black magic at this point, so let's dig into the details. First, let's talk about how the EJB components get into JNDI."
 msgstr "Come questi nomi JNDI vengono risolti e come localizzare un componente EJB potrebbe apparire a questo punto un pò una questione di magia, quindi indaghiamo meglio i dettagli. Innanzitutto vediamo come i componenti EJB entrano in JNDI."
 
 #. Tag: para
-#: Configuration.xml:381
+#: Configuration.xml:403
 #, no-c-format
 msgid "The folks at JBoss don't care much for XML, if you can't tell. So when they designed JBoss AS, they decided that EJB components would get assigned a global JNDI name automatically, using the pattern just described (i.e., EAR name/EJB name/interface type). The EJB name is the first non-empty value from the following list:"
 msgstr "Le persone di JBoss non si preoccupano molto di XML. Quindi quando hanno progettato JBoss AS, hanno deciso che i componenti EJB avrebbero visto assegnarsi automaticamente un nome JNDI globale, usando il pattern appena descritto (cioè nome EAR/nome EJB/tipo interfaccia). Il nome EJB è il primo valore non vuoto della seguente lista:"
 
 #. Tag: para
-#: Configuration.xml:387
+#: Configuration.xml:409
 #, no-c-format
 msgid "The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml"
 msgstr "Il valore dell'elemento <literal>&lt;ejb-name&gt;</literal> in ejb-jar.xml"
 
 #. Tag: para
-#: Configuration.xml:390
+#: Configuration.xml:412
 #, no-c-format
 msgid "The value of the <literal>name</literal> attribute in the @Stateless or @Stateful annotation"
 msgstr "Il valore dell'attributo <literal>name</literal> nell'annotazione @Stateless o @Stateful"
 
 #. Tag: para
-#: Configuration.xml:393
+#: Configuration.xml:415
 #, no-c-format
 msgid "The simple name of the bean class"
 msgstr "Il semplice nome della classe bean"
 
 #. Tag: para
-#: Configuration.xml:397
+#: Configuration.xml:419
 #, no-c-format
 msgid "Let's look at an example. Assume that you have the following EJB bean and interface defined."
 msgstr "Guardiamo un esempio. Si assuma di avere definiti il seguente bean EJB ed un'interfaccia."
 
 #. Tag: programlisting
-#: Configuration.xml:399
+#: Configuration.xml:421
 #, no-c-format
 msgid ""
 "<![CDATA[package com.example.myapp;\n"
@@ -803,25 +848,25 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Configuration.xml:401
+#: Configuration.xml:423
 #, no-c-format
 msgid "Assuming your EJB bean class is deployed in an EAR named myapp, the global JNDI name myapp/AuthenticatorBean/local will be assigned to it on JBoss AS. As you learned, you can reference this EJB component as a Seam component with the name <literal>authenticator</literal> and Seam will take care of finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</literal> annotation)."
 msgstr "Assumendo che la classe del bean EJB sia deployata in un'applicazione EAR chiamata myapp, il nome JNDI globale myapp/AuthenticatorBean/local verrà assegnato a lei in JBoss AS. Come visto, si può fare riferimento a questo componente EJB come componente Seam con il nome <literal>authenticator</literal> e Seam si preoccuperà di trovarlo in JNDI secondo il pattern JNDI (o l'annotazione <literal>@JndiName</literal>)."
 
 #. Tag: para
-#: Configuration.xml:407
+#: Configuration.xml:429
 #, no-c-format
 msgid "So what about the rest of the application servers? Well, according to the Java EE spec, which most vendors try to adhere to religiously, you have to declare an EJB reference for your EJB in order for it to be assigned a JNDI name. That requires some XML. It also means that it is up to you to establish a JNDI naming convention so that you can leverage the Seam JNDI pattern. You might find the JBoss convention a good one to follow."
 msgstr "Ma cosa dire rispetto ai restanti application server? In accordo alla specifica Java EE, alla quale la maggior parte dei venditori cerca di aderire in modo religioso, si deve dichiarare un riferimento EJB per il proprio EJB affinché gli venga assegnato un nome JNDI. Questo richiede un pò di XML. Significa che sta a voi stabilire una convenzione di nomi JNDI per poter sfruttare il pattern JNDI di Seam. Si potrebbe ritenere buona e usare la convenzione JBoss."
 
 #. Tag: para
-#: Configuration.xml:413
+#: Configuration.xml:435
 #, no-c-format
 msgid "There are two places you have to define the EJB reference when using Seam on non-JBoss application servers. If you are going to be looking up the Seam EJB component through JSF (in a JSF view or as a JSF action listener) or a Seam JavaBean component, then you must declare the EJB reference in web.xml. Here is the EJB reference for the example component just shown:"
 msgstr "Ci sono due posti dove poter definire il riferimento EJB usando Seam su application server non-JBoss. Se si cercheranno i componenti EJB di Seam attraverso JSF (in una vista JSF o in un action listener JSF) od un componente JavaBean di Seam, allora occorre dichiarare il riferimento EJB in web.xml. Ecco qua il riferimento EJB per il componente d'esempio appena mostrato:"
 
 #. Tag: programlisting
-#: Configuration.xml:418
+#: Configuration.xml:440
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -839,31 +884,31 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Configuration.xml:420
+#: Configuration.xml:442
 #, no-c-format
 msgid "This reference will cover most uses of the component in a Seam application. However, if you want to be able to inject a Seam EJB component into another Seam EJB component using <literal>@In</literal>, you need to define this EJB reference in another location. This time, it must be defined in ejb-jar.xml, and it's a bit tricker."
 msgstr "Questo riferimento coprirà la maggior parte degli usi dei componenti in un'applicazione Seam. Comunque se si vuole essere in grado di iniettare un componente EJB di Seam in un altro componente usando <literal>@In</literal>, occorre definire questo riferimento EJB in un'altra posizione. Questa volta deve essere definito in ejb-jar.xml, ed è un pò più complicato."
 
 #. Tag: para
-#: Configuration.xml:425
+#: Configuration.xml:447
 #, no-c-format
 msgid "Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context. When Seam attempts to find another Seam EJB component to satisfy an injection point defined using <literal>@In</literal>, whether or not it finds it depends on whether an EJB reference exists in JNDI. Strictly speaking, you cannot simply resolve JNDI names as you please. You have to define the references explicitly. Fortunately, JBoss recognized how aggrevating this would be for the developer and all versions of JBoss automatically register EJBs so they are always available in JNDI, both to the web container and the EJB container. So if you are using JBoss, you can skip the next few paragraphs. However, if you are deploying to GlassFish, pay close attention."
 msgstr "Dentro il contesto di una chiamata di metodo EJB, occorre avere a che fare con un contesto JNDI protetto. Quando Seam tenta di trovare un altro componente EJB Seam per soddisfare un punto d'iniezione definito con <literal>@In</literal>, il fatto che Seam lo trovi oppure no dipende dal fatto che esista un riferimento EJB in JNDI. In senso letterale non si può semplicemente risolvere i nomi JNDI a proprio piacimento. Occorre definire esplicitamente i riferimenti. Fortunatamente JBoss ha capito come questo sarebbe aggravante per lo sviluppatore e quindi tutte le versioni di JBoss registrano automaticamente gli EJB cosicché siano sempre disponibili in JNDI, sia nel web container sia nell'EJB container. In definitiva se si usa JBoss, si possono saltare i prossimi paragrafi. Comunque, se si usa GlassFish, si presti molta attenzione."
 
 #. Tag: para
-#: Configuration.xml:434
+#: Configuration.xml:456
 #, no-c-format
 msgid "For application servers that stubbornly adhere to the EJB specification, EJB references must always be defined explicitly. But unlike with the web context, where a single resource reference covers all uses of the EJB from the web environment, you cannot declare EJB references globally in the EJB container. Instead, you have to specify the JNDI resources for a given EJB component one-by-one."
 msgstr "Per gli application server che aderiscono testardamente alla specifica EJB, i riferimenti EJB devono sempre essere definititi esplicitamente. Ma diversamente dal contesto web, dove un singolo riferimento di una risorsa copre tutti gli usi di EJB, non si possono dichiarare i riferimenti EJB in modo globale nel container EJB. Invece si devono specificare le risorse JNDI per un dato componente EJB una per una."
 
 #. Tag: para
-#: Configuration.xml:439
+#: Configuration.xml:461
 #, no-c-format
 msgid "Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps mentioned previously). That EJB has the following Seam injection:"
 msgstr "Si assuma di avere un EJB chiamato RegisterAction (nome che viene risolto usando i tre passi menzionati prima). Questo EJB ha la seguente injection Seam:"
 
 #. Tag: programlisting
-#: Configuration.xml:442
+#: Configuration.xml:464
 #, no-c-format
 msgid ""
 "<![CDATA[@In(create = true)\n"
@@ -875,13 +920,13 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Configuration.xml:444
+#: Configuration.xml:466
 #, no-c-format
 msgid "In order for this injection to work, the link must be established in the ejb-jar.xml file as follows:"
 msgstr "Per fare funzionare quest'injection, il link deve essere messo nel file ejb-jar.xml come mostrato:"
 
 #. Tag: programlisting
-#: Configuration.xml:446
+#: Configuration.xml:468
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-jar>\n"
@@ -919,109 +964,109 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Configuration.xml:448
+#: Configuration.xml:470
 #, no-c-format
 msgid "Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are identical to what we defined in web.xml. What we are doing is bringing the reference into the EJB context where it can be used by the RegisterAction bean. You will need to add one of these references for any injection of a Seam EJB compoenent into another Seam EJB component using <literal>@In</literal>. (You can see an example of this setup in the jee5/booking example)."
 msgstr "Si noti che i contenuti di <literal>&lt;ejb-local-ref&gt;</literal> sono identici a ciò che viene definito in web.xml. Ciò che viene fatto è portare il riferimento nel contesto EJB dove può essere usato dal bean RegisterAction. Occorre aggiungere uno di questi riferimenti per qualsiasi injection di componente EJB Seam in un altro componente EJB Seam con <literal>@In</literal>. (Vedere l'esempio di setup di jee5/booking)."
 
 #. Tag: para
-#: Configuration.xml:454
+#: Configuration.xml:476
 #, no-c-format
 msgid "But what about <literal>@EJB</literal>? It's true that you can inject one EJB into another using <literal>@EJB</literal>. However, by doing so, you are injecting the actual EJB reference rather than the Seam EJB component instance. In this case, some Seam features will work, while others won't. That's because Seam's interceptor is invoked on any method call to an EJB component. But that only invokes Seam's server-side interceptor chain. What you lose is Seam's state management and Seam's client-side interceptor chain. Client-side interceptors handle concerns such as security and concurrency. Also, when injecting a SFSB, there is no guarantee that you will get the SFSB bound to the active session or conversation, whatever the case may be. Thus, you definitely want to inject the Seam EJB component using <literal>@In</literal>."
 msgstr "E riguardo <literal>@EJB</literal>? E' vero che si può iniettare un EJB in un altro usando <literal>@EJB</literal>. Comunque, facendo così, si sta iniettando il riferimento EJB piuttosto che l'istanza del componente EJB Seam. In questo caso, alcune funzionalità di Seam funzioneranno, mentre altre no. Questo perchè l'interceptor di Seam viene invocato ad ogni chiamata di metodo in un componente EJB. Ma questo invoca solo la catena dell'interceptor Seam lato server. Ciò che viene persa è la gestione dello stato di Seam e la catena dell'interceptor lato client. Gli interceptor lato client gestiscono i concern quali sicurezza e concorrenza. Inoltre, quando si inietta un SFSB, non c'è garanzia che il SFSB venga associato alla conversazione o sessione attiva, qualunque sia il caso. Quindi si inietterà il componente EJB Seam usando <literal>@In</literal>."
 
 #. Tag: para
-#: Configuration.xml:464
+#: Configuration.xml:486
 #, no-c-format
 msgid "That covers how JNDI names are defined and used. The lesson is that with some application servers, such as GlassFish, you are going to have to specify JNDI names for all EJB components explicitly, and sometimes twice! And even if you are following the same naming convention as JBoss AS, the JNDI pattern in Seam may need to be altered. For instance, the global JNDI names are automatically prefixed with java:comp/env on GlassFish, so you need to define the JNDI pattern as follows:"
 msgstr "Vediamo ora come vengono definiti ed usati i nomi JNDI. La lezione riguarda alcuni application server, come GlassFish, con cui occorre specificare i nomi JNDI esplicitamente per tutti i componenti EJB, ed alcune volte in modo doppio! Ed anche se si segue la stessa convenzione di nomi di JBoss AS, il pattern JNDI in Seam deve essere alterato. Per esempio in GlasshFish ai nomi JNDI viene automaticamente aggiunto il prefisso java:comp/env, e quindi occorre definire il pattern JNDI come segue:"
 
 #. Tag: programlisting
-#: Configuration.xml:470
+#: Configuration.xml:492
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"java:comp/env/earName/#{ejbName}/local\" />]]>"
 msgstr "<![CDATA[<core:init jndi-name=\"java:comp/env/earName/#{ejbName}/local\" />]]>"
 
 #. Tag: para
-#: Configuration.xml:472
+#: Configuration.xml:494
 #, no-c-format
 msgid "Finally, let's talk about transactions. In an EJB3 environment, we recommend the use of a special built-in component for transaction management, that is fully aware of container transactions, and can correctly process transaction success events registered with the <literal>Events</literal> component. If you don't add this line to your <literal>components.xml</literal> file, Seam won't know when container-managed transactions end:"
 msgstr "Infine parliamo di transazioni. In un ambiente EJB3 si raccomanda l'uso di un componente speciale predefinito per la gestione delle transazioni, che sia pienamente consapevole delle transazioni del container e possa correttamente processare gli eventi di successo legati alle transazioni registrato con il componente <literal>Events</literal>. Se non viene aggiunta questa linea al file <literal>components.xml</literal>, Seam non saprà quando finiscono le transazioni gestite dal container:"
 
 #. Tag: programlisting
-#: Configuration.xml:479
+#: Configuration.xml:501
 #, no-c-format
 msgid "<![CDATA[<transaction:ejb-transaction/>]]>"
 msgstr "<![CDATA[<transaction:ejb-transaction/>]]>"
 
 #. Tag: title
-#: Configuration.xml:484
+#: Configuration.xml:506
 #, no-c-format
 msgid "Don't forget!"
 msgstr "Non dimenticare!"
 
 #. Tag: para
-#: Configuration.xml:486
+#: Configuration.xml:508
 #, no-c-format
 msgid "There is one final item you need to know about. You must place a <literal>seam.properties</literal>, <literal>META-INF/seam.properties</literal> or <literal>META-INF/components.xml</literal> file in any archive in which your Seam components are deployed (even an empty properties file will do). At startup, Seam will scan any archives with <literal>seam.properties</literal> files for seam components."
 msgstr "C'è un ulteriore punto finale da sapere. Occorre mettere un file <literal>seam.properties</literal>, <literal>META-INF/seam.properties</literal> o <literal>META-INF/components.xml</literal> in qualsiasi archivio in cui vengono deployati componenti Seam (anche un file vuoto). All'avvio Seam scansionerà ogni archivio con il file <literal>seam.properties</literal> per cercare componenti seam."
 
 #. Tag: para
-#: Configuration.xml:491
+#: Configuration.xml:513
 #, no-c-format
 msgid "In a web archive (WAR) file, you must place a <literal>seam.properties</literal> file in the <literal>WEB-INF/classes</literal> directory if you have any Seam components included here."
 msgstr "Nel file WAR occorre mettere il file <literal>seam.properties</literal> nella directory <literal>WEB-INF/classes</literal> qualora si abbiano componenti Seam da includere."
 
 #. Tag: para
-#: Configuration.xml:494
+#: Configuration.xml:516
 #, no-c-format
 msgid "That's why all the Seam examples have an empty <literal>seam.properties</literal> file. You can't just delete this file and expect everything to still work!"
 msgstr "E' questo il motivo per cui tutti gli esempi Seam hanno un file <literal>seam.properties</literal> vuoto. Non si può cancellare questo file ed attendersi che tutto funzioni!"
 
 #. Tag: para
-#: Configuration.xml:497
+#: Configuration.xml:519
 #, no-c-format
 msgid "You might think this is silly and what kind of idiot framework designers would make an empty file affect the behavior of their software?? Well, this is a workaround for a limitation of the JVM &#8212; if we didn't use this mechanism, our next best option would be to force you to list every component explicitly in <literal>components.xml</literal>, just like some other competing frameworks do! I think you'll like our way better."
 msgstr "Si potrebbe ritenere che ciò sia stupido e chiedersi quale stupida razza di designer di framework farebbe influenzare il proprio software da un file vuoto? Questo è un workaroundper una limitazione della JVM &#8212; se non venisse usato questo meccanismo la migliore opzione sarebbe quella di obbligarvi ad elencare esplicitamente in <literal>components.xml</literal> ciascun componente, proprio come fanno gli altri framework! Riflettete su quale sia il modo migliore."
 
 #. Tag: title
-#: Configuration.xml:508
+#: Configuration.xml:530
 #, no-c-format
 msgid "Using Alternate JPA Providers"
 msgstr "Uso di provider JPA alternativi"
 
 #. Tag: para
-#: Configuration.xml:510
+#: Configuration.xml:532
 #, no-c-format
 msgid "Seam comes packaged and configured with Hibernate as the default JPA provider. If you require using a different JPA provider you must tell <literal>seam</literal> about it."
 msgstr "Seam viene assemblato e configurato con Hibernate in qualità di provider JPA. Se si vuole usare un diverso provider JPA occorre dirlo a <literal>seam</literal>."
 
 #. Tag: title
-#: Configuration.xml:516
+#: Configuration.xml:538
 #, no-c-format
 msgid "This is a workaround"
 msgstr "Questo è un workaround"
 
 #. Tag: para
-#: Configuration.xml:517
+#: Configuration.xml:539
 #, no-c-format
 msgid "Configuration of the JPA provider will be easier in the future and will not require configuration changes, unless you are adding a custom persistence provider implementation."
 msgstr "La configurazione del provider JPA sarà più semplice in futuro e non richiederà cambiamenti nella configurazione, amenoché non si aggiunga un'implementazione personalizzata del provider di persistenza."
 
 #. Tag: para
-#: Configuration.xml:524
+#: Configuration.xml:546
 #, no-c-format
 msgid "Telling seam about a different JPA provider can be be done in one of two ways:"
 msgstr "Comunicare a Seam di usare un altro provider JPA può essere realizzato in uno dei due modi:"
 
 #. Tag: para
-#: Configuration.xml:525
+#: Configuration.xml:547
 #, no-c-format
 msgid "Update your application's <literal>components.xml</literal> so that the generic <literal>PersistenceProvider</literal> takes precedence over the hibernate version. Simply add the following to the file:"
 msgstr "Si aggiorni il <literal>components.xml</literal> della propria applicazione affinché <literal>PersistenceProvider</literal> abbia la precedenza sulla versione Hibernate. Semplicemente si aggiunga al file:"
 
 #. Tag: programlisting
-#: Configuration.xml:530
+#: Configuration.xml:552
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider\" \n"
@@ -1035,13 +1080,13 @@ msgstr ""
 "</component>]]>"
 
 #. Tag: para
-#: Configuration.xml:531
+#: Configuration.xml:553
 #, no-c-format
 msgid "If you want to take advantage of your JPA provider's non-standard features you will need to write you own implementation of the <literal>PersistenceProvider</literal>. Use <literal>HibernatePersistenceProvider</literal> as a starting point (don't forget to give back to the community :). Then you will need to tell <literal>seam</literal> to use it as before."
 msgstr "Se si vogliono sfruttare le caratteristiche nonstandard del proprio provider JPA occorre scrivere la propria implementazione di <literal>PersistenceProvider</literal>. Si usa <literal>HibernatePersistenceProvider</literal> come punto di partenza (si ricordi di dare qualcosa alla comunità :). Quindi occorrerà dire a <literal>seam</literal> di usarlo come prima."
 
 #. Tag: programlisting
-#: Configuration.xml:538
+#: Configuration.xml:560
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider\" \n"
@@ -1053,41 +1098,41 @@ msgstr ""
 "</component>]]>"
 
 #. Tag: para
-#: Configuration.xml:539
+#: Configuration.xml:561
 #, no-c-format
 msgid "All that is left is updating the <literal>persistence.xml</literal> file with the correct provider class, and what ever properties your provider needs. Don't forget to package your new provider's jar files in the application if they are needed."
 msgstr "Ciò che rimane da fare è aggiornare il file <literal>persistence.xml</literal> come la giusta classe del provider e quelle proprietà che il provider richiede. Non dimenticare di impacchettare nell'applicazione i file jar del provider se richiesti."
 
 #. Tag: title
-#: Configuration.xml:547
+#: Configuration.xml:569
 #, no-c-format
 msgid "Configuring Seam in Java EE 5"
 msgstr "Configurazione di Seam in java EE 5"
 
 #. Tag: para
-#: Configuration.xml:558
+#: Configuration.xml:580
 #, no-c-format
 msgid "If you're running in a Java EE 5 environment, this is all the configuration required to start using Seam!"
 msgstr "Se si esegue il software in ambiente Java EE 5, questa è tutta la configurazione richiesta per usare Seam!"
 
 # come tradurre?
 #. Tag: title
-#: Configuration.xml:561
-#: Configuration.xml:656
-#: Configuration.xml:794
-#: Configuration.xml:827
+#: Configuration.xml:583
+#: Configuration.xml:678
+#: Configuration.xml:816
+#: Configuration.xml:849
 #, no-c-format
 msgid "Packaging"
 msgstr "Packaging"
 
 #. Tag: para
-#: Configuration.xml:563
+#: Configuration.xml:585
 #, no-c-format
 msgid "Once you've packaged all this stuff together into an EAR, the archive structure will look something like this:"
 msgstr "Una volta impacchettato assieme tutte queste cose in un EAR, la struttura dell'archivio apparirà così:"
 
 #. Tag: programlisting
-#: Configuration.xml:566
+#: Configuration.xml:588
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.ear/\n"
@@ -1161,97 +1206,97 @@ msgstr ""
 "                    ...]]>"
 
 #. Tag: para
-#: Configuration.xml:568
+#: Configuration.xml:590
 #, no-c-format
 msgid "You should declare <literal>jboss-seam.jar</literal> as an ejb module in <literal>META-INF/application.xml</literal>; <literal>jboss-el.jar</literal> should be placed in the EAR's lib directory (putting it in the EAR classpath."
 msgstr "Si dovrebbe dichiarare <literal>jboss-seam.jar</literal> come modulo ejb in <literal>META-INF/application.xml</literal>; <literal>jboss-el.jar</literal> dovrebbe essere collocato nella directory lib dell'EAR (mettendolo nel classpath dell'EAR)."
 
 #. Tag: para
-#: Configuration.xml:573
+#: Configuration.xml:595
 #, no-c-format
 msgid "If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory."
 msgstr "Se si vuole usare jBPM o Drools, occorre includere i jar necessari nella directory lib di EAR."
 
 #. Tag: para
-#: Configuration.xml:575
+#: Configuration.xml:597
 #, no-c-format
 msgid "If you want to use facelets (our recommendation), you must include <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR."
 msgstr "Se si vuole usare facelets (consigliato), occorre includere <literal>jsf-facelets.jar</literal> nella directory <literal>WEB-INF/lib</literal> del WAR."
 
 #. Tag: para
-#: Configuration.xml:578
+#: Configuration.xml:600
 #, no-c-format
 msgid "If you want to use the Seam tag library (most Seam applications do), you must include <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. If you want to use the PDF or email tag libraries, you need to put <literal>jboss-seam-pdf.jar</literal> or <literal>jboss-seam-mail.jar</literal> in <literal>WEB-INF/lib</literal>."
 msgstr "Se si vuole usare la libreria dei tag di Seam (come per la maggior parte delle applicazioni), occorre includere <literal>jboss-seam-ui.jar</literal> nella directory <literal>WEB-INF/lib</literal> del WAR. Se si vuole usare la libreria PDF o quella email, occorre mettere <literal>jboss-seam-pdf.jar</literal> o <literal>jboss-seam-mail.jar</literal> in <literal>WEB-INF/lib</literal>."
 
 #. Tag: para
-#: Configuration.xml:583
+#: Configuration.xml:605
 #, no-c-format
 msgid "If you want to use the Seam debug page (only works for applications using facelets), you must include <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR."
 msgstr "Se si vuole usare la pagina di debug di Seam (funziona solo per applicazioni con facelets), occorre includere <literal>jboss-seam-debug.jar</literal> nella directory <literal>WEB-INF/lib</literal> del WAR."
 
 #. Tag: para
-#: Configuration.xml:586
+#: Configuration.xml:608
 #, no-c-format
 msgid "Seam ships with several example applications that are deployable in any Java EE container that supports EJB 3.0."
 msgstr "Seam porta con sé parecchi esempi di applicazioni che sono deployate in un container Java EE che supporta EJB 3.0."
 
 #. Tag: para
-#: Configuration.xml:589
+#: Configuration.xml:611
 #, no-c-format
 msgid "I really wish that was all there was to say on the topic of configuration but unfortunately we're only about a third of the way there. If you're too overwhelmed by all this tedious configuration stuff, feel free to skip over the rest of this section and come back to it later."
 msgstr "Ci piacerebbe aver terminato l'argomento configurazione, ma sfortunatamente siamo solo ad un terzo. Se si è troppo sopraffatti da questo tedioso argomento, si può saltare alla prossima sezione e tornare qua più tardi."
 
 #. Tag: title
-#: Configuration.xml:598
+#: Configuration.xml:620
 #, no-c-format
 msgid "Configuring Seam in J2EE"
 msgstr "Configurare Seam in J2EE"
 
 #. Tag: para
-#: Configuration.xml:600
+#: Configuration.xml:622
 #, no-c-format
 msgid "Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this case you would use Hibernate3 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.0 when you're ready and, in the meantime, you'll be able to take advantage of Seam's unique declarative state management architecture."
 msgstr "Seam è utile anche se non si è ancora pronti per il grande salto in EJB3.0. In questo caso si usa Hibernate3 o JPA invece della persistenza EJB3.0, ed i JavaBean invece dei bean di sessione. Non si avranno a disposizione alcune funzionalità carine per i session bean, ma sarà molto semplice migrare a EJB3.0 quando si sarà pronti ed allora si potrà sfruttare l'architettura unica di Seam per la gestione dichiarativa dello stato."
 
 #. Tag: para
-#: Configuration.xml:615
+#: Configuration.xml:637
 #, no-c-format
 msgid "Seam JavaBean components do not provide declarative transaction demarcation like session beans do. You <emphasis>could</emphasis> manage your transactions manually using the JTA <literal>UserTransaction</literal> or declaratively using Seam's <literal>@Transactional</literal> annotation. But most applications will just use Seam managed transactions when using Hibernate with JavaBeans."
 msgstr "I componenti JavaBean di Seam non forniscono la demarcazione dichiarativa delle transazioni come fanno i session bean. Si <emphasis>possono</emphasis> gestire manualmente le transazioni usando <literal>UserTransaction</literal> di JTA od in modo dichiarativo usando l'annotazione <literal>@Transactional</literal> di Seam. Ma la maggior parte delle applicazioni userà solo le transazioni gestite da Seam con Hibernate ed i JavaBean."
 
 #. Tag: para
-#: Configuration.xml:621
+#: Configuration.xml:643
 #, no-c-format
 msgid "The Seam distribution includes a version of the booking example application that uses Hibernate3 and JavaBeans instead of EJB3, and another version that uses JPA and JavaBeans. These example applications are ready to deploy into any J2EE application server."
 msgstr "La distribuzione Seam include una versione dell'esempio booking che usa Hibernate3 e JavaBean invece di EJB3, ed un'altra versione che usa JPA e JavaBean. Queste applicazioni d'esempio sono pronte per essere deployate in ogni application server J2EE."
 
 #. Tag: title
-#: Configuration.xml:626
+#: Configuration.xml:648
 #, no-c-format
 msgid "Boostrapping Hibernate in Seam"
 msgstr "Boostrapping di Hibernate in Seam"
 
 #. Tag: para
-#: Configuration.xml:628
+#: Configuration.xml:650
 #, no-c-format
 msgid "Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your <literal>hibernate.cfg.xml</literal> file if you install a built-in component:"
 msgstr "Seam avvierà un <literal>SessionFactory</literal> di Hibernate dal file <literal>hibernate.cfg.xml</literal> se si installa un componente predefinito:"
 
 #. Tag: programlisting
-#: Configuration.xml:631
+#: Configuration.xml:653
 #, no-c-format
 msgid "<![CDATA[<persistence:hibernate-session-factory name=\"hibernateSessionFactory\"/>]]>"
 msgstr "<![CDATA[<persistence:hibernate-session-factory name=\"hibernateSessionFactory\"/>]]>"
 
 #. Tag: para
-#: Configuration.xml:633
+#: Configuration.xml:655
 #, no-c-format
 msgid "You will also need to configure a <emphasis>managed session</emphasis> if you want a Seam managed Hibernate <literal>Session</literal> to be available via injection."
 msgstr "Occorre anche configurare una <emphasis>sessione gestita</emphasis> se si vuole disponibile via injection una <literal>Session</literal> di Hibernate gestita da Seam."
 
 #. Tag: programlisting
-#: Configuration.xml:636
+#: Configuration.xml:658
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-hibernate-session name=\"hibernateSession\"\n"
@@ -1261,31 +1306,31 @@ msgstr ""
 "                            session-factory=\"#{hibernateSessionFactory}\"/>]]>"
 
 #. Tag: title
-#: Configuration.xml:641
+#: Configuration.xml:663
 #, no-c-format
 msgid "Boostrapping JPA in Seam"
 msgstr "Boostrapping di JPA in Seam"
 
 #. Tag: para
-#: Configuration.xml:643
+#: Configuration.xml:665
 #, no-c-format
 msgid "Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your <literal>persistence.xml</literal> file if you install this built-in component:"
 msgstr "Seam avvierà un <literal>EntityManagerFactory</literal> JPA dal file <literal>persistence.xml</literal> se è stato installato il seguente componente predefinito:"
 
 #. Tag: programlisting
-#: Configuration.xml:646
+#: Configuration.xml:668
 #, no-c-format
 msgid "<![CDATA[<persistence:entity-manager-factory name=\"entityManagerFactory\"/>]]>"
 msgstr "<![CDATA[<persistence:entity-manager-factory name=\"entityManagerFactory\"/>]]>"
 
 #. Tag: para
-#: Configuration.xml:648
+#: Configuration.xml:670
 #, no-c-format
 msgid "You will also need to configure a <emphasis>managed persistence context</emphasis> if you want a Seam managed JPA <literal>EntityManager</literal> to be available via injection."
 msgstr "Occorre anche configurare un <emphasis>contesto di persistenza gestito</emphasis> se si vuole avere disponibile via injection un <literal>EntityManager</literal> JPA gestito da Seam."
 
 #. Tag: programlisting
-#: Configuration.xml:651
+#: Configuration.xml:673
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
@@ -1295,13 +1340,13 @@ msgstr ""
 "                            entity-manager-factory=\"#{entityManagerFactory}\"/>]]>"
 
 #. Tag: para
-#: Configuration.xml:658
+#: Configuration.xml:680
 #, no-c-format
 msgid "We can package our application as a WAR, in the following structure:"
 msgstr "Si può impacchettare l'applicazione come WAR nella seguente struttura:"
 
 #. Tag: programlisting
-#: Configuration.xml:660
+#: Configuration.xml:682
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.war/\n"
@@ -1369,115 +1414,115 @@ msgstr ""
 "    ...]]>"
 
 #. Tag: para
-#: Configuration.xml:662
+#: Configuration.xml:684
 #, no-c-format
 msgid "If we want to deploy Hibernate in a non-EE environment like Tomcat or TestNG, we need to do a little bit more work."
 msgstr "Se si vuole fare ildeploy di Hibernate in un ambiente non EE come Tomcat o TestNG, occorre un pò di lavoro."
 
 #. Tag: title
-#: Configuration.xml:669
+#: Configuration.xml:691
 #, no-c-format
 msgid "Configuring Seam in Java SE, without JBoss Embedded"
 msgstr "Configurazione di Seam in java EE 5 senza JBoss Embedded"
 
 #. Tag: para
-#: Configuration.xml:671
+#: Configuration.xml:693
 #, no-c-format
 msgid "It is possible to use Seam completely outside of an EE environment. In this case, you need to tell Seam how to manage transactions, since there will be no JTA available. If you're using JPA, you can tell Seam to use JPA resource-local transactions, ie. <literal>EntityTransaction</literal>, like so:"
 msgstr "E' possibile usare Seam completamente fuori dall'ambiente EE. In questo caso serve istruire Seam come gestire le transazioni gestire, poiché non sarà disponibile JTA. Se si usa JTA, si può dire a Seam di usare le transazioni resource-local di JTA, cioè <literal>EntityTransaction</literal>, in questo modo:"
 
 #. Tag: programlisting
-#: Configuration.xml:675
+#: Configuration.xml:697
 #, no-c-format
 msgid "<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/>]]>"
 msgstr "<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/>]]>"
 
 #. Tag: para
-#: Configuration.xml:677
+#: Configuration.xml:699
 #, no-c-format
 msgid "If you're using Hibernate, you can tell Seam to use the Hibernate transaction API like this:"
 msgstr "Se si usa Hibernate, si può dire a Seam di usare l'API transaction di Hibernate in questo modo:"
 
 #. Tag: programlisting
-#: Configuration.xml:679
+#: Configuration.xml:701
 #, no-c-format
 msgid "<![CDATA[<transaction:hibernate-transaction session=\"#{session}\"/>]]>"
 msgstr "<![CDATA[<transaction:hibernate-transaction session=\"#{session}\"/>]]>"
 
 #. Tag: para
-#: Configuration.xml:681
+#: Configuration.xml:703
 #, no-c-format
 msgid "Of course, you'll also need to define a datasource."
 msgstr "Certamente occorre definire un datasource."
 
 #. Tag: para
-#: Configuration.xml:683
+#: Configuration.xml:705
 #, no-c-format
 msgid "A better alternative is to use JBoss Embedded to get access to the EE APIs."
 msgstr "Un'alternativa migliore è usare JBoss Embedded per accedere alle API EE."
 
 #. Tag: title
-#: Configuration.xml:688
+#: Configuration.xml:710
 #, no-c-format
 msgid "Configuring Seam in Java SE, with JBoss Embedded"
 msgstr "Configurazione di Seam in java EE 5 con JBoss Embedded"
 
 #. Tag: para
-#: Configuration.xml:690
+#: Configuration.xml:712
 #, no-c-format
 msgid "JBoss Embedded lets you run EJB3 components outside the context of the Java EE 5 application server. This is especially, but not only, useful for testing."
 msgstr "JBoss Embedded consente di eseguire i componenti EJB3 fuori dal contesto dell'application server Java EE 5. Questo è utile specialmente, ma non solo, per il testing."
 
 #. Tag: para
-#: Configuration.xml:693
+#: Configuration.xml:715
 #, no-c-format
 msgid "The Seam booking example application includes a TestNG integration test suite that runs on JBoss Embedded via <literal>SeamTest</literal>."
 msgstr "L'applicazione d'esempio booking include la suite d'integrazione per TestNG che esegue JBoss Embedded via <literal>SeamTest</literal>."
 
 #. Tag: para
-#: Configuration.xml:705
+#: Configuration.xml:727
 #, no-c-format
 msgid "The booking example application may even be deployed to Tomcat."
 msgstr "L'applicazione d'esempio booking può essere deployata via Tomcat."
 
 #. Tag: title
-#: Configuration.xml:717
+#: Configuration.xml:739
 #, no-c-format
 msgid "Installing Embedded JBoss"
 msgstr "Installare JBoss Embedded"
 
 #. Tag: para
-#: Configuration.xml:720
+#: Configuration.xml:742
 #, no-c-format
 msgid "Embedded JBoss must by installed into Tomcat for Seam applications to run correctly on it. Embedded JBoss runs with JDK 5 or JDK 6 ( see <xref linkend=\"jdk_dependencies\"/> for details on using JDK 6). Embedded JBoss can be downloaded <ulink url=\"http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977\">here</ulink>. The process for installing Embedded JBoss into Tomcat 6 is quite simple. First, you should copy the Embedded JBoss JARs and configuration files into Tomcat."
 msgstr "Embedded JBoss deve essere installato in Tomcat per le eseguire correttamente le applicazioni Seam. Embedded JBoss gira con JDK 5 o JDK 6 (si veda <xref linkend=\"jdk_dependencies\"/> per i dettagli con JDK 6). Embedded JBoss può essere scaricato <ulink url=\"http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977\">qua</ulink>. Il processo di installazione di Embedded JBoss in Tomcat 6 è abbastanza semplice. Innanzitutto bisogna copiare i jar di Embedded JBoss ed i file di configurazione in Tomcat."
 
 #. Tag: para
-#: Configuration.xml:734
+#: Configuration.xml:756
 #, no-c-format
 msgid "Copy all files and directories under the Embedded JBoss <literal>bootstrap</literal> and <literal>lib</literal> directories, except for the <literal>jndi.properties</literal> file, into the Tomcat <literal>lib</literal> directory."
 msgstr "Copiare tutti i file e le directory di Embedded JBoss <literal>bootstrap</literal> e la directory <literal>lib</literal>, tranne il file <literal>jndi.properties</literal>, nella directory di Tomcat <literal>lib</literal>."
 
 #. Tag: para
-#: Configuration.xml:741
+#: Configuration.xml:763
 #, no-c-format
 msgid "Remove the <literal>annotations-api.jar</literal> file from the Tomcat <literal>lib</literal> directory."
 msgstr "Rimuovere il file <literal>annotations-api.jar</literal> dalla directory Tomcat <literal>lib</literal>."
 
 #. Tag: para
-#: Configuration.xml:747
+#: Configuration.xml:769
 #, no-c-format
 msgid "Next, two configuration files need to be updated to add Embedded JBoss-specific functionality."
 msgstr "Poi devono essere aggiornati due file di configurazione per poter aggiungere funzionalità specifiche di JBoss Embedded."
 
 #. Tag: para
-#: Configuration.xml:753
+#: Configuration.xml:775
 #, no-c-format
 msgid "Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</literal> to <literal>conf/server.xml</literal>. It must appear after all other listeners in the file:"
 msgstr "Aggiungere il listener Embedded JBoss <literal>EmbeddedJBossBootstrapListener</literal> a <literal>conf/server.xml</literal>. Deve apparire dopo tutti gli altri listener nel file:"
 
 #. Tag: programlisting
-#: Configuration.xml:756
+#: Configuration.xml:778
 #, no-c-format
 msgid ""
 "<![CDATA[<Server port=\"8005\" shutdown=\"SHUTDOWN\">\n"
@@ -1499,7 +1544,7 @@ msgstr ""
 "  <Listener className=\"org.apache.catalina.storeconfig.StoreConfigLifecycleListener\" />]]>"
 
 #. Tag: programlisting
-#: Configuration.xml:757
+#: Configuration.xml:779
 #, no-c-format
 msgid ""
 "<![CDATA[  <!-- Add this listener -->\n"
@@ -1509,13 +1554,13 @@ msgstr ""
 "  <Listener className=\"org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener\" />]]>"
 
 #. Tag: para
-#: Configuration.xml:761
+#: Configuration.xml:783
 #, no-c-format
 msgid "WAR file scanning should be enabled by adding the <literal>WebinfScanner</literal> listener to <literal>conf/context.xml</literal>:"
 msgstr "La scansione del file WAR può essere abilitata aggiungendo il listener <literal>WebinfScanner</literal> in <literal>conf/context.xml</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:764
+#: Configuration.xml:786
 #, no-c-format
 msgid ""
 "<![CDATA[<Context>\n"
@@ -1537,7 +1582,7 @@ msgstr ""
 "    -->]]>"
 
 #. Tag: programlisting
-#: Configuration.xml:765
+#: Configuration.xml:787
 #, no-c-format
 msgid ""
 "<![CDATA[  <!-- Add this listener -->\n"
@@ -1547,55 +1592,55 @@ msgstr ""
 "  <Listener className=\"org.jboss.embedded.tomcat.WebinfScanner\" />]]>"
 
 #. Tag: programlisting
-#: Configuration.xml:766
+#: Configuration.xml:788
 #, no-c-format
 msgid "<![CDATA[</Context>]]>"
 msgstr "<![CDATA[</Context>]]>"
 
 #. Tag: para
-#: Configuration.xml:770
+#: Configuration.xml:792
 #, no-c-format
 msgid "If you are using Sun JDK 6, you need to set the Java option <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to <literal>true</literal> in the JAVA_OPTS environment variable used by the Catalina startup script (catalina.bat on Windows or catalina.sh on Unix)."
 msgstr "Se si usa Sun JDK 6, occorre impostare l'opzione Java <literal>sun.lang.ClassLoader.allowArraySyntax</literal> a <literal>true</literal> nella variabile d'ambiente JAVA_OPTS usata dallo script di avvio Catalina (catalina.bat in Windows o catalina.sh in Unix)."
 
 #. Tag: para
-#: Configuration.xml:775
+#: Configuration.xml:797
 #, no-c-format
 msgid "Open the script appropriate for your operating system in a text editor. Add a new line immediately below the comments at the top of the file where you will define the JAVA_OPTS environment variable. On Windows, use the following syntax:"
 msgstr "Aprire in un editor lo script appropriato per il proprio sistema operativo. Aggiungere una nuova linea immediatamente sotto i commenti in cima al file dove verrà definita la variabile d'ambiente JAVA_OPTS. Su Windows, usare la seguente sintassi:"
 
 #. Tag: programlisting
-#: Configuration.xml:779
+#: Configuration.xml:801
 #, no-c-format
 msgid "<![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySyntax=true]]>"
 msgstr "<![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySyntax=true]]>"
 
 #. Tag: para
-#: Configuration.xml:781
+#: Configuration.xml:803
 #, no-c-format
 msgid "On Unix, use this syntax instead:"
 msgstr "In Unix, usare invece questa sintassi:"
 
 #. Tag: programlisting
-#: Configuration.xml:783
+#: Configuration.xml:805
 #, no-c-format
 msgid "<![CDATA[JAVA_OPTS=\"$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true\"]]>"
 msgstr "<![CDATA[JAVA_OPTS=\"$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true\"]]>"
 
 #. Tag: para
-#: Configuration.xml:788
+#: Configuration.xml:810
 #, no-c-format
 msgid "For more configuration options, please see the Embedded JBoss Tomcat integration <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat\">wiki entry</ulink>."
 msgstr "Per ulteriorio opzioni di configurazione, si prega di vedere l'integrazione con Embedded JBoss Tomcat <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat\">wiki entry</ulink>."
 
 #. Tag: para
-#: Configuration.xml:796
+#: Configuration.xml:818
 #, no-c-format
 msgid "The archive structure of a WAR-based deployment on an servlet engine like Tomcat will look something like this:"
 msgstr "La struttura dell'archivio di un deploy basato su WAR per un servlet engine come Tomcat appare in questo modo:"
 
 #. Tag: programlisting
-#: Configuration.xml:799
+#: Configuration.xml:821
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.war/\n"
@@ -1665,25 +1710,25 @@ msgstr ""
 "    ...]]>"
 
 #. Tag: para
-#: Configuration.xml:801
+#: Configuration.xml:823
 #, no-c-format
 msgid "Most of the Seam example applications may be deployed to Tomcat by running <literal>ant deploy.tomcat</literal>."
 msgstr "La maggior parte delle applicazioni d'esempio può essere deployata in Tomcat eseguendo <literal>ant deploy.tomcat</literal>."
 
 #. Tag: title
-#: Configuration.xml:809
+#: Configuration.xml:831
 #, no-c-format
 msgid "Configuring jBPM in Seam"
 msgstr "Configurazione jBPM in Seam"
 
 #. Tag: para
-#: Configuration.xml:810
+#: Configuration.xml:832
 #, no-c-format
 msgid "Seam's jBPM integration is not installed by default, so you'll need to enable jBPM by installing a built-in component. You'll also need to explicitly list your process and pageflow definitions. In <literal>components.xml</literal>:"
 msgstr "L'integrazione jBPM di Seam non è installata di default, quindi occorre abilitare jBPM installando il componente predefinito. Serve anche elencare esplicitamente le definizioni di processo ed i pageflow. In <literal>components.xml</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:814
+#: Configuration.xml:836
 #, no-c-format
 msgid ""
 "<![CDATA[<bpm:jbpm>\n"
@@ -1709,13 +1754,13 @@ msgstr ""
 "</bpm:jbpm>]]>"
 
 #. Tag: para
-#: Configuration.xml:816
+#: Configuration.xml:838
 #, no-c-format
 msgid "No further special configuration is needed if you only have pageflows. If you do have business process definitions, you need to provide a jBPM configuration, and a Hibernate configuration for jBPM. The Seam DVD Store demo includes example <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal> files that will work with Seam:"
 msgstr "Non servono ulteriori configurazioni se si usano solo i pageflow. Se si hanno definizioni di processi di business, bisogna fornire una configurazione jBPM ed una configurazione Hibernate per jBPM. La demo Seam DVD Store include i file d'esempio <literal>jbpm.cfg.xml</literal> e <literal>hibernate.cfg.xml</literal> che funzionano con Seam:"
 
 #. Tag: programlisting
-#: Configuration.xml:821
+#: Configuration.xml:843
 #, no-c-format
 msgid ""
 "<![CDATA[<jbpm-configuration>\n"
@@ -1759,19 +1804,19 @@ msgstr ""
 "</jbpm-configuration>]]>"
 
 #. Tag: para
-#: Configuration.xml:823
+#: Configuration.xml:845
 #, no-c-format
 msgid "The most important thing to notice here is that jBPM transaction control is disabled. Seam or EJB3 should control the JTA transactions."
 msgstr "La cosa più importante da notare è che il controllo della transazione jBPM è disabilitato. Seam o EJB3 dovrebbero controllare le transazioni JTA."
 
 #. Tag: para
-#: Configuration.xml:829
+#: Configuration.xml:851
 #, no-c-format
 msgid "There is not yet any well-defined packaging format for jBPM configuration and process/pageflow definition files. In the Seam examples we've decided to simply package all these files into the root of the EAR. In future, we will probably design some other standard packaging format. So the EAR looks something like this:"
 msgstr "Non c'è ancora un formato di impacchettamento ben-definito per la configurazione jBPM ed i file di definizione processo/pageflow. Negli esempi Seam si è deciso di impacchettare semplicemente tutti questi file nella directory radice dell'EAR. In future, si progetterà probabilmente un formato standard di impacchettamento. Quindi l'EAR appare così:"
 
 #. Tag: programlisting
-#: Configuration.xml:834
+#: Configuration.xml:856
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.ear/\n"
@@ -1859,25 +1904,25 @@ msgstr ""
 "    documentLifecycle.jpdl.xml]]>"
 
 #. Tag: title
-#: Configuration.xml:841
+#: Configuration.xml:863
 #, no-c-format
 msgid "Configuring SFSB and Session Timeouts in JBoss AS"
 msgstr "Configurazione di SFSB e dei timeout di sessione in JBoss AS"
 
 #. Tag: para
-#: Configuration.xml:843
+#: Configuration.xml:865
 #, no-c-format
 msgid "It is very important that the timeout for Stateful Session Beans is set higher than the timeout for HTTP Sessions, otherwise SFSB's may time out before the user's HTTP session has ended. JBoss Application Server has a default session bean timeout of 30 minutes, which is configured in <literal>server/default/conf/standardjboss.xml</literal> (replace <emphasis>default</emphasis> with your own configuration)."
 msgstr "E' molto importante che il timeout per i bean di sessione stateful sia impostato ad un tempo maggiore del timeout per le sessioni HTTP, altrimenti SFSB può andare in timeout primache la sessione HTTP sia terminata. JBoss AS ha un timeout di default di 30 minuti, che è impostato nel file <literal>server/default/conf/standardjboss.xml</literal> (sostituire <emphasis>default</emphasis>con la propria configurazione)."
 
 #. Tag: para
-#: Configuration.xml:849
+#: Configuration.xml:871
 #, no-c-format
 msgid "The default SFSB timeout can be adjusted by modifying the value of <literal>max-bean-life</literal> in the <literal>LRUStatefulContextCachePolicy</literal> cache configuration:"
 msgstr "Il timeout di default di SFSB può essere impostato modificando il valore di <literal>max-bean-life</literal> nella configurazione della cache <literal>LRUStatefulContextCachePolicy</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:852
+#: Configuration.xml:874
 #, no-c-format
 msgid ""
 "<![CDATA[<container-cache-conf>\n"
@@ -1919,13 +1964,13 @@ msgstr ""
 "</container-cache-conf>]]>"
 
 #. Tag: para
-#: Configuration.xml:854
+#: Configuration.xml:876
 #, no-c-format
 msgid "The default HTTP session timeout can be modified in <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x or later. The following entry in this file controls the default session timeout for all web applications:"
 msgstr "Il timeout di default per la sessione HTTP può essere modificato in <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> per JBoss 4.0.x, o in <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> per JBoss 4.2.x o successivi. La seguente riga in questo file controlla il timeout di default per la sessione di tutte le applicazioni web:"
 
 #. Tag: programlisting
-#: Configuration.xml:859
+#: Configuration.xml:881
 #, no-c-format
 msgid ""
 "<![CDATA[<session-config>\n"
@@ -1939,43 +1984,43 @@ msgstr ""
 "</session-config>]]>"
 
 #. Tag: para
-#: Configuration.xml:861
+#: Configuration.xml:883
 #, no-c-format
 msgid "To override this value for your own application, simply include this entry in your application's own <literal>web.xml</literal>."
 msgstr "Per sovrascrivere questo valore per la propria applicazione, si includa semplicemente questa riga nel proprio <literal>web.xml</literal>."
 
 #. Tag: title
-#: Configuration.xml:867
+#: Configuration.xml:889
 #, no-c-format
 msgid "Running Seam in a Portlet"
 msgstr "Esecuzione di Seam in un Portlet"
 
 #. Tag: para
-#: Configuration.xml:869
+#: Configuration.xml:891
 #, no-c-format
 msgid "If you want to run your Seam application in a portlet, take a look at the JBoss Portlet Bridge, an implementation of JSR-301 that supports JSF within a portlet, with extensions for Seam and RichFaces. See <ulink url=\"http://labs.jboss.com/portletbridge\">http://labs.jboss.com/portletbridge</ulink> for more."
 msgstr "Se si vogliono eseguire le applicazioni in un portlet, si guardi JBoss Portlet Bridge, un'implementazione di JSR-301 che supporta JSF con i portlet, con estensioni per Seam e RichFaces. Si veda <ulink url=\"http://labs.jboss.com/portletbridge\">http://labs.jboss.com/portletbridge</ulink>."
 
 #. Tag: title
-#: Configuration.xml:880
+#: Configuration.xml:902
 #, no-c-format
 msgid "Deploying custom resources"
 msgstr "Deploy di risorse personalizzate"
 
 #. Tag: para
-#: Configuration.xml:882
+#: Configuration.xml:904
 #, no-c-format
 msgid "Seam scans all jars containing <literal>/seam.properties</literal>, <literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam.properties</literal> on startup for resources. For example, all classes annotated with <literal>@Name</literal> are registered with Seam as Seam components."
 msgstr "Seam scansiona all'avvio tutti i jar contenenti <literal>/seam.properties</literal>, <literal>/META-INF/components.xml</literal> o <literal>/META-INF/seam.properties</literal>. Per esempio, tutte le classi annotate con <literal>@Name</literal> vengono registrate da Seam come componenti Seam."
 
 #. Tag: para
-#: Configuration.xml:889
+#: Configuration.xml:911
 #, no-c-format
 msgid "You may also want Seam to handle custom resources. A common use case is to handle a specific annotation and Seam provides specific support for this. First, tell Seam which annotations to handle in <literal>/META-INF/seam-deployment.properties</literal>:"
 msgstr "Si potrebbe volere fare gestire a Seam delle risorse personalizzate. Un comune caso d'uso è gestire una specifica annotazione, Seam fornisce un supporto specifico per questo. Innanzitutto, dire a Seam quali annotazioni gestire in <literal>/META-INF/seam-deployment.properties</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:896
+#: Configuration.xml:918
 #, no-c-format
 msgid ""
 "<![CDATA[# A colon-separated list of annotation types to handle\n"
@@ -1986,13 +2031,13 @@ msgstr ""
 
 # can get hold = ?
 #. Tag: para
-#: Configuration.xml:898
+#: Configuration.xml:920
 #, no-c-format
 msgid "Then, during application startup you can get hold of all classes annotated with <literal>@Foo</literal>:"
 msgstr "Poi durante l'avvio dell'applicazione si può comunicare con tutte le classi annotate con <literal>@Foo</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:903
+#: Configuration.xml:925
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"fooStartup\")\n"
@@ -2050,13 +2095,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Configuration.xml:905
+#: Configuration.xml:927
 #, no-c-format
 msgid "You can also handle <emphasis>any</emphasis> resource. For example, you process any files with the extension <literal>.foo.xml</literal>. To do this, we need to write a custom deployment handler:"
 msgstr "Si può gestire <emphasis>qualsiasi</emphasis> risorsa. Per esempio, si processano i file con estensione <literal>.foo.xml</literal>. Per fare questo occorre scrivere un deployment handler personalizzato:"
 
 #. Tag: programlisting
-#: Configuration.xml:911
+#: Configuration.xml:933
 #, no-c-format
 msgid ""
 "<![CDATA[public class FooDeploymentHandler implements DeploymentHandler {\n"
@@ -2096,19 +2141,19 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Configuration.xml:913
+#: Configuration.xml:935
 #, no-c-format
 msgid "Here we are just building a list of any files with the suffix <literal>.foo.xml</literal>."
 msgstr "Qua viene costruita una lista di file con il suffisso <literal>.foo.xml</literal>."
 
 #. Tag: para
-#: Configuration.xml:918
+#: Configuration.xml:940
 #, no-c-format
 msgid "Then, we need to register the deployment handler with Seam in <literal>/META-INF/seam-deployment.properties</literal>. You can register multiple deployment handler using a comma separated list."
 msgstr "Poi occorre registrare il deployment handler con Seam in <literal>/META-INF/seam-deployment.properties</literal>. Si possono registrare più deployment handler usando una lista separata da virgola."
 
 #. Tag: programlisting
-#: Configuration.xml:925
+#: Configuration.xml:947
 #, no-c-format
 msgid ""
 "<![CDATA[# For standard deployment\n"
@@ -2122,13 +2167,13 @@ msgstr ""
 "org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]>"
 
 #. Tag: para
-#: Configuration.xml:931
+#: Configuration.xml:953
 #, no-c-format
 msgid "Seam uses deployment handlers internally to install components and namespaces. You can easily access the deployment handler during an <literal>APPLICATION</literal> scoped component's startup:"
 msgstr "Seam utilizza internamente dei deployment handler per installare componenti e namespace. Si può facilmente accedere ad un deployment handler durante l'avvio di un componente con scope <literal>APPLICATION</literal>:"
 
 #. Tag: programlisting
-#: Configuration.xml:937
+#: Configuration.xml:959
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"fooStartup\")\n"
