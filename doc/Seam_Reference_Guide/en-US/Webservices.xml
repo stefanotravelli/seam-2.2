@@ -242,11 +242,17 @@ public class AuctionService implements AuctionServiceRemote
          </para>
 
          <itemizedlist>
+             <listitem>
+                <para>
+                   The URI starts with the host and context path of your application,
+                    e.g. <literal>http://your.hostname/myapp</literal>.
+                </para>
+             </listitem>
             <listitem>
                <para>
-                  The URI starts with the pattern mapped in <literal>web.xml</literal> for the
-                  <literal>SeamResourceServlet</literal>, e.g <literal>/seam/resource</literal> if you follow
-                  the common examples. Change this setting to expose your RESTful resources under a different base.
+                  Then the pattern mapped in <literal>web.xml</literal> for the <literal>SeamResourceServlet</literal>,
+                   e.g <literal>/seam/resource</literal> if you follow the common examples, is appended.
+                  Change this setting to expose your RESTful resources under a different base.
                   Note that this is a global change and other Seam resources (e.g. <literal>s:graphicImage</literal>)
                   are then also served under that base path.
                </para>
@@ -255,23 +261,23 @@ public class AuctionService implements AuctionServiceRemote
                <para>
                   The RESTEasy integration for Seam then appends a configurable string to the base path, by default
                   this is <literal>/rest</literal>. Hence, the full base path of your resources would e.g. be
-                  <literal>/seam/resource/rest</literal>. We recommend that you change this string in your application,
+                  <literal>/myapp/seam/resource/rest</literal>. We recommend that you change this string in your application,
                   you could for example add a version number to prepare for a future REST API upgrade of your services
-                  (old clients would keep the old URI base): <literal>/seam/resource/restv1</literal>.
+                  (old clients would keep the old URI base): <literal>/myapp/seam/resource/restv1</literal>.
                </para>
             </listitem>
             <listitem>
                <para>
                   Finally, the actual resource is available under the defined <literal>@Path</literal>, e.g. a resource
                   mapped with <literal>@Path("/customer")</literal> would be available under
-                  <literal>/seam/resource/rest/customer</literal>.
+                  <literal>/myapp/seam/resource/rest/customer</literal>.
                </para>
             </listitem>
          </itemizedlist>
 
          <para>
             As an example, the following resource definition would return a plaintext representation for any
-            GET requests using the URI <literal>http://your.hostname/seam/resource/rest/customer/123</literal>:
+            GET requests using the URI <literal>http://your.hostname/myapp/seam/resource/rest/customer/123</literal>:
          </para>
 
          <programlisting role="JAVA"><![CDATA[@Path("/customer")
@@ -309,21 +315,9 @@ public class MyCustomerResource {
          <programlisting role="XML"><![CDATA[<resteasy:application resource-path-prefix="/restv1"/>]]></programlisting>
 
          <para>
-            The full base path to your resources is now <literal>/seam/resource/restv1/{resource}</literal> - note
+            The full base path to your resources is now <literal>/myapp/seam/resource/restv1/{resource}</literal> - note
             that your <literal>@Path</literal> definitions and mappings do NOT change. This is an application-wide
-            switch usually used for versioning of the HTTP API.
-         </para>
-
-         <para>
-            You can disable stripping of the base path if you'd like to map the full path in your resources:
-         </para>
-
-         <programlisting role="XML"><![CDATA[<resteasy:application strip-seam-resource-path="false"/>]]></programlisting>
-
-         <para>
-            The path of a resource is now mapped with e.g.
-            <literal>@Path("/seam/resource/rest/customer")</literal>. We do not recommend disabling this feature,
-            as your resource class mappings are then bound to a particular deployment scenario.
+            switch usually used for versioning of the HTTP interface.
          </para>
 
          <para>
@@ -362,9 +356,10 @@ public class MyCustomerResource {
             as shown above. Note that you have to annotate the <literal>@Local</literal> interface of the EJB with
             <literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean implementation class. This allows
             you to keep your application deployment-portable with the global Seam <literal>jndi-pattern</literal> switch
-            on <literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be found even if scanning of
-            resources is enabled, you always have to list them manually. Again, this is only relevant for EJB resources
-            that are not also Seam components and that do not have a <literal>@Name</literal> annotation.
+            on <literal>&lt;core:init/&gt;</literal>. Note that plain (non-Seam component) EJB resources will not be found
+            even if scanning of resources is enabled, you always have to list them manually. Again, this whole paragraph
+            is only relevant for EJB resources that are not also Seam components and that do not have
+            an <literal>@Name</literal> annotation.
          </para>
 
          <para>

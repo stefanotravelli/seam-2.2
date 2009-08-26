@@ -83,7 +83,8 @@ public class ResteasyResourceAdapter extends AbstractResource
       // No injection, so lookup on first request
       dispatcher = (Dispatcher) Component.getInstance("org.jboss.seam.resteasy.dispatcher");
       application = (Application) Component.getInstance(Application.class);
-      if (dispatcher == null) {
+      if (dispatcher == null)
+      {
          throw new IllegalStateException(
                "ReasteasyDispatcher not available, make sure RESTEasy and all required JARs are on your classpath"
          );
@@ -125,7 +126,7 @@ public class ResteasyResourceAdapter extends AbstractResource
             {
 
                HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
-               UriInfoImpl uriInfo = extractUriInfo(request);
+               UriInfoImpl uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
 
                HttpResponse theResponse = new HttpServletResponseWrapper(
                      response,
@@ -165,50 +166,34 @@ public class ResteasyResourceAdapter extends AbstractResource
       }
    }
 
-   // Replaces the static ServletUtil.extractUriInfo(), removes the Seam-related sub-path
-   protected UriInfoImpl extractUriInfo(HttpServletRequest request)
+   protected UriInfoImpl extractUriInfo(HttpServletRequest request, String pathPrefix)
    {
-      String contextPath = request.getContextPath();
-      URI absolutePath;
       try
       {
-         URL absolute = new URL(request.getRequestURL().toString());
+         // Append a slash if there isn't one
+         if (!pathPrefix.startsWith("/")) {
+            pathPrefix = "/" + pathPrefix;
+         }
 
-         UriBuilderImpl builder = new UriBuilderImpl();
-         builder.scheme(absolute.getProtocol());
-         builder.host(absolute.getHost());
-         builder.port(absolute.getPort());
-         builder.path(absolute.getPath());
-         builder.replaceQuery(absolute.getQuery());
-         absolutePath = builder.build();
+         // Get the full path of the current request
+         URL requestURL = new URL(request.getRequestURL().toString());
+         String requestPath = requestURL.getPath();
+
+         // Find the 'servlet mapping prefix' for RESTEasy (in our case: /seam/resource/rest)
+         String mappingPrefix =
+            requestPath.substring(0, requestPath.indexOf(pathPrefix)+pathPrefix.length());
+
+         // Still is /<context>/seam/resource/rest, so cut off the context
+         mappingPrefix = mappingPrefix.substring(request.getContextPath().length());
+         
+         log.debug("Using request mapping prefix: " + mappingPrefix);
+
+         // This is the prefix used by RESTEasy to resolve resources and generate URIs with
+         return ServletUtil.extractUriInfo(request, mappingPrefix);
       }
       catch (MalformedURLException e)
       {
          throw new RuntimeException(e);
       }
-
-      String path = PathHelper.getEncodedPathInfo(absolutePath.getRawPath(), contextPath);
-
-      if (application.isStripSeamResourcePath())
-      {
-         log.debug("removing SeamResourceServlet url-pattern and dispatcher prefix from request path");
-         path = path.substring(path.indexOf(getResourcePath()) + getResourcePath().length());
-      }
-
-      List<PathSegment> pathSegments = PathSegmentImpl.parseSegments(path);
-      URI baseURI = absolutePath;
-      if (!path.trim().equals(""))
-      {
-         String tmpContextPath = contextPath;
-         if (!tmpContextPath.endsWith("/")) tmpContextPath += "/";
-         baseURI = UriBuilder.fromUri(absolutePath).replacePath(tmpContextPath).build();
-      }
-
-      log.debug("UriInfo, absolute URI       : " + absolutePath);
-      log.debug("UriInfo, base URI           : " + baseURI);
-      log.debug("UriInfo, relative path/@Path: " + path);
-      log.debug("UriInfo, query string       : " + request.getQueryString());
-
-      return new UriInfoImpl(absolutePath, baseURI, path, request.getQueryString(), pathSegments);
    }
 }

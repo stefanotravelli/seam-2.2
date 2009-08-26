@@ -415,8 +415,12 @@ public class ResteasyBootstrap
       // We can always instantiate this safely here because it can't have dependencies!
       AbstractResource instance = (AbstractResource) seamComponent.newInstance();
       String path = instance.getPath();
-      if (instance.getPath() != null)
+      if (path != null)
       {
+         if (!path.startsWith("/")) {
+            path = "/" + path;
+         }
+
          log.debug(
                "registering resource, configured ResourceHome/Query on path {1}, as Seam component: {0}",
                seamComponent.getName(),

@@ -1,18 +1,18 @@
 package org.jboss.seam.example.restbay;
 
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.util.Reflections;
+import org.jboss.seam.annotations.Name;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import javax.persistence.EntityManager;
-import java.util.GregorianCalendar;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
-import java.lang.reflect.Field;
 
 /**
  * @author Christian Bauer
@@ -39,6 +39,12 @@ public class AuctionService
    @Produces("text/plain")
    public String getAuctions()
    {
+
+      URI builtURI = uriInfo.getAbsolutePathBuilder().path("3").build();
+      // We can't test for /<context> prefix here, as we don't have a context in unit tests but we
+      // have it when the application is deployed... so use endsWith()
+      assert builtURI.getPath().endsWith("/seam/resource/restv1/auction/3");
+
       // This is supposed to test field and setter injection for @Context
       assert uriInfo.getPath().equals("/auction");
       assert headers.getAcceptableMediaTypes().size() == 1;
