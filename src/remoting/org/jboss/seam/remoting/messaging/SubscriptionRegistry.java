@@ -104,26 +104,58 @@ public class SubscriptionRegistry
 
   public RemoteSubscriber subscribe(String topicName)
   {
-    if (!allowedTopics.contains(topicName))
+    if (!allowedTopics.contains(topicName)) {
       throw new IllegalArgumentException(String.format(
         "Cannot subscribe to a topic that is not allowed. Topic [%s] is not an " +
         "allowed topic.", topicName));
+    }
 
     RemoteSubscriber sub = new RemoteSubscriber(UUID.randomUUID().toString(), topicName);
 
     try {
-      sub.subscribe(getTopicConnection());
+      subscribe(sub);
       subscriptions.put(sub.getToken(), sub);
 
       // Save the client's token in their session context
       getUserTokens().add(sub.getToken());
 
       return sub;
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       log.error(ex);
       return null;
     }
+  }
+
+  private void subscribe(RemoteSubscriber sub) 
+      throws JMSException, Exception
+  {
+     try {
+        sub.subscribe(getTopicConnection()); 
+     } catch (Exception e) {
+        log.debug(e);
+
+        // Clear the topic connection and try again.         
+        resetTopic(); 
+        sub.subscribe(getTopicConnection()); 
+     }
+  }
+
+  private void resetTopic()
+  {
+     TopicConnection savedTopic = null;
+     
+     synchronized(monitor) {
+        if (topicConnection != null) { 
+           savedTopic = topicConnection;
+           topicConnection = null;
+        }
+     }
+     
+     if (savedTopic != null) {
+        try { 
+           savedTopic.close(); 
+        } catch (Exception ignored) { }     
+     }     
   }
 
   public UserTokens getUserTokens()
