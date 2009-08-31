@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:51+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-08-10 20:17+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,326 +17,243 @@ msgstr ""
 #: Cache.xml:5
 #, no-c-format
 msgid "Caching"
-msgstr ""
+msgstr "Mise en cache"
 
 #. Tag: para
 #: Cache.xml:7
 #, no-c-format
-msgid ""
-"In almost all enterprise applications, the database is the primary "
-"bottleneck, and the least scalable tier of the runtime environment. People "
-"from a PHP/Ruby environment will try to tell you that so-called \"shared "
-"nothing\" architectures scale well. While that may be literally true, I "
-"don't know of many interesting multi-user applications which can be "
-"implemented with no sharing of resources between different nodes of the "
-"cluster. What these silly people are really thinking of is a \"share nothing "
-"except for the database\" architecture. Of course, sharing the database is "
-"the primary problem with scaling a multi-user application &#8212; so the "
-"claim that this architecture is highly scalable is absurd, and tells you a "
-"lot about the kind of applications that these folks spend most of their time "
-"working on."
-msgstr ""
+msgid "In almost all enterprise applications, the database is the primary bottleneck, and the least scalable tier of the runtime environment. People from a PHP/Ruby environment will try to tell you that so-called \"shared nothing\" architectures scale well. While that may be literally true, I don't know of many interesting multi-user applications which can be implemented with no sharing of resources between different nodes of the cluster. What these silly people are really thinking of is a \"share nothing except for the database\" architecture. Of course, sharing the database is the primary problem with scaling a multi-user application &#8212; so the claim that this architecture is highly scalable is absurd, and tells you a lot about the kind of applications that these folks spend most of their time working on."
+msgstr "Dans presque toutes les applications d'entreprise, la base de données est le premier goulet d'étranglement et le moins scalable tierce-partie de l'environement d'exécution. Les gens venant des environements PHP/Ruby vont essayer de vous dire que  les architectures surnommées \"ne partage rien\" se dimensionnent bien. Et bien c'est peut être littérallement vrai, je ne sait pas combien d'application intéréssantes multi-utilisateurs peuvent être implémentées avec aucun partage de ressources entre les différentes noeuds du cluster. Que pensent vraiment ces personnes loufoques d'une architecture \"ne rien partager sauf la base de données\". Bien sur, le partage de la base de données est un problème principal quand on dimensionne une application multi utilisateur donc réclammer que cette architecture soit hautement dimensionnable est absurde et dites vous que c'est pas mal de ce type d'application sur les quelles ces gens passent la plus part du temps à travailler dessus. "
 
 #. Tag: para
 #: Cache.xml:22
 #, no-c-format
-msgid ""
-"Almost anything we can possibly do to share the database <emphasis>less "
-"often</emphasis> is worth doing."
-msgstr ""
+msgid "Almost anything we can possibly do to share the database <emphasis>less often</emphasis> is worth doing."
+msgstr "Le moins que nous puissions rendre faisable et de partager la base de données <emphasis>le moins souvent</emphasis> est d'une grande valeur."
 
 #. Tag: para
 #: Cache.xml:27
 #, no-c-format
-msgid ""
-"This calls for a cache. Well, not just one cache. A well designed Seam "
-"application will feature a rich, multi-layered caching strategy that impacts "
-"every layer of the application:"
-msgstr ""
+msgid "This calls for a cache. Well, not just one cache. A well designed Seam application will feature a rich, multi-layered caching strategy that impacts every layer of the application:"
+msgstr "Cela demande un cache. Et bien , pas juste un seul cache. Une application Seam bien désignée va fonctionner avec une stratégie de cache multi couche riche qui va impacter chaque couche de l'application: "
 
 #. Tag: para
 #: Cache.xml:35
 #, no-c-format
-msgid ""
-"The database, of course, has its own cache. This is super-important, but "
-"can't scale like a cache in the application tier."
-msgstr ""
+msgid "The database, of course, has its own cache. This is super-important, but can't scale like a cache in the application tier."
+msgstr "La base de données a , bien sûr, son propre cache. C'est super-important, mais ne peut pas être dimensionné comme un cache dans une application tierce. "
 
 #. Tag: para
 #: Cache.xml:41
 #, no-c-format
-msgid ""
-"Your ORM solution (Hibernate, or some other JPA implementation) has a second-"
-"level cache of data from the database. This is a very powerful capability, "
-"but is often misused. In a clustered environment, keeping the data in the "
-"cache transactionally consistent across the whole cluster, and with the "
-"database, is quite expensive. It makes most sense for data which is shared "
-"between many users, and is updated rarely. In traditional stateless "
-"architectures, people often try to use the second-level cache for "
-"conversational state. This is always bad, and is especially wrong in Seam."
-msgstr ""
+msgid "Your ORM solution (Hibernate, or some other JPA implementation) has a second-level cache of data from the database. This is a very powerful capability, but is often misused. In a clustered environment, keeping the data in the cache transactionally consistent across the whole cluster, and with the database, is quite expensive. It makes most sense for data which is shared between many users, and is updated rarely. In traditional stateless architectures, people often try to use the second-level cache for conversational state. This is always bad, and is especially wrong in Seam."
+msgstr "Votre solution ORM (Hibernate ou une autre implémentation JPA) a un cache de second niveau de données de la base de données. C'est une fonctionnalité très puissante mais elle est souvant mal utilisée. Dans une environement en cluster, la conservation des données dans le cache transactionnel consistant au travers du cluster entier et avec la base de données est assez couteux. Cela gagne en plus de sens s'il est partagé entre plusieurs utilisateurs et s'il est mis à jours rarement. Dans les architectures transactionnelles sans état, les gens essaye souvent d'utiliser le cache de second niveau pour les états conversationnel. C'est toujours très mauvais et c'est spécialement faux dans Seam. "
 
 #. Tag: para
 #: Cache.xml:55
 #, no-c-format
-msgid ""
-"The Seam conversation context is a cache of conversational state. Components "
-"you put into the conversation context can hold and cache state relating to "
-"the current user interaction."
-msgstr ""
+msgid "The Seam conversation context is a cache of conversational state. Components you put into the conversation context can hold and cache state relating to the current user interaction."
+msgstr "Le contexte de conversation est un cache de l'état conversationnel. Les composant que vous mettez dans le contexte conversationnel peuvent conserver et mettre en cache l'état relatif à l'intéraction de l'utilisateur courrant. "
 
 #. Tag: para
 #: Cache.xml:62
 #, no-c-format
-msgid ""
-"In particular, the Seam-managed persistence context (or an extended EJB "
-"container-managed persistence context associated with a conversation-scoped "
-"stateful session bean) acts as a cache of data that has been read in the "
-"current conversation. This cache tends to have a pretty high hitrate! Seam "
-"optimizes the replication of Seam-managed persistence contexts in a "
-"clustered environment, and there is no requirement for transactional "
-"consistency with the database (optimistic locking is sufficient) so you "
-"don't need to worry too much about the performance implications of this "
-"cache, unless you read thousands of objects into a single persistence "
-"context."
-msgstr ""
+msgid "In particular, the Seam-managed persistence context (or an extended EJB container-managed persistence context associated with a conversation-scoped stateful session bean) acts as a cache of data that has been read in the current conversation. This cache tends to have a pretty high hitrate! Seam optimizes the replication of Seam-managed persistence contexts in a clustered environment, and there is no requirement for transactional consistency with the database (optimistic locking is sufficient) so you don't need to worry too much about the performance implications of this cache, unless you read thousands of objects into a single persistence context."
+msgstr "En particulier, le contexte de persistance géré par Seam (ou un contexte géré par container EJB étendue s'associant avec un bean de session avec état d'étendue conversationnel) agit comme un cache de données qui a été lu pendant la conversation courrante. Ce cache tends à avoir une fréquence très élevé de solicitation! Seam optimise la réplication des contextes de persistance géré par Seam dans un environement en cluster et il n'y a pas de prérequis pour la consistance transactionnelle avec la base de données (un véroullage optimiste est suffisant) donc vous n'avez pas besoin de trop vous inquiéter au sujet de l'implication en terme de performations de ce cache, à moins que ne lisiez des milliers d'objets dans un seul contexte de persistance. "
 
 #. Tag: para
 #: Cache.xml:77
 #, no-c-format
-msgid ""
-"The application can cache non-transactional state in the Seam application "
-"context. State kept in the application context is of course not visible to "
-"other nodes in the cluster."
-msgstr ""
+msgid "The application can cache non-transactional state in the Seam application context. State kept in the application context is of course not visible to other nodes in the cluster."
+msgstr "L'application peu mettre en cache l'état non-transactionnel dans le contexte d'application de Seam. Convervez l'état dans le contexte applicatif est bien sur invisible pour les autres noeuds dans le cluster. "
 
 #. Tag: para
 #: Cache.xml:84
 #, no-c-format
-msgid ""
-"The application can cache transactional state using the Seam "
-"<literal>cacheProvider</literal> component, which integrates JBossCache, "
-"JBoss POJO Cache or EHCache into the Seam environment. This state will be "
-"visible to other nodes if your cache supports running in a clustered mode."
-msgstr ""
+msgid "The application can cache transactional state using the Seam <literal>cacheProvider</literal> component, which integrates JBossCache, JBoss POJO Cache or EHCache into the Seam environment. This state will be visible to other nodes if your cache supports running in a clustered mode."
+msgstr "L'application peut mettre en cache l'état transactionnel en utilisant le composant <literal>cacheProvider</literal> de Seam qui intègre JBossCache, Jboss POJO Cache ou EHCache dans l'environement de Seam. Cet état sera visible pour les autres noeuds si votre cache est capable de s'exécuter dans un mode en cluster. "
 
 #. Tag: para
 #: Cache.xml:93
 #, no-c-format
-msgid ""
-"Finally, Seam lets you cache rendered fragments of a JSF page. Unlike the "
-"ORM second-level cache, this cache is not automatically invalidated when "
-"data changes, so you need to write application code to perform explicit "
-"invalidation, or set appropriate expiration policies."
-msgstr ""
+msgid "Finally, Seam lets you cache rendered fragments of a JSF page. Unlike the ORM second-level cache, this cache is not automatically invalidated when data changes, so you need to write application code to perform explicit invalidation, or set appropriate expiration policies."
+msgstr "Enfin, Seam vous permet de mettre en cache les fragments rendus d'une page JSF. A la différence du cache de second niveau de l'ORM, ce cache n'est pas automatiquement invalidé quand les données changent, donc vous avez besoin d'écrire le code de l'application pour réaliser une invalidation explicite ou de mettre des politiques d'expirations appropriées. "
 
 #. Tag: para
 #: Cache.xml:103
 #, no-c-format
-msgid ""
-"For more information about the second-level cache, you'll need to refer to "
-"the documentation of your ORM solution, since this is an extremely complex "
-"topic. In this section we'll discuss the use of caching directly, via the "
-"<literal>cacheProvider</literal> component, or as the page fragment cache, "
-"via the <literal>&lt;s:cache&gt;</literal> control."
-msgstr ""
+msgid "For more information about the second-level cache, you'll need to refer to the documentation of your ORM solution, since this is an extremely complex topic. In this section we'll discuss the use of caching directly, via the <literal>cacheProvider</literal> component, or as the page fragment cache, via the <literal>&lt;s:cache&gt;</literal> control."
+msgstr "Pour plus d'informations à propos du cache de second niveau, vous allez avoir besoin de vous référer à la document de votre solution ORM, car c'est un sujet extrèmement complexe. Dans cette section, nous allons parler de l'utilisation du chache directemnet via le composant  <literal>cacheProvider</literal> , ou comme le cache de fragment de page, via le controle <literal>&lt;s:cache&gt;</literal>. "
 
 #. Tag: title
 #: Cache.xml:112
 #, no-c-format
 msgid "Using Caching in Seam"
-msgstr ""
+msgstr " Utilisation de JBossCache dans Seam"
 
 #. Tag: para
 #: Cache.xml:114
 #, no-c-format
-msgid ""
-"The built-in <literal>cacheProvider</literal> component manages an instance "
-"of:"
-msgstr ""
+msgid "The built-in <literal>cacheProvider</literal> component manages an instance of:"
+msgstr "Le composant livré <literal>cacheProvider</literal> gère une instance de: "
 
 #. Tag: term
 #: Cache.xml:121
 #, no-c-format
-msgid ""
-"JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
-"containers)"
-msgstr ""
+msgid "JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other containers)"
+msgstr "JBoss Cache 1.x (disponible pour utilisation dans JBoss 4.2.x ou suppérieur et pour les autres containeurs)"
 
 #. Tag: literal
 #: Cache.xml:127
 #, no-c-format
 msgid "org.jboss.cache.TreeCache"
-msgstr ""
+msgstr "org.jboss.cache.TreeCache"
 
 #. Tag: term
 #: Cache.xml:132
 #, no-c-format
 msgid "JBoss Cache 2.x (suitable for use in JBoss 5.x and other containers)"
-msgstr ""
+msgstr "JBoss Cache 2.x (disponible pour utilisation dans JBoss 5.x et pour les autres containeurs)"
 
 #. Tag: literal
 #: Cache.xml:138
 #, no-c-format
 msgid "org.jboss.cache.Cache"
-msgstr ""
+msgstr "org.jboss.cache.Cache"
 
 #. Tag: term
 #: Cache.xml:143
 #, no-c-format
-msgid ""
-"JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
-"containers)"
-msgstr ""
+msgid "JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x or later and other containers)"
+msgstr "JBoss POJO Cache 1.x (disponible pour utilisation dans JBoss 4.2.x et pour les autres containeurs)"
 
 #. Tag: literal
 #: Cache.xml:149
 #, no-c-format
 msgid "org.jboss.cache.aop.PojoCache"
-msgstr ""
+msgstr "org.jboss.cache.aop.PojoCache"
 
 #. Tag: term
 #: Cache.xml:154
 #, no-c-format
 msgid "EHCache (suitable for use in any container)"
-msgstr ""
+msgstr "EHCache (disponible pour une utilisation dans tout containeur)"
 
 #. Tag: literal
 #: Cache.xml:159
 #, no-c-format
 msgid "net.sf.ehcache.CacheManager"
-msgstr ""
+msgstr "net.sf.ehcache.CacheManager"
 
 #. Tag: para
 #: Cache.xml:165
 #, no-c-format
-msgid ""
-"You can safely put any immutable Java object in the cache, and it will be "
-"stored in the cache and replicated across the cluster (assuming that "
-"replication is supported and enabled). If you want to keep mutable objects "
-"in the cache read the documentation of the underling caching project "
-"documentation to discover how to notify the cache of changes to the cache."
-msgstr ""
+msgid "You can safely put any immutable Java object in the cache, and it will be stored in the cache and replicated across the cluster (assuming that replication is supported and enabled). If you want to keep mutable objects in the cache read the documentation of the underling caching project documentation to discover how to notify the cache of changes to the cache."
+msgstr "Vous pouvez de manière sure mettre tout objet Java immuable dans le cache, et il sera stocké dans le cache et répliqué au travers du cluster (en supposant que la réplication est disponible et activée). Si vous voulez conserver les objets mutables dans le cache, vous allez avoir besoin de lire la documentation nécéssaire à l'outil de cache pour comprendre commen lui notifier du changement dans la mise en cache auprès de l'outil du cache. "
 
 #. Tag: para
 #: Cache.xml:174
 #, no-c-format
-msgid ""
-"To use <literal>cacheProvider</literal>, you need to include the jars of the "
-"cache implementation in your project:"
-msgstr ""
+msgid "To use <literal>cacheProvider</literal>, you need to include the jars of the cache implementation in your project:"
+msgstr "Pour utiliser <literal>cacheProvider</literal>, vous aller devoir inclure les fichiers jars de l'implémentation de ce cache dans votre projet:"
 
 #. Tag: term
 #: Cache.xml:181
 #, no-c-format
 msgid "JBoss Cache 1.x"
-msgstr ""
+msgstr "JBoss Cache 1.x"
 
 #. Tag: para
-#: Cache.xml:187 Cache.xml:225
+#: Cache.xml:187
+#: Cache.xml:225
 #, no-c-format
 msgid "<literal>jboss-cache.jar</literal> - JBoss Cache 1.4.1"
-msgstr ""
+msgstr "<literal>jboss-cache.jar</literal> - JBoss Cache 1.4.1"
 
 #. Tag: para
-#: Cache.xml:192 Cache.xml:230
+#: Cache.xml:192
+#: Cache.xml:230
 #, no-c-format
 msgid "<literal>jgroups.jar</literal> - JGroups 2.4.1"
-msgstr ""
+msgstr "<literal>jgroups.jar</literal> - JGroups 2.4.1"
 
 #. Tag: term
 #: Cache.xml:200
 #, no-c-format
 msgid "JBoss Cache 2.x"
-msgstr ""
+msgstr "JBoss Cache 2.x"
 
 #. Tag: para
 #: Cache.xml:206
 #, no-c-format
 msgid "<literal>jboss-cache.jar</literal> - JBoss Cache 2.2.0"
-msgstr ""
+msgstr "<literal>jboss-cache.jar</literal> - JBoss Cache 2.2.0"
 
 #. Tag: para
 #: Cache.xml:211
 #, no-c-format
 msgid "<literal>jgroups.jar</literal> - JGroups 2.6.2"
-msgstr ""
+msgstr "<literal>jgroups.jar</literal> - JGroups 2.6.2"
 
 #. Tag: term
 #: Cache.xml:219
 #, no-c-format
 msgid "JBoss POJO Cache 1.x"
-msgstr ""
+msgstr "JBoss POJO Cache 1.x"
 
 #. Tag: para
 #: Cache.xml:235
 #, no-c-format
 msgid "<literal>jboss-aop.jar</literal> - JBoss AOP 1.5.0"
-msgstr ""
+msgstr "<literal>jboss-aop.jar</literal> - JBoss AOP 1.5.0"
 
 #. Tag: term
 #: Cache.xml:243
 #, no-c-format
 msgid "EHCache"
-msgstr ""
+msgstr "EHCache"
 
 #. Tag: para
 #: Cache.xml:249
 #, no-c-format
 msgid "<literal>ehcache.jar</literal> - EHCache 1.2.3"
-msgstr ""
+msgstr "<literal>ehcache.jar</literal> - EHCache 1.2.3"
 
 #. Tag: para
 #: Cache.xml:259
 #, no-c-format
-msgid ""
-"If you are using JBoss Cache in containers other than JBoss Application "
-"Server, look at the JBoss Cache <ulink url=\"http://wiki.jboss.org/wiki/"
-"JBossCache\">wiki</ulink> page for more dependencies."
-msgstr ""
+msgid "If you are using JBoss Cache in containers other than JBoss Application Server, look at the JBoss Cache <ulink url=\"http://wiki.jboss.org/wiki/JBossCache\">wiki</ulink> page for more dependencies."
+msgstr "Si vous utilisez JBoss Cache dans un containeur autre que le JBoss Application Server, allez voir la page sur JBoss Cache <ulink url=\"http://wiki.jboss.org/wiki/JBossCache\">wiki</ulink> pour les dépendances."
 
 #. Tag: para
 #: Cache.xml:267
 #, no-c-format
-msgid ""
-"For an EAR depoyment of Seam, we recommend that the cache jars and "
-"configuration go directly into the EAR."
-msgstr ""
+msgid "For an EAR depoyment of Seam, we recommend that the cache jars and configuration go directly into the EAR."
+msgstr "Pour un déploiement EAR de Seam, nous vous recommandaons que les fichiers jars de la mise en cache et la configuration soient directement mis dans l'EAR."
 
 #. Tag: para
 #: Cache.xml:272
 #, no-c-format
-msgid ""
-"You'll also need to provide a configuration file for JBossCache. Place "
-"<literal>treecache.xml</literal> with an appropriate cache configuration "
-"into the classpath (e.g. the ejb jar or <literal>WEB-INF/classes</literal>). "
-"JBossCache has many scary and confusing configuration settings, so we won't "
-"discuss them here. Please refer to the JBossCache documentation for more "
-"information."
-msgstr ""
+msgid "You'll also need to provide a configuration file for JBossCache. Place <literal>treecache.xml</literal> with an appropriate cache configuration into the classpath (e.g. the ejb jar or <literal>WEB-INF/classes</literal>). JBossCache has many scary and confusing configuration settings, so we won't discuss them here. Please refer to the JBossCache documentation for more information."
+msgstr "Vous allez avoir aussi besoinde fournir un fichier de configuration pour JBossCache. Placez <literal>treecache.xml</literal> avec une configuration de la mise en cache approprié dans le classpath (par exemple le fichier jar ejb ou <literal>WEB-INF/classes</literal>). JBossCache a de nombreuses horreurs et des réglages de configurations confus, donc nous n'allons pas en parler ici. Merci de vous référer à la document de JBossCache pour plus d'information."
 
 #. Tag: para
 #: Cache.xml:281
 #, no-c-format
-msgid ""
-"You can find a sample <literal>treecache.xml</literal> in <literal>examples/"
-"blog/resources/treecache.xml</literal>."
-msgstr ""
+msgid "You can find a sample <literal>treecache.xml</literal> in <literal>examples/blog/resources/treecache.xml</literal>."
+msgstr "Vous trouverez un exemple de <literal>treecache.xml</literal> dans <literal>examples/blog/resources/treecache.xml</literal>."
 
 #. Tag: para
 #: Cache.xml:286
 #, no-c-format
-msgid ""
-"EHCache will run in it's default configuration without a configuration file"
-msgstr ""
+msgid "EHCache will run in it's default configuration without a configuration file"
+msgstr "EHCache sera exécuté dans sa configuration par défaut sans fichier de configuration"
 
 #. Tag: para
 #: Cache.xml:291
 #, no-c-format
-msgid ""
-"To alter the configuration file in use, configure your cache in "
-"<literal>components.xml</literal>:"
-msgstr ""
+msgid "To alter the configuration file in use, configure your cache in <literal>components.xml</literal>:"
+msgstr "Pour modifier le fichier de configuration en cours d'utilisation, configurez votre cache dans <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Cache.xml:296
@@ -344,16 +261,19 @@ msgstr ""
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
 "            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
-"   <cache:jboss-cache-provider configuration=\"META-INF/cache/treecache.xml"
-"\" />\n"
+"   <cache:jboss-cache-provider configuration=\"META-INF/cache/treecache.xml\" />\n"
 "</components>]]>"
 msgstr ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"   <cache:jboss-cache-provider configuration=\"META-INF/cache/treecache.xml\" />\n"
+"</components>]]>"
 
 #. Tag: para
 #: Cache.xml:298
 #, no-c-format
 msgid "Now you can inject the cache into any Seam component:"
-msgstr ""
+msgstr "Maintenant, vous pouvez injecter votre cache dans tout composant de Seam:"
 
 #. Tag: programlisting
 #: Cache.xml:300
@@ -367,8 +287,7 @@ msgid ""
 "\n"
 "    @Unwrap\n"
 "    public Set<String> getUsers() throws CacheException   {\n"
-"        Set<String> userList = (Set<String>) cacheProvider.get(\"chatroom\", "
-"\"userList\");\n"
+"        Set<String> userList = (Set<String>) cacheProvider.get(\"chatroom\", \"userList\");\n"
 "        if (userList==null) {\n"
 "            userList = new HashSet<String>();\n"
 "            cacheProvider.put(\"chatroom\", \"userList\", userList);\n"
@@ -377,14 +296,28 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"chatroomUsers\")\n"
+"@Scope(ScopeType.STATELESS)\n"
+"public class ChatroomUsers\n"
+"{\n"
+"    @In CacheProvider cacheProvider;\n"
+"\n"
+"    @Unwrap\n"
+"    public Set<String> getUsers() throws CacheException   {\n"
+"        Set<String> userList = (Set<String>) cacheProvider.get(\"chatroom\", \"userList\");\n"
+"        if (userList==null) {\n"
+"            userList = new HashSet<String>();\n"
+"            cacheProvider.put(\"chatroom\", \"userList\", userList);\n"
+"        }\n"
+"        return userList;\n"
+"    }\n"
+"}]]>"
 
 #. Tag: para
 #: Cache.xml:302
 #, no-c-format
-msgid ""
-"If you want to have multiple cache configurations in your application, use "
-"<literal>components.xml</literal> to configure multiple cache providers:"
-msgstr ""
+msgid "If you want to have multiple cache configurations in your application, use <literal>components.xml</literal> to configure multiple cache providers:"
+msgstr "Si vous voulez avoir de multplies configurations de mises en cache dans votre application, utilisez <literal>components.xml</literal> pour configurer vos différents fournisseur de mise en cache:"
 
 #. Tag: programlisting
 #: Cache.xml:308
@@ -392,46 +325,39 @@ msgstr ""
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
 "            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
-"   <cache:jboss-cache-provider name=\"myCache\" configuration=\"myown/cache."
-"xml\"/>\n"
-"   <cache:jboss-cache-provider name=\"myOtherCache\" configuration=\"myother/"
-"cache.xml\"/>\n"
+"   <cache:jboss-cache-provider name=\"myCache\" configuration=\"myown/cache.xml\"/>\n"
+"   <cache:jboss-cache-provider name=\"myOtherCache\" configuration=\"myother/cache.xml\"/>\n"
 "</components>]]>"
 msgstr ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"   <cache:jboss-cache-provider name=\"myCache\" configuration=\"myown/cache.xml\"/>\n"
+"   <cache:jboss-cache-provider name=\"myOtherCache\" configuration=\"myother/cache.xml\"/>\n"
+"</components>]]>"
 
 #. Tag: title
 #: Cache.xml:313
 #, no-c-format
 msgid "Page fragment caching"
-msgstr ""
+msgstr "La mise en cache de fragment de page"
 
 #. Tag: para
 #: Cache.xml:315
 #, no-c-format
-msgid ""
-"The most interesting use of caching in Seam is the <literal>&lt;s:cache&gt;</"
-"literal> tag, Seam's solution to the problem of page fragment caching in "
-"JSF. <literal>&lt;s:cache&gt;</literal> uses <literal>pojoCache</literal> "
-"internally, so you need to follow the steps listed above before you can use "
-"it. (Put the jars in the EAR, wade through the scary configuration options, "
-"etc.)"
-msgstr ""
+msgid "The most interesting use of caching in Seam is the <literal>&lt;s:cache&gt;</literal> tag, Seam's solution to the problem of page fragment caching in JSF. <literal>&lt;s:cache&gt;</literal> uses <literal>pojoCache</literal> internally, so you need to follow the steps listed above before you can use it. (Put the jars in the EAR, wade through the scary configuration options, etc.)"
+msgstr "L'utlisation la plus intéressante de JBossCache est le tag <literal>&lt;s:cache&gt;</literal> , la solution de Seam pour le problème de mettre en cache les fragments de pages.<literal>&lt;s:cache&gt;</literal> utilise  <literal>pojoCache</literal> en interne, donc nous avez besoin de suivre les étapes listées ci dessous avant de pouvoir l'utiliser. (Mettez les jars dans le EAR,  barboter dans les horribles options de configurations , etc.) "
 
 #. Tag: para
 #: Cache.xml:324
 #, no-c-format
-msgid ""
-"<literal>&lt;s:cache&gt;</literal> is used for caching some rendered content "
-"which changes rarely. For example, the welcome page of our blog displays the "
-"recent blog entries:"
-msgstr ""
+msgid "<literal>&lt;s:cache&gt;</literal> is used for caching some rendered content which changes rarely. For example, the welcome page of our blog displays the recent blog entries:"
+msgstr "<literal>&lt;s:cache&gt;</literal> est utilisé pour mettre en cache quelques contenues rendues rarement. par exemple, la page bienvenue de votre blog qui affiche les entrées récentes du blog: "
 
 #. Tag: programlisting
 #: Cache.xml:330
 #, no-c-format
 msgid ""
-"<![CDATA[<s:cache key=\"recentEntries-#{blog.id}\" region="
-"\"welcomePageFragments\">\n"
+"<![CDATA[<s:cache key=\"recentEntries-#{blog.id}\" region=\"welcomePageFragments\">\n"
 "   <h:dataTable value=\"#{blog.recentEntries}\" var=\"blogEntry\">\n"
 "      <h:column>\n"
 "         <h3>#{blogEntry.title}</h3>\n"
@@ -442,28 +368,28 @@ msgid ""
 "   </h:dataTable>\n"
 "</s:cache>]]>"
 msgstr ""
+"<![CDATA[<s:cache key=\"recentEntries-#{blog.id}\" region=\"welcomePageFragments\">\n"
+"   <h:dataTable value=\"#{blog.recentEntries}\" var=\"blogEntry\">\n"
+"      <h:column>\n"
+"         <h3>#{blogEntry.title}</h3>\n"
+"         <div>\n"
+"            <s:formattedText value=\"#{blogEntry.body}\"/>\n"
+"         </div>\n"
+"      </h:column>\n"
+"   </h:dataTable>\n"
+"</s:cache>]]>"
 
 #. Tag: para
 #: Cache.xml:332
 #, no-c-format
-msgid ""
-"The <literal>key</literal> let's you have multiple cached versions of each "
-"page fragment. In this case, there is one cached version per blog. The "
-"<literal>region</literal> determines the cache or region node that all "
-"version will be stored in. Different nodes may have different expiry "
-"policies. (That's the stuff you set up using the aforementioned scary "
-"configuration options.)"
-msgstr ""
+msgid "The <literal>key</literal> let's you have multiple cached versions of each page fragment. In this case, there is one cached version per blog. The <literal>region</literal> determines the cache or region node that all version will be stored in. Different nodes may have different expiry policies. (That's the stuff you set up using the aforementioned scary configuration options.)"
+msgstr "La <literal>key</literal> permet d'avoir de multiples versions en cache de chaque fragment de page. Dans ce cas, il n'y a qu'une version mise en cache par blog. La <literal>region</literal> détermine le cache ou le noeud local pour toutes les versions qui seront à stocker. Les noeuds différents peuvent avoir des politiques d'expirations différentes. (C'est du boulot que vous configuriez tout en utilisant les horribles options de configurations susmentionnées.)"
 
 #. Tag: para
 #: Cache.xml:341
 #, no-c-format
-msgid ""
-"Of course, the big problem with <literal>&lt;s:cache&gt;</literal> is that "
-"it is too stupid to know when the underlying data changes (for example, when "
-"the blogger posts a new entry). So you need to evict the cached fragment "
-"manually:"
-msgstr ""
+msgid "Of course, the big problem with <literal>&lt;s:cache&gt;</literal> is that it is too stupid to know when the underlying data changes (for example, when the blogger posts a new entry). So you need to evict the cached fragment manually:"
+msgstr "Bien sur, le gros problème avec <literal>&lt;s:cache&gt;</literal> est qu'il est trop stupide pour connaitre quand les données sousjacentes changent (par exemple, quand les billets d'un bloggeur ont une nouvelle entrée). Donc vous avez besoin de virer les fragment en cache manuellement: "
 
 #. Tag: programlisting
 #: Cache.xml:348
@@ -472,15 +398,18 @@ msgid ""
 "<![CDATA[public void post() {\n"
 "    ...\n"
 "    entityManager.persist(blogEntry);\n"
-"    cacheProvider.remove(\"welcomePageFragments\", \"recentEntries-\" + blog."
-"getId() );\n"
+"    cacheProvider.remove(\"welcomePageFragments\", \"recentEntries-\" + blog.getId() );\n"
 "}]]>"
 msgstr ""
+"<![CDATA[public void post() {\n"
+"    ...\n"
+"    entityManager.persist(blogEntry);\n"
+"    cacheProvider.remove(\"welcomePageFragments\", \"recentEntries-\" + blog.getId() );\n"
+"}]]>"
 
 #. Tag: para
 #: Cache.xml:350
 #, no-c-format
-msgid ""
-"Alternatively, if it is not critical that changes are immediately visible to "
-"the user, you could set a short expiry time on the cache node."
-msgstr ""
+msgid "Alternatively, if it is not critical that changes are immediately visible to the user, you could set a short expiry time on the cache node."
+msgstr "Autre alternative, si ce n'est pas critique que les modifications ne soient pas immédiatement visitble pour l'utilisateur, vous pouvez définir une periode d'expiration courte dans le noeud de JbossCache. "
+

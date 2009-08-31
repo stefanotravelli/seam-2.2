@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-06-01 18:34+0000\n"
-"PO-Revision-Date: 2009-05-29 06:39+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-08-11 20:10+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,196 +17,115 @@ msgstr ""
 #: ClusteringAndEJBPassivation.xml:4
 #, no-c-format
 msgid "Clustering and EJB Passivation"
-msgstr ""
+msgstr "Mise en cluster et Mise en pause  EJB"
 
 #. Tag: emphasis
 #: ClusteringAndEJBPassivation.xml:7
 #, no-c-format
 msgid "Please note that this chapter is still being reviewed. Tread carefully."
-msgstr ""
+msgstr "Merci de noter que ce chapitre est toujours en en cours d'écriture. A manipuler avec précaussion."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:10
 #, no-c-format
-msgid ""
-"This chapter covers two distinct topics that happen share a common solution "
-"in Seam, (web) clustering and EJB passivation. Therefore, they are addressed "
-"together in this reference manual. Although performance tends to be grouped "
-"in this category as well, it's kept separate because the focus of this "
-"chapter is on the programming model and how it's affected by the use of the "
-"aforementioned features."
-msgstr ""
+msgid "This chapter covers two distinct topics that happen share a common solution in Seam, (web) clustering and EJB passivation. Therefore, they are addressed together in this reference manual. Although performance tends to be grouped in this category as well, it's kept separate because the focus of this chapter is on the programming model and how it's affected by the use of the aforementioned features."
+msgstr "Ce chapitre couvre deux sujets discint qui heureusement partage une solution commun dans Seam , la mise en cluster (web) et la mise en pause EJB. Cependant, ils sont regroupés ensemble dans ce manuel de référence. Bien que la performance tende à  être aussi regroupé dans cette catégorie, nous la conserverons à part cas le but de ce chapitre est le modèle de programmation et comment il est affecté par l'utilisation des fonctionalités susnommées."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:17
 #, no-c-format
-msgid ""
-"In this chapter you will learn how Seam manages the passivation of Seam "
-"components and entity instances, how to activate this feature, and how this "
-"feature is related to clustering. You will also learn how to deploy a Seam "
-"application into a cluster and verify that HTTP session replication is "
-"working properly. Let's start with a little background on clustering and see "
-"an example of how you deploy a Seam application to a JBoss AS cluster."
-msgstr ""
+msgid "In this chapter you will learn how Seam manages the passivation of Seam components and entity instances, how to activate this feature, and how this feature is related to clustering. You will also learn how to deploy a Seam application into a cluster and verify that HTTP session replication is working properly. Let's start with a little background on clustering and see an example of how you deploy a Seam application to a JBoss AS cluster."
+msgstr "Dans ce chapitre vous allez apprendre comment Seam gère la mise en pause de composant de Seam et des instances entité, comment activer cette fonctionnalité et comment cette fonctionnalité est en liaison avec la mise en cluster. Vous devriez aussi apprendre comment déployer une application Seam dans un cluster et vérifier que la réplication de la session HTTP fonctione correctement. Commençons par un peu de généralités sur la mise en cluster et voyons un exemple de comment vous allez déployer une application Seam dans un cluster JBoss AS."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:25
 #, no-c-format
 msgid "Clustering"
-msgstr ""
+msgstr "Mise en cluster"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:27
 #, no-c-format
-msgid ""
-"Clustering (more formally web clustering) allows an application to run on "
-"two or more parallel servers (i.e., nodes) while providing a uniform view of "
-"the application to clients. Load is distributed across the servers in such a "
-"way that if one or more of the servers fails, the application is still "
-"accessible via any of the surviving nodes. This topology is crucial for "
-"building scalable enterprise applications as performance and availability "
-"can be improved simply by adding nodes. But it brings up an important "
-"question. <emphasis>What happens to the state that was on the server that "
-"failed?</emphasis>"
-msgstr ""
+msgid "Clustering (more formally web clustering) allows an application to run on two or more parallel servers (i.e., nodes) while providing a uniform view of the application to clients. Load is distributed across the servers in such a way that if one or more of the servers fails, the application is still accessible via any of the surviving nodes. This topology is crucial for building scalable enterprise applications as performance and availability can be improved simply by adding nodes. But it brings up an important question. <emphasis>What happens to the state that was on the server that failed?</emphasis>"
+msgstr "La mise en cluster (plus formellement la mise en cluster pour le web) permet à une application de s'exécuter sur deux serveurs ou plus en parallèle (autrement dit des noeuds) tout en fournissant une vue uniforme de l'application aux clients. La charge est distrbué au travers des serveurs de façon que si un ou plusieurs de ces serrveurs tombent, l'application reste accéssible via les noeuds survivants. Cette topologie est crucial pour la construction d'une application d'entreprise évolutif et avec une disponibilité qui peut être amméliorer en ajoutant simplement des noeuds. Mais cela amène une question importante.  <emphasis>Qu'arrive t'il à l'état qui était sur le serveur qui est tombé?</emphasis>"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:36
 #, no-c-format
-msgid ""
-"Since day one, Seam has always provided support for stateful applications "
-"running in a cluster. Up to this point, you have learned that Seam provides "
-"state management in the form of additional scopes and by governing the life "
-"cycle of stateful (scoped) components. But state management in Seam goes "
-"beyond creating, storing and destroying instances. Seam tracks changes to "
-"JavaBean components and stores the changes at strategic points during the "
-"request so that the changes can be restored when the request shifts to a "
-"secondary node in the cluster. Fortunately, monitoring and replication of "
-"stateful EJB components is already handled by the EJB server, so this "
-"feature of Seam is intended to put stateful JavaBeans on par with their EJB "
-"cohorts."
-msgstr ""
+msgid "Since day one, Seam has always provided support for stateful applications running in a cluster. Up to this point, you have learned that Seam provides state management in the form of additional scopes and by governing the life cycle of stateful (scoped) components. But state management in Seam goes beyond creating, storing and destroying instances. Seam tracks changes to JavaBean components and stores the changes at strategic points during the request so that the changes can be restored when the request shifts to a secondary node in the cluster. Fortunately, monitoring and replication of stateful EJB components is already handled by the EJB server, so this feature of Seam is intended to put stateful JavaBeans on par with their EJB cohorts."
+msgstr "Depuis le jour un, Seam a toujours fourni un support pour les applications avec état s'exécutant sur un cluster. En partant de ce point, vous avez appris que Seam fournissait un gestionnaire d'état de la forme d'étendues additionnelles et en controlant le cycle de vie des composants (d'étendue) avec état. Mais le gestionnaire d'état de Seam va plus loin que la création, le stockage et la destructions des instances. Seam surveillle les modificaitions des composants JavaBean et stocke leurs modification aux moments stratégiques pendant la requète pour ainsi faire que les modifications soient restorées quand la requète bascule dans un noeud secondaire du cluster. Heureusement, la supervision et la replication des composants EJB avec état est déjà géré par le serveur EJB, donc cette fonctionnalité de Seam est d'essayer de mettre le JavaBeans avec état actif avec sa cohorte d'EJB."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:46
 #, no-c-format
-msgid ""
-"But wait, there's more! Seam also offers an incredibly unique feature for "
-"clustered applications. In addition to monitoring JavaBean components, Seam "
-"ensures that managed entity instances (i.e. JPA and Hibernate entities) "
-"don't become detached during replication. Seam keeps a record of the "
-"entities that are loaded and automatically loads them on the secondary node. "
-"You must, however, be using a Seam-managed persistence context to get this "
-"feature. More in depth information about this feature is provided in the "
-"second half of this chapter."
-msgstr ""
+msgid "But wait, there's more! Seam also offers an incredibly unique feature for clustered applications. In addition to monitoring JavaBean components, Seam ensures that managed entity instances (i.e. JPA and Hibernate entities) don't become detached during replication. Seam keeps a record of the entities that are loaded and automatically loads them on the secondary node. You must, however, be using a Seam-managed persistence context to get this feature. More in depth information about this feature is provided in the second half of this chapter."
+msgstr "Mais attendez, il y a mieux! Seam offre aussi une fonctionnalité merveilleuse et unique pour les applications avec mise en cluster. En plus de la suppervision des composants JavaBeans, Seam s'assure que les instances d'entité gérées (autrement dit les entités Hibernate et JPA) ne deviennent pas détachées pendant la réplication. Seam conserve un enregistrement des entités qui ont été chargées et les charge automatiquement sur un noeud secondaire. Vous devez, cependant, utiliser le contexte de persistance géré par Seam pour avoir cette fonctionnalité. Plus en détails sur cette fonctionnalité est fournis dans la seconde partie de ce chapitre."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:55
 #, no-c-format
-msgid ""
-"Now that you understand what features Seam offers to support a clustered "
-"environment, let's look at how you program for clustering."
-msgstr ""
+msgid "Now that you understand what features Seam offers to support a clustered environment, let's look at how you program for clustering."
+msgstr "Maintenant que vous comprenez que ces fonctionnalités que Seam offre qui support un environnement mise en cluster, allons voir commennt votre programme est mis en cluster."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:61
 #, no-c-format
 msgid "Programming for clustering"
-msgstr ""
+msgstr "La programmation pour la mise en cluster"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:62
 #, no-c-format
-msgid ""
-"Any session- or conversation-scoped mutable JavaBean component that will be "
-"used in a clustered environment must implement the <literal>org.jboss.seam."
-"core.Mutable</literal> interface from the Seam API. As part of the contract, "
-"the component must maintain a dirty flag that is reported and reset by the "
-"<literal>clearDirty()</literal> method. Seam calls this method to determine "
-"if it is necessary to replicate the component. This avoids having to use the "
-"more cumbersome Servlet API to add and remove the session attribute on every "
-"change of the object."
-msgstr ""
+msgid "Any session- or conversation-scoped mutable JavaBean component that will be used in a clustered environment must implement the <literal>org.jboss.seam.core.Mutable</literal> interface from the Seam API. As part of the contract, the component must maintain a dirty flag that is reported and reset by the <literal>clearDirty()</literal> method. Seam calls this method to determine if it is necessary to replicate the component. This avoids having to use the more cumbersome Servlet API to add and remove the session attribute on every change of the object."
+msgstr "Toute session- ou composant JavaBean mutable d'étendue conversationnel qui sera utilisé dans un environnement clusturisé doit implémenter l'interface <literal>org.jboss.seam.core.Mutable</literal>  de l'API de Seam. Un partie du contrat est que le composant doit maintenir un drapeau sale qui est retourné et réinitialisé par la méthode <literal>clearDirty()</literal>. Seam peut appeler cette méthode pour déterminer s'il est nécéssaire de repliquer le composant. Cela évite d'avoir à utiliser l'API Servlet emcombrante pour ajouter et retirer l'attribut de session à chaque modification sur l'objet."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:70
 #, no-c-format
-msgid ""
-"You also must ensure that all session- and conversation-scoped JavaBean "
-"components are Serializable. Additional, all fields of a stateful component "
-"(EJB or JavaBean) must Serializable unless the field is marked transient or "
-"set to null in a <literal>@PrePassivate</literal> method. You can restore "
-"the value of a transient or nullified field in a <literal>@PostActivate</"
-"literal> method."
-msgstr ""
+msgid "You also must ensure that all session- and conversation-scoped JavaBean components are Serializable. Additional, all fields of a stateful component (EJB or JavaBean) must Serializable unless the field is marked transient or set to null in a <literal>@PrePassivate</literal> method. You can restore the value of a transient or nullified field in a <literal>@PostActivate</literal> method."
+msgstr "Vous devez aussi vous assurer que toutes les sessions - et les composants JavaBean d'étendue conversationnel sont sérialisable. De plus, tous les champs d'un composant avec état (EJB ou JavaBean) doit être sérialisable à moins que le champ ne soit marqué comme transient ou mit à null dans une méthode <literal>@PrePassivate</literal> . Vous pouvez restorer la velerur d'un transient ou d'un champs mis à null dans une méthode <literal>@PostActivate</literal>."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:76
 #, no-c-format
-msgid ""
-"One area where people often get bitten is by using <literal>List.subList</"
-"literal> to create a list. The resulting list is not Serializable. So watch "
-"out for situations like that. If hit a <literal>java.io."
-"NotSerializableException</literal> and cannot locate the culprit at first "
-"glance, you can put a breakpoint on this exception, run the application "
-"server in debug mode and attach a debugger (such as Eclipse) to see what "
-"deserialization is choking on."
-msgstr ""
+msgid "One area where people often get bitten is by using <literal>List.subList</literal> to create a list. The resulting list is not Serializable. So watch out for situations like that. If hit a <literal>java.io.NotSerializableException</literal> and cannot locate the culprit at first glance, you can put a breakpoint on this exception, run the application server in debug mode and attach a debugger (such as Eclipse) to see what deserialization is choking on."
+msgstr "Un endroit où les gens sont souvent bloqués est en utilisant <literal>List.subList</literal> pour créer une liste. La liste résultante n'est pas Sérialisable. Donc évitez les situations comme celle ci. Si vous avez une <literal>java.io.NotSerializableException</literal> et ne pouvez localiser le coupable au premier abord, vous pouvez mettre un point d'arrêt sur cette exception, exécutez le serveur d'application en mode débogage et y attacher un debogbeur (comme ave Eclipse) pour voir où la désérialisation s'étouffe."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:84
 #, no-c-format
-msgid ""
-"Please note that clustering does not work with hot deployable components. "
-"But then again, you shouldn't be using hot deployable components in a non-"
-"development environment anyway."
-msgstr ""
+msgid "Please note that clustering does not work with hot deployable components. But then again, you shouldn't be using hot deployable components in a non-development environment anyway."
+msgstr "Merci de noter que la mise en cluster ne fonctionne pas avec les composants deployables à chaud. Mais pour rappel, vous ne devriez jamais utiliser les composants déployables à chaud dans un environnement de non-développement."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:92
 #, no-c-format
-msgid ""
-"Deploying a Seam application to a JBoss AS cluster with session replication"
-msgstr ""
+msgid "Deploying a Seam application to a JBoss AS cluster with session replication"
+msgstr "Le déploiement d'une application Seam dans un cluster de JBoss AS avec la réplication de session"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:94
 #, no-c-format
-msgid ""
-"The procedure outlined in this tutorial has been validated with an seam-gen "
-"application and the Seam booking example."
-msgstr ""
+msgid "The procedure outlined in this tutorial has been validated with an seam-gen application and the Seam booking example."
+msgstr "La procédure mise en avant dans ce tutoriel a été validé avec une appllication seam-gen et avec l'exemple de la réservation d'hotel de Seam"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:99
 #, no-c-format
-msgid ""
-"In the tutorial, I assume that the IP addresses of the master and slave "
-"servers are 192.168.1.2 and 192.168.1.3, respectively. I am intentionally "
-"not using the mod_jk load balancer so that it's easier to validate that both "
-"nodes are responding to requests and can share sessions."
-msgstr ""
+msgid "In the tutorial, I assume that the IP addresses of the master and slave servers are 192.168.1.2 and 192.168.1.3, respectively. I am intentionally not using the mod_jk load balancer so that it's easier to validate that both nodes are responding to requests and can share sessions."
+msgstr "Dans ce tutoriel, je suppose que l'adresse IP du maitre et de l'esclave sont respectivement 192.168.1.2 et 192.168.1.3. J'ai intentionnellement refusé d'utiliser le gestionnaire de charge mod_jk pour rendre plus facile la validation des deux noeuds qui vont répondre aux requêtes et partager les sessions."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:105
 #, no-c-format
-msgid ""
-"I'm using the farm deployment method in these instructions, though you could "
-"also deploy the application normally and allow the two servers to negotiate "
-"a master/slave relationship based on startup order."
-msgstr ""
+msgid "I'm using the farm deployment method in these instructions, though you could also deploy the application normally and allow the two servers to negotiate a master/slave relationship based on startup order."
+msgstr "Je vais utiliserr la méthode de déploiement pour une ferme dans ces instructions, en pensant que vous pourriez aussi déployer normallement l'application et permettre aux deux serveur de négocier une relation maitre/esclave basé sur l'odre de démarrage."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:111
 #, no-c-format
-msgid ""
-"JBoss AS clustering relies on UDP multicasting provided by jGroups. The "
-"SELinux configuration that ships with RHEL/Fedora blocks these packets by "
-"default. You can allow them to pass by modifying the iptables rules (as "
-"root). The following commands apply to an IP address that matches 192.168.1."
-"x."
-msgstr ""
+msgid "JBoss AS clustering relies on UDP multicasting provided by jGroups. The SELinux configuration that ships with RHEL/Fedora blocks these packets by default. You can allow them to pass by modifying the iptables rules (as root). The following commands apply to an IP address that matches 192.168.1.x."
+msgstr "La mise en cluster de JBoss AS se fait avec le multicasting UDP fournis par jGroups. La configuration SELinux qui est livrée par RHEL/Fedora bloque ces paquets par défaut. Vous devez autoriser leur passage en modificaiton les règles des iptables (en root). Les commandes suivantes s'appliquent à l'IP adresse suivante  192.168.1.x."
 
 #. Tag: programlisting
 #: ClusteringAndEJBPassivation.xml:116
@@ -217,238 +136,184 @@ msgid ""
 "/sbin/iptables -I RH-Firewall-1-INPUT 10 -p tcp -s 192.168.1.0/24 -j ACCEPT\n"
 "/etc/init.d/iptables save"
 msgstr ""
+"/sbin/iptables -I RH-Firewall-1-INPUT 5 -p udp -d 224.0.0.0/4 -j ACCEPT\n"
+"/sbin/iptables -I RH-Firewall-1-INPUT 9 -p udp -s 192.168.1.0/24 -j ACCEPT\n"
+"/sbin/iptables -I RH-Firewall-1-INPUT 10 -p tcp -s 192.168.1.0/24 -j ACCEPT\n"
+"/etc/init.d/iptables save"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:117
 #, no-c-format
-msgid ""
-"Detailed information can be found on <ulink url=\"http://www.jboss.org/"
-"community/docs/DOC-11935\">this page</ulink> on the JBoss Wiki."
-msgstr ""
+msgid "Detailed information can be found on <ulink url=\"http://www.jboss.org/community/docs/DOC-11935\">this page</ulink> on the JBoss Wiki."
+msgstr "Des informations détaillés peuvent être trouvées sur <ulink url=\"http://www.jboss.org/community/docs/DOC-11935\">cette page</ulink> sur le Wiki de JBoss."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:122
 #, no-c-format
 msgid "Create two instances of JBoss AS (just extract the zip twice)"
-msgstr ""
+msgstr "La création de deux instances de JBoss AS (extraction du fichier zip simplement à faire deux fois)"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:125
 #, no-c-format
-msgid ""
-"Deploy the JDBC driver to server/all/lib/ on both instances if not using "
-"HSQLDB"
-msgstr ""
+msgid "Deploy the JDBC driver to server/all/lib/ on both instances if not using HSQLDB"
+msgstr "Deploiement du pilote JDBC dans le serveur /all/lib sur les deux instances en cas de non-utilisation de HSQLDB"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:128
 #, no-c-format
-msgid ""
-"Add <literal>&lt;distributable/></literal> as the first child element in WEB-"
-"INF/web.xml"
-msgstr ""
+msgid "Add <literal>&lt;distributable/></literal> as the first child element in WEB-INF/web.xml"
+msgstr "Ajout d'un <literal>&lt;distributable/&gt;</literal> comme premier élément fils dans WEB-INF/web.xml"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:131
 #, no-c-format
-msgid ""
-"Set the <literal>distributable</literal> property on <literal>org.jboss.seam."
-"core.init</literal> to true to enable the ManagedEntityInterceptor (i.e., "
-"<literal><![CDATA[<core:init distributable=\"true\"/>]]></literal>)"
-msgstr ""
+msgid "Set the <literal>distributable</literal> property on <literal>org.jboss.seam.core.init</literal> to true to enable the ManagedEntityInterceptor (i.e., <literal><![CDATA[<core:init distributable=\"true\"/>]]></literal>)"
+msgstr "Définir la propriété <literal>distributable</literal> de <literal>org.jboss.seam.core.init</literal> à vrai pour activer le ManagedEntityInterceptor (autrement dit, <literal><![CDATA[<core:init distributable=\"true\"/>]]></literal>)"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:136
 #, no-c-format
-msgid ""
-"Ensure you have two IP addresses available (two computers, two network "
-"cards, or two IP addressses bound to the same interface). I'll assume the "
-"two IP address are 192.168.1.2 and 192.168.1.3"
-msgstr ""
+msgid "Ensure you have two IP addresses available (two computers, two network cards, or two IP addressses bound to the same interface). I'll assume the two IP address are 192.168.1.2 and 192.168.1.3"
+msgstr "Assurrer vous d'avoir deux adresses IP disponible (deux ordinateurs, deux cartes réseau ou deux adresses IP liées sur le même interface). Je pars du principe que les deux adresses IP sont 192.168.1.2 et 192.168.1.3"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:141
 #, no-c-format
 msgid "Start the master JBoss AS instance on the first IP"
-msgstr ""
+msgstr "Démarrer l'instance maitre de JBoss AS sur la première IP."
 
 #. Tag: programlisting
 #: ClusteringAndEJBPassivation.xml:142
 #, no-c-format
 msgid "./bin/run.sh -c all -b 192.168.1.2"
-msgstr ""
+msgstr "./bin/run.sh -c all -b 192.168.1.2"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:143
 #, no-c-format
-msgid ""
-"The log should report that there are 1 cluster members and 0 other members."
-msgstr ""
+msgid "The log should report that there are 1 cluster members and 0 other members."
+msgstr "Le fichier de log doit montrer qu'il y a 1 membre du cluster et 0 autre membre."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:146
 #, no-c-format
-msgid ""
-"Verify that the server/all/farm directory is empty in the slave JBoss AS "
-"instance"
-msgstr ""
+msgid "Verify that the server/all/farm directory is empty in the slave JBoss AS instance"
+msgstr "Vérifieez que le dossier du serveur /all/farm est vide dans l'instance esclave de JBoss AS."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:149
 #, no-c-format
 msgid "Start the slave JBoss AS instance on the second IP"
-msgstr ""
+msgstr "Démarrez l'instance esclave de JBoss AS sur la seconde IP."
 
 #. Tag: programlisting
 #: ClusteringAndEJBPassivation.xml:150
 #, no-c-format
 msgid "./bin/run.sh -c all -b 192.168.1.3"
-msgstr ""
+msgstr "./bin/run.sh -c all -b 192.168.1.3"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:151
 #, no-c-format
-msgid ""
-"The log should report that there are 2 cluster members and 1 other members. "
-"It should also show the state being retrieved from the master."
-msgstr ""
+msgid "The log should report that there are 2 cluster members and 1 other members. It should also show the state being retrieved from the master."
+msgstr "Le log devrait afficher qu'il y a 2 membres du cluster et 1 autre membre. Il devrait aussi montrer que l'état a été récupéré depuis le maitre."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:155
 #, no-c-format
 msgid "Deploy the -ds.xml to server/all/farm of the master instance"
-msgstr ""
+msgstr "Déployer le -ds.xml dans le serveur /all.farm sur l'instance maitre"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:156
 #, no-c-format
-msgid ""
-"In the log of the master you should see acknowledgement of the deployment. "
-"In the log of the slave you should see a corresponding message acknowledging "
-"the deployment to the slave."
-msgstr ""
+msgid "In the log of the master you should see acknowledgement of the deployment. In the log of the slave you should see a corresponding message acknowledging the deployment to the slave."
+msgstr "Dans le log du maitre vous devriez voir l'acquitement du déploiement. Dans le log de l'esclave vous devriez voir un message correspondant à l'acquitement du déploiement vers l'esclave."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:160
 #, no-c-format
 msgid "Deploy the application to the server/all/farm directory"
-msgstr ""
+msgstr "Déployer l'application dans le dossier du server /all/farm"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:161
 #, no-c-format
-msgid ""
-"In the log of the master you should see acknowledgement of the deployment. "
-"In the log of the slave you should see a corresponding message acknowledging "
-"the deployment to the slave. Note that you may have to wait up to 3 minutes "
-"for the deployed archive to be transfered."
-msgstr ""
+msgid "In the log of the master you should see acknowledgement of the deployment. In the log of the slave you should see a corresponding message acknowledging the deployment to the slave. Note that you may have to wait up to 3 minutes for the deployed archive to be transfered."
+msgstr "Dans le log du maitre vous devriez voir l'acquitement du déploiement. Dans le log de l'esclave vous devriez voir un message correspondant à l'acuitement de l'esclave. Notez que vou devriez à avoir à attendre 3 minutes pour que le déploiement de l'archive ai été transféré."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:166
 #, no-c-format
-msgid ""
-"You're application is now running in a cluster with HTTP session "
-"replication! But, of course, you are going to want to validate that the "
-"clustering actually works."
-msgstr ""
+msgid "You're application is now running in a cluster with HTTP session replication! But, of course, you are going to want to validate that the clustering actually works."
+msgstr "Votre application est maintenant en train de s'exécuter avec la réplication de la session HTTP! Mais , bien sûr, vous voudriez valider que la mise en cluster fonctionne actuellement."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:172
 #, no-c-format
-msgid ""
-"Validating the distributable services of an application running in a JBoss "
-"AS cluster"
-msgstr ""
+msgid "Validating the distributable services of an application running in a JBoss AS cluster"
+msgstr "La validation de service distributée d'une application s'exécutant dans un cluster de JBoss AS"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:173
 #, no-c-format
-msgid ""
-"It's all well and fine to see the application start successfully on two "
-"different JBoss AS servers, but seeing is believing. You likely want to "
-"validate that the two instances are exchanging HTTP sessions to allow the "
-"slave to take over when the master instance is stopped."
-msgstr ""
+msgid "It's all well and fine to see the application start successfully on two different JBoss AS servers, but seeing is believing. You likely want to validate that the two instances are exchanging HTTP sessions to allow the slave to take over when the master instance is stopped."
+msgstr "C'est super bien de voir l'application réussir à démarrer sur deux serveurs JBoss AS différent, mais voir c'est croire. Vous aimeriez vouloir valider que les deux instances échangent les sessions HTTP pour permettre à l'esclave de prendre le relais quand l'instance maitre est arrété."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:179
 #, no-c-format
-msgid ""
-"Start off by visiting the application running on the master instance in your "
-"browser. That will produce the first HTTP session. Now, open up the JBoss AS "
-"JMX console on that instance and navigate to the following MBean:"
-msgstr ""
+msgid "Start off by visiting the application running on the master instance in your browser. That will produce the first HTTP session. Now, open up the JBoss AS JMX console on that instance and navigate to the following MBean:"
+msgstr "Commençons par visiter l'application s'exécutant sur l'instance du maitre avec votre navigateur. Cela devrait produire la première session HTTP. Maintenant, ouvrons la console JMX de JBoss AS sur l'instance ou nous navigons sur le MBean suivant:"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:187
 #, no-c-format
 msgid "<emphasis>Category:</emphasis> jboss.cache"
-msgstr ""
+msgstr "<emphasis>Category:</emphasis> jboss.cache"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:190
 #, no-c-format
 msgid "<emphasis>Entry:</emphasis> service=TomcatClusteringCache"
-msgstr ""
+msgstr "<emphasis>Entry:</emphasis> service=TomcatClusteringCache"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:193
 #, no-c-format
 msgid "<emphasis>Method:</emphasis> printDetails()"
-msgstr ""
+msgstr "<emphasis>Method:</emphasis> printDetails()"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:197
 #, no-c-format
-msgid ""
-"Invoke the printDetails() method. You will see a tree of active HTTP "
-"sessions. Verify that the session your browser is using corresponds to one "
-"of the sessions in this tree."
-msgstr ""
+msgid "Invoke the printDetails() method. You will see a tree of active HTTP sessions. Verify that the session your browser is using corresponds to one of the sessions in this tree."
+msgstr "Invocation de la méthode  printDetails(). Vous allez voir un arbre de sessions HTTP actives. Vérifiez que la session de votre navigateur correspond à une des sessions dans cet arbre."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:202
 #, no-c-format
-msgid ""
-"Now switch over to the slave instance and invoke the same method in the JMX "
-"console. You should see an identical list (at least underneath this "
-"application's context path)."
-msgstr ""
+msgid "Now switch over to the slave instance and invoke the same method in the JMX console. You should see an identical list (at least underneath this application's context path)."
+msgstr "Maintenant basculer vers l'instance esclave et invoquer la même méthode dans la console JMX. Vous devriez voir une liste identique (au moins au dessous de cette application son chemin de contexte)."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:207
 #, no-c-format
-msgid ""
-"So you can see that at least both servers claim to have identical sessions. "
-"Now, time to test that the data is serializing and unserializing properly."
-msgstr ""
+msgid "So you can see that at least both servers claim to have identical sessions. Now, time to test that the data is serializing and unserializing properly."
+msgstr "Donc vous pouvez voir au moins les deux serveurs clamant avoir les deux sessions identiques. Maintenant, il est temps de tester que les données sont sérialisées et désérialisées proprement."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:212
 #, no-c-format
-msgid ""
-"Sign in using using the URL of the master instance. Then, construct a URL "
-"for the second instance by putting the ;jsessionid=XXXX immediately after "
-"the servlet path and changing the IP address. You should see that the "
-"session has carried over to the other instance. Now kill the master instance "
-"and see that you can continue to use the application from the slave "
-"instance. Remove the deployments from the server/all/farm directory and "
-"start the instance again. Switch the IP in the URL back to that of the "
-"master instance and visit the URL. You'll see that the original session is "
-"still being used."
-msgstr ""
+msgid "Sign in using using the URL of the master instance. Then, construct a URL for the second instance by putting the ;jsessionid=XXXX immediately after the servlet path and changing the IP address. You should see that the session has carried over to the other instance. Now kill the master instance and see that you can continue to use the application from the slave instance. Remove the deployments from the server/all/farm directory and start the instance again. Switch the IP in the URL back to that of the master instance and visit the URL. You'll see that the original session is still being used."
+msgstr "Connectez vous en utilisant l'URL de l'instance du maitre. Ensuite, construisez une URL pour une seconde instance en mettant ;jsessionid=XXXX immédiatement après le chemin de la servlet et en changeant l'adresse IP. Vous devriez voir que la session a été transférée à l'autre instance. Maintenant, tuez l'instance maitre et regardez que vous pouvez continuer à utiliser l'application depuis l'instance esclave. Retirez le déploiement depuis le dossier du serveur /all/farm et redémmarez l'instance de nouveau. Re-modifiez l'IP dans l'URL pour avoir l'instance du maitre et visitez l'URL. Vous allez voir que la session orginelle est toujours en cours d'utilisation."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:221
 #, no-c-format
-msgid ""
-"One way to watch objects passivate and activate is to create a session- or "
-"conversation-scoped Seam component and implement the appropriate life-cycle "
-"methods. You can either use methods from the HttpSessionActivationListener "
-"interface (Seam automatically registers this interface on all non-EJB "
-"components):"
-msgstr ""
+msgid "One way to watch objects passivate and activate is to create a session- or conversation-scoped Seam component and implement the appropriate life-cycle methods. You can either use methods from the HttpSessionActivationListener interface (Seam automatically registers this interface on all non-EJB components):"
+msgstr "Une façon de voir les objets mis en pause et activé est de créer un composant Seam d'étendue conversationnel et d'implémenter les méthode du cylce de vie. Vous pouvez même utiliser les méthode de l'interface HttpSessionActivationListener (Seam enregistre automatiquement cette interface pour tous les composants non-EJB):"
 
 #. Tag: programlisting
 #: ClusteringAndEJBPassivation.xml:228
@@ -457,290 +322,162 @@ msgid ""
 "<![CDATA[public void sessionWillPassivate(HttpSessionEvent e);\n"
 "public void sessionDidActivate(HttpSessionEvent e);]]>"
 msgstr ""
+"<![CDATA[public void sessionWillPassivate(HttpSessionEvent e);\n"
+"public void sessionDidActivate(HttpSessionEvent e);]]>"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:230
 #, no-c-format
-msgid ""
-"Or you can simply mark two no-argument public void methods with "
-"<literal>@PrePassivate</literal> and <literal>@PostActivate</literal>, "
-"respectively. Note that the passivation step occurs at the end of every "
-"request, while the activation step occurs when a node is called upon."
-msgstr ""
+msgid "Or you can simply mark two no-argument public void methods with <literal>@PrePassivate</literal> and <literal>@PostActivate</literal>, respectively. Note that the passivation step occurs at the end of every request, while the activation step occurs when a node is called upon."
+msgstr "Ou vous pouvez simplement indiquer les deux non-arguments de la méthode public void avec respectivement <literal>@PrePassivate</literal> et avec<literal>@PostActivate</literal>. Notez que cette étape de la mise en pause intervient à la fin de chaque requête, alors que l'étape d'activetion intervient quand un noeud est solicité."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:237
 #, no-c-format
-msgid ""
-"Now that you understand the big picture of running Seam in a cluster, it's "
-"time to address Seam's most mysterious, yet remarkable agent, the "
-"ManagedEntityInterceptor."
-msgstr ""
+msgid "Now that you understand the big picture of running Seam in a cluster, it's time to address Seam's most mysterious, yet remarkable agent, the ManagedEntityInterceptor."
+msgstr "Maintenant que vous comprennez le grand tableau de l'exécution de Seam avec un cluster, il est temps de s'addresser au plus mystérieux , mais remarquable agent, de Seam le ManagedEntityInterceptor."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:244
 #, no-c-format
 msgid "EJB Passivation and the ManagedEntityInterceptor"
-msgstr ""
+msgstr "Mise en pause EJB  et le ManagedEntityInterceptor"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:246
 #, no-c-format
-msgid ""
-"The ManagedEntityInterceptor (MEI) is an optional interceptor in Seam that "
-"gets applied to conversation-scoped components when enabled. Enabling it is "
-"simple. You just set the distributable property on the org.jboss.seam.init."
-"core component to true. More simply put, you add (or update) the following "
-"component declaration in the component descriptor (i.e., components.xml)."
-msgstr ""
+msgid "The ManagedEntityInterceptor (MEI) is an optional interceptor in Seam that gets applied to conversation-scoped components when enabled. Enabling it is simple. You just set the distributable property on the org.jboss.seam.init.core component to true. More simply put, you add (or update) the following component declaration in the component descriptor (i.e., components.xml)."
+msgstr "Le ManagedEntityInterceptor (MEI) est un intercepteur optionnel de Seam qu s'applique sur les composants d'étendue conversationnel quand il est activé. L'activation est simple. Vous définissez juste la propriété distribuable de  org.jboss.seam.init.core component à vrai. Ou plus simplement à faire, vous ajoutez ( ou mettez à jours) la déclaration de composant suivante dans le descripteur de composants  (autrement dit, components.xml)."
 
 #. Tag: programlisting
 #: ClusteringAndEJBPassivation.xml:253
 #, no-c-format
 msgid "<![CDATA[<core:init distributable=\"true\"/>]]>"
-msgstr ""
+msgstr "<![CDATA[<core:init distributable=\"true\"/>]]>"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:255
 #, no-c-format
-msgid ""
-"Note that this doesn't enable replication of HTTP sessions, but it does "
-"prepare Seam to be able to deal with passivation of either EJB components or "
-"components in the HTTP session."
-msgstr ""
+msgid "Note that this doesn't enable replication of HTTP sessions, but it does prepare Seam to be able to deal with passivation of either EJB components or components in the HTTP session."
+msgstr "Notez que cela n'active pas la réplication des sessions HTTP, mais cela doit préparer Seam à être capable de gérer la mise en pause aussi bien des composants EJB que des composants de la session HTTP."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:260
 #, no-c-format
-msgid ""
-"The MEI serves two distinct scenarios (EJB passivation and HTTP session "
-"passivation), although to accomplish the same overall goal. It ensures that "
-"throughout the life of a conversation using at least one extended "
-"persistence context, the entity instances loaded by the persistence context"
-"(s) remain managed (they do not become detached prematurally by a "
-"passivation event). In short, it ensures the integrity of the extended "
-"persistence context (and therefore its guarantees)."
-msgstr ""
+msgid "The MEI serves two distinct scenarios (EJB passivation and HTTP session passivation), although to accomplish the same overall goal. It ensures that throughout the life of a conversation using at least one extended persistence context, the entity instances loaded by the persistence context(s) remain managed (they do not become detached prematurally by a passivation event). In short, it ensures the integrity of the extended persistence context (and therefore its guarantees)."
+msgstr "Le MEI permet à deux scénario différents (la mise en pause EJB et la mise en pause de session HTTP), de se réaliser avec le même objectif général. Cela s'assure que pendant toute la vie de la conversation au moins un contexte de persistance étendue, les instances d'entité chargées par le(les) contexte(s) de persistance restent gérés (ils ne deviennent pas détaché prématurément par un évènement de mise en pause). Pour faire court, il s'assure de l'intégrité du contexte de persistance étendue (et par la même occasion il la garantie)."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:268
 #, no-c-format
-msgid ""
-"The previous statement implies that there is a challenge that threatens this "
-"contract. In fact, there are two. One case is when a stateful session bean "
-"(SFSB) that hosts an extended persistence context is passivated (to save "
-"memory or to migrate it to another node in the cluster) and the second is "
-"when the HTTP session is passivated (to prepare it to be migrated to another "
-"node in the cluster)."
-msgstr ""
+msgid "The previous statement implies that there is a challenge that threatens this contract. In fact, there are two. One case is when a stateful session bean (SFSB) that hosts an extended persistence context is passivated (to save memory or to migrate it to another node in the cluster) and the second is when the HTTP session is passivated (to prepare it to be migrated to another node in the cluster)."
+msgstr "L'instruction précédente implique qu'il y a un défit qui menace ce contrat. Dans les fait, il y en a deux. Un est quand un bean de session avec état (SFSB) qui conserve un contexte de persistance étendue est mis en pause (pour préserver la mémoire ou pour le migrer vers un autre noeud du cluster) et le deuxième est quand la session HTTP est mise en pause (pour préaprer la migration vers un autre noeud dans le cluster)."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:275
 #, no-c-format
-msgid ""
-"I first want to discuss the general problem of passivation and then look at "
-"the two challenges cited individually."
-msgstr ""
+msgid "I first want to discuss the general problem of passivation and then look at the two challenges cited individually."
+msgstr "En premie, jeux parler du problème général de la mise en pause et ensuite regarder les deux défis cités individuellement."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:281
 #, no-c-format
 msgid "The friction between passivation and persistence"
-msgstr ""
+msgstr "La frictions entre la mise en pause et la persistance"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:283
 #, no-c-format
-msgid ""
-"The persistence context is where the persistence manager (i.e., JPA "
-"EntityManager or Hibernate Session) stores entity instances (i.e., objects) "
-"it has loaded from the database (via the object-relational mappings). Within "
-"a persistence context, there is no more than one object per unique database "
-"record. The persistence context is often referred to as the first-level "
-"cache because if the application asks for a record by its unique identifier "
-"that has already been loaded into the persistence context, a call to the "
-"database is avoided. But it's about more than just caching."
-msgstr ""
+msgid "The persistence context is where the persistence manager (i.e., JPA EntityManager or Hibernate Session) stores entity instances (i.e., objects) it has loaded from the database (via the object-relational mappings). Within a persistence context, there is no more than one object per unique database record. The persistence context is often referred to as the first-level cache because if the application asks for a record by its unique identifier that has already been loaded into the persistence context, a call to the database is avoided. But it's about more than just caching."
+msgstr "Le contexte de persistance est quand le gestionnaire de persistance (autrement dit, l'EntityManager ou la Session Hibernate) stocke les instances d'entité (autrement dit, les objets) qu'il a chargé depuis la base de données (via le mappage objet-relationnel). Avec un contexte de persistance, il n'y a pas plus d'un objet par enregistrement unique de la base de données. Le contexte de persistance est souvant référencé comme le cache de premier niveau si l'application demande un enregistrement par son identifiant unique qui a déjà été chargé dans le contexte de persistant, un appel à la base de données est évité. Mais c'est bien plus que juste une mise en cache."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:292
 #, no-c-format
-msgid ""
-"Objects held in the persistence context can be modified, which the "
-"persistence manager tracks. When an object is modified, it's considered "
-"\"dirty\". The persistence manager will migrate these changes to the "
-"database using a technique known as write-behind (which basically means only "
-"when necessary). Thus, the persistence context maintains a set of pending "
-"changes to the database."
-msgstr ""
+msgid "Objects held in the persistence context can be modified, which the persistence manager tracks. When an object is modified, it's considered \"dirty\". The persistence manager will migrate these changes to the database using a technique known as write-behind (which basically means only when necessary). Thus, the persistence context maintains a set of pending changes to the database."
+msgstr "Les objets qui conservent le contexte de persistance peuvent être modifié ce que traque le gestionnaire de persistance. Quand un objet est modifié, il est considéré comme \"sale\". Le gestionnaire de persistance va migrer ces modifications dans la base de données en utilisant une technique connu comme écrire-avec-retard (ce qui basiquement signifie seulement quand c'est nécéssaire). Donc, le contexte de persistance maintient un groupe de modificactions en attente de la base de données."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:299
 #, no-c-format
-msgid ""
-"Database-oriented applications do much more than just read from and write to "
-"the database. They capture transactional bits of information that need to be "
-"tranfered into the database atomically (at once). It's not always possible "
-"to capture this information all on one screen. Additionally, the user might "
-"need to make a judgement call about whether to approve or reject the pending "
-"changes."
-msgstr ""
+msgid "Database-oriented applications do much more than just read from and write to the database. They capture transactional bits of information that need to be tranfered into the database atomically (at once). It's not always possible to capture this information all on one screen. Additionally, the user might need to make a judgement call about whether to approve or reject the pending changes."
+msgstr "Les applications orientés base de données doivent faire bien plus que juste lire et écrire dans la base de données. Elles capturent les morceaux d'informations transactionnelle qui doivent être transférées dans la base de données automatiquement (en une seule fois). Ce n'est pas toujours possible de capturer toutes ces informations en une seul fois. De plus, l'utilisateur peut avoir besoin de prendre une décision pour approuver ou rejeter les modificaitons en attente."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:306
 #, no-c-format
-msgid ""
-"What we are getting at here is that the idea of a transaction from the "
-"user's perspective needs to be extended. And that is why the extended "
-"persistence context fits so perfectly with this requirement. It can hold "
-"such changes for as long as the application can keep it open and then use "
-"the built-in capabilities of the persistence manager to push these pending "
-"changes to the database without requiring the application developer to worry "
-"about the low-level details (a simple call to <literal>EntityManager#flush()"
-"</literal> does the trick)."
-msgstr ""
+msgid "What we are getting at here is that the idea of a transaction from the user's perspective needs to be extended. And that is why the extended persistence context fits so perfectly with this requirement. It can hold such changes for as long as the application can keep it open and then use the built-in capabilities of the persistence manager to push these pending changes to the database without requiring the application developer to worry about the low-level details (a simple call to <literal>EntityManager#flush()</literal> does the trick)."
+msgstr "Ce que nous avons ici est que l'idée d'une transaction depuis une perspective utilisateur a besoin d'être étendue. Et c'est pourquoi le contexte de persistence géré correspond parfaitement avec ce prérequis. Il peut conserver toutes les modificaitons aussi longtemps que l'application peut le conserver ouvert et ensuite utilisera les fonctionnalités livré du gestionnaire de persistance pour pousser ces modifications en attente vers la base de données sans demander au développeur de l'application de s'inquiéter à propos des détails bas-niveaux ( un simple appel à <literal>EntityManager#flush()</literal> fait le truc)."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:315
 #, no-c-format
-msgid ""
-"The link between the persistence manager and the entity instances is "
-"maintained using object references. The entity instances are serializable, "
-"but the persistence manager (and in turn its persistence context) is not. "
-"Therefore, the process of serialization works against this design. "
-"Serialization can occur either when a SFSB or the HTTP session is "
-"passivated. In order to sustain the activity in the application, the "
-"persistence manager and the entity instances it manages must weather "
-"serialization without losing their relationship. That's the aid that the MEI "
-"provides."
-msgstr ""
+msgid "The link between the persistence manager and the entity instances is maintained using object references. The entity instances are serializable, but the persistence manager (and in turn its persistence context) is not. Therefore, the process of serialization works against this design. Serialization can occur either when a SFSB or the HTTP session is passivated. In order to sustain the activity in the application, the persistence manager and the entity instances it manages must weather serialization without losing their relationship. That's the aid that the MEI provides."
+msgstr " Le lien entre le gestionnaire de persistance et les instance d'entité est maintenu en utilisant des références d'objet. Les instances d'entité sont sérialisable, mais le gestionnaire de persistance (et il fonctionne dans son contexte de persistance) ne l'est pas. Pourtant, le processus de sérialisation fonctionne pour ce design. La sérialisation peut intervenir aussi quand une session SFSB que HTTP est rendue passive. Donc pour maintenir l'activité dans l'application, le gestionnaire de persistance et les instance d'entité qu'il gère doivent survivre à la sérialisation sans perdre leur relation. C'est l'aide que l'on obtient du MEI."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:327
 #, no-c-format
 msgid "Case #1: Surviving EJB passivation"
-msgstr ""
+msgstr "Cas d'utilisation #1: Survivre à la mise en pause EJB"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:329
 #, no-c-format
-msgid ""
-"Conversations were initially designed with stateful session beans (SFSBs) in "
-"mind, primarily because the EJB 3 specification designates SFSBs as hosts of "
-"the extended persistence context. Seam introduces a complement to the "
-"extended persistence context, known as a Seam-managed persistence context, "
-"which works around a number of limitations in the specification (complex "
-"propagation rules and lack of manual flushing). Both can be used with a SFSB."
-msgstr ""
+msgid "Conversations were initially designed with stateful session beans (SFSBs) in mind, primarily because the EJB 3 specification designates SFSBs as hosts of the extended persistence context. Seam introduces a complement to the extended persistence context, known as a Seam-managed persistence context, which works around a number of limitations in the specification (complex propagation rules and lack of manual flushing). Both can be used with a SFSB."
+msgstr "Les conversations ont été initialement désigné dans l'esprit de beans de sessions avec état (SFSBs), premièrement parce que la spécification EJB 3 désigne les SFSBs comme  l'hote diu contexte de persistance étendue. Seam introduit un complément au contexte de persistance étendue, connu comme un contexte de persistance géré par Seam, qui fonctionne autour d'un certain nombre de limitations dans la spécification (règles de propagation complexe et un manque de validation manuel). Les deux peuvent être utilisé avec un SFSB."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:337
 #, no-c-format
-msgid ""
-"A SFSB relies on a client to hold a reference to it in order to keep it "
-"active. Seam has provided an ideal place for this reference in the "
-"conversation context. Thus, for as long as the conversation context is "
-"active, the SFSB is active. If an EntityManager is injected into that SFSB "
-"using the annotation @PersistenceContext(EXTENDED), then that EntityManager "
-"will be bound to the SFSB and remain open throughout its lifetime, the "
-"lifetime of the conversation. If an EntityManager is injected using @In, "
-"then that EntityManager is maintained by Seam and stored directly in the "
-"conversation context, thus living for the lifetime of the conversation "
-"independent of the lifetime of the SFSB."
-msgstr ""
+msgid "A SFSB relies on a client to hold a reference to it in order to keep it active. Seam has provided an ideal place for this reference in the conversation context. Thus, for as long as the conversation context is active, the SFSB is active. If an EntityManager is injected into that SFSB using the annotation @PersistenceContext(EXTENDED), then that EntityManager will be bound to the SFSB and remain open throughout its lifetime, the lifetime of the conversation. If an EntityManager is injected using @In, then that EntityManager is maintained by Seam and stored directly in the conversation context, thus living for the lifetime of the conversation independent of the lifetime of the SFSB."
+msgstr "Un SFSB lie un client qui contient une référence sur lui dans le but de la conserver active. Seam a fourni un lieu idéal pour cette référence dans le contexte conversationneL. Ainsi, aussi longtemps que le contexte conversationnel est actif, le SFSB est actif. Si un EntityManager est injecté dans le SFSB en utilisant l'annocation  @PersistenceContext(EXTENDED), alors cet EntityManager sera remoné au SFSB et restera ouvert pendant son cycle de vie, le cycle de vie de la conversation. Si un Entitymanager est injecté en utilisant @In, alors l'EntityManager est maintenu par Seam et stocké directement dans le contexte conversationnel, alors il vivra pendant la durée de vie de la conversation indépendamment du cycle de vie du SFSB."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:347
 #, no-c-format
-msgid ""
-"With all of that said, the Java EE container can passivate a SFSB, which "
-"means it will serialize the object to an area of storage external to the "
-"JVM. When this happens depends on the settings of the individual SFSB. This "
-"process can even be disabled. However, the persistence context is not "
-"serialized (is this only true of SMPC?). In fact, what happens depends "
-"highly on the Java EE container. The spec is not very clear about this "
-"situation. Many vendors just tell you not to let it happen if you need the "
-"guarantees of the extended persistence context. Seam's approach is more "
-"conservative. Seam basically doesn't trust the SFSB with the persistence "
-"context or the entity instances. After each invocation of the SFSB, Seam "
-"moves the reference to entity instance held by the SFSB into the current "
-"conversation (and therefore into the HTTP session), nullifying those fields "
-"on the SFSB. It then restores this references at the beginning of the next "
-"invocation. Of course, Seam is already storing the persistence manager in "
-"the conversation. Thus, when the SFSB passivates and later activates, it has "
-"absolutely no averse affect on the application."
-msgstr ""
+msgid "With all of that said, the Java EE container can passivate a SFSB, which means it will serialize the object to an area of storage external to the JVM. When this happens depends on the settings of the individual SFSB. This process can even be disabled. However, the persistence context is not serialized (is this only true of SMPC?). In fact, what happens depends highly on the Java EE container. The spec is not very clear about this situation. Many vendors just tell you not to let it happen if you need the guarantees of the extended persistence context. Seam's approach is more conservative. Seam basically doesn't trust the SFSB with the persistence context or the entity instances. After each invocation of the SFSB, Seam moves the reference to entity instance held by the SFSB into the current conversation (and therefore into the HTTP session), nullifying those fields on the SFSB. It then restores this references at the beginning of the next invocation. Of course, Seam is already storing the persistence manager in the conversation. Thus, when the SFSB passivates and later activates, it has absolutely no averse affect on the application."
+msgstr "Avec tout ce qui est dit, le containeur Java EE peut être mettre en pause un SFSB ce qui signifi qu'il va sérialiser l'objet dans une zone de stockage externe à la JVM. Quand cela arrive, ce qui dépend des réglages individuel du SFSB. Le processus peut même être désactivé. Cependant, le contexte de persistence n'est pas sérialisé (est ce toujours vrai avec SMPL?). dans les fait, ce qui arrive dépend grandement du containeur Java EE. La spécification n'est pas vraiment claire à propos de cette situation. Beaucoup de fournisseurs vous dise juste de ne pas faire en sorte que cela arrive, si vous avez besoin d'une garantie sur le contexte de persistance étendue. L'approche de Seam plus conservative. Seam par défaut ne croit pas en le SFSB avec le contexte de persistance ou avec les instances d'entité. Après chaque invocation du SFSB, Seam déplace sa référence dans l'instance d'entité conservé par le SFSB dans la conversation courrante (et ainsi dans la session HTTP), met à null ces champs dans le SFSB. Il restaure ensuite cette référence au début de la prochaine invocation. Bien sûr, Seam stocke déjà le gestionnaire de persistance dans la conversation. Ainsi, quand le SFSV est mis en pause et plus tard activé, il n'est absolument pas réfractaire à l'application."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:363
 #, no-c-format
-msgid ""
-"If you are using SFSBs in your application that hold references to extended "
-"persistence contexts, and those SFSBs can passivate, then you must use the "
-"MEI. This requirement holds even if you are using a single instance (not a "
-"cluster). However, if you are using clustered SFSB, then this requirement "
-"also applies."
-msgstr ""
+msgid "If you are using SFSBs in your application that hold references to extended persistence contexts, and those SFSBs can passivate, then you must use the MEI. This requirement holds even if you are using a single instance (not a cluster). However, if you are using clustered SFSB, then this requirement also applies."
+msgstr "Si vous utilisez des SFSBs dans votre application qui conserve des références vers les contextes de persistanes étendue et si ces SFSB peuvent se mettre en pause, alors vous devez utiliser le MEI. Ce prérequis est nécéssaire même si vous utilisez une seule instance (et non pas un cluster). Cependant, si vous utiliser un SFSB en cluster, alors ce prérequis s'applique aussi."
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:371
 #, no-c-format
-msgid ""
-"It is possible to disable passivation on a SFSB. See the <ulink url=\"http://"
-"www.jboss.org/community/docs/DOC-9656\">Ejb3DisableSfsbPassivation</ulink> "
-"page on the JBoss Wiki for details."
-msgstr ""
+msgid "It is possible to disable passivation on a SFSB. See the <ulink url=\"http://www.jboss.org/community/docs/DOC-9656\">Ejb3DisableSfsbPassivation</ulink> page on the JBoss Wiki for details."
+msgstr "Il est possible de désactiver la mise en pause sur un SFSB. Voyez la page <ulink url=\"http://www.jboss.org/community/docs/DOC-9656\">Ejb3DisableSfsbPassivation</ulink>  sur le Wiki de Jboss pour les détails."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:379
 #, no-c-format
 msgid "Case #2: Surviving HTTP session replication"
-msgstr ""
+msgstr "Cas d'utilisation #2: La survie de la réplication de la session HTTP "
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:381
 #, no-c-format
-msgid ""
-"Dealing with passivation of a SFSB works by leveraging the HTTP session. But "
-"what happens when the HTTP session passivates? This happens in a clustered "
-"environment with session replication enabled. This case is much tricker to "
-"deal with and is where a bulk of the MEI infrastructure comes into play. In "
-"thise case, the persistence manager is going to be destroyed because it "
-"cannot be serialized. Seam handles this deconstruction (hence ensuring that "
-"the HTTP session serializes properly). But what happens on the other end. "
-"Well, when the MEI sticks an entity instance into the conversation, it "
-"embeds the instance in a wrapper that provides information on how to "
-"reassociate the instance with a persistence manager post-serialization. So "
-"when the application jumps to another node in the cluster (presumably "
-"because the target node went down) the MEI infrastruture essentially "
-"reconstructs the persistence context. The huge drawback here is that since "
-"the persistence context is being reconstructed (from the database), pending "
-"changes are dropped. However, what Seam does do is ensure that if the entity "
-"instance is versioned, that the guarantees of optimistic locking are upheld. "
-"(why isn't the dirty state transfered?)"
-msgstr ""
+msgid "Dealing with passivation of a SFSB works by leveraging the HTTP session. But what happens when the HTTP session passivates? This happens in a clustered environment with session replication enabled. This case is much tricker to deal with and is where a bulk of the MEI infrastructure comes into play. In thise case, the persistence manager is going to be destroyed because it cannot be serialized. Seam handles this deconstruction (hence ensuring that the HTTP session serializes properly). But what happens on the other end. Well, when the MEI sticks an entity instance into the conversation, it embeds the instance in a wrapper that provides information on how to reassociate the instance with a persistence manager post-serialization. So when the application jumps to another node in the cluster (presumably because the target node went down) the MEI infrastruture essentially reconstructs the persistence context. The huge drawback here is that since the persistence context is being reconstructed (from the database), pending changes are dropped. However, what Seam does do is ensure that if the entity instance is versioned, that the guarantees of optimistic locking are upheld. (why isn't the dirty state transfered?)"
+msgstr "La gestion de la mise en passif d'un SFSB fonctionne par l'exploitation de la session HTTP. Mais qu'arrive t'il quand la session HTTP devient passive? Cela arrive dans un environnement en clusteravec la réplication de session activé. Ce cas est beaucoup plus difficile à gérer et c'est là que la grosse infrastructure MEI rentre en jeu. Dans ce cas, le gestionnaire de persistance va être détruit parce qu'il ne peut pas être sérialisé. Seam gère sa destruction (donc s'assurant que la session HTTP est sérialisé proprement). Mais qu'arrive t'il de l'autre côté. Et bien, quand le MEI colle une instance d'entité dans la conversation, il embarque cette instance dans un bloc qui va fournir l'information de comment réassocier cette instance avec le gestionnaire de persistance en post-séralisation. Le gros défaut ici est que quand le contexte de persistance est reconstruit (depuis la base de données), les modifications en attente sont détruites. Cependant, que fait Seam pour s'assurer que si l'instance de l'entité est versionné, il garanti que le vérrou optimistique est à faire respecter. (pourquoi ce n'est pas l'état sale qui est transféré?)"
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:397
 #, no-c-format
-msgid ""
-"If you are deploying your application in a cluster and using HTTP session "
-"replication, you must use the MEI."
-msgstr ""
+msgid "If you are deploying your application in a cluster and using HTTP session replication, you must use the MEI."
+msgstr "Si vous deployez dans votre application avec un cluster et en utilisant la réplication de la session HTTP, vous devez utiliser le MEI."
 
 #. Tag: title
 #: ClusteringAndEJBPassivation.xml:404
 #, no-c-format
 msgid "ManagedEntityInterceptor wrap-up"
-msgstr ""
+msgstr "Emballage du ManagedEntityInterceptor "
 
 #. Tag: para
 #: ClusteringAndEJBPassivation.xml:406
 #, no-c-format
-msgid ""
-"The important point of this section is that the MEI is there for a reason. "
-"It's there to ensure that the extended persistence context can retain intact "
-"in the face of passivation (of either a SFSB or the HTTP session). This "
-"matters because the natural design of Seam applications (and conversational "
-"state in general) revolve around the state of this resource."
-msgstr ""
+msgid "The important point of this section is that the MEI is there for a reason. It's there to ensure that the extended persistence context can retain intact in the face of passivation (of either a SFSB or the HTTP session). This matters because the natural design of Seam applications (and conversational state in general) revolve around the state of this resource."
+msgstr "Le point important dans cette section est que le MEI est là pour cette raison. Il est là pour s'assurer que le contexte de persistance étendue peut revenir intact suite à uune mise en pause (avec aussi bien un SFSB qu'une session HTTP). Cela compte parce que le design naturel ddes application de Seam (et de l'état conversaionnel en général) résoud tout ce qui tourne autour de l'état de cette ressource."
+
