@@ -178,7 +178,7 @@ public enum SeleniumDateSelector
     */
    protected int monthStepsCount(String calMonth, int month)
    {
-      final List<String> months = Arrays.asList(DateFormatSymbols.getInstance().getMonths());
+      final List<String> months = Arrays.asList((new DateFormatSymbols()).getMonths());
       int mindex = months.indexOf(calMonth);
       if (mindex == -1)
          throw new IllegalArgumentException("Unknown month: " + calMonth + " for locale: " + Locale.getDefault());
