@@ -110,44 +110,85 @@ public abstract class DBUnitSeamTest extends SeamTest
    protected String datasourceJndiName;
    protected String binaryDir;
    protected Database database = HSQL;
+   protected boolean replaceNull = true;
    protected List<DataSetOperation> beforeTestOperations = new ArrayList<DataSetOperation>();
    protected List<DataSetOperation> afterTestOperations = new ArrayList<DataSetOperation>();
+
+   private boolean prepared = false;
 
    @BeforeClass
    @Parameters("datasourceJndiName")
    public void setDatasourceJndiName(@Optional String datasourceJndiName)
    {
+      if (datasourceJndiName == null) return;
+      log.debug("Setting datasource name: " + datasourceJndiName);
       this.datasourceJndiName = datasourceJndiName;
+   }
+
+   public String getDatasourceJndiName()
+   {
+      return datasourceJndiName;
    }
 
    @BeforeClass
    @Parameters("binaryDir")
    public void setBinaryDir(@Optional String binaryDir)
    {
+      if (binaryDir == null) return;
+      log.debug("Setting binary directory: " + binaryDir);
       this.binaryDir = binaryDir;
+   }
+
+   public String getBinaryDir()
+   {
+      return binaryDir;
    }
 
    @BeforeClass
    @Parameters("database")
    public void setDatabase(@Optional String database)
    {
-      if (database != null)
-      {
-         this.database = Database.valueOf(database.toUpperCase());
-      }
+      if (database == null) return;
+      log.debug("Setting database: " + database);
+      this.database = Database.valueOf(database.toUpperCase());
    }
 
+   // We don't have a getDatabase() getter because subclasses might use a different Enum!
+
    @BeforeClass
-   @Override
-   public void setupClass() throws Exception
+   @Parameters("replaceNull")
+   public void setReplaceNull(@Optional Boolean replaceNull)
    {
-      super.setupClass();
-      prepareDBUnitOperations();
+      if (replaceNull == null) return;
+      log.debug("Setting replace null: " + replaceNull);
+      this.replaceNull = replaceNull;
+   }
+
+   public Boolean isReplaceNull()
+   {
+      return replaceNull;
    }
 
    @BeforeMethod
    public void prepareDataBeforeTest()
    {
+      // This is not pretty but we unfortunately can not have dependencies between @BeforeClass methods.
+      // This was a basic design mistake and we can't change it now because we need to be backwards
+      // compatible. We can only "prepare" the datasets once all @BeforeClass have been executed.
+      if (!prepared) {
+         log.debug("Before test method runs, preparing datasets");
+         prepareDBUnitOperations();
+         for (DataSetOperation beforeTestOperation : beforeTestOperations)
+         {
+            beforeTestOperation.prepare(this);
+         }
+         for (DataSetOperation afterTestOperation : afterTestOperations)
+         {
+            afterTestOperation.prepare(this);
+         }
+         prepared = true;
+      }
+
       executeOperations(beforeTestOperations);
    }
 
@@ -159,6 +200,7 @@ public abstract class DBUnitSeamTest extends SeamTest
 
    private void executeOperations(List<DataSetOperation> list)
    {
+      log.debug("Executing DataSetOperations: " + list.size());
       IDatabaseConnection con = null;
       try
       {
@@ -166,7 +208,9 @@ public abstract class DBUnitSeamTest extends SeamTest
          disableReferentialIntegrity(con);
          for (DataSetOperation op : list)
          {
+            prepareExecution(con, op);
             op.execute(con);
+            afterExecution(con, op);
          }
          enableReferentialIntegrity(con);
       }
@@ -186,11 +230,19 @@ public abstract class DBUnitSeamTest extends SeamTest
       }
    }
 
-   protected class DataSetOperation
+   protected static class DataSetOperation
    {
+
+      private LogProvider log = Logging.getLogProvider(DataSetOperation.class);
+
       String dataSetLocation;
       ReplacementDataSet dataSet;
       DatabaseOperation operation;
+
+      protected DataSetOperation()
+      {
+         // Support subclassing
+      }
 
       /**
        * Defaults to <tt>DatabaseOperation.CLEAN_INSERT</tt>
@@ -204,15 +256,31 @@ public abstract class DBUnitSeamTest extends SeamTest
 
       /**
        * Defaults to <tt>DatabaseOperation.CLEAN_INSERT</tt>
+       *
+       * @param dataSetLocation location of DBUnit dataset
+       * @param dtdLocation optional (can be null) location of XML file DTD on classpath
        */
       public DataSetOperation(String dataSetLocation, String dtdLocation)
       {
          this(dataSetLocation, dtdLocation, DatabaseOperation.CLEAN_INSERT);
       }
 
+      /**
+       * @param dataSetLocation location of DBUnit dataset
+       * @param operation operation to execute
+       */
+      public DataSetOperation(String dataSetLocation, DatabaseOperation operation)
+      {
+         this(dataSetLocation, null, operation);
+      }
+
       public DataSetOperation(String dataSetLocation, String dtdLocation, DatabaseOperation operation)
       {
-         log.debug(">>> Preparing dataset: " + dataSetLocation + " <<<");
+         if (dataSetLocation == null)
+         {
+            this.operation = operation;
+            return;
+         }
 
          // Load the base dataset file
          InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);
@@ -236,19 +304,8 @@ public abstract class DBUnitSeamTest extends SeamTest
          {
             throw new RuntimeException(ex);
          }
-         this.dataSet.addReplacementObject("[NULL]", null);
-         if (binaryDir != null)
-         {
-            this.dataSet.addReplacementSubstring("[BINARY_DIR]", getBinaryDirFullpath().toString());
-         }
          this.operation = operation;
          this.dataSetLocation = dataSetLocation;
-      }
-
-
-      public DataSetOperation(String dataSetLocation, DatabaseOperation operation)
-      {
-         this(dataSetLocation, null, operation);
       }
 
       public IDataSet getDataSet()
@@ -261,10 +318,29 @@ public abstract class DBUnitSeamTest extends SeamTest
          return operation;
       }
 
+      public void prepare(DBUnitSeamTest test)
+      {
+         if (dataSet == null) return;
+         log.debug("Preparing DataSetOperation replacement values");
+
+         if (test.isReplaceNull())
+         {
+            log.debug("Replacing [NULL] placeholder with real null value");
+            dataSet.addReplacementObject("[NULL]", null);
+         }
+         if (test.getBinaryDir() != null)
+         {
+            log.debug("Replacing [BINARY_DIR] placeholder with path: " + test.getBinaryDirFullpath().toString());
+            dataSet.addReplacementSubstring("[BINARY_DIR]", test.getBinaryDirFullpath().toString());
+         }
+      }
+
       public void execute(IDatabaseConnection connection)
       {
+         if (dataSet == null || operation == null) return;
          try
          {
+            log.debug("Executing: " + this);
             this.operation.execute(connection, dataSet);
          }
          catch (Exception ex)
@@ -276,8 +352,7 @@ public abstract class DBUnitSeamTest extends SeamTest
       @Override
       public String toString()
       {
-         // TODO: This is not pretty because DBUnit's DatabaseOperation doesn't implement toString() properly
-         return operation.getClass() + " with dataset: " + dataSetLocation;
+         return getClass().getName() + " with dataset location: " + dataSetLocation;
       }
    }
 
@@ -295,12 +370,12 @@ public abstract class DBUnitSeamTest extends SeamTest
    {
       try
       {
-         if (datasourceJndiName == null)
+         if (getDatasourceJndiName() == null)
          {
             throw new RuntimeException("Please set datasourceJndiName TestNG property");
          }
 
-         DataSource datasource = ((DataSource) getInitialContext().lookup(datasourceJndiName));
+         DataSource datasource = ((DataSource) getInitialContext().lookup(getDatasourceJndiName()));
 
          // Get a JDBC connection from JNDI datasource
          Connection con = datasource.getConnection();
@@ -315,8 +390,6 @@ public abstract class DBUnitSeamTest extends SeamTest
    }
 
    /**
-    * Override this method if you aren't using HSQL DB.
-    * <p/>
     * Execute whatever statement is necessary to either defer or disable foreign
     * key constraint checking on the given database connection, which is used by
     * DBUnit to import datasets.
@@ -343,8 +416,6 @@ public abstract class DBUnitSeamTest extends SeamTest
    }
 
    /**
-    * Override this method if you aren't using HSQL DB.
-    * <p/>
     * Execute whatever statement is necessary to enable integrity constraint checks after
     * dataset operations.
     *
@@ -400,6 +471,28 @@ public abstract class DBUnitSeamTest extends SeamTest
    }
 
    /**
+    * Callback for each operation before DBUnit executes the operation, useful if extra preparation of
+    * data/tables is necessary, e.g. additional SQL commands on a per-operation (per table?) granularity
+    * on the given database connection.
+    *
+    * @param con       A DBUnit connection wrapper
+    * @param operation The operation to be executed, call <tt>getDataSet()</tt> to access the data.
+    */
+   protected void prepareExecution(IDatabaseConnection con, DataSetOperation operation)
+   {
+   }
+
+   /**
+    * Callback for each operation, useful if extra preparation of data/tables is necessary.
+    *
+    * @param con       A DBUnit connection wrapper
+    * @param operation The operation that was executed, call <tt>getDataSet()</tt> to access the data.
+    */
+   protected void afterExecution(IDatabaseConnection con, DataSetOperation operation)
+   {
+   }
+
+   /**
     * Resolves the binary dir location with the help of the classloader, we need the
     * absolute full path of that directory.
     *
@@ -407,11 +500,11 @@ public abstract class DBUnitSeamTest extends SeamTest
     */
    protected URL getBinaryDirFullpath()
    {
-      if (binaryDir == null)
+      if (getBinaryDir() == null)
       {
          throw new RuntimeException("Please set binaryDir TestNG property to location of binary test files");
       }
-      return getResourceURL(binaryDir);
+      return getResourceURL(getBinaryDir());
    }
 
    protected URL getResourceURL(String resource)
@@ -424,13 +517,21 @@ public abstract class DBUnitSeamTest extends SeamTest
       return url;
    }
 
+   /**
+    * Load a file and return it as a <tt>byte[]</tt>. Useful for comparison operations in an actual
+    * unit test, e.g. to compare an imported database record against a known file state.
+    *
+    * @param filename the path of the file on the classpath, relative to configured <tt>binaryDir</tt> base path
+    * @return the file content as bytes
+    * @throws Exception when the file could not be found or read
+    */
    protected byte[] getBinaryFile(String filename) throws Exception
    {
-      if (binaryDir == null)
+      if (getBinaryDir() == null)
       {
          throw new RuntimeException("Please set binaryDir TestNG property to location of binary test files");
       }
-      File file = new File(getResourceURL(binaryDir + "/" + filename).toURI());
+      File file = new File(getResourceURL(getBinaryDir() + "/" + filename).toURI());
       InputStream is = new FileInputStream(file);
 
       // Get the size of the file
