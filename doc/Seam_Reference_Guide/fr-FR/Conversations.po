@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-08-01 18:34+0000\n"
-"PO-Revision-Date: 2009-09-07 00:25+0100\n"
+"PO-Revision-Date: 2009-09-07 20:54+0100\n"
 "Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -744,13 +744,13 @@ msgstr "Message de succès"
 #: Conversations.xml:567
 #, no-c-format
 msgid "It is quite common to display a message to the user indicating success or failure of an action. It is convenient to use a JSF <literal>FacesMessage</literal> for this. Unfortunately, a successful action often requires a browser redirect, and JSF does not propagate faces messages across redirects. This makes it quite difficult to display success messages in plain JSF."
-msgstr ""
+msgstr "Il est assez commun d'afficher un message pour l'utilisateur indiquant le succés ou l'echec d'une action. Il est pratique d'utiliser un <literal>FacesMessage</literal> de JSF pour cela. Malheureusement, une action réussie a besoin souvant d'une redirection du navigateur, et JSF ne peut pas propager un messages faces au travers de redirections. Cela rends les choses un peu plus difficile pour afficher un message de succés en pur JSF. "
 
 #. Tag: para
 #: Conversations.xml:576
 #, no-c-format
 msgid "The built in conversation-scoped Seam component named <literal>facesMessages</literal> solves this problem. (You must have the Seam redirect filter installed.)"
-msgstr ""
+msgstr "Le composant de Seam d'étendue conversation livré dénomé <literal>facesMessages</literal> résoud ce problème. (Vous devez avoir un filtre de redirection de Seam installé.) "
 
 #. Tag: programlisting
 #: Conversations.xml:582
@@ -786,13 +786,13 @@ msgstr ""
 #: Conversations.xml:584
 #, no-c-format
 msgid "Any message added to <literal>facesMessages</literal> is used in the very next render response phase for the current conversation. This even works when there is no long-running conversation since Seam preserves even temporary conversation contexts across redirects."
-msgstr ""
+msgstr "Chaque message ajouté à <literal>facesMessages</literal>  est utilisé dans la phase de réponse immédiatement suivante pour la conversation courante. Cela fonctionne même quand il y  une conversaiton à exécution longue depuis que Seam conserve les contexte de conversation temporaire au travers de redirections. "
 
 #. Tag: para
 #: Conversations.xml:592
 #, no-c-format
 msgid "You can even include JSF EL expressions in a faces message summary:"
-msgstr ""
+msgstr "Vous pouvez même inclure les expressions EL de JSF  dans le label du messages faces: "
 
 #. Tag: programlisting
 #: Conversations.xml:596
@@ -804,7 +804,7 @@ msgstr "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]
 #: Conversations.xml:598
 #, no-c-format
 msgid "You may display the messages in the usual way, for example:"
-msgstr ""
+msgstr "Vous pouvez afficher le message de manière usuelle, par exemple: "
 
 #. Tag: programlisting
 #: Conversations.xml:602
@@ -816,67 +816,67 @@ msgstr "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
 #: Conversations.xml:607
 #, no-c-format
 msgid "Natural conversation ids"
-msgstr ""
+msgstr "Utilisation d'un identifiant de conversation \"explicite\""
 
 #. Tag: para
 #: Conversations.xml:608
 #, no-c-format
 msgid "When working with conversations that deal with persistent objects, it may be desirable to use the natural business key of the object instead of the standard, \"surrogate\" conversation id:"
-msgstr ""
+msgstr "Ordinairement avec les conversation qui travaille avec des objets persistants, il peut être utile d'utiliser une clef métier explicite au lieu de la version standard, identifiant de conversation de \"substitution\":"
 
 #. Tag: emphasis
 #: Conversations.xml:615
 #, no-c-format
 msgid "Easy redirect to existing conversation"
-msgstr ""
+msgstr "Redirection simple vers une conversation existante"
 
 #. Tag: para
 #: Conversations.xml:617
 #, no-c-format
 msgid "It can be useful to redirect to an existing conversation if the user requests the same operation twice. Take this example: <quote> You are on ebay, half way through paying for an item you just won as a Christmas present for your parents. Lets say you're sending it straight to them - you enter your payment details but you can't remember their address. You accidentally reuse the same browser window finding out their address. Now you need to return to the payment for the item. </quote>"
-msgstr ""
+msgstr "Il peut être utile de rediriger vers une conversation existante si l'utilisateur demande la même opération deux fois. Prenons cet exemple: <quote>Vous êtes sur ebay, au milieu de la phase de paiement pour un cadeau de noël pour vos parents que vous avez gagné. Inutile de dire que vous voulez le leur envoyé immédiatement - vous entrez les défailts sur le paiement mais sans pouvoir vous souvenir de leur adresse. Vous réutilisez accidentellement la même fenètre du navigateur pour trouver leur adresse. Maintenant, vous avez besoin de retourner vers le paiement pour ce truc. </quote>"
 
 #. Tag: para
 #: Conversations.xml:630
 #, no-c-format
 msgid "With a natural conversation it's really easy to have the user rejoin the existing conversation, and pick up where they left off - just have them to rejoin the payForItem conversation with the itemId as the conversation id."
-msgstr ""
+msgstr "Avec une conversation explicite, il est vraiment très facile d'avoir un utilisateur qui rejoind une conversation existante, et la reprendra là où il la laissé - tout simplement lui permettre de rejoindre la conversation payForItem avec l'itemId comme identifiant de conversation."
 
 #. Tag: emphasis
 #: Conversations.xml:638
 #, no-c-format
 msgid "User friendly URLs"
-msgstr ""
+msgstr "Utilisation des URLs sympatiques"
 
 #. Tag: para
 #: Conversations.xml:641
 #, no-c-format
 msgid "For me this consists of a navigable hierarchy (I can navigate by editing the url) and a meaningful URL (like this Wiki uses - so don't identify things by random ids). For some applications user friendly URLs are less important, of course."
-msgstr ""
+msgstr "Pour moi cela consiste dans une hierachie navigable (Je peux naviguer en éditant l'URL) et une URL pertinente (comme font les Wiki - donc sans identifier les choses avec des identifiants kabbalistiques). Pour des applications l'utilisation des URLs sympatiques ne sont pas , bien sûr, du tout utile."
 
 #. Tag: para
 #: Conversations.xml:649
 #, no-c-format
 msgid "With a natural conversation, when you are building your hotel booking system (or, of course, whatever your app is) you can generate a URL like <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (of course, whatever parameter <literal>hotel</literal> maps to on your domain model must be unique) and with URLRewrite easily transform this to http://seam-hotels/book/BestWesternAntwerpen."
-msgstr ""
+msgstr "Avec une conversation explicite, quand vous allez construire votre système de réservation d'hotel (ou, bien sûr, quelque soit votre application) vous pouvez générer une URL comme <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (bien sûr, quelque soit le paramètre <literal>hotel</literal> correspondant au modèle de votre domaine doit être unique) et avec une ré-écriture des URLs facilement transformable en http://seam-hotels/book/BestWesternAntwerpen."
 
 #. Tag: para
 #: Conversations.xml:660
 #, no-c-format
 msgid "Much better!"
-msgstr ""
+msgstr "Encore mieux!"
 
 #. Tag: title
 #: Conversations.xml:666
 #, no-c-format
 msgid "Creating a natural conversation"
-msgstr ""
+msgstr "La création d'une conversation explicite"
 
 #. Tag: para
 #: Conversations.xml:667
 #, no-c-format
 msgid "Natural conversations are defined in <literal>pages.xml</literal>:"
-msgstr ""
+msgstr "Les conversations explicites sont définies dans <emphasis>description</emphasis>"
 
 #. Tag: programlisting
 #: Conversations.xml:671
@@ -894,7 +894,7 @@ msgstr ""
 #: Conversations.xml:673
 #, no-c-format
 msgid "The first thing to note from the above definition is that the conversation has a name, in this case <literal>PlaceBid</literal>. This name uniquely identifies this particular named conversation, and is used by the <literal>page</literal> definition to identify a named conversation to participate in."
-msgstr ""
+msgstr "La première chose à noter de la définition ci-dessus est qua la conversation a un nom, dans ce cas  <literal>PlaceBid</literal>. Ce nom identifiant de manière unique cette conversation particulière, et est utilisé par la définition de <literal>page</literal> pour identifier une conversation sus-nommé pour y participer."
 
 #. Tag: para
 #: Conversations.xml:681
@@ -1026,13 +1026,13 @@ msgstr ""
 #: Conversations.xml:753
 #, no-c-format
 msgid "Workspace management is the ability to \"switch\" conversations in a single window. Seam makes workspace management completely transparent at the level of the Java code. To enable workspace management, all you need to do is:"
-msgstr ""
+msgstr "Le gestionnaire de l'espace de travail est capable de \"basculer\" les conversations dans une seule fenètre. Seam rend la gestion des espaces de travail complètement transparente au niveau du code Java. Pour activer le gestionnaire de l'espace de travail, tout ce que vous avez à faire est :"
 
 #. Tag: para
 #: Conversations.xml:762
 #, no-c-format
 msgid "Provide <emphasis>description</emphasis> text for each view id (when using JSF or Seam navigation rules) or page node (when using jPDL pageflows). This description text is displayed to the user by the workspace switchers."
-msgstr ""
+msgstr "Fournir un texte de <emphasis>description</emphasis>pour chaque identifiant de vue (avec l'utilisation de JSF ou des règles de navigation Seam) ou un noeud de page (avec l'utilisation des enchainements de page jPDL). Ce texte descriptif est afficher à l'utilisateur par le commutateur d'espace de travail. "
 
 #. Tag: para
 #: Conversations.xml:770
