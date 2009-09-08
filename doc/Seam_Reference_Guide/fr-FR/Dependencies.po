@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-06-25 15:02+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-09-09 00:25+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,892 +17,927 @@ msgstr ""
 #: Dependencies.xml:5
 #, no-c-format
 msgid "Dependencies"
-msgstr ""
+msgstr "Les dépendances"
 
 #. Tag: title
 #: Dependencies.xml:8
 #, no-c-format
 msgid "JDK Dependencies"
-msgstr ""
+msgstr "Les dépendances du JDK"
 
 #. Tag: para
 #: Dependencies.xml:10
 #, no-c-format
-msgid ""
-"Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses "
-"annotations and other JDK 5.0 features. Seam has been thoroughly tested "
-"using Sun's JDKs. However there are no known issues specific to Seam with "
-"other JDKs."
-msgstr ""
+msgid "Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses annotations and other JDK 5.0 features. Seam has been thoroughly tested using Sun's JDKs. However there are no known issues specific to Seam with other JDKs."
+msgstr "Seam ne fonctionne pas avec le JDK 1.4 et a besoin du JDK 5 ou supérieur car il utilise les annotations et d'autres fonctionnalités du JDK 5.0. Seam a été complètement testé en utilisant les JDK de Sen. Cependant il n'y a pas de bugs connus spécifique à Seam avec d'autres JDKs."
 
 #. Tag: title
 #: Dependencies.xml:18
 #, no-c-format
 msgid "Sun's JDK 6 Considerations"
-msgstr ""
+msgstr "Les considérations sur le JDK6 de Sun"
 
 #. Tag: para
 #: Dependencies.xml:19
 #, no-c-format
-msgid ""
-"Earlier versions of Sun's JDK 6 contained an incompatible version of JAXB "
-"and required overriding it using the \"endorsed\" directory. Sun's JDK6 "
-"Update 4 release upgraded to JAXB 2.1 and removed this requirement. When "
-"building, testing, or executing be sure to use this version or higher."
-msgstr ""
+msgid "Earlier versions of Sun's JDK 6 contained an incompatible version of JAXB and required overriding it using the \"endorsed\" directory. Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and removed this requirement. When building, testing, or executing be sure to use this version or higher."
+msgstr "Les premières versions du JDK 6 de Sun contenait une version incompatible de JAXB et nécéssitait son remplacement en utilisant le dossier  \"endorsed\". Le JDK 6 de Sun Update 4 fourni une version à jours de JAXB 2.1 et remplace cette contrainte. Pour la compilation, le test ou l'exécution soyez sur d'utiliser cette version ou une suppérieure."
 
 #. Tag: para
 #: Dependencies.xml:27
 #, no-c-format
-msgid ""
-"Seam used JBoss Embedded in its unit and integration testing. This has an "
-"additional requirement when using JDK 6. In order to run JBoss Embedded with "
-"JDK 6 you need to set the following JVM argument: <programlisting>-Dsun.lang."
-"ClassLoader.allowArraySyntax=true</programlisting> Seam's internal build "
-"system is setting this by default when it executes Seam's test suite. "
-"However if you are also using JBoss Embedded for your testing you will need "
-"to set this value."
-msgstr ""
+msgid "Seam used JBoss Embedded in its unit and integration testing. This has an additional requirement when using JDK 6. In order to run JBoss Embedded with JDK 6 you need to set the following JVM argument: <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting> Seam's internal build system is setting this by default when it executes Seam's test suite. However if you are also using JBoss Embedded for your testing you will need to set this value."
+msgstr "Seam utilise JBoss Embedded dans ses tests unitaires et d'intégration. Ceci est un prérequis addictionnel avec l'utilisation de JDK 6. Pour exécuter le JBoss Embedded avec le JDK 6, vous allez avoir besoin de définir les arguments de la JVM suivant <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting> le système de compilation interne de Seam le défini par défaut quand il exécute la suite de tests de Seam. Cependant, si vous utilisez aussi  JBoss Embedded pour vos tests vous allez avoir besoin de définir cette valeur."
 
 #. Tag: title
 #: Dependencies.xml:42
 #, no-c-format
 msgid "Project Dependencies"
-msgstr ""
+msgstr "Les dépendans de projet"
 
 #. Tag: para
 #: Dependencies.xml:44
 #, no-c-format
-msgid ""
-"This section both lists the compile-time and runtime dependencies for Seam. "
-"Where the type is listed as <literal>ear</literal>, the library should be "
-"included in the /lib directory of your application's ear file. Where the "
-"type is listed as <literal>war</literal>, the library should be placed in "
-"the <literal>/WEB-INF/lib</literal> directory of your application's war "
-"file. The scope of the dependency is either all, runtime or provided (by "
-"JBoss AS 4.2 or 5.0)."
-msgstr ""
+msgid "This section both lists the compile-time and runtime dependencies for Seam. Where the type is listed as <literal>ear</literal>, the library should be included in the /lib directory of your application's ear file. Where the type is listed as <literal>war</literal>, the library should be placed in the <literal>/WEB-INF/lib</literal> directory of your application's war file. The scope of the dependency is either all, runtime or provided (by JBoss AS 4.2 or 5.0)."
+msgstr "Cette section liste à al fois les dépendances au moment de la compilation et de l'exécution de Seam. Quand le type est listé comme <literal>ear</literal>, la bibliothèque devrait être incluse dans le dossier /lib de votre fichier ear de votre application. Quand le type est listé comme <literal>war</literal>, la bibliothèque devrait être placée dans le dossier <literal>/WEB-INF/lib</literal> de votre fichier war de votre application. L'étendue de la dépendance est soit tout, à l'éxécution, ou fourni (par JBoss AS 4.2 ou 5.0)."
 
 #. Tag: para
 #: Dependencies.xml:54
 #, no-c-format
-msgid ""
-"Up to date version information and complete dependency information is not "
-"included in the docs, but is provided in the <literal>/dependency-report."
-"txt</literal> which is generated from the Maven POMs stored in <literal>/"
-"build</literal>. You can generate this file by running <literal>ant "
-"dependencyReport</literal>."
-msgstr ""
+msgid "Up to date version information and complete dependency information is not included in the docs, but is provided in the <literal>/dependency-report.txt</literal> which is generated from the Maven POMs stored in <literal>/build</literal>. You can generate this file by running <literal>ant dependencyReport</literal>."
+msgstr "L'information de version à jours et l'information complète des dépendances n'est pas inclus dans la documentation, mais c'est fourni dans le <literal>/dependency-report.txt</literal> qui est généré depuis les POMs de Maven stockés dans <literal>/build</literal>. Vous pouvez générer ce fichier en exécutant <literal>ant dependencyReport</literal>."
 
 #. Tag: title
 #: Dependencies.xml:63
 #, no-c-format
 msgid "Core"
-msgstr ""
+msgstr "Noyau"
 
 #. Tag: para
-#: Dependencies.xml:76 Dependencies.xml:308 Dependencies.xml:392
-#: Dependencies.xml:490 Dependencies.xml:586 Dependencies.xml:652
-#: Dependencies.xml:813 Dependencies.xml:985 Dependencies.xml:1041
-#: Dependencies.xml:1096 Dependencies.xml:1151
+#: Dependencies.xml:76
+#: Dependencies.xml:308
+#: Dependencies.xml:392
+#: Dependencies.xml:490
+#: Dependencies.xml:586
+#: Dependencies.xml:652
+#: Dependencies.xml:813
+#: Dependencies.xml:985
+#: Dependencies.xml:1041
+#: Dependencies.xml:1096
+#: Dependencies.xml:1151
 #, no-c-format
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. Tag: para
-#: Dependencies.xml:79 Dependencies.xml:311 Dependencies.xml:395
-#: Dependencies.xml:496 Dependencies.xml:592 Dependencies.xml:658
-#: Dependencies.xml:816 Dependencies.xml:988 Dependencies.xml:1044
-#: Dependencies.xml:1099 Dependencies.xml:1154
+#: Dependencies.xml:79
+#: Dependencies.xml:311
+#: Dependencies.xml:395
+#: Dependencies.xml:496
+#: Dependencies.xml:592
+#: Dependencies.xml:658
+#: Dependencies.xml:816
+#: Dependencies.xml:988
+#: Dependencies.xml:1044
+#: Dependencies.xml:1099
+#: Dependencies.xml:1154
 #, no-c-format
 msgid "Scope"
-msgstr ""
+msgstr "Etendue"
 
 #. Tag: para
-#: Dependencies.xml:82 Dependencies.xml:314 Dependencies.xml:398
-#: Dependencies.xml:493 Dependencies.xml:589 Dependencies.xml:655
-#: Dependencies.xml:819 Dependencies.xml:991 Dependencies.xml:1047
-#: Dependencies.xml:1102 Dependencies.xml:1157
+#: Dependencies.xml:82
+#: Dependencies.xml:314
+#: Dependencies.xml:398
+#: Dependencies.xml:493
+#: Dependencies.xml:589
+#: Dependencies.xml:655
+#: Dependencies.xml:819
+#: Dependencies.xml:991
+#: Dependencies.xml:1047
+#: Dependencies.xml:1102
+#: Dependencies.xml:1157
 #, no-c-format
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #. Tag: para
-#: Dependencies.xml:85 Dependencies.xml:317 Dependencies.xml:401
-#: Dependencies.xml:499 Dependencies.xml:595 Dependencies.xml:661
-#: Dependencies.xml:822 Dependencies.xml:994 Dependencies.xml:1050
-#: Dependencies.xml:1105 Dependencies.xml:1160
+#: Dependencies.xml:85
+#: Dependencies.xml:317
+#: Dependencies.xml:401
+#: Dependencies.xml:499
+#: Dependencies.xml:595
+#: Dependencies.xml:661
+#: Dependencies.xml:822
+#: Dependencies.xml:994
+#: Dependencies.xml:1050
+#: Dependencies.xml:1105
+#: Dependencies.xml:1160
 #, no-c-format
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #. Tag: literal
 #: Dependencies.xml:94
 #, no-c-format
 msgid "jboss-seam.jar"
-msgstr ""
+msgstr "jboss-seam.jar"
 
 #. Tag: para
-#: Dependencies.xml:97 Dependencies.xml:329
+#: Dependencies.xml:97
+#: Dependencies.xml:329
 #, no-c-format
 msgid "<para>all</para>"
-msgstr ""
+msgstr "<para>all</para>"
 
 #. Tag: para
-#: Dependencies.xml:100 Dependencies.xml:280 Dependencies.xml:332
-#: Dependencies.xml:416 Dependencies.xml:431 Dependencies.xml:837
-#: Dependencies.xml:852 Dependencies.xml:867 Dependencies.xml:882
-#: Dependencies.xml:897 Dependencies.xml:912 Dependencies.xml:927
-#: Dependencies.xml:942 Dependencies.xml:957 Dependencies.xml:1009
-#: Dependencies.xml:1119 Dependencies.xml:1174
+#: Dependencies.xml:100
+#: Dependencies.xml:280
+#: Dependencies.xml:332
+#: Dependencies.xml:416
+#: Dependencies.xml:431
+#: Dependencies.xml:837
+#: Dependencies.xml:852
+#: Dependencies.xml:867
+#: Dependencies.xml:882
+#: Dependencies.xml:897
+#: Dependencies.xml:912
+#: Dependencies.xml:927
+#: Dependencies.xml:942
+#: Dependencies.xml:957
+#: Dependencies.xml:1009
+#: Dependencies.xml:1119
+#: Dependencies.xml:1174
 #, no-c-format
 msgid "<para>ear</para>"
-msgstr ""
+msgstr "<para>ear</para>"
 
 #. Tag: para
 #: Dependencies.xml:103
 #, no-c-format
 msgid "The core Seam library, always required."
-msgstr ""
+msgstr "La bibliothèque du noyau de Seam, toujours requise."
 
 #. Tag: literal
 #: Dependencies.xml:109
 #, no-c-format
 msgid "jboss-seam-debug.jar"
-msgstr ""
+msgstr "jboss-seam-debug.jar"
 
 #. Tag: para
-#: Dependencies.xml:112 Dependencies.xml:127 Dependencies.xml:142
-#: Dependencies.xml:157 Dependencies.xml:172 Dependencies.xml:187
-#: Dependencies.xml:202 Dependencies.xml:247 Dependencies.xml:262
-#: Dependencies.xml:277 Dependencies.xml:347 Dependencies.xml:362
-#: Dependencies.xml:413 Dependencies.xml:428 Dependencies.xml:460
-#: Dependencies.xml:511 Dependencies.xml:526 Dependencies.xml:541
-#: Dependencies.xml:556 Dependencies.xml:607 Dependencies.xml:622
-#: Dependencies.xml:673 Dependencies.xml:688 Dependencies.xml:703
-#: Dependencies.xml:718 Dependencies.xml:733 Dependencies.xml:748
-#: Dependencies.xml:763 Dependencies.xml:778 Dependencies.xml:834
-#: Dependencies.xml:849 Dependencies.xml:864 Dependencies.xml:879
-#: Dependencies.xml:894 Dependencies.xml:909 Dependencies.xml:924
-#: Dependencies.xml:939 Dependencies.xml:954 Dependencies.xml:1006
-#: Dependencies.xml:1061 Dependencies.xml:1116 Dependencies.xml:1171
+#: Dependencies.xml:112
+#: Dependencies.xml:127
+#: Dependencies.xml:142
+#: Dependencies.xml:157
+#: Dependencies.xml:172
+#: Dependencies.xml:187
+#: Dependencies.xml:202
+#: Dependencies.xml:247
+#: Dependencies.xml:262
+#: Dependencies.xml:277
+#: Dependencies.xml:347
+#: Dependencies.xml:362
+#: Dependencies.xml:413
+#: Dependencies.xml:428
+#: Dependencies.xml:460
+#: Dependencies.xml:511
+#: Dependencies.xml:526
+#: Dependencies.xml:541
+#: Dependencies.xml:556
+#: Dependencies.xml:607
+#: Dependencies.xml:622
+#: Dependencies.xml:673
+#: Dependencies.xml:688
+#: Dependencies.xml:703
+#: Dependencies.xml:718
+#: Dependencies.xml:733
+#: Dependencies.xml:748
+#: Dependencies.xml:763
+#: Dependencies.xml:778
+#: Dependencies.xml:834
+#: Dependencies.xml:849
+#: Dependencies.xml:864
+#: Dependencies.xml:879
+#: Dependencies.xml:894
+#: Dependencies.xml:909
+#: Dependencies.xml:924
+#: Dependencies.xml:939
+#: Dependencies.xml:954
+#: Dependencies.xml:1006
+#: Dependencies.xml:1061
+#: Dependencies.xml:1116
+#: Dependencies.xml:1171
 #, no-c-format
 msgid "runtime"
-msgstr ""
+msgstr "exécution"
 
 #. Tag: para
-#: Dependencies.xml:115 Dependencies.xml:130 Dependencies.xml:145
-#: Dependencies.xml:160 Dependencies.xml:175 Dependencies.xml:190
-#: Dependencies.xml:205 Dependencies.xml:250 Dependencies.xml:265
-#: Dependencies.xml:350 Dependencies.xml:365 Dependencies.xml:463
-#: Dependencies.xml:514 Dependencies.xml:529 Dependencies.xml:544
-#: Dependencies.xml:559 Dependencies.xml:610 Dependencies.xml:625
-#: Dependencies.xml:676 Dependencies.xml:691 Dependencies.xml:706
-#: Dependencies.xml:721 Dependencies.xml:736 Dependencies.xml:751
-#: Dependencies.xml:766 Dependencies.xml:781 Dependencies.xml:1064
+#: Dependencies.xml:115
+#: Dependencies.xml:130
+#: Dependencies.xml:145
+#: Dependencies.xml:160
+#: Dependencies.xml:175
+#: Dependencies.xml:190
+#: Dependencies.xml:205
+#: Dependencies.xml:250
+#: Dependencies.xml:265
+#: Dependencies.xml:350
+#: Dependencies.xml:365
+#: Dependencies.xml:463
+#: Dependencies.xml:514
+#: Dependencies.xml:529
+#: Dependencies.xml:544
+#: Dependencies.xml:559
+#: Dependencies.xml:610
+#: Dependencies.xml:625
+#: Dependencies.xml:676
+#: Dependencies.xml:691
+#: Dependencies.xml:706
+#: Dependencies.xml:721
+#: Dependencies.xml:736
+#: Dependencies.xml:751
+#: Dependencies.xml:766
+#: Dependencies.xml:781
+#: Dependencies.xml:1064
 #, no-c-format
 msgid "<para>war</para>"
-msgstr ""
+msgstr "<para>war</para>"
 
 #. Tag: para
 #: Dependencies.xml:118
 #, no-c-format
 msgid "Include during development when enabling Seam's debug feature"
-msgstr ""
+msgstr "Inclue pendant le développement avec l'activation de la fonctionnalité de débogage de Seam"
 
 #. Tag: literal
 #: Dependencies.xml:124
 #, no-c-format
 msgid "jboss-seam-ioc.jar"
-msgstr ""
+msgstr "jboss-seam-ioc.jar"
 
 #. Tag: para
 #: Dependencies.xml:133
 #, no-c-format
 msgid "Required when using Seam with Spring"
-msgstr ""
+msgstr "Requise avec l'utilisation de Seam avec Spring"
 
 #. Tag: literal
-#: Dependencies.xml:139 Dependencies.xml:553
+#: Dependencies.xml:139
+#: Dependencies.xml:553
 #, no-c-format
 msgid "jboss-seam-pdf.jar"
-msgstr ""
+msgstr "jboss-seam-pdf.jar"
 
 #. Tag: para
 #: Dependencies.xml:148
 #, no-c-format
 msgid "Required when using Seam's PDF features"
-msgstr ""
+msgstr "Requise avec la fonctionnalité PDF de Seam"
 
 #. Tag: literal
-#: Dependencies.xml:154 Dependencies.xml:619
+#: Dependencies.xml:154
+#: Dependencies.xml:619
 #, no-c-format
 msgid "jboss-seam-excel.jar"
-msgstr ""
+msgstr "jboss-seam-excel.jar"
 
 #. Tag: para
 #: Dependencies.xml:163
 #, no-c-format
-msgid ""
-"Required when using Seam's <trademark class=\"registered\">Microsoft</"
-"trademark> <trademark class=\"registered\">Excel</trademark> features"
-msgstr ""
+msgid "Required when using Seam's <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> features"
+msgstr "Requise avec l'utilisation de la fonctionnalité <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> de Seam"
 
 #. Tag: literal
-#: Dependencies.xml:169 Dependencies.xml:775
+#: Dependencies.xml:169
+#: Dependencies.xml:775
 #, no-c-format
 msgid "jboss-seam-rss.jar"
-msgstr ""
+msgstr "jboss-seam-rss.jar"
 
 #. Tag: para
 #: Dependencies.xml:178
 #, no-c-format
 msgid "Required when using Seam's RSS generation features"
-msgstr ""
+msgstr "Requise avec l'utilisation de la fonctionnalité de génération RSS de Seam"
 
 #. Tag: literal
 #: Dependencies.xml:184
 #, no-c-format
 msgid "jboss-seam-remoting.jar"
-msgstr ""
+msgstr "jboss-seam-remoting.jar"
 
 #. Tag: para
 #: Dependencies.xml:193
 #, no-c-format
 msgid "Required when using Seam Remoting"
-msgstr ""
+msgstr "Requise avec l'utilisation de Seam Remoting"
 
 #. Tag: literal
 #: Dependencies.xml:199
 #, no-c-format
 msgid "jboss-seam-ui.jar"
-msgstr ""
+msgstr "jboss-seam-ui.jar"
 
 #. Tag: para
 #: Dependencies.xml:208
 #, no-c-format
 msgid "Required to use the Seam JSF controls"
-msgstr ""
+msgstr "Requise avec l'utilisation des controles JSF de Seam "
 
 #. Tag: literal
 #: Dependencies.xml:214
 #, no-c-format
 msgid "jsf-api.jar"
-msgstr ""
+msgstr "jsf-api.jar"
 
 #. Tag: para
-#: Dependencies.xml:217 Dependencies.xml:232
+#: Dependencies.xml:217
+#: Dependencies.xml:232
 #, no-c-format
 msgid "provided"
-msgstr ""
+msgstr "fournie"
 
 #. Tag: para
 #: Dependencies.xml:223
 #, no-c-format
 msgid "JSF API"
-msgstr ""
+msgstr "Les API de JSF"
 
 #. Tag: literal
 #: Dependencies.xml:229
 #, no-c-format
 msgid "jsf-impl.jar"
-msgstr ""
+msgstr "jsf-impl.jar"
 
 #. Tag: para
 #: Dependencies.xml:238
 #, no-c-format
 msgid "JSF Reference Implementation"
-msgstr ""
+msgstr "L'implémentation de référence de JSF"
 
 #. Tag: literal
 #: Dependencies.xml:244
 #, no-c-format
 msgid "jsf-facelets.jar"
-msgstr ""
+msgstr "jsf-facelets.jar"
 
 #. Tag: para
 #: Dependencies.xml:253
 #, no-c-format
 msgid "Facelets"
-msgstr ""
+msgstr "Les facelets"
 
 #. Tag: literal
 #: Dependencies.xml:259
 #, no-c-format
 msgid "urlrewrite.jar"
-msgstr ""
+msgstr "urlrewrite.jar"
 
 #. Tag: para
 #: Dependencies.xml:268
 #, no-c-format
 msgid "URL Rewrite library"
-msgstr ""
+msgstr "la bibliothèque de réécriture des URLs"
 
 #. Tag: literal
 #: Dependencies.xml:274
 #, no-c-format
 msgid "quartz.jar"
-msgstr ""
+msgstr "quartz.jar"
 
 #. Tag: para
 #: Dependencies.xml:283
 #, no-c-format
 msgid "Required when you wish to use Quartz with Seam's asynchronous features"
-msgstr ""
+msgstr "Requise quand vous voules utiliser Quartz avec la fonctionnalité assynchrone de Seam"
 
 #. Tag: title
 #: Dependencies.xml:294
 #, no-c-format
 msgid "RichFaces"
-msgstr ""
+msgstr "Les RichFaces"
 
 #. Tag: title
 #: Dependencies.xml:297
 #, no-c-format
 msgid "RichFaces dependencies"
-msgstr ""
+msgstr "Les dépendances de RichFaces"
 
 #. Tag: literal
 #: Dependencies.xml:326
 #, no-c-format
 msgid "richfaces-api.jar"
-msgstr ""
+msgstr "richfaces-api.jar"
 
 #. Tag: para
 #: Dependencies.xml:335
 #, no-c-format
-msgid ""
-"Required to use RichFaces. Provides API classes that you may wish to use "
-"from your application e.g. to create a tree"
-msgstr ""
+msgid "Required to use RichFaces. Provides API classes that you may wish to use from your application e.g. to create a tree"
+msgstr "Requise pour utiliser les RichFaces. Fourni les classes API que vous pouvez vouloir utiliser depuis votre application, par exemple, pour créer un arbre"
 
 #. Tag: literal
 #: Dependencies.xml:344
 #, no-c-format
 msgid "richfaces-impl.jar"
-msgstr ""
+msgstr "richfaces-impl.jar"
 
 #. Tag: para
 #: Dependencies.xml:353
 #, no-c-format
 msgid "Required to use RichFaces."
-msgstr ""
+msgstr "Requise pour utiliser les RichFaces."
 
 #. Tag: literal
 #: Dependencies.xml:359
 #, no-c-format
 msgid "richfaces-ui.jar"
-msgstr ""
+msgstr "richfaces-ui.jar"
 
 #. Tag: para
 #: Dependencies.xml:368
 #, no-c-format
 msgid "Required to use RichFaces. Provides all the UI components."
-msgstr ""
+msgstr "Requise pour utiliser les RichFaces. Fourni tous les composants UI."
 
 #. Tag: title
 #: Dependencies.xml:378
 #, no-c-format
 msgid "<title>Seam Mail</title>"
-msgstr ""
+msgstr "<title>Seam Mail</title>"
 
 #. Tag: title
 #: Dependencies.xml:381
 #, no-c-format
 msgid "Seam Mail Dependencies"
-msgstr ""
+msgstr "Les dépendances de Seam Mail"
 
 #. Tag: literal
 #: Dependencies.xml:410
 #, no-c-format
 msgid "activation.jar"
-msgstr ""
+msgstr "activation.jar"
 
 #. Tag: para
 #: Dependencies.xml:419
 #, no-c-format
 msgid "Required for attachment support"
-msgstr ""
+msgstr "Requise pour le support des pièces jointes"
 
 #. Tag: literal
 #: Dependencies.xml:425
 #, no-c-format
 msgid "mail.jar"
-msgstr ""
+msgstr "mail.jar"
 
 #. Tag: para
 #: Dependencies.xml:434
 #, no-c-format
 msgid "Required for outgoing mail support"
-msgstr ""
+msgstr "Requise pour le support de l'émission des emails"
 
 #. Tag: literal
 #: Dependencies.xml:440
 #, no-c-format
 msgid "mail-ra.jar"
-msgstr ""
+msgstr "mail-ra.jar"
 
 #. Tag: para
 #: Dependencies.xml:443
 #, no-c-format
 msgid "compile only"
-msgstr ""
+msgstr "seulement à la compilation"
 
 #. Tag: para
 #: Dependencies.xml:449
 #, no-c-format
 msgid "Required for incoming mail support"
-msgstr ""
+msgstr "Requise pour le support de la réception des emails"
 
 #. Tag: para
 #: Dependencies.xml:450
 #, no-c-format
 msgid "mail-ra.rar should be deployed to the application server at runtime"
-msgstr ""
+msgstr "mail-ra.rar devrait être déployé sur le serveur d'application à l'exécution"
 
 #. Tag: literal
 #: Dependencies.xml:457
 #, no-c-format
 msgid "jboss-seam-mail.jar"
-msgstr ""
+msgstr "jboss-seam-mail.jar"
 
 #. Tag: para
 #: Dependencies.xml:466
 #, no-c-format
 msgid "<para>Seam Mail</para>"
-msgstr ""
+msgstr "<para>Seam Mail</para>"
 
 #. Tag: title
 #: Dependencies.xml:476
 #, no-c-format
 msgid "Seam PDF"
-msgstr ""
+msgstr "Seam PDF"
 
 #. Tag: title
 #: Dependencies.xml:479
 #, no-c-format
 msgid "Seam PDF Dependencies"
-msgstr ""
+msgstr "Les dépendances de Seam PDF"
 
 #. Tag: literal
 #: Dependencies.xml:508
 #, no-c-format
 msgid "itext.jar"
-msgstr ""
+msgstr "itext.jar"
 
 #. Tag: para
 #: Dependencies.xml:517
 #, no-c-format
 msgid "PDF Library"
-msgstr ""
+msgstr "La bibliothèque de PDF"
 
 #. Tag: literal
 #: Dependencies.xml:523
 #, no-c-format
 msgid "jfreechart.jar"
-msgstr ""
+msgstr "jfreechart.jar"
 
 #. Tag: para
 #: Dependencies.xml:532
 #, no-c-format
 msgid "Charting library"
-msgstr ""
+msgstr "La bibliothèque de diagramme"
 
 #. Tag: literal
 #: Dependencies.xml:538
 #, no-c-format
 msgid "jcommon.jar"
-msgstr ""
+msgstr "jcommon.jar"
 
 #. Tag: para
 #: Dependencies.xml:547
 #, no-c-format
 msgid "Required by JFreeChart"
-msgstr ""
+msgstr "Requise par JFreeChart"
 
 #. Tag: para
 #: Dependencies.xml:562
 #, no-c-format
 msgid "Seam PDF core library"
-msgstr ""
+msgstr "La bilbiothèque du noyau de Seam PDF"
 
 #. Tag: title
 #: Dependencies.xml:572
 #, no-c-format
-msgid ""
-"Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class="
-"\"registered\">Excel</trademark>"
-msgstr ""
+msgid "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark>"
+msgstr "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark>"
 
 #. Tag: title
 #: Dependencies.xml:575
 #, no-c-format
-msgid ""
-"Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class="
-"\"registered\">Excel</trademark> Dependencies"
-msgstr ""
+msgid "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> Dependencies"
+msgstr "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> Dependencies"
 
 #. Tag: literal
 #: Dependencies.xml:604
 #, no-c-format
 msgid "jxl.jar"
-msgstr ""
+msgstr "jxl.jar"
 
 #. Tag: para
 #: Dependencies.xml:613
 #, no-c-format
 msgid "JExcelAPI library"
-msgstr ""
+msgstr "La bibliothèque de JExcelAPI"
 
 #. Tag: para
 #: Dependencies.xml:628
 #, no-c-format
-msgid ""
-"Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class="
-"\"registered\">Excel</trademark> core library"
-msgstr ""
+msgid "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> core library"
+msgstr "Seam <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> core library"
 
 #. Tag: title
 #: Dependencies.xml:638
 #, no-c-format
 msgid "Seam RSS support"
-msgstr ""
+msgstr "Le support des RSS de Seam"
 
 #. Tag: title
 #: Dependencies.xml:641
 #, no-c-format
 msgid "Seam RSS Dependencies"
-msgstr ""
+msgstr "Les dépendances des RSS de Seam"
 
 #. Tag: literal
 #: Dependencies.xml:670
 #, no-c-format
 msgid "yarfraw.jar"
-msgstr ""
+msgstr "yarfraw.jar"
 
 #. Tag: para
 #: Dependencies.xml:679
 #, no-c-format
 msgid "YARFRAW RSS library"
-msgstr ""
+msgstr "La bibliothèque de YARFRAW RSS "
 
 #. Tag: literal
 #: Dependencies.xml:685
 #, no-c-format
 msgid "JAXB"
-msgstr ""
+msgstr "JAXB"
 
 #. Tag: para
 #: Dependencies.xml:694
 #, no-c-format
 msgid "JAXB XML parsing libraries"
-msgstr ""
+msgstr "Les bibliothèques d'analyse JAXB XML"
 
 #. Tag: literal
 #: Dependencies.xml:700
 #, no-c-format
 msgid "http-client.jar"
-msgstr ""
+msgstr "http-client.jar"
 
 #. Tag: para
 #: Dependencies.xml:709
 #, no-c-format
 msgid "Apache HTTP Client libraies"
-msgstr ""
+msgstr "Les bibliothèques de Apache HTTP Client"
 
 #. Tag: literal
 #: Dependencies.xml:715
 #, no-c-format
 msgid "commons-io"
-msgstr ""
+msgstr "commons-io"
 
 #. Tag: para
 #: Dependencies.xml:724
 #, no-c-format
 msgid "Apache commons IO library"
-msgstr ""
+msgstr "La bibliothèque de Apache commons IO "
 
 #. Tag: literal
 #: Dependencies.xml:730
 #, no-c-format
 msgid "commons-lang"
-msgstr ""
+msgstr "commons-lang"
 
 #. Tag: para
 #: Dependencies.xml:739
 #, no-c-format
 msgid "Apache commons lang library"
-msgstr ""
+msgstr "La bibliothèque de Apache commons lang"
 
 #. Tag: literal
 #: Dependencies.xml:745
 #, no-c-format
 msgid "commons-codec"
-msgstr ""
+msgstr "commons-codec"
 
 #. Tag: para
 #: Dependencies.xml:754
 #, no-c-format
 msgid "Apache commons codec library"
-msgstr ""
+msgstr "La bibliothèque de Apache commons codec "
 
 #. Tag: literal
 #: Dependencies.xml:760
 #, no-c-format
 msgid "commons-collections"
-msgstr ""
+msgstr "commons-collections"
 
 #. Tag: para
 #: Dependencies.xml:769
 #, no-c-format
 msgid "Apache commons collections library"
-msgstr ""
+msgstr "La bibliothèque de Apache commons collections"
 
 #. Tag: para
 #: Dependencies.xml:784
 #, no-c-format
 msgid "Seam RSS core library"
-msgstr ""
+msgstr "La bibliothèque du noyau de RSS de Seam RSS"
 
 #. Tag: title
 #: Dependencies.xml:795
 #, no-c-format
 msgid "JBoss Rules"
-msgstr ""
+msgstr "JBoss Rules"
 
 #. Tag: para
 #: Dependencies.xml:797
 #, no-c-format
-msgid ""
-"The JBoss Rules libraries can be found in the <literal>drools/lib</literal> "
-"directory in Seam."
-msgstr ""
+msgid "The JBoss Rules libraries can be found in the <literal>drools/lib</literal> directory in Seam."
+msgstr "Les bibliothèques de JBoss Rules peuvent être trouvées dans le dossier <literal>drools/lib</literal> dans Seam."
 
 #. Tag: title
 #: Dependencies.xml:802
 #, no-c-format
 msgid "JBoss Rules Dependencies"
-msgstr ""
+msgstr "Les dépendances de JBoss Rules"
 
 #. Tag: literal
 #: Dependencies.xml:831
 #, no-c-format
 msgid "antlr-runtime.jar"
-msgstr ""
+msgstr "antlr-runtime.jar"
 
 #. Tag: para
 #: Dependencies.xml:840
 #, no-c-format
 msgid "ANTLR Runtime Library"
-msgstr ""
+msgstr "ANTLR Runtime Library"
 
 #. Tag: literal
 #: Dependencies.xml:846
 #, no-c-format
 msgid "core.jar"
-msgstr ""
+msgstr "core.jar"
 
 #. Tag: para
 #: Dependencies.xml:855
 #, no-c-format
 msgid "Eclipse JDT"
-msgstr ""
+msgstr "Eclipse JDT"
 
 #. Tag: literal
 #: Dependencies.xml:861
 #, no-c-format
 msgid "drools-api.jar"
-msgstr ""
+msgstr "drools-api.jar"
 
 #. Tag: literal
 #: Dependencies.xml:876
 #, no-c-format
 msgid "drools-compiler.jar"
-msgstr ""
+msgstr "drools-compiler.jar"
 
 #. Tag: literal
 #: Dependencies.xml:891
 #, no-c-format
 msgid "drools-core.jar"
-msgstr ""
+msgstr "drools-core.jar"
 
 #. Tag: literal
 #: Dependencies.xml:906
 #, no-c-format
 msgid "drools-decisiontables.jar"
-msgstr ""
+msgstr "drools-decisiontables.jar"
 
 #. Tag: literal
 #: Dependencies.xml:921
 #, no-c-format
 msgid "drools-templates.jar"
-msgstr ""
+msgstr "drools-templates.jar"
 
 #. Tag: literal
 #: Dependencies.xml:936
 #, no-c-format
 msgid "janino.jar"
-msgstr ""
+msgstr "janino.jar"
 
 #. Tag: literal
 #: Dependencies.xml:951
 #, no-c-format
 msgid "mvel2.jar"
-msgstr ""
+msgstr "mvel2.jar"
 
 #. Tag: title
 #: Dependencies.xml:971
 #, no-c-format
 msgid "JBPM"
-msgstr ""
+msgstr "JBPM"
 
 #. Tag: title
 #: Dependencies.xml:974
 #, no-c-format
 msgid "JBPM dependencies"
-msgstr ""
+msgstr "JBPM dependencies"
 
 #. Tag: literal
 #: Dependencies.xml:1003
 #, no-c-format
 msgid "jbpm-jpdl.jar"
-msgstr ""
+msgstr "jbpm-jpdl.jar"
 
 #. Tag: title
 #: Dependencies.xml:1023
 #, no-c-format
 msgid "<title>GWT</title>"
-msgstr ""
+msgstr "<title>GWT</title>"
 
 #. Tag: para
 #: Dependencies.xml:1025
 #, no-c-format
-msgid ""
-"These libraries are required if you with to use the Google Web Toolkit (GWT) "
-"with your Seam application."
-msgstr ""
+msgid "These libraries are required if you with to use the Google Web Toolkit (GWT) with your Seam application."
+msgstr "Ces bibliothèques sont requises si vous voulez utiliser le  Google Web Toolkit (GWT) avec votre application Seam."
 
 #. Tag: title
 #: Dependencies.xml:1030
 #, no-c-format
 msgid "GWT dependencies"
-msgstr ""
+msgstr "Les dépendances de GWT"
 
 #. Tag: literal
 #: Dependencies.xml:1058
 #, no-c-format
 msgid "gwt-servlet.jar"
-msgstr ""
+msgstr "gwt-servlet.jar"
 
 #. Tag: para
 #: Dependencies.xml:1067
 #, no-c-format
 msgid "The GWT Servlet libs"
-msgstr ""
+msgstr "Les bibliothèques Servlet de GWT "
 
 #. Tag: title
 #: Dependencies.xml:1078
 #, no-c-format
 msgid "Spring"
-msgstr ""
+msgstr "Spring"
 
 #. Tag: para
 #: Dependencies.xml:1080
 #, no-c-format
-msgid ""
-"These libraries are required if you with to use the Spring Framework with "
-"your Seam application."
-msgstr ""
+msgid "These libraries are required if you with to use the Spring Framework with your Seam application."
+msgstr "Ces bibliothèques sont requise si vous voulez utiliser le Framework de Spring avec votre application Seam."
 
 #. Tag: title
 #: Dependencies.xml:1085
 #, no-c-format
 msgid "Spring Framework dependencies"
-msgstr ""
+msgstr "Les dépendances du Framework de Spring"
 
 #. Tag: literal
 #: Dependencies.xml:1113
 #, no-c-format
 msgid "spring.jar"
-msgstr ""
+msgstr "spring.jar"
 
 #. Tag: para
 #: Dependencies.xml:1122
 #, no-c-format
 msgid "The Spring Framework library"
-msgstr ""
+msgstr "La bibliothèque du Framework de Spring"
 
 #. Tag: title
 #: Dependencies.xml:1133
 #, no-c-format
 msgid "Groovy"
-msgstr ""
+msgstr "Groovy"
 
 #. Tag: para
 #: Dependencies.xml:1135
 #, no-c-format
-msgid ""
-"These libraries are required if you with to use Groovy with your Seam "
-"application."
-msgstr ""
+msgid "These libraries are required if you with to use Groovy with your Seam application."
+msgstr "Ces bibliothèques sont requises si vous voulez utiliser Groovy avec votre application Seam."
 
 #. Tag: title
 #: Dependencies.xml:1140
 #, no-c-format
 msgid "Groovy dependencies"
-msgstr ""
+msgstr "Les dépendances de Groovy"
 
 #. Tag: literal
 #: Dependencies.xml:1168
 #, no-c-format
 msgid "groovy-all.jar"
-msgstr ""
+msgstr "groovy-all.jar"
 
 #. Tag: para
 #: Dependencies.xml:1177
 #, no-c-format
 msgid "The Groovy libs"
-msgstr ""
+msgstr "Les bibliothèques de Groovy"
 
 #. Tag: title
 #: Dependencies.xml:1189
 #, no-c-format
 msgid "Dependency Management using Maven"
-msgstr ""
+msgstr "La gestion des dépendances en utilisant Maven"
 
 #. Tag: para
 #: Dependencies.xml:1192
 #, no-c-format
-msgid ""
-"Maven offers support for transitive dependency management and can be used to "
-"manage the dependencies of your Seam project. You can use Maven Ant Tasks to "
-"integrate Maven into your Ant build, or can use Maven to build and deploy "
-"your project."
-msgstr ""
+msgid "Maven offers support for transitive dependency management and can be used to manage the dependencies of your Seam project. You can use Maven Ant Tasks to integrate Maven into your Ant build, or can use Maven to build and deploy your project."
+msgstr "Maven offre le support de la gestion des dépendances de manière transitive et peut être utilisé pour gérer les dépendances de votre projet Seam. Vous pouvez utiliser les tâches Maven Ant pour intégrer Maven dans vos compilations ANt ou vous pouvez utiliser Maven pour compiler et deployer votre projet."
 
 #. Tag: para
 #: Dependencies.xml:1199
 #, no-c-format
-msgid ""
-"We aren't actually going to discuss how to use Maven here, but just run over "
-"some basic POMs you could use."
-msgstr ""
+msgid "We aren't actually going to discuss how to use Maven here, but just run over some basic POMs you could use."
+msgstr "Nous n'allons pas maintenant discuter de comment utiliser Maven ici, mais parcourir juste quelques POMs simples que vous pouvez utiliser."
 
 #. Tag: para
 #: Dependencies.xml:1204
 #, no-c-format
-msgid ""
-"Released versions of Seam are available in <ulink url=\"http://repository."
-"jboss.org/maven2\"> http://repository.jboss.org/maven2</ulink> and nightly "
-"snapshots are available in <ulink url=\"http://snapshots.jboss.org/maven2\"> "
-"http://snapshots.jboss.org/maven2</ulink>."
-msgstr ""
+msgid "Released versions of Seam are available in <ulink url=\"http://repository.jboss.org/maven2\"> http://repository.jboss.org/maven2</ulink> and nightly snapshots are available in <ulink url=\"http://snapshots.jboss.org/maven2\"> http://snapshots.jboss.org/maven2</ulink>."
+msgstr "Les versions d'étapes de Seam sont disponibles sur <ulink url=\"http://repository.jboss.org/maven2\"> http://repository.jboss.org/maven2</ulink> et les instannées courrantes sont disponibles dans <ulink url=\"http://snapshots.jboss.org/maven2\"> http://snapshots.jboss.org/maven2</ulink>."
 
 #. Tag: para
 #: Dependencies.xml:1211
 #, no-c-format
 msgid "All the Seam artifacts are available in Maven:"
-msgstr ""
+msgstr "Tous les artéfactes de Seam sont disponibles dans Maven:"
 
 #. Tag: programlisting
 #: Dependencies.xml:1215
@@ -913,6 +948,10 @@ msgid ""
 "  <artifactId>jboss-seam</artifactId>\n"
 "</dependency>]]>"
 msgstr ""
+"<![CDATA[<dependency>\n"
+"  <groupId>org.jboss.seam</groupId>\n"
+"  <artifactId>jboss-seam</artifactId>\n"
+"</dependency>]]>"
 
 #. Tag: programlisting
 #: Dependencies.xml:1217
@@ -923,6 +962,10 @@ msgid ""
 "  <artifactId>jboss-seam-ui</artifactId>\n"
 "</dependency>]]>"
 msgstr ""
+"<![CDATA[<dependency>\n"
+"  <groupId>org.jboss.seam</groupId>\n"
+"  <artifactId>jboss-seam-ui</artifactId>\n"
+"</dependency>]]>"
 
 #. Tag: programlisting
 #: Dependencies.xml:1219
@@ -933,6 +976,10 @@ msgid ""
 "  <artifactId>jboss-seam-pdf</artifactId>\n"
 "</dependency>]]>"
 msgstr ""
+"<![CDATA[<dependency>\n"
+"  <groupId>org.jboss.seam</groupId>\n"
+"  <artifactId>jboss-seam-pdf</artifactId>\n"
+"</dependency>]]>"
 
 #. Tag: programlisting
 #: Dependencies.xml:1221
@@ -943,9 +990,14 @@ msgid ""
 "  <artifactId>jboss-seam-remoting</artifactId>\n"
 "</dependency>]]>"
 msgstr ""
+"<![CDATA[<dependency>\n"
+"  <groupId>org.jboss.seam</groupId>\n"
+"  <artifactId>jboss-seam-remoting</artifactId>\n"
+"</dependency>]]>"
 
 #. Tag: programlisting
-#: Dependencies.xml:1223 Dependencies.xml:1225
+#: Dependencies.xml:1223
+#: Dependencies.xml:1225
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -953,14 +1005,16 @@ msgid ""
 "  <artifactId>jboss-seam-ioc</artifactId>\n"
 "</dependency>]]>"
 msgstr ""
+"<![CDATA[<dependency>\n"
+"  <groupId>org.jboss.seam</groupId>\n"
+"  <artifactId>jboss-seam-ioc</artifactId>\n"
+"</dependency>]]>"
 
 #. Tag: para
 #: Dependencies.xml:1227
 #, no-c-format
-msgid ""
-"This sample POM will give you Seam, JPA (provided by Hibernate), Hibernate "
-"Validator and Hibernate Search:"
-msgstr ""
+msgid "This sample POM will give you Seam, JPA (provided by Hibernate), Hibernate Validator and Hibernate Search:"
+msgstr "Ce POM d'exemple va vous donner Seam, JPA (fourni par Hibernate), Hibernate Validator et Hibernate Search:"
 
 #. Tag: programlisting
 #: Dependencies.xml:1232
@@ -969,8 +1023,7 @@ msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n"
 "  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache."
-"org/maven-v4_0_0.xsd\">\n"
+"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n"
 "  <modelVersion>4.0.0</modelVersion>\n"
 "  <groupId>org.jboss.seam.example/groupId>\n"
 "  <artifactId>my-project</artifactId>\n"
@@ -1021,3 +1074,57 @@ msgid ""
 "\n"
 "</project>]]>"
 msgstr ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n"
+"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n"
+"  <modelVersion>4.0.0</modelVersion>\n"
+"  <groupId>org.jboss.seam.example/groupId>\n"
+"  <artifactId>my-project</artifactId>\n"
+"  <version>1.0</version>\n"
+"  <name>My Seam Project</name>\n"
+"  <packaging>jar</packaging>\n"
+"  <repositories>\n"
+"    <repository>\n"
+"      <id>repository.jboss.org</id>\n"
+"      <name>JBoss Repository</name>\n"
+"      <url>http://repository.jboss.org/maven2</url>\n"
+"    </repository>\n"
+"  </repositories>\n"
+"\n"
+"  <dependencies>\n"
+"\n"
+"    <dependency>\n"
+"      <groupId>org.hibernate</groupId>\n"
+"      <artifactId>hibernate-validator</artifactId>\n"
+"      <version>3.1.0.GA</version>\n"
+"    </dependency>\n"
+"\n"
+"    <dependency>\n"
+"      <groupId>org.hibernate</groupId>\n"
+"      <artifactId>hibernate-annotations</artifactId>\n"
+"      <version>3.4.0.GA</version>\n"
+"    </dependency>\n"
+"\n"
+"    <dependency>\n"
+"      <groupId>org.hibernate</groupId>\n"
+"      <artifactId>hibernate-entitymanager</artifactId>\n"
+"      <version>3.4.0.GA</version>\n"
+"    </dependency>\n"
+"    \n"
+"    <dependency>\n"
+"        <groupId>org.hibernate</groupId>\n"
+"        <artifactId>hibernate-search</artifactId>\n"
+"        <version>3.1.1.GA</version>\n"
+"    </dependency>\n"
+"\n"
+"    <dependency>\n"
+"      <groupId>org.jboss.seam</groupId>\n"
+"      <artifactId>jboss-seam</artifactId>\n"
+"      <version>2.2.0.GA</version>\n"
+"    </dependency>\n"
+"    \n"
+"  </dependencies>\n"
+"\n"
+"</project>]]>"
+
