@@ -161,13 +161,27 @@
 		<include name="jboss-seam-pdf.jar" if="seam.pdf.lib" />
 	</fileset>
 
-	<!-- Seam  pdf, with required dependencies -->
 	<fileset id="seam.pdf.extra.jar" dir="${lib.dir}">
 		<include name="itext.jar" if="seam.pdf.lib" />
 		<include name="itext-rtf.jar" if="seam.pdf.lib" />
 		<include name="jfreechart.jar" if="seam.pdf.lib" />
 		<include name="jcommon.jar" if="seam.pdf.lib" />
 	</fileset>
+
+
+	<!-- seam flex integration and dependencies-->
+	<fileset id="seam.flex.jar" dir="${lib.dir}">
+		<include name="jboss-seam-flex.jar" if="seam.flex.lib" />
+	</fileset>
+	<fileset id="seam.flex.extra.jar" dir="${lib.dir}">
+		<include name="blazeds-common.jar" if="seam.flex.lib" />
+		<include name="blazeds-core.jar" if="seam.flex.lib" />
+		<include name="blazeds-proxy.jar" if="seam.flex.lib" />
+		<include name="blazeds-remoting.jar" if="seam.flex.lib" />
+		<include name="backport-util-concurrent.jar" if="seam.flex.lib"/>
+		<include name="commons-httpclient.jar" if="seam.flex.lib"/>
+	</fileset>
+
 
 	<!-- Seam  excel, with required dependencies -->
 	<fileset id="seam.excel.jar" dir="${lib.dir}">
@@ -555,6 +569,7 @@
 			<exclude name="jboss-seam-ui.jar" />
 			<exclude name="jboss-seam-mail.jar" />
 			<exclude name="jboss-seam-pdf.jar" />
+                        <!-- <exclude name="jboss-seam-flex.jar" /> -->
 			<exclude name="jboss-seam-excel.jar" />
 			<exclude name="jboss-seam-rss.jar" />
 		</fileset>
@@ -690,6 +705,7 @@
 			<fileset refid="seam.excel.jar" />
 			<fileset refid="seam.rss.jar" />
 			<fileset refid="seam.pdf.jar" />
+			<!-- <fileset refid="seam.flex.jar" /> -->
 			<fileset refid="seam.ui.jar" />
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
@@ -767,6 +783,7 @@
 			<fileset refid="gwt.jar" />
 			<fileset refid="quartz.jar" />
 			<fileset refid="seam.pdf.extra.jar" />
+			<fileset refid="seam.flex.extra.jar" />
 			<fileset refid="spring.jar" />
 			<fileset refid="jcaptcha.jar" />
 			<fileset refid="antlr.jar" />
@@ -775,6 +792,7 @@
 			<fileset refid="seam.wicket.jar" />
 			<fileset refid="seam.resteasy.jar" />
 			<fileset refid="seam.remoting.jar" />
+			<fileset refid="seam.flex.jar" />
 			<fileset refid="seam.ioc-guice.jar" />
 			<fileset refid="el-ri.jar" />
 			<fileset refid="trinidad-api.jar" />
@@ -962,6 +980,7 @@
 			<fileset refid="search.jar" />
 			<fileset refid="richfaces-api.jar" />
 			<fileset refid="seam.pdf.extra.jar" />
+			<fileset refid="seam.flex.extra.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
