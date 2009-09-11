@@ -22,6 +22,7 @@
 	<property name="classes.dir" value="${tmp.dir}" />
 	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
 	<property name="classes.pdf.dir" value="${classes.dir}/pdfclasses" />
+	<property name="classes.flex.dir" value="${classes.dir}/flexclasses" />
 	<property name="classes.excel.dir" value="${classes.dir}/excelclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
@@ -43,6 +44,7 @@
 	<property name="src.core.dir" value="src/main" />
 	<property name="src.ui.dir" value="${ui.dir}/src" />
 	<property name="src.pdf.dir" value="src/pdf" />
+	<property name="src.flex.dir" value="src/flex" />
 	<property name="src.excel.dir" value="src/excel" />
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
@@ -80,6 +82,7 @@
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.src.excel.dir" value="${dist.dir}/src/excel" />
 	<property name="dist.src.pdf.dir" value="${dist.dir}/src/pdf" />
+	<property name="dist.src.flex.dir" value="${dist.dir}/src/flex" />
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
 	<property name="dist.src.rss.dir" value="${dist.dir}/src/rss" />
@@ -175,7 +178,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarexcel,jarrss,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
+	<target name="build" depends="jarcore,jarexcel,jarrss,jarpdf,jarflex,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -244,6 +247,21 @@
 	<target name="jarpdf" depends="compilepdf" description="Build the distribution .jar file for the PDF package">
 		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" pom="${pdf.pom}" srcdir="${src.pdf.dir}" />
 	</target>
+
+	<!-- ########################### FLEX TARGETS ###########################-->
+
+	<target name="initflex" depends="init, jarcore, jarui">
+		<init classesdir="${classes.flex.dir}" srcdir="${src.flex.dir}" modulename="flex" pom="${flex.pom}" />
+	</target>
+
+	<target name="compileflex" depends="initflex, select-compiler">
+		<compile classesdir="${classes.flex.dir}" srcdir="${src.flex.dir}" classpath="compile.flex.path" />
+	</target>
+
+	<target name="jarflex" depends="compileflex" description="Build the distribution .jar file for the FLEX package">
+		<archive classesdir="${classes.flex.dir}" module="jboss-seam-flex" pom="${flex.pom}" srcdir="${src.flex.dir}" />
+	</target>
+
 
 	<!-- ########################### EXCEL TARGETS ###########################-->
 
@@ -589,6 +607,7 @@
 	<target name="copysource">
 		<copysource destdir="${dist.src.core.dir}" srcdir="${src.core.dir}" />
 		<copysource destdir="${dist.src.pdf.dir}" srcdir="${src.pdf.dir}" />
+		<copysource destdir="${dist.src.flex.dir}" srcdir="${src.flex.dir}" />
 		<copysource destdir="${dist.src.rss.dir}" srcdir="${src.rss.dir}" />
 		<copysource destdir="${dist.src.excel.dir}" srcdir="${src.excel.dir}" />
 		<copysource destdir="${dist.src.ioc.dir}" srcdir="${src.ioc.dir}" />
@@ -1166,6 +1185,7 @@
 					<propertyref name="remoting.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
+					<propertyref name="flex.pom" />
 					<propertyref name="excel.pom" />
 					<propertyref name="rss.pom" />
 					<propertyref name="ioc.pom" />
@@ -1189,6 +1209,7 @@
 		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
 		<dependenciesWithSources id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependenciesWithSources id="flex" scope="compile" pom="${flex.pom}" />
 		<dependenciesWithSources id="excel" scope="compile" pom="${excel.pom}" />
 		<dependenciesWithSources id="rss" scope="compile" pom="${rss.pom}" />
 		<dependenciesWithSources id="remoting" scope="compile" pom="${remoting.pom}" />
@@ -1210,6 +1231,7 @@
 		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
 		<dependencies id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependencies id="flex" scope="compile" pom="${flex.pom}" />
 		<dependencies id="excel" scope="compile" pom="${excel.pom}" />
 		<dependencies id="rss" scope="compile" pom="${rss.pom}" />
 		<dependencies id="remoting" scope="compile" pom="${remoting.pom}" />
@@ -1221,6 +1243,7 @@
 			<path refid="compile.ioc.path" />
 			<path refid="compile.mail.path" />
 			<path refid="compile.pdf.path" />
+			<path refid="compile.flex.path" />
 			<path refid="compile.excel.path" />
 			<path refid="compile.rss.path" />
 			<path refid="compile.remoting.path" />
