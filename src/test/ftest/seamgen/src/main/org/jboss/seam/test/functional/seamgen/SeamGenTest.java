@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration;
 import org.jboss.seam.test.functional.seamgen.utils.SeamGenAdapter;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
@@ -172,24 +173,52 @@ public class SeamGenTest
       // load general properties
       ftestProperties.load(new FileInputStream(SEAM_FTEST_PROPERTIES_FILE));
       
-      WORKSPACE = ftestProperties.getProperty("workspace.home");
+      WORKSPACE = getProperty(ftestProperties,"workspace.home");
       
       // container specific
-      CONTAINER = ftestProperties.getProperty("container", "jboss5");
-      CONTAINER_LOCATION = ftestProperties.getProperty(CONTAINER + ".home");
-      DEPLOY_TIMEOUT = Integer.parseInt(ftestProperties.getProperty(CONTAINER + ".deploy.waittime")) * 1000; // miliseconds
-      DELETE_PROJECT = Boolean.valueOf(ftestProperties.getProperty("seamgen.delete.project", "false"));
-      CONTROL_CONTAINER = Boolean.valueOf(ftestProperties.getProperty("seamgen.control.container", "false"));
+      CONTAINER = getProperty(ftestProperties, "container", "jboss5");
+      CONTAINER_LOCATION = getProperty(ftestProperties, CONTAINER + ".home");
+      DEPLOY_TIMEOUT = Integer.parseInt(getProperty(ftestProperties, CONTAINER + ".deploy.waittime")) * 1000; // miliseconds
+      DELETE_PROJECT = Boolean.valueOf(getProperty(ftestProperties, "seamgen.delete.project", "false"));
+      CONTROL_CONTAINER = Boolean.valueOf(getProperty(ftestProperties, "seamgen.control.container", "false"));
       
       // load selenium constants
-      SELENIUM_HOST = ftestProperties.getProperty("selenium.host");
-      SELENIUM_BROWSER = ftestProperties.getProperty("selenium.browser");
-      SELENIUM_BROWSER_URL = ftestProperties.getProperty("selenium.browser.url");
-      SELENIUM_SERVER_PORT = Integer.parseInt(ftestProperties.getProperty("selenium.server.port"));
-      SELENIUM_SPEED = ftestProperties.getProperty("selenium.speed");
-      SELENIUM_TIMEOUT = ftestProperties.getProperty("selenium.timeout");
-      SELENIUM_ICEFACES_WAIT_TIME = Long.valueOf(ftestProperties.getProperty("selenium.icefaces.wait.time", "2000"));
-      SELENIUM_SERVER_ARGS = ftestProperties.getProperty("selenium.server.cmd.args");
+      SELENIUM_HOST = getProperty(ftestProperties, "selenium.host");
+      SELENIUM_BROWSER = getProperty(ftestProperties, "selenium.browser");
+      SELENIUM_BROWSER_URL = getProperty(ftestProperties, "selenium.browser.url");
+      SELENIUM_SERVER_PORT = Integer.parseInt(getProperty(ftestProperties, "selenium.server.port"));
+      SELENIUM_SPEED = getProperty(ftestProperties, "selenium.speed");
+      SELENIUM_TIMEOUT = getProperty(ftestProperties, "selenium.timeout");
+      SELENIUM_ICEFACES_WAIT_TIME = Long.valueOf(getProperty(ftestProperties, "selenium.icefaces.wait.time", "2000"));
+      SELENIUM_SERVER_ARGS = getProperty(ftestProperties, "selenium.server.cmd.args", "");
+   }
+   
+   /**
+    * Gets property from properties in safe manner, property must be present in bundle, 
+    * otherwise test fails.
+    * @param properties Property bundle
+    * @param key Key
+    * @return Value of property or default value
+    */
+   private String getProperty(Properties properties, String key) {
+      return getProperty(properties, key, null);
+   }
+   
+   /**
+    * Gets property from properties in safe manner
+    * @param properties Property bundle
+    * @param key Key
+    * @param defaultValue Default value, if property not found, 
+    * if @{code null}, property must be present in bundle otherwise test fails 
+    * @return Value of property or default value
+    */
+   private String getProperty(Properties properties, String key, String defaultValue) {
+      String value = properties.getProperty(key); 
+      if(value==null && defaultValue==null) {
+         Assert.fail("Property " + key +" is not set");
+      }
+      
+      return (value!=null) ? value : defaultValue;
    }
    
    private void setSeamGenProperties()
