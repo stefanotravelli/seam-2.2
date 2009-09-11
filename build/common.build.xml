@@ -106,6 +106,7 @@
 		<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
 		<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
 		<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
+		<pomfile name="flex.pom" value="${build.dir}/flex.pom.xml" />
 		<pomfile name="excel.pom" value="${build.dir}/excel.pom.xml" />
 		<pomfile name="rss.pom" value="${build.dir}/rss.pom.xml" />
 		<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
@@ -121,23 +122,25 @@
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="flex" pom="${flex.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="excel" pom="${excel.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
-	   <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="runtime" />
+		<copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
+		<copyDependencies id="flex" pom="${flex.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="excel" pom="${excel.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="rss" pom="${rss.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
-	   <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="compile" />
+		<copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="compile" />
 		<property name="copyseamdependenciesdone" value="true" />
 	</target>
 
@@ -149,6 +152,7 @@
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-flex" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-resteasy" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
@@ -190,6 +194,7 @@
 			<deploy pom="${remoting.pom}" jar="${seam.dir}/lib/jboss-seam-remoting.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${resteasy.pom}" jar="${seam.dir}/lib/jboss-seam-resteasy.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${flex.pom}" jar="${seam.dir}/lib/jboss-seam-flex.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${excel.pom}" jar="${seam.dir}/lib/jboss-seam-excel.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${rss.pom}" jar="${seam.dir}/lib/jboss-seam-rss.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
@@ -218,6 +223,7 @@
 	            <propertyref name="remoting.pom" />
 	            <propertyref name="resteasy.pom" />
 	            <propertyref name="pdf.pom" />
+	            <propertyref name="flex.pom" />
 	            <propertyref name="rss.pom" />
 	            <propertyref name="gen.pom" />
 	            <propertyref name="excel.pom" />
@@ -255,14 +261,15 @@
 					<propertyref name="parent.pom" />
 					<propertyref name="ui.pom" />
 					<propertyref name="remoting.pom" />
-           	   <propertyref name="resteasy.pom" />
+           				<propertyref name="resteasy.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
+					<propertyref name="flex.pom" />
 					<propertyref name="excel.pom" />
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
-           	   <propertyref name="wicket.pom" />
+           				<propertyref name="wicket.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
            	</ant>
@@ -295,6 +302,7 @@
 	            <propertyref name="resteasy.pom" />
 	            <propertyref name="gen.pom" />
 	            <propertyref name="pdf.pom" />
+	            <propertyref name="flex.pom" />
 	            <propertyref name="rss.pom" />
 	            <propertyref name="excel.pom" />
 	            <propertyref name="ioc.pom" />
@@ -361,6 +369,7 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="remoting" />
 		<outputDependencyReport module="mail" />
 		<outputDependencyReport module="pdf" />
+		<outputDependencyReport module="flex" />
 		<outputDependencyReport module="excel" />
 		<outputDependencyReport module="rss" />
 		<outputDependencyReport module="ioc" />

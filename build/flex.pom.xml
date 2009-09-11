@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jboss.seam</groupId>
+	<artifactId>jboss-seam-flex</artifactId>
+	<parent>
+		<groupId>org.jboss.seam</groupId>
+		<artifactId>parent</artifactId>
+		<version>@seam.version@</version>
+	</parent>
+  
+    <!-- See parent pom for notes on how to declare dependencies -->
+
+	<dependencies>
+	    <dependency>
+	          <groupId>com.adobe.blazeds</groupId>
+		  <artifactId>blazeds-common</artifactId>
+            </dependency>
+	    <dependency>
+	          <groupId>com.adobe.blazeds</groupId>
+		  <artifactId>blazeds-core</artifactId>
+            </dependency>
+	    <dependency>
+	          <groupId>com.adobe.blazeds</groupId>
+		  <artifactId>blazeds-remoting</artifactId>
+            </dependency>
+	    <dependency>
+	          <groupId>com.adobe.blazeds</groupId>
+		  <artifactId>blazeds-proxy</artifactId>
+            </dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ui</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.facelets</groupId>
+			<artifactId>jsf-facelets</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
+
+</project>
