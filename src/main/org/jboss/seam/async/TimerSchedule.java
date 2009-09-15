@@ -15,7 +15,7 @@ public class TimerSchedule extends Schedule
 {
    private Long intervalDuration;
    
-   Long getIntervalDuration()
+   public Long getIntervalDuration()
    {
       return intervalDuration;
    }
