@@ -21,7 +21,7 @@ import org.jboss.seam.web.AbstractFilter;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.flex.flexFilter")
 @Startup
-@Install(precedence=Install.BUILT_IN)
+@Install(precedence=Install.BUILT_IN, value=false)
 @BypassInterceptors
 @org.jboss.seam.annotations.web.Filter //within={"org.jboss.seam.????"}
 public class FlexFilter 
