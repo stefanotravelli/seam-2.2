@@ -104,4 +104,14 @@ public abstract class SeamSeleniumTest {
         }
         return properties.getProperty(key, "Property not found: " + key);
     }
+
+   public static String getBrowser()
+   {
+      return BROWSER;
+   }
+
+   public static void setBrowser(String browser)
+   {
+      BROWSER = browser;
+   }    
 }
