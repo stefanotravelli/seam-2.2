@@ -269,7 +269,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
   {
     StringBuilder componentSrc = new StringBuilder();
 
-    Class type = null;
+    Set<Class> componentTypes = new HashSet<Class>();
 
     if (component.getType().isSessionBean() &&
         component.getBusinessInterfaces().size() > 0)
@@ -279,12 +279,12 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
          // Use the Local interface
          if (c.isAnnotationPresent(EJB.LOCAL))
          {
-            type = c;
+            componentTypes.add(c);
             break;
          }
       }
 
-      if (type == null)
+      if (componentTypes.isEmpty())
         throw new RuntimeException(String.format(
         "Type cannot be determined for component [%s]. Please ensure that it has a local interface.", component));
     }
@@ -301,25 +301,34 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       {
         if (m.getAnnotation(WebRemote.class) != null)
         {
-          type = component.getBeanClass();
+          componentTypes.add(component.getBeanClass());
           break;
         }
       }
 
-      if (type == null)
+      if (componentTypes.isEmpty())
       {
         appendTypeSource(out, component.getBeanClass(), types);
         return;
       }
     }
     else
-      type = component.getBeanClass();
+    {
+      componentTypes.add(component.getBeanClass());
+    }
 
-    if (types.contains(type))
-      return;
-
-    types.add(type);
-
+    // If types already contains all the component types, then return
+    boolean foundNew = false;
+    for (Class type : componentTypes)
+    {
+      if (!types.contains(type)) 
+      {
+         foundNew = true;
+         break;
+      }
+    }    
+    if (!foundNew) return;    
+    
     if (component.getName().contains("."))
     {
        componentSrc.append("Seam.Remoting.createNamespace('");
@@ -332,64 +341,75 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     componentSrc.append(component.getName());
     componentSrc.append(" = function() {\n");
     componentSrc.append("  this.__callback = new Object();\n");
-
-    for (Method m : type.getDeclaredMethods())
+        
+    for (Class type : componentTypes)
     {
-      if (m.getAnnotation(WebRemote.class) == null) continue;
+       if (types.contains(type))
+       {
+          break;
+       }
+       else
+       {
+          types.add(type);
 
-      // Append the return type to the source block
-      appendTypeSource(out, m.getGenericReturnType(), types);
+          for (Method m : type.getDeclaredMethods())
+          {
+            if (m.getAnnotation(WebRemote.class) == null) continue;
 
-      componentSrc.append("  Seam.Remoting.type.");
-      componentSrc.append(component.getName());
-      componentSrc.append(".prototype.");
-      componentSrc.append(m.getName());
-      componentSrc.append(" = function(");
+            // Append the return type to the source block
+            appendTypeSource(out, m.getGenericReturnType(), types);
 
-      // Insert parameters p0..pN
-      for (int i = 0; i < m.getGenericParameterTypes().length; i++)
-      {
-        appendTypeSource(out, m.getGenericParameterTypes()[i], types);
+            componentSrc.append("  Seam.Remoting.type.");
+            componentSrc.append(component.getName());
+            componentSrc.append(".prototype.");
+            componentSrc.append(m.getName());
+            componentSrc.append(" = function(");
 
-        if (i > 0) componentSrc.append(", ");
-        componentSrc.append("p");
-        componentSrc.append(i);
-      }
+            // Insert parameters p0..pN
+            for (int i = 0; i < m.getGenericParameterTypes().length; i++)
+            {
+              appendTypeSource(out, m.getGenericParameterTypes()[i], types);
 
-      if (m.getGenericParameterTypes().length > 0) componentSrc.append(", ");
-      componentSrc.append("callback, exceptionHandler) {\n");
+              if (i > 0) componentSrc.append(", ");
+              componentSrc.append("p");
+              componentSrc.append(i);
+            }
 
-      componentSrc.append("    return Seam.Remoting.execute(this, \"");
-      componentSrc.append(m.getName());
-      componentSrc.append("\", [");
+            if (m.getGenericParameterTypes().length > 0) componentSrc.append(", ");
+            componentSrc.append("callback, exceptionHandler) {\n");
 
-      for (int i = 0; i < m.getParameterTypes().length; i++)
-      {
-        if (i > 0) componentSrc.append(", ");
-        componentSrc.append("p");
-        componentSrc.append(i);
-      }
+            componentSrc.append("    return Seam.Remoting.execute(this, \"");
+            componentSrc.append(m.getName());
+            componentSrc.append("\", [");
 
-      componentSrc.append("], callback, exceptionHandler);\n");
+            for (int i = 0; i < m.getParameterTypes().length; i++)
+            {
+              if (i > 0) componentSrc.append(", ");
+              componentSrc.append("p");
+              componentSrc.append(i);
+            }
 
-      componentSrc.append("  }\n");
-    }
+            componentSrc.append("], callback, exceptionHandler);\n");
 
-    componentSrc.append("}\n");
+            componentSrc.append("  }\n");
+          }
+       }
+       componentSrc.append("}\n");
 
-    // Set the component name
-    componentSrc.append("Seam.Remoting.type.");
-    componentSrc.append(component.getName());
-    componentSrc.append(".__name = \"");
-    componentSrc.append(component.getName());
-    componentSrc.append("\";\n\n");
+       // Set the component name
+       componentSrc.append("Seam.Remoting.type.");
+       componentSrc.append(component.getName());
+       componentSrc.append(".__name = \"");
+       componentSrc.append(component.getName());
+       componentSrc.append("\";\n\n");
 
-    // Register the component
-    componentSrc.append("Seam.Component.register(Seam.Remoting.type.");
-    componentSrc.append(component.getName());
-    componentSrc.append(");\n\n");
+       // Register the component
+       componentSrc.append("Seam.Component.register(Seam.Remoting.type.");
+       componentSrc.append(component.getName());
+       componentSrc.append(");\n\n");
 
-    out.write(componentSrc.toString().getBytes());
+       out.write(componentSrc.toString().getBytes());                 
+    }       
   }
 
   /**
