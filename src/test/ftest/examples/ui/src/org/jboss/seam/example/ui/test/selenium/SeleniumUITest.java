@@ -183,7 +183,7 @@ public class SeleniumUITest extends SeamSeleniumTest
          browser.type(getProperty("DATE_INPUT"), date1);
          browser.type(getProperty("DATE_VERIFICATION_INPUT"), date2);
          browser.clickAndWait(getProperty("CHECK_DATE_BUTTON"));
-         assertTrue("Page should contain \"Value does not equal that in 'date'\"", browser.isTextPresent("Value does not equal that in 'date' "));
+         assertTrue("Page should contain \"Value does not equal that in 'date'\"", browser.isTextPresent("Value does not equal"));
          //assertTrue("Page should contain information about Pete Muir working all the time on Seam", browser.isTextPresent("works on Seam, of course"));
       }
       
