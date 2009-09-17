@@ -140,6 +140,24 @@ public class SeamSelenium extends DefaultSelenium
          }
       }.wait("Timeout while waiting for asynchronous update of " + locator, timeout);
    }
+   
+   /**
+    * Waits until element is asynchronously unloaded from page.
+    * 
+    * @param timeout Timeout in milliseconds
+    * @param locator Locator of element
+    */
+   public void waitForElementNotPresent(final String locator, long timeout)
+   {
+      new Wait()
+      {
+         @Override
+         public boolean until()
+         {
+            return !isElementPresent(locator);
+         }
+      }.wait("Timeout while waiting for asynchronous update of " + locator, timeout);
+   }
 
    /**
     * Returns true if icefaces detection is turned on
