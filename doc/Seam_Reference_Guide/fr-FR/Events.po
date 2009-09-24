@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-29 06:39+0000\n"
-"PO-Revision-Date: 2008-12-16 16:59+0100\n"
-"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"PO-Revision-Date: 2009-09-25 00:13+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,90 +17,73 @@ msgstr ""
 #: Events.xml:5
 #, no-c-format
 msgid "Events, interceptors and exception handling"
-msgstr ""
+msgstr "Evènements, intercepteurs et gestion des exceptions"
 
 #. Tag: para
 #: Events.xml:7
 #, no-c-format
-msgid ""
-"Complementing the contextual component model, there are two further basic "
-"concepts that facilitate the extreme loose-coupling that is the distinctive "
-"feature of Seam applications. The first is a strong event model where events "
-"may be mapped to event listeners via JSF-like method binding expressions. "
-"The second is the pervasive use of annotations and interceptors to apply "
-"cross-cutting concerns to components which implement business logic."
-msgstr ""
+msgid "Complementing the contextual component model, there are two further basic concepts that facilitate the extreme loose-coupling that is the distinctive feature of Seam applications. The first is a strong event model where events may be mapped to event listeners via JSF-like method binding expressions. The second is the pervasive use of annotations and interceptors to apply cross-cutting concerns to components which implement business logic."
+msgstr "En complément du modèle composant contextuel, il y a deux autres concepts de base qui facilitent le couplage extrèmement faible qui est une fonctionnalité distincte des applications Seam. Le premier est un modèle d'évènement solide où les évènements peuvent être liés à des écouteurs d'évènements via des expressions reliant des méthodes ressemblant à JSF. Le second est une utilisation efficace des annotations et des intercepteurs pour appliquer des coupes/incisions dans les composants qui implémentent la logique métier."
 
 #. Tag: title
 #: Events.xml:17
 #, no-c-format
 msgid "Seam events"
-msgstr ""
+msgstr "Les évènements de Seam"
 
 #. Tag: para
 #: Events.xml:18
 #, no-c-format
-msgid ""
-"The Seam component model was developed for use with <emphasis>event-driven "
-"applications</emphasis>, specifically to enable the development of fine-"
-"grained, loosely-coupled components in a fine-grained eventing model. Events "
-"in Seam come in several types, most of which we have already seen:"
-msgstr ""
+msgid "The Seam component model was developed for use with <emphasis>event-driven applications</emphasis>, specifically to enable the development of fine-grained, loosely-coupled components in a fine-grained eventing model. Events in Seam come in several types, most of which we have already seen:"
+msgstr "Le modèle de composant de Seam a été développé pour l'utiliser avec les <emphasis>applications conducteur-d-évènement</emphasis>, en particulier disponibles pour développer des composants à grains fins et faiblement couplés dans un modèle évènementiel finement dimensionné. Les évènements dans Seam viennent de plusieurs types, la plus part ont déjà été vu: "
 
 #. Tag: para
 #: Events.xml:27
 #, no-c-format
 msgid "JSF events"
-msgstr ""
+msgstr "les évènements JSF"
 
 #. Tag: para
 #: Events.xml:30
 #, no-c-format
 msgid "jBPM transition events"
-msgstr ""
+msgstr "les évènements de transition jBPM"
 
 #. Tag: para
 #: Events.xml:33
 #, no-c-format
 msgid "Seam page actions"
-msgstr ""
+msgstr "les actions de page de Seam"
 
 #. Tag: para
 #: Events.xml:36
 #, no-c-format
 msgid "Seam component-driven events"
-msgstr ""
+msgstr "les évènements conducteur-de-composant de Seam"
 
 #. Tag: para
 #: Events.xml:39
 #, no-c-format
 msgid "Seam contextual events"
-msgstr ""
+msgstr "les évènements contextuel de Seam"
 
 #. Tag: para
 #: Events.xml:43
 #, no-c-format
-msgid ""
-"All of these various kinds of events are mapped to Seam components via JSF "
-"EL method binding expressions. For a JSF event, this is defined in the JSF "
-"template:"
-msgstr ""
+msgid "All of these various kinds of events are mapped to Seam components via JSF EL method binding expressions. For a JSF event, this is defined in the JSF template:"
+msgstr "Tous ces différents types d'évènements sont reliés à des composants Seam via des expressions relian une méthode JSF EL. Pour un évènement JSF, c'est défini dans un modèle JSF: "
 
 #. Tag: programlisting
 #: Events.xml:48
 #, no-c-format
-msgid ""
-"<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}"
-"\"/>]]>"
-msgstr ""
+msgid "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}\"/>]]>"
+msgstr "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}\"/>]]>"
 
 #. Tag: para
 #: Events.xml:52
 #, no-c-format
-msgid ""
-"For a jBPM transition event, it is specified in the jBPM process definition "
-"or pageflow definition:"
-msgstr ""
+msgid "For a jBPM transition event, it is specified in the jBPM process definition or pageflow definition:"
+msgstr "Pour un évènement de transition jBPM, il est spécifié dans la définition de processus jBPM ou dans une définition d'enchainement de page: "
 
 #. Tag: programlisting
 #: Events.xml:57
@@ -112,30 +95,29 @@ msgid ""
 "    </transition>\n"
 "</start-page>]]>"
 msgstr ""
+"<![CDATA[<start-page name=\"hello\" view-id=\"/hello.jsp\">\n"
+"    <transition to=\"hello\">\n"
+"        <action expression=\"#{helloWorld.sayHello}\"/>\n"
+"    </transition>\n"
+"</start-page>]]>"
 
 #. Tag: para
 #: Events.xml:59
 #, no-c-format
-msgid ""
-"You can find out more information about JSF events and jBPM events "
-"elsewhere. Let's concentrate for now upon the two additional kinds of events "
-"defined by Seam."
-msgstr ""
+msgid "You can find out more information about JSF events and jBPM events elsewhere. Let's concentrate for now upon the two additional kinds of events defined by Seam."
+msgstr "Vous pouvez découvrir beaucoup d'information à propos des évènements JSF et des évènements jBPM plus loin. Concentrons nous sur les deux autres types d'évènements additionnel défini par Seam. "
 
 #. Tag: title
 #: Events.xml:66
 #, no-c-format
 msgid "Page actions"
-msgstr ""
+msgstr "Les actions de page"
 
 #. Tag: para
 #: Events.xml:68
 #, no-c-format
-msgid ""
-"A Seam page action is an event that occurs just before we render a page. We "
-"declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define "
-"a page action for either a particular JSF view id:"
-msgstr ""
+msgid "A Seam page action is an event that occurs just before we render a page. We declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define a page action for either a particular JSF view id:"
+msgstr "Une action de page de Seam est un évènement qui intervient juste avant que nous rendions la page. Nous déclarons les actions de pages dans <literal>WEB-INF/pages.xml</literal>. Nous pouvons définir une action de page à la fois comme un identifiant de vue JSF particulier: "
 
 #. Tag: programlisting
 #: Events.xml:74
@@ -152,11 +134,8 @@ msgstr ""
 #. Tag: para
 #: Events.xml:76
 #, no-c-format
-msgid ""
-"Or we can use a <literal>*</literal> wildcard as a suffix to the "
-"<literal>view-id</literal> to specify an action that applies to all view ids "
-"that match the pattern:"
-msgstr ""
+msgid "Or we can use a <literal>*</literal> wildcard as a suffix to the <literal>view-id</literal> to specify an action that applies to all view ids that match the pattern:"
+msgstr "Ou nous pouvons utiliser un jocker <literal>*</literal> comme suffixe à <literal>view-id</literal> pour spécifier une action qui s'applique à tous les identifiants de vue qui corresponde à ce patron: "
 
 #. Tag: programlisting
 #: Events.xml:82
@@ -166,51 +145,39 @@ msgid ""
 "    <page view-id=\"/hello/*\" action=\"#{helloWorld.sayHello}\"/>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/hello/*\" action=\"#{helloWorld.sayHello}\"/>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:84
 #, no-c-format
-msgid ""
-"Keep in mind that if the <literal>&lt;page&gt;</literal> element is defined "
-"in a fine-grained page descriptor, the <literal>view-id</literal> attribute "
-"can be left off since it is implied."
-msgstr ""
+msgid "Keep in mind that if the <literal>&lt;page&gt;</literal> element is defined in a fine-grained page descriptor, the <literal>view-id</literal> attribute can be left off since it is implied."
+msgstr "Gardez à l'esprit que l'élément <literal>&lt;page&gt;</literal> est définie dans un descipteur de page à granularité fine, l'attribut <literal>view-id</literal> peux être laissé de côté avant d'avoir besoin de l'appliquer."
 
 #. Tag: para
 #: Events.xml:90
 #, no-c-format
-msgid ""
-"If multiple wildcarded page actions match the current view-id, Seam will "
-"call all the actions, in order of least-specific to most-specific."
-msgstr ""
+msgid "If multiple wildcarded page actions match the current view-id, Seam will call all the actions, in order of least-specific to most-specific."
+msgstr "Si des pages d'action avec de multiples jockers correspondent à l'identifiant d'une vue, Seam va appeler touutes les actions dans l'ordre du moins spécifique au plus spécifique. "
 
 #. Tag: para
 #: Events.xml:95
 #, no-c-format
-msgid ""
-"The page action method can return a JSF outcome. If the outcome is non-null, "
-"Seam will use the defined navigation rules to navigate to a view."
-msgstr ""
+msgid "The page action method can return a JSF outcome. If the outcome is non-null, Seam will use the defined navigation rules to navigate to a view."
+msgstr "La méthode d'action de page retourne une sortie JSF. Si la sortie est non-nulle, Seam va l'utiliser pour définir les règles de navigation pour naviguer vers une vue. "
 
 #. Tag: para
 #: Events.xml:100
 #, no-c-format
-msgid ""
-"Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> "
-"element need not correspond to a real JSP or Facelets page! So, we can "
-"reproduce the functionality of a traditional action-oriented framework like "
-"Struts or WebWork using page actions. This is quite useful if you want to do "
-"complex things in response to non-faces requests (for example, HTTP GET "
-"requests)."
-msgstr ""
+msgid "Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> element need not correspond to a real JSP or Facelets page! So, we can reproduce the functionality of a traditional action-oriented framework like Struts or WebWork using page actions. This is quite useful if you want to do complex things in response to non-faces requests (for example, HTTP GET requests)."
+msgstr "Par la suite, l'identifiant de vue est mentionné dans l'élément <literal>&lt;page&gt;</literal> qui n'a pas besoin de correspondre à une vrai JSP ou une page Facelets! Donc, nous pouvons reproduire la fonctionnalité d'une serveur de squellette d'application orienté action comme Struts ou WebWork en utilisant des actions de page. Ceci est bien utile si vous voulez faire des choses complexes en réponse à des reqquêtes non-faces (par exemple, des requêtes HTTP GET)."
 
 #. Tag: para
 #: Events.xml:109
 #, no-c-format
-msgid ""
-"Multiple or conditional page actions my be specified using the <literal>&lt;"
-"action&gt;</literal> tag:"
-msgstr ""
+msgid "Multiple or conditional page actions my be specified using the <literal>&lt;action&gt;</literal> tag:"
+msgstr "Des actions de pages multiples ou conditionnelles peuvent être spécifié en utilisant le tag <literal>&lt;action&gt;</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:114
@@ -218,23 +185,23 @@ msgstr ""
 msgid ""
 "<![CDATA[<pages>\n"
 "    <page view-id=\"/hello.jsp\">\n"
-"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation."
-"failed}\"/>\n"
+"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation.failed}\"/>\n"
 "        <action execute=\"#{hitCount.increment}\"/>\n"
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/hello.jsp\">\n"
+"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation.failed}\"/>\n"
+"        <action execute=\"#{hitCount.increment}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:116
 #, no-c-format
-msgid ""
-"Page actions are executed on both an initial (non-faces) request and a "
-"postback (faces) request. If you are using the page action to load data, "
-"this operation may conflict with the standard JSF action(s) being executed "
-"on a postback. One way to disable the page action is to setup a condition "
-"that resolves to true only on an initial request."
-msgstr ""
+msgid "Page actions are executed on both an initial (non-faces) request and a postback (faces) request. If you are using the page action to load data, this operation may conflict with the standard JSF action(s) being executed on a postback. One way to disable the page action is to setup a condition that resolves to true only on an initial request."
+msgstr "Les actions de page sont exécuté à la fois dans un requête initiale (non-faces) et dans une requête postérieure (faces). Si vous utilisez les actions de page pour charger des données, cette opération peut rentrer en conflit avec les action(s) standard(s) de JSF en cours d'éxécution dans la phase postérieure. Une façon de désactiver l'action de la page est de configurer une condition qui se résoud à vrai seulement avec une requête initiale."
 
 #. Tag: programlisting
 #: Events.xml:123
@@ -243,35 +210,32 @@ msgid ""
 "<![CDATA[<pages>\n"
 "    <page view-id=\"/dashboard.xhtml\">\n"
 "        <action execute=\"#{dashboard.loadData}\"\n"
-"            if=\"#{not facesContext.renderKit.responseStateManager.isPostback"
-"(facesContext)}\"/>\n"
+"            if=\"#{not facesContext.renderKit.responseStateManager.isPostback(facesContext)}\"/>\n"
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/dashboard.xhtml\">\n"
+"        <action execute=\"#{dashboard.loadData}\"\n"
+"            if=\"#{not facesContext.renderKit.responseStateManager.isPostback(facesContext)}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:125
 #, no-c-format
-msgid ""
-"This condition consults the <literal>ResponseStateManager#isPostback"
-"(FacesContext)</literal> to determine if the request is a postback. The "
-"ResponseStateManager is accessed using <literal>FacesContext."
-"getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
-msgstr ""
+msgid "This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to determine if the request is a postback. The ResponseStateManager is accessed using <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
+msgstr "Cette condition consulte le <literal>ResponseStateManager#isPostback(FacesContext)</literal> pour déterminer si la requête est une postérieure. Le ResponseStateManager est accédé en utilisant <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
 
 #. Tag: para
 #: Events.xml:131
 #, no-c-format
-msgid ""
-"To save you from the verbosity of JSF's API, Seam offers a built-in "
-"condition that allows you to accomplish the same result with a heck of a lot "
-"less typing. You can disable a page action on postback by simply setting the "
-"<literal>on-postback</literal> to <literal>false</literal>:"
-msgstr ""
+msgid "To save you from the verbosity of JSF's API, Seam offers a built-in condition that allows you to accomplish the same result with a heck of a lot less typing. You can disable a page action on postback by simply setting the <literal>on-postback</literal> to <literal>false</literal>:"
+msgstr "Pour vous préserver de ce côté verbeux des API de JSF, Seam vous offre une condition livrée qui vous permet d'accomplir la même chose avec un gain en quantité à taper. Vous pouvez désactiver une action de page sur la phase postérieure simplement en définiant le <literal>on-postback</literal> à <literal>false</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:137
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
 "    <page view-id=\"/dashboard.xhtml\">\n"
@@ -286,55 +250,44 @@ msgstr ""
 #. Tag: para
 #: Events.xml:139
 #, no-c-format
-msgid ""
-"For backwards compatibility reasons, the default value of the <literal>on-"
-"postback</literal> attribute is true, though likely you will end up using "
-"the opposite setting more often."
-msgstr ""
+msgid "For backwards compatibility reasons, the default value of the <literal>on-postback</literal> attribute is true, though likely you will end up using the opposite setting more often."
+msgstr "Pour des raisons de compatiblité descendante, la valeur par défaut de l'attribut <literal>on-postback</literal> est vrai, pensez donc que vous allez finir par utiliser le réglage inverse de plus en plus souvent. "
 
 #. Tag: title
 #: Events.xml:147
 #, no-c-format
 msgid "Page parameters"
-msgstr ""
+msgstr "Les paramètres de page"
 
 #. Tag: para
 #: Events.xml:149
 #, no-c-format
-msgid ""
-"A JSF faces request (a form submission) encapsulates both an \"action\" (a "
-"method binding) and \"parameters\" (input value bindings). A page action "
-"might also needs parameters!"
-msgstr ""
+msgid "A JSF faces request (a form submission) encapsulates both an \"action\" (a method binding) and \"parameters\" (input value bindings). A page action might also needs parameters!"
+msgstr "Une requête faces JSF(une soumission de formulaire) est encapsulée à la fois dans une \"action\" (par relation de méthode) et des \"paramètres\" (par relation de valeur entrées). Une action de page peut aussi avoir besoin de paramètres! "
 
 #. Tag: para
 #: Events.xml:155
 #, no-c-format
-msgid ""
-"Since GET requests are bookmarkable, page parameters are passed as human-"
-"readable request parameters. (Unlike JSF form inputs, which are anything "
-"but!)"
-msgstr ""
+msgid "Since GET requests are bookmarkable, page parameters are passed as human-readable request parameters. (Unlike JSF form inputs, which are anything but!)"
+msgstr "Avec les requêtes GET qui sont en marque-page, les paramètres de page sont passés comme des paramètres de requêtes lisibles par un être humain. (A la différence des entrées de formulaire, qui sont tout autrement!)  "
 
 #. Tag: para
 #: Events.xml:161
 #, no-c-format
 msgid "You can use page parameters with or without an action method."
-msgstr ""
+msgstr "Vous pouvez utiliser les paramètres de page avec ou sans une méthode d'action."
 
 #. Tag: title
 #: Events.xml:166
 #, no-c-format
 msgid "Mapping request parameters to the model"
-msgstr ""
+msgstr "La liaison des paramètres de requêtes avec le modèle"
 
 #. Tag: para
 #: Events.xml:168
 #, no-c-format
-msgid ""
-"Seam lets us provide a value binding that maps a named request parameter to "
-"an attribute of a model object."
-msgstr ""
+msgid "Seam lets us provide a value binding that maps a named request parameter to an attribute of a model object."
+msgstr "Seam nous permet de fournir une valeur liée qui est en relation avec le paramètre de la requête d'un attribut de l'objet modèle. "
 
 #. Tag: programlisting
 #: Events.xml:173
@@ -347,78 +300,60 @@ msgid ""
 "      </page>\n"
 "  </pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"      <page view-id=\"/hello.jsp\" action=\"#{helloWorld.sayHello}\">\n"
+"          <param name=\"firstName\" value=\"#{person.firstName}\"/>\n"
+"          <param name=\"lastName\" value=\"#{person.lastName}\"/>\n"
+"      </page>\n"
+"  </pages>]]>"
 
 #. Tag: para
 #: Events.xml:175
 #, no-c-format
-msgid ""
-"The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like "
-"a value binding for a JSF input:"
-msgstr ""
+msgid "The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like a value binding for a JSF input:"
+msgstr "La déclaration de <literal>&lt;param&gt;</literal> est bidirectionnel, tout comme la valeur liée à une entrée de JSF: "
 
 #. Tag: para
 #: Events.xml:182
 #, no-c-format
-msgid ""
-"When a non-faces (GET) request for the view id occurs, Seam sets the value "
-"of the named request parameter onto the model object, after performing "
-"appropriate type conversions."
-msgstr ""
+msgid "When a non-faces (GET) request for the view id occurs, Seam sets the value of the named request parameter onto the model object, after performing appropriate type conversions."
+msgstr "Quand une requête non-faces (GET) pour l'identifiant de la vue intervient, Seam affecte la valeur du paramètre de la requête dénomée après avoir réaliser les conversions de types approriées. "
 
 #. Tag: para
 #: Events.xml:189
 #, no-c-format
-msgid ""
-"Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
-"transparently includes the request parameter. The value of the parameter is "
-"determined by evaluating the value binding during the render phase (when the "
-"<literal>&lt;s:link&gt;</literal> is rendered)."
-msgstr ""
+msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding during the render phase (when the <literal>&lt;s:link&gt;</literal> is rendered)."
+msgstr "Tous les <literal>&lt;s:link&gt;</literal> ou <literal>&lt;s:button&gt;</literal> vont inclure le paramètre de la requête de manière transparentre. La valeur du paramètre est détérminée en évaluant la valeur liée pendant la phase de rendu (quand le <literal>&lt;s:link&gt;</literal> est rendu). "
 
 #. Tag: para
 #: Events.xml:197
 #, no-c-format
-msgid ""
-"Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view "
-"id transparently includes the request parameter. The value of the parameter "
-"is determined by evaluating the value binding at the end of the invoke "
-"application phase."
-msgstr ""
+msgid "Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view id transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding at the end of the invoke application phase."
+msgstr "Chaque règle de navigation avec un <literal>&lt;redirect/&gt;</literal> vers l'identifiant de la vue inclus de manière transparente le paramètre de la requête. La valeur du paramètre est déterminée en évaluant la valeur liée à la fin de la phase d'invocation de l'application. "
 
 #. Tag: para
 #: Events.xml:205
 #, no-c-format
-msgid ""
-"The value is transparently propagated with any JSF form submission for the "
-"page with the given view id. This means that view parameters behave like "
-"<literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr ""
+msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
+msgstr "La valeur est de manière transparent propagée avec chaque soumission de formulaire JSF pour la page avec l'identifiant de vue donné. (Cela signifie que les paramètres de la vue fonctionne comme des variables de contexte d'étendue <literal>PAGE</literal> pour les requêtes de faces)."
 
 #. Tag: para
 #: Events.xml:214
 #, no-c-format
-msgid ""
-"The essential idea behind all this is that <emphasis>however</emphasis> we "
-"get from any other page to <literal>/hello.jsp</literal> (or from <literal>/"
-"hello.jsp</literal> back to <literal>/hello.jsp</literal>), the value of the "
-"model attribute referred to in the value binding is \"remembered\", without "
-"the need for a conversation (or other server-side state)."
-msgstr ""
+msgid "The essential idea behind all this is that <emphasis>however</emphasis> we get from any other page to <literal>/hello.jsp</literal> (or from <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), the value of the model attribute referred to in the value binding is \"remembered\", without the need for a conversation (or other server-side state)."
+msgstr "L'idée essentielle derrière tout cela est que depuis <emphasis>n'importe</emphasis> quelle page dont nous venions en allant vers <literal>/hello.jsp</literal> ( ou depuis <literal>/hello.jsp</literal> vers <literal>/hello.jsp</literal>), la valeur de l'attribut du modèle est référencée dans la valeur liée qui est \"mémorisée\", sans avoir le besoin d'une conversation (ou d'un autre état côté serveur). "
 
 #. Tag: title
 #: Events.xml:227
 #, no-c-format
 msgid "Propagating request parameters"
-msgstr ""
+msgstr "La propagation des paramètres de requêtes"
 
 #. Tag: para
 #: Events.xml:229
 #, no-c-format
-msgid ""
-"If just the <literal>name</literal> attribute is specified then the request "
-"parameter is propagated using the <literal>PAGE</literal> context (it isn't "
-"mapped to model property)."
-msgstr ""
+msgid "If just the <literal>name</literal> attribute is specified then the request parameter is propagated using the <literal>PAGE</literal> context (it isn't mapped to model property)."
+msgstr "Si seulement l'attribut <literal>name</literal> est spécifié alors le paramètre de requête est propagé en utilisant le contexte de <literal>PAGE</literal>(s'il n'est pas lié avec une propriété du model)."
 
 #. Tag: programlisting
 #: Events.xml:235
@@ -431,64 +366,48 @@ msgid ""
 "      </page>\n"
 "  </pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"      <page view-id=\"/hello.jsp\" action=\"#{helloWorld.sayHello}\">\n"
+"          <param name=\"firstName\" />\n"
+"          <param name=\"lastName\" />\n"
+"      </page>\n"
+"  </pages>]]>"
 
 #. Tag: para
 #: Events.xml:238
 #, no-c-format
-msgid ""
-"Propagation of page parameters is especially useful if you want to build "
-"multi-layer master-detail CRUD pages. You can use it to \"remember\" which "
-"view you were previously on (e.g. when pressing the Save button), and which "
-"entity you were editing."
-msgstr ""
+msgid "Propagation of page parameters is especially useful if you want to build multi-layer master-detail CRUD pages. You can use it to \"remember\" which view you were previously on (e.g. when pressing the Save button), and which entity you were editing."
+msgstr "La propagation des paramètres de page est particulièrement utile si vous voulez construire des pages CRUD à multiples couches de type maitre-détails. Vous pouvez l'utiliser pour pour vous \"souvenir\" quelle vue vous etiez précédemment (par exemple en appuyant sur le bouton Sauver) et quelle entité vous etiez en train d'éditer."
 
 #. Tag: para
 #: Events.xml:245
 #, no-c-format
-msgid ""
-"Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
-"transparently propagates the request parameter if that parameter is listed "
-"as a page parameter for the view."
-msgstr ""
+msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently propagates the request parameter if that parameter is listed as a page parameter for the view."
+msgstr "Tout <literal>&lt;s:link&gt;</literal> ou <literal>&lt;s:button&gt;</literal> propage de manière transparente le paramètre de requête si le paramètre est listé comme un paramètre de page de la vue."
 
 #. Tag: para
 #: Events.xml:252
 #, no-c-format
-msgid ""
-"The value is transparently propagated with any JSF form submission for the "
-"page with the given view id. (This means that view parameters behave like "
-"<literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr ""
+msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. (This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
+msgstr "La valeur est propagée de manière transparente avec une soumission de formulaire JSF de la page avec l'identifiant de vue donné. (Ce qui signifie que les paramètres de vue fonctionne comme les variables de contexte d'étendue <literal>PAGE</literal> pour les requêtes faces)."
 
 #. Tag: para
 #: Events.xml:261
 #, no-c-format
-msgid ""
-"This all sounds pretty complex, and you're probably wondering if such an "
-"exotic construct is really worth the effort. Actually, the idea is very "
-"natural once you \"get it\". It is definitely worth taking the time to "
-"understand this stuff. Page parameters are the most elegant way to propagate "
-"state across a non-faces request. They are especially cool for problems like "
-"search screens with bookmarkable results pages, where we would like to be "
-"able to write our application code to handle both POST and GET requests with "
-"the same code. Page parameters eliminate repetitive listing of request "
-"parameters in the view definition and make redirects much easier to code."
-msgstr ""
+msgid "This all sounds pretty complex, and you're probably wondering if such an exotic construct is really worth the effort. Actually, the idea is very natural once you \"get it\". It is definitely worth taking the time to understand this stuff. Page parameters are the most elegant way to propagate state across a non-faces request. They are especially cool for problems like search screens with bookmarkable results pages, where we would like to be able to write our application code to handle both POST and GET requests with the same code. Page parameters eliminate repetitive listing of request parameters in the view definition and make redirects much easier to code."
+msgstr "Tout ce bazar à l'air assez comple, et vous allez probablement vous inquiéter d'une telle construction exotique vaut réellement l'effort. Pour l'instant, l'idée est très naturelle une fois que vous \"l'avez\". C'est définitivement beaucoup mieux de prendre son temps pour comprendre ce truc. Les paramètres de pages sont la façon la plus élégante de propager un état au travers de requêtes non-faces. C'est spécialement sympa pour les problèmes comme des écrans de recherches avec des pages de résultats stocké en favoris, quand vous voudrier être capable d'écrire le code de votre application pour gérer à la fois les requêtes GET et POST avec le même code. Les paramètres de page éliminent la vérification répétitive des paramètres de requêtes dans la définition de la vue et rend la redirection plus facile à coder."
 
 #. Tag: title
 #: Events.xml:277
 #, no-c-format
 msgid "URL rewriting with page parameters"
-msgstr ""
+msgstr "La ré-écriture des URL avec les paramètres de page"
 
 #. Tag: para
 #: Events.xml:278
 #, no-c-format
-msgid ""
-"Rewriting occurs based on rewrite patterns found for views in <literal>pages."
-"xml</literal>. Seam URL rewriting does both incoming and outgoing URL "
-"rewriting based on the same pattern. Here's a simple pattern:"
-msgstr ""
+msgid "Rewriting occurs based on rewrite patterns found for views in <literal>pages.xml</literal>. Seam URL rewriting does both incoming and outgoing URL rewriting based on the same pattern. Here's a simple pattern:"
+msgstr "La ré-écriture intervient se basant sur des patrons de ré-écriture trouvés pour les vues dans <literal>pages.xml</literal>. La ré-écriture d'URL de Seamfait à la fois de la ré-écriture entrante et sortante se bansant sur les mêmes patrons. Voici un patron simple:"
 
 #. Tag: programlisting
 #: Events.xml:285
@@ -500,27 +419,23 @@ msgid ""
 "</page>\n"
 "]]>"
 msgstr ""
+"<![CDATA[\n"
+"<page view-id=\"/home.xhtml\">\n"
+"    <rewrite pattern=\"/home\" />\n"
+"</page>\n"
+"]]>"
 
 #. Tag: para
 #: Events.xml:287
 #, no-c-format
-msgid ""
-"In this case, any incoming request for <literal>/home</literal> will be sent "
-"to <literal>/home.xhtml</literal>. More interestingly, any link generated "
-"that would normally point to <literal>/home.seam</literal> will instead be "
-"rewritten as <literal>/home</literal>. Rewrite patterns only match the "
-"portion of the URL before the query parameters. So, <literal>/home.seam?"
-"conversationId=13</literal> and <literal>/home.seam?color=red</literal> will "
-"both be matched by this rewrite rule."
-msgstr ""
+msgid "In this case, any incoming request for <literal>/home</literal> will be sent to <literal>/home.xhtml</literal>. More interestingly, any link generated that would normally point to <literal>/home.seam</literal> will instead be rewritten as <literal>/home</literal>. Rewrite patterns only match the portion of the URL before the query parameters. So, <literal>/home.seam?conversationId=13</literal> and <literal>/home.seam?color=red</literal> will both be matched by this rewrite rule."
+msgstr "Dans ce cas, une requête entrante pour <literal>/home</literal> sera envoyé vers <literal>/home.xhtml</literal>. Plus intéréssant, tout lien généré qui devrait normallement pointer vers <literal>/home.seam</literal> sera alors ré-écrit comme <literal>/home</literal>. Les patrons de ré-écriture font correspondrent seulement la portion de l'URL avant les paramètres de requêtes. Donc, <literal>/home.seam?conversationId=13</literal> et <literal>/home.seam?color=red</literal> seront tout deux détecté par la règle de ré-écriture."
 
 #. Tag: para
 #: Events.xml:297
 #, no-c-format
-msgid ""
-"Rewrite rules can take these query paramters into consideration, as shown "
-"with the following rules."
-msgstr ""
+msgid "Rewrite rules can take these query paramters into consideration, as shown with the following rules."
+msgstr "Les règles de ré-écritures peuvent prendre des paramètres de requêtes en considération, comme indiqué dans les règles suivantes."
 
 #. Tag: programlisting
 #: Events.xml:300
@@ -533,28 +448,24 @@ msgid ""
 "</page>\n"
 "]]>"
 msgstr ""
+"<![CDATA[\n"
+"<page view-id=\"/home.xhtml\">\n"
+"    <rewrite pattern=\"/home/{color}\" />\n"
+"    <rewrite pattern=\"/home\" />\n"
+"</page>\n"
+"]]>"
 
 #. Tag: para
 #: Events.xml:302
 #, no-c-format
-msgid ""
-"In this case, an incoming request for <literal>/home/red</literal> will be "
-"served as if it were a request for <literal>/home.seam?color=red</literal>. "
-"Similarly, if color is a page parameter an outgoing URL that would normally "
-"show as <literal>/home.seam?color=blue</literal> would instead be output as "
-"<literal>/home/blue</literal>. Rules are processed in order, so it is "
-"important to list more specific rules before more general rules."
-msgstr ""
+msgid "In this case, an incoming request for <literal>/home/red</literal> will be served as if it were a request for <literal>/home.seam?color=red</literal>. Similarly, if color is a page parameter an outgoing URL that would normally show as <literal>/home.seam?color=blue</literal> would instead be output as <literal>/home/blue</literal>. Rules are processed in order, so it is important to list more specific rules before more general rules."
+msgstr "Dans ce cas, une requête entrante pour <literal>/home/red</literal> sera servie comme si elle était une requête pour <literal>/home.seam?color=red</literal>. De manière similaire, si la couleur est un paramètre de page d'une URL sortante qui devrait normallement se voir comme <literal>/home.seam?color=blue</literal> sera plutôt écrite comme <literal>/home/blue</literal>. Les règles sont exécutées dans l'odre, donc il est importante de les lister les règle les plus spécifiques avant les règles les plus généralistes."
 
 #. Tag: para
 #: Events.xml:312
 #, no-c-format
-msgid ""
-"Default Seam query parameters can also be mapped using URL rewriting, "
-"allowing for another option for hiding Seam's fingerprints. In the following "
-"example, <literal>/search.seam?conversationId=13</literal> would be written "
-"as <literal>/search-13</literal>."
-msgstr ""
+msgid "Default Seam query parameters can also be mapped using URL rewriting, allowing for another option for hiding Seam's fingerprints. In the following example, <literal>/search.seam?conversationId=13</literal> would be written as <literal>/search-13</literal>."
+msgstr "Les paramètres par défaut de requêtes de Seam peuvent aussi être mis en correspondance en utilisant la ré-écriture d'URL, permettant d'avoir l'option de cacher les données techniques de Seam. Dans l'exemple suivant, <literal>/search.seam?conversationId=13</literal> sera ré-écrit comme <literal>/search-13</literal>."
 
 #. Tag: programlisting
 #: Events.xml:317
@@ -567,37 +478,36 @@ msgid ""
 "</page>\n"
 "]]>"
 msgstr ""
+"<![CDATA[\n"
+"<page view-id=\"/search.xhtml\">\n"
+"    <rewrite pattern=\"/search-{conversationId}\" />\n"
+"    <rewrite pattern=\"/search\" />\n"
+"</page>\n"
+"]]>"
 
 #. Tag: para
 #: Events.xml:319
 #, no-c-format
-msgid ""
-"Seam URL rewriting provides simple, bidirectional rewriting on a per-view "
-"basis. For more complex rewriting rules that cover non-seam components, Seam "
-"applications can continue to use the <literal>org.tuckey URLRewriteFilter </"
-"literal>or apply rewriting rules at the web server."
-msgstr ""
+msgid "Seam URL rewriting provides simple, bidirectional rewriting on a per-view basis. For more complex rewriting rules that cover non-seam components, Seam applications can continue to use the <literal>org.tuckey URLRewriteFilter </literal>or apply rewriting rules at the web server."
+msgstr "La ré-écriture d'URL de Seam fourni une ré-écriture bi-directionnelle et simple basée pour chaque vue. Pour des règles de ré-écritures plus complexes qui couvrent des composants non-sean, les applications de Seam peuvent continuer à utiliser <literal>org.tuckey URLRewriteFilter </literal> ou appliquer des règles de ré-écritures dans le serveur web."
 
 #. Tag: para
 #: Events.xml:325
 #, no-c-format
-msgid ""
-"URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter "
-"configuration is discussed in <xref linkend=\"configuration.filters.rewrite"
-"\"/>."
-msgstr ""
+msgid "URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter configuration is discussed in <xref linkend=\"configuration.filters.rewrite\"/>."
+msgstr "La ré-écriture d'URL nécéssite que le filtre de ré-écriture de Seam soit actif. La configuration du filtre de ré-écriture sera vue dans <xref linkend=\"configuration.filters.rewrite\"/>."
 
 #. Tag: title
 #: Events.xml:333
 #, no-c-format
 msgid "Conversion and Validation"
-msgstr ""
+msgstr "La conversion et la validation"
 
 #. Tag: para
 #: Events.xml:335
 #, no-c-format
 msgid "You can specify a JSF converter for complex model propreties:"
-msgstr ""
+msgstr "Vous pouvez indiquer un convertisseur JSF pour les propriétés du modèles complexes:"
 
 #. Tag: programlisting
 #: Events.xml:339
@@ -607,17 +517,24 @@ msgid ""
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" "
-"value=\"#{calculator.op}\"/>\n"
+"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" value=\"#{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
+"      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
+"      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
+"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" value=\"#{calculator.op}\"/>\n"
+"   </page>\n"
+"</pages>]]>"
 
 #. Tag: para
-#: Events.xml:341 Events.xml:354
+#: Events.xml:341
+#: Events.xml:354
 #, no-c-format
 msgid "Alternatively:"
-msgstr ""
+msgstr "Ou autrement:"
 
 #. Tag: programlisting
 #: Events.xml:345
@@ -627,18 +544,23 @@ msgid ""
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
-"{calculator.op}\"/>\n"
+"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
+"      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
+"      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
+"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"   </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:348
 #, no-c-format
-msgid ""
-"JSF validators, and <literal>required=\"true\"</literal> may also be used:"
-msgstr ""
+msgid "JSF validators, and <literal>required=\"true\"</literal> may also be used:"
+msgstr "Les validateurs de JSF, et<literal>required=\"true\"</literal> peuvent être utilisés:"
 
 #. Tag: programlisting
 #: Events.xml:352
@@ -653,6 +575,14 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/blog.xhtml\">\n"
+"        <param name=\"date\" \n"
+"               value=\"#{blog.date}\" \n"
+"               validatorId=\"com.my.blog.PastDate\" \n"
+"               required=\"true\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: programlisting
 #: Events.xml:358
@@ -667,74 +597,68 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/blog.xhtml\">\n"
+"        <param name=\"date\" \n"
+"               value=\"#{blog.date}\" \n"
+"               validator=\"#{pastDateValidator}\" \n"
+"               required=\"true\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:360
 #, no-c-format
-msgid ""
-"Even better, model-based Hibernate validator annotations are automatically "
-"recognized and validated. Seam also provides a default date converter to "
-"convert a string parameter value to a date and back."
-msgstr ""
+msgid "Even better, model-based Hibernate validator annotations are automatically recognized and validated. Seam also provides a default date converter to convert a string parameter value to a date and back."
+msgstr "Même mieux, les annotations de validation de modèles basés sur Hibernate sont automatiquement reconnues et validées. Seam peut aussi fournir un convertisseur de date par défaut pour convertir une valeur de type chaine de caractère vers une date et dans l'autre sens."
 
 #. Tag: para
 #: Events.xml:366
 #, no-c-format
-msgid ""
-"When type conversion or validation fails, a global <literal>FacesMessage</"
-"literal> is added to the <literal>FacesContext</literal>."
-msgstr ""
+msgid "When type conversion or validation fails, a global <literal>FacesMessage</literal> is added to the <literal>FacesContext</literal>."
+msgstr "Quand une conversion de type ou une validation échoue, un <literal>FacesMessage</literal> global est ajouté au <literal>FacesContext</literal>."
 
 #. Tag: title
 #: Events.xml:374
 #, no-c-format
 msgid "Navigation"
-msgstr ""
+msgstr "La navigation"
 
 #. Tag: para
 #: Events.xml:376
 #, no-c-format
-msgid ""
-"You can use standard JSF navigation rules defined in <literal>faces-config."
-"xml</literal> in a Seam application. However, JSF navigation rules have a "
-"number of annoying limitations:"
-msgstr ""
+msgid "You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal> in a Seam application. However, JSF navigation rules have a number of annoying limitations:"
+msgstr "Vous pouvez utiliser les règles de navigation JSF standard définies dans le <literal>faces-config.xml</literal> pour une application Seam. Malgré tout cela, les règles de navigation JSF ont de nombreuses limitations génantes: "
 
 #. Tag: para
 #: Events.xml:384
 #, no-c-format
-msgid ""
-"It is not possible to specify request parameters to be used when redirecting."
-msgstr ""
+msgid "It is not possible to specify request parameters to be used when redirecting."
+msgstr "Il n'est pas possible de spécifier les paramètres de requêtes pouvant être utilisés dans la redirection. "
 
 #. Tag: para
 #: Events.xml:389
 #, no-c-format
 msgid "It is not possible to begin or end conversations from a rule."
-msgstr ""
+msgstr "Il n'est pas possible de démarrer ou de finir des conversations depuis une règle. "
 
 #. Tag: para
 #: Events.xml:394
 #, no-c-format
-msgid ""
-"Rules work by evaluating the return value of the action method; it is not "
-"possible to evaluate an arbitrary EL expression."
-msgstr ""
+msgid "Rules work by evaluating the return value of the action method; it is not possible to evaluate an arbitrary EL expression."
+msgstr "Les règles fonctionnent en évaluant le retour de valeur des méthode d'action; il n'est pas possible d'évaluer une expression EL arbitraire. "
 
 #. Tag: para
 #: Events.xml:401
 #, no-c-format
-msgid ""
-"A further problem is that \"orchestration\" logic gets scattered between "
-"<literal>pages.xml</literal> and <literal>faces-config.xml</literal>. It's "
-"better to unify this logic into <literal>pages.xml</literal>."
-msgstr ""
+msgid "A further problem is that \"orchestration\" logic gets scattered between <literal>pages.xml</literal> and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>."
+msgstr "Un problème plus important est que la logique \"d'orchestration\" doit être éclaté entre <literal>pages.xml</literal> et <literal>faces-config.xml</literal>. C'est mieux d'unifier cette logique dans  <literal>pages.xml</literal>. "
 
 #. Tag: para
 #: Events.xml:406
 #, no-c-format
 msgid "This JSF navigation rule:"
-msgstr ""
+msgstr "Cette règle de navigation JSF: "
 
 #. Tag: programlisting
 #: Events.xml:410
@@ -752,12 +676,23 @@ msgid ""
 "    \n"
 "</navigation-rule>]]>"
 msgstr ""
+"<![CDATA[<navigation-rule>\n"
+"   <from-view-id>/editDocument.xhtml</from-view-id>\n"
+"    \n"
+"   <navigation-case>\n"
+"      <from-action>#{documentEditor.update}</from-action>\n"
+"      <from-outcome>success</from-outcome>\n"
+"      <to-view-id>/viewDocument.xhtml</to-view-id>\n"
+"      <redirect/>\n"
+"   </navigation-case>\n"
+"    \n"
+"</navigation-rule>]]>"
 
 #. Tag: para
 #: Events.xml:412
 #, no-c-format
 msgid "Can be rewritten as follows:"
-msgstr ""
+msgstr "Can be rewritten as follows:"
 
 #. Tag: programlisting
 #: Events.xml:416
@@ -773,15 +708,21 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <rule if-outcome=\"success\">\n"
+"            <redirect view-id=\"/viewDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:418
 #, no-c-format
-msgid ""
-"But it would be even nicer if we didn't have to pollute our "
-"<literal>DocumentEditor</literal> component with string-valued return values "
-"(the JSF outcomes). So Seam lets us write:"
-msgstr ""
+msgid "But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> component with string-valued return values (the JSF outcomes). So Seam lets us write:"
+msgstr "Mais c'est franchement mieux si nous pouvons éviter de poluer notre composant <literal>DocumentEditor</literal> avec une valeur retournée de type string (la sortie JSF). Ainsi Seam nous permet d'écrire: "
 
 #. Tag: programlisting
 #: Events.xml:423
@@ -798,12 +739,22 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\" \n"
+"                   evaluate=\"#{documentEditor.errors.size}\">\n"
+"        <rule if-outcome=\"0\">\n"
+"            <redirect view-id=\"/viewDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:425
 #, no-c-format
 msgid "Or even:"
-msgstr ""
+msgstr "Ou même: "
 
 #. Tag: programlisting
 #: Events.xml:429
@@ -819,23 +770,27 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <rule if=\"#{documentEditor.errors.empty}\">\n"
+"            <redirect view-id=\"/viewDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:431
 #, no-c-format
-msgid ""
-"The first form evaluates a value binding to determine the outcome value to "
-"be used by the subsequent rules. The second approach ignores the outcome and "
-"evaluates a value binding for each possible rule."
-msgstr ""
+msgid "The first form evaluates a value binding to determine the outcome value to be used by the subsequent rules. The second approach ignores the outcome and evaluates a value binding for each possible rule."
+msgstr "La première forme évalue une valeur liée pour déterminer la valeur de la sortie qui doit être utilisée par les règles subséquentes. La seconde approche ignore la sortie et evalue une valeur liée pour chaque règle possible. "
 
 #. Tag: para
 #: Events.xml:438
 #, no-c-format
-msgid ""
-"Of course, when an update succeeds, we probably want to end the current "
-"conversation. We can do that like this:"
-msgstr ""
+msgid "Of course, when an update succeeds, we probably want to end the current conversation. We can do that like this:"
+msgstr "Bien sûr, quand une mise à jour réussie, nous voulons probablement finir la conversation courante. Nous pouvons faire cela comme ceci: "
 
 #. Tag: programlisting
 #: Events.xml:443
@@ -852,15 +807,22 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <rule if=\"#{documentEditor.errors.empty}\">\n"
+"            <end-conversation/>\n"
+"            <redirect view-id=\"/viewDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:445
 #, no-c-format
-msgid ""
-"As we've ended conversation any subsequent requests won't know which "
-"document we are interested in. We can pass the document id as a request "
-"parameter which also makes the view bookmarkable:"
-msgstr ""
+msgid "As we've ended conversation any subsequent requests won't know which document we are interested in. We can pass the document id as a request parameter which also makes the view bookmarkable:"
+msgstr "En terminant la conversation toutes les requêtes soujacentes ne vont pas savoir quel document nous nous sommes intéréssé. Nous pouvons passer l'identifiant du document comme un paramètre de requête ce qui rend la vue disponible pour être mise en favoris: "
 
 #. Tag: programlisting
 #: Events.xml:451
@@ -872,23 +834,31 @@ msgid ""
 "        <rule if=\"#{documentEditor.errors.empty}\">\n"
 "            <end-conversation/>\n"
 "            <redirect view-id=\"/viewDocument.xhtml\">\n"
-"                <param name=\"documentId\" value=\"#{documentEditor."
-"documentId}\"/>\n"
+"                <param name=\"documentId\" value=\"#{documentEditor.documentId}\"/>\n"
 "            </redirect>\n"
 "        </rule>\n"
 "    </navigation>\n"
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <rule if=\"#{documentEditor.errors.empty}\">\n"
+"            <end-conversation/>\n"
+"            <redirect view-id=\"/viewDocument.xhtml\">\n"
+"                <param name=\"documentId\" value=\"#{documentEditor.documentId}\"/>\n"
+"            </redirect>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:453
 #, no-c-format
-msgid ""
-"Null outcomes are a special case in JSF. The null outcome is interpreted to "
-"mean \"redisplay the page\". The following navigation rule matches any non-"
-"null outcome, but <emphasis>not</emphasis> the null outcome:"
-msgstr ""
+msgid "Null outcomes are a special case in JSF. The null outcome is interpreted to mean \"redisplay the page\". The following navigation rule matches any non-null outcome, but <emphasis>not</emphasis> the null outcome:"
+msgstr "La sortie Null est un cas spécial en JSF. La sortie null est interprétée comme un  \"réaffiche la page\". La règle de navigation suivante correspond à une sortie non-null, mais <emphasis>pas</emphasis> à la sortie null: "
 
 #. Tag: programlisting
 #: Events.xml:459
@@ -904,14 +874,21 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <rule>\n"
+"            <render view-id=\"/viewDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:461
 #, no-c-format
-msgid ""
-"If you want to perform navigation when a null outcome occurs, use the "
-"following form instead:"
-msgstr ""
+msgid "If you want to perform navigation when a null outcome occurs, use the following form instead:"
+msgstr "Si vous voulez exécutez l'enchainement de page quand une sortie null intervient, utilisez plutôt la forme suivante: "
 
 #. Tag: programlisting
 #: Events.xml:466
@@ -925,12 +902,19 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"    \n"
+"    <navigation from-action=\"#{documentEditor.update}\">\n"
+"        <render view-id=\"/viewDocument.xhtml\"/>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: para
 #: Events.xml:468
 #, no-c-format
 msgid "The view-id may be given as a JSF EL expression:"
-msgstr ""
+msgstr "L'identifiant de vue peut être donné comme une expression EL de JSF:"
 
 #. Tag: programlisting
 #: Events.xml:472
@@ -946,26 +930,27 @@ msgid ""
 "    \n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
+"\n"
+"    <navigation>\n"
+"        <rule if-outcome=\"success\">\n"
+"            <redirect view-id=\"/#{userAgent}/displayDocument.xhtml\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"    \n"
+"</page>]]>"
 
 #. Tag: title
 #: Events.xml:477
 #, no-c-format
-msgid ""
-"Fine-grained files for definition of navigation, page actions and parameters"
-msgstr ""
+msgid "Fine-grained files for definition of navigation, page actions and parameters"
+msgstr "Les fichiers bien dimmensionnés pour la navigation, les actions de page et les paramêtres"
 
 #. Tag: para
 #: Events.xml:479
 #, no-c-format
-msgid ""
-"If you have a lot of different page actions and page parameters, or even "
-"just a lot of navigation rules, you will almost certainly want to split the "
-"declarations up over multiple files. You can define actions and parameters "
-"for a page with the view id <literal>/calc/calculator.jsp</literal> in a "
-"resource named <literal>calc/calculator.page.xml</literal>. The root element "
-"in this case is the <literal>&lt;page&gt;</literal> element, and the view id "
-"is implied:"
-msgstr ""
+msgid "If you have a lot of different page actions and page parameters, or even just a lot of navigation rules, you will almost certainly want to split the declarations up over multiple files. You can define actions and parameters for a page with the view id <literal>/calc/calculator.jsp</literal> in a resource named <literal>calc/calculator.page.xml</literal>. The root element in this case is the <literal>&lt;page&gt;</literal> element, and the view id is implied:"
+msgstr "Si vous avez beaucoup d'actions de page différentes et de paramêtres de pages, ou même juste beaucoup de règles de navigation, vous voudriez certainement diviser leurs déclarations dans plusieurs fichiers. Vous pouvez définir les actions et les paramêtres dans une page avec l'identifiant de vue <literal>/calc/calculator.jsp</literal> dans une ressource nommée <literal>calc/calculator.page.xml</literal>. L'élément root dans ce cas est un élément  <literal>&lt;page&gt;</literal>, et l'identifiant la vue est tacite: "
 
 #. Tag: programlisting
 #: Events.xml:490
@@ -974,34 +959,32 @@ msgid ""
 "<![CDATA[<page action=\"#{calculator.calculate}\">\n"
 "    <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "    <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
-"{calculator.op}\"/>\n"
+"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page action=\"#{calculator.calculate}\">\n"
+"    <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
+"    <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
+"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"</page>]]>"
 
 #. Tag: title
 #: Events.xml:497
 #, no-c-format
 msgid "Component-driven events"
-msgstr ""
+msgstr "Les évènements conducteur de composant"
 
 #. Tag: para
 #: Events.xml:499
 #, no-c-format
-msgid ""
-"Seam components can interact by simply calling each others methods. Stateful "
-"components may even implement the observer/observable pattern. But to enable "
-"components to interact in a more loosely-coupled fashion than is possible "
-"when the components call each others methods directly, Seam provides "
-"<emphasis>component-driven events</emphasis>."
-msgstr ""
+msgid "Seam components can interact by simply calling each others methods. Stateful components may even implement the observer/observable pattern. But to enable components to interact in a more loosely-coupled fashion than is possible when the components call each others methods directly, Seam provides <emphasis>component-driven events</emphasis>."
+msgstr "Les composants de Seam peuvent interagir en appelant simplement les méthodes des autres. Les composants avec état peuvent implémenter le patron de conception observeur/observable. Ainsi pour activer les composants à intéragir d'une façon faiblement couplée c'est possible quand le composant appele les  méthodes des autres composants directement, Seam fournie <emphasis>des évènement conducteur de composants</emphasis>. "
 
 #. Tag: para
 #: Events.xml:507
 #, no-c-format
-msgid ""
-"We specify event listeners (observers) in <literal>components.xml</literal>."
-msgstr ""
+msgid "We specify event listeners (observers) in <literal>components.xml</literal>."
+msgstr "Vous pouvez spécifier un écouteur d'évènement (observateurs) dans <literal>components.xml</literal>."
 
 #. Tag: programlisting
 #: Events.xml:511
@@ -1014,21 +997,24 @@ msgid ""
 "    </event>\n"
 "</components>]]>"
 msgstr ""
+"<![CDATA[<components>\n"
+"    <event type=\"hello\">\n"
+"        <action execute=\"#{helloListener.sayHelloBack}\"/>\n"
+"        <action execute=\"#{logger.logHello}\"/>\n"
+"    </event>\n"
+"</components>]]>"
 
 #. Tag: para
 #: Events.xml:513
 #, no-c-format
 msgid "Where the <emphasis>event type</emphasis> is just an arbitrary string."
-msgstr ""
+msgstr "Ici le <emphasis>type d'évènement</emphasis> est juste une chaine de caractères arbitraire. "
 
 #. Tag: para
 #: Events.xml:517
 #, no-c-format
-msgid ""
-"When an event occurs, the actions registered for that event will be called "
-"in the order they appear in <literal>components.xml</literal>. How does a "
-"component raise an event? Seam provides a built-in component for this."
-msgstr ""
+msgid "When an event occurs, the actions registered for that event will be called in the order they appear in <literal>components.xml</literal>. How does a component raise an event? Seam provides a built-in component for this."
+msgstr "Quand un évènement se produit, les actions enregistrées pour cet évènement vont être appelés dans l'ordre dans lequel ils apparaissent dans <literal>components.xml</literal>. Comment fait un composant pour déclencher un évènement ? Seam fourni un composant livré pour cela. "
 
 #. Tag: programlisting
 #: Events.xml:523
@@ -1042,12 +1028,19 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloWorld\")\n"
+"public class HelloWorld {\n"
+"    public void sayHello() {\n"
+"        FacesMessages.instance().add(\"Hello World!\");\n"
+"        Events.instance().raiseEvent(\"hello\");\n"
+"    }\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:525
 #, no-c-format
 msgid "Or you can use an annotation."
-msgstr ""
+msgstr "Or you can use an annotation."
 
 #. Tag: programlisting
 #: Events.xml:529
@@ -1061,15 +1054,19 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloWorld\")\n"
+"public class HelloWorld {\n"
+"    @RaiseEvent(\"hello\")\n"
+"    public void sayHello() {\n"
+"        FacesMessages.instance().add(\"Hello World!\");\n"
+"    }\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:531
 #, no-c-format
-msgid ""
-"Notice that this event producer has no dependency upon event consumers. The "
-"event listener may now be implemented with absolutely no dependency upon the "
-"producer:"
-msgstr ""
+msgid "Notice that this event producer has no dependency upon event consumers. The event listener may now be implemented with absolutely no dependency upon the producer:"
+msgstr "Notez que ce producteur d'évènement n'a aucune dépendence vis-à-vis des consommateurs d'évènements. L'écouteur d'évènement devrait maintenant être implémenté sans absolument aucune dépendence avec le producteur: "
 
 #. Tag: programlisting
 #: Events.xml:537
@@ -1082,16 +1079,18 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloListener\")\n"
+"public class HelloListener {\n"
+"    public void sayHelloBack() {\n"
+"        FacesMessages.instance().add(\"Hello to you too!\");\n"
+"    }\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:539
 #, no-c-format
-msgid ""
-"The method binding defined in <literal>components.xml</literal> above takes "
-"care of mapping the event to the consumer. If you don't like futzing about "
-"in the <literal>components.xml</literal> file, you can use an annotation "
-"instead:"
-msgstr ""
+msgid "The method binding defined in <literal>components.xml</literal> above takes care of mapping the event to the consumer. If you don't like futzing about in the <literal>components.xml</literal> file, you can use an annotation instead:"
+msgstr "La méthode liante défnie dans <literal>components.xml</literal> ci-dessus prend garde à la liaison de l'évènement vers le consommateur. Si vous n'aimez pas perdre du temps avec le fichier <literal>components.xml</literal>, vous pouvez à la place utiliser une annotation: "
 
 #. Tag: programlisting
 #: Events.xml:546
@@ -1105,17 +1104,19 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloListener\")\n"
+"public class HelloListener {\n"
+"    @Observer(\"hello\")\n"
+"    public void sayHelloBack() {\n"
+"        FacesMessages.instance().add(\"Hello to you too!\");\n"
+"    }\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:548
 #, no-c-format
-msgid ""
-"You might wonder why I've not mentioned anything about event objects in this "
-"discussion. In Seam, there is no need for an event object to propagate state "
-"between event producer and listener. State is held in the Seam contexts, and "
-"is shared between components. However, if you really want to pass an event "
-"object, you can:"
-msgstr ""
+msgid "You might wonder why I've not mentioned anything about event objects in this discussion. In Seam, there is no need for an event object to propagate state between event producer and listener. State is held in the Seam contexts, and is shared between components. However, if you really want to pass an event object, you can:"
+msgstr "Vous devez vous interroger pourquoi je n'ai rien mentionné à propos des objets évènements dans cette discution. Dans Seam, il n'y a pas besoin d'un objet évènement pour propager l'état entre un producteur d'évènement et un écouteur. L'état est contenu dans les contextes de Seam, et il est partagé entre les composants. Malgrès tout si vous voulez passer un objet évènement, vous pouvez: "
 
 #. Tag: programlisting
 #: Events.xml:556
@@ -1125,12 +1126,19 @@ msgid ""
 "public class HelloWorld {\n"
 "    private String name;\n"
 "    public void sayHello() {\n"
-"        FacesMessages.instance().add(\"Hello World, my name is #0.\", "
-"name);\n"
+"        FacesMessages.instance().add(\"Hello World, my name is #0.\", name);\n"
 "        Events.instance().raiseEvent(\"hello\", name);\n"
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloWorld\")\n"
+"public class HelloWorld {\n"
+"    private String name;\n"
+"    public void sayHello() {\n"
+"        FacesMessages.instance().add(\"Hello World, my name is #0.\", name);\n"
+"        Events.instance().raiseEvent(\"hello\", name);\n"
+"    }\n"
+"}]]>"
 
 #. Tag: programlisting
 #: Events.xml:558
@@ -1144,359 +1152,277 @@ msgid ""
 "    }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"helloListener\")\n"
+"public class HelloListener {\n"
+"    @Observer(\"hello\")\n"
+"    public void sayHelloBack(String name) {\n"
+"        FacesMessages.instance().add(\"Hello #0!\", name);\n"
+"    }\n"
+"}]]>"
 
 #. Tag: title
 #: Events.xml:563
 #, no-c-format
 msgid "Contextual events"
-msgstr ""
+msgstr "Les évènements contextuels"
 
 #. Tag: para
 #: Events.xml:564
 #, no-c-format
-msgid ""
-"Seam defines a number of built-in events that the application can use to "
-"perform special kinds of framework integration. The events are:"
-msgstr ""
+msgid "Seam defines a number of built-in events that the application can use to perform special kinds of framework integration. The events are:"
+msgstr "Seam définie un nombre d'évèvement livrés que l'application peut utiliser pour réaliser des trucs spéciaux de l'intégration du serveur d'application. Les évènements sont: "
 
 #. Tag: para
 #: Events.xml:570
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF "
-"validation fails"
-msgstr ""
+msgid "<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF validation fails"
+msgstr "<literal>org.jboss.seam.validationFailed</literal> &#8212; appelé quand la validation JSF échoue"
 
 #. Tag: para
 #: Events.xml:571
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.noConversation</literal> &#8212; called when there "
-"is no long running conversation and a long running conversation is required"
-msgstr ""
+msgid "<literal>org.jboss.seam.noConversation</literal> &#8212; called when there is no long running conversation and a long running conversation is required"
+msgstr "<literal>org.jboss.seam.noConversation</literal> &#8212; appelé quand il n'y a pas de conversation à éxécution longue et qu'une conversation à éxécution longue est requise"
 
 #. Tag: para
 #: Events.xml:572
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called "
-"when the context variable &lt;name&gt; is set"
-msgstr ""
+msgid "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
+msgstr "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; appelé quand la variable de contexte &lt;name&gt; est définie "
 
 #. Tag: para
 #: Events.xml:573
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; "
-"called when the context variable &lt;name&gt; is set"
-msgstr ""
+msgid "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
+msgstr "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; appelé quand la variable de contexte &lt;name&gt; est définie"
 
 #. Tag: para
 #: Events.xml:574
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; "
-"called when the context variable &lt;name&gt; is unset"
-msgstr ""
+msgid "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
+msgstr "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; appelé quand la variable de contexte &lt;name&gt; est non-définie"
 
 #. Tag: para
 #: Events.xml:575
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; "
-"called when the context variable &lt;name&gt; is unset"
-msgstr ""
+msgid "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
+msgstr "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; appelé quand la variable de contexte &lt;name&gt; est non-définie"
 
 #. Tag: para
 #: Events.xml:576
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
-"called before the &lt;SCOPE&gt; context is destroyed"
-msgstr ""
+msgid "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called before the &lt;SCOPE&gt; context is destroyed"
+msgstr "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; appelé avant que le contexte &lt;SCOPE&gt; ne soit détruit"
 
 #. Tag: para
 #: Events.xml:577
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
-"called after the &lt;SCOPE&gt; context is destroyed"
-msgstr ""
+msgid "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed"
+msgstr "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; appelé après que le contexte &lt;SCOPE&gt; est détruit"
 
 #. Tag: para
 #: Events.xml:578
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever "
-"a long-running conversation begins"
-msgstr ""
+msgid "<literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever a long-running conversation begins"
+msgstr "<literal>org.jboss.seam.beginConversation </literal> &#8212; appelé à chaque fois qu'une conversation à éxécution longue commence"
 
 #. Tag: para
 #: Events.xml:579
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a "
-"long-running conversation ends"
-msgstr ""
+msgid "<literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a long-running conversation ends"
+msgstr "<literal>org.jboss.seam.endConversation </literal> &#8212; appelé à chaque fois qu'une conversation à éxécution longue finie"
 
 #. Tag: para
 #: Events.xml:580
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a "
-"conversation timeout occurs. The conversation id is passed as a parameter."
-msgstr ""
+msgid "<literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter."
+msgstr "<literal>org.jboss.seam.conversationTimeout</literal> &#8212; appelé quand une conversation à éxécution longue se périme. L'identifiant de conversation est en paramètre."
 
 #. Tag: para
 #: Events.xml:581
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a "
-"pageflow begins"
-msgstr ""
+msgid "<literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a pageflow begins"
+msgstr "<literal>org.jboss.seam.beginPageflow </literal> &#8212; appelé quand un echainement de page commence"
 
 #. Tag: para
 #: Events.xml:582
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called "
-"when the pageflow &lt;name&gt; begins"
-msgstr ""
+msgid "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; begins"
+msgstr "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; appelé quand l'enchainement de page &lt;name&gt; commence"
 
 #. Tag: para
 #: Events.xml:583
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.endPageflow </literal> &#8212; called when a "
-"pageflow ends"
-msgstr ""
+msgid "<literal>org.jboss.seam.endPageflow </literal> &#8212; called when a pageflow ends"
+msgstr "<literal>org.jboss.seam.endPageflow </literal> &#8212; appelé quand un enchainement de page se termine"
 
 #. Tag: para
 #: Events.xml:584
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called "
-"when the pageflow &lt;name&gt; ends"
-msgstr ""
+msgid "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; ends"
+msgstr "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; appelé quand l'enchainement de pages  &lt;name&gt; se termine"
 
 #. Tag: para
 #: Events.xml:585
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called "
-"when the process &lt;name&gt; is created"
-msgstr ""
+msgid "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is created"
+msgstr "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; appelé quand le processus &lt;name&gt; est créé"
 
 #. Tag: para
 #: Events.xml:586
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called "
-"when the process &lt;name&gt; ends"
-msgstr ""
+msgid "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; ends"
+msgstr "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; appelé quand le processus &lt;name&gt; se termine"
 
 #. Tag: para
 #: Events.xml:587
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called "
-"when the process &lt;name&gt; is associated with the conversation"
-msgstr ""
+msgid "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is associated with the conversation"
+msgstr "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; appelé quand le processus &lt;name&gt; est associé avec la conversation"
 
 #. Tag: para
 #: Events.xml:588
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when "
-"the task &lt;name&gt; is associated with the conversation"
-msgstr ""
+msgid "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is associated with the conversation"
+msgstr "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; appelé quand la tâche &lt;name&gt; est associée avec la conversation"
 
 #. Tag: para
 #: Events.xml:589
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called "
-"when the task &lt;name&gt; is started"
-msgstr ""
+msgid "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is started"
+msgstr "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; appelé quand la tâche &lt;name&gt; est démarrée"
 
 #. Tag: para
 #: Events.xml:590
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when "
-"the task &lt;name&gt; is ended"
-msgstr ""
+msgid "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is ended"
+msgstr "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; appelé quand la tâche &lt;name&gt; est terminée"
 
 #. Tag: para
 #: Events.xml:591
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called "
-"when the component &lt;name&gt; is created"
-msgstr ""
+msgid "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is created"
+msgstr "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; appelée quand le composant &lt;name&gt; est créé"
 
 #. Tag: para
 #: Events.xml:592
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called "
-"when the component &lt;name&gt; is destroyed"
-msgstr ""
+msgid "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is destroyed"
+msgstr "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; appelé quand le composant &lt;name&gt; est détruit"
 
 #. Tag: para
 #: Events.xml:593
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.beforePhase </literal> &#8212; called before the "
-"start of a JSF phase"
-msgstr ""
+msgid "<literal>org.jboss.seam.beforePhase </literal> &#8212; called before the start of a JSF phase"
+msgstr "<literal>org.jboss.seam.beforePhase </literal> &#8212; appelé avant le démarrage d'une phase JSF "
 
 #. Tag: para
 #: Events.xml:594
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end "
-"of a JSF phase"
-msgstr ""
+msgid "<literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end of a JSF phase"
+msgstr "<literal>org.jboss.seam.afterPhase </literal> &#8212; appelé après la fin d'une phase JSF"
 
 #. Tag: para
 #: Events.xml:595
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postInitialization </literal> &#8212; called when "
-"Seam has initialized and started up all components"
-msgstr ""
+msgid "<literal>org.jboss.seam.postInitialization </literal> &#8212; called when Seam has initialized and started up all components"
+msgstr "<literal>org.jboss.seam.postInitialization </literal> &#8212; appelé quand Seam est initialisé et démarre tous les composants"
 
 #. Tag: para
 #: Events.xml:596
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postReInitialization </literal> &#8212; called when "
-"Seam has re-initialized and started up all components after a redeploy"
-msgstr ""
+msgid "<literal>org.jboss.seam.postReInitialization </literal> &#8212; called when Seam has re-initialized and started up all components after a redeploy"
+msgstr "<literal>org.jboss.seam.postReInitialization </literal> &#8212; appelé quand Seam a été ré-initialisé et démarre tous les composants après un redéploiement"
 
 #. Tag: para
 #: Events.xml:597
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
-"called when an uncaught exception is handled by Seam"
-msgstr ""
+msgid "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam"
+msgstr "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; appelé quand une exception non traitée est gérée par Seam"
 
 #. Tag: para
 #: Events.xml:598
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an "
-"uncaught exception is handled by Seam"
-msgstr ""
+msgid "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam"
+msgstr "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; appelé quand une exception non traitée est gérée par Seam"
 
 #. Tag: para
 #: Events.xml:599
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when "
-"there was no handler for an uncaught exception"
-msgstr ""
+msgid "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception"
+msgstr "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; appelé quand il n'y a pas de gestionnaire pour une exception non traitée "
 
 #. Tag: para
 #: Events.xml:600
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called "
-"when a transaction succeeds in the Seam Application Framework"
-msgstr ""
+msgid "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework"
+msgstr "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; appelée quand une transaction est un succès dans Seam Application Framework"
 
 #. Tag: para
 #: Events.xml:601
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
-"&#8212; called when a transaction succeeds in the Seam Application Framework "
-"which manages an entity called <literal>&lt;name&gt;</literal>"
-msgstr ""
+msgid "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal>"
+msgstr "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; appelé quand une transaction est un succès dans Seam Application Framework  gérant une entité appelée <literal>&lt;name&gt;</literal>"
 
 #. Tag: para
 #: Events.xml:602
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a "
-"user logs out"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a user logs out"
+msgstr "<literal>org.jboss.seam.security.loggedOut</literal> &#8212; appelé quand un utilisateur se déconnecte"
 
 #. Tag: para
 #: Events.xml:603
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a "
-"user authentication attempt fails"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a user authentication attempt fails"
+msgstr "<literal>org.jboss.seam.security.loginFailed</literal> &#8212; appelé quand l'authentification d'un utilisateur échoue"
 
 #. Tag: para
 #: Events.xml:604
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called "
-"when a user is successfully authenticated"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called when a user is successfully authenticated"
+msgstr "<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; appelé quand un utilisateur réussit à s'authentifier"
 
 #. Tag: para
 #: Events.xml:605
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when "
-"an authorization check fails"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when an authorization check fails"
+msgstr "<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; appelé quand une vérification de l'authentification échoue"
 
 #. Tag: para
 #: Events.xml:606
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there "
-"is no authenticated user and authentication is required"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required"
+msgstr "<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; appelé quand il n'y a pas d'utilisateur authentifié et que l'authentification est requise"
 
 #. Tag: para
 #: Events.xml:607
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called "
-"after a user is authenticated"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called after a user is authenticated"
+msgstr "<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; appelé quand un utilisateur est authentifié"
 
 #. Tag: para
 #: Events.xml:608
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called "
-"before attempting to authenticate a user"
-msgstr ""
+msgid "<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called before attempting to authenticate a user"
+msgstr "<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; appelé avant d'essayer d'authentifier un utilisateur"
 
 #. Tag: para
 #: Events.xml:611
 #, no-c-format
-msgid ""
-"Seam components may observe any of these events in just the same way they "
-"observe any other component-driven events."
-msgstr ""
+msgid "Seam components may observe any of these events in just the same way they observe any other component-driven events."
+msgstr "Les composants de Seam peuvent observer chacun de ces évènements de la même manière qu'ils peuvent observer tous les évènements de conducteurs de composants. "
 
 #. Tag: title
 #: Events.xml:620
 #, no-c-format
 msgid "Seam interceptors"
-msgstr ""
+msgstr "Les intercepteurs de Seam"
 
 #. Tag: para
 #: Events.xml:622
 #, no-c-format
-msgid ""
-"EJB 3.0 introduced a standard interceptor model for session bean components. "
-"To add an interceptor to a bean, you need to write a class with a method "
-"annotated <literal>@AroundInvoke</literal> and annotate the bean with an "
-"<literal>@Interceptors</literal> annotation that specifies the name of the "
-"interceptor class. For example, the following interceptor checks that the "
-"user is logged in before allowing invoking an action listener method:"
-msgstr ""
+msgid "EJB 3.0 introduced a standard interceptor model for session bean components. To add an interceptor to a bean, you need to write a class with a method annotated <literal>@AroundInvoke</literal> and annotate the bean with an <literal>@Interceptors</literal> annotation that specifies the name of the interceptor class. For example, the following interceptor checks that the user is logged in before allowing invoking an action listener method:"
+msgstr "EJB 3.0 introduit un modèle d'intercepteur standard pour les composants bean de session. Pour ajouter un intercepteur à un bean, vous avez besoin d'écrire une classe avec une méthode annotée <literal>@AroundInvoke</literal> et annoter le bean avec une annotation <literal>@Interceptors</literal> qui spécifie le nom de classe d'interception. Par exemple, l'intercepteur suivant vérifie que l'utilisateur est connecté avant d'invoquer une méthode de l'écouteur d'action: "
 
 #. Tag: programlisting
 #: Events.xml:631
@@ -1505,11 +1431,9 @@ msgid ""
 "<![CDATA[public class LoggedInInterceptor {\n"
 "\n"
 "   @AroundInvoke\n"
-"   public Object checkLoggedIn(InvocationContext invocation) throws "
-"Exception {\n"
+"   public Object checkLoggedIn(InvocationContext invocation) throws Exception {\n"
 "   \n"
-"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!"
-"=null;\n"
+"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!=null;\n"
 "      if (isLoggedIn) {\n"
 "         //the user is already logged in\n"
 "         return invocation.proceed();\n"
@@ -1522,20 +1446,29 @@ msgid ""
 "\n"
 "}]]>"
 msgstr ""
+"<![CDATA[public class LoggedInInterceptor {\n"
+"\n"
+"   @AroundInvoke\n"
+"   public Object checkLoggedIn(InvocationContext invocation) throws Exception {\n"
+"   \n"
+"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!=null;\n"
+"      if (isLoggedIn) {\n"
+"         //the user is already logged in\n"
+"         return invocation.proceed();\n"
+"      }\n"
+"      else {\n"
+"         //the user is not logged in, fwd to login page\n"
+"         return \"login\";\n"
+"      }\n"
+"   }\n"
+"\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:633
 #, no-c-format
-msgid ""
-"To apply this interceptor to a session bean which acts as an action "
-"listener, we must annotate the session bean <literal>@Interceptors"
-"(LoggedInInterceptor.class)</literal>. This is a somewhat ugly annotation. "
-"Seam builds upon the interceptor framework in EJB3 by allowing you to use "
-"<literal>@Interceptors</literal> as a meta-annotation for class level "
-"interceptors (those annotated <literal>@Target(TYPE)</literal>). In our "
-"example, we would create an <literal>@LoggedIn</literal> annotation, as "
-"follows:"
-msgstr ""
+msgid "To apply this interceptor to a session bean which acts as an action listener, we must annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>. This is a somewhat ugly annotation. Seam builds upon the interceptor framework in EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation for class level interceptors (those annotated <literal>@Target(TYPE)</literal>). In our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:"
+msgstr "Pour appliquer un intercepteur à un bean de session qui va agir comme un écouteur d'action, vous devez annoter le bean de session <literal>@Interceptors(LoggedInInterceptor.class)</literal>. C'est un peu annoté salement. Seam construit par dessus l'intercepteur du serveur d'application en EJB3 en vous autorisant à utiliser <literal>@Interceptors</literal> comme une méta-annotation pour les intercepteurs de niveau classe (ceux annoté <literal>@Target(TYPE)</literal>). Dans notre exemple, nous voudrions créer une annotation <literal>@LoggedIn</literal> , comme ci-dessous: "
 
 #. Tag: programlisting
 #: Events.xml:642
@@ -1546,14 +1479,16 @@ msgid ""
 "@Interceptors(LoggedInInterceptor.class)\n"
 "public @interface LoggedIn {}]]>"
 msgstr ""
+"<![CDATA[@Target(TYPE)\n"
+"@Retention(RUNTIME)\n"
+"@Interceptors(LoggedInInterceptor.class)\n"
+"public @interface LoggedIn {}]]>"
 
 #. Tag: para
 #: Events.xml:644
 #, no-c-format
-msgid ""
-"We can now simply annotate our action listener bean with <literal>@LoggedIn</"
-"literal> to apply the interceptor."
-msgstr ""
+msgid "We can now simply annotate our action listener bean with <literal>@LoggedIn</literal> to apply the interceptor."
+msgstr "Nous pouvons maintenant simplement annoter notre bean d'écoute d'action avec <literal>@LoggedIn</literal> pour appliquer l'intercepteur. "
 
 #. Tag: programlisting
 #: Events.xml:649
@@ -1571,15 +1506,23 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"changePasswordAction\")\n"
+"@LoggedIn\n"
+"@Interceptors(SeamInterceptor.class)\n"
+"public class ChangePasswordAction implements ChangePassword { \n"
+"    \n"
+"    ...\n"
+"    \n"
+"    public String changePassword() { ... }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:651
 #, no-c-format
-msgid ""
-"If interceptor ordering is important (it usually is), you can add "
-"<literal>@Interceptor</literal> annotations to your interceptor classes to "
-"specify a partial order of interceptors."
-msgstr ""
+msgid "If interceptor ordering is important (it usually is), you can add <literal>@Interceptor</literal> annotations to your interceptor classes to specify a partial order of interceptors."
+msgstr "Si l'ordonnancement de l'intercepteur est important (habituellement c'est le cas), vous pouvez ajouter les annotations <literal>@Interceptor</literal>  à vos classes d'intercepteur pour indiquer un ordre partiel des intercepteurs. "
 
 #. Tag: programlisting
 #: Events.xml:657
@@ -1594,14 +1537,20 @@ msgid ""
 "    ...\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
+"                     ValidationInterceptor.class,\n"
+"                     ConversationInterceptor.class},\n"
+"             within=RemoveInterceptor.class)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:659
 #, no-c-format
-msgid ""
-"You can even have a \"client-side\" interceptor, that runs around any of the "
-"built-in functionality of EJB3:"
-msgstr ""
+msgid "You can even have a \"client-side\" interceptor, that runs around any of the built-in functionality of EJB3:"
+msgstr "Vous pouvez même avoir un intercepteur \"côté client\", qui s'exécute avec toute la fonctionnalité livrée d'EJB3: "
 
 #. Tag: programlisting
 #: Events.xml:664
@@ -1613,132 +1562,89 @@ msgid ""
 "    ...\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Interceptor(type=CLIENT)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
 
 #. Tag: para
 #: Events.xml:666
 #, no-c-format
-msgid ""
-"EJB interceptors are stateful, with a lifecycle that is the same as the "
-"component they intercept. For interceptors which do not need to maintain "
-"state, Seam lets you get a performance optimization by specifying "
-"<literal>@Interceptor(stateless=true)</literal>."
-msgstr ""
+msgid "EJB interceptors are stateful, with a lifecycle that is the same as the component they intercept. For interceptors which do not need to maintain state, Seam lets you get a performance optimization by specifying <literal>@Interceptor(stateless=true)</literal>."
+msgstr "Les intercepteurs EJB sont avec état, avec un cycle de vie qui est le même que le composant qu'ils interceptent. Pour les intercepteurs qui n'ont pas besoin de maintenir un état, Seam vous permet d'avoir une optimisation de la performance en indiquant <literal>@Interceptor(stateless=true)</literal>."
 
 #. Tag: para
 #: Events.xml:673
 #, no-c-format
-msgid ""
-"Much of the functionality of Seam is implemented as a set of built-in Seam "
-"interceptors, including the interceptors named in the previous example. You "
-"don't have to explicitly specify these interceptors by annotating your "
-"components; they exist for all interceptable Seam components."
-msgstr ""
+msgid "Much of the functionality of Seam is implemented as a set of built-in Seam interceptors, including the interceptors named in the previous example. You don't have to explicitly specify these interceptors by annotating your components; they exist for all interceptable Seam components."
+msgstr "La plus grande part de la fonctionnalité de Seam est implémentée comme un groupe d'intercepteurs livré par Seam, incluant les intercepteurs nommés dans l'exemple précédent. Vous n'avez pas à spécifier explicitement ces intercepteurs en annotants vos composants; ils existent pour tous les composants Seam interceptables."
 
 #. Tag: para
 #: Events.xml:680
 #, no-c-format
-msgid ""
-"You can even use Seam interceptors with JavaBean components, not just EJB3 "
-"beans!"
-msgstr ""
+msgid "You can even use Seam interceptors with JavaBean components, not just EJB3 beans!"
+msgstr "Vous pouvez même utiliser les intercepteurs de Seam avec les composants JavaBean components, pas seulement avec les beans EJB3 ! "
 
 #. Tag: para
 #: Events.xml:684
 #, no-c-format
-msgid ""
-"EJB defines interception not only for business methods (using "
-"<literal>@AroundInvoke</literal>), but also for the lifecycle methods "
-"<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, "
-"<literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam "
-"supports all these lifecycle methods on both component and interceptor not "
-"only for EJB3 beans, but also for JavaBean components (except "
-"<literal>@PreDestroy</literal> which is not meaningful for JavaBean "
-"components)."
-msgstr ""
+msgid "EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>), but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these lifecycle methods on both component and interceptor not only for EJB3 beans, but also for JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean components)."
+msgstr "EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>), but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these lifecycle methods on both component and interceptor not only for EJB3 beans, but also for JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean components).EJB défini l'interception pas seuelement pour les méthodes métier (en utilsiant <literal>@AroundInvoke</literal>)), mais aussi pour les méthodes du cycle de vie <literal>@PostConstruct</literal>,<literal>@PreDestroy</literal>, <literal>@PrePassivate</literal>  et  <literal>@PostActive</literal>.  Seam supporte toutes les méthodes du cycle de vie sur à la fois les composants et les intercepteurs pas seulement pour les beans EJB3, mais aussi pour les composants JavaBean  (exception avec <literal>@PreDestroy</literal> qui n'est pas significatif pour les composantsJavaBean). "
 
 #. Tag: title
 #: Events.xml:696
 #, no-c-format
 msgid "Managing exceptions"
-msgstr ""
+msgstr "La gestion des exceptions "
 
 #. Tag: para
 #: Events.xml:698
 #, no-c-format
-msgid ""
-"JSF is surprisingly limited when it comes to exception handling. As a "
-"partial workaround for this problem, Seam lets you define how a particular "
-"class of exception is to be treated by annotating the exception class, or "
-"declaring the exception class in an XML file. This facility is meant to be "
-"combined with the EJB 3.0-standard <literal>@ApplicationException</literal> "
-"annotation which specifies whether the exception should cause a transaction "
-"rollback."
-msgstr ""
+msgid "JSF is surprisingly limited when it comes to exception handling. As a partial workaround for this problem, Seam lets you define how a particular class of exception is to be treated by annotating the exception class, or declaring the exception class in an XML file. This facility is meant to be combined with the EJB 3.0-standard <literal>@ApplicationException</literal> annotation which specifies whether the exception should cause a transaction rollback."
+msgstr "JSF est étonnamant limité quand on vient sur la gestion des exceptions. Comme contournement partiel de ce problème, Seam vous permet de définir comment une classe particulière d'exception doit être traitée par l'annotation de la classe d'exception, ou en déclarant la classe d'exception dans un fichier XML. Cette facilité implique d'être combinée avec l'annotation standardisée EJB 3.0 <literal>@ApplicationException</literal> qui spécifie quand l'exception devrait entrainer une annulation de la transaction. "
 
 #. Tag: title
 #: Events.xml:708
 #, no-c-format
 msgid "Exceptions and transactions"
-msgstr ""
+msgstr "Les exceptions et les transactions"
 
 #. Tag: para
 #: Events.xml:710
 #, no-c-format
-msgid ""
-"EJB specifies well-defined rules that let us control whether an exception "
-"immediately marks the current transaction for rollback when it is thrown by "
-"a business method of the bean: <emphasis>system exceptions</emphasis> always "
-"cause a transaction rollback, <emphasis>application exceptions</emphasis> do "
-"not cause a rollback by default, but they do if "
-"<literal>@ApplicationException(rollback=true)</literal> is specified. (An "
-"application exception is any checked exception, or any unchecked exception "
-"annotated <literal>@ApplicationException</literal>. A system exception is "
-"any unchecked exception without an <literal>@ApplicationException</literal> "
-"annotation.)"
-msgstr ""
+msgid "EJB specifies well-defined rules that let us control whether an exception immediately marks the current transaction for rollback when it is thrown by a business method of the bean: <emphasis>system exceptions</emphasis> always cause a transaction rollback, <emphasis>application exceptions</emphasis> do not cause a rollback by default, but they do if <literal>@ApplicationException(rollback=true)</literal> is specified. (An application exception is any checked exception, or any unchecked exception annotated <literal>@ApplicationException</literal>. A system exception is any unchecked exception without an <literal>@ApplicationException</literal> annotation.)"
+msgstr "EJB spécifie des règles bien définies qui nous permette de contrôler quand une exception marque immédiatement la transaction courante pour l'annulation quand elle est déclenchée par une méthode métier du bean: <emphasis>les exceptions systèmes</emphasis> entrainent toujours une annulation de la transaction, <emphasis>les exceptions d'application</emphasis> n'entrainent par une annulation par défaut, mais elles le font si <literal>@ApplicationException(rollback=true)</literal> est spécifiée. (Une exception d'application est toujours une exception vérifiée, ou chaque exception non vérifiée est annotée par <literal>@ApplicationException</literal>. Une exception du système est toujours une exception non vérifiée sans une annotation <literal>@ApplicationException</literal>.) "
 
 #. Tag: para
 #: Events.xml:723
 #, no-c-format
-msgid ""
-"Note that there is a difference between marking a transaction for rollback, "
-"and actually rolling it back. The exception rules say that the transaction "
-"should be marked rollback only, but it may still be active after the "
-"exception is thrown."
-msgstr ""
+msgid "Note that there is a difference between marking a transaction for rollback, and actually rolling it back. The exception rules say that the transaction should be marked rollback only, but it may still be active after the exception is thrown."
+msgstr "Notez qu'il y a une différence entre marquer une transaction pour annulation, et réellement faire l'annulation. Les règles d'exceptions indiquent seulement que la transaction devrait être marquée pour annulation, mais elle peut toujours être active après que l'exception soit déclenchée. "
 
 #. Tag: para
 #: Events.xml:730
 #, no-c-format
-msgid ""
-"Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean "
-"components."
-msgstr ""
+msgid "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean components."
+msgstr "Seam applique les règles d'annulation d'exception EJB 3.0 aussi que pour les composants JavaBean de Seam. "
 
 #. Tag: para
 #: Events.xml:735
 #, no-c-format
-msgid ""
-"But these rules only apply in the Seam component layer. What about an "
-"exception that is uncaught and propagates out of the Seam component layer, "
-"and out of the JSF layer? Well, it is always wrong to leave a dangling "
-"transaction open, so Seam rolls back any active transaction when an "
-"exception occurs and is uncaught in the Seam component layer."
-msgstr ""
+msgid "But these rules only apply in the Seam component layer. What about an exception that is uncaught and propagates out of the Seam component layer, and out of the JSF layer? Well, it is always wrong to leave a dangling transaction open, so Seam rolls back any active transaction when an exception occurs and is uncaught in the Seam component layer."
+msgstr "Mais ces règles s'appliquent seulement dans la couche composant de Seam. Que se passe t'il avec une exception qui n'est pas attrapé et qui se propage à l'extérieur de la couche composant de Seam, et à l'extérieur de la couche JSF ? Et bien, il est toujours mauvais de lever une transation brainbalante ouverte, donc Seam rejoue en marche arrière chaque transaction active quand une exception apparait et ce n'est pas gérer dans la couche composant de Seam. "
 
 #. Tag: title
 #: Events.xml:745
 #, no-c-format
 msgid "Enabling Seam exception handling"
-msgstr ""
+msgstr "Activer la gestion d'exception de Seam"
 
 #. Tag: para
 #: Events.xml:747
 #, no-c-format
-msgid ""
-"To enable Seam's exception handling, we need to make sure we have the master "
-"servlet filter declared in <literal>web.xml</literal>:"
-msgstr ""
+msgid "To enable Seam's exception handling, we need to make sure we have the master servlet filter declared in <literal>web.xml</literal>:"
+msgstr "Pour activer la gestion d'exception de Seam, nous devons être sûr que nous avons un filtre de servlet maitre déclaré dans <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:752
@@ -1754,31 +1660,33 @@ msgid ""
 "    <url-pattern>*.seam</url-pattern>\n"
 "</filter-mapping>]]>"
 msgstr ""
+"<![CDATA[<filter>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>\n"
+"</filter>\n"
+"\n"
+"<filter-mapping>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <url-pattern>*.seam</url-pattern>\n"
+"</filter-mapping>]]>"
 
 #. Tag: para
 #: Events.xml:754
 #, no-c-format
-msgid ""
-"You need to disable Facelets development mode in <literal>web.xml</literal> "
-"and Seam debug mode in <literal>components.xml</literal> if you want your "
-"exception handlers to fire."
-msgstr ""
+msgid "You need to disable Facelets development mode in <literal>web.xml</literal> and Seam debug mode in <literal>components.xml</literal> if you want your exception handlers to fire."
+msgstr "Vous devriez aussi avoir besoin de désactiver le mode de développement Facelets dans <literal>web.xml</literal> et le mode de déboguage de Seam dans <literal>components.xml</literal>  si vous voulez que vos gestionnaire d'exception se déclenchent. "
 
 #. Tag: title
 #: Events.xml:763
 #, no-c-format
 msgid "Using annotations for exception handling"
-msgstr ""
+msgstr "Utilisation des annotations pour la gestion d'exception"
 
 #. Tag: para
 #: Events.xml:765
 #, no-c-format
-msgid ""
-"The following exception results in a HTTP 404 error whenever it propagates "
-"out of the Seam component layer. It does not roll back the current "
-"transaction immediately when thrown, but the transaction will be rolled back "
-"if it the exception is not caught by another Seam component."
-msgstr ""
+msgid "The following exception results in a HTTP 404 error whenever it propagates out of the Seam component layer. It does not roll back the current transaction immediately when thrown, but the transaction will be rolled back if it the exception is not caught by another Seam component."
+msgstr "L'exception suivant résulte d'une erreur HTTP 404 qui à tout moment peut se propager à l'exterieur de la couche composant de Seam. Elle n'annule pas la transaction courante immédiatement à son déclenchement, mais la transaction va être annulé si l'exception n'est pas prise en compte par un autre composant de Seam. "
 
 #. Tag: programlisting
 #: Events.xml:772
@@ -1787,15 +1695,14 @@ msgid ""
 "<![CDATA[@HttpError(errorCode=404)\n"
 "public class ApplicationException extends Exception { ... }]]>"
 msgstr ""
+"<![CDATA[@HttpError(errorCode=404)\n"
+"public class ApplicationException extends Exception { ... }]]>"
 
 #. Tag: para
 #: Events.xml:774
 #, no-c-format
-msgid ""
-"This exception results in a browser redirect whenever it propagates out of "
-"the Seam component layer. It also ends the current conversation. It causes "
-"an immediate rollback of the current transaction."
-msgstr ""
+msgid "This exception results in a browser redirect whenever it propagates out of the Seam component layer. It also ends the current conversation. It causes an immediate rollback of the current transaction."
+msgstr "Cette exception résulte dans une redirection du navigateur au moment où elle est propagée à l'extérieur de la couche composant de Seam. Elle finit aussi la conversation courante. Elle déclenche une annulation immédiate de la transaction courante. "
 
 #. Tag: programlisting
 #: Events.xml:780
@@ -1803,34 +1710,29 @@ msgstr ""
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
 "@ApplicationException(rollback=true)\n"
-"public class UnrecoverableApplicationException extends RuntimeException "
-"{ ... }]]>"
+"public class UnrecoverableApplicationException extends RuntimeException { ... }]]>"
 msgstr ""
+"<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
+"@ApplicationException(rollback=true)\n"
+"public class UnrecoverableApplicationException extends RuntimeException { ... }]]>"
 
 #. Tag: note
 #: Events.xml:782
 #, no-c-format
-msgid ""
-"It is important to note that Seam cannot handle exceptions that occur during "
-"JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect "
-"once the response has started being written to."
-msgstr ""
+msgid "It is important to note that Seam cannot handle exceptions that occur during JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect once the response has started being written to."
+msgstr "Il ets important de noter que Seam ne peut gérer les exceptions qui se déclenchent pendant la phase de JSF RENDER_RESPONSE et il n'est pas possible de réaliser une redirection tant que la response n'a pas commencé à être écrite."
 
 #. Tag: para
 #: Events.xml:788
 #, no-c-format
-msgid ""
-"You can also use EL to specify the <literal>viewId</literal> to redirect to."
-msgstr ""
+msgid "You can also use EL to specify the <literal>viewId</literal> to redirect to."
+msgstr "Vous pouvez aussi utiliser EL pour indiquer le <literal>viewId</literal> à être rediriger vers."
 
 #. Tag: para
 #: Events.xml:792
 #, no-c-format
-msgid ""
-"This exception results in a redirect, along with a message to the user, when "
-"it propagates out of the Seam component layer. It also immediately rolls "
-"back the current transaction."
-msgstr ""
+msgid "This exception results in a redirect, along with a message to the user, when it propagates out of the Seam component layer. It also immediately rolls back the current transaction."
+msgstr "Cette exception déclenche une redirection, avec un message pour l'utilisateur, quand il se propage hors de la couche composant de Seam. Cela aussi invalide immédiatement la transaction courante."
 
 #. Tag: programlisting
 #: Events.xml:798
@@ -1839,21 +1741,20 @@ msgid ""
 "<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
 "public class SystemException extends RuntimeException { ... }]]>"
 msgstr ""
+"<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
+"public class SystemException extends RuntimeException { ... }]]>"
 
 #. Tag: title
 #: Events.xml:803
 #, no-c-format
 msgid "Using XML for exception handling"
-msgstr ""
+msgstr "Utilisation d'XML pour la gestion d'exception"
 
 #. Tag: para
 #: Events.xml:805
 #, no-c-format
-msgid ""
-"Since we can't add annotations to all the exception classes we are "
-"interested in, Seam also lets us specify this functionality in "
-"<literal>pages.xml</literal>."
-msgstr ""
+msgid "Since we can't add annotations to all the exception classes we are interested in, Seam also lets us specify this functionality in <literal>pages.xml</literal>."
+msgstr "Comme nous ne pouvons pas ajouter les annotations pour toutes les classes d'exceptions auquelles nous nous intéressons, Seam nous permet aussi d'indiquer cette fonctionnalité dans <literal>pages.xml</literal>."
 
 #. Tag: programlisting
 #: Events.xml:810
@@ -1881,30 +1782,45 @@ msgid ""
 "   \n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"   \n"
+"   <exception class=\"javax.persistence.EntityNotFoundException\">\n"
+"      <http-error error-code=\"404\"/>\n"
+"   </exception>\n"
+"   \n"
+"   <exception class=\"javax.persistence.PersistenceException\">\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Database access failed</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"   <exception>\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Unexpected failure</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:812
 #, no-c-format
-msgid ""
-"The last <literal>&lt;exception&gt;</literal> declaration does not specify a "
-"class, and is a catch-all for any exception for which handling is not "
-"otherwise specified via annotations or in <literal>pages.xml</literal>."
-msgstr ""
+msgid "The last <literal>&lt;exception&gt;</literal> declaration does not specify a class, and is a catch-all for any exception for which handling is not otherwise specified via annotations or in <literal>pages.xml</literal>."
+msgstr "La dernière déclaration <literal>&lt;exception&gt;</literal>  ne spécifie pas une classe, mais c'est un fourre-tout pour chaque exception pour laquelle une traitement n'est pas autrement spécifié via les annotation ou <literal>pages.xml</literal>."
 
 #. Tag: para
 #: Events.xml:818
 #, no-c-format
-msgid ""
-"You can also use EL to specify the <literal>view-id</literal> to redirect to."
-msgstr ""
+msgid "You can also use EL to specify the <literal>view-id</literal> to redirect to."
+msgstr "Vous pouvez aussi utiliser EL pour indiquer le <literal>view-id</literal> à être rediriger vers."
 
 #. Tag: para
 #: Events.xml:822
 #, no-c-format
-msgid ""
-"You can also access the handled exception instance through EL, Seam places "
-"it in the conversation context, e.g. to access the message of the exception:"
-msgstr ""
+msgid "You can also access the handled exception instance through EL, Seam places it in the conversation context, e.g. to access the message of the exception:"
+msgstr "Vous pouvez aussi accéder à l'instance de l'exception gérée au travers d'EL, Seam la place dans le contexte de conversation, par exemple pour accéder au message de l'exception: "
 
 #. Tag: programlisting
 #: Events.xml:827
@@ -1918,100 +1834,99 @@ msgid ""
 "    <exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
 "        <end-conversation/>\n"
 "        <redirect view-id=\"/error.xhtml\">\n"
-"            <message severity=\"WARN\">#{org.jboss.seam.handledException."
-"message}</message>\n"
+"            <message severity=\"WARN\">#{org.jboss.seam.handledException.message}</message>\n"
 "        </redirect>\n"
 "    </exception>\n"
 "\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[...\n"
+"throw new AuthorizationException(\"You are not allowed to do this!\");\n"
+"\n"
+"<pages>\n"
+"\n"
+"    <exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
+"        <end-conversation/>\n"
+"        <redirect view-id=\"/error.xhtml\">\n"
+"            <message severity=\"WARN\">#{org.jboss.seam.handledException.message}</message>\n"
+"        </redirect>\n"
+"    </exception>\n"
+"\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Events.xml:829
 #, no-c-format
-msgid ""
-"<literal>org.jboss.seam.handledException</literal> holds the nested "
-"exception that was actually handled by an exception handler. The outermost "
-"(wrapper) exception is also available, as <literal>org.jboss.seam."
-"caughtException</literal>."
-msgstr ""
+msgid "<literal>org.jboss.seam.handledException</literal> holds the nested exception that was actually handled by an exception handler. The outermost (wrapper) exception is also available, as <literal>org.jboss.seam.caughtException</literal>."
+msgstr "<literal>org.jboss.seam.handledException</literal> conserve l'expcetion lié qui a été actuellement géré par un gestionnaire d'exception. L'exception la plus externe (emballé) est aussi disponible, comme une <literal>org.jboss.seam.caughtException</literal>."
 
 #. Tag: title
 #: Events.xml:836
 #, no-c-format
 msgid "Suppressing exception logging"
-msgstr ""
+msgstr "Retirer la journalisation des exceptions"
 
 #. Tag: para
 #: Events.xml:838
 #, no-c-format
-msgid ""
-"For the exception handlers defined in <literal>pages.xml</literal>, it is "
-"possible to declare the logging level at which the exception will be logged, "
-"or to even suppress the exception being logged altogether. The attributes "
-"<literal>log</literal> and <literal>log-level</literal> can be used to "
-"control exception logging. By setting <literal>log=\"false\"</literal> as "
-"per the following example, then no log message will be generated when the "
-"specified exception occurs:"
-msgstr ""
+msgid "For the exception handlers defined in <literal>pages.xml</literal>, it is possible to declare the logging level at which the exception will be logged, or to even suppress the exception being logged altogether. The attributes <literal>log</literal> and <literal>log-level</literal> can be used to control exception logging. By setting <literal>log=\"false\"</literal> as per the following example, then no log message will be generated when the specified exception occurs:"
+msgstr "Pour le hestionnaire d'exception défini dans <literal>pages.xml</literal>, il ets possible de déclarer que le niveau de journalisation pour lequel l'exception sera enregistrée ou même pour supprimer complètement l'enregistrement de l'exception. Les attributs <literal>log</literal> et <literal>log-level</literal> peuvent être utilisé pour controler le niveau de journalisation des exceptions. En définissant <literal>log=\"false\"</literal> comme dans l'exemple suivant, alors aucun message de journalisation ne sera généré quand l'exception spécifié se déclenchera:"
 
 #. Tag: programlisting
 #: Events.xml:847
 #, no-c-format
 msgid ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
-"\" log=\"false\">\n"
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log=\"false\">\n"
 "        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this "
-"feature</message>\n"
+"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
 "        </redirect>\n"
 "    </exception>]]>"
 msgstr ""
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log=\"false\">\n"
+"        <redirect view-id=\"/register.xhtml\">\n"
+"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
+"        </redirect>\n"
+"    </exception>]]>"
 
 #. Tag: para
 #: Events.xml:849
 #, no-c-format
-msgid ""
-"If the <literal>log</literal> attribute is not specified, then it defaults "
-"to <literal>true</literal> (i.e. the exception will be logged). "
-"Alternatively, you can specify the <literal>log-level</literal> to control "
-"at which log level the exception will be logged:"
-msgstr ""
+msgid "If the <literal>log</literal> attribute is not specified, then it defaults to <literal>true</literal> (i.e. the exception will be logged). Alternatively, you can specify the <literal>log-level</literal> to control at which log level the exception will be logged:"
+msgstr "Si l'attribut <literal>log</literal> n'est pas spécifié, alors par défaut c'est à <literal>true</literal> (i.e. l'exception sera enregistrée). Autre chose, vous pouvez indiquer le <literal>log-level</literal> pour controler quel niveau à parti duquel la journalisation des exceptions seront enregistrée:"
 
 #. Tag: programlisting
 #: Events.xml:855
 #, no-c-format
 msgid ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
-"\" log-level=\"info\">\n"
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log-level=\"info\">\n"
 "        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this "
-"feature</message>\n"
+"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
 "        </redirect>\n"
 "    </exception>]]>"
 msgstr ""
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log-level=\"info\">\n"
+"        <redirect view-id=\"/register.xhtml\">\n"
+"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
+"        </redirect>\n"
+"    </exception>]]>"
 
 #. Tag: para
 #: Events.xml:857
 #, no-c-format
-msgid ""
-"The acceptable values for <literal>log-level</literal> are: <literal>fatal, "
-"error, warn, info, debug</literal> or <literal>trace</literal>. If the "
-"<literal>log-level</literal> is not specified, or if an invalid value is "
-"configured, then it will default to <literal>error</literal>."
-msgstr ""
+msgid "The acceptable values for <literal>log-level</literal> are: <literal>fatal, error, warn, info, debug</literal> or <literal>trace</literal>. If the <literal>log-level</literal> is not specified, or if an invalid value is configured, then it will default to <literal>error</literal>."
+msgstr "Les valeurs acceptable de <literal>log-level</literal> sont: <literal>fatal, error, warn, info, debug</literal> ou <literal>trace</literal>. Si le <literal>log-level</literal> n'est pas spécifiée, ou si une valeur invalide est configurée, alors cela sera par défaut à <literal>error</literal>."
 
 #. Tag: title
 #: Events.xml:868
 #, no-c-format
 msgid "Some common exceptions"
-msgstr ""
+msgstr "Quelques exceptions communes"
 
 #. Tag: para
 #: Events.xml:870
 #, no-c-format
 msgid "If you are using JPA:"
-msgstr ""
+msgstr "Si vous utilisez JPA:"
 
 #. Tag: programlisting
 #: Events.xml:874
@@ -2026,42 +1941,56 @@ msgid ""
 "<exception class=\"javax.persistence.OptimisticLockException\">\n"
 "   <end-conversation/>\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
-"      <message>Another user changed the same data, please try again</"
-"message>\n"
+"      <message>Another user changed the same data, please try again</message>\n"
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
+"<![CDATA[<exception class=\"javax.persistence.EntityNotFoundException\">\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>Not found</message>\n"
+"   </redirect>\n"
+"</exception>\n"
+"\n"
+"<exception class=\"javax.persistence.OptimisticLockException\">\n"
+"   <end-conversation/>\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>Another user changed the same data, please try again</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
 
 #. Tag: para
 #: Events.xml:876
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
-msgstr ""
+msgstr "Si vous utilisez le Seam Application Framework:"
 
 #. Tag: programlisting
 #: Events.xml:880
 #, no-c-format
 msgid ""
-"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
-"\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException\">\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
 "      <message>Not found</message>\n"
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
+"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException\">\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>Not found</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
 
 #. Tag: para
 #: Events.xml:882
 #, no-c-format
 msgid "If you are using Seam Security:"
-msgstr ""
+msgstr "Si vous utilisez Seam Security:"
 
 #. Tag: programlisting
 #: Events.xml:886
 #, no-c-format
 msgid ""
-"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
-"\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
 "   <redirect>\n"
 "      <message>You don't have permission to do this</message>\n"
 "   </redirect>\n"
@@ -2073,12 +2002,23 @@ msgid ""
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
+"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
+"   <redirect>\n"
+"      <message>You don't have permission to do this</message>\n"
+"   </redirect>\n"
+"</exception>\n"
+"    \n"
+"<exception class=\"org.jboss.seam.security.NotLoggedInException\">\n"
+"   <redirect view-id=\"/login.xhtml\">\n"
+"      <message>Please log in first</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
 
 #. Tag: para
 #: Events.xml:888
 #, no-c-format
 msgid "And, for JSF:"
-msgstr ""
+msgstr "et, pour JSF:"
 
 #. Tag: programlisting
 #: Events.xml:892
@@ -2090,15 +2030,15 @@ msgid ""
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
+"<![CDATA[<exception class=\"javax.faces.application.ViewExpiredException\">\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>Your session has timed out, please try again</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
 
 #. Tag: para
 #: Events.xml:894
 #, no-c-format
-msgid ""
-"A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
-"page once their session has expired. The <literal>conversation-required</"
-"literal> and <literal>no-conversation-view-id</literal> settings in the Seam "
-"page descriptor, discussed in <xref linkend=\"conversations.required\"/>, "
-"give you finer-grained control over session expiration if you are accessing "
-"a page used within a conversation."
-msgstr ""
+msgid "A <literal>ViewExpiredException</literal> occurs if the user posts back to a page once their session has expired. The <literal>conversation-required</literal> and <literal>no-conversation-view-id</literal> settings in the Seam page descriptor, discussed in <xref linkend=\"conversations.required\"/>, give you finer-grained control over session expiration if you are accessing a page used within a conversation."
+msgstr "Une<literal>ViewExpiredException</literal> se déclenche, si l'utilisateur retourne vers une page une fois que sa session a expirée. Les réglages <literal>conversation-required</literal> et <literal>no-conversation-view-id</literal> dans le descripteur de la page de Seam, vue dans <xref linkend=\"conversations.required\"/>, vous donne un control finement dosé sur l'expiration de la session si vous accéder à une page utilisé dans une conversation."
+
