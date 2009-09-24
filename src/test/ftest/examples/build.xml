@@ -52,6 +52,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="jboss5.context.path" value="${jboss4.context.path}" />
 	<property name="jboss-embedded.context.path" value="/jboss-seam-${example.name}" />
 	<property name="tomcat6.context.path" value="${jboss-embedded.context.path}" />
+	
+	<property name="functional.listener" value="org.jboss.seam.example.common.test.selenium.SeleniumFunctionalTestListener"/>
 
 
 	<!-- common path setup -->
@@ -109,7 +111,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<mkdir dir="${test.output.dir}" />
 
 		<!-- execute testng tests -->
-		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
+		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test" listener="${functional.listener}">
 			<xmlfileset file="${container}.xml" />
 			<sysproperty key="selenium.server.port" value="${selenium.server.port}" />
 			<sysproperty key="selenium.host" value="${selenium.host}" />
@@ -120,6 +122,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<sysproperty key="example.context.path" value="${context.path}" />
 			<sysproperty key="openid.account" value="${openid.account}" />
 			<sysproperty key="openid.password" value="${openid.password}" />
+			<sysproperty key="seam.dir" value="${seam.dir}" />
 		</testng>
 	</target>
 

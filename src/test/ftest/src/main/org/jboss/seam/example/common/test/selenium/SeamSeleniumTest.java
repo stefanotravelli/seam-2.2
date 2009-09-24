@@ -50,15 +50,20 @@ public abstract class SeamSeleniumTest {
     protected String CONTEXT_PATH = "";
     private static Properties properties = new Properties();
     private static boolean propertiesLoaded = false;
-
-    protected SeamSelenium browser;
+    
+    protected static String SEAM_DIR;
+    protected static String APP_NAME;
+    protected static String OUTPUT_DIR;
+    
+    //protected SeamSelenium
+    public static SeamSelenium browser;
 
     @BeforeClass
     @Parameters( { "selenium.host", "selenium.server.port", "selenium.browser",
             "selenium.browser.url", "selenium.speed", "selenium.timeout",
-            "PROPERTY_FILE", "example.context.path" })
+            "PROPERTY_FILE", "example.context.path", "seam.dir" })
     public void setParameters(String host, String port, String browser,
-            String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath) {
+            String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath, String seamDir) {
         HOST = host;
         PORT = Integer.parseInt(port);
         BROWSER = browser;
@@ -66,7 +71,9 @@ public abstract class SeamSeleniumTest {
         SPEED = speed;
         TIMEOUT = timeout;
         PROPERTY_FILE = propertyFile;
-        CONTEXT_PATH = contextPath;
+        CONTEXT_PATH = APP_NAME = contextPath;
+        SEAM_DIR = seamDir;
+        OUTPUT_DIR = SEAM_DIR + "/test-output/functional-framework";
     }
 
     @BeforeMethod
@@ -76,7 +83,8 @@ public abstract class SeamSeleniumTest {
 
     @AfterMethod
     public void tearDown() {
-        stopBrowser();
+       /*browser is being closed from SeleniumFunctionalTestListener class*/ 
+       //stopBrowser();
     }
 
     public SeamSelenium startBrowser() {
