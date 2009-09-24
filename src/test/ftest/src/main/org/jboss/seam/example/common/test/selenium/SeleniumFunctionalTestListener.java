@@ -50,9 +50,13 @@ public class SeleniumFunctionalTestListener extends SeamSeleniumTest implements 
    public void onTestFailure(ITestResult arg0)
    {
       String logPath = OUTPUT_DIR + APP_NAME + "/" + arg0.getName();
-      SeamSeleniumTest.browser.captureScreenshot(logPath + ".png");
-      SeamSeleniumTest.browser.logHTMLContext(logPath + ".html");
-      stopBrowser();
+      try {
+         SeamSeleniumTest.browser.captureScreenshot(logPath + ".png");
+         SeamSeleniumTest.browser.logHTMLContext(logPath + ".html");
+      } catch (Exception e) {         
+      } finally {
+         stopBrowser();   
+      }      
    }
    
    public void onTestSkipped(ITestResult arg0)
