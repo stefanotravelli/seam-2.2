@@ -15,7 +15,6 @@ import org.jboss.seam.deployment.AnnotationDeploymentHandler;
 import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.web.AbstractFilter;
 
 @Scope(ScopeType.APPLICATION)
@@ -73,20 +72,11 @@ public class FlexFilter
    }
    
 
-   public void doFilter(final ServletRequest request, final ServletResponse response, FilterChain chain) 
+   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
        throws IOException, ServletException
    {
       if (isMappedToCurrentRequestPath(request)) {         
-         new ContextualHttpServletRequest((HttpServletRequest) request)
-         {
-            @Override
-            public void process() 
-                throws ServletException, IOException
-            {
-               messageBrokerManager.service((HttpServletRequest)request,
-                               (HttpServletResponse)response);
-            }
-         }.run();
+         messageBrokerManager.service((HttpServletRequest)request, (HttpServletResponse)response);
       } else { 
          chain.doFilter(request, response);
       }

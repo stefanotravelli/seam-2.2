@@ -20,6 +20,7 @@ public class FlexAuthenticationBridge
      @In Credentials credentials;
      
      public String login(String username, String password) {
+         System.out.println("---");
          log.info("*LOGIN " + username + " " + password);
          credentials.setUsername(username);
          credentials.setPassword(password);

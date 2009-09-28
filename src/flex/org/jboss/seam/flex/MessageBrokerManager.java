@@ -137,8 +137,10 @@ public class MessageBrokerManager
       } catch (UnsupportedOperationException ue) {
          sendError(res);
       } finally {
-         FlexContext.clearThreadLocalObjects();
+         FlexContext.clearThreadLocalObjects();         
       }
+      
+      log.info("=========== END FLEX REQUEST");
    }
    
    
@@ -221,9 +223,9 @@ public class MessageBrokerManager
       // configure adapter       
       registerSeamAdapter(remotingService);
       destination.createAdapter(SeamAdapter.SEAM_ADAPTER_ID);
-      
-      // configure channel?
-      //System.out.println("-channels " + destination.getChannels());
+            
+      // XXX configure channel?
+      // System.out.println("-channels " + destination.getChannels());
       
       return destination;
    }
