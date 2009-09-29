@@ -654,13 +654,14 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
       var inScope = typeof(Seam) == "undefined" ? false : true;
       
       if (inScope) Seam.Remoting.hideLoadingMessage();
-      
-      window.setTimeout(function() {
-        asyncReq.onreadystatechange = function() {};
-      }, 0);
-  
+        
       if (asyncReq.status == 200)
       {
+        // We do this to avoid a memory leak
+        window.setTimeout(function() {
+          asyncReq.onreadystatechange = function() {};
+        }, 0);      
+      
         if (inScope) Seam.Remoting.log("Response packet:\n" + asyncReq.responseText);
   
         if (callback)
