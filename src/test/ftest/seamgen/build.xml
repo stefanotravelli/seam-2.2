@@ -24,6 +24,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<!-- Location of Seam -->
 	<dirname property="seam.dir" file="${ant.file.ftest.seamgen}/../../../../" />
+	
+	<!-- Build resources -->	
+	<import file="${seam.dir}/build/common.build.xml" />
 
 	<!-- default property setup -->
 	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
@@ -33,6 +36,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="classes.dir" value="${build.dir}/classes" />
 	<property name="test.output.dir" value="${seam.dir}/test-output" />
 	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
+	<property name="root.lib.dir" value="${seam.dir}/lib" />
 
 	<property file="${seam.dir}/${ftest.config.location}" />
 
@@ -40,6 +44,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<path id="classpath.build">
 		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
+		<fileset dir="${root.lib.dir}" includes="testng.jar" />
 	</path>
 
 	<path id="classpath.test">
@@ -59,6 +64,18 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<delete dir="${log.dir}" />
 	</target>
 
+	<!-- Target for declaring needed libraries for tests runs  -->
+	<target name="import.libraries">
+		<copyInlineDependencies id="selenium.server" scope="compile" todir="${ftest.lib.dir}">
+			<dependency groupId="org.seleniumhq.selenium.server" artifactId="selenium-server" version="1.0-beta-2" classifier="standalone"/>
+			<dependency groupId="org.seleniumhq.selenium.client-drivers" artifactId="selenium-java-client-driver" version="1.0-beta-2">
+				<exclusion groupId="org.codehaus.groovy.maven.runtime" artifactId="gmaven-runtime-default"/>
+			</dependency>
+			<dependency groupId="org.apache.ant" artifactId="ant" version="1.7.0"/>
+			<dependency groupId="org.apache.ant" artifactId="ant-launcher" version="1.7.0"/>
+		</copyInlineDependencies>
+	</target>
+
 	<target name="build" depends="build.common" description="Compiles the Test">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
@@ -70,6 +87,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="build.common" description="Compiles the common selenium test code">
+		<!-- Added for downloading libraries   -->
+		<antcall target="import.libraries"> </antcall>
+
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">

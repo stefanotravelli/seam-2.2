@@ -29,12 +29,6 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBoss42xInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss5xInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration;
 import org.jboss.seam.test.functional.seamgen.utils.SeamGenAdapter;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
@@ -74,8 +68,6 @@ public class SeamGenTest
    
    protected static boolean DELETE_PROJECT;
    
-   protected static boolean CONTROL_CONTAINER;
-   
    protected static String TEST_SEAMGEN_PROPERTIES_FILE;
    
    // Selenium related constants
@@ -96,8 +88,6 @@ public class SeamGenTest
    
    // Selenium server instance
    protected static SeleniumServer seleniumServer;
-   // Container instance
-   protected static LocalContainer container;
    
    @BeforeSuite
    @Parameters("seam.dir")
@@ -123,20 +113,12 @@ public class SeamGenTest
       loadFtestProperties();
       createOutputDir();
       startSeleniumServer();
-      if (CONTROL_CONTAINER)
-      {
-         container = startContainer(CONTAINER, CONTAINER_LOCATION);
-      }
    }
    
    @AfterSuite
    public void afterSuite()
    {
       seleniumServer.stop();
-      if (container != null)
-      {
-         stopContainer(container);
-      }
    }
    
    @BeforeTest
@@ -180,7 +162,6 @@ public class SeamGenTest
       CONTAINER_LOCATION = getProperty(ftestProperties, CONTAINER + ".home");
       DEPLOY_TIMEOUT = Integer.parseInt(getProperty(ftestProperties, CONTAINER + ".deploy.waittime")) * 1000; // miliseconds
       DELETE_PROJECT = Boolean.valueOf(getProperty(ftestProperties, "seamgen.delete.project", "false"));
-      CONTROL_CONTAINER = Boolean.valueOf(getProperty(ftestProperties, "seamgen.control.container", "false"));
       
       // load selenium constants
       SELENIUM_HOST = getProperty(ftestProperties, "selenium.host");
@@ -328,36 +309,5 @@ public class SeamGenTest
       {
          dir.mkdir();
       }
-   }
-   
-   public LocalContainer startContainer(String containerName, String containerHome)
-   {
-      
-      LocalConfiguration configuration = new JBossExistingLocalConfiguration(containerHome + "/server/default");
-      
-      InstalledLocalContainer container;
-      
-      if (containerName.equals("jboss4"))
-      {
-         container = new JBoss42xInstalledLocalContainer(configuration);
-         
-      }
-      else if (containerName.equals("jboss5"))
-      {
-         container = new JBoss5xInstalledLocalContainer(configuration);
-      }
-      else
-      {
-         throw new RuntimeException("Unknown container");
-      }
-      container.setHome(containerHome);
-      
-      container.start();
-      return container;
-   }
-   
-   public void stopContainer(LocalContainer container)
-   {
-      container.stop();
-   }
+   }  
 }

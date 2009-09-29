@@ -54,11 +54,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="tomcat6.context.path" value="${jboss-embedded.context.path}" />
 	
 	<property name="functional.listener" value="org.jboss.seam.example.common.test.selenium.SeleniumFunctionalTestListener"/>
+	<property name="root.lib.dir" value="${seam.dir}/lib" />
 
 
 	<!-- common path setup -->
 
 	<path id="classpath.build">
+		<fileset dir="${root.lib.dir}" includes="**/*.jar" />
 		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
 	</path>
 
