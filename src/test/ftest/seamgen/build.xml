@@ -32,8 +32,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
 	<property name="common.src.dir" value="${ftest.dir}/src/main" />
 	<property name="src.dir" value="src/main" />
-	<property name="build.dir" value="build" />
-	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="seamgen.build.dir" value="build" />
+	<property name="classes.dir" value="${seamgen.build.dir}/classes" />
 	<property name="test.output.dir" value="${seam.dir}/test-output" />
 	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
 	<property name="root.lib.dir" value="${seam.dir}/lib" />
@@ -57,7 +57,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</path>
 
 	<target name="clean" description="Delete all generated files">
-		<delete dir="${build.dir}" />
+		<delete dir="${seamgen.build.dir}" />
 		<delete dir="${test.output.dir}" />
 		<delete dir="${report.dir}" />
 		<delete dir="${log.dir}" />
