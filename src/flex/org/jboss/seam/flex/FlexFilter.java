@@ -30,7 +30,7 @@ public class FlexFilter
 
    MessageBrokerManager messageBrokerManager;
    List<Class<?>> scanned = new ArrayList<Class<?>>();
-   
+
    private AnnotationDeploymentHandler annotationDeploymentHandler() {
       DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");                   
       
@@ -105,10 +105,12 @@ public class FlexFilter
       public String getServletName() {
          return "FlexServlet";
       }
-      
-      public String getInitParameter(String param) {
-         log.info("*** FSC getInitParam " + param);
-         return params.get(param);
+           
+      public String getInitParameter(String param) {         
+         String result = params.get(param);
+         
+         log.info("init param " + param + " is " + result);
+         return result;
       }
       
       @SuppressWarnings("unchecked")        

@@ -24,9 +24,12 @@ import org.jboss.seam.util.Resources;
 
 public class MessageBrokerManager
 {
+   private static final String SEAM_ENDPOINT = "seam-amf";
+
    private static final LogProvider log = Logging.getLogProvider(MessageBrokerManager.class);
 
-   private static String FLEXDIR = "/WEB-INF/flex/";
+   private static String WAR_CONFIG_PREFIX = "/WEB-INF/flex/";
+   private static String EAR_CONFIG_PREFIX = "/META-INF/flex/seam-default-";
 
    private flex.messaging.MessageBroker broker;
    
@@ -46,7 +49,7 @@ public class MessageBrokerManager
          FlexContext.setThreadLocalObjects(null, null, null, null, null, servletConfig);         
          ServletLogTarget.setServletContext(servletConfig.getServletContext());
                  
-         FlexConfigurationManager configManager = new FlexConfigurationManager();
+         FlexConfigurationManager configManager = new SeamFlexConfigurationManager();
          MessagingConfiguration config = configManager.getMessagingConfiguration(servletConfig);
          
          config.createLogAndTargets();         
@@ -56,11 +59,20 @@ public class MessageBrokerManager
          // Set the servlet config as thread local
          FlexContext.setThreadLocalObjects(null, null, broker, null, null, servletConfig);
          
-         setupInternalPathResolver(servletConfig.getServletContext());
          setInitServletContext(broker, servletConfig.getServletContext());
          
          // Create endpoints, services, security, and logger on the broker based on configuration
-         config.configureBroker(broker);
+         config.configureBroker(broker);                 
+         
+         
+         if (broker.getChannelIds()== null || !broker.getChannelIds().contains(SEAM_ENDPOINT)) {
+            log.info("seam-amf endpoint not found. creating...");
+
+            broker.createEndpoint(SEAM_ENDPOINT, 
+                  "http://{server.name}:{server.port}/{context.root}/messagebroker/seam-amf", 
+                  "flex.messaging.endpoints.AMFEndpoint");
+         }
+         
          
          //initialize the httpSessionToFlexSessionMap
          synchronized(HttpFlexSession.mapLock)
@@ -74,6 +86,8 @@ public class MessageBrokerManager
          
          configManager.reportTokens();
          config.reportUnusedProperties();
+         
+         
          
          // clear the broker and servlet config as this thread is done
          FlexContext.clearThreadLocalObjects();
@@ -95,19 +109,7 @@ public class MessageBrokerManager
       Reflections.invoke(setMethod, broker, ctx);
    }
    
-   private void setupInternalPathResolver(final ServletContext servletContext)
-   {
-      broker.setInternalPathResolver(
-            new flex.messaging.MessageBroker.InternalPathResolver()
-            {
-               public InputStream resolve(String filename)
-               {
-                  log.info("internal path resolver " + filename);
-                  return Resources.getResourceAsStream(FLEXDIR + filename, servletContext);
-               }
-            }
-      );
-   }
+   
    
    public void destroy()
    {
@@ -133,9 +135,12 @@ public class MessageBrokerManager
          Endpoint endpoint = findEndpoint(req, res);            
          log.info("Endpoint: " + endpoint.describeEndpoint());
          
-         endpoint.service(req, res);
-      } catch (UnsupportedOperationException ue) {
+         endpoint.service(req, res);         
+      } catch (UnsupportedOperationException ue) {     
+         ue.printStackTrace();
          sendError(res);
+      } catch (RuntimeException e) {
+         e.printStackTrace();
       } finally {
          FlexContext.clearThreadLocalObjects();         
       }
@@ -201,6 +206,18 @@ public class MessageBrokerManager
    }
    
    
+   private RemotingService createRemotingService() {
+            RemotingService remotingService = null;
+           
+      remotingService = new RemotingService();
+      remotingService.setId("remoting-service");
+
+      broker.addService(remotingService);
+      log.info("Flex remotingservice not found- creating " + remotingService);
+      return remotingService;
+   }
+   
+   
    private RemotingService findRemotingService() {
       return (RemotingService) broker.getServiceByType(RemotingService.class.getName());
    }
@@ -213,19 +230,20 @@ public class MessageBrokerManager
    
    private Destination createDestination(String destinationName, String componentName) {           
       RemotingService remotingService = findRemotingService();
+      if (remotingService==null) {
+         remotingService = createRemotingService();
+      }
       
       RemotingDestination destination = 
          (RemotingDestination) remotingService.createDestination(destinationName);
       
       destination.setFactory(new FlexSeamFactory(destinationName, componentName));
-      
-      
+            
       // configure adapter       
       registerSeamAdapter(remotingService);
       destination.createAdapter(SeamAdapter.SEAM_ADAPTER_ID);
-            
-      // XXX configure channel?
-      // System.out.println("-channels " + destination.getChannels());
+
+      destination.addChannel(SEAM_ENDPOINT); 
       
       return destination;
    }
