@@ -13,8 +13,11 @@ Maps only properties of WikiFile subclasses we want to keep a history of.
 
     <class name="WikiDocument" entity-name="HistoricalWikiDocument" table="WIKI_DOCUMENT_HISTORY" polymorphism="explicit">
         <id name="historicalFileId" column="FILE_HISTORY_ID">
+            <!-- TODO: This has to be replaced for PostgreSQL support, unfortunately Hibernate can't use named generators in hbm.xml -->
             <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
                 <param name="sequence_name">WIKI_SEQUENCE</param>
+                <param name="initial_value">1000</param>
+                <param name="increment_size">1</param>
             </generator>
         </id>
         <!-- Mandatory WikiFile properties -->
