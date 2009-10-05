@@ -69,10 +69,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<path location="${classes.dir}" />
 	</path>
 
-	<taskdef name="config" classname="org.jboss.ant.taskdefs.server.ConfigManagerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
-	<taskdef name="start" classname="org.jboss.ant.taskdefs.server.StartServerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
-	<taskdef name="stop" classname="org.jboss.ant.taskdefs.server.StopServerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
-
 	<!-- common target definitions -->
 
 	<target name="clean" description="Delete all generated files">
@@ -221,13 +217,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="start.container.jboss" depends="container.properties">
-		<server:config javaHome="${java.home}" jbossHome="${container.home}">
-			<server name="${container.profile}">
-				<jvmarg value="${container.jvm.arguments}" />
-				<sysproperty key="java.endorsed.dirs" value="${container.home}/lib/endorsed" />
-			</server>
-		</server:config>
-		<server:start name="${container.profile}" />
+		<echo message="Starting JBoss server" />
+		<java classname="org.jboss.Main" fork="true" spawn="true" dir="${container.home}/bin">
+			<classpath>
+				<pathelement location="${container.home}/bin/run.jar" />
+			</classpath>
+			<jvmarg line="${container.jvm.arguments}" />
+			<arg line="-c ${jboss.domain} -b ${jboss.host}" />
+		</java>
+		<waitfor maxwait="2" maxwaitunit="minute">
+			<socket server="localhost" port="8080" />
+		</waitfor>
 	</target>
 
 	<target name="stop.container.jboss"  depends="container.properties" >
