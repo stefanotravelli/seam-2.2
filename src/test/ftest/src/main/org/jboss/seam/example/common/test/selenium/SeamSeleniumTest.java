@@ -97,7 +97,10 @@ public abstract class SeamSeleniumTest {
     }
     
     public void stopBrowser() {
-        browser.stop();
+        if (browser != null) 
+        {
+           browser.stop();
+        }
     }
 
     public String getProperty(String key) {
