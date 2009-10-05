@@ -46,7 +46,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</path>
 	
 	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
-	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/> 
 
 	<target name="testall" description="Run functional testsuite based on container property">
 		<fail unless="container">Please set container property.</fail>
@@ -407,6 +407,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</ant>	
 	</target>
 	<target name="start.container" if="run.container.per.suite">
+		<!-- Added for downloading libraries  -->
+		<antcall target="import.libraries"> </antcall>
+		
 		<echo>Starting container</echo>
 		<ant antfile="examples/build.xml" target="start.container.jboss" inheritall="false">
 			<property name="container" value="${container}" />
