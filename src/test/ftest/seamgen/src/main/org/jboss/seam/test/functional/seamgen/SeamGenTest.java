@@ -245,9 +245,9 @@ public class SeamGenTest
             else if("-log".equals(cmd)) {
                rcc.setLogOutFileName(parameters.nextToken());
             }
-            else if("-singleWindow".equals(cmd)) {
+            /*else if("-singleWindow".equals(cmd)) {
                rcc.setMultiWindow(false);
-            }
+            }*/
             else if("-avoidProxy".equals(cmd)) {
                rcc.setHonorSystemProxy(false);
             }

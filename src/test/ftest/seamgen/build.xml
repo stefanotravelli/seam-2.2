@@ -43,6 +43,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<!-- common path setup -->
 
 	<path id="classpath.build">
+		<fileset dir="${root.lib.dir}">
+					<include name="testng.jar"/>
+					<include name="gen/ant.jar"/>
+		</fileset>
 		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
 	</path>
 
@@ -63,19 +67,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<delete dir="${log.dir}" />
 	</target>
 
-	<!-- Target for declaring needed libraries for tests runs  -->
-	<target name="import.libraries">
-		<copyInlineDependencies id="selenium.server" scope="compile" todir="${ftest.lib.dir}">
-			<dependency groupId="org.seleniumhq.selenium.server" artifactId="selenium-server" version="1.0-beta-2" classifier="standalone"/>
-			<dependency groupId="org.seleniumhq.selenium.client-drivers" artifactId="selenium-java-client-driver" version="1.0-beta-2">
-				<exclusion groupId="org.codehaus.groovy.maven.runtime" artifactId="gmaven-runtime-default"/>
-			</dependency>
-			<dependency groupId="org.apache.ant" artifactId="ant" version="1.7.0"/>
-			<dependency groupId="org.apache.ant" artifactId="ant-launcher" version="1.7.0"/>
-			<dependency groupId="org.testng" artifactId="testng" version="5.9"/>
-		</copyInlineDependencies>
+	<target name="copy.selenium">
+			<ant antfile="${ftest.dir}/examples/build.xml" target="copy.selenium" />
 	</target>
-
+	
 	<target name="build" depends="build.common" description="Compiles the Test">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
@@ -86,10 +81,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</copy>
 	</target>
 
-	<target name="build.common" description="Compiles the common selenium test code">
-		<!-- Added for downloading libraries   -->
-		<antcall target="import.libraries"> </antcall>
-
+	<target name="build.common" depends="copy.selenium" description="Compiles the common selenium test code">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">

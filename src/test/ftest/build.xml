@@ -35,18 +35,18 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
 	<property name="lib.dir" value="${ftest.dir}/lib" />
 	<property name="log.dir" value="${ftest.dir}/log" />
-	
-	<!-- Build resources -->	
+
+	<!-- Build resources -->
 	<import file="${seam.dir}/build/common.build.xml" />
-	
+
 	<path id="selenium.server.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="selenium-server-standalone.jar" />
 		</fileset>
 	</path>
-	
+
 	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
-	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/> 
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
 
 	<target name="testall" description="Run functional testsuite based on container property">
 		<fail unless="container">Please set container property.</fail>
@@ -90,7 +90,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.selenium.server" />
 		<antcall target="stop.container" />
 	</target>
-	
+
 	<target name="testall.jboss5" description="Run functional testsuite for JBoss 5">
 		<property name="container" value="jboss5" />
 		<antcall target="start.container" />
@@ -276,20 +276,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<undeployexample name="wicket" />
 	</target>
 
-	<!-- Target for declaring needed libraries for tests to run  -->
-	<target name="import.libraries">
-		<copyInlineDependencies id="selenium.server" scope="compile" todir="${lib.dir}">
-			<dependency groupId="org.seleniumhq.selenium.server" artifactId="selenium-server" version="1.0-beta-2" classifier="standalone"/>
-			<dependency groupId="org.seleniumhq.selenium.client-drivers" artifactId="selenium-java-client-driver" version="1.0-beta-2">
-				<exclusion groupId="org.codehaus.groovy.maven.runtime" artifactId="gmaven-runtime-default"/>
-			</dependency>
-		</copyInlineDependencies>
+	<target name="copy.selenium">
+		<ant antfile="${ftest.dir}/examples/build.xml" target="copy.selenium" />
 	</target>
-	
-	<target name="start.selenium.server">
-		<!-- Added for downloading libraries   -->
-		<antcall target="import.libraries"> </antcall> 
-		
+
+	<target name="start.selenium.server" depends="copy.selenium">
 		<java classpathref="selenium.server.classpath" classname="org.openqa.selenium.server.SeleniumServer" fork="true" spawn="true">
 			<arg line="-port ${selenium.server.port}" />
 			<arg line="${selenium.server.cmd.args}" />
@@ -298,14 +289,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<waitfor maxwait="30" maxwaitunit="second">
 			<and>
 				<socket server="${selenium.host}" port="${selenium.server.port}" />
-				<!-- this url will 403, so we say that it should start counting errors at 404 to skip -->
-				<http url="http://${selenium.host}:${selenium.server.port}/selenium-server/core/index.html" errorsBeginAt="404" />
+				<!-- this url will start returning 404 once the server is up, we set errorsBeginAt to 405 for the 404 response to be considered correct -->
+				<http url="http://${selenium.host}:${selenium.server.port}/selenium-server/core/index.html" errorsBeginAt="405" />
 			</and>
 		</waitfor>
 	</target>
 
 	<target name="stop.selenium.server">
-		<get taskname="selenium-shutdown" src="http://${selenium.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDown" dest="${log.dir}/server.shutdown.dest.log" ignoreerrors="true" />
+		<get taskname="selenium-shutdown" src="http://${selenium.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer" dest="${log.dir}/server.shutdown.dest.log" ignoreerrors="true" />
 		<echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
 	</target>
 
@@ -350,7 +341,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<callExample path="@{path}" target="undeploy.example" />
 		</sequential>
 	</macrodef>
-	
+
 	<macrodef name="callExample">
 		<attribute name="path" />
 		<attribute name="target" />
@@ -369,19 +360,19 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="start.container" >
 		</antcall>
 	</target>
-	
+
 	<target name="stop.container" if="run.container.per.suite">
 		<echo>Stopping container</echo>
 		<ant antfile="examples/build.xml" target="stop.container.jboss" inheritall="false">
 			<property name="container" value="${container}" />
-		</ant>	
+		</ant>
 	</target>
 	<target name="start.container" if="run.container.per.suite">
 		<echo>Starting container</echo>
 		<ant antfile="examples/build.xml" target="start.container.jboss" inheritall="false">
 			<property name="container" value="${container}" />
-		</ant>	
+		</ant>
 	</target>
-	
+
 </project>
 
