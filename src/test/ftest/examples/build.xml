@@ -31,8 +31,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
 	<property name="src.dir" value="src" />
 	<property name="common.src.dir" value="${ftest.dir}/src/main" />
-	<property name="build.dir" value="build" />
-	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="local.build.dir" value="build" />
+	<property name="classes.dir" value="${local.build.dir}/classes" />
 	<property name="test.output.dir" value="${seam.dir}/test-output" />
 	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
 	<property name="log.dir" value="log" />
@@ -56,6 +56,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="functional.listener" value="org.jboss.seam.example.common.test.selenium.SeleniumFunctionalTestListener"/>
 	<property name="root.lib.dir" value="${seam.dir}/lib" />
 
+	<!-- Build resources -->
+	<import file="${seam.dir}/build/common.build.xml" />
 
 	<!-- common path setup -->
 
@@ -72,7 +74,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<!-- common target definitions -->
 
 	<target name="clean" description="Delete all generated files">
-		<delete dir="${build.dir}" />
+		<delete dir="${local.build.dir}" />
 		<delete dir="${test.output.dir}" />
 		<delete dir="${report.dir}" />
 		<delete dir="${log.dir}" />
@@ -82,7 +84,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="build.extras" description="Build example specific files before build">
 	</target>
 
-	<target name="build" depends="build.common, build.extras" description="Compiles the Test">
+	<target name="build" depends="build.common, build.extras, copy.htmlunit" description="Compiles the Test">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
 			<fileset dir="${src.dir}">
@@ -251,6 +253,28 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			</waitfor>
 			<sleep seconds="3"/>
 		</sequential>
+	</target>
+	
+	<!-- Target for obtaining htmlunit  -->
+	<target name="copy.htmlunit" if="depends.htmlunit">
+		<copyInlineDependencies id="allexamples" scope="compile" todir="${ftest.lib.dir}">
+			<dependency groupId="net.sourceforge.htmlunit" artifactId="htmlunit" version="2.3"/>
+			<dependency groupId="commons-httpclient" artifactId="commons-httpclient" version="3.1"/>
+			<dependency groupId="org.w3c" artifactId="sac" version="1.3"/>
+			<dependency groupId="commons-io" artifactId="commons-io" version="1.3.1"/>
+			<dependency groupId="commons-lang" artifactId="commons-lang" version="2.3"/>
+			<dependency groupId="apache-xerces" artifactId="xercesImpl" version="2.9.0"/>
+			<dependency groupId="commons-collections" artifactId="commons-collections" version="3.1"/>
+			<dependency groupId="commons-lang" artifactId="commons-lang" version="2.3"/>
+			<dependency groupId="apache-xalan" artifactId="xalan" version="j_2.7.0"/>
+			<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
+			<dependency groupId="commons-logging" artifactId="commons-logging" version="1.1.1"/>
+			<dependency groupId="net.sourceforge.cssparser" artifactId="cssparser" version="0.9.5"/>
+			<dependency groupId="net.sourceforge.htmlunit" artifactId="htmlunit-core-js" version="2.4"/>
+			<dependency groupId="net.sourceforge.nekohtml" artifactId="nekohtml" version="1.9.9"/>
+			<dependency groupId="apache-xalan" artifactId="serializer" version="j_2.7.0"/>
+			<dependency groupId="xml-apis" artifactId="xml-apis" version="1.3.03"/>
+		</copyInlineDependencies>
 	</target>
 
 </project>
