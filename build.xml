@@ -1219,6 +1219,14 @@
 	<target name="eclipseclasspath" depends="init, jargen,antlr" description="Update eclipse classpath">
 		<path id="seam-gen.path" path="${seam.dir}/lib/gen/jboss-seam-gen.jar" />
 
+		<ant antfile="${seam.dir}/src/test/ftest/examples/build.xml" target="copy.selenium" />
+		<ant antfile="${seam.dir}/src/test/ftest/examples/build.xml" target="copy.htmlunit">
+			<property name="depends.htmlunit" value="true" />
+		</ant>
+		<path id="ftest.path">
+			<fileset dir="${seam.dir}/lib/ftest" includes="*.jar" />
+		</path>
+		
 	    <taskdef name="eclipseClasspath" 
 	        classname="org.jboss.seam.tool.EclipseClasspathTask" 
 	        classpathref="seam-gen.path"/>
@@ -1251,6 +1259,7 @@
 			<path refid="compile.jul.path" />
 			<path refid="compile.resteasy.path" />
 			<path refid="compile.wicket.path" />
+			<path refid="ftest.path" />
 		</eclipseClasspath>
 	</target>
 
