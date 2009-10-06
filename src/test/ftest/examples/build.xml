@@ -86,7 +86,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="build.extras" description="Build example specific files before build">
 	</target>
 
-	<target name="build" depends="build.common, build.extras, copy.htmlunit, copy.selenium" description="Compiles the Test">
+	<target name="build" depends="build.common, build.extras" description="Compiles the Test">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
 			<fileset dir="${src.dir}">
@@ -98,7 +98,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<!-- TODO we should compile this once to a common place not build for each example -->
 	<!-- TODO if needed we should allow examples to exclude/include src under 
         common dvd does not care about booking for example-->
-	<target name="build.common" description="Compiles the common selenium test code">
+	<target name="build.common" depends="copy.htmlunit, copy.selenium" description="Compiles the common selenium test code">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
