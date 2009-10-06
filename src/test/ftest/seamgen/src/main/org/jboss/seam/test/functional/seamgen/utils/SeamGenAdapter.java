@@ -66,7 +66,7 @@ public class SeamGenAdapter
       Project ant = new Project();
       ant.init();
       ProjectHelper.configureProject(ant, new File(buildfile));
-      // ant.addBuildListener(log);
+      ant.addBuildListener(log);
       return ant;
    }
 
