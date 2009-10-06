@@ -35,7 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="seamgen.build.dir" value="${ftest.dir}/seamgen/build" />
 	<property name="classes.dir" value="${seamgen.build.dir}/classes" />
 	<property name="test.output.dir" value="${seam.dir}/test-output" />
-	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
+	<property name="ftest.lib.dir" value="${seam.dir}/lib/ftest" />
 	<property name="root.lib.dir" value="${seam.dir}/lib" />
 	<property name="ftest.config.location" value="src/test/ftest/ftest.properties"/>
 
@@ -66,6 +66,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<delete dir="${test.output.dir}" />
 		<delete dir="${report.dir}" />
 		<delete dir="${log.dir}" />
+		<delete dir="${ftest.lib.dir}" />
 	</target>
 
 	<target name="copy.selenium">
