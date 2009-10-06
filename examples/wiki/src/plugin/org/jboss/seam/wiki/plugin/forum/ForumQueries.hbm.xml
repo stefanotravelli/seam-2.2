@@ -76,36 +76,25 @@
         order by m.displayPosition asc
     </query>
 
-    <query name="forumTopicCount">
-        select
-            f.id, count(distinct t)
-        from
-            WikiDirectory f, WikiDocument t
-        where
-            f.parent = :parentDir
-            and t.parent = f
-            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
-        group
-            by f.id
-    </query>
-
-    <sql-query name="forumReplyCount">
+    <sql-query name="forumTopicReplyCount">
         <return-scalar column="FORUM_ID" type="long"/>
+        <return-scalar column="TOPIC_COUNT" type="long"/>
         <return-scalar column="REPLY_COUNT" type="long"/>
         select
-            dir0.NODE_ID as FORUM_ID, count(distinct c0.NODE_ID) as REPLY_COUNT
+            dir0.NODE_ID as FORUM_ID,
+            count(doc0.NODE_ID) as TOPIC_COUNT,
+            sum(dc.COMMENT_COUNT) as REPLY_COUNT
         from
-            WIKI_DIRECTORY dir0
-                inner join WIKI_NODE dir1 on dir0.NODE_ID=dir1.NODE_ID
-                                          and dir1.READ_ACCESS_LEVEL &lt;= :readAccessLevel and dir1.PARENT_NODE_ID = :parentDirId
-                  inner join WIKI_NODE doc1 on doc1.PARENT_NODE_ID = dir0.NODE_ID
-                                            and doc1.READ_ACCESS_LEVEL &lt;= :readAccessLevel
-                    inner join WIKI_DOCUMENT doc0 on doc0.NODE_ID=doc1.NODE_ID
-                                                  and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
-                      inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc0.NODE_ID
-                        inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID
-                          inner join WIKI_COMMENT c0 on c0.NS_THREAD in (ct1.NS_THREAD)
-        group by dir0.NODE_ID
+            WIKI_NODE dir0
+              inner join WIKI_NODE doc1 on doc1.PARENT_NODE_ID = dir0.NODE_ID
+                                        and doc1.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+                inner join WIKI_DOCUMENT doc0 on doc0.NODE_ID=doc1.NODE_ID
+                                          and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+                    left outer join WIKI_DOCUMENT_COUNT_COMMENT dc on dc.WIKI_DOCUMENT_ID = doc0.NODE_ID
+        where
+            dir0.READ_ACCESS_LEVEL &lt;= :readAccessLevel and dir0.PARENT_NODE_ID = :parentDirId
+        group by
+            dir0.NODE_ID
     </sql-query>
 
     <sql-query name="forumLastTopic">

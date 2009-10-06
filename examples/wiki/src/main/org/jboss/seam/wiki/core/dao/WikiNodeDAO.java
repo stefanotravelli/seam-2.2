@@ -670,7 +670,11 @@ public class WikiNodeDAO {
         nestedSetQuery.list(); // Append all children hierarchically to the transformers rootWrapper
     }
 
-    public void updateWikiDocumentLastComment(WikiDocument document) {
+    // TODO: This is not great
+    public void updateWikiDocumentComments(WikiDocument document) {
+
+        // First, the denormalized "last comment" data duplication
+
         // TODO: This probably is vulnerable to a race condition if we don't lock the whole WIKI_DOCUMENT_LAST_COMMENT table
 
         Long lastCommentId = (Long)
@@ -698,6 +702,24 @@ public class WikiNodeDAO {
             existingLastCommentEntry.setLastCommentId(lastComment.getId());
             existingLastCommentEntry.setLastCommentCreatedOn(lastComment.getCreatedOn());
             restrictedEntityManager.persist(existingLastCommentEntry);
+        }
+
+        // Next, the denormalized "total comment count" data duplication
+
+        Long commentCount = (Long)
+            getSession(true).getNamedQuery("countCommentOfDocument")
+                .setParameter("documentId", document.getId())
+                .setComment("Counting comments of document: " + document.getId())
+                .uniqueResult();
+
+        WikiDocumentCountComment existingCommentCount =
+                restrictedEntityManager.find(WikiDocumentCountComment.class, document.getId());
+        if (existingCommentCount != null) {
+            existingCommentCount.setCommentCount(commentCount);
+        } else {
+            existingCommentCount = new WikiDocumentCountComment();
+            existingCommentCount.setDocumentId(document.getId());
+            restrictedEntityManager.persist(existingCommentCount);
         }
     }
 

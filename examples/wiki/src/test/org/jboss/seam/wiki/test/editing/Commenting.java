@@ -7,12 +7,13 @@
 package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.CommentQuery;
-import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiDocumentCountComment;
+import org.jboss.seam.wiki.core.model.WikiDocumentLastComment;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
@@ -78,6 +79,10 @@ public class Commenting extends DBUnitSeamTest {
                 WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
                 assert lastComment != null;
                 assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
+
+                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
+                assert countComment != null;
+                assert countComment.getCommentCount() == 8;
             }
 
         }.run();
@@ -138,6 +143,10 @@ public class Commenting extends DBUnitSeamTest {
                 WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
                 assert lastComment != null;
                 assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
+
+                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
+                assert countComment != null;
+                assert countComment.getCommentCount() == 7;
             }
 
         }.run();
@@ -179,6 +188,9 @@ public class Commenting extends DBUnitSeamTest {
                 assert lastComment != null;
                 assert lastComment.getLastCommentId().equals(13l);
 
+                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
+                assert countComment != null;
+                assert countComment.getCommentCount() == 4;
             }
 
         }.run();

@@ -54,6 +54,14 @@
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
+    <database-object>
+        <create>
+            alter table WIKI_DOCUMENT_COUNT_COMMENT add constraint FK_WIKI_DOCUMENT_COUNT_COMMENT_DOCUMENT_ID foreign key (WIKI_DOCUMENT_ID) references WIKI_DOCUMENT (NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
     <!-- ############################### MySQL ############################### -->
 
 
@@ -105,6 +113,14 @@
     <database-object>
         <create>
             alter table WIKI_DOCUMENT_LAST_COMMENT add index FK_WIKI_DOCUMENT_LAST_COMMENT_DOCUMENT_ID (WIKI_DOCUMENT_ID), add constraint FK_WIKI_DOCUMENT_LAST_COMMENT_DOCUMENT_ID foreign key (WIKI_DOCUMENT_ID) references WIKI_DOCUMENT (NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_DOCUMENT_COUNT_COMMENT add index FK_WIKI_DOCUMENT_COUNT_COMMENT_DOCUMENT_ID (WIKI_DOCUMENT_ID), add constraint FK_WIKI_DOCUMENT_COUNT_COMMENT_DOCUMENT_ID foreign key (WIKI_DOCUMENT_ID) references WIKI_DOCUMENT (NODE_ID) on delete cascade;
         </create>
         <drop/>
         <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>

@@ -135,38 +135,18 @@ public class ForumDAO implements Serializable {
             )
             .list();
 
-        // Find topic count (topics are just wiki documents in the forum directories)
-        getSession(true).getNamedQuery("forumTopicCount")
-            .setParameter("parentDir", forumsDirectory)
-            .setComment("Finding topic count for all forums")
+        // Find topic and replies count (topics are just wiki documents in the forum directories)
+        getSession(true).getNamedQuery("forumTopicReplyCount")
+            .setParameter("parentDirId", forumsDirectory.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
+            .setComment("Finding topic and replies count for all forums")
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
                         if (forumInfoMap.containsKey((Long)result[0])) {
                             ForumInfo info = forumInfoMap.get( (Long)result[0] );
                             info.setTotalNumOfTopics((Long)result[1]);
-                            info.setTotalNumOfPosts(info.getTotalNumOfTopics());
-                        }
-                        return null;
-                    }
-                    public List transformList(List list) { return list; }
-                }
-            )
-            .list();
-
-        // Add reply count to topic count to get total num of posts
-        getSession(true).getNamedQuery("forumReplyCount")
-            .setParameter("parentDirId", forumsDirectory.getId())
-            .setParameter("readAccessLevel", currentAccessLevel)
-            .setComment("Finding reply count for all forums")
-            .setResultTransformer(
-                new ResultTransformer() {
-                    public Object transformTuple(Object[] result, String[] strings) {
-                        if (forumInfoMap.containsKey((Long)result[0])) {
-                            ForumInfo info = forumInfoMap.get( (Long)result[0] );
-                            info.setTotalNumOfPosts(
-                                info.getTotalNumOfPosts() + (Long)result[1]
-                            );
+                            info.setTotalNumOfPosts(info.getTotalNumOfTopics() + (Long)result[2]);
                         }
                         return null;
                     }

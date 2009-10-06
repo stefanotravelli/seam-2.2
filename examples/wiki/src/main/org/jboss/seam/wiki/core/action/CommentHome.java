@@ -145,7 +145,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             }
 
             getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
-            getWikiNodeDAO().updateWikiDocumentLastComment(documentHome.getInstance());
+            getWikiNodeDAO().updateWikiDocumentComments(documentHome.getInstance());
             getEntityManager().flush();
 
             Events.instance().raiseEvent("Comment.persisted");
@@ -180,7 +180,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             getEntityManager().clear();
 
             getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
-            getWikiNodeDAO().updateWikiDocumentLastComment(documentHome.getInstance());
+            getWikiNodeDAO().updateWikiDocumentComments(documentHome.getInstance());
             getEntityManager().flush();
 
             getEntityManager().clear();
