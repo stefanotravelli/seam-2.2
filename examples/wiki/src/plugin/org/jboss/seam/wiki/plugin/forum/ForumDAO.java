@@ -146,7 +146,10 @@ public class ForumDAO implements Serializable {
                         if (forumInfoMap.containsKey((Long)result[0])) {
                             ForumInfo info = forumInfoMap.get( (Long)result[0] );
                             info.setTotalNumOfTopics((Long)result[1]);
-                            info.setTotalNumOfPosts(info.getTotalNumOfTopics() + (Long)result[2]);
+                            info.setTotalNumOfPosts(info.getTotalNumOfTopics());
+                            if (result[2] != null) {
+                                info.setTotalNumOfPosts(info.getTotalNumOfPosts() + (Long)result[2]);
+                            }
                         }
                         return null;
                     }

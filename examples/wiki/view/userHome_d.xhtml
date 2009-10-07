@@ -116,7 +116,7 @@
                         <ui:param name="fieldId" value="password"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Password']}</ui:define>
                         <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
-                                       redisplay="true" value="#{userHome.password}"
+                                       redisplay="true" value="#{userHome.password}" autocomplete="off"
                                        disabled="#{userHome.instance.username == guestUser.username}">
                             <a:support status="globalStatus" event="onchange" action="#{userHome.validatePassword}"
                                        reRender="passwordDecorate" oncomplete="onAjaxRequestComplete()"/>
@@ -130,7 +130,7 @@
                         <ui:param name="fieldId" value="passwordControl"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.RepeatPassword']}</ui:define>
                         <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
-                                       redisplay="true" value="#{userHome.passwordControl}"
+                                       redisplay="true" value="#{userHome.passwordControl}" autocomplete="off"
                                        disabled="#{userHome.instance.username == guestUser.username}">
                             <a:support status="globalStatus" event="onchange" action="#{userHome.validatePasswordControl}"
                                        reRender="passwordControlDecorate" oncomplete="onAjaxRequestComplete()"/>
