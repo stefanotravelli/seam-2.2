@@ -706,11 +706,16 @@ public class WikiNodeDAO {
 
         // Next, the denormalized "total comment count" data duplication
 
-        Long commentCount = (Long)
-            getSession(true).getNamedQuery("countCommentOfDocument")
-                .setParameter("documentId", document.getId())
-                .setComment("Counting comments of document: " + document.getId())
-                .uniqueResult();
+        Long commentCount = 0l;
+        try {
+            commentCount = (Long)
+                    getSession(true).getNamedQuery("countCommentOfDocument")
+                        .setParameter("documentId", document.getId())
+                        .setComment("Counting comments of document: " + document.getId())
+                        .uniqueResult();
+        } catch (Exception ex) {
+            // Ugh
+        }
 
         WikiDocumentCountComment existingCommentCount =
                 restrictedEntityManager.find(WikiDocumentCountComment.class, document.getId());
@@ -719,6 +724,7 @@ public class WikiNodeDAO {
         } else {
             existingCommentCount = new WikiDocumentCountComment();
             existingCommentCount.setDocumentId(document.getId());
+            existingCommentCount.setCommentCount(commentCount);
             restrictedEntityManager.persist(existingCommentCount);
         }
     }

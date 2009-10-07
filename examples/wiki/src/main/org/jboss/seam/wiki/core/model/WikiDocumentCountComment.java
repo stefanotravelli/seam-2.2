@@ -19,8 +19,8 @@ public class WikiDocumentCountComment {
     @Column(name = "WIKI_DOCUMENT_ID", nullable = false)
     private Long documentId;
 
-    @Column(name = "COMMENT_COUNT")
-    protected Long commentCount;
+    @Column(name = "COMMENT_COUNT", nullable = false)
+    protected Long commentCount = 0l;
 
     public WikiDocumentCountComment() {}
 
