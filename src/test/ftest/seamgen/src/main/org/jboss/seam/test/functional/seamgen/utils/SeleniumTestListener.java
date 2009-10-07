@@ -52,9 +52,13 @@ public class SeleniumTestListener extends SeleniumSeamGenTest implements ITestLi
    public void onTestFailure(ITestResult arg0)
    {
       String logPath = OUTPUT_DIR + APP_NAME + "/" + arg0.getName();
-      browser.captureScreenshot(logPath + ".png");
-      browser.logHTMLContext(logPath + ".html");
-      stopBrowser();
+      try {
+         browser.logHTMLContext(logPath + ".html");
+         browser.captureScreenshot(logPath + ".png");
+      } catch (Exception e) {         
+      } finally {
+         stopBrowser();   
+      }  
    }
 
    public void onTestSkipped(ITestResult arg0)
