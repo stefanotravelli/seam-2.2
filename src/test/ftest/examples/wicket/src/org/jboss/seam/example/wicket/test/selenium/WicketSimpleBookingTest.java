@@ -21,6 +21,11 @@
  */
 package org.jboss.seam.example.wicket.test.selenium;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
+
+import java.text.MessageFormat;
+
 import org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest;
 
 /**
@@ -39,4 +44,34 @@ public class WicketSimpleBookingTest extends SimpleBookingTest {
                 "index=1");
         browser.select(getProperty("HOTEL_CREDIT_CARD_EXPIRY_YEAR"), "index=1");
     }
+    
+    @Override
+    protected int bookHotel(String hotelName, int bed, int smoking,
+          String creditCard, String creditCardName) {
+      if (!isLoggedIn())
+          fail();
+      if (!browser.isElementPresent(getProperty("SEARCH_SUBMIT"))) {
+          browser.open(CONTEXT_PATH + getProperty("MAIN_PAGE"));
+          browser.waitForPageToLoad(TIMEOUT);
+      }
+      enterSearchQuery(hotelName);
+      browser.click(getProperty("SEARCH_RESULT_TABLE_FIRST_ROW_LINK"));
+      browser.waitForPageToLoad(TIMEOUT);
+      // booking page
+      browser.click(getProperty("BOOKING_BOOK"));
+      browser.waitForPageToLoad(TIMEOUT);
+      // hotel page
+      populateBookingFields(bed, smoking, creditCard, creditCardName);
+      browser.click(getProperty("HOTEL_PROCEED"));
+      browser.waitForPageToLoad(TIMEOUT);
+      // confirm page
+      browser.click(getProperty("HOTEL_CONFIRM"));
+      browser.waitForPageToLoad(TIMEOUT);
+      // main page
+      String message = browser.getText(MessageFormat.format(getProperty("ORDER_CONFIRMATION_NUMBER"), hotelName));
+      
+      int confirmationNumber = Integer.parseInt(message);
+      return confirmationNumber;
+  }
+    
 }
