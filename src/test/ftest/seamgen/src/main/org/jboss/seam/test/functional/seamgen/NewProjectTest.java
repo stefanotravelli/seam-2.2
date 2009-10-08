@@ -75,4 +75,37 @@ public class NewProjectTest extends SeleniumSeamGenTest
       assertTrue(browser.isElementPresent(LOGIN), "User should not be logged in.");
       assertTrue(browser.getText(MESSAGES).contains(LOGIN_FAILED_MESSAGE), LOGIN_FAILED_MESSAGE + " expected.");
    }
+   
+   /**
+    * This method tests a difference between ./seam explode and ./seam restart . Calling the former
+    * one should not cause application redeploy.
+    *  
+    */
+   @Test(groups = { "newProjectGroup" })
+   public void explodeAndRestartDifferenceTest()
+   {
+      login();
+      // verify login
+      assertTrue(browser.isElementPresent(LOGOUT), "Logout link expected.");
+      assertTrue(browser.getText(SIGNED_USER).contains(DEFAULT_USERNAME), "Username not found. " + browser.getText(SIGNED_USER) + " found instead.");
+      // logout
+      
+      boolean explode = seamGen.isExplode();
+      seamGen.setExplode(true);
+      seamGen.hotDeploy();
+      seamGen.setExplode(explode);
+      
+      try
+      {
+         Thread.sleep(HOTDEPLOY_TIMEOUT);
+      }
+      catch (InterruptedException ie)
+      {
+         throw new RuntimeException(ie);
+      }
+      
+      browser.refreshAndWait();
+      assertTrue(browser.isElementPresent(LOGOUT), 
+            "Logout link expected. This means that the application was redeployed and caused the user not to be logged in");      
+   }
 }

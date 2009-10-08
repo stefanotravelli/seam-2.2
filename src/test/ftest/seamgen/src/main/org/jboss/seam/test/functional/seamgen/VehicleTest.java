@@ -43,6 +43,9 @@ public class VehicleTest extends GenerateEntitiesTest
    public static final String VIEW_MAKE = "xpath=id('make')/div/span[2]";
    public static final String VIEW_MODEL = "xpath=id('model')/div/span[2]";
    public static final String VIEW_YEAR = "xpath=id('year')/div/span[2]";
+      
+   protected static String REGISTRATION_TEXT = "Registration";
+   protected static String ERROR_TEXT = "An Error Occurred";
 
    @Test(groups = "generate-entitiesTest", dependsOnGroups = { "newProjectGroup" })
    public void newVehicleTest()
@@ -139,14 +142,36 @@ public class VehicleTest extends GenerateEntitiesTest
       assertTrue(browser.isElementPresent(String.format(VEHICLE_LIST_ROW_BY_OWNER_NAME, registration, username)), "Person not assigned to vehicle.");
    }
 
+   /**
+    * This method verifies that JBSEAM3866 issue is already resolved
+    */
    @Test(groups = "generate-entitiesTest", dependsOnGroups = { "newProjectGroup" })
-   public void searchTest()
+   public void testForJBSEAM3866()
    {
-      final String searchString = "9999999"; // should return two Audis
-
       login();
       browser.clickAndWait(VEHICLE_LINK);
-      assertEquals(search(searchString), 2, "Unexpected number of search results for " + searchString);
+      assertTrue(browser.isTextPresent(REGISTRATION_TEXT),
+            "Page should contain text Registration");
+      
+      boolean explode = seamGen.isExplode();
+      seamGen.setExplode(true);
+      seamGen.hotDeploy();
+      seamGen.setExplode(explode);
+      
+      try
+      {
+         Thread.sleep(HOTDEPLOY_TIMEOUT);
+      }
+      catch (InterruptedException ie)
+      {
+         throw new RuntimeException(ie);
+      }
+      
+      browser.refreshAndWait();
+      assertTrue(browser.isTextPresent(REGISTRATION_TEXT),
+            "Page should contain text Registration, which indicates that the error JBSEAM3866 is not present anymore");
+      assertTrue(!browser.isTextPresent(ERROR_TEXT),
+            "Page contains \"ERROR_TEXT\" which means that JBSEAM3866 error still exists");      
    }
 
    public int search(String pattern)

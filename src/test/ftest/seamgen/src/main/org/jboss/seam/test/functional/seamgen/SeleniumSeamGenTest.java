@@ -54,6 +54,8 @@ public class SeleniumSeamGenTest extends SeamGenTest
 
    public static final String DEFAULT_USERNAME = "admin";
    public static final String DEFAULT_PASSWORD = "";
+   
+   protected static Long HOTDEPLOY_TIMEOUT = 30000L;
 
    public static SeamSelenium browser;
 
