@@ -52,9 +52,9 @@ public class SeleniumFunctionalTestListener extends SeamSeleniumTest implements 
       String logPath = OUTPUT_DIR + APP_NAME + "/" + arg0.getName();
       try {
          SeamSeleniumTest.browser.captureScreenshot(logPath + ".png");
-         SeamSeleniumTest.browser.logHTMLContext(logPath + ".html");
       } catch (Exception e) {         
       } finally {
+         SeamSeleniumTest.browser.logHTMLContext(logPath + ".html");
          stopBrowser();   
       }      
    }

@@ -53,10 +53,10 @@ public class SeleniumTestListener extends SeleniumSeamGenTest implements ITestLi
    {
       String logPath = OUTPUT_DIR + APP_NAME + "/" + arg0.getName();
       try {
-         browser.logHTMLContext(logPath + ".html");
          browser.captureScreenshot(logPath + ".png");
       } catch (Exception e) {         
       } finally {
+         browser.logHTMLContext(logPath + ".html");
          stopBrowser();   
       }  
    }
