@@ -174,6 +174,16 @@ public class VehicleTest extends GenerateEntitiesTest
             "Page contains \"ERROR_TEXT\" which means that JBSEAM3866 error still exists");      
    }
 
+   @Test(groups = "generate-entitiesTest", dependsOnGroups = { "newProjectGroup" })
+   public void searchTest()
+   {
+      final String searchString = "9999999"; // should return two Audis
+
+      login();
+      browser.clickAndWait(VEHICLE_LINK);
+      assertEquals(search(searchString), 2, "Unexpected number of search results for " + searchString);
+   }
+   
    public int search(String pattern)
    {
       browser.type(SEARCH_REGISTRATION, pattern);
