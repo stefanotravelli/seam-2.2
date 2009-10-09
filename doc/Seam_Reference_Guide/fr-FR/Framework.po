@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-25 20:06+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-10-09 16:44+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,57 +17,37 @@ msgstr ""
 #: Framework.xml:6
 #, no-c-format
 msgid "The Seam Application Framework"
-msgstr ""
+msgstr "Le serveur d'application Seam"
 
 #. Tag: para
 #: Framework.xml:8
 #, no-c-format
-msgid ""
-"Seam makes it really easy to create applications by writing plain Java "
-"classes with annotations, which don't need to extend any special interfaces "
-"or superclasses. But we can simplify some common programming tasks even "
-"further, by providing a set of pre-built components which can be re-used "
-"either by configuration in <literal>components.xml</literal> (for very "
-"simple cases) or extension."
-msgstr ""
+msgid "Seam makes it really easy to create applications by writing plain Java classes with annotations, which don't need to extend any special interfaces or superclasses. But we can simplify some common programming tasks even further, by providing a set of pre-built components which can be re-used either by configuration in <literal>components.xml</literal> (for very simple cases) or extension."
+msgstr "Seam rends vraiment plus simple de créer des applications en écrivant les pures-classes Java avec les annotations, qui n'ont pas besoin d'être étendue avec des interfaces spéciales ou des super-classes. Mais nous pouvons simplifier beaucoup plus des tâches communes de programmation en fournissant un groupe de composant pré-livrés qui peuvent être réutilisés en les configurant dans <literal>components.xml</literal> (pour les cas très simple) ou par extention. "
 
 #. Tag: para
 #: Framework.xml:18
 #, no-c-format
-msgid ""
-"The <emphasis>Seam Application Framework</emphasis> can reduce the amount of "
-"code you need to write when doing basic database access in a web "
-"application, using either Hibernate or JPA."
-msgstr ""
+msgid "The <emphasis>Seam Application Framework</emphasis> can reduce the amount of code you need to write when doing basic database access in a web application, using either Hibernate or JPA."
+msgstr "Le <emphasis>Serveur d'Application Seam</emphasis> peut réduire la quantité de code que vous avez besoin d'écrire quand vous voulez faire les accès classiques à la base de données dans une application web, en utilisant aussi bien Hibernate ou JPA. "
 
 #. Tag: para
 #: Framework.xml:24
 #, no-c-format
-msgid ""
-"We should emphasize that the framework is extremely simple, just a handful "
-"of simple classes that are easy to understand and extend. The \"magic\" is "
-"in Seam itself &#8212; the same magic you use when creating any Seam "
-"application even without using this framework."
-msgstr ""
+msgid "We should emphasize that the framework is extremely simple, just a handful of simple classes that are easy to understand and extend. The \"magic\" is in Seam itself &#8212; the same magic you use when creating any Seam application even without using this framework."
+msgstr "Vous devriez apprécier que le serveur d'application soit extrèmement simple, juste un bagage de classes simples qui sont faciles à comprendre et à étendre. La \"magie\" est dans Seam lui-même &#8212; la même magie que vous utiliser quand vous créez tout application Seam même sans utiliser le serveur d'application. "
 
 #. Tag: title
 #: Framework.xml:33
 #, no-c-format
 msgid "Introduction"
-msgstr ""
+msgstr "Introduction"
 
 #. Tag: para
 #: Framework.xml:35
 #, no-c-format
-msgid ""
-"The components provided by the Seam application framework may be used in one "
-"of two different approaches. The first way is to install and configure an "
-"instance of the component in <literal>components.xml</literal>, just like we "
-"have done with other kinds of built-in Seam components. For example, the "
-"following fragment from <literal>components.xml</literal> installs a "
-"component which can perform basic CRUD operations for a <literal>Person</"
-"literal> entity:"
-msgstr ""
+msgid "The components provided by the Seam application framework may be used in one of two different approaches. The first way is to install and configure an instance of the component in <literal>components.xml</literal>, just like we have done with other kinds of built-in Seam components. For example, the following fragment from <literal>components.xml</literal> installs a component which can perform basic CRUD operations for a <literal>Person</literal> entity:"
+msgstr "Les composants fournies par le serveur d'application de Seam peuvent être utilisés d'une ou de deux manières différentes. La première façon est d'installer et de configurer une instance de composant dans <literal>components.xml</literal>, tout comme nous avons fait avec les autres types de composants livrés par Seam. Par exemple, le fragment suivant de <literal>components.xml</literal> installe un composant qui va réaliser les opérations basiques de CRUD pour l'entité  <literal>Person</literal>: "
 
 #. Tag: programlisting
 #: Framework.xml:47
@@ -79,14 +59,17 @@ msgid ""
 "    <framework:id>#{param.personId}</framework:id>\n"
 "</framework:entity-home>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       entity-manager=\"#{personDatabase}\">\n"
+"    <framework:id>#{param.personId}</framework:id>\n"
+"</framework:entity-home>]]>"
 
 #. Tag: para
 #: Framework.xml:49
 #, no-c-format
-msgid ""
-"If that looks a bit too much like \"programming in XML\" for your taste, you "
-"can use extension instead:"
-msgstr ""
+msgid "If that looks a bit too much like \"programming in XML\" for your taste, you can use extension instead:"
+msgstr "i cela ressemble un peu beaucoup à \"programmation en XML\" à votre goût, vous pouvez utiliser une extention à la place: "
 
 #. Tag: programlisting
 #: Framework.xml:54
@@ -103,24 +86,28 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"   @In EntityManager personDatabase;\n"
+"    \n"
+"   public EntityManager getEntityManager() {\n"
+"      return personDatabase; \n"
+"   }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:56
 #, no-c-format
-msgid ""
-"The second approach has one huge advantage: you can easily add extra "
-"functionality, and override the built-in functionality (the framework "
-"classes were carefully designed for extension and customization)."
-msgstr ""
+msgid "The second approach has one huge advantage: you can easily add extra functionality, and override the built-in functionality (the framework classes were carefully designed for extension and customization)."
+msgstr "La seconde approche a un énorme avantage; vous pouvez facilement ajouter des fonctionnalités additionnelles, et surcharger les fonctionnalitées livrées par défaut (les classes du serveurd'applications sont précisément conçues pour l'extention et la personalisation). "
 
 #. Tag: para
 #: Framework.xml:63
 #, no-c-format
-msgid ""
-"A second advantage is that your classes may be EJB stateful session beans, "
-"if you like. (They do not have to be, they can be plain JavaBean components "
-"if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
-msgstr ""
+msgid "A second advantage is that your classes may be EJB stateful session beans, if you like. (They do not have to be, they can be plain JavaBean components if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
+msgstr "Un deuxième avantage est que vos classes peuvent être des beans de session EJB avec état, si vous préférez (Ils ne sont pas obligés de l'être, ils peuvent être de pur composants JavaBean si vous préférez.)  Si vous utiliser JBoss AS, vous allez avoir besoin de la 4.2.2GA ou supérieure:"
 
 #. Tag: programlisting
 #: Framework.xml:70
@@ -128,20 +115,21 @@ msgstr ""
 msgid ""
 "<![CDATA[@Stateful\n"
 "@Name(\"personHome\")\n"
-"public class PersonHome extends EntityHome<Person> implements "
-"LocalPersonHome {\n"
+"public class PersonHome extends EntityHome<Person> implements LocalPersonHome {\n"
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements LocalPersonHome {\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:72
 #, no-c-format
-msgid ""
-"You can also make your classes stateless session beans. In this case you "
-"<emphasis>must</emphasis> use injection to provide the persistence context, "
-"even if it is called <literal>entityManager</literal>:"
-msgstr ""
+msgid "You can also make your classes stateless session beans. In this case you <emphasis>must</emphasis> use injection to provide the persistence context, even if it is called <literal>entityManager</literal>:"
+msgstr "Vous pouvez aussi faire de vos classes des beans de sessions sans état. Dans ce cas, vous <emphasis>devez</emphasis> utiliser l'injection pour fournir le contexte de persistance, meême s'il ya un appel à <literal>entityManager</literal>:"
 
 #. Tag: programlisting
 #: Framework.xml:79
@@ -149,8 +137,7 @@ msgstr ""
 msgid ""
 "<![CDATA[@Stateless\n"
 "@Name(\"personHome\")\n"
-"public class PersonHome extends EntityHome<Person> implements "
-"LocalPersonHome {\n"
+"public class PersonHome extends EntityHome<Person> implements LocalPersonHome {\n"
 "    \n"
 "   @In EntityManager entityManager;\n"
 "    \n"
@@ -160,48 +147,47 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements LocalPersonHome {\n"
+"    \n"
+"   @In EntityManager entityManager;\n"
+"    \n"
+"   public EntityManager getPersistenceContext() { \n"
+"      entityManager; \n"
+"   }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:81
 #, no-c-format
-msgid ""
-"At this time, the Seam Application Framework provides four main built-in "
-"components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</"
-"literal> for CRUD, along with <literal>EntityQuery</literal> and "
-"<literal>HibernateEntityQuery</literal> for queries."
-msgstr ""
+msgid "At this time, the Seam Application Framework provides four main built-in components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</literal> for CRUD, along with <literal>EntityQuery</literal> and <literal>HibernateEntityQuery</literal> for queries."
+msgstr "A cette étape, le Serveur d'application de Seam fourni tout juste quatre composants livrés: <literal>EntityHome</literal>et <literal>HibernateEntityHome</literal> pour le CRUD, avec <literal>EntityQuery</literal> et <literal>HibernateEntityQuery</literal> pour les requêtes. "
 
 #. Tag: para
 #: Framework.xml:89
 #, no-c-format
-msgid ""
-"The Home and Query components are written so that they can function with a "
-"scope of session, event or conversation. Which scope you use depends upon "
-"the state model you wish to use in your application."
-msgstr ""
+msgid "The Home and Query components are written so that they can function with a scope of session, event or conversation. Which scope you use depends upon the state model you wish to use in your application."
+msgstr "es composants Home et Query sont écris de façon qu' ils puissent fonctionner dans une étendue de session, d'évènement ou de conversation. L'étendue que vous utiliserez dépendra du modèle à état que vous souhaiterez utiliser dans votre application. "
 
 #. Tag: para
 #: Framework.xml:95
 #, no-c-format
-msgid ""
-"The Seam Application Framework only works with Seam-managed persistence "
-"contexts. By default, the components will look for a persistence context "
-"named <literal>entityManager</literal>."
-msgstr ""
+msgid "The Seam Application Framework only works with Seam-managed persistence contexts. By default, the components will look for a persistence context named <literal>entityManager</literal>."
+msgstr "Le Serveur d'application de Seam fonctionnement seulement dans les contextes de persistances gérés par Seam. Par défaut, les composants vont chercher un contexte de persistance nommé <literal>entityManager</literal>."
 
 #. Tag: title
 #: Framework.xml:104
 #, no-c-format
 msgid "Home objects"
-msgstr ""
+msgstr "Les objets Home"
 
 #. Tag: para
 #: Framework.xml:106
 #, no-c-format
-msgid ""
-"A Home object provides persistence operations for a particular entity class. "
-"Suppose we have our trusty <literal>Person</literal> class:"
-msgstr ""
+msgid "A Home object provides persistence operations for a particular entity class. Suppose we have our trusty <literal>Person</literal> class:"
+msgstr "Un objet Home fourni les opérations de persistance pour une classe d'entité particulière. Supposons que nous avons notre classe valide <literal>Person</literal> class:"
 
 #. Tag: programlisting
 #: Framework.xml:111
@@ -217,28 +203,33 @@ msgid ""
 "    //getters and setters...\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Entity\n"
+"public class Person {\n"
+"    @Id private Long id;\n"
+"    private String firstName;\n"
+"    private String lastName;\n"
+"    private Country nationality;\n"
+"    \n"
+"    //getters and setters...\n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:113
 #, no-c-format
-msgid ""
-"We can define a <literal>personHome</literal> component either via "
-"configuration:"
-msgstr ""
+msgid "We can define a <literal>personHome</literal> component either via configuration:"
+msgstr "Nous pouvons définir un composant <literal>personHome</literal> via la configuration suivante: "
 
 #. Tag: programlisting
 #: Framework.xml:118
 #, no-c-format
-msgid ""
-"<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person"
-"\" />]]>"
-msgstr ""
+msgid "<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person\" />]]>"
+msgstr "<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person\" />]]>"
 
 #. Tag: para
 #: Framework.xml:120
 #, no-c-format
 msgid "Or via extension:"
-msgstr ""
+msgstr "Ou via une extension: "
 
 #. Tag: programlisting
 #: Framework.xml:124
@@ -247,24 +238,20 @@ msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
 "public class PersonHome extends EntityHome<Person> {}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {}]]>"
 
 #. Tag: para
 #: Framework.xml:126
 #, no-c-format
-msgid ""
-"A Home object provides the following operations: <literal>persist()</"
-"literal>, <literal>remove()</literal>, <literal>update()</literal> and "
-"<literal>getInstance()</literal>. Before you can call the <literal>remove()</"
-"literal>, or <literal>update()</literal> operations, you must first set the "
-"identifier of the object you are interested in, using the <literal>setId()</"
-"literal> method."
-msgstr ""
+msgid "A Home object provides the following operations: <literal>persist()</literal>, <literal>remove()</literal>, <literal>update()</literal> and <literal>getInstance()</literal>. Before you can call the <literal>remove()</literal>, or <literal>update()</literal> operations, you must first set the identifier of the object you are interested in, using the <literal>setId()</literal> method."
+msgstr "Un objet Home fourni les opérations suivantes: <literal>persist()</literal>, <literal>remove()</literal>, <literal>update()</literal> et <literal>getInstance()</literal>. Avant que vous puissiez appeler les opérations <literal>remove()</literal>, ou <literal>update()</literal> vous devez en premier définir l'identification de l'objet dont vous êtes en train de vous intéresser en utilisant la méthode s <literal>setId()</literal>."
 
 #. Tag: para
 #: Framework.xml:135
 #, no-c-format
 msgid "We can use a Home directly from a JSF page, for example:"
-msgstr ""
+msgstr "Vous pouvez utiliser un Home directement depuis une page JSF, pour exemple: "
 
 #. Tag: programlisting
 #: Framework.xml:139
@@ -272,25 +259,27 @@ msgstr ""
 msgid ""
 "<![CDATA[<h1>Create Person</h1>\n"
 "<h:form>\n"
-"    <div>First name: <h:inputText value=\"#{personHome.instance.firstName}\"/"
-"></div>\n"
-"    <div>Last name: <h:inputText value=\"#{personHome.instance.lastName}\"/"
-"></div>\n"
+"    <div>First name: <h:inputText value=\"#{personHome.instance.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{personHome.instance.lastName}\"/></div>\n"
 "    <div>\n"
-"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
-"persist}\"/>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\"/>\n"
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{personHome.instance.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{personHome.instance.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:141
 #, no-c-format
-msgid ""
-"Usually, it is much nicer to be able to refer to the <literal>Person</"
-"literal> merely as <literal>person</literal>, so let's make that possible by "
-"adding a line to <literal>components.xml</literal>:"
-msgstr ""
+msgid "Usually, it is much nicer to be able to refer to the <literal>Person</literal> merely as <literal>person</literal>, so let's make that possible by adding a line to <literal>components.xml</literal>:"
+msgstr "Habituellement, il est plus jolie d'être capable de se référer à la <literal>Person</literal>presque comme une <literal>person</literal>,  rendons cela possible en ajoutant une ligne à <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Framework.xml:147
@@ -302,14 +291,17 @@ msgid ""
 "<framework:entity-home name=\"personHome\" \n"
 "                       entity-class=\"eg.Person\" />]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" />]]>"
 
 #. Tag: para
 #: Framework.xml:149
 #, no-c-format
-msgid ""
-"(If we are using configuration.) Or by adding a <literal>@Factory</literal> "
-"method to <literal>PersonHome</literal>:"
-msgstr ""
+msgid "(If we are using configuration.) Or by adding a <literal>@Factory</literal> method to <literal>PersonHome</literal>:"
+msgstr "(Si nous utilisons la configuration). Ou en ajoutant la méthode <literal>@Factory</literal> a <literal>PersonHome</literal>:"
 
 #. Tag: programlisting
 #: Framework.xml:154
@@ -323,14 +315,19 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:156
 #, no-c-format
-msgid ""
-"(If we are using extension.) This change simplifies our JSF page to the "
-"following:"
-msgstr ""
+msgid "(If we are using extension.) This change simplifies our JSF page to the following:"
+msgstr "(Si vous utilisons l'extention.) Cette modification simplifie notre page JSF comme ci-dessous: "
 
 #. Tag: programlisting
 #: Framework.xml:161
@@ -341,22 +338,24 @@ msgid ""
 "    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
 "    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
 "    <div>\n"
-"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
-"persist}\"/>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\"/>\n"
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:163
 #, no-c-format
-msgid ""
-"Well, that lets us create new <literal>Person</literal> entries. Yes, that "
-"is all the code that is required! Now, if we want to be able to display, "
-"update and delete pre-existing <literal>Person</literal> entries in the "
-"database, we need to be able to pass the entry identifier to the "
-"<literal>PersonHome</literal>. Page parameters are a great way to do that:"
-msgstr ""
+msgid "Well, that lets us create new <literal>Person</literal> entries. Yes, that is all the code that is required! Now, if we want to be able to display, update and delete pre-existing <literal>Person</literal> entries in the database, we need to be able to pass the entry identifier to the <literal>PersonHome</literal>. Page parameters are a great way to do that:"
+msgstr "Et bien, cela nous permet de créer de nouvelles entrées <literal>Person</literal> . Oui, c'est bien tout le code nécéssaire! Maintenant, si vous voulont être capable d'afficher, de modifier, d'éffacer des <literal>Person</literal> préexistantes dans la base de données, nous avons besoin de passer l'identifiant de l'entrée à  <literal>PersonHome</literal>. Les paramètres de pages sont une excelente manière de faire cela: "
 
 #. Tag: programlisting
 #: Framework.xml:172
@@ -368,54 +367,61 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/editPerson.jsp\">\n"
+"        <param name=\"personId\" value=\"#{personHome.id}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Framework.xml:174
 #, no-c-format
 msgid "Now we can add the extra operations to our JSF page:"
-msgstr ""
+msgstr "Maintenant, nous pouvons ajouter les opérations additionnelles à notre page JSF: "
 
 #. Tag: programlisting
 #: Framework.xml:178
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>\n"
-"    <h:outputText rendered=\"#{!personHome.managed}\" value=\"Create Person"
-"\"/>\n"
-"    <h:outputText rendered=\"#{personHome.managed}\" value=\"Edit Person\"/"
-">\n"
+"    <h:outputText rendered=\"#{!personHome.managed}\" value=\"Create Person\"/>\n"
+"    <h:outputText rendered=\"#{personHome.managed}\" value=\"Edit Person\"/>\n"
 "</h1>\n"
 "<h:form>\n"
 "    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
 "    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
 "    <div>\n"
-"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
-"persist}\" rendered=\"#{!personHome.managed}\"/>\n"
-"        <h:commandButton value=\"Update Person\" action=\"#{personHome."
-"update}\" rendered=\"#{personHome.managed}\"/>\n"
-"        <h:commandButton value=\"Delete Person\" action=\"#{personHome."
-"remove}\" rendered=\"#{personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\" rendered=\"#{!personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Update Person\" action=\"#{personHome.update}\" rendered=\"#{personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Delete Person\" action=\"#{personHome.remove}\" rendered=\"#{personHome.managed}\"/>\n"
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>\n"
+"    <h:outputText rendered=\"#{!personHome.managed}\" value=\"Create Person\"/>\n"
+"    <h:outputText rendered=\"#{personHome.managed}\" value=\"Edit Person\"/>\n"
+"</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome.persist}\" rendered=\"#{!personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Update Person\" action=\"#{personHome.update}\" rendered=\"#{personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Delete Person\" action=\"#{personHome.remove}\" rendered=\"#{personHome.managed}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:180
 #, no-c-format
-msgid ""
-"When we link to the page with no request parameters, the page will be "
-"displayed as a \"Create Person\" page. When we provide a value for the "
-"<literal>personId</literal> request parameter, it will be an \"Edit Person\" "
-"page."
-msgstr ""
+msgid "When we link to the page with no request parameters, the page will be displayed as a \"Create Person\" page. When we provide a value for the <literal>personId</literal> request parameter, it will be an \"Edit Person\" page."
+msgstr "Quand nous lions notre page sans paramètres de requêtes, la page va être affiché comme une page \"Création d'une personne\". Quand nous fournissons une valeur au paramètre de requête <literal>personId</literal>, cela va être une page \"Edition d'une personne\". "
 
 #. Tag: para
 #: Framework.xml:187
 #, no-c-format
-msgid ""
-"Suppose we need to create <literal>Person</literal> entries with their "
-"nationality initialized. We can do that easily, via configuration:"
-msgstr ""
+msgid "Suppose we need to create <literal>Person</literal> entries with their nationality initialized. We can do that easily, via configuration:"
+msgstr "Supposons que nous avons besoin de créer une entrée <literal>Person</literal> avec sa nationnalité initialisée. Nous pouvons faire cela facilement via la configuration: "
 
 #. Tag: programlisting
 #: Framework.xml:192
@@ -433,12 +439,23 @@ msgid ""
 "    <property name=\"nationality\">#{country}</property>\n"
 "</component>]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       new-instance=\"#{newPerson}\"/>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
 
 #. Tag: para
 #: Framework.xml:194
 #, no-c-format
 msgid "Or by extension:"
-msgstr ""
+msgstr "Ou par extention: "
 
 #. Tag: programlisting
 #: Framework.xml:198
@@ -458,22 +475,31 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:200
 #, no-c-format
-msgid ""
-"Of course, the <literal>Country</literal> could be an object managed by "
-"another Home object, for example, <literal>CountryHome</literal>."
-msgstr ""
+msgid "Of course, the <literal>Country</literal> could be an object managed by another Home object, for example, <literal>CountryHome</literal>."
+msgstr "Bien sur, le <literal>Country</literal> peut être un objet géré par un autre objet Home, par exemple, <literal>CountryHome</literal>."
 
 #. Tag: para
 #: Framework.xml:205
 #, no-c-format
-msgid ""
-"To add more sophisticated operations (association management, etc), we can "
-"just add methods to <literal>PersonHome</literal>."
-msgstr ""
+msgid "To add more sophisticated operations (association management, etc), we can just add methods to <literal>PersonHome</literal>."
+msgstr "Pour ajouter des opérations plus sophistiquées (gestion d'association, etc.), nous pouvons juste ajouter les méthodes à <literal>PersonHome</literal>. "
 
 #. Tag: programlisting
 #: Framework.xml:210
@@ -499,29 +525,37 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    public void migrate()\n"
+"    {\n"
+"        getInstance().setCountry(country);\n"
+"        update();\n"
+"    }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:212
 #, no-c-format
-msgid ""
-"The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</"
-"literal> event when a transaction succeeds (a call to <literal>persist()</"
-"literal>, <literal>update()</literal> or <literal>remove()</literal> "
-"succeeds). By observing this event we can refresh our queries when the "
-"underlying entities are changed. If we only want to refresh certain queries "
-"when a particular entity is persisted, updated or removed we can observe the "
-"<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event "
-"(where <literal>&lt;name&gt;</literal> is the simple name of the entity, e."
-"g. an entity called \"org.foo.myEntity\" has \"myEntity\" as simple name)."
-msgstr ""
+msgid "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> event when a transaction succeeds (a call to <literal>persist()</literal>, <literal>update()</literal> or <literal>remove()</literal> succeeds). By observing this event we can refresh our queries when the underlying entities are changed. If we only want to refresh certain queries when a particular entity is persisted, updated or removed we can observe the <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event (where <literal>&lt;name&gt;</literal> is the simple name of the entity, e.g. an entity called \"org.foo.myEntity\" has \"myEntity\" as simple name)."
+msgstr "L'objet Home déclenche un évènement <literal>org.jboss.seam.afterTransactionSuccess</literal> quand une transaction réussie (quand un appel à <literal>persist()</literal>, <literal>update()</literal> ou <literal>remove()</literal> réussit). En observant cet évènement nous pouvons rafraichir nos requêtes quand une entitées sousjacentes se modifie. Si nous voulons seulement rafraichir certains requêtes quand un entité particulière est persistée, mise-à-jour ou retirée, nous pouvons observer l'évènement <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> (avec <literal>&lt;name&gt;</literal> qui est le nom simple de l'entité par exemple une entité appelée \"org.foo.myEntity\" a comme nom simple \"myEntity\")."
 
 #. Tag: para
 #: Framework.xml:223
 #, no-c-format
-msgid ""
-"The Home object automatically displays faces messages when an operation is "
-"successful. To customize these messages we can, again, use configuration:"
-msgstr ""
+msgid "The Home object automatically displays faces messages when an operation is successful. To customize these messages we can, again, use configuration:"
+msgstr "L'objet Home affiche automatiquement les messages faces quand une opération est réussit. Pour personnaliser ces messages, nous pouvons, encore, utiliser la configuration: "
 
 #. Tag: programlisting
 #: Framework.xml:228
@@ -533,12 +567,9 @@ msgid ""
 "<framework:entity-home name=\"personHome\"\n"
 "                       entity-class=\"eg.Person\"\n"
 "                       new-instance=\"#{newPerson}\">\n"
-"    <framework:created-message>New person #{person.firstName} #{person."
-"lastName} created</framework:created-message>\n"
-"    <framework:deleted-message>Person #{person.firstName} #{person.lastName} "
-"deleted</framework:deleted-message>\n"
-"    <framework:updated-message>Person #{person.firstName} #{person.lastName} "
-"updated</framework:updated-message>\n"
+"    <framework:created-message>New person #{person.firstName} #{person.lastName} created</framework:created-message>\n"
+"    <framework:deleted-message>Person #{person.firstName} #{person.lastName} deleted</framework:deleted-message>\n"
+"    <framework:updated-message>Person #{person.firstName} #{person.lastName} updated</framework:updated-message>\n"
 "</framework:entity-home>\n"
 "\n"
 "<component name=\"newPerson\" \n"
@@ -546,12 +577,27 @@ msgid ""
 "    <property name=\"nationality\">#{country}</property>\n"
 "</component>]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\"\n"
+"                       entity-class=\"eg.Person\"\n"
+"                       new-instance=\"#{newPerson}\">\n"
+"    <framework:created-message>New person #{person.firstName} #{person.lastName} created</framework:created-message>\n"
+"    <framework:deleted-message>Person #{person.firstName} #{person.lastName} deleted</framework:deleted-message>\n"
+"    <framework:updated-message>Person #{person.firstName} #{person.lastName} updated</framework:updated-message>\n"
+"</framework:entity-home>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
 
 #. Tag: para
 #: Framework.xml:230
 #, no-c-format
 msgid "Or extension:"
-msgstr ""
+msgstr "Ou l'extension: "
 
 #. Tag: programlisting
 #: Framework.xml:234
@@ -569,64 +615,71 @@ msgid ""
 "        return new Person(country);\n"
 "    }\n"
 "    \n"
-"    protected String getCreatedMessage() { return createValueExpression"
-"(\"New person #{person.firstName} #{person.lastName} created\"); }\n"
-"    protected String getUpdatedMessage() { return createValueExpression"
-"(\"Person #{person.firstName} #{person.lastName} updated\"); }\n"
-"    protected String getDeletedMessage() { return createValueExpression"
-"(\"Person #{person.firstName} #{person.lastName} deleted\"); }\n"
+"    protected String getCreatedMessage() { return createValueExpression(\"New person #{person.firstName} #{person.lastName} created\"); }\n"
+"    protected String getUpdatedMessage() { return createValueExpression(\"Person #{person.firstName} #{person.lastName} updated\"); }\n"
+"    protected String getDeletedMessage() { return createValueExpression(\"Person #{person.firstName} #{person.lastName} deleted\"); }\n"
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    protected String getCreatedMessage() { return createValueExpression(\"New person #{person.firstName} #{person.lastName} created\"); }\n"
+"    protected String getUpdatedMessage() { return createValueExpression(\"Person #{person.firstName} #{person.lastName} updated\"); }\n"
+"    protected String getDeletedMessage() { return createValueExpression(\"Person #{person.firstName} #{person.lastName} deleted\"); }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:236
 #, no-c-format
-msgid ""
-"But the best way to specify the messages is to put them in a resource bundle "
-"known to Seam (the bundle named <literal>messages</literal>, by default)."
-msgstr ""
+msgid "But the best way to specify the messages is to put them in a resource bundle known to Seam (the bundle named <literal>messages</literal>, by default)."
+msgstr "Mais la meilleure façon pour spécifier le message est de le mettre dans le lot de ressource connu par Seam (le lot nommé <literal>messages</literal>, par défaut). "
 
 #. Tag: programlisting
 #: Framework.xml:242
 #, no-c-format
 msgid ""
-"<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} "
-"created\n"
+"<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} created\n"
 "Person_deleted=Person #{person.firstName} #{person.lastName} deleted\n"
 "Person_updated=Person #{person.firstName} #{person.lastName} updated]]>"
 msgstr ""
+"<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} created\n"
+"Person_deleted=Person #{person.firstName} #{person.lastName} deleted\n"
+"Person_updated=Person #{person.firstName} #{person.lastName} updated]]>"
 
 #. Tag: para
 #: Framework.xml:244
 #, no-c-format
-msgid ""
-"This enables internationalization, and keeps your code and configuration "
-"clean of presentation concerns."
-msgstr ""
+msgid "This enables internationalization, and keeps your code and configuration clean of presentation concerns."
+msgstr "Cela active l'internationnalisation et converse votre code et votre configuration propre de ce qui concerne la présentation. "
 
 #. Tag: para
 #: Framework.xml:249
 #, no-c-format
-msgid ""
-"The final step is to add validation functionality to the page, using "
-"<literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</"
-"literal>, but I'll leave that for you to figure out."
-msgstr ""
+msgid "The final step is to add validation functionality to the page, using <literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</literal>, but I'll leave that for you to figure out."
+msgstr "L'étape finale est d'ajouter la fonctionnalité de validation à la page, en utilisant <literal>&lt;s:validateAll&gt;</literal> et <literal>&lt;s:decorate&gt;</literal>, mais je vais vous laisser trouver. "
 
 #. Tag: title
 #: Framework.xml:258
 #, no-c-format
 msgid "Query objects"
-msgstr ""
+msgstr "Le objets Query"
 
 #. Tag: para
 #: Framework.xml:260
 #, no-c-format
-msgid ""
-"If we need a list of all <literal>Person</literal> instance in the database, "
-"we can use a Query object. For example:"
-msgstr ""
+msgid "If we need a list of all <literal>Person</literal> instance in the database, we can use a Query object. For example:"
+msgstr "Si nous avons besoin d'une liste de toutes les instance de <literal>Person</literal> dans la base de données, nous pouvons utiliser un objet Query object. Par exemple: "
 
 #. Tag: programlisting
 #: Framework.xml:265
@@ -635,12 +688,14 @@ msgid ""
 "<![CDATA[<framework:entity-query name=\"people\" \n"
 "                        ejbql=\"select p from Person p\"/>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\"/>]]>"
 
 #. Tag: para
 #: Framework.xml:267
 #, no-c-format
 msgid "We can use it from a JSF page:"
-msgstr ""
+msgstr "Nous pouvons l'utiliser dans une page JSF: "
 
 #. Tag: programlisting
 #: Framework.xml:271
@@ -649,19 +704,26 @@ msgid ""
 "<![CDATA[<h1>List of people</h1>\n"
 "<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
 "    <h:column>\n"
-"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
-"{person.lastName}\">\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
 "            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
 "        </s:link>\n"
 "    </h:column>\n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h1>List of people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
 
 #. Tag: para
 #: Framework.xml:273
 #, no-c-format
 msgid "We probably need to support pagination:"
-msgstr ""
+msgstr "Nous avons probablement besoin de supporter la pagination: "
 
 #. Tag: programlisting
 #: Framework.xml:277
@@ -672,12 +734,16 @@ msgid ""
 "                        order=\"lastName\" \n"
 "                        max-results=\"20\"/>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\"/>]]>"
 
 #. Tag: para
 #: Framework.xml:279
 #, no-c-format
 msgid "We'll use a page parameter to determine the page to display:"
-msgstr ""
+msgstr "Nous allons utiliser un paramètre de page pour déterminer la page à afficher: "
 
 #. Tag: programlisting
 #: Framework.xml:284
@@ -689,12 +755,17 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/searchPerson.jsp\">\n"
+"        <param name=\"firstResult\" value=\"#{people.firstResult}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Framework.xml:286
 #, no-c-format
 msgid "The JSF code for a pagination control is a bit verbose, but manageable:"
-msgstr ""
+msgstr "Le code JSF pour le contrôle de la pagination est un peu verbeux mais gérable: "
 
 #. Tag: programlisting
 #: Framework.xml:290
@@ -703,42 +774,58 @@ msgid ""
 "<![CDATA[<h1>Search for people</h1>\n"
 "<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
 "    <h:column>\n"
-"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
-"{person.lastName}\">\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
 "            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
 "        </s:link>\n"
 "    </h:column>\n"
 "</h:dataTable>\n"
 "\n"
-"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
-"\"First Page\">\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value=\"First Page\">\n"
 "    <f:param name=\"firstResult\" value=\"0\"/>\n"
 "</s:link>\n"
 "\n"
-"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
-"\"Previous Page\">\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value=\"Previous Page\">\n"
 "    <f:param name=\"firstResult\" value=\"#{people.previousFirstResult}\"/>\n"
 "</s:link>\n"
 "\n"
-"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
-"\"Next Page\">\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value=\"Next Page\">\n"
 "    <f:param name=\"firstResult\" value=\"#{people.nextFirstResult}\"/>\n"
 "</s:link>\n"
 "\n"
-"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
-"\"Last Page\">\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value=\"Last Page\">\n"
 "    <f:param name=\"firstResult\" value=\"#{people.lastFirstResult}\"/>\n"
 "</s:link>]]>"
 msgstr ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value=\"First Page\">\n"
+"    <f:param name=\"firstResult\" value=\"0\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value=\"Previous Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.previousFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value=\"Next Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.nextFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value=\"Last Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.lastFirstResult}\"/>\n"
+"</s:link>]]>"
 
 #. Tag: para
 #: Framework.xml:292
 #, no-c-format
-msgid ""
-"Real search screens let the user enter a bunch of optional search criteria "
-"to narrow the list of results returned. The Query object lets you specify "
-"optional \"restrictions\" to support this important usecase:"
-msgstr ""
+msgid "Real search screens let the user enter a bunch of optional search criteria to narrow the list of results returned. The Query object lets you specify optional \"restrictions\" to support this important usecase:"
+msgstr "Les écrans de recherche réel permettent à l'utilisateur d'entrer un tas de critères de recherches optionnels pour réduire la liste des résultats retournés. L'objet Query vous permet d'indiquer les \"restrictions\" optionneles pour supporter ce cas d'utilisation important: "
 
 #. Tag: programlisting
 #: Framework.xml:298
@@ -751,19 +838,28 @@ msgid ""
 "                        order=\"lastName\" \n"
 "                        max-results=\"20\">\n"
 "    <framework:restrictions>\n"
-"        <value>lower(firstName) like lower( concat(#{examplePerson."
-"firstName},'%') )</value>\n"
-"        <value>lower(lastName) like lower( concat(#{examplePerson."
-"lastName},'%') )</value>\n"
+"        <value>lower(firstName) like lower( concat(#{examplePerson.firstName},'%') )</value>\n"
+"        <value>lower(lastName) like lower( concat(#{examplePerson.lastName},'%') )</value>\n"
 "    </framework:restrictions>\n"
 "</framework:entity-query>]]>"
 msgstr ""
+"<![CDATA[<component name=\"examplePerson\" class=\"Person\"/>\n"
+"        \n"
+"<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\">\n"
+"    <framework:restrictions>\n"
+"        <value>lower(firstName) like lower( concat(#{examplePerson.firstName},'%') )</value>\n"
+"        <value>lower(lastName) like lower( concat(#{examplePerson.lastName},'%') )</value>\n"
+"    </framework:restrictions>\n"
+"</framework:entity-query>]]>"
 
 #. Tag: para
 #: Framework.xml:300
 #, no-c-format
 msgid "Notice the use of an \"example\" object."
-msgstr ""
+msgstr "Notez l'utilisation d'un objet \"exemple\". "
 
 #. Tag: programlisting
 #: Framework.xml:304
@@ -771,30 +867,39 @@ msgstr ""
 msgid ""
 "<![CDATA[<h1>Search for people</h1>\n"
 "<h:form>\n"
-"    <div>First name: <h:inputText value=\"#{examplePerson.firstName}\"/></"
-"div>\n"
-"    <div>Last name: <h:inputText value=\"#{examplePerson.lastName}\"/></"
-"div>\n"
+"    <div>First name: <h:inputText value=\"#{examplePerson.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{examplePerson.lastName}\"/></div>\n"
 "    <div><h:commandButton value=\"Search\" action=\"/search.jsp\"/></div>\n"
 "</h:form>\n"
 "\n"
 "<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
 "    <h:column>\n"
-"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
-"{person.lastName}\">\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
 "            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
 "        </s:link>\n"
 "    </h:column>\n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{examplePerson.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{examplePerson.lastName}\"/></div>\n"
+"    <div><h:commandButton value=\"Search\" action=\"/search.jsp\"/></div>\n"
+"</h:form>\n"
+"\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
 
 #. Tag: para
 #: Framework.xml:306
 #, no-c-format
-msgid ""
-"To refresh the query when the underlying entities change we observe the "
-"<literal>org.jboss.seam.afterTransactionSuccess</literal> event:"
-msgstr ""
+msgid "To refresh the query when the underlying entities change we observe the <literal>org.jboss.seam.afterTransactionSuccess</literal> event:"
+msgstr "Pour rafraichir la requête quand les entitées sousjacentes changent, nous oberservons l'évènement <literal>org.jboss.seam.afterTransactionSuccess</literal>:"
 
 #. Tag: programlisting
 #: Framework.xml:311
@@ -804,14 +909,15 @@ msgid ""
 "    <action execute=\"#{people.refresh}\" />\n"
 "</event>]]>"
 msgstr ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"</event>]]>"
 
 #. Tag: para
 #: Framework.xml:313
 #, no-c-format
-msgid ""
-"Or, to just refresh the query when the person entity is persisted, updated "
-"or removed through <literal>PersonHome</literal>:"
-msgstr ""
+msgid "Or, to just refresh the query when the person entity is persisted, updated or removed through <literal>PersonHome</literal>:"
+msgstr "Ou juste pour rafraichir la requête quand l'entité personne est peristée, mise-à-jours ou retirée au travers de <literal>PersonHome</literal>:"
 
 #. Tag: programlisting
 #: Framework.xml:318
@@ -821,52 +927,39 @@ msgid ""
 "    <action execute=\"#{people.refresh}\" />\n"
 "    </event>]]>"
 msgstr ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess.Person\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"    </event>]]>"
 
 #. Tag: para
 #: Framework.xml:320
 #, no-c-format
-msgid ""
-"Unfortunately Query objects don't work well with <emphasis>join fetch</"
-"emphasis> queries - the use of pagination with these queries is not "
-"recommended, and you'll have to implement your own method of calculating the "
-"total number of results (by overriding <literal>getCountEjbql()</literal>."
-msgstr ""
+msgid "Unfortunately Query objects don't work well with <emphasis>join fetch</emphasis> queries - the use of pagination with these queries is not recommended, and you'll have to implement your own method of calculating the total number of results (by overriding <literal>getCountEjbql()</literal>."
+msgstr "Malheureusement, les objets Query ne fonctionnent pas bien avec les reuqêtes <emphasis>join fetch</emphasis> - l'utilisation de la pagination avec ces requêtes n'est pas recommandée, et vous allez devoir implémenter votre propre méthode pour calculer le nombre total de résultats (en surchargeant <literal>getCountEjbql()</literal>)."
 
 #. Tag: para
 #: Framework.xml:328
 #, no-c-format
-msgid ""
-"The examples in this section have all shown reuse by configuration. However, "
-"reuse by extension is equally possible for Query objects."
-msgstr ""
+msgid "The examples in this section have all shown reuse by configuration. However, reuse by extension is equally possible for Query objects."
+msgstr "Les exemples de cette section qui ont été montré utilisent la configuration. Cependant les utiliser par l'extension est égale possible pour les objets Query."
 
 #. Tag: title
 #: Framework.xml:336
 #, no-c-format
 msgid "Controller objects"
-msgstr ""
+msgstr "Les objets Controleur"
 
 #. Tag: para
 #: Framework.xml:337
 #, no-c-format
-msgid ""
-"A totally optional part of the Seam Application Framework is the class "
-"<literal>Controller</literal> and its subclasses <literal>EntityController</"
-"literal> <literal>HibernateEntityController</literal> and "
-"<literal>BusinessProcessController</literal>. These classes provide nothing "
-"more than some convenience methods for access to commonly used built-in "
-"components and methods of built-in components. They help save a few "
-"keystrokes (characters can add up!) and provide a great launchpad for new "
-"users to explore the rich functionality built in to Seam."
-msgstr ""
+msgid "A totally optional part of the Seam Application Framework is the class <literal>Controller</literal> and its subclasses <literal>EntityController</literal> <literal>HibernateEntityController</literal> and <literal>BusinessProcessController</literal>. These classes provide nothing more than some convenience methods for access to commonly used built-in components and methods of built-in components. They help save a few keystrokes (characters can add up!) and provide a great launchpad for new users to explore the rich functionality built in to Seam."
+msgstr "Une partie complètement optionnelle du Serveur d'Application Seam est la classe <literal>Controller</literal> et ses sousclasses <literal>EntityController</literal> <literal>HibernateEntityController</literal> et <literal>BusinessProcessController</literal>. Ces classes ne fournissent rien de plus que des méthodes pratiques pour acceder aux composants livré utilisé communément. Ils permettent de d'éviter quelques frappes au claviers (les touches peuvent se reposer) et fournissent une bonne base de lancement pour les nouveaux utilisateurs afin qu'ils explorent les fonctionnalités riches livrées dans Seam."
 
 #. Tag: para
 #: Framework.xml:349
 #, no-c-format
-msgid ""
-"For example, here is what <literal>RegisterAction</literal> from the Seam "
-"registration example would look like:"
-msgstr ""
+msgid "For example, here is what <literal>RegisterAction</literal> from the Seam registration example would look like:"
+msgstr "Par exemple, ici c'est le <literal>RegisterAction</literal> de l'exemple de reservation de Seam devrait ressemble :"
 
 #. Tag: programlisting
 #: Framework.xml:354
@@ -881,8 +974,7 @@ msgid ""
 "   \n"
 "   public String register()\n"
 "   {\n"
-"      List existing = createQuery(\"select u.username from User u where u."
-"username=:username\")\n"
+"      List existing = createQuery(\"select u.username from User u where u.username=:username\")\n"
 "         .setParameter(\"username\", user.getUsername())\n"
 "         .getResultList();\n"
 "      \n"
@@ -901,9 +993,37 @@ msgid ""
 "\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"register\")\n"
+"public class RegisterAction extends EntityController implements Register\n"
+"{\n"
+"\n"
+"   @In private User user;\n"
+"   \n"
+"   public String register()\n"
+"   {\n"
+"      List existing = createQuery(\"select u.username from User u where u.username=:username\")\n"
+"         .setParameter(\"username\", user.getUsername())\n"
+"         .getResultList();\n"
+"      \n"
+"      if ( existing.size()==0 )\n"
+"      {\n"
+"         persist(user);\n"
+"         info(\"Registered new user #{user.username}\");\n"
+"         return \"/registered.jspx\";\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         addFacesMessage(\"User #{user.username} already exists\");\n"
+"         return null;\n"
+"      }\n"
+"   }\n"
+"\n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:356
 #, no-c-format
 msgid "As you can see, its not an earthshattering improvement..."
-msgstr ""
+msgstr "Comme vous pouvez le voir, ce n'est pas une ammélioration stupéfiante..."
+
