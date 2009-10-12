@@ -34,17 +34,17 @@ public class PlainTestProvider implements MessageBodyWriter
                        MultivaluedMap httpHeaders, OutputStream outputStream) throws IOException, WebApplicationException
    {
       List<String[]> lines = (List<String[]>) o;
-      StringBuilder cvs = new StringBuilder();
+      StringBuilder csv = new StringBuilder();
       for (String[] line : lines)
       {
          for (String field : line)
          {
-            cvs.append(field).append(",");
+            csv.append(field).append(",");
          }
-         cvs.deleteCharAt(cvs.length() - 1);
-         cvs.append("\r\n");
+         csv.deleteCharAt(csv.length() - 1);
+         csv.append("\r\n");
       }
-      outputStream.write(cvs.toString().getBytes());
+      outputStream.write(csv.toString().getBytes());
 
    }
 }

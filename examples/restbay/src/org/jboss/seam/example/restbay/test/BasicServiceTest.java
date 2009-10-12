@@ -399,8 +399,9 @@ public class BasicServiceTest extends SeamTest
             assert response.getStatus() == 200;
             assert response.getContentAsString().equals("abc,1,2,3");
          }
-
-      }.run();
+      };
+      // }.run();
+      // TODO: Retracted support for Seam component providers, injection shouldn't happen, see https://jira.jboss.org/jira/browse/JBSEAM-4247
 
    }
 }

@@ -215,6 +215,7 @@ public class ResteasyBootstrap
 
       Set<Class> handledProviders = new HashSet(); // Stuff we don't want to examine twice
 
+      /* TODO: Retracted due to missing RESTEasy SPI for external provider metadata, see https://jira.jboss.org/jira/browse/JBSEAM-4247
       for (Component seamComponent : seamComponents)
       {
          // The component can have one (not many) @Provider annotated business interface
@@ -266,6 +267,7 @@ public class ResteasyBootstrap
          handledProviders.add(seamComponent.getBeanClass());
          handledProviders.addAll(seamComponent.getBusinessInterfaces());
       }
+      */
 
       for (Class<?> providerClass : providerClasses)
       {

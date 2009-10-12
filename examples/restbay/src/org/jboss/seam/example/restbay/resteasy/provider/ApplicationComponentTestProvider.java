@@ -27,8 +27,9 @@ import java.lang.reflect.Type;
 public class ApplicationComponentTestProvider implements MessageBodyWriter
 {
 
+   // TODO: Retracted support for Seam component providers, injection shouldn't happen, see https://jira.jboss.org/jira/browse/JBSEAM-4247
    @In
-   TestComponent testComponent;
+   TestComponent testComponent = new TestComponent();
 
    public boolean isWriteable(Class aClass, Type type, Annotation[] annotations, MediaType mediaType)
    {

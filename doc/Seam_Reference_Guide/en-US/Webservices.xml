@@ -387,7 +387,7 @@ public class MyCustomerResource {
       </sect2>
 
       <sect2>
-         <title>Resources and providers as Seam components</title>
+         <title>Resources as Seam components</title>
 
          <para>
             Any resource and provider instances are managed by RESTEasy by default. That means a resource class
@@ -397,7 +397,7 @@ public class MyCustomerResource {
          </para>
 
          <para>
-            You can write resources and providers as Seam components and benefit from the richer lifecycle management
+            You can write resources as Seam components and benefit from the richer lifecycle management
             of Seam, and interception for bijection, security, and so on. Simply make your resource class a
             Seam component:
          </para>
@@ -489,16 +489,20 @@ public class MyCustomerResourceBean implements MyCustomerResource {
             resources and paths is planned but currently not supported.
          </para>
 
-          <para>
-             EJB Seam components are supported. Always annotate the local business interface, not the EJB implementation
-             class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>.
-          </para>
-
          <para>
-            Provider classes can also be Seam components, only <literal>APPLICATION</literal>-scoped
-            provider components are supported. You can annotate the bean interface or implementation with JAX-RS annotations.
-            EJB Seam components as providers are currently <emphasis>NOT</emphasis> supported, only POJOs!
+            EJB Seam components are supported as REST resources. Always annotate the local business interface, not
+            the EJB implementation class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>.
          </para>
+
+         <note>
+            <para>
+                Provider classes can currently not be Seam components. Although you can configure an
+                <literal>@Provider</literal> annotated class as a Seam component, it will at runtime be managed
+                by RESTEasy as a singleton with no Seam interception, bijection, etc. The instance will not be
+                a Seam component instance. We plan to support Seam component lifecycle for JAX-RS providers in
+                the future.
+            </para>
+         </note>
 
       </sect2>
 
