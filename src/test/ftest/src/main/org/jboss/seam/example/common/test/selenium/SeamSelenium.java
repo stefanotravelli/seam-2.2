@@ -40,6 +40,7 @@ public class SeamSelenium extends DefaultSelenium
    private String timeout = "30000";
    private boolean icefacesDetection = false;
    private long icefacesWaitTime = 1000;
+   private long windowMaximizeWaitTime = 5000L;
 
    private final String ICEFACES_CONNECTION_STATUS = "xpath=//div[@class='iceOutConStat connectionStatus']";
    private final String ICEFACES_IDLE_VISIBLE = "xpath=//div[@class='iceOutConStatInactv connectionStatusInactv'][@style='visibility: visible;']";
@@ -205,6 +206,13 @@ public class SeamSelenium extends DefaultSelenium
    public void captureScreenshot(String path)
    {
       windowMaximize();
+      try
+      {
+         Thread.sleep(windowMaximizeWaitTime);
+      }
+      catch (InterruptedException e)
+      {
+      }
       super.captureScreenshot(path);
    }
 
