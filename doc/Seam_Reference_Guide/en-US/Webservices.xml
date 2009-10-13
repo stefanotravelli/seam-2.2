@@ -496,6 +496,14 @@ public class MyCustomerResourceBean implements MyCustomerResource {
 
          <note>
             <para>
+               Sub-resources as defined in the JAX RS specification, section 3.4.1, can not be Seam component instances
+               at this time. Only root resource classes can be registered as Seam components. In other words, do not
+               return a Seam component instance from a root resource method.
+            </para>
+         </note>
+
+         <note>
+            <para>
                 Provider classes can currently not be Seam components. Although you can configure an
                 <literal>@Provider</literal> annotated class as a Seam component, it will at runtime be managed
                 by RESTEasy as a singleton with no Seam interception, bijection, etc. The instance will not be
