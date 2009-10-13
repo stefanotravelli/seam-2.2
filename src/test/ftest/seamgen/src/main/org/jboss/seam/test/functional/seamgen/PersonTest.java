@@ -56,8 +56,8 @@ public class PersonTest extends GenerateEntitiesTest
       createNewPerson(username, address, cal.getTime(), name);
 
       assertTrue(browser.isElementPresent(MESSAGES), "Confirmation message expected.");
-      assertEquals(browser.getText(MESSAGES), "Successfully created", "Unexpected confirmation message");
-
+      assertTrue(browser.isTextPresent(username) && browser.isElementPresent(ENTITY_DONE), "Username and \"Done\" button expected on page");
+      
       // search for the person
       browser.clickAndWait(ENTITY_DONE);
       int result = search(username);
@@ -85,7 +85,7 @@ public class PersonTest extends GenerateEntitiesTest
       browser.clickAndWait(PERSON_UPDATE);
       // verify
       assertTrue(browser.isElementPresent(MESSAGES), "Confirmation message expected.");
-      assertEquals(browser.getText(MESSAGES), "Successfully updated", "Unexpected confirmation message");
+      assertTrue(browser.isTextPresent(username) && browser.isElementPresent(ENTITY_DONE), "Username and \"Done\" button expected on page");
       verifyViewPage(username, address, name);
    }
 
