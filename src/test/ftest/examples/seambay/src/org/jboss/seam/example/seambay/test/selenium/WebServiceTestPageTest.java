@@ -42,7 +42,7 @@ import com.thoughtworks.selenium.Wait;
 public class WebServiceTestPageTest extends SeleniumSeamBayTest
 {
       
-   protected static final Long TIMEOUT = 3000L; //3 seconds   
+   protected static final Long TIMEOUT = 25000L; //25 seconds   
    protected static final String HERE_LINK = "xpath=//a[contains(text(),\"here\")]";
    protected static final String SERVICE_PAGE_HEADING= "seamBay Web Services - Test Page"; 
 
@@ -101,7 +101,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.type(LOGIN_INPUT_USERNAME, username);
       browser.type(LOGIN_INPUT_PASSWORD, password);     
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
    }
    
    @Test(dependsOnMethods={"loginTest"})
@@ -111,7 +111,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.click(LIST_CATEGORIES_LINK);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain a list of categories.", x.contains(getProperty("LIST_CATEGORIES_RESPONSE")));      
    }  
@@ -138,21 +138,22 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.type(AUCTION_CATEGORY_ID, categoryId);      
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);      
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);      
    }
    
    @Test(dependsOnMethods={"loginTest","createNewAuctionTest"})
    public void findAuctionsTest(){
       String searchTerm = "Animals";      
       loginService();      
-      createNewAuctionService();      
+      createNewAuctionService();   
+      confirmAuctionService();
       waitForElementPresent(FIND_AUCTIONS_LINK, TIMEOUT);
       browser.click(FIND_AUCTIONS_LINK);
       waitForElementPresent(SEARCH_TERM, TIMEOUT);     
       browser.type(SEARCH_TERM, searchTerm);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain information about finding auction.", x.contains(getProperty("FIND_AUCTIONS_RESPONSE")));      
    }  
@@ -174,7 +175,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.type(AUCTION_CATEGORY_ID, categoryId);      
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain information about updating the auction.", x.contains(getProperty("UPDATE_AUCTION_RESPONSE")));      
    } 
@@ -190,7 +191,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.type(AUCTION_DURATION, duration);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain information about setting duration.", x.contains(getProperty("SET_DURATION_RESPONSE")));      
    } 
@@ -206,7 +207,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.type(STARTING_PRICE, price);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain information about setting starting price.", x.contains(getProperty("SET_STARTING_PRICE_RESPONSE")));      
    } 
@@ -219,7 +220,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.click(GET_AUCTION_DETAILS_LINK);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain auction details.", x.contains(getProperty("AUCTION_DETAILS_PRICE_RESPONSE")));      
    } 
@@ -231,7 +232,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.click(LOGOUT_LINK);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
       String x = browser.getValue(RESPONSE_AREA);
       assertTrue("Response area should contain logout confirmation.", x.contains(getProperty("LOGOUT_RESPONSE")));      
    }    
@@ -240,14 +241,18 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
    public void confirmAuctionTest(){            
       loginService();      
       createNewAuctionService();      
+      confirmAuctionService();
+      String x = browser.getValue(RESPONSE_AREA);
+      assertTrue("Response area should contain information about confirmation.", x.contains(getProperty("CONFIRMATION_RESPONSE")));      
+   }  
+   
+   public void confirmAuctionService(){
       waitForElementPresent(CONFIRM_AUCTION_LINK, TIMEOUT);
       browser.click(CONFIRM_AUCTION_LINK);
       waitForElementPresent(INVOKE_SERVICE_BUTTON, TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
-      waitForElementContent(RESPONSE_AREA, TIMEOUT*5);
-      String x = browser.getValue(RESPONSE_AREA);
-      assertTrue("Response area should contain information about confirmation.", x.contains(getProperty("CONFIRMATION_RESPONSE")));      
-   }  
+      waitForElementContent(RESPONSE_AREA, TIMEOUT);
+   }
    
    public void waitForElementPresent(final String locator, Long timeout){
       new Wait()

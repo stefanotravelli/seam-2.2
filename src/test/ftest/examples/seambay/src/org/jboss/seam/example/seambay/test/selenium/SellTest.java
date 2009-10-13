@@ -38,7 +38,7 @@ import com.thoughtworks.selenium.Wait;
  */
 public class SellTest extends SeleniumSeamBayTest
 {
-
+   private long listWaitTime = 5000;
    private NumberFormat nf = NumberFormat.getInstance();
    
    @Test(dependsOnGroups={"searchTest"})
@@ -85,6 +85,16 @@ public class SellTest extends SeleniumSeamBayTest
             return browser.isElementPresent(getProperty("SELL_CATEGORY_SELECT_SECOND_OPTION"));
          }
       };
+      /*this sleeping is necessary because although the previous waiting ensures the 14. option present in select component in
+      java code, the web page on its own is not ready yet*/
+      try
+      {
+         Thread.sleep(listWaitTime);
+      }
+      catch (InterruptedException e)
+      {
+      }
+      
       browser.select(getProperty("SELL_CATEGORY_SELECT"), "index=" + category);
       if (subcategory != 0)
       {
