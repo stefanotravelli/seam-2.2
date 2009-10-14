@@ -42,7 +42,7 @@ import com.thoughtworks.selenium.Wait;
 public class WebServiceTestPageTest extends SeleniumSeamBayTest
 {
       
-   protected static final Long TIMEOUT = 25000L; //25 seconds   
+   protected static final Long TIMEOUT = 35000L; //35 seconds   
    protected static final String HERE_LINK = "xpath=//a[contains(text(),\"here\")]";
    protected static final String SERVICE_PAGE_HEADING= "seamBay Web Services - Test Page"; 
 
@@ -93,7 +93,6 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       String username = "demo";
       String password = "demo";      
       browser.clickAndWait(HERE_LINK);
-      waitForElementPresent(RESPONSE_AREA, TIMEOUT);
       waitForElementPresent(LOGIN_LINK, TIMEOUT);
       browser.click(LOGIN_LINK);
       waitForElementPresent(LOGIN_INPUT_USERNAME, TIMEOUT);
@@ -273,6 +272,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
          {
             return (browser.getValue(locator).length() != 0);
          }
-      }.wait("Timeout while waiting for element content."+browser.getValue(locator).length()+","+locator , timeout);
+      }.wait("Timeout while waiting for element content. Element: " + locator+ ", " + "Content length: " 
+            + browser.getValue(locator).length(), timeout);
    } //waitForElementContent    
 }
