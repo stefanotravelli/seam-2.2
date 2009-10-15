@@ -45,7 +45,7 @@ public class HelloworldTest extends SeamSeleniumTest
    protected static final String SAYHELLO_BUTTON = "xpath=//button[contains(@onclick,\"sayHello\")]";
    protected static final String PROMPT_ANSWER = "Martin";
    protected static final String ALERT_MESSAGE = "Hello, Martin";
-   protected static final Long TIMEOUT = 2000L; //2 seconds         
+   protected static final Long TIMEOUT = 10000L; //10 seconds         
    
    @Override
    @BeforeMethod
