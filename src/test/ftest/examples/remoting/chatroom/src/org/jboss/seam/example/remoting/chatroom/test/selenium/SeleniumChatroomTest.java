@@ -109,7 +109,6 @@ public class SeleniumChatroomTest extends SeamSeleniumTest
       browser.waitForElement(MARTIN_LISTED, timeout);      
       browser2.type(NAME_INPUT, NAME2);
       browser2.click(CONNECT_BUTTON);
-      browser2.waitForElement(JOZEF_CONNECTED, timeout);
       browser2.waitForElement(JOZEF_LISTED, timeout);
       browser2.waitForElement(MARTIN_LISTED, timeout);
       browser.waitForElement(JOZEF_CONNECTED, timeout);
