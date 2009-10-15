@@ -93,12 +93,17 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       String username = "demo";
       String password = "demo";      
       browser.clickAndWait(HERE_LINK);
-      waitForElementPresent(LOGIN_LINK, TIMEOUT);
       browser.click(LOGIN_LINK);
-      waitForElementPresent(LOGIN_INPUT_USERNAME, TIMEOUT);
       waitForElementPresent(LOGIN_INPUT_PASSWORD, TIMEOUT);
       browser.type(LOGIN_INPUT_USERNAME, username);
-      browser.type(LOGIN_INPUT_PASSWORD, password);     
+      browser.type(LOGIN_INPUT_PASSWORD, password);      
+      try
+      {
+         Thread.sleep(TIMEOUT/2);
+      }
+      catch (InterruptedException e)
+      {
+      }      
       browser.click(INVOKE_SERVICE_BUTTON);
       waitForElementContent(RESPONSE_AREA, TIMEOUT);
    }
