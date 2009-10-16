@@ -57,7 +57,8 @@ public class SeamGenTest
    protected static String SEAMGEN_BUILDFILE;
    protected static String SEAMGEN_PROPERTIES_FILE;
    protected static String WORKSPACE;
-   
+   protected static String ANT_EXECUTABLE;
+
    // container specific properties
    protected static String CONTAINER;
    protected static String CONTAINER_LOCATION;
@@ -132,7 +133,7 @@ public class SeamGenTest
       
       setSeamGenProperties();
       
-      seamGen = new SeamGenAdapter(SEAMGEN_BUILDFILE);
+      seamGen = new SeamGenAdapter(ANT_EXECUTABLE, SEAMGEN_BUILDFILE);
       seamGen.setExplode(explode);
       
    }
@@ -156,6 +157,7 @@ public class SeamGenTest
       ftestProperties.load(new FileInputStream(SEAM_FTEST_PROPERTIES_FILE));
       
       WORKSPACE = getProperty(ftestProperties,"workspace.home");
+      ANT_EXECUTABLE = getProperty(ftestProperties, "ant.exec");
       
       // container specific
       CONTAINER = getProperty(ftestProperties, "container", "jboss5");

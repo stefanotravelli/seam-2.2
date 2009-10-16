@@ -21,15 +21,13 @@
  */
 package org.jboss.seam.test.functional.seamgen.utils;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DefaultLogger;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.input.InputHandler;
-import org.apache.tools.ant.input.InputRequest;
+import org.jboss.seam.test.functional.seamgen.SeamGenTest;
 
 /**
  * This class wraps seam-gen ant script in order to be easily usable from Java.
@@ -43,60 +41,83 @@ import org.apache.tools.ant.input.InputRequest;
 public class SeamGenAdapter
 {
 
-   private String buildfile;
-   private DefaultLogger log;
-   private boolean explode = true;
+   protected String buildfile;
+   protected boolean explode = true;
+   protected PrintStream out, err;
+   protected String antExecutable;
 
-   public SeamGenAdapter(String buildfile)
+   public SeamGenAdapter(String antExecutable, String buildfile)
    {
-      this(buildfile, System.out, System.err);
+      this(antExecutable, buildfile, System.out, System.err);
    }
 
-   public SeamGenAdapter(String buildfile, PrintStream out, PrintStream err)
+   public SeamGenAdapter(String antExecutable, String buildfile, PrintStream out, PrintStream err)
    {
+      this.antExecutable = antExecutable;
       this.buildfile = buildfile;
-      log = new DefaultLogger();
-      log.setOutputPrintStream(out);
-      log.setErrorPrintStream(err);
-      log.setMessageOutputLevel(Project.MSG_INFO);
+      this.err = err;
+      this.out = out;
    }
 
-   public Project getAntCall()
+   private String getAntCommand(String task)
    {
-      Project ant = new Project();
-      ant.init();
-      ProjectHelper.configureProject(ant, new File(buildfile));
-      ant.addBuildListener(log);
-      return ant;
+      return antExecutable + " -f " + buildfile + " " + task;
+   }
+
+   protected void executeAntTarget(String task)
+   {
+      executeAntTarget(task, null);
+   }
+
+   protected void executeAntTarget(String task, String[] properties)
+   {
+      try
+      {
+         OutputStreamFeeder feeder = null;
+         String antExecutable = getAntCommand(task);
+         Process process = Runtime.getRuntime().exec((antExecutable));
+         if (properties != null && properties.length > 0)
+         {
+            feeder = new OutputStreamFeeder(process.getOutputStream(), out, properties);
+            feeder.start();
+         }
+         // Associate the stdout InputStreamEater with the properties feeder to 
+         // have the feeder type in a line from the properties whenever the eater 
+         // encounters an input challenge.
+         (new InputStreamEater(process.getInputStream(), out, feeder)).start();
+         (new InputStreamEater(process.getErrorStream(), err, null)).start();
+         process.waitFor();
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         throw new RuntimeException(e.toString());
+      }
    }
 
    public void createProject()
    {
-      getAntCall().executeTarget("create-project");
+      executeAntTarget("create-project");
    }
 
    public void deleteProject()
    {
-      getAntCall().executeTarget("delete-project");
+      executeAntTarget("delete-project");
    }
 
    public void newAction(String[] properties)
    {
-      Project project = getAntCall();
-      project.setInputHandler(getInputHandler(properties));
-      project.executeTarget("new-action");
+      executeAntTarget("new-action", properties);
    }
 
    public void newForm(String[] properties)
    {
-      Project project = getAntCall();
-      project.setInputHandler(getInputHandler(properties));
-      project.executeTarget("new-form");
+      executeAntTarget("new-form", properties);
    }
 
    public void generateEntities()
    {
-      getAntCall().executeTarget("generate");
+      executeAntTarget("generate");
    }
 
    /**
@@ -107,11 +128,11 @@ public class SeamGenAdapter
    {
       if (explode)
       {
-         getAntCall().executeTarget("explode");
+         executeAntTarget("explode");
       }
       else
       {
-         getAntCall().executeTarget("deploy");
+         executeAntTarget("deploy");
       }
    }
 
@@ -123,11 +144,11 @@ public class SeamGenAdapter
    {
       if (explode)
       {
-         getAntCall().executeTarget("unexplode");
+         executeAntTarget("unexplode");
       }
       else
       {
-         getAntCall().executeTarget("undeploy");
+         executeAntTarget("undeploy");
       }
    }
 
@@ -135,7 +156,7 @@ public class SeamGenAdapter
    {
       if (explode)
       {
-         getAntCall().executeTarget("explode");
+         executeAntTarget("explode");
       }
       else
       {
@@ -145,46 +166,12 @@ public class SeamGenAdapter
 
    public void restart()
    {
-      getAntCall().executeTarget("restart");
+      executeAntTarget("restart");
    }
 
    public void addIdentityManagement()
    {
-      getAntCall().executeTarget("add-identity-management");
-   }
-
-   private InputHandler getInputHandler(final String[] properties)
-   {
-      return new InputHandler()
-      {
-         public void handleInput(InputRequest request) throws BuildException
-         {
-            if (request.getPrompt().contains("Enter the Seam component name"))
-            {
-               request.setInput(properties[0]);
-            }
-            else if (request.getPrompt().contains("Enter the local interface name"))
-            {
-               request.setInput(properties[1]);
-            }
-            else if (request.getPrompt().contains("Enter the bean class name"))
-            {
-               request.setInput(properties[2]);
-            }
-            else if (request.getPrompt().contains("Enter the action method name"))
-            {
-               request.setInput(properties[3]);
-            }
-            else if (request.getPrompt().contains("Enter the page name"))
-            {
-               request.setInput(properties[4]);
-            }
-            else
-            {
-               throw new RuntimeException("Unexpected prompt " + request.getPrompt());
-            }
-         }
-      };
+      executeAntTarget("add-identity-management");
    }
 
    public boolean isExplode()
@@ -201,4 +188,95 @@ public class SeamGenAdapter
       this.explode = explode;
    }
 
+   /**
+    * EatInputStreamData class is used for handling InputStream (stdout, stderr)
+    * of an ant sub-process. When it encounters an input challenge, it notifies
+    * the associated {@link OutputStreamFeeder} to provide the input.
+    * 
+    */
+   class InputStreamEater extends Thread
+   {
+      private static final String INPUT_CHALLENGE = "[input]";
+      private BufferedReader stream;
+      private OutputStreamFeeder feederToNotify;
+      private PrintStream out;
+
+      public InputStreamEater(InputStream stream, PrintStream out, OutputStreamFeeder feederToNotify)
+      {
+         this.stream = new BufferedReader(new InputStreamReader(stream));
+         this.out = out;
+         this.feederToNotify = feederToNotify;
+         setDaemon(true);
+      }
+
+      @Override
+      public void run()
+      {
+         try
+         {
+            String line;
+            while ((line = stream.readLine()) != null)
+            {
+               out.println(line);
+               if (feederToNotify != null && line.contains(INPUT_CHALLENGE))
+               {
+                  // notify OutputStreamFeeder to send an input
+                  feederToNotify.feed();
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+         }
+      }
+
+   }
+
+   /**
+    * OutputStreamFeeder class is used for feeding OutputStream (stdin) of an
+    * ant sub-process with appropriate inputs. It waits for a notification from
+    * the associated {@link InputStreamEater} object.
+    * 
+    */
+   class OutputStreamFeeder extends Thread
+   {
+
+      PrintStream stream, out;
+      String[] food;
+
+      public OutputStreamFeeder(OutputStream stream, PrintStream out, String[] food)
+      {
+         this.stream = new PrintStream(stream);
+         this.food = food;
+         this.out = out;
+         setDaemon(true);
+      }
+
+      @Override
+      public synchronized void run()
+      {
+         try
+         {
+            for (int i = 0; i < food.length; i++)
+            {
+               // wait for a notification from EatInputStreamData
+               wait();
+               stream.println(food[i]);
+               stream.flush();
+               out.println("Typed: " + food[i]);
+            }
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+         }
+      }
+
+      public synchronized void feed()
+      {
+         this.notify();
+      }
+
+   }
 }
