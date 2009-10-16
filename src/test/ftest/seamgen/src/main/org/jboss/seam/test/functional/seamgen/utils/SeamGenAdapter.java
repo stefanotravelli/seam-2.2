@@ -74,8 +74,9 @@ public class SeamGenAdapter
       try
       {
          OutputStreamFeeder feeder = null;
-         String antExecutable = getAntCommand(task);
-         Process process = Runtime.getRuntime().exec((antExecutable));
+         String antCommand = getAntCommand(task);
+         out.print(antCommand);
+         Process process = Runtime.getRuntime().exec((antCommand));
          if (properties != null && properties.length > 0)
          {
             feeder = new OutputStreamFeeder(process.getOutputStream(), out, properties);

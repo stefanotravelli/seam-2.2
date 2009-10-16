@@ -157,7 +157,7 @@ public class SeamGenTest
       ftestProperties.load(new FileInputStream(SEAM_FTEST_PROPERTIES_FILE));
       
       WORKSPACE = getProperty(ftestProperties,"workspace.home");
-      ANT_EXECUTABLE = getProperty(ftestProperties, "ant.exec");
+      ANT_EXECUTABLE = getProperty(ftestProperties, "ant.exec", "ant");
       
       // container specific
       CONTAINER = getProperty(ftestProperties, "container", "jboss5");
