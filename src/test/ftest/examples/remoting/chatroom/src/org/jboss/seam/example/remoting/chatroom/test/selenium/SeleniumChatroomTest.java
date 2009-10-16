@@ -105,7 +105,7 @@ public class SeleniumChatroomTest extends SeamSeleniumTest
    }
    
    public void verifyConnecting(){
-      browser.waitForElement(MARTIN_CONNECTED, timeout);
+      //browser.waitForElement(MARTIN_CONNECTED, timeout);
       browser.waitForElement(MARTIN_LISTED, timeout);      
       browser2.type(NAME_INPUT, NAME2);
       browser2.click(CONNECT_BUTTON);
