@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-06-11 18:45+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-10-18 18:46+0100\n"
+"Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,69 +17,49 @@ msgstr ""
 #: Hsearch.xml:5
 #, no-c-format
 msgid "Hibernate Search"
-msgstr ""
+msgstr "Hibernate Search"
 
 #. Tag: title
 #: Hsearch.xml:8
 #, no-c-format
 msgid "Introduction"
-msgstr ""
+msgstr "Introduction"
 
 #. Tag: para
 #: Hsearch.xml:10
 #, no-c-format
-msgid ""
-"Full text search engines like Apache Lucene™ are a very powerful technology "
-"that bring full text and efficient queries to applications. Hibernate "
-"Search, which uses Apache Lucene under the covers, indexes your domain model "
-"with the addition of a few annotations, takes care of the database / index "
-"synchronization and returns regular managed objects that are matched by full "
-"text queries. Keep in mind, thought, that there are mismatches that arise "
-"when dealing with an object domain model over a text index (keeping the "
-"index up to date, mismatch between the index structure and the domain model, "
-"and querying mismatch). But the benefits of speed and efficiency far "
-"outweigh these limitations."
-msgstr ""
+msgid "Full text search engines like Apache Lucene™ are a very powerful technology that bring full text and efficient queries to applications. Hibernate Search, which uses Apache Lucene under the covers, indexes your domain model with the addition of a few annotations, takes care of the database / index synchronization and returns regular managed objects that are matched by full text queries. Keep in mind, thought, that there are mismatches that arise when dealing with an object domain model over a text index (keeping the index up to date, mismatch between the index structure and the domain model, and querying mismatch). But the benefits of speed and efficiency far outweigh these limitations."
+msgstr "Les moteurs de recherches plein texte comme Apache Lucene™ sont une technologie très puissante qui apporte la recherche plain  texte et l'efficacité des requêtes dans les applications. Hibernate Search qui utilise Apache Lucene soujacent indexe votre modèle du domaine avec quelques annotations additionnelles, prends garde à la synchronisation base de données / indexes et retourne des objets opérationnels qui correspondent aux requêtes de recherche plain texte. Gardez à l'esprit qu'il peut avoir des erreurs qui apparaisssent avec un modèle de domaine objet par dessus un index de textes (conserver l'index à jours, erreur entre la structure de l'index et le modèle du domaine, et erreurs dans les requêtes). Mais les avantages de la vitesse et de l'efficacité va au delà de ces limitations."
 
 #. Tag: para
 #: Hsearch.xml:21
 #, no-c-format
-msgid ""
-"Hibernate Search has been designed to integrate nicely and as naturally as "
-"possible with JPA and Hibernate. As a natural extension, JBoss Seam provides "
-"an Hibernate Search integration."
-msgstr ""
+msgid "Hibernate Search has been designed to integrate nicely and as naturally as possible with JPA and Hibernate. As a natural extension, JBoss Seam provides an Hibernate Search integration."
+msgstr "Hibernate Search a été conçu pour s'intégrer facilement et naturellement que possible avec JPA et Hibernate. Comme une extension naturelle, JBoss Seam fourni une intégration avec Hibernate Search."
 
 #. Tag: para
 #: Hsearch.xml:25
 #, no-c-format
-msgid ""
-"Please refer to the <ulink url=\"http://www.hibernate.org/hib_docs/search/"
-"reference/en/html_single/\">Hibernate Search documentation</ulink> for "
-"information specific to the Hibernate Search project."
-msgstr ""
+msgid "Please refer to the <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">Hibernate Search documentation</ulink> for information specific to the Hibernate Search project."
+msgstr "Merci de vous référer à <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">Hibernate Search documentation</ulink> pour plus d'information spécifique sur le projet Hibernate Search."
 
 #. Tag: title
 #: Hsearch.xml:33
 #, no-c-format
 msgid "Configuration"
-msgstr ""
+msgstr "La configuration"
 
 #. Tag: para
 #: Hsearch.xml:35
 #, no-c-format
-msgid ""
-"Hibernate Search is configured either in the <filename>META-INF/persistence."
-"xml</filename> or <filename>hibernate.cfg.xml</filename> file."
-msgstr ""
+msgid "Hibernate Search is configured either in the <filename>META-INF/persistence.xml</filename> or <filename>hibernate.cfg.xml</filename> file."
+msgstr "Hibernate Search est configuré aussi bien dans le fichier <filename>META-INF/persistence.xml</filename> que dans le fichier <filename>hibernate.cfg.xml</filename>."
 
 #. Tag: para
 #: Hsearch.xml:39
 #, no-c-format
-msgid ""
-"Hibernate Search configuration has sensible defaults for most configuration "
-"parameters. Here is a minimal persistence unit configuration to get started."
-msgstr ""
+msgid "Hibernate Search configuration has sensible defaults for most configuration parameters. Here is a minimal persistence unit configuration to get started."
+msgstr "La configuration d'Hibernate Search configuration est par défaut judicieuse pour la plus part des paramètre de configuration. Ici n configuration d'une unité de persistance minimale pour démarrer."
 
 #. Tag: programlisting
 #: Hsearch.xml:43
@@ -98,15 +78,24 @@ msgid ""
 "   </properties>\n"
 "</persistence-unit>]]>"
 msgstr ""
+"<![CDATA[<persistence-unit name=\"sample\">\n"
+"   <jta-data-source>java:/DefaultDS</jta-data-source>\n"
+"   <properties>\n"
+"      [...]\n"
+"      <!-- use a file system based index -->\n"
+"      <property name=\"hibernate.search.default.directory_provider\" \n"
+"         value=\"org.hibernate.search.store.FSDirectoryProvider\"/>\n"
+"      <!-- directory where the indexes will be stored -->\n"
+"      <property name=\"hibernate.search.default.indexBase\" \n"
+"         value=\"/Users/prod/apps/dvdstore/dvdindexes\"/>\n"
+"   </properties>\n"
+"</persistence-unit>]]>"
 
 #. Tag: para
 #: Hsearch.xml:45
 #, no-c-format
-msgid ""
-"If you plan to target Hibernate Annotations or EntityManager 3.2.x (embedded "
-"into JBoss AS 4.2.x and later), you also need to configure the appropriate "
-"event listeners."
-msgstr ""
+msgid "If you plan to target Hibernate Annotations or EntityManager 3.2.x (embedded into JBoss AS 4.2.x and later), you also need to configure the appropriate event listeners."
+msgstr "Si vous plannifier de cibler Hibernate Annotations ou EntityManager 3.2.x (embarqué dans JBoss AS 4.2.x et suppérieur), vous allez avoir besoin de configurer les écouteurs d'évènement appropriés."
 
 #. Tag: programlisting
 #: Hsearch.xml:49
@@ -124,97 +113,95 @@ msgid ""
 "                value=\"/Users/prod/apps/dvdstore/dvdindexes\"/>\n"
 "\n"
 "      <property name=\"hibernate.ejb.event.post-insert\" \n"
-"                value=\"org.hibernate.search.event.FullTextIndexEventListener"
-"\"/>\n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
 "      <property name=\"hibernate.ejb.event.post-update\" \n"
-"                value=\"org.hibernate.search.event.FullTextIndexEventListener"
-"\"/>\n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
 "      <property name=\"hibernate.ejb.event.post-delete\" \n"
-"                value=\"org.hibernate.search.event.FullTextIndexEventListener"
-"\"/>\n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
 "                \n"
 "   </properties>\n"
 "</persistence-unit>]]>"
 msgstr ""
+"<![CDATA[<persistence-unit name=\"sample\">\n"
+"   <jta-data-source>java:/DefaultDS</jta-data-source>\n"
+"   <properties>\n"
+"      [...]\n"
+"      <!-- use a file system based index -->\n"
+"      <property name=\"hibernate.search.default.directory_provider\" \n"
+"                value=\"org.hibernate.search.store.FSDirectoryProvider\"/>\n"
+"      <!-- directory where the indexes will be stored -->\n"
+"      <property name=\"hibernate.search.default.indexBase\" \n"
+"                value=\"/Users/prod/apps/dvdstore/dvdindexes\"/>\n"
+"\n"
+"      <property name=\"hibernate.ejb.event.post-insert\" \n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
+"      <property name=\"hibernate.ejb.event.post-update\" \n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
+"      <property name=\"hibernate.ejb.event.post-delete\" \n"
+"                value=\"org.hibernate.search.event.FullTextIndexEventListener\"/>\n"
+"                \n"
+"   </properties>\n"
+"</persistence-unit>]]>"
 
 #. Tag: para
 #: Hsearch.xml:52
 #, no-c-format
-msgid ""
-"It is not longer necessary the register the event listeners if Hibernate "
-"Annotations or EntityManager 3.3.x are used. When using Hibernate Search 3.1."
-"x more eventlisteners are needed, but these are registered automatically by "
-"Hibernate Annotations; refer to the Hibernate Search reference for "
-"configuring it without EntityManager and Annotations."
-msgstr ""
+msgid "It is not longer necessary the register the event listeners if Hibernate Annotations or EntityManager 3.3.x are used. When using Hibernate Search 3.1.x more eventlisteners are needed, but these are registered automatically by Hibernate Annotations; refer to the Hibernate Search reference for configuring it without EntityManager and Annotations."
+msgstr "Il n'est plus nécéssaire d'enregistrer les écouteurs d'évènements si Hibernate Annotations ou EntityManager 3.3.x sont utilisés. Quand on utilise Hibernate Search 3.1.x quelques écouteurs d'évènements sont nécéssaire, mais ils sont automatiquement enregistrés par Hibernate Annotations; référeez vous au guide d'Hibernate Search  pour sa configuration sans EntityManager et les Annotations."
 
 #. Tag: para
 #: Hsearch.xml:60
 #, no-c-format
-msgid ""
-"In addition to the configuration file, the following jars have to be "
-"deployed:"
-msgstr ""
+msgid "In addition to the configuration file, the following jars have to be deployed:"
+msgstr "En plus du fichier de configuration, les jars suivants doivent être déployés:"
 
 #. Tag: para
 #: Hsearch.xml:65
 #, no-c-format
 msgid "hibernate-search.jar"
-msgstr ""
+msgstr "hibernate-search.jar"
 
 #. Tag: para
 #: Hsearch.xml:69
 #, no-c-format
 msgid "hibernate-commons-annotations.jar"
-msgstr ""
+msgstr "hibernate-commons-annotations.jar"
 
 #. Tag: para
 #: Hsearch.xml:73
 #, no-c-format
 msgid "lucene-core.jar"
-msgstr ""
+msgstr "lucene-core.jar"
 
 #. Tag: para
 #: Hsearch.xml:78
 #, no-c-format
-msgid ""
-"If you deploy those in a EAR, don't forget to update <filename>application."
-"xml</filename>"
-msgstr ""
+msgid "If you deploy those in a EAR, don't forget to update <filename>application.xml</filename>"
+msgstr "Si vous déployez ceux là dans un EAR, n'oubliez pas de mettre à jours <filename>application.xml</filename>"
 
 #. Tag: title
 #: Hsearch.xml:84
 #, no-c-format
 msgid "Usage"
-msgstr ""
+msgstr "Utilisation"
 
 #. Tag: para
 #: Hsearch.xml:86
 #, no-c-format
-msgid ""
-"Hibernate Search uses annotations to map entities to a Lucene index, check "
-"the <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/"
-"html_single/\">reference documentation</ulink> for more informations."
-msgstr ""
+msgid "Hibernate Search uses annotations to map entities to a Lucene index, check the <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">reference documentation</ulink> for more informations."
+msgstr "Hibernate Search utlise les annotations pour faire correspondre les entités à l'index de Lucene, vérifiez <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">la documentation de référence </ulink> pour plus d'informations."
 
 #. Tag: para
 #: Hsearch.xml:91
 #, no-c-format
-msgid ""
-"Hibernate Search is fully integrated with the API and semantic of JPA / "
-"Hibernate. Switching from a HQL or Criteria based query requires just a few "
-"lines of code. The main API the application interacts with is the "
-"<classname>FullTextSession</classname> API (subclass of Hibernate's "
-"<classname>Session</classname>)."
-msgstr ""
+msgid "Hibernate Search is fully integrated with the API and semantic of JPA / Hibernate. Switching from a HQL or Criteria based query requires just a few lines of code. The main API the application interacts with is the <classname>FullTextSession</classname> API (subclass of Hibernate's <classname>Session</classname>)."
+msgstr "Hibernate Search est pleinement intégré avec les API et la sémentique JPA / Hibernate. Le basculement des requêtes HQL ou Criteria nécéssite juste quelques lignes de codes. L'API principale à intéragir avec est  l'API <classname>FullTextSession</classname> (sousclasse de <classname>Session</classname> d'Hibernate )."
 
 #. Tag: para
 #: Hsearch.xml:97
 #, no-c-format
-msgid ""
-"When Hibernate Search is present, JBoss Seam injects a "
-"<classname>FullTextSession</classname>."
-msgstr ""
+msgid "When Hibernate Search is present, JBoss Seam injects a <classname>FullTextSession</classname>."
+msgstr "Quand  Hibernate Search est présent, JBoss Seam injecte un <classname>FullTextSession</classname>."
 
 #. Tag: programlisting
 #: Hsearch.xml:100
@@ -228,8 +215,7 @@ msgid ""
 "\n"
 "   public void search(String searchString) {\n"
 "      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
-"      org.hibernate.Query query session.createFullTextQuery(luceneQuery, "
-"Product.class);\n"
+"      org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);\n"
 "      searchResults = query\n"
 "            .setMaxResults(pageSize + 1)\n"
 "            .setFirstResult(pageSize * currentPage)\n"
@@ -238,21 +224,34 @@ msgid ""
 "   [...]\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"search\")\n"
+"public class FullTextSearchAction implements FullTextSearch, Serializable {\n"
+"\n"
+"   @In FullTextSession session;\n"
+"\n"
+"   public void search(String searchString) {\n"
+"      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
+"      org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);\n"
+"      searchResults = query\n"
+"            .setMaxResults(pageSize + 1)\n"
+"            .setFirstResult(pageSize * currentPage)\n"
+"            .list();\n"
+"   }\n"
+"   [...]\n"
+"}]]>"
 
 #. Tag: para
 #: Hsearch.xml:103
 #, no-c-format
-msgid ""
-"<classname>FullTextSession</classname> extends <classname>org.hibernate."
-"Session</classname> so that it can be used as a regular Hibernate Session"
-msgstr ""
+msgid "<classname>FullTextSession</classname> extends <classname>org.hibernate.Session</classname> so that it can be used as a regular Hibernate Session"
+msgstr "<classname>FullTextSession</classname> étend <classname>org.hibernate.Session</classname> ainsi il peut être utilisé avec une Hibernate Session habituelle"
 
 #. Tag: para
 #: Hsearch.xml:108
 #, no-c-format
-msgid ""
-"If the Java Persistence API is used, a smoother integration is proposed."
-msgstr ""
+msgid "If the Java Persistence API is used, a smoother integration is proposed."
+msgstr "Si l'API de Persistence de Java est utilisée, une intégration en douceur est proposée."
 
 #. Tag: programlisting
 #: Hsearch.xml:111
@@ -266,8 +265,7 @@ msgid ""
 "\n"
 "   public void search(String searchString) {\n"
 "      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
-"      javax.persistence.Query query = em.createFullTextQuery(luceneQuery, "
-"Product.class);\n"
+"      javax.persistence.Query query = em.createFullTextQuery(luceneQuery, Product.class);\n"
 "      searchResults = query\n"
 "            .setMaxResults(pageSize + 1)\n"
 "            .setFirstResult(pageSize * currentPage)\n"
@@ -276,30 +274,34 @@ msgid ""
 "   [...]\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"search\")\n"
+"public class FullTextSearchAction implements FullTextSearch, Serializable {\n"
+"   \n"
+"   @In FullTextEntityManager em;\n"
+"\n"
+"   public void search(String searchString) {\n"
+"      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
+"      javax.persistence.Query query = em.createFullTextQuery(luceneQuery, Product.class);\n"
+"      searchResults = query\n"
+"            .setMaxResults(pageSize + 1)\n"
+"            .setFirstResult(pageSize * currentPage)\n"
+"            .getResultList();\n"
+"   }\n"
+"   [...]\n"
+"}]]>"
 
 #. Tag: para
 #: Hsearch.xml:113
 #, no-c-format
-msgid ""
-"When Hibernate Search is present, a <classname>FulltextEntityManager</"
-"classname> is injected. <classname>FullTextEntityManager</classname> extends "
-"<classname>EntityManager</classname> with search specific methods, the same "
-"way <classname>FullTextSession</classname> extends <classname>Session</"
-"classname>."
-msgstr ""
+msgid "When Hibernate Search is present, a <classname>FulltextEntityManager</classname> is injected. <classname>FullTextEntityManager</classname> extends <classname>EntityManager</classname> with search specific methods, the same way <classname>FullTextSession</classname> extends <classname>Session</classname>."
+msgstr "Quand  Hibernate Search est présent, un <classname>FulltextEntityManager</classname> est injecté. <classname>FullTextEntityManager</classname> étends <classname>EntityManager</classname> avec des méthodes de recherche spécifique, de la même façon que <classname>FullTextSession</classname> étends <classname>Session</classname>."
 
 #. Tag: para
 #: Hsearch.xml:120
 #, no-c-format
-msgid ""
-"When an EJB 3.0 Session or Message Driven Bean injection is used (i.e. via "
-"the @PersistenceContext annotation), it is not possible to replace the "
-"<classname>EntityManager</classname> interface by the "
-"<classname>FullTextEntityManager</classname> interface in the declaration "
-"statement. However, the implementation injected will be a "
-"<classname>FullTextEntityManager</classname> implementation: downcasting is "
-"then possible."
-msgstr ""
+msgid "When an EJB 3.0 Session or Message Driven Bean injection is used (i.e. via the @PersistenceContext annotation), it is not possible to replace the <classname>EntityManager</classname> interface by the <classname>FullTextEntityManager</classname> interface in the declaration statement. However, the implementation injected will be a <classname>FullTextEntityManager</classname> implementation: downcasting is then possible."
+msgstr "Quand une Session EJB3.0 ou une injection de  Message Driven Bean est utilisé (par exemple via l'annotation @PersistenceContext), il ets possible de remplacer l'interface de <classname>EntityManager</classname> par l'interface de <classname>FullTextEntityManager</classname> dans la partie déclaration. Cependant, l'implémentation injectée sera une implémentation  de <classname>FullTextEntityManager</classname>: la conversion est ensuite possible."
 
 #. Tag: programlisting
 #: Hsearch.xml:128
@@ -314,8 +316,7 @@ msgid ""
 "   public void search(String searchString) {\n"
 "      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
 "      FullTextEntityManager ftEm = (FullTextEntityManager) em;\n"
-"      javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, "
-"Product.class);\n"
+"      javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, Product.class);\n"
 "      searchResults = query\n"
 "            .setMaxResults(pageSize + 1)\n"
 "            .setFirstResult(pageSize * currentPage)\n"
@@ -324,19 +325,33 @@ msgid ""
 "   [...]\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"search\")\n"
+"public class FullTextSearchAction implements FullTextSearch, Serializable {\n"
+"  \n"
+"   @PersistenceContext EntityManager em;\n"
+"\n"
+"   public void search(String searchString) {\n"
+"      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();\n"
+"      FullTextEntityManager ftEm = (FullTextEntityManager) em;\n"
+"      javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, Product.class);\n"
+"      searchResults = query\n"
+"            .setMaxResults(pageSize + 1)\n"
+"            .setFirstResult(pageSize * currentPage)\n"
+"            .getResultList();\n"
+"   }\n"
+"   [...]\n"
+"}]]>"
 
 #. Tag: para
 #: Hsearch.xml:133
 #, no-c-format
-msgid ""
-"For people accustomed to Hibernate Search out of Seam, note that using "
-"<methodname>Search.getFullTextSession</methodname> is not necessary."
-msgstr ""
+msgid "For people accustomed to Hibernate Search out of Seam, note that using <methodname>Search.getFullTextSession</methodname> is not necessary."
+msgstr "Pour les personnes abituées à Hibernate Search sans Seam, notez que l'utilisation de <methodname>Search.getFullTextSession</methodname> n'est pas nécéssaire."
 
 #. Tag: para
 #: Hsearch.xml:138
 #, no-c-format
-msgid ""
-"Check the DVDStore or the blog examples of the JBoss Seam distribution for a "
-"concrete use of Hibernate Search."
-msgstr ""
+msgid "Check the DVDStore or the blog examples of the JBoss Seam distribution for a concrete use of Hibernate Search."
+msgstr "Voyez le DVDStore dans les exemples de blog de la distribution de JBoss Seam pour une utilisation concrète de Hibernate Search."
+
