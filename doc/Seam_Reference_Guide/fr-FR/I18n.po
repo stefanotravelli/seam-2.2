@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-06-25 15:02+0000\n"
-"PO-Revision-Date: 2009-10-18 18:46+0100\n"
+"PO-Revision-Date: 2009-10-18 22:47+0100\n"
 "Last-Translator: P.J <essaidetest@yahoo.fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Les fichiers de ressource doivent être créés en ASCII ou utiliser le 
 #: I18n.xml:73
 #, no-c-format
 msgid "You can write your translation of labels (<xref linkend=\"labels\"/>) to your messages resource bundle in the native encoding and then convert the content of the file into the escaped format through the tool <literal>native2ascii</literal> provided in the JDK. This tool will convert a file written in your native encoding to one that represents non-ASCII characters as Unicode escape sequences."
-msgstr ""
+msgstr "Vous pouvez écrire votre traductions des labels (<xref linkend=\"labels\"/>)  dans vos fichiers de ressource dans l'encodage natif et ensuite la conversation du fichier dans le format déspécialisé avec l'outil <literal>native2ascii</literal> fourni dans le JDK. Cet outil va convertir un fichier écrit dans votre encodage natif dans un nouveau où la représentation des caractères non-ASCII sera en séquence déspécialisé Unicode."
 
 #. Tag: para
 #: I18n.xml:83
@@ -119,19 +119,19 @@ msgstr "D'autres réglages pour l'encodage"
 #: I18n.xml:98
 #, no-c-format
 msgid "We need to make sure that the view displays your localized data and messages using the correct character set and also any data submitted uses the correct encoding."
-msgstr ""
+msgstr "Soyez sur que les vues affichant vos informations localisées et les message utilisent le bon groupe de caractères et aussi que toute donnée soumise utilise le bon encodage."
 
 #. Tag: para
 #: I18n.xml:104
 #, no-c-format
 msgid "To set the display character encoding, you need to use the <literal>&lt;f:view locale=\"cs_CZ\"/&gt;</literal> tag (here we tell JSF to use the Czech locale). You may want to change the encoding of the xml document itself if you want to embed localized strings in the xml. To do this alter the encoding attribute in xml declaration <literal>&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;</literal> as required."
-msgstr ""
+msgstr "Pour définir l'encodage de caractère à afficher, vous devez utiliser la balise  <literal>&lt;f:view locale=\"cs_CZ\"/&gt;</literal> (ici pour dire à JSF d'utiliser la langue Tchèque). Vous pouvez vouloir modifier l'encodage du document xml lui-même si vous voulez embarqué des chaines de caractères localisées en xml. Pour faire cela, modifiez l'attriut d'encodage dans la déclaration xml  <literal>&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;</literal> selon le besoin."
 
 #. Tag: para
 #: I18n.xml:114
 #, no-c-format
 msgid "Also JSF/Facelets should submit any requests using the specified character encoding, but to make sure any requests that don't specify an encoding you can force the request encoding using a servlet filter. Configure this in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "De plus JSF/Facelets devrait soumettre toutes les requêtes en utilisant l'encodage de caractères spécifié, mais pour êtrer sur que toutes les requêtes ne vont pas indiquer un encodage vous pouvez obliger l'encodage de la requête en utilisant un filtre servlet. Vous configurez cela dans <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: I18n.xml:121
@@ -155,19 +155,19 @@ msgstr "Les locales"
 #: I18n.xml:128
 #, no-c-format
 msgid "Each user login session has an associated instance of <literal>java.util.Locale</literal> (available to the application as a component named <literal>locale</literal>). Under normal circumstances, you won't need to do any special configuration to set the locale. Seam just delegates to JSF to determine the active locale:"
-msgstr ""
+msgstr "Chaque session de connection de l'utilisateur est associé avec une instance de <literal>java.util.Locale</literal> (disponible dans l'application comme un composant appelé <literal>locale</literal>). Dans les circonstances normales, vous n'avez pas besoin de définir la locale. Seam va simplement déléguer à JSF le fait de déterminer la locale active:"
 
 #. Tag: para
 #: I18n.xml:136
 #, no-c-format
 msgid "If there is a locale associated with the HTTP request (the browser locale), and that locale is in the list of supported locales from <literal>faces-config.xml</literal>, use that locale for the rest of the session."
-msgstr ""
+msgstr "S'il ya une langague associée avec la requête HTTP (la langue du navigateur), et que la langue est dans la liste des langues supportées dans le <literal>faces-config.xml</literal>, utilisez cette langue pour le reste de la session."
 
 #. Tag: para
 #: I18n.xml:143
 #, no-c-format
 msgid "Otherwise, if a default locale was specified in the <literal>faces-config.xml</literal>, use that locale for the rest of the session."
-msgstr ""
+msgstr "Cependant, si la langue a été spécifiée dans le <literal>faces-config.xml</literal>, alors utilise cette langue pour le reste de la session."
 
 #. Tag: para
 #: I18n.xml:149
@@ -179,13 +179,13 @@ msgstr "Sinon, utilise la locale par défaut du serveur."
 #: I18n.xml:153
 #, no-c-format
 msgid "It is <emphasis>possible</emphasis> to set the locale manually via the Seam configuration properties <literal> org.jboss.seam.international.localeSelector.language</literal>, <literal> org.jboss.seam.international.localeSelector.country</literal> and <literal> org.jboss.seam.international.localeSelector.variant</literal>, but we can't think of any good reason to ever do this."
-msgstr ""
+msgstr "C'est <emphasis>possible</emphasis> de définir la langue manuellement via les propriétés de configuration de Seam <literal> org.jboss.seam.international.localeSelector.language</literal>, <literal> org.jboss.seam.international.localeSelector.country</literal> et <literal> org.jboss.seam.international.localeSelector.variant</literal>, mais nous n'avons pas trouver de bonne raison d'avoir à faire cela."
 
 #. Tag: para
 #: I18n.xml:160
 #, no-c-format
 msgid "It is, however, useful to allow the user to set the locale manually via the application user interface. Seam provides built-in functionality for overriding the locale determined by the algorithm above. All you have to do is add the following fragment to a form in your JSP or Facelets page:"
-msgstr ""
+msgstr "C'est, cependant, utile de permettre à l'utilisateur de définir sa langue manuellement via un interface utilisateur de l'application. Seam fourni une fonctionnalité livrée pour remplacer la langue déterminée par l'algorithme ci-dessus. Tout ce que vous avez à faire est d'ajouter le fragment suivant dans un formulaire de votre page JSP ou Facelets:"
 
 #. Tag: programlisting
 #: I18n.xml:166
@@ -199,12 +199,19 @@ msgid ""
 "&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
 "    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 msgstr ""
+"&lt;h:selectOneMenu value=\"#{localeSelector.language}\"&gt;\n"
+"    &lt;f:selectItem itemLabel=\"English\" itemValue=\"en\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Deutsch\" itemValue=\"de\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Francais\" itemValue=\"fr\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
+"    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:168
 #, no-c-format
 msgid "Or, if you want a list of all supported locales from <literal> faces-config.xml</literal>, just use:"
-msgstr ""
+msgstr "Ou si vous voulez une liste de toutes les langues supportées depuis <literal> faces-config.xml</literal>, utilisez simplement :"
 
 #. Tag: programlisting
 #: I18n.xml:171
@@ -216,30 +223,35 @@ msgid ""
 "&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
 "    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 msgstr ""
+"&lt;h:selectOneMenu value=\"#{localeSelector.localeString}\"&gt;\n"
+"    &lt;f:selectItems value=\"#{localeSelector.supportedLocales}\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
+"    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:173
 #, no-c-format
 msgid "When the user selects an item from the drop-down, then clicks the command button, the Seam and JSF locales will be overridden for the rest of the session."
-msgstr ""
+msgstr "Quand l'utilisateur sélectionne un élément depuis cette liste, ensuite il clique sur le bouton de commande, alors les lagues de Seam et de JSF vont être remplacées pour le reste de la session."
 
 #. Tag: para
 #: I18n.xml:177
 #, no-c-format
 msgid "The brings us to the question of where the supported locales are defined. Typically, you provide a list of locales for which you have matching resource bundles in the <literal>&lt;locale-config&gt;</literal> element of the JSF configuration file (/META-INF/faces-config.xml). However, you have learned to appreciate that Seam's component configuration mechanism is more powerful than what is provided in Java EE. For that reason, you can configure the supported locales, and the default locale of the server, using the built-in component named <literal>org.jboss.seam.international.localeConfig</literal>. To use it, you first declare an XML namespace for Seam's international package in the Seam component descriptor. You then define the default locale and supported locales as follows:"
-msgstr ""
+msgstr "Pour répondre à la question à quel endroit les langues sont-elle définies.  Typiquement, vous fournissez une liste de langues pour lesquelles vous avez un fichiers de ressources correspondant dans l'élément <literal>&lt;locale-config&gt;</literal> de fichier de configuration JSF  (/META-INF/faces-config.xml). Cependant, vous avez appris à apprécier le mechanisme de configuration des composants de Seam  qui est plus psuissant que celui fourni dans Java EE. Pour cette raison, vous pouvez configurer les langues supportées, et une langue par défaut sur le serveur, en utilisant le composant livré dénommé <literal>org.jboss.seam.international.localeConfig</literal>. Pour l'utiliser, vous déclarer en premier un espace de nommage XML pour le paquet international de Seam dans le descripteur du composant de Seam. Vous définissez ensuite une langue par défaut et les langues supportées comme ci-dessous:"
 
 #. Tag: programlisting
 #: I18n.xml:190
 #, no-c-format
 msgid "&lt;international:locale-config default-locale=\"fr_CA\" supported-locales=\"en fr_CA fr_FR\"/&gt;"
-msgstr ""
+msgstr "&lt;international:locale-config default-locale=\"fr_CA\" supported-locales=\"en fr_CA fr_FR\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:192
 #, no-c-format
 msgid "Naturally, if you pronounce that you support a locale, you better provide a resource bundle to match it! Up next, you'll learn how to define the language-specific labels."
-msgstr ""
+msgstr "Naturellement, si vous déclarrez que vous supporté une langue, vous devriez fournir un fichier de ressource qui lui correspond! Ensuite, vous allez apprendre comment définir des labels spécifiques aux langues."
 
 #. Tag: title
 #: I18n.xml:198
@@ -251,7 +263,7 @@ msgstr "Les labels"
 #: I18n.xml:200
 #, no-c-format
 msgid "JSF supports internationalization of user interface labels and descriptive text via the use of <literal>&lt;f:loadBundle /&gt;</literal>. You can use this approach in Seam applications. Alternatively, you can take advantage of the Seam <literal> messages</literal> component to display templated labels with embedded EL expressions."
-msgstr ""
+msgstr "JSF permet une internationnalisation des labels des interfaces utilisateurs et des texte descriptif via l'utilisation de <literal>&lt;f:loadBundle /&gt;</literal>. Vous pouvez utilisez cette approche dans les application Seam. Au alternative, vous pouvez profiter du composant <literal> messages</literal> de Seam pour afficher les labels modèles avec les expressions EL embarquées."
 
 #. Tag: title
 #: I18n.xml:207
@@ -263,7 +275,7 @@ msgstr "La définition des labels"
 #: I18n.xml:209
 #, no-c-format
 msgid "Seam provides a <literal>java.util.ResourceBundle</literal> (available to the application as a <literal> org.jboss.seam.core.resourceBundle</literal>). You'll need to make your internationalized labels available via this special resource bundle. By default, the resource bundle used by Seam is named <literal>messages</literal> and so you'll need to define your labels in files named <literal> messages.properties</literal>, <literal> messages_en.properties</literal>, <literal> messages_en_AU.properties</literal>, etc. These files usually belong in the <literal>WEB-INF/classes</literal> directory."
-msgstr ""
+msgstr "Seam fourni un<literal>java.util.ResourceBundle</literal> (disponible pour l'application comme un <literal> org.jboss.seam.core.resourceBundle</literal>). Vous allez avoir besoin de rendre les labels à internationnaliser disponible via ce fichier de ressource spécial. Par défaut, le fichier de ressource utilisé par Seam est appelé <literal>messages</literal> et donc vous allez avoir besoin de définir vos labels dans des fichiers appelés <literal> messages.properties</literal>, <literal> messages_en.properties</literal>, <literal> messages_en_AU.properties</literal>, etc. Ces fichiers vont habituellement dans le dossier <literal>WEB-INF/classes</literal>."
 
 #. Tag: para
 #: I18n.xml:220
@@ -293,7 +305,7 @@ msgstr "Hello=G'day"
 #: I18n.xml:228
 #, no-c-format
 msgid "You can select a different name for the resource bundle by setting the Seam configuration property named <literal> org.jboss.seam.core.resourceLoader.bundleNames</literal>. You can even specify a list of resource bundle names to be searched (depth first) for messages."
-msgstr ""
+msgstr "Vous pouvez sélectionner un nom différent pour le fichier de ressource en définissant dans la propriété de configuration de Seam dénommée <literal> org.jboss.seam.core.resourceLoader.bundleNames</literal>. Vous pouvez même spécifie une liste de fichier de ressources à chercher (premier trouvé, premier servi) pour les messages."
 
 #. Tag: programlisting
 #: I18n.xml:234
@@ -306,18 +318,24 @@ msgid ""
 "    &lt;/core:bundle-names&gt;\n"
 "&lt;/core:resource-loader&gt;"
 msgstr ""
+"&lt;core:resource-loader&gt;\n"
+"    &lt;core:bundle-names&gt;\n"
+"        &lt;value&gt;mycompany_messages&lt;/value&gt;\n"
+"        &lt;value&gt;standard_messages&lt;/value&gt;       \n"
+"    &lt;/core:bundle-names&gt;\n"
+"&lt;/core:resource-loader&gt;"
 
 #. Tag: para
 #: I18n.xml:236
 #, no-c-format
 msgid "If you want to define a message just for a particular page, you can specify it in a resource bundle with the same name as the JSF view id, with the leading <literal>/</literal> and trailing file extension removed. So we could put our message in <literal> welcome/hello_en.properties</literal> if we only needed to display the message on <literal> /welcome/hello.jsp</literal>."
-msgstr ""
+msgstr "Si vous voulez définir un message juste pour une page particulière, vous pouvez le spécifier dans le fichier de ressource avec le m^me nom que l'identifiant de la vue JSF, avec un <literal>/</literal> devant et en enlevant l'extension du nom de fichier. Ainsi vous pouvez mettre notre message dans <literal> welcome/hello_en.properties</literal>  si vous avez seulement besoin d'afficher le message sur  <literal> /welcome/hello.jsp</literal>."
 
 #. Tag: para
 #: I18n.xml:243
 #, no-c-format
 msgid "You can even specify an explicit bundle name in <literal> pages.xml</literal>:"
-msgstr ""
+msgstr "Vous pouvez même spécifier un nom de fichier explicite dans <literal> pages.xml</literal>:"
 
 #. Tag: programlisting
 #: I18n.xml:246
@@ -329,7 +347,7 @@ msgstr "&lt;page view-id=\"/welcome/hello.jsp\" bundle=\"HelloMessages\"/&gt;"
 #: I18n.xml:248
 #, no-c-format
 msgid "Then we could use messages defined in <literal> HelloMessages.properties</literal> on <literal> /welcome/hello.jsp</literal>."
-msgstr ""
+msgstr "Ensuite, nous pourions utiliser les messages définie dans <literal> HelloMessages.properties</literal> avec  <literal> /welcome/hello.jsp</literal>."
 
 #. Tag: title
 #: I18n.xml:254
@@ -341,7 +359,7 @@ msgstr "L'affichage des labels"
 #: I18n.xml:256
 #, no-c-format
 msgid "If you define your labels using the Seam resource bundle, you'll be able to use them without having to type <literal> &lt;f:loadBundle ... /&gt;</literal> on every page. Instead, you can simply type:"
-msgstr ""
+msgstr "Si vous définissez vos labels en utilisant le fichier de ressource de Seam, vous allez être capable de les utiliser sans avoir à indiquer <literal> &lt;f:loadBundle ... /&gt;</literal> sur chaque page. Au lieu de cela, vous pouvez simplement indiquer:"
 
 #. Tag: programlisting
 #: I18n.xml:260
@@ -365,7 +383,7 @@ msgstr "&lt;h:outputText value=\"#{messages.Hello}\"/&gt;"
 #: I18n.xml:266
 #, no-c-format
 msgid "Even better, the messages themselves may contain EL expressions:"
-msgstr ""
+msgstr "Même mieux, les mesages eux-même peuvent contenir des expressions EL:"
 
 #. Tag: programlisting
 #: I18n.xml:269
@@ -407,7 +425,7 @@ msgstr "Les messages Faces"
 #: I18n.xml:283
 #, no-c-format
 msgid "The <literal>facesMessages</literal> component is a super-convenient way to display success or failure messages to the user. The functionality we just described also works for faces messages:"
-msgstr ""
+msgstr "Le composant <literal>facesMessages</literal> est une façon super-simplifiée d'afficher un message de réussite ou d'echec à l'utilisateur. La fonctionnalité que nous avons juste à l'instant décrit fonctionne aussi avec les messages faces:"
 
 #. Tag: programlisting
 #: I18n.xml:288
@@ -449,19 +467,19 @@ msgstr "Les fuseaux horaires"
 #: I18n.xml:299
 #, no-c-format
 msgid "There is also a session-scoped instance of <literal> java.util.Timezone</literal>, named <literal> org.jboss.seam.international.timezone</literal>, and a Seam component for changing the timezone named <literal> org.jboss.seam.international.timezoneSelector</literal>. By default, the timezone is the default timezone of the server. Unfortunately, the JSF specification says that all dates and times should be assumed to be UTC, and displayed as UTC, unless a timezone is explicitly specified using <literal> &lt;f:convertDateTime&gt;</literal>. This is an extremely inconvenient default behavior."
-msgstr ""
+msgstr "Il y aussi une instance d'étendue de session dénommé <literal> java.util.Timezone</literal>, dénommée <literal> org.jboss.seam.international.timezone</literal>, et un composant de Seam pour la modificaiton du fuseau horaire dénommé <literal> org.jboss.seam.international.timezoneSelector</literal>. Par défaut, le fuseau horaire est le fuseau horaire par défaut du serveur. Malheureusement, la spécification JSF indique que toute les dates et les heures devraient être en  UTC, et affichées en  UTC,  à moins que le fuseau horaire ne soit spécifié en utilisant <literal> &lt;f:convertDateTime&gt;</literal>. Ceci est un inconvénient majeur pour une fonctionnalité par défaut."
 
 #. Tag: para
 #: I18n.xml:310
 #, no-c-format
 msgid "Seam overrides this behavior, and defaults all dates and times to the Seam timezone. In addition, Seam provides the <literal> &lt;s:convertDateTime&gt;</literal> tag which always performs conversions in the Seam timezone."
-msgstr ""
+msgstr "Seam remplace cette  fonctionnalité et par défaut, toutes les dates et les heures sont du fuseau horaire de Seam. De plus, Seam fourni une balise <literal> &lt;s:convertDateTime&gt;</literal> qui réalise toujours une conversation dans le fuseau horaire de Seam."
 
 #. Tag: para
 #: I18n.xml:315
 #, no-c-format
 msgid "Seam also provides a default date converter to convert a string value to a date. This saves you from having to specify a converter on input fields that are simply capturing a date. The pattern is selected according the the user's locale and the time zone is selected as described above."
-msgstr ""
+msgstr "Seam fourni aussi un convertisseur de date par défaut convertissant une valeur de chaine de caractères vers une date. Ceci vous préserve d'avoir à indiquer un convertisseur pour les champs de saisies  qui sont simplement capturé comme des dates. Le patron est sélectionné en accord avec la langue de l'utilisateur et son fuseau horaire est sélectionné comme décrit ci-dessous."
 
 #. Tag: title
 #: I18n.xml:322
@@ -473,7 +491,7 @@ msgstr "Les thèmes"
 #: I18n.xml:324
 #, no-c-format
 msgid "Seam applications are also very easily skinnable. The theme API is very similar to the localization API, but of course these two concerns are orthogonal, and some applications support both localization and themes."
-msgstr ""
+msgstr "Les applications de Seam sont aussi très facilement personnalisable. L'API des thèmes est vraiment similaire à l'API de localisation, mais bien sur ces deux concernes de sujets orthogonaux et quelques application ont à la fois la localisation et les thèmes."
 
 #. Tag: para
 #: I18n.xml:329
@@ -493,6 +511,13 @@ msgid ""
 "    &lt;/theme:available-themes&gt;\n"
 "&lt;/theme:theme-selector&gt;"
 msgstr ""
+"&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
+"    &lt;theme:available-themes&gt;\n"
+"        &lt;value&gt;default&lt;/value&gt;\n"
+"        &lt;value&gt;accessible&lt;/value&gt;\n"
+"        &lt;value&gt;printable&lt;/value&gt;\n"
+"    &lt;/theme:available-themes&gt;\n"
+"&lt;/theme:theme-selector&gt;"
 
 #. Tag: para
 #: I18n.xml:333
@@ -504,7 +529,7 @@ msgstr "Notez que le premier thème listé est le thème par défaut."
 #: I18n.xml:335
 #, no-c-format
 msgid "Themes are defined in a properties file with the same name as the theme. For example, the <literal>default</literal> theme is defined as a set of entries in <literal> default.properties</literal>. For example, <literal> default.properties</literal> might define:"
-msgstr ""
+msgstr "Les thèmes sont définies dans un fichier de propriétés avec le même nom que le thème. par exemple, le thème <literal>default</literal> est définie comme un groupe d'entréees dans <literal> default.properties</literal>. Par exemple, <literal> default.properties</literal> devrait définir:"
 
 #. Tag: programlisting
 #: I18n.xml:340
@@ -520,13 +545,13 @@ msgstr ""
 #: I18n.xml:342
 #, no-c-format
 msgid "Usually the entries in a theme resource bundle will be paths to CSS styles or images and names of facelets templates (unlike localization resource bundles which are usually text)."
-msgstr ""
+msgstr "Habituellement, un fichier de ressource de thème aura des chemins vers des fichiers de styles CSS ou des images ou des noms de pattron de facelets (à la différence des fichiers de resource de la localisation qui sont habituellement des fichiers textes)."
 
 #. Tag: para
 #: I18n.xml:346
 #, no-c-format
 msgid "Now we can use these entries in our JSP or facelets pages. For example, to theme the stylesheet in a facelets page:"
-msgstr ""
+msgstr "Maintenant, nous pouvons utiliser ces entrées dans nos pages JSP ou facelets. par exemple, pour personnaliser la feuille de style dans une page facelets:"
 
 #. Tag: programlisting
 #: I18n.xml:349
@@ -538,7 +563,7 @@ msgstr "&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt
 #: I18n.xml:351
 #, no-c-format
 msgid "Or, when the page definition resides in a subdirectory:"
-msgstr ""
+msgstr "Ou, quand la définition de la page réside dans un sous-dossier:"
 
 #. Tag: programlisting
 #: I18n.xml:353
@@ -554,7 +579,7 @@ msgstr ""
 #: I18n.xml:355
 #, no-c-format
 msgid "Most powerfully, facelets lets us theme the template used by a <literal>&lt;ui:composition&gt;</literal>:"
-msgstr ""
+msgstr "Plus impressionnant, les facelets nous permette de personnaisée le pattron utilisé avec un <literal>&lt;ui:composition&gt;</literal>:"
 
 #. Tag: programlisting
 #: I18n.xml:358
@@ -576,7 +601,7 @@ msgstr ""
 #: I18n.xml:360
 #, no-c-format
 msgid "Just like the locale selector, there is a built-in theme selector to allow the user to freely switch themes:"
-msgstr ""
+msgstr "Toute comme le sélectioneur de langue, il y a un sélectionneur de thème livré qui permet à l'utilisateur de librement basculer entre les thèmes:"
 
 #. Tag: programlisting
 #: I18n.xml:363
@@ -596,13 +621,13 @@ msgstr ""
 #: I18n.xml:367
 #, no-c-format
 msgid "Persisting locale and theme preferences via cookies"
-msgstr ""
+msgstr "La préservation des préférences de langue et de thème via des cookies"
 
 #. Tag: para
 #: I18n.xml:369
 #, no-c-format
 msgid "The locale selector, theme selector and timezone selector all support persistence of locale and theme preference to a cookie. Simply set the <literal>cookie-enabled</literal> property in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Le sélectionneur de langue, le sélectionneur de thème et le sélectionneur de fuseau horaire supportent tous la persistance de la rpéférence vers un cookie. En simplement définissant la propriété <literal>cookie-enabled</literal> dans <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: I18n.xml:374
