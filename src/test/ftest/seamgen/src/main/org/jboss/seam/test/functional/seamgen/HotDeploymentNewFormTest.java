@@ -37,7 +37,12 @@ public class HotDeploymentNewFormTest extends NewFormTest
    @Override
    protected void prepareData()
    {
-      newComponentProperties = new String[] { "hi", "HiLocal", "Hi", "hi", "hiPage" };
+      // war version
+      if(SeamGenTest.WAR)
+         newComponent = new ComponentHolder("hi", null, "Hi", "hi", "hiPage");
+      // ear version
+      else
+         newComponent = new ComponentHolder("hi", "HiLocal", "Hi", "hi", "hiPage");
    }
 
    @Override

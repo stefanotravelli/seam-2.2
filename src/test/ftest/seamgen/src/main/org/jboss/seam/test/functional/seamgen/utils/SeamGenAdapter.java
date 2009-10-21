@@ -197,7 +197,7 @@ public class SeamGenAdapter
     */
    class InputStreamEater extends Thread
    {
-      private static final String INPUT_CHALLENGE = "[input]";
+      private static final String INPUT_CHALLENGE = "[input] Enter";
       private BufferedReader stream;
       private OutputStreamFeeder feederToNotify;
       private PrintStream out;

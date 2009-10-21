@@ -39,8 +39,8 @@ public class NewFormTest extends NewActionTest
    public void testNewComponent()
    {
       
-      String form = "id=" + newComponentProperties[0] + "Form";
-      String button = form + ":" + newComponentProperties[3];
+      String form = "id=" + newComponent.name + "Form";
+      String button = form + ":" + newComponent.actionMethod;
       String field = form + ":" + "valueField:value";
       String value = "world";
       
@@ -55,17 +55,22 @@ public class NewFormTest extends NewActionTest
       browser.clickAndWait(button);
 
       assertTrue(browser.isElementPresent(MESSAGES), "Message not found.");
-      assertEquals(browser.getText(MESSAGES), newComponentProperties[3] + " " + value, "Unexpected form output.");
+      assertEquals(browser.getText(MESSAGES), newComponent.actionMethod + " " + value, "Unexpected form output.");
    }
 
    @Override
    protected void prepareData() {
-      newComponentProperties = new String[]{ "hello", "HelloLocal", "Hello", "hello", "helloPage" };
+      // war version
+      if (SeamGenTest.WAR)
+         newComponent = new ComponentHolder("hello", null, "Hello", "hello", "helloPage");
+      // ear version
+      else
+         newComponent = new ComponentHolder("hello", "HelloLocal", "Hello", "hello", "helloPage");
    }
  
    @Override
    public void generateNewComponent()
    {
-      seamGen.newForm(newComponentProperties);
+      seamGen.newForm(newComponent.asArray());
    }
 }
