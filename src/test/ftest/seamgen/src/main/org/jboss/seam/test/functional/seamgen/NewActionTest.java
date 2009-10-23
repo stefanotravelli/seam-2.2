@@ -55,6 +55,7 @@ public class NewActionTest extends SeleniumSeamGenTest
       String button = form + ":" + newComponent.actionMethod;
       
       browser.open(getComponentPath());
+      browser.waitForPageToLoad();
 
       assertTrue(browser.isElementPresent(FOOTER), "Footer not found.");
       assertTrue(browser.isElementPresent(form), form + " not found.");

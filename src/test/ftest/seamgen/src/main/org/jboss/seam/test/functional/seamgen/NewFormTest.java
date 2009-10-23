@@ -45,6 +45,7 @@ public class NewFormTest extends NewActionTest
       String value = "world";
       
       browser.open(getComponentPath());
+      browser.waitForPageToLoad();
 
       assertTrue(browser.isElementPresent(FOOTER), "Footer not found.");
       assertTrue(browser.isElementPresent(form), form + " not found.");
