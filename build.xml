@@ -767,10 +767,20 @@
 
 	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copybuild,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
 		<zip zipfile="${dist.location}/${dist.name}.zip">
-			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
+			<zipfileset prefix="${dist.name}" dir="${dist.dir}">
+				<exclude name="seam"/>
+			</zipfileset>
+			<zipfileset prefix="${dist.name}" dir="${dist.dir}" filemode="755" >
+				<include name="seam"/>
+			</zipfileset>
 		</zip>
 		<tar tarfile="${dist.location}/${dist.name}.tar.gz" compression="gzip">
-			<tarfileset prefix="${dist.name}" dir="${dist.dir}" />
+			<tarfileset prefix="${dist.name}" dir="${dist.dir}">
+				<exclude name="seam"/>
+			</tarfileset>
+			<tarfileset prefix="${dist.name}" dir="${dist.dir}" filemode="755" >
+				<include name="seam"/>
+			</tarfileset>
 		</tar>
 	</target>
 
