@@ -48,8 +48,6 @@ public class ConversationTest extends SeleniumBookingTest {
         browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "1");
         browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "2");
         browser.selectWindow("1");
-        browser.refresh();
-        browser.waitForPageToLoad(TIMEOUT);
         if (!isLoggedIn()) {
             login();
         }
@@ -67,8 +65,6 @@ public class ConversationTest extends SeleniumBookingTest {
         browser.waitForPageToLoad(TIMEOUT);
         // Reload window 1 to check whether both workspaces are displayed
         browser.selectWindow("1");
-        browser.refresh();
-        browser.waitForPageToLoad(TIMEOUT);
         assertEquals("#1 workspace not present in workspace table",
                 MessageFormat.format(getProperty("WORKSPACE_BOOKING_TEXT"),
                         hotel1), browser.getText(MessageFormat.format(
@@ -92,8 +88,6 @@ public class ConversationTest extends SeleniumBookingTest {
         browser.waitForPageToLoad(TIMEOUT);
         // Second workspace should disappear
         browser.selectWindow("1");
-        browser.refresh();
-        browser.waitForPageToLoad(TIMEOUT);
         assertEquals("Workspace failure.", 1, browser
                 .getXpathCount(getProperty("WORKSPACE_TABLE_ROW_COUNT")));
     }
