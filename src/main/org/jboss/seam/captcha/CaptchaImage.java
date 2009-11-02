@@ -60,9 +60,9 @@ public class CaptchaImage extends AbstractResource
          ServletLifecycle.endRequest(request);
       }
 
-      response.setHeader("Cache-Control", "no-store");
+      response.setHeader("Cache-Control", "no-cache");
       response.setHeader("Pragma", "no-cache");
-      response.setDateHeader("Expires", 0);
+      response.setHeader("Expires", "0");
       response.setContentType("image/jpeg");
       response.getOutputStream().write( out.toByteArray() );
       response.getOutputStream().flush();
