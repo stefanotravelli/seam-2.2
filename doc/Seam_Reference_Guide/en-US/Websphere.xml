@@ -27,10 +27,46 @@
         <ulink url="http://www.ibm.com/developerworks/downloads/ws/was"> WebSphere Application Server V7</ulink>
 	  </para>
 	  <para>
-		WebSphere v7.0.0.3 is the minimal recommended version of WebSphere v7 to use
+		WebSphere v7.0.0.5 is the minimal recommended version of WebSphere v7 to use
 		with Seam. Earlier versions of WebSphere have bugs in the EJB container that will 
 		cause various exceptions to occur at runtime. 
       </para>
+      
+      <note>
+       You may encounter two exceptions with Seam on WebSphere v7.0.0.5 :
+       <variablelist>
+         <varlistentry>
+           <term>
+             <literal>EJBContext may only be looked up by or injected into an EJB</literal>
+           </term>
+           <listitem>
+             <para>
+               This is a bug in WebSphere v7.0.0.5. WebSphere does not conform to the EJB 3.0 specs 
+               as it does not allow to perform a lookup on "java:comp/EJBContext" in callback methods.
+               This problem is associated with APAR PK98746 at IBM. 
+               IBM plans to include the fix with v7.0.0.9.In the meantime, an eFix for this APAR can be requested to IBM.
+             </para>
+           </listitem>
+         </varlistentry>
+
+         <varlistentry>
+           <term>
+             <literal>NameNotFoundException: Name "comp/UserTransaction" not found in context "java:"</literal>
+           </term>
+           <listitem>
+             <para>
+               Another bug in WebSphere v7.0.0.5. This occurs when an HTTP session expires. Seam correctly catches the exception when
+               necessary and performs the correct actions in these cases. The problem is that even if the exception is handled by Seam,
+               WebSphere prints the traceback of the exception in SystemOut.
+               Those messages are harmless and can safely be ignored. 
+               This problem is associated with APAR PK97995 at IBM. 
+               They plan to provides a fix with v7.0.0.9 that will suppress the print of those tracebacks if the exception is catched by the application.
+             </para> 
+           </listitem>
+         </varlistentry>
+         
+        </variablelist>
+      </note>
 
 	  <para>
         The following sections in this chapter assume that WebSphere is correctly installed and is
