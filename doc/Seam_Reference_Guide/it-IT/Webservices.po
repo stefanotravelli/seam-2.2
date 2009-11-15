@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-08-26 18:48+0000\n"
-"PO-Revision-Date: 2009-08-26 21:12+0100\n"
+"POT-Creation-Date: 2009-11-15 10:18+0000\n"
+"PO-Revision-Date: 2009-11-15 11:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -566,8 +566,8 @@ msgstr "Questa definizione mapperebbe il suffisso dell'URI di <literal>.txt.deut
 #. Tag: title
 #: Webservices.xml:287
 #, no-c-format
-msgid "Resources and providers as Seam components"
-msgstr "Risorse e provider come componenti Seam"
+msgid "Resources as Seam components"
+msgstr "Risorse come componenti Seam"
 
 #. Tag: para
 #: Webservices.xml:289
@@ -578,8 +578,8 @@ msgstr "Qualunque istanza di risorsa e di provider è gestita da RESTEasy di def
 #. Tag: para
 #: Webservices.xml:296
 #, no-c-format
-msgid "You can write resources and providers as Seam components and benefit from the richer lifecycle management of Seam, and interception for bijection, security, and so on. Simply make your resource class a Seam component:"
-msgstr "E' possibile scrivere risorse e provider come componenti Seam e trarre beneficio dalla più ricca gestione del ciclo di vita di Seam e dall'interception, dalla bijection, dalla sicurezza e così via. Occorre semplicemente rendere la classe della risorsa un componente Seam:"
+msgid "You can write resources as Seam components and benefit from the richer lifecycle management of Seam, and interception for bijection, security, and so on. Simply make your resource class a Seam component:"
+msgstr "E' possibile scrivere risorse come componenti Seam e trarre beneficio dalla più ricca gestione del ciclo di vita di Seam e dall'interception, dalla bijection, dalla sicurezza e così via. Occorre semplicemente rendere la classe della risorsa un componente Seam:"
 
 #. Tag: programlisting
 #: Webservices.xml:302
@@ -722,67 +722,73 @@ msgstr "Risorse che siano componenti con scope <literal>CONVERSATION</literal> e
 #. Tag: para
 #: Webservices.xml:356
 #, no-c-format
-msgid "EJB Seam components are supported. Always annotate the local business interface, not the EJB implementation class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>."
-msgstr "Sono supportati i componenti EJB Seam. Si annoti sempre l'interfaccia locale di business, non la classe di implementazione EJB, con le annotazioni JAX-RS. L'EJB deve essere <literal>STATELESS</literal>."
+msgid "EJB Seam components are supported as REST resources. Always annotate the local business interface, not the EJB implementation class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>."
+msgstr "I componenti EJB Seam vengono supportati come risorse REST. Si annoti sempre l'interfaccia locale di business, non la classe di implementazione EJB, con le annotazioni JAX-RS. L'EJB deve essere <literal>STATELESS</literal>."
 
 #. Tag: para
-#: Webservices.xml:361
+#: Webservices.xml:362
 #, no-c-format
-msgid "Provider classes can also be Seam components, only <literal>APPLICATION</literal>-scoped provider components are supported. You can annotate the bean interface or implementation with JAX-RS annotations. EJB Seam components as providers are currently <emphasis>NOT</emphasis> supported, only POJOs!"
-msgstr "Le classi del provider possono essere componenti Seam, vengono supportati solo i componenti provider con scope <literal>APPLICATION</literal>. Si può annotare l'interfaccia bean o l'implementazione con le annotazioni JAX-RS. I componenti EJB Seam come provider <emphasis>NON</emphasis> sono attualmente supportati, solo i POJO!"
+msgid "Sub-resources as defined in the JAX RS specification, section 3.4.1, can not be Seam component instances at this time. Only root resource classes can be registered as Seam components. In other words, do not return a Seam component instance from a root resource method."
+msgstr "Le sotto-risorse come definite nella specifica JAX RS, sezione 3.4.1, non possono essere al momento istanze componenti Seam. Solo le classi di risorsa radice possono venire registrate come componenti Seam. In altre parole, non si restituisce un'istanza componente da un metodo di risorsa radice."
+
+#. Tag: para
+#: Webservices.xml:370
+#, no-c-format
+msgid "Provider classes can currently not be Seam components. Although you can configure an <literal>@Provider</literal> annotated class as a Seam component, it will at runtime be managed by RESTEasy as a singleton with no Seam interception, bijection, etc. The instance will not be a Seam component instance. We plan to support Seam component lifecycle for JAX-RS providers in the future."
+msgstr "Le classi provider non possono al momento essere componenti Seam. Sebbene si possa configurare una classe annotata con <literal>@Provider</literal> come componente Seam, a runtime verrà gestita da RESTEasy come un singleton senza intercettazione Seam, bijection, ecc. L'istanza non sarà un'istanza componente Seam. Programmiamo per il futuro di supportare il ciclo di vita dei componenti Seam per i provider JAX-RS."
 
 #. Tag: title
-#: Webservices.xml:370
+#: Webservices.xml:382
 #, no-c-format
 msgid "Securing resources"
 msgstr "Sicurezza della risorse"
 
 #. Tag: para
-#: Webservices.xml:372
+#: Webservices.xml:384
 #, no-c-format
 msgid "You can enable the Seam authentication filter for HTTP Basic and Digest authentication in <literal>components.xml</literal>:"
 msgstr "Si può abilitare il filtro di autenticazione per l'autenticazione HTTP Basic e Digest in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
-#: Webservices.xml:377
+#: Webservices.xml:389
 #, no-c-format
 msgid "<![CDATA[<web:authentication-filter url-pattern=\"/seam/resource/rest/*\" auth-type=\"basic\"/>]]>"
 msgstr "<![CDATA[<web:authentication-filter url-pattern=\"/seam/resource/rest/*\" auth-type=\"basic\"/>]]>"
 
 #. Tag: para
-#: Webservices.xml:379
+#: Webservices.xml:391
 #, no-c-format
 msgid "See the Seam security chapter on how to write an authentication routine."
 msgstr "Si veda il capitolo sulla sicurezza di Seam per sapere come scrivere la routine di autenticazione."
 
 #. Tag: para
-#: Webservices.xml:383
+#: Webservices.xml:395
 #, no-c-format
 msgid "After successful authentication, authorization rules with the common <literal>@Restrict</literal> and <literal>@PermissionCheck</literal> annotations are in effect. You can also access the client <literal>Identity</literal>, work with permission mapping, and so on. All regular Seam security features for authorization are available."
 msgstr "Dopo che l'autenticazione ha avuto successo, hanno effetto le regole di autorizzazione con le annotazioni <literal>@Restrict</literal> e <literal>@PermissionCheck</literal>. Si può anche accedere <literal>Identity</literal> del client, lavorare con la mappatura dei permessi, e così via. Sono disponibili tutte le caratteristiche di sicurezza di Seam per l'autorizzazione."
 
 #. Tag: title
-#: Webservices.xml:393
+#: Webservices.xml:405
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr "Mappare eccezioni e risposte HTTP"
 
 # VERIFICARE ultima frase
 #. Tag: para
-#: Webservices.xml:395
+#: Webservices.xml:407
 #, no-c-format
 msgid "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked exceptions are handled by the JAX RS implementation. In addition to using an exception mapping provider as defined by JAX-RS, the integration of RESTEasy with Seam allows you to map exceptions to HTTP response codes within Seam's <literal>pages.xml</literal> facility. If you are already using <literal>pages.xml</literal> declarations, this is easier to maintain than potentially many JAX RS exception mapper classes."
 msgstr "La sezione 3.3.4 delle specifiche JAX-RS definisce come le eccezioni di tipo checked o unchecked debbano essere trattate dall'implementazione JAX-RS. Oltre all'utilizzo di un provider della mappatura delle eccezioni come definito dalle JAX-RS, l'integrazione di RESTEasy con Seam permette di mappare le eccezioni con i codici di risposta HTTP all'interno del file <literal>pages.xml</literal> di Seam. Se si stanno già utilizzando dichiarazioni di <literal>pages.xml</literal>, ciò è più semplice da manutenetere delle numerose potenziali classi JAX RS di mappatura delle eccezioni."
 
 # VERIFICARE: not - as some Seam examples might show - a request URI pattern that doesn't cover your REST request paths
 #. Tag: para
-#: Webservices.xml:403
+#: Webservices.xml:415
 #, no-c-format
 msgid "Exception handling within Seam requires that the Seam filter is executed for your HTTP request. Ensure that you do filter <emphasis>all</emphasis> requests in your <literal>web.xml</literal>, not - as some Seam examples might show - a request URI pattern that doesn't cover your REST request paths. The following example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:"
 msgstr "In Seam la gestione delle eccezioni richiede che il filtro di Seam intercetti le richieste HTTP. Assicuratevi di filtrare <emphasis>tutte</emphasis> le richieste nel file <literal>web.xml</literal>, e non - come mostrato in alcuni esempi di Seam - quelle corrispondenti ad URI di richiesta che non coprono i percorsi delle richieste REST. L'esempio seguente intercetta <emphasis>tutte</emphasis> le richieste HTTP e abilita la gestione delle eccezioni di Seam:"
 
 #. Tag: programlisting
-#: Webservices.xml:410
+#: Webservices.xml:422
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -806,13 +812,13 @@ msgstr ""
 "</filter-mapping>]]>"
 
 #. Tag: para
-#: Webservices.xml:412
+#: Webservices.xml:424
 #, no-c-format
 msgid "To convert the unchecked <literal>UnsupportedOperationException</literal> thrown by your resource methods to a <literal>501 Not Implemented</literal> HTTP status response, add the following to your <literal>pages.xml</literal> descriptor:"
 msgstr "Per convertire l'eccezione unchecked <literal>UnsupportedOperationException</literal> lanciata dai metodi delle risorse nel codice di riposta HTTP <literal>501 Not Implemented</literal> , occorre aggiungere ciò che segue al descrittore <literal>pages.xml</literal>:"
 
 #. Tag: programlisting
-#: Webservices.xml:418
+#: Webservices.xml:430
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -828,13 +834,13 @@ msgstr ""
 "</exception>]]>"
 
 #. Tag: para
-#: Webservices.xml:420
+#: Webservices.xml:432
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr "Le eccezioni di tipo custom e di tipo checked sono gestite allo stesso modo:"
 
 #. Tag: programlisting
-#: Webservices.xml:424
+#: Webservices.xml:436
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
@@ -850,31 +856,31 @@ msgstr ""
 "</exception>]]>"
 
 #. Tag: para
-#: Webservices.xml:426
+#: Webservices.xml:438
 #, no-c-format
 msgid "You do not have to send an HTTP error to the client if an exception occurs. Seam allows you to map the exception as a redirect to a view of your Seam application. As this feature is typically used for human clients (web browsers) and not for REST API remote clients, you should pay extra attention to conflicting exception mappings in <literal>pages.xml</literal>."
 msgstr "Se si verifica un'eccezione, non è necessario inviare al client un codice di errore HTTP. Seam permette di mappare l'eccezione con la redirezione ad una vista dell'applicazione Seam . Poichè questa caratteristica è tipicamente usata per i client umani (browser web) e non per i client remoti dell'API REST, occorre prestare un'attenzione particolare a mappature di eccezioni in conflitto fra loro in <literal>pages.xml</literal>."
 
 #. Tag: para
-#: Webservices.xml:433
+#: Webservices.xml:445
 #, no-c-format
 msgid "Note that the HTTP response still passes through the servlet container, so an additional mapping might apply if you have <literal>&lt;error-page&gt;</literal> mappings in your <literal>web.xml</literal> configuration. The HTTP status code would then be mapped to a rendered HTML error page with status <literal>200 OK</literal>!"
 msgstr "Si noti che la risposta HTTP continua a passare attraverso il servlet container, così che è possibile apportare una mappatura aggiuntiva se nel file <literal>web.xml</literal> vi sono delle mappature <literal>&lt;error-page&gt;</literal>. Il codice di risposta HHTP sarebbe in questo caso mappato con una pagina HTML di errore con codice <literal>200 OK</literal>!"
 
 #. Tag: title
-#: Webservices.xml:442
+#: Webservices.xml:454
 #, no-c-format
 msgid "Testing resources and providers"
 msgstr "Test delle risorse e dei provider"
 
 #. Tag: para
-#: Webservices.xml:444
+#: Webservices.xml:456
 #, no-c-format
 msgid "Seam includes a unit testing utility class that helps you create unit tests for a RESTful architecture. Extend the <literal>SeamTest</literal> class as usual and use the <literal>ResourceRequestEnvironment.ResourceRequest</literal> to emulate HTTP requests/response cycles:"
 msgstr "Seam include una classe d'utilità che agevola la creazione di test d'unità per un architettura RESTful. Si estenda la classe <literal>SeamTest</literal> come al solito e si usi <literal>ResourceRequestEnvironment.ResourceRequest</literal> per emulare i cicli richiesta/risposta HTTP:"
 
 #. Tag: programlisting
-#: Webservices.xml:450
+#: Webservices.xml:462
 #, no-c-format
 msgid ""
 "<![CDATA[import org.jboss.seam.mock.ResourceRequestEnvironment;\n"
@@ -972,14 +978,27 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Webservices.xml:452
+#: Webservices.xml:464
 #, no-c-format
 msgid "This test only executes local calls, it does not communicate with the <literal>SeamResourceServlet</literal> through TCP. The mock request is passed through the Seam servlet and filters and the response is then available for test assertions. Overriding the <literal>getDefaultHeaders()</literal> method in a shared instance of <literal>ResourceRequestEnvironment</literal> allows you to set request headers for every test method in the test class."
 msgstr "Questo test esegue soltanto chiamate locali, non comunica con <literal>SeamResourceServlet</literal> attraverso TCP. La richiesta mock viene passata attraverso il servlet ed i filtri Seam e la risposta è poi disponibile per asserzioni di test. L'override del metodo <literal>getDefaultHeaders()</literal> in un'istanza condivisa di <literal>ResourceRequestEnvironment</literal> consente di impostare gli header di richiesta per ogni metodo di test nella classe di test."
 
 #. Tag: para
-#: Webservices.xml:460
+#: Webservices.xml:472
 #, no-c-format
 msgid "Note that a <literal>ResourceRequest</literal> has to be executed in a <literal>@Test</literal> method or in a <literal>@BeforeMethod</literal> callback. You can not execute it in any other callback, such as <literal>@BeforeClass</literal>."
 msgstr "Si noti che <literal>ResourceRequest</literal> deve essere eseguita in un metodo <literal>@Test</literal> o in una callback <literal>@BeforeMethod</literal>. Si può, ma non si dovrebbe eseguirla in altre callback, come <literal>@BeforeClass</literal>."
+
+#~ msgid ""
+#~ "Provider classes can also be Seam components, only <literal>APPLICATION</"
+#~ "literal>-scoped provider components are supported. You can annotate the "
+#~ "bean interface or implementation with JAX-RS annotations. EJB Seam "
+#~ "components as providers are currently <emphasis>NOT</emphasis> supported, "
+#~ "only POJOs!"
+#~ msgstr ""
+#~ "Le classi del provider possono essere componenti Seam, vengono supportati "
+#~ "solo i componenti provider con scope <literal>APPLICATION</literal>. Si "
+#~ "può annotare l'interfaccia bean o l'implementazione con le annotazioni "
+#~ "JAX-RS. I componenti EJB Seam come provider <emphasis>NON</emphasis> sono "
+#~ "attualmente supportati, solo i POJO!"
 

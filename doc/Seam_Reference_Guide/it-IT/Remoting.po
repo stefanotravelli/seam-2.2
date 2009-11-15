@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-23 11:30+0000\n"
+"POT-Creation-Date: 2009-11-15 10:18+0000\n"
 "PO-Revision-Date: 2009-05-24 19:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
@@ -22,12 +22,25 @@ msgstr "Remoting"
 #. Tag: para
 #: Remoting.xml:6
 #, no-c-format
-msgid "Seam provides a convenient method of remotely accessing components from a web page, using AJAX (Asynchronous Javascript and XML). The framework for this functionality is provided with almost no up-front development effort - your components only require simple annotating to become accessible via AJAX. This chapter describes the steps required to build an AJAX-enabled web page, then goes on to explain the features of the Seam Remoting framework in more detail."
-msgstr "Seam fornisce un metodo per accedere in modo remoto i componenti da una pagina web, usando AJAX (Asynchronous Javascript and XML). Il framework per questa funzionalità viene fornito con quasi nessuno sforzo di sviluppo - i componenti richiedono solamente una semplice annotazione per diventare accessibile via AJAX. Questo capitolo descrive i passi richiesti per costruire una pagina web abilitata a AJAX, poi spiega con maggior dettaglio le caratteristiche del framework Seam Remoting."
+msgid ""
+"Seam provides a convenient method of remotely accessing components from a "
+"web page, using AJAX (Asynchronous Javascript and XML). The framework for "
+"this functionality is provided with almost no up-front development effort - "
+"your components only require simple annotating to become accessible via "
+"AJAX. This chapter describes the steps required to build an AJAX-enabled web "
+"page, then goes on to explain the features of the Seam Remoting framework in "
+"more detail."
+msgstr ""
+"Seam fornisce un metodo per accedere in modo remoto i componenti da una "
+"pagina web, usando AJAX (Asynchronous Javascript and XML). Il framework per "
+"questa funzionalità viene fornito con quasi nessuno sforzo di sviluppo - i "
+"componenti richiedono solamente una semplice annotazione per diventare "
+"accessibile via AJAX. Questo capitolo descrive i passi richiesti per "
+"costruire una pagina web abilitata a AJAX, poi spiega con maggior dettaglio "
+"le caratteristiche del framework Seam Remoting."
 
 #. Tag: title
-#: Remoting.xml:13
-#: Remoting.xml:608
+#: Remoting.xml:13 Remoting.xml:608
 #, no-c-format
 msgid "Configuration"
 msgstr "Configurazione"
@@ -35,8 +48,12 @@ msgstr "Configurazione"
 #. Tag: para
 #: Remoting.xml:14
 #, no-c-format
-msgid "To use remoting, the Seam Resource servlet must first be configured in your <literal>web.xml</literal> file:"
-msgstr "Per usare remoting, il resource servlet di Seam deve essere innanzitutto configurato nel file <literal>web.xml</literal>:"
+msgid ""
+"To use remoting, the Seam Resource servlet must first be configured in your "
+"<literal>web.xml</literal> file:"
+msgstr ""
+"Per usare remoting, il resource servlet di Seam deve essere innanzitutto "
+"configurato nel file <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:16
@@ -65,52 +82,92 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:18
 #, no-c-format
-msgid "The next step is to import the necessary Javascript into your web page. There are a minimum of two scripts that must be imported. The first one contains all the client-side framework code that enables remoting functionality:"
-msgstr "Il passo successivi è importare il Javascript necessario nella propria pagina web. Ci sono un minimo di due script da importare. Il primo contiene tutto il codice del framework lato client che abilita le funzionalità di remoting:"
+msgid ""
+"The next step is to import the necessary Javascript into your web page. "
+"There are a minimum of two scripts that must be imported. The first one "
+"contains all the client-side framework code that enables remoting "
+"functionality:"
+msgstr ""
+"Il passo successivi è importare il Javascript necessario nella propria "
+"pagina web. Ci sono un minimo di due script da importare. Il primo contiene "
+"tutto il codice del framework lato client che abilita le funzionalità di "
+"remoting:"
 
 #. Tag: programlisting
 #: Remoting.xml:22
 #, no-c-format
-msgid "<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/resource/remote.js\"></script>]]>"
-msgstr "<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/resource/remote.js\"></script>]]>"
+msgid ""
+"<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/"
+"resource/remote.js\"></script>]]>"
+msgstr ""
+"<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/"
+"resource/remote.js\"></script>]]>"
 
 #. Tag: para
 #: Remoting.xml:24
 #, no-c-format
-msgid "The second script contains the stubs and type definitions for the components you wish to call. It is generated dynamically based on the local interface of your components, and includes type definitions for all of the classes that can be used to call the remotable methods of the interface. The name of the script reflects the name of your component. For example, if you have a stateless session bean annotated with <literal>@Name(\"customerAction\")</literal>, then your script tag should look like this:"
-msgstr "Il secondo script contiene gli stub e le definizioni tipo per i componenti da chiamare. Viene generato dinamicamente basandosi sull'interfaccia locale dei propri componenti, ed include le definizioni tipo per tutte le classi che possono essere usate per chiamare i metodi remoti dell'interfaccia. Il nome dello script riflette il nome del componente. Per esempio se si ha un bean di sessione stateless annotato con <literal>@Name(\"customerAction\")</literal>, allora il tag dello script dovrebbe essere simile a:"
+msgid ""
+"The second script contains the stubs and type definitions for the components "
+"you wish to call. It is generated dynamically based on the local interface "
+"of your components, and includes type definitions for all of the classes "
+"that can be used to call the remotable methods of the interface. The name of "
+"the script reflects the name of your component. For example, if you have a "
+"stateless session bean annotated with <literal>@Name(\"customerAction\")</"
+"literal>, then your script tag should look like this:"
+msgstr ""
+"Il secondo script contiene gli stub e le definizioni tipo per i componenti "
+"da chiamare. Viene generato dinamicamente basandosi sull'interfaccia locale "
+"dei propri componenti, ed include le definizioni tipo per tutte le classi "
+"che possono essere usate per chiamare i metodi remoti dell'interfaccia. Il "
+"nome dello script riflette il nome del componente. Per esempio se si ha un "
+"bean di sessione stateless annotato con <literal>@Name(\"customerAction\")</"
+"literal>, allora il tag dello script dovrebbe essere simile a:"
 
 #. Tag: programlisting
 #: Remoting.xml:30
 #, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"          src=\"seam/resource/remoting/interface.js?customerAction\"></script>]]>"
+"          src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
 msgstr ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"          src=\"seam/resource/remoting/interface.js?customerAction\"></script>]]>"
+"          src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
 
 #. Tag: para
 #: Remoting.xml:32
 #, no-c-format
-msgid "If you wish to access more than one component from the same page, then include them all as parameters of your script tag:"
-msgstr "Se si vuole accedere a più di un componente dalla stessa pagina, allora li si includa tutti come parametri nel tag script:"
+msgid ""
+"If you wish to access more than one component from the same page, then "
+"include them all as parameters of your script tag:"
+msgstr ""
+"Se si vuole accedere a più di un componente dalla stessa pagina, allora li "
+"si includa tutti come parametri nel tag script:"
 
 #. Tag: programlisting
 #: Remoting.xml:35
 #, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"        src=\"seam/resource/remoting/interface.js?customerAction&accountAction\"></script>]]>"
+"        src=\"seam/resource/remoting/interface.js?"
+"customerAction&accountAction\"></script>]]>"
 msgstr ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"        src=\"seam/resource/remoting/interface.js?customerAction&accountAction\"></script>]]>"
+"        src=\"seam/resource/remoting/interface.js?"
+"customerAction&accountAction\"></script>]]>"
 
 #. Tag: para
 #: Remoting.xml:38
 #, no-c-format
-msgid "Alternatively, you may use the <literal>s:remote</literal> tag to import the required Javascript. Separate each component or class name you wish to import with a comma:"
-msgstr "In alternativa si può usare il tag <literal>s:remote</literal> per importare il Javascript richiesto. Si separi ciascun componente o nome di classe che si vuole importare con una virgola:"
+msgid ""
+"Alternatively, you may use the <literal>s:remote</literal> tag to import the "
+"required Javascript. Separate each component or class name you wish to "
+"import with a comma:"
+msgstr ""
+"In alternativa si può usare il tag <literal>s:remote</literal> per importare "
+"il Javascript richiesto. Si separi ciascun componente o nome di classe che "
+"si vuole importare con una virgola:"
 
 #. Tag: programlisting
 #: Remoting.xml:43
@@ -133,8 +190,24 @@ msgstr "L'oggetto \"Seam\""
 #. Tag: para
 #: Remoting.xml:50
 #, no-c-format
-msgid "Client-side interaction with your components is all performed via the <literal>Seam</literal> Javascript object. This object is defined in <literal>remote.js</literal>, and you'll be using it to make asynchronous calls against your component. It is split into two areas of functionality; <literal>Seam.Component</literal> contains methods for working with components and <literal>Seam.Remoting</literal> contains methods for executing remote requests. The easiest way to become familiar with this object is to start with a simple example."
-msgstr "L'interazione lato client con i componenti viene eseguita tutta tramite l'oggetto Javascript <literal>Seam</literal>. Quest'oggetti è definito in <literal>remote.js</literal>, e lo si userà per fare chiamate asincrone verso il componente. E' suddiviso in due aree di funzionalità; <literal>Seam.Component</literal> contiene metodi per lavorare con i componenti e <literal>Seam.Remoting</literal> contiene metodi per eseguire le richieste remote. La via più facile per diventare familiare con quest'oggetto è cominciare con un semplice esempio."
+msgid ""
+"Client-side interaction with your components is all performed via the "
+"<literal>Seam</literal> Javascript object. This object is defined in "
+"<literal>remote.js</literal>, and you'll be using it to make asynchronous "
+"calls against your component. It is split into two areas of functionality; "
+"<literal>Seam.Component</literal> contains methods for working with "
+"components and <literal>Seam.Remoting</literal> contains methods for "
+"executing remote requests. The easiest way to become familiar with this "
+"object is to start with a simple example."
+msgstr ""
+"L'interazione lato client con i componenti viene eseguita tutta tramite "
+"l'oggetto Javascript <literal>Seam</literal>. Quest'oggetti è definito in "
+"<literal>remote.js</literal>, e lo si userà per fare chiamate asincrone "
+"verso il componente. E' suddiviso in due aree di funzionalità; <literal>Seam."
+"Component</literal> contiene metodi per lavorare con i componenti e "
+"<literal>Seam.Remoting</literal> contiene metodi per eseguire le richieste "
+"remote. La via più facile per diventare familiare con quest'oggetto è "
+"cominciare con un semplice esempio."
 
 #. Tag: title
 #: Remoting.xml:57
@@ -145,8 +218,13 @@ msgstr "Esempio Hello World"
 #. Tag: para
 #: Remoting.xml:59
 #, no-c-format
-msgid "Let's step through a simple example to see how the <literal>Seam</literal> object works. First of all, let's create a new Seam component called <literal>helloAction</literal>."
-msgstr "Si cominci con un semplice esempio per vedere come funziona l'oggetto <literal>Seam</literal>"
+msgid ""
+"Let's step through a simple example to see how the <literal>Seam</literal> "
+"object works. First of all, let's create a new Seam component called "
+"<literal>helloAction</literal>."
+msgstr ""
+"Si cominci con un semplice esempio per vedere come funziona l'oggetto "
+"<literal>Seam</literal>"
 
 #. Tag: programlisting
 #: Remoting.xml:62
@@ -171,8 +249,14 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:64
 #, no-c-format
-msgid "You also need to create a local interface for our new component - take special note of the <literal>@WebRemote</literal> annotation, as it's required to make our method accessible via remoting:"
-msgstr "E' anche necessario creare un'interfaccia locale per il nuovo componente - tenete a mente in particolare l'annotazione <literal>@WebRemote</literal>, poiché è necessaria a rendere un metodo accessibile via remoting:"
+msgid ""
+"You also need to create a local interface for our new component - take "
+"special note of the <literal>@WebRemote</literal> annotation, as it's "
+"required to make our method accessible via remoting:"
+msgstr ""
+"E' anche necessario creare un'interfaccia locale per il nuovo componente - "
+"tenete a mente in particolare l'annotazione <literal>@WebRemote</literal>, "
+"poiché è necessaria a rendere un metodo accessibile via remoting:"
 
 #. Tag: programlisting
 #: Remoting.xml:67
@@ -199,14 +283,30 @@ msgstr "Quello è tutto il codice da scrivere."
 #. Tag: para
 #: Remoting.xml:72
 #, no-c-format
-msgid "If you are performing a persistence operation in the method marked <literal>@WebRemote</literal> you will also need to add a <literal>@Transactional</literal> annotation to the method. Otherwise, your method would execute outside of a transaction without this extra hint.That's because unlike a JSF request, Seam does not wrap the remoting request in a transaction automatically."
-msgstr "Se nel metodo annotato con <literal>@WebRemote</literal> viene eseguita un'operazione di persistenza, occorre marcare il metodo anche con l'annotazione <literal>@Transactional</literal>. Altrimenti, senza questa indicazione extra, il metodo non viene eseguito all'interno di una transazione. Ciò perché, a differenza di una richiesta JSF, Seam non include automaticamente una richiesta remota in una transazione."
+msgid ""
+"If you are performing a persistence operation in the method marked "
+"<literal>@WebRemote</literal> you will also need to add a "
+"<literal>@Transactional</literal> annotation to the method. Otherwise, your "
+"method would execute outside of a transaction without this extra hint.That's "
+"because unlike a JSF request, Seam does not wrap the remoting request in a "
+"transaction automatically."
+msgstr ""
+"Se nel metodo annotato con <literal>@WebRemote</literal> viene eseguita "
+"un'operazione di persistenza, occorre marcare il metodo anche con "
+"l'annotazione <literal>@Transactional</literal>. Altrimenti, senza questa "
+"indicazione extra, il metodo non viene eseguito all'interno di una "
+"transazione. Ciò perché, a differenza di una richiesta JSF, Seam non include "
+"automaticamente una richiesta remota in una transazione."
 
 #. Tag: para
 #: Remoting.xml:78
 #, no-c-format
-msgid "Now for our web page - create a new page and import the <literal>helloAction</literal> component:"
-msgstr "Ora, per quantro riguarda la pagina web - bisogna creare una nuova pagina e importare il componente <literal>helloAction</literal>:"
+msgid ""
+"Now for our web page - create a new page and import the "
+"<literal>helloAction</literal> component:"
+msgstr ""
+"Ora, per quantro riguarda la pagina web - bisogna creare una nuova pagina e "
+"importare il componente <literal>helloAction</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:81
@@ -217,20 +317,30 @@ msgstr "<![CDATA[<s:remote include=\"helloAction\"/>]]>"
 #. Tag: para
 #: Remoting.xml:83
 #, no-c-format
-msgid "To make this a fully interactive user experience, let's add a button to our page:"
-msgstr "Per rendere l'esperienza dell'utente veramente interattiva, si aggiunga un bottone alla pagina:"
+msgid ""
+"To make this a fully interactive user experience, let's add a button to our "
+"page:"
+msgstr ""
+"Per rendere l'esperienza dell'utente veramente interattiva, si aggiunga un "
+"bottone alla pagina:"
 
 #. Tag: programlisting
 #: Remoting.xml:85
 #, no-c-format
-msgid "<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
-msgstr "<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
+msgid ""
+"<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
+msgstr ""
+"<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
 
 #. Tag: para
 #: Remoting.xml:87
 #, no-c-format
-msgid "We'll also need to add some more script to make our button actually do something when it's clicked:"
-msgstr "Bisognerà anche aggiungere uno script per far fare qualcosa al bottone quando viene cliccato:"
+msgid ""
+"We'll also need to add some more script to make our button actually do "
+"something when it's clicked:"
+msgstr ""
+"Bisognerà anche aggiungere uno script per far fare qualcosa al bottone "
+"quando viene cliccato:"
 
 #. Tag: programlisting
 #: Remoting.xml:89
@@ -241,7 +351,8 @@ msgid ""
 "\n"
 "  function sayHello() {\n"
 "    var name = prompt(\"What is your name?\");\n"
-"    Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);\n"
+"    Seam.Component.getInstance(\"helloAction\").sayHello(name, "
+"sayHelloCallback);\n"
 "  }\n"
 "\n"
 "  function sayHelloCallback(result) {\n"
@@ -256,7 +367,8 @@ msgstr ""
 "\n"
 "  function sayHello() {\n"
 "    var name = prompt(\"What is your name?\");\n"
-"    Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);\n"
+"    Seam.Component.getInstance(\"helloAction\").sayHello(name, "
+"sayHelloCallback);\n"
 "  }\n"
 "\n"
 "  function sayHelloCallback(result) {\n"
@@ -269,38 +381,94 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:91
 #, no-c-format
-msgid "We're done! Deploy your application and browse to your page. Click the button, and enter a name when prompted. A message box will display the hello message confirming that the call was successful. If you want to save some time, you'll find the full source code for this Hello World example in Seam's <literal>/examples/remoting/helloworld</literal> directory."
-msgstr "Abbiamo finito! Installate l'applicazione e andate col browser alla pagina creata. Premete il pulsante e inserite un nome quando richiesto. Una finestra mostrerà il messaggio di saluto che confermerà che la chiamata è avvenuta con successo. Per risparmiare tempo, cercate il codice dell'esempio Hello World nella directory <literal>/examples/remoting/helloworld</literal> di Seam."
+msgid ""
+"We're done! Deploy your application and browse to your page. Click the "
+"button, and enter a name when prompted. A message box will display the hello "
+"message confirming that the call was successful. If you want to save some "
+"time, you'll find the full source code for this Hello World example in "
+"Seam's <literal>/examples/remoting/helloworld</literal> directory."
+msgstr ""
+"Abbiamo finito! Installate l'applicazione e andate col browser alla pagina "
+"creata. Premete il pulsante e inserite un nome quando richiesto. Una "
+"finestra mostrerà il messaggio di saluto che confermerà che la chiamata è "
+"avvenuta con successo. Per risparmiare tempo, cercate il codice dell'esempio "
+"Hello World nella directory <literal>/examples/remoting/helloworld</literal> "
+"di Seam."
 
 #. Tag: para
 #: Remoting.xml:96
 #, no-c-format
-msgid "So what does the code of our script actually do? Let's break it down into smaller pieces. To start with, you can see from the Javascript code listing that we have implemented two methods - the first method is responsible for prompting the user for their name and then making a remote request. Take a look at the following line:"
-msgstr "Quindi, cosa fa realmente il codice del nostro script? Dividiamolo in pezzi più piccoli. Tanto per iniziare, dal listato Javascript si vede che abbiamo implementato due metodi - il primo serve a chiedere all'utente il suo nome e a fare una richiesta remota. Guardate la seguente linea:"
+msgid ""
+"So what does the code of our script actually do? Let's break it down into "
+"smaller pieces. To start with, you can see from the Javascript code listing "
+"that we have implemented two methods - the first method is responsible for "
+"prompting the user for their name and then making a remote request. Take a "
+"look at the following line:"
+msgstr ""
+"Quindi, cosa fa realmente il codice del nostro script? Dividiamolo in pezzi "
+"più piccoli. Tanto per iniziare, dal listato Javascript si vede che abbiamo "
+"implementato due metodi - il primo serve a chiedere all'utente il suo nome e "
+"a fare una richiesta remota. Guardate la seguente linea:"
 
 #. Tag: programlisting
 #: Remoting.xml:101
 #, no-c-format
-msgid "Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
-msgstr "Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
+msgid ""
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
+msgstr ""
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
 
 #. Tag: para
 #: Remoting.xml:103
 #, no-c-format
-msgid "The first section of this line, <literal>Seam.Component.getInstance(\"helloAction\")</literal> returns a proxy, or \"stub\" for our <literal>helloAction</literal> component. We can invoke the methods of our component against this stub, which is exactly what happens with the remainder of the line: <literal>sayHello(name, sayHelloCallback);</literal>."
-msgstr "La prima parte di questa linea, <literal>Seam.Component.getInstance(\"helloAction\")</literal> restituisce un proxy, o \"stub\", del componente <literal>helloAction</literal>. Possiamo chiamare i metodi di questo componente usando tale stub, che è ciò che accade nel resto della linea: <literal>sayHello(name, sayHelloCallback);</literal>."
+msgid ""
+"The first section of this line, <literal>Seam.Component.getInstance"
+"(\"helloAction\")</literal> returns a proxy, or \"stub\" for our "
+"<literal>helloAction</literal> component. We can invoke the methods of our "
+"component against this stub, which is exactly what happens with the "
+"remainder of the line: <literal>sayHello(name, sayHelloCallback);</literal>."
+msgstr ""
+"La prima parte di questa linea, <literal>Seam.Component.getInstance"
+"(\"helloAction\")</literal> restituisce un proxy, o \"stub\", del componente "
+"<literal>helloAction</literal>. Possiamo chiamare i metodi di questo "
+"componente usando tale stub, che è ciò che accade nel resto della linea: "
+"<literal>sayHello(name, sayHelloCallback);</literal>."
 
 #. Tag: para
 #: Remoting.xml:108
 #, no-c-format
-msgid "What this line of code in its completeness does, is invoke the <literal>sayHello</literal> method of our component, passing in <literal>name</literal> as a parameter. The second parameter, <literal>sayHelloCallback</literal> isn't a parameter of our component's <literal>sayHello</literal> method, instead it tells the Seam Remoting framework that once it receives the response to our request, it should pass it to the <literal>sayHelloCallback</literal> Javascript method. This callback parameter is entirely optional, so feel free to leave it out if you're calling a method with a <literal>void</literal> return type or if you don't care about the result."
-msgstr "Nel suo complesso questa linea di codice invoca il metodo <literal>sayHello</literal> del componente, passandogli <literal>name</literal> come parametro. Il secondo parametro, <literal>sayHelloCallback</literal> non è un parametro del metodo <literal>sayHello</literal> del componente, ma, invece, comunica al Remoting framework di Seam che, una volta ricevuta la risposta alla richiesta, deve passarla al metodo Javascript <literal>sayHelloCallback</literal>. Questo parametro di callback è completamente opzionale, quindi sentitevi liberi di non usarlo se chiamate un metodo che restituisce <literal>void</literal> o se non siete interessati al risultato."
+msgid ""
+"What this line of code in its completeness does, is invoke the "
+"<literal>sayHello</literal> method of our component, passing in "
+"<literal>name</literal> as a parameter. The second parameter, "
+"<literal>sayHelloCallback</literal> isn't a parameter of our component's "
+"<literal>sayHello</literal> method, instead it tells the Seam Remoting "
+"framework that once it receives the response to our request, it should pass "
+"it to the <literal>sayHelloCallback</literal> Javascript method. This "
+"callback parameter is entirely optional, so feel free to leave it out if "
+"you're calling a method with a <literal>void</literal> return type or if you "
+"don't care about the result."
+msgstr ""
+"Nel suo complesso questa linea di codice invoca il metodo <literal>sayHello</"
+"literal> del componente, passandogli <literal>name</literal> come parametro. "
+"Il secondo parametro, <literal>sayHelloCallback</literal> non è un parametro "
+"del metodo <literal>sayHello</literal> del componente, ma, invece, comunica "
+"al Remoting framework di Seam che, una volta ricevuta la risposta alla "
+"richiesta, deve passarla al metodo Javascript <literal>sayHelloCallback</"
+"literal>. Questo parametro di callback è completamente opzionale, quindi "
+"sentitevi liberi di non usarlo se chiamate un metodo che restituisce "
+"<literal>void</literal> o se non siete interessati al risultato."
 
 #. Tag: para
 #: Remoting.xml:116
 #, no-c-format
-msgid "The <literal>sayHelloCallback</literal> method, once receiving the response to our remote request then pops up an alert message displaying the result of our method call."
-msgstr "Il metodo <literal>sayHelloCallback</literal>, una volta ricevuta la risposta, mostra un messaggio di avviso con il risultato della chiamata."
+msgid ""
+"The <literal>sayHelloCallback</literal> method, once receiving the response "
+"to our remote request then pops up an alert message displaying the result of "
+"our method call."
+msgstr ""
+"Il metodo <literal>sayHelloCallback</literal>, una volta ricevuta la "
+"risposta, mostra un messaggio di avviso con il risultato della chiamata."
 
 #. Tag: title
 #: Remoting.xml:122
@@ -311,8 +479,23 @@ msgstr "Seam.Component"
 #. Tag: para
 #: Remoting.xml:124
 #, no-c-format
-msgid "The <literal>Seam.Component</literal> Javascript object provides a number of client-side methods for working with your Seam components. The two main methods, <literal>newInstance()</literal> and <literal>getInstance()</literal> are documented in the following sections however their main difference is that <literal>newInstance()</literal> will always create a new instance of a component type, and <literal>getInstance()</literal> will return a singleton instance."
-msgstr "L'oggetto Javascript <literal>Seam.Component</literal> fornisce un serie di metodi lato client per lavorare con i componenti Seam dell'applicazione. I due metodi principali, <literal>newInstance()</literal> e <literal>getInstance()</literal> sono documentati nelle sezioni successive, comunque, la loro differenza principale sta nel fatto che <literal>newInstance()</literal> crea sempre una nuova istanza di un tipo di componente, mentre <literal>getInstance()</literal> restituisce un'istanza singleton."
+msgid ""
+"The <literal>Seam.Component</literal> Javascript object provides a number of "
+"client-side methods for working with your Seam components. The two main "
+"methods, <literal>newInstance()</literal> and <literal>getInstance()</"
+"literal> are documented in the following sections however their main "
+"difference is that <literal>newInstance()</literal> will always create a new "
+"instance of a component type, and <literal>getInstance()</literal> will "
+"return a singleton instance."
+msgstr ""
+"L'oggetto Javascript <literal>Seam.Component</literal> fornisce un serie di "
+"metodi lato client per lavorare con i componenti Seam dell'applicazione. I "
+"due metodi principali, <literal>newInstance()</literal> e "
+"<literal>getInstance()</literal> sono documentati nelle sezioni successive, "
+"comunque, la loro differenza principale sta nel fatto che "
+"<literal>newInstance()</literal> crea sempre una nuova istanza di un tipo di "
+"componente, mentre <literal>getInstance()</literal> restituisce un'istanza "
+"singleton."
 
 #. Tag: title
 #: Remoting.xml:131
@@ -323,8 +506,17 @@ msgstr "Seam.Component.newInstance()"
 #. Tag: para
 #: Remoting.xml:132
 #, no-c-format
-msgid "Use this method to create a new instance of an entity or Javabean component. The object returned by this method will have the same getter/setter methods as its server-side counterpart, or alternatively if you wish you can access its fields directly. Take the following Seam entity component for example:"
-msgstr "Usate questo metodo per creare una nuova istanza di un entity o di un componente Javabean. L'oggetto restituito da questo metodo avrà gli stessi metodi get/set della sua controparte lato server, o, di preferenza, sarà possibile accedere ai suoi campi direttamente. Ad esempio, prendete il seguente componente Seam:"
+msgid ""
+"Use this method to create a new instance of an entity or Javabean component. "
+"The object returned by this method will have the same getter/setter methods "
+"as its server-side counterpart, or alternatively if you wish you can access "
+"its fields directly. Take the following Seam entity component for example:"
+msgstr ""
+"Usate questo metodo per creare una nuova istanza di un entity o di un "
+"componente Javabean. L'oggetto restituito da questo metodo avrà gli stessi "
+"metodi get/set della sua controparte lato server, o, di preferenza, sarà "
+"possibile accedere ai suoi campi direttamente. Ad esempio, prendete il "
+"seguente componente Seam:"
 
 #. Tag: programlisting
 #: Remoting.xml:136
@@ -400,7 +592,8 @@ msgstr ""
 #: Remoting.xml:138
 #, no-c-format
 msgid "To create a client-side Customer you would write the following code:"
-msgstr "Per creare un Customer lato client, bisognerebbe scrivere il codice seguente:"
+msgstr ""
+"Per creare un Customer lato client, bisognerebbe scrivere il codice seguente:"
 
 #. Tag: programlisting
 #: Remoting.xml:140
@@ -435,14 +628,33 @@ msgstr "Seam.Component.getInstance()"
 #. Tag: para
 #: Remoting.xml:151
 #, no-c-format
-msgid "The <literal>getInstance()</literal> method is used to get a reference to a Seam session bean component stub, which can then be used to remotely execute methods against your component. This method returns a singleton for the specified component, so calling it twice in a row with the same component name will return the same instance of the component."
-msgstr "Il metodo <literal>getInstance()</literal> viene usato per ottenere un riferimento allo stub di un componente Seam di tipo session bean, che può essere utilizzato per eseguire chiamate remote al componente stesso. Questo metodo restituisce un singleton del componente specificato, così che chiamarlo due volte di fila passando lo stesso nome come parametro restituirà la stessa istanza del suddetto componente."
+msgid ""
+"The <literal>getInstance()</literal> method is used to get a reference to a "
+"Seam session bean component stub, which can then be used to remotely execute "
+"methods against your component. This method returns a singleton for the "
+"specified component, so calling it twice in a row with the same component "
+"name will return the same instance of the component."
+msgstr ""
+"Il metodo <literal>getInstance()</literal> viene usato per ottenere un "
+"riferimento allo stub di un componente Seam di tipo session bean, che può "
+"essere utilizzato per eseguire chiamate remote al componente stesso. Questo "
+"metodo restituisce un singleton del componente specificato, così che "
+"chiamarlo due volte di fila passando lo stesso nome come parametro "
+"restituirà la stessa istanza del suddetto componente."
 
 #. Tag: para
 #: Remoting.xml:156
 #, no-c-format
-msgid "To continue our example from before, if we have created a new <literal>customer</literal> and we now wish to save it, we would pass it to the <literal>saveCustomer()</literal> method of our <literal>customerAction</literal> component:"
-msgstr "Per continuare l'esempio precedente, se è stato creato un nuovo <literal>customer</literal> e si vuole salvarlo, occorre passarlo al metodo <literal>saveCustomer()</literal> del componente <literal>customerAction</literal>:"
+msgid ""
+"To continue our example from before, if we have created a new "
+"<literal>customer</literal> and we now wish to save it, we would pass it to "
+"the <literal>saveCustomer()</literal> method of our <literal>customerAction</"
+"literal> component:"
+msgstr ""
+"Per continuare l'esempio precedente, se è stato creato un nuovo "
+"<literal>customer</literal> e si vuole salvarlo, occorre passarlo al metodo "
+"<literal>saveCustomer()</literal> del componente <literal>customerAction</"
+"literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:160
@@ -459,8 +671,12 @@ msgstr "Seam.Component.getComponentName()"
 #. Tag: para
 #: Remoting.xml:166
 #, no-c-format
-msgid "Passing an object into this method will return its component name if it is a component, or <literal>null</literal> if it is not."
-msgstr "Passare un oggetto a questo metodo, restituirà il suo nome di componente, se è un componente, o <literal>null</literal> se non lo è."
+msgid ""
+"Passing an object into this method will return its component name if it is a "
+"component, or <literal>null</literal> if it is not."
+msgstr ""
+"Passare un oggetto a questo metodo, restituirà il suo nome di componente, se "
+"è un componente, o <literal>null</literal> se non lo è."
 
 #. Tag: programlisting
 #: Remoting.xml:169
@@ -485,8 +701,16 @@ msgstr "Seam.Remoting"
 #. Tag: para
 #: Remoting.xml:177
 #, no-c-format
-msgid "Most of the client side functionality for Seam Remoting is contained within the <literal>Seam.Remoting</literal> object. While you shouldn't need to directly call most of its methods, there are a couple of important ones worth mentioning."
-msgstr "La maggior parte delle funzionalità lato client di Seam Remoting sono contenute nell'oggetto <literal>Seam.Remoting</literal>. Mentre non dovrebbe essere necessario chiamare direttamente la maggior parte di questi metodi, ce ne sono un paio che meritano di essere menzionati per la loro importanza."
+msgid ""
+"Most of the client side functionality for Seam Remoting is contained within "
+"the <literal>Seam.Remoting</literal> object. While you shouldn't need to "
+"directly call most of its methods, there are a couple of important ones "
+"worth mentioning."
+msgstr ""
+"La maggior parte delle funzionalità lato client di Seam Remoting sono "
+"contenute nell'oggetto <literal>Seam.Remoting</literal>. Mentre non dovrebbe "
+"essere necessario chiamare direttamente la maggior parte di questi metodi, "
+"ce ne sono un paio che meritano di essere menzionati per la loro importanza."
 
 #. Tag: title
 #: Remoting.xml:182
@@ -497,8 +721,18 @@ msgstr "Seam.Remoting.createType()"
 #. Tag: para
 #: Remoting.xml:184
 #, no-c-format
-msgid "If your application contains or uses Javabean classes that aren't Seam components, you may need to create these types on the client side to pass as parameters into your component method. Use the <literal>createType()</literal> method to create an instance of your type. Pass in the fully qualified Java class name as a parameter:"
-msgstr "Se l'applicazione contiene o usa classi Javabean che non sono componenti Seam, potrebbe essere necessario creare questi tipi sul lato del client per passarli come parametri al metodo del componente che si vuole chiamare. Si usi il metodo <literal>createType()</literal> per creare un'istanza di tale tipo. Come parametro occore passare il nome completo della classe Java:"
+msgid ""
+"If your application contains or uses Javabean classes that aren't Seam "
+"components, you may need to create these types on the client side to pass as "
+"parameters into your component method. Use the <literal>createType()</"
+"literal> method to create an instance of your type. Pass in the fully "
+"qualified Java class name as a parameter:"
+msgstr ""
+"Se l'applicazione contiene o usa classi Javabean che non sono componenti "
+"Seam, potrebbe essere necessario creare questi tipi sul lato del client per "
+"passarli come parametri al metodo del componente che si vuole chiamare. Si "
+"usi il metodo <literal>createType()</literal> per creare un'istanza di tale "
+"tipo. Come parametro occore passare il nome completo della classe Java:"
 
 #. Tag: programlisting
 #: Remoting.xml:189
@@ -515,54 +749,16 @@ msgstr "Seam.Remoting.getTypeName()"
 #. Tag: para
 #: Remoting.xml:195
 #, no-c-format
-msgid "This method is the equivalent of <literal>Seam.Component.getComponentName()</literal> but for non-component types. It will return the name of the type for an object instance, or <literal>null</literal> if the type is not known. The name is the fully qualified name of the type's Java class."
-msgstr "Tale metodo è l'equivalente di <literal>Seam.Component.getComponentName()</literal> ma per tipi che non sono componenti. Restituirà il nome del tipo data un'istanza, o <literal>null</literal> se il tipo è sconosciuto. Il nome è il nome completo della classe Java del tipo stesso."
-
-#. Tag: title
-#: Remoting.xml:203
-#, no-c-format
-msgid "Evaluating EL Expressions"
-msgstr "Valutazione delle espressioni EL"
-
-#. Tag: para
-#: Remoting.xml:205
-#, no-c-format
-msgid "Seam Remoting also supports the evaluation of EL expressions, which provides another convenient method for retrieving data from the server. Using the <literal>Seam.Remoting.eval()</literal> function, an EL expression can be remotely evaluated on the server and the resulting value returned to a client-side callback method. This function accepts two parameters, the first being the EL expression to evaluate, and the second being the callback method to invoke with the value of the expression. Here's an example:"
-msgstr "Seam Remoting supporta anche il calcolo di espressioni EL,  che forniscono un altro metodo conveniente per ottenere dati dal server. Usando la funzione <literal>Seam.Remoting.eval()</literal>, è possibile calcolare un'espressione EL da remoto sul server e restituire il valore risultante a un metodo callback lato del client. Questa funzione accetta due parametri, di cui il primo è l'espressione EL da calcolare e il secondo il metodo callback da invocare con il valore dell'espressione. Ecco un esempio:"
-
-#. Tag: programlisting
-#: Remoting.xml:213
-#, no-c-format
 msgid ""
-"<![CDATA[  function customersCallback(customers) {\n"
-"    for (var i = 0; i < customers.length; i++) {\n"
-"      alert(\"Got customer: \" + customers[i].getName());\n"
-"    }    \n"
-"  }\n"
-"    \n"
-"  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
-"    ]]>"
+"This method is the equivalent of <literal>Seam.Component.getComponentName()</"
+"literal> but for non-component types. It will return the name of the type "
+"for an object instance, or <literal>null</literal> if the type is not known. "
+"The name is the fully qualified name of the type's Java class."
 msgstr ""
-"<![CDATA[  function customersCallback(customers) {\n"
-"    for (var i = 0; i < customers.length; i++) {\n"
-"      alert(\"Got customer: \" + customers[i].getName());\n"
-"    }    \n"
-"  }\n"
-"    \n"
-"  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
-"    ]]>"
-
-#. Tag: para
-#: Remoting.xml:215
-#, no-c-format
-msgid "In this example, the expression <literal>#{customers}</literal> is evaluated by Seam, and the value of the expression (in this case a list of Customer objects) is returned to the <literal>customersCallback()</literal> method. It is important to remember that the objects returned this way must have their types imported (via <literal>s:remote</literal>) to be able to work with them in Javascript. So to work with a list of <literal>customer</literal> objects, it is required to import the <literal>customer</literal> type:"
-msgstr "In questo esempio l'espressione <literal>#{customers}</literal> è calcolata da Seam, e il suo valore (in questo caso una lista di oggetti customer) è restituita al metodo <literal>customersCallback()</literal>. E' importante ricordare che occorre importare i tipi degli oggetti restituiti in questo modo (via <literal>s:remote</literal>) per poterli usare nel Javascript. Così per lavorare con una lista di oggetti <literal>customer</literal>, è necessario importare il tipo <literal>customer</literal>:"
-
-#. Tag: programlisting
-#: Remoting.xml:223
-#, no-c-format
-msgid "<![CDATA[<s:remote include=\"customer\"/>]]>"
-msgstr "<![CDATA[<s:remote include=\"customer\"/>]]>"
+"Tale metodo è l'equivalente di <literal>Seam.Component.getComponentName()</"
+"literal> ma per tipi che non sono componenti. Restituirà il nome del tipo "
+"data un'istanza, o <literal>null</literal> se il tipo è sconosciuto. Il nome "
+"è il nome completo della classe Java del tipo stesso."
 
 #. Tag: title
 #: Remoting.xml:227
@@ -573,18 +769,27 @@ msgstr "Interfacce client"
 #. Tag: para
 #: Remoting.xml:229
 #, no-c-format
-msgid "In the configuration section above, the interface, or \"stub\" for our component is imported into our page either via <literal>seam/resource/remoting/interface.js</literal>: or using the <literal>s:remote</literal> tag:"
-msgstr "Nella sezione di configurazione vista sopra, l'interfaccia, o \"stub\", del componente è importata nella pagina o attraverso <literal>seam/resource/remoting/interface.js</literal> o usando la tag <literal>s:remote</literal>."
+msgid ""
+"In the configuration section above, the interface, or \"stub\" for our "
+"component is imported into our page either via <literal>seam/resource/"
+"remoting/interface.js</literal>: or using the <literal>s:remote</literal> "
+"tag:"
+msgstr ""
+"Nella sezione di configurazione vista sopra, l'interfaccia, o \"stub\", del "
+"componente è importata nella pagina o attraverso <literal>seam/resource/"
+"remoting/interface.js</literal> o usando la tag <literal>s:remote</literal>."
 
 #. Tag: programlisting
 #: Remoting.xml:234
 #, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"        src=\"seam/resource/remoting/interface.js?customerAction\"></script>]]>"
+"        src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
 msgstr ""
 "<![CDATA[<script type=\"text/javascript\" \n"
-"        src=\"seam/resource/remoting/interface.js?customerAction\"></script>]]>"
+"        src=\"seam/resource/remoting/interface.js?customerAction\"></"
+"script>]]>"
 
 #. Tag: programlisting
 #: Remoting.xml:236
@@ -595,20 +800,56 @@ msgstr "<![CDATA[<s:remote include=\"customerAction\"/>]]>"
 #. Tag: para
 #: Remoting.xml:238
 #, no-c-format
-msgid "By including this script in our page, the interface definitions for our component, plus any other components or types that are required to execute the methods of our component are generated and made available for the remoting framework to use."
-msgstr "Includenco questo script nella pagina, le definizioni delle interfacce del componente, più quelle di ogni di ogni altro componente o tipo necessario a eseguire i metodi del componente in questione sono generate e rese visibili perché il framework di remoting possa utilizzarle."
+msgid ""
+"By including this script in our page, the interface definitions for our "
+"component, plus any other components or types that are required to execute "
+"the methods of our component are generated and made available for the "
+"remoting framework to use."
+msgstr ""
+"Includenco questo script nella pagina, le definizioni delle interfacce del "
+"componente, più quelle di ogni di ogni altro componente o tipo necessario a "
+"eseguire i metodi del componente in questione sono generate e rese visibili "
+"perché il framework di remoting possa utilizzarle."
 
 #. Tag: para
 #: Remoting.xml:242
 #, no-c-format
-msgid "There are two types of client stub that can be generated, \"executable\" stubs and \"type\" stubs. Executable stubs are behavioural, and are used to execute methods against your session bean components, while type stubs contain state and represent the types that can be passed in as parameters or returned as a result."
-msgstr "E' possibile generare due tipi di stub client, stubs \"eseguibili\" stubs e stubs \"tipo\". Gli stubs eseguibili sono dotati di comportamento, e sono usati per eseguire metodi dei componenti session bean, mentre gli stubs tipo servono a contenere dello stato e rappresentano i tipi che possono essere passati come parametri o restituiti come risultati."
+msgid ""
+"There are two types of client stub that can be generated, \"executable\" "
+"stubs and \"type\" stubs. Executable stubs are behavioural, and are used to "
+"execute methods against your session bean components, while type stubs "
+"contain state and represent the types that can be passed in as parameters or "
+"returned as a result."
+msgstr ""
+"E' possibile generare due tipi di stub client, stubs \"eseguibili\" stubs e "
+"stubs \"tipo\". Gli stubs eseguibili sono dotati di comportamento, e sono "
+"usati per eseguire metodi dei componenti session bean, mentre gli stubs tipo "
+"servono a contenere dello stato e rappresentano i tipi che possono essere "
+"passati come parametri o restituiti come risultati."
 
 #. Tag: para
 #: Remoting.xml:246
 #, no-c-format
-msgid "The type of client stub that is generated depends on the type of your Seam component. If the component is a session bean, then an executable stub will be generated, otherwise if it's an entity or JavaBean, then a type stub will be generated. There is one exception to this rule; if your component is a JavaBean (ie it is not a session bean nor an entity bean) and any of its methods are annotated with @WebRemote, then an executable stub will be generated for it instead of a type stub. This allows you to use remoting to call methods of your JavaBean components in a non-EJB environment where you don't have access to session beans."
-msgstr "Il tipo di stub client che viene generato dipende dal tipo di componente Seam. Se il componente è un session bean, allora sarà generato uno stub eseguibile, altrimenti, se si tratta di un entity bean o di un Java bean, sarò generato uno stub tipo. Vi è una sola eccezione a questa regola; se il componente è un Javabean (cioè non è né un session bean né un entity bean) e uno dei suoi metodi è annotato con @WebRemote, allora sarà generato uno stub eseguibile invece di uno stub tipo. Questo consente di usare il remoting per chiamare i componenti JavaBean in un ambiente non EJB dove non occorre avere accesso ai session bean."
+msgid ""
+"The type of client stub that is generated depends on the type of your Seam "
+"component. If the component is a session bean, then an executable stub will "
+"be generated, otherwise if it's an entity or JavaBean, then a type stub will "
+"be generated. There is one exception to this rule; if your component is a "
+"JavaBean (ie it is not a session bean nor an entity bean) and any of its "
+"methods are annotated with @WebRemote, then an executable stub will be "
+"generated for it instead of a type stub. This allows you to use remoting to "
+"call methods of your JavaBean components in a non-EJB environment where you "
+"don't have access to session beans."
+msgstr ""
+"Il tipo di stub client che viene generato dipende dal tipo di componente "
+"Seam. Se il componente è un session bean, allora sarà generato uno stub "
+"eseguibile, altrimenti, se si tratta di un entity bean o di un Java bean, "
+"sarò generato uno stub tipo. Vi è una sola eccezione a questa regola; se il "
+"componente è un Javabean (cioè non è né un session bean né un entity bean) e "
+"uno dei suoi metodi è annotato con @WebRemote, allora sarà generato uno stub "
+"eseguibile invece di uno stub tipo. Questo consente di usare il remoting per "
+"chiamare i componenti JavaBean in un ambiente non EJB dove non occorre avere "
+"accesso ai session bean."
 
 #. Tag: title
 #: Remoting.xml:256
@@ -619,8 +860,15 @@ msgstr "Il contesto"
 #. Tag: para
 #: Remoting.xml:258
 #, no-c-format
-msgid "The Seam Remoting Context contains additional information which is sent and received as part of a remoting request/response cycle. At this stage it only contains the conversation ID but may be expanded in the future."
-msgstr "L'oggetto contesto (Seam Remoting Context) contiene informazioni aggiuntive che sono inviate e ricevute come parte del ciclo di richiesta/risposta. Attualmente contiene l'id della conversazione, ma potrebbe essere espanso in futuro."
+msgid ""
+"The Seam Remoting Context contains additional information which is sent and "
+"received as part of a remoting request/response cycle. At this stage it only "
+"contains the conversation ID but may be expanded in the future."
+msgstr ""
+"L'oggetto contesto (Seam Remoting Context) contiene informazioni aggiuntive "
+"che sono inviate e ricevute come parte del ciclo di richiesta/risposta. "
+"Attualmente contiene l'id della conversazione, ma potrebbe essere espanso in "
+"futuro."
 
 #. Tag: title
 #: Remoting.xml:262
@@ -631,14 +879,41 @@ msgstr "Impostazione e lettura dell'ID di conversazione"
 #. Tag: para
 #: Remoting.xml:265
 #, no-c-format
-msgid "If you intend on using remote calls within the scope of a conversation then you need to be able to read or set the conversation ID in the Seam Remoting Context. To read the conversation ID after making a remote request call <literal>Seam.Remoting.getContext().getConversationId()</literal>. To set the conversation ID before making a request, call <literal>Seam.Remoting.getContext().setConversationId()</literal>."
-msgstr "Se si vuole usare le chiamate remote all'interno di una conversazione, bisogna essere in grado di leggere o scrivere l'id della conversazione nell'oggetto contesto (Seam Remoting Context). Per leggere l'id della conversazione dopo avere fatto una richiesta remota occorre chiamare <literal>Seam.Remoting.getContext().getConversationId()</literal>. Per scriverlo prima di fare una richiesta, bisogna chiamare <literal>Seam.Remoting.getContext().setConversationId()</literal>."
+msgid ""
+"If you intend on using remote calls within the scope of a conversation then "
+"you need to be able to read or set the conversation ID in the Seam Remoting "
+"Context. To read the conversation ID after making a remote request call "
+"<literal>Seam.Remoting.getContext().getConversationId()</literal>. To set "
+"the conversation ID before making a request, call <literal>Seam.Remoting."
+"getContext().setConversationId()</literal>."
+msgstr ""
+"Se si vuole usare le chiamate remote all'interno di una conversazione, "
+"bisogna essere in grado di leggere o scrivere l'id della conversazione "
+"nell'oggetto contesto (Seam Remoting Context). Per leggere l'id della "
+"conversazione dopo avere fatto una richiesta remota occorre chiamare "
+"<literal>Seam.Remoting.getContext().getConversationId()</literal>. Per "
+"scriverlo prima di fare una richiesta, bisogna chiamare <literal>Seam."
+"Remoting.getContext().setConversationId()</literal>."
 
 #. Tag: para
 #: Remoting.xml:270
 #, no-c-format
-msgid "If the conversation ID hasn't been explicitly set with <literal>Seam.Remoting.getContext().setConversationId()</literal>, then it will be automatically assigned the first valid conversation ID that is returned by any remoting call. If you are working with multiple conversations within your page, then you may need to explicitly set the conversation ID before each call. If you are working with just a single conversation, then you don't need to do anything special."
-msgstr "Se l'ID della conversazione non è stato esplicitamente valorizzato usando <literal>Seam.Remoting.getContext().setConversationId()</literal>, allora sarà assegnato in automatico il primo ID valido restituito da una chiamata remota. Se si sta lavorando con più conversazioni all'interno della pagina, allora può essere necessario indicare esplicitamente il valore dell'ID della conversazione prima di ciascuna chiamata. Se si sta lavorando con una sola conversazione, non occorre fare nulla di speciale."
+msgid ""
+"If the conversation ID hasn't been explicitly set with <literal>Seam."
+"Remoting.getContext().setConversationId()</literal>, then it will be "
+"automatically assigned the first valid conversation ID that is returned by "
+"any remoting call. If you are working with multiple conversations within "
+"your page, then you may need to explicitly set the conversation ID before "
+"each call. If you are working with just a single conversation, then you "
+"don't need to do anything special."
+msgstr ""
+"Se l'ID della conversazione non è stato esplicitamente valorizzato usando "
+"<literal>Seam.Remoting.getContext().setConversationId()</literal>, allora "
+"sarà assegnato in automatico il primo ID valido restituito da una chiamata "
+"remota. Se si sta lavorando con più conversazioni all'interno della pagina, "
+"allora può essere necessario indicare esplicitamente il valore dell'ID della "
+"conversazione prima di ciascuna chiamata. Se si sta lavorando con una sola "
+"conversazione, non occorre fare nulla di speciale."
 
 #. Tag: title
 #: Remoting.xml:277
@@ -649,14 +924,29 @@ msgstr "Chiamate remote all'interno della conversazone corrente"
 #. Tag: para
 #: Remoting.xml:279
 #, no-c-format
-msgid "In some circumstances it may be required to make a remote call within the scope of the current view's conversation. To do this, you must explicitly set the conversation ID to that of the view before making the remote call. This small snippet of JavaScript will set the conversation ID that is used for remoting calls to the current view's conversation ID:"
-msgstr "In alcuni casi può essere necessario fare una chiamata remota all'interno della conversazione della pagina corrente. A questo scopo bisogna esplicitamente valorizzare l'ID della conversazione a quello della pagina prima di fare la chiamata remota. Questo piccolo estratto di Javascript assegna come ID della conversazione da usare per le chiamate remote quello della conversazione della pagina corrente:"
+msgid ""
+"In some circumstances it may be required to make a remote call within the "
+"scope of the current view's conversation. To do this, you must explicitly "
+"set the conversation ID to that of the view before making the remote call. "
+"This small snippet of JavaScript will set the conversation ID that is used "
+"for remoting calls to the current view's conversation ID:"
+msgstr ""
+"In alcuni casi può essere necessario fare una chiamata remota all'interno "
+"della conversazione della pagina corrente. A questo scopo bisogna "
+"esplicitamente valorizzare l'ID della conversazione a quello della pagina "
+"prima di fare la chiamata remota. Questo piccolo estratto di Javascript "
+"assegna come ID della conversazione da usare per le chiamate remote quello "
+"della conversazione della pagina corrente:"
 
 #. Tag: programlisting
 #: Remoting.xml:284
 #, no-c-format
-msgid "<![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation.id} );]]>"
-msgstr "<![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation.id} );]]>"
+msgid ""
+"<![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation."
+"id} );]]>"
+msgstr ""
+"<![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation."
+"id} );]]>"
 
 #. Tag: title
 #: Remoting.xml:289
@@ -667,26 +957,62 @@ msgstr "Richieste batch"
 #. Tag: para
 #: Remoting.xml:291
 #, no-c-format
-msgid "Seam Remoting allows multiple component calls to be executed within a single request. It is recommended that this feature is used wherever it is appropriate to reduce network traffic."
-msgstr "Seam Remoting permette di eseguire più chiamate a componenti all'interno di una singola richiesta. Si raccomanda di usare questa funzionalità ogni volta che si riveli appropriato allo scopo di ridurre il traffico di rete."
+msgid ""
+"Seam Remoting allows multiple component calls to be executed within a single "
+"request. It is recommended that this feature is used wherever it is "
+"appropriate to reduce network traffic."
+msgstr ""
+"Seam Remoting permette di eseguire più chiamate a componenti all'interno di "
+"una singola richiesta. Si raccomanda di usare questa funzionalità ogni volta "
+"che si riveli appropriato allo scopo di ridurre il traffico di rete."
 
 #. Tag: para
 #: Remoting.xml:294
 #, no-c-format
-msgid "The method <literal>Seam.Remoting.startBatch()</literal> will start a new batch, and any component calls executed after starting a batch are queued, rather than being sent immediately. When all the desired component calls have been added to the batch, the <literal>Seam.Remoting.executeBatch()</literal> method will send a single request containing all of the queued calls to the server, where they will be executed in order. After the calls have been executed, a single response containining all return values will be returned to the client and the callback functions (if provided) triggered in the same order as execution."
-msgstr "Il metodo <literal>Seam.Remoting.startBatch()</literal> avvierà un nuovo batch, e tutte le chiamate a componenti eseguite in seguito saranno messe in coda invece che inviate immediatamente. Quando tutte le chiamate desiderate saranno state aggiunte al batch, il metodo <literal>Seam.Remoting.executeBatch()</literal> invierà una singola richiesta con la coda delle chiamate al server, dove saranno eseguite nell'ordine specificato. Dopo l'esecuzione delle chiamate, una singola risposta con tutti i valori di ritorno sarà restituita al client e le funzioni callback (se specificate) saranno chiamate nello steso ordine di esecuzione."
+msgid ""
+"The method <literal>Seam.Remoting.startBatch()</literal> will start a new "
+"batch, and any component calls executed after starting a batch are queued, "
+"rather than being sent immediately. When all the desired component calls "
+"have been added to the batch, the <literal>Seam.Remoting.executeBatch()</"
+"literal> method will send a single request containing all of the queued "
+"calls to the server, where they will be executed in order. After the calls "
+"have been executed, a single response containining all return values will be "
+"returned to the client and the callback functions (if provided) triggered in "
+"the same order as execution."
+msgstr ""
+"Il metodo <literal>Seam.Remoting.startBatch()</literal> avvierà un nuovo "
+"batch, e tutte le chiamate a componenti eseguite in seguito saranno messe in "
+"coda invece che inviate immediatamente. Quando tutte le chiamate desiderate "
+"saranno state aggiunte al batch, il metodo <literal>Seam.Remoting."
+"executeBatch()</literal> invierà una singola richiesta con la coda delle "
+"chiamate al server, dove saranno eseguite nell'ordine specificato. Dopo "
+"l'esecuzione delle chiamate, una singola risposta con tutti i valori di "
+"ritorno sarà restituita al client e le funzioni callback (se specificate) "
+"saranno chiamate nello steso ordine di esecuzione."
 
 #. Tag: para
 #: Remoting.xml:301
 #, no-c-format
-msgid "If you start a new batch via the <literal>startBatch()</literal> method but then decide you don't want to send it, the <literal>Seam.Remoting.cancelBatch()</literal> method will discard any calls that were queued and exit the batch mode."
-msgstr "Se si da il via ad un nuovo batch usando il metodo <literal>startBatch()</literal>, ma successivamente si decide di non inviarlo, il metodo <literal>Seam.Remoting.cancelBatch()</literal> annullerà tutte le chiamate già in coda e uscirà dalla modalità batch."
+msgid ""
+"If you start a new batch via the <literal>startBatch()</literal> method but "
+"then decide you don't want to send it, the <literal>Seam.Remoting.cancelBatch"
+"()</literal> method will discard any calls that were queued and exit the "
+"batch mode."
+msgstr ""
+"Se si da il via ad un nuovo batch usando il metodo <literal>startBatch()</"
+"literal>, ma successivamente si decide di non inviarlo, il metodo "
+"<literal>Seam.Remoting.cancelBatch()</literal> annullerà tutte le chiamate "
+"già in coda e uscirà dalla modalità batch."
 
 #. Tag: para
 #: Remoting.xml:305
 #, no-c-format
-msgid "To see an example of a batch being used, take a look at <literal>/examples/remoting/chatroom</literal>."
-msgstr "Per vedere un esempio di batch in azione, date un'occhiata a <literal>/examples/remoting/chatroom</literal>."
+msgid ""
+"To see an example of a batch being used, take a look at <literal>/examples/"
+"remoting/chatroom</literal>."
+msgstr ""
+"Per vedere un esempio di batch in azione, date un'occhiata a <literal>/"
+"examples/remoting/chatroom</literal>."
 
 #. Tag: title
 #: Remoting.xml:310
@@ -703,8 +1029,14 @@ msgstr "Tipi primitivi/base"
 #. Tag: para
 #: Remoting.xml:315
 #, no-c-format
-msgid "This section describes the support for basic data types. On the server side these values are generally compatible with either their primitive type or their corresponding wrapper class."
-msgstr "Questa sezione descrive il supporto per i tipi di dati di base. Sul lato del server tali valori generalmente sono compatibili o con il proprio tipo primitivo o con il corrispondente tipo wrapper."
+msgid ""
+"This section describes the support for basic data types. On the server side "
+"these values are generally compatible with either their primitive type or "
+"their corresponding wrapper class."
+msgstr ""
+"Questa sezione descrive il supporto per i tipi di dati di base. Sul lato del "
+"server tali valori generalmente sono compatibili o con il proprio tipo "
+"primitivo o con il corrispondente tipo wrapper."
 
 #. Tag: title
 #: Remoting.xml:319
@@ -715,8 +1047,11 @@ msgstr "String"
 #. Tag: para
 #: Remoting.xml:321
 #, no-c-format
-msgid "Simply use Javascript String objects when setting String parameter values."
-msgstr "Quando si settano i valori di parametri stringa, basta usare oggetti Javascript di tipo String."
+msgid ""
+"Simply use Javascript String objects when setting String parameter values."
+msgstr ""
+"Quando si settano i valori di parametri stringa, basta usare oggetti "
+"Javascript di tipo String."
 
 #. Tag: title
 #: Remoting.xml:325
@@ -727,8 +1062,22 @@ msgstr "Number"
 #. Tag: para
 #: Remoting.xml:327
 #, no-c-format
-msgid "There is support for all number types supported by Java. On the client side, number values are always serialized as their String representation and then on the server side they are converted to the correct destination type. Conversion into either a primitive or wrapper type is supported for <literal>Byte</literal>, <literal>Double</literal>, <literal>Float</literal>, <literal>Integer</literal>, <literal>Long</literal> and <literal>Short</literal> types."
-msgstr "Sono supportati tutti i tipi numerici di Java. Sul client viene sempre serializzata la rappresentazione come stringhe dei valori numerici e sul server essi sono riconvertiti nei rispettivi tipi di destinazione. La conversione in un tipo primitivo o nel suo corrispondente wrapper è  supportata per i tipi <literal>Byte</literal>, <literal>Double</literal>, <literal>Float</literal>, <literal>Integer</literal>, <literal>Long</literal> e <literal>Short</literal>."
+msgid ""
+"There is support for all number types supported by Java. On the client side, "
+"number values are always serialized as their String representation and then "
+"on the server side they are converted to the correct destination type. "
+"Conversion into either a primitive or wrapper type is supported for "
+"<literal>Byte</literal>, <literal>Double</literal>, <literal>Float</"
+"literal>, <literal>Integer</literal>, <literal>Long</literal> and "
+"<literal>Short</literal> types."
+msgstr ""
+"Sono supportati tutti i tipi numerici di Java. Sul client viene sempre "
+"serializzata la rappresentazione come stringhe dei valori numerici e sul "
+"server essi sono riconvertiti nei rispettivi tipi di destinazione. La "
+"conversione in un tipo primitivo o nel suo corrispondente wrapper è  "
+"supportata per i tipi <literal>Byte</literal>, <literal>Double</literal>, "
+"<literal>Float</literal>, <literal>Integer</literal>, <literal>Long</"
+"literal> e <literal>Short</literal>."
 
 #. Tag: title
 #: Remoting.xml:335
@@ -739,8 +1088,12 @@ msgstr "Boolean"
 #. Tag: para
 #: Remoting.xml:337
 #, no-c-format
-msgid "Booleans are represented client side by Javascript Boolean values, and server side by a Java boolean."
-msgstr "I tipi Boolean sul client sono rappresentati dai Boolean di Javascript e sul server dai Boolean di Java."
+msgid ""
+"Booleans are represented client side by Javascript Boolean values, and "
+"server side by a Java boolean."
+msgstr ""
+"I tipi Boolean sul client sono rappresentati dai Boolean di Javascript e sul "
+"server dai Boolean di Java."
 
 #. Tag: title
 #: Remoting.xml:343
@@ -751,14 +1104,35 @@ msgstr "JavaBeans"
 #. Tag: para
 #: Remoting.xml:345
 #, no-c-format
-msgid "In general these will be either Seam entity or JavaBean components, or some other non-component class. Use the appropriate method (either <literal>Seam.Component.newInstance()</literal> for Seam components or <literal>Seam.Remoting.createType()</literal> for everything else) to create a new instance of the object."
-msgstr "In generale questi saranno o entity di Seam o componenti JavaBean o qualche altra classe che non corrisponde a un componente. Bisogna usare il metodo appropriato (o <literal>Seam.Component.newInstance()</literal> per i componenti o <literal>Seam.Remoting.createType()</literal> per tutto il resto) per creare una nuova istanza dell'oggetto."
+msgid ""
+"In general these will be either Seam entity or JavaBean components, or some "
+"other non-component class. Use the appropriate method (either <literal>Seam."
+"Component.newInstance()</literal> for Seam components or <literal>Seam."
+"Remoting.createType()</literal> for everything else) to create a new "
+"instance of the object."
+msgstr ""
+"In generale questi saranno o entity di Seam o componenti JavaBean o qualche "
+"altra classe che non corrisponde a un componente. Bisogna usare il metodo "
+"appropriato (o <literal>Seam.Component.newInstance()</literal> per i "
+"componenti o <literal>Seam.Remoting.createType()</literal> per tutto il "
+"resto) per creare una nuova istanza dell'oggetto."
 
 #. Tag: para
 #: Remoting.xml:349
 #, no-c-format
-msgid "It is important to note that only objects that are created by either of these two methods should be used as parameter values, where the parameter is not one of the other valid types mentioned anywhere else in this section. In some situations you may have a component method where the exact parameter type cannot be determined, such as:"
-msgstr "E' importante notare che solo oggetti creati da uno di questi due metodi dovrebbero essere usati come valori parametrici, ogni volta che il parametro non corrisponde ad uno degli altri tipi validi menzionati altrove in questa sezione. In alcune situazioni può darsi che vi sia un metodo del componente per il quale non si può determinare l'esatto tipo del parametro, come in questo caso:"
+msgid ""
+"It is important to note that only objects that are created by either of "
+"these two methods should be used as parameter values, where the parameter is "
+"not one of the other valid types mentioned anywhere else in this section. In "
+"some situations you may have a component method where the exact parameter "
+"type cannot be determined, such as:"
+msgstr ""
+"E' importante notare che solo oggetti creati da uno di questi due metodi "
+"dovrebbero essere usati come valori parametrici, ogni volta che il parametro "
+"non corrisponde ad uno degli altri tipi validi menzionati altrove in questa "
+"sezione. In alcune situazioni può darsi che vi sia un metodo del componente "
+"per il quale non si può determinare l'esatto tipo del parametro, come in "
+"questo caso:"
 
 #. Tag: programlisting
 #: Remoting.xml:354
@@ -781,8 +1155,19 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:356
 #, no-c-format
-msgid "In this case you might want to pass in an instance of your <literal>myWidget</literal> component, however the interface for <literal>myAction</literal> won't include <literal>myWidget</literal> as it is not directly referenced by any of its methods. To get around this, <literal>MyWidget</literal> needs to be explicitly imported:"
-msgstr "In questo caso si potrebbe voler passare come parametro un'istanza del componente <literal>myWidget</literal>, ma l'interfaccia di <literal>myAction</literal> non include <literal>myWidget</literal> poiché esso non è referenziato direttamente da nessun altgro metodo. Pe risolvere la questione, <literal>MyWidget</literal> deve essere importato esplicitamente:"
+msgid ""
+"In this case you might want to pass in an instance of your "
+"<literal>myWidget</literal> component, however the interface for "
+"<literal>myAction</literal> won't include <literal>myWidget</literal> as it "
+"is not directly referenced by any of its methods. To get around this, "
+"<literal>MyWidget</literal> needs to be explicitly imported:"
+msgstr ""
+"In questo caso si potrebbe voler passare come parametro un'istanza del "
+"componente <literal>myWidget</literal>, ma l'interfaccia di "
+"<literal>myAction</literal> non include <literal>myWidget</literal> poiché "
+"esso non è referenziato direttamente da nessun altgro metodo. Pe risolvere "
+"la questione, <literal>MyWidget</literal> deve essere importato "
+"esplicitamente:"
 
 #. Tag: programlisting
 #: Remoting.xml:361
@@ -793,8 +1178,14 @@ msgstr "<![CDATA[<s:remote include=\"myAction,myWidget\"/>]]>"
 #. Tag: para
 #: Remoting.xml:363
 #, no-c-format
-msgid "This will then allow a <literal>myWidget</literal> object to be created with <literal>Seam.Component.newInstance(\"myWidget\")</literal>, which can then be passed to <literal>myAction.doSomethingWithObject()</literal>."
-msgstr "Ciò permetterà all'oggetto <literal>myWidget</literal> di essere creato con <literal>Seam.Component.newInstance(\"myWidget\")</literal>, che può allora essere passato a <literal>myAction.doSomethingWithObject()</literal>."
+msgid ""
+"This will then allow a <literal>myWidget</literal> object to be created with "
+"<literal>Seam.Component.newInstance(\"myWidget\")</literal>, which can then "
+"be passed to <literal>myAction.doSomethingWithObject()</literal>."
+msgstr ""
+"Ciò permetterà all'oggetto <literal>myWidget</literal> di essere creato con "
+"<literal>Seam.Component.newInstance(\"myWidget\")</literal>, che può allora "
+"essere passato a <literal>myAction.doSomethingWithObject()</literal>."
 
 #. Tag: title
 #: Remoting.xml:370
@@ -805,8 +1196,18 @@ msgstr "Date e orari"
 #. Tag: para
 #: Remoting.xml:372
 #, no-c-format
-msgid "Date values are serialized into a String representation that is accurate to the millisecond. On the client side, use a Javascript Date object to work with date values. On the server side, use any <literal>java.util.Date</literal> (or descendent, such as <literal>java.sql.Date</literal> or <literal>java.sql.Timestamp</literal> class."
-msgstr "I valori delle date sono serializzati in una rappresentazione di Strina che è accurata al millisecondo. Lato client, si usi un oggetto Date Javascript per lavorare con i valori delle date. Late server, si usi <literal>java.util.Date</literal> (o discendenti, come le classi <literal>java.sql.Date</literal> o <literal>java.sql.Timestamp</literal>)."
+msgid ""
+"Date values are serialized into a String representation that is accurate to "
+"the millisecond. On the client side, use a Javascript Date object to work "
+"with date values. On the server side, use any <literal>java.util.Date</"
+"literal> (or descendent, such as <literal>java.sql.Date</literal> or "
+"<literal>java.sql.Timestamp</literal> class."
+msgstr ""
+"I valori delle date sono serializzati in una rappresentazione di Strina che "
+"è accurata al millisecondo. Lato client, si usi un oggetto Date Javascript "
+"per lavorare con i valori delle date. Late server, si usi <literal>java.util."
+"Date</literal> (o discendenti, come le classi <literal>java.sql.Date</"
+"literal> o <literal>java.sql.Timestamp</literal>)."
 
 #. Tag: title
 #: Remoting.xml:379
@@ -817,8 +1218,14 @@ msgstr "Enums"
 #. Tag: para
 #: Remoting.xml:381
 #, no-c-format
-msgid "On the client side, enums are treated the same as Strings. When setting the value for an enum parameter, simply use the String representation of the enum. Take the following component as an example:"
-msgstr "Sul client, le enum sono trattate come stringhe. Quando si valorizza un parametro enum, basta usare la rappresentazione stringa della enum. Si prenda il componente seguente come esempio:"
+msgid ""
+"On the client side, enums are treated the same as Strings. When setting the "
+"value for an enum parameter, simply use the String representation of the "
+"enum. Take the following component as an example:"
+msgstr ""
+"Sul client, le enum sono trattate come stringhe. Quando si valorizza un "
+"parametro enum, basta usare la rappresentazione stringa della enum. Si "
+"prenda il componente seguente come esempio:"
 
 #. Tag: programlisting
 #: Remoting.xml:384
@@ -845,8 +1252,13 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:386
 #, no-c-format
-msgid "To call the <literal>paint()</literal> method with the color <literal>red</literal>, pass the parameter value as a String literal:"
-msgstr "Per chiamare il metodo <literal>paint()</literal> con il colore <literal>red</literal>, occorre passare come parametro il literal di tipo String:"
+msgid ""
+"To call the <literal>paint()</literal> method with the color <literal>red</"
+"literal>, pass the parameter value as a String literal:"
+msgstr ""
+"Per chiamare il metodo <literal>paint()</literal> con il colore "
+"<literal>red</literal>, occorre passare come parametro il literal di tipo "
+"String:"
 
 #. Tag: programlisting
 #: Remoting.xml:389
@@ -857,8 +1269,15 @@ msgstr "Seam.Component.getInstance(\"paintAction\").paint(\"red\");"
 #. Tag: para
 #: Remoting.xml:391
 #, no-c-format
-msgid "The inverse is also true - that is, if a component method returns an enum parameter (or contains an enum field anywhere in the returned object graph) then on the client-side it will be represented as a String."
-msgstr "E' vero anche l'inverso - cioè, se il metodo di un componente restituisce un parametro di tipo enum (o contiene un campo enum in un qualunque punto del grafo di oggetti restituito) allora esso sul client essa sarà rappresentato come stringa."
+msgid ""
+"The inverse is also true - that is, if a component method returns an enum "
+"parameter (or contains an enum field anywhere in the returned object graph) "
+"then on the client-side it will be represented as a String."
+msgstr ""
+"E' vero anche l'inverso - cioè, se il metodo di un componente restituisce un "
+"parametro di tipo enum (o contiene un campo enum in un qualunque punto del "
+"grafo di oggetti restituito) allora esso sul client essa sarà rappresentato "
+"come stringa."
 
 #. Tag: title
 #: Remoting.xml:396
@@ -875,8 +1294,24 @@ msgstr "Bags"
 #. Tag: para
 #: Remoting.xml:401
 #, no-c-format
-msgid "Bags cover all collection types including arrays, collections, lists, sets, (but excluding Maps - see the next section for those), and are implemented client-side as a Javascript array. When calling a component method that accepts one of these types as a parameter, your parameter should be a Javascript array. If a component method returns one of these types, then the return value will also be a Javascript array. The remoting framework is clever enough on the server side to convert the bag to an appropriate type for the component method call."
-msgstr "Le bag coprono tutti i tipi collezione inclusi array, collezioni, liste, insiemi, (ma escluse le mappe - per le quali bisogna fare riferimento alla prossima sezione), e sul client sono implementate come array Javascript. Quando si chiama un metodo che accetta uno di questi tipi come parametro, il parametro dovrebbe essere un array di Javascript. Se un metodo restituisce uno di questi tipi, anche il valore restituito sarà un array di Javascript. Il framework sul server è sufficientemente intelligente da convertire la bag nel tipo adatto al metodo chiamato."
+msgid ""
+"Bags cover all collection types including arrays, collections, lists, sets, "
+"(but excluding Maps - see the next section for those), and are implemented "
+"client-side as a Javascript array. When calling a component method that "
+"accepts one of these types as a parameter, your parameter should be a "
+"Javascript array. If a component method returns one of these types, then the "
+"return value will also be a Javascript array. The remoting framework is "
+"clever enough on the server side to convert the bag to an appropriate type "
+"for the component method call."
+msgstr ""
+"Le bag coprono tutti i tipi collezione inclusi array, collezioni, liste, "
+"insiemi, (ma escluse le mappe - per le quali bisogna fare riferimento alla "
+"prossima sezione), e sul client sono implementate come array Javascript. "
+"Quando si chiama un metodo che accetta uno di questi tipi come parametro, il "
+"parametro dovrebbe essere un array di Javascript. Se un metodo restituisce "
+"uno di questi tipi, anche il valore restituito sarà un array di Javascript. "
+"Il framework sul server è sufficientemente intelligente da convertire la bag "
+"nel tipo adatto al metodo chiamato."
 
 #. Tag: title
 #: Remoting.xml:410
@@ -887,8 +1322,16 @@ msgstr "Maps"
 #. Tag: para
 #: Remoting.xml:412
 #, no-c-format
-msgid "As there is no native support for Maps within Javascript, a simple Map implementation is provided with the Seam Remoting framework. To create a Map which can be used as a parameter to a remote call, create a new <literal>Seam.Remoting.Map</literal> object:"
-msgstr "Poichè in Javascript le mappe non sono supportate nativamente, insieme al framework viene fornita una semplice implementazione di Map. Per creare un oggetto Map che possa essere usato come parametro di una chiamata remota, bisogna creare un nuovo oggetto di tipo <literal>Seam.Remoting.Map</literal>:"
+msgid ""
+"As there is no native support for Maps within Javascript, a simple Map "
+"implementation is provided with the Seam Remoting framework. To create a Map "
+"which can be used as a parameter to a remote call, create a new "
+"<literal>Seam.Remoting.Map</literal> object:"
+msgstr ""
+"Poichè in Javascript le mappe non sono supportate nativamente, insieme al "
+"framework viene fornita una semplice implementazione di Map. Per creare un "
+"oggetto Map che possa essere usato come parametro di una chiamata remota, "
+"bisogna creare un nuovo oggetto di tipo <literal>Seam.Remoting.Map</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:416
@@ -899,8 +1342,25 @@ msgstr "var map = new Seam.Remoting.Map();"
 #. Tag: para
 #: Remoting.xml:418
 #, no-c-format
-msgid "This Javascript implementation provides basic methods for working with Maps: <literal>size()</literal>, <literal>isEmpty()</literal>, <literal>keySet()</literal>, <literal>values()</literal>, <literal>get(key)</literal>, <literal>put(key, value)</literal>, <literal>remove(key)</literal> and <literal>contains(key)</literal>. Each of these methods are equivalent to their Java counterpart. Where the method returns a collection, such as <literal>keySet()</literal> and <literal>values()</literal>, a Javascript Array object will be returned that contains the key or value objects (respectively)."
-msgstr "Questa implementazione Javascript fornisce i metodi di base per lavorare con le mappe: <literal>size()</literal>, <literal>isEmpty()</literal>, <literal>keySet()</literal>, <literal>values()</literal>, <literal>get(key)</literal>, <literal>put(key, value)</literal>, <literal>remove(key)</literal> e <literal>contains(key)</literal>. Ciascuno di essi è equivalente alla controparte Java. Quando il metodo restituisce una collezione, come con <literal>keySet()</literal> e <literal>values()</literal>, sarà restituito un Array Javascript che contiene le chiavi o i valori (ripettivamente)."
+msgid ""
+"This Javascript implementation provides basic methods for working with Maps: "
+"<literal>size()</literal>, <literal>isEmpty()</literal>, <literal>keySet()</"
+"literal>, <literal>values()</literal>, <literal>get(key)</literal>, "
+"<literal>put(key, value)</literal>, <literal>remove(key)</literal> and "
+"<literal>contains(key)</literal>. Each of these methods are equivalent to "
+"their Java counterpart. Where the method returns a collection, such as "
+"<literal>keySet()</literal> and <literal>values()</literal>, a Javascript "
+"Array object will be returned that contains the key or value objects "
+"(respectively)."
+msgstr ""
+"Questa implementazione Javascript fornisce i metodi di base per lavorare con "
+"le mappe: <literal>size()</literal>, <literal>isEmpty()</literal>, "
+"<literal>keySet()</literal>, <literal>values()</literal>, <literal>get(key)</"
+"literal>, <literal>put(key, value)</literal>, <literal>remove(key)</literal> "
+"e <literal>contains(key)</literal>. Ciascuno di essi è equivalente alla "
+"controparte Java. Quando il metodo restituisce una collezione, come con "
+"<literal>keySet()</literal> e <literal>values()</literal>, sarà restituito "
+"un Array Javascript che contiene le chiavi o i valori (ripettivamente)."
 
 #. Tag: title
 #: Remoting.xml:429
@@ -911,8 +1371,16 @@ msgstr "Debugging"
 #. Tag: para
 #: Remoting.xml:431
 #, no-c-format
-msgid "To aid in tracking down bugs, it is possible to enable a debug mode which will display the contents of all the packets send back and forth between the client and server in a popup window. To enable debug mode, either execute the <literal>setDebug()</literal> method in Javascript:"
-msgstr "Per aiutare l'individuazione dei bug, è possibile abilitare una modalità di debug che mostrerà in una finestra di popup il contenuto di tutti i pacchetti inviati avanti e indietro tra client e server. Per abilitare tale modalità, o si chiama il metodo <literal>setDebug()</literal> in Javascript:"
+msgid ""
+"To aid in tracking down bugs, it is possible to enable a debug mode which "
+"will display the contents of all the packets send back and forth between the "
+"client and server in a popup window. To enable debug mode, either execute "
+"the <literal>setDebug()</literal> method in Javascript:"
+msgstr ""
+"Per aiutare l'individuazione dei bug, è possibile abilitare una modalità di "
+"debug che mostrerà in una finestra di popup il contenuto di tutti i "
+"pacchetti inviati avanti e indietro tra client e server. Per abilitare tale "
+"modalità, o si chiama il metodo <literal>setDebug()</literal> in Javascript:"
 
 #. Tag: programlisting
 #: Remoting.xml:435
@@ -935,8 +1403,14 @@ msgstr "<![CDATA[<remoting:remoting debug=\"true\"/>]]>"
 #. Tag: para
 #: Remoting.xml:441
 #, no-c-format
-msgid "To turn off debugging, call <literal>setDebug(false)</literal>. If you want to write your own messages to the debug log, call <literal>Seam.Remoting.log(message)</literal>."
-msgstr "Per disabiliare la modalità di debug, occorre chiamare <literal>setDebug(false)</literal>. Se si vogliono scrivere dei messaggi propri nel log di debug, occorre chiamare <literal>Seam.Remoting.log(message)</literal>."
+msgid ""
+"To turn off debugging, call <literal>setDebug(false)</literal>. If you want "
+"to write your own messages to the debug log, call <literal>Seam.Remoting.log"
+"(message)</literal>."
+msgstr ""
+"Per disabiliare la modalità di debug, occorre chiamare <literal>setDebug"
+"(false)</literal>. Se si vogliono scrivere dei messaggi propri nel log di "
+"debug, occorre chiamare <literal>Seam.Remoting.log(message)</literal>."
 
 #. Tag: title
 #: Remoting.xml:446
@@ -947,42 +1421,72 @@ msgstr "Gestione delle eccezioni"
 #. Tag: para
 #: Remoting.xml:448
 #, no-c-format
-msgid "When invoking a remote component method, it is possible to specify an exception handler which will process the response in the event of an exception during component invocation. To specify an exception handler function, include a reference to it after the callback parameter in your JavaScript:"
-msgstr "Quando si fa una chiamata remota, è possibile specificare un gestore di eccezioni che processerà la risposta nell'eventualità che il metodo lanci un'eccezione. Per specificare una funzione di gestione delle eccezioni, bisogna includere nel Javascript un riferimento ad essa dopo il parametro di callback:"
+msgid ""
+"When invoking a remote component method, it is possible to specify an "
+"exception handler which will process the response in the event of an "
+"exception during component invocation. To specify an exception handler "
+"function, include a reference to it after the callback parameter in your "
+"JavaScript:"
+msgstr ""
+"Quando si fa una chiamata remota, è possibile specificare un gestore di "
+"eccezioni che processerà la risposta nell'eventualità che il metodo lanci "
+"un'eccezione. Per specificare una funzione di gestione delle eccezioni, "
+"bisogna includere nel Javascript un riferimento ad essa dopo il parametro di "
+"callback:"
 
 #. Tag: programlisting
 #: Remoting.xml:454
 #, no-c-format
 msgid ""
 "<![CDATA[var callback = function(result) { alert(result); };\n"
-"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex.getMessage()); };\n"
-"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, exceptionHandler);]]>"
+"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex."
+"getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, "
+"exceptionHandler);]]>"
 msgstr ""
 "<![CDATA[var callback = function(result) { alert(result); };\n"
-"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex.getMessage()); };\n"
-"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, exceptionHandler);]]>"
+"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex."
+"getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, "
+"exceptionHandler);]]>"
 
 #. Tag: para
 #: Remoting.xml:456
 #, no-c-format
-msgid "If you do not have a callback handler defined, you must specify <literal>null</literal> in its place:"
-msgstr "Se non viene indicato il gestore della callback, al suo posto bisogna specificare <literal>null</literal>:"
+msgid ""
+"If you do not have a callback handler defined, you must specify "
+"<literal>null</literal> in its place:"
+msgstr ""
+"Se non viene indicato il gestore della callback, al suo posto bisogna "
+"specificare <literal>null</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:460
 #, no-c-format
 msgid ""
-"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex.getMessage()); };\n"
-"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, exceptionHandler);]]>"
+"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception "
+"occurred: \" + ex.getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, "
+"exceptionHandler);]]>"
 msgstr ""
-"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex.getMessage()); };\n"
-"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, exceptionHandler);]]>"
+"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception "
+"occurred: \" + ex.getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, "
+"exceptionHandler);]]>"
 
 #. Tag: para
 #: Remoting.xml:462
 #, no-c-format
-msgid "The exception object that is passed to the exception handler exposes one method, <literal>getMessage()</literal> that returns the exception message which is produced by the exception thrown by the <literal>@WebRemote</literal> method."
-msgstr "L'oggetto eccezione che viene passato al gestore espone un solo metodo, <literal>getMessage()</literal>, che restituisce il messaggio di errore prodotto dall'eccezione lanciata dal memtodo annotato con <literal>@WebRemote</literal>."
+msgid ""
+"The exception object that is passed to the exception handler exposes one "
+"method, <literal>getMessage()</literal> that returns the exception message "
+"which is produced by the exception thrown by the <literal>@WebRemote</"
+"literal> method."
+msgstr ""
+"L'oggetto eccezione che viene passato al gestore espone un solo metodo, "
+"<literal>getMessage()</literal>, che restituisce il messaggio di errore "
+"prodotto dall'eccezione lanciata dal memtodo annotato con "
+"<literal>@WebRemote</literal>."
 
 #. Tag: title
 #: Remoting.xml:471
@@ -993,8 +1497,14 @@ msgstr "Il messaggio di caricamento"
 #. Tag: para
 #: Remoting.xml:473
 #, no-c-format
-msgid "The default loading message that appears in the top right corner of the screen can be modified, its rendering customised or even turned off completely."
-msgstr "Il messaggio di caricamento predefinito che appare nell'angolo dello schermo in alto a destra può essere modificato e il suo rendering personalizzato o anche eliminato completamente."
+msgid ""
+"The default loading message that appears in the top right corner of the "
+"screen can be modified, its rendering customised or even turned off "
+"completely."
+msgstr ""
+"Il messaggio di caricamento predefinito che appare nell'angolo dello schermo "
+"in alto a destra può essere modificato e il suo rendering personalizzato o "
+"anche eliminato completamente."
 
 #. Tag: title
 #: Remoting.xml:477
@@ -1005,8 +1515,13 @@ msgstr "Cambiare il messaggio"
 #. Tag: para
 #: Remoting.xml:479
 #, no-c-format
-msgid "To change the message from the default \"Please Wait...\" to something different, set the value of <literal>Seam.Remoting.loadingMessage</literal>:"
-msgstr "Per cambiare il messaggio dal default \"Attendere prego...\" a qualcosa di differente, si imposti il valore di <literal>Seam.Remoting.loadingMessage</literal>:"
+msgid ""
+"To change the message from the default \"Please Wait...\" to something "
+"different, set the value of <literal>Seam.Remoting.loadingMessage</literal>:"
+msgstr ""
+"Per cambiare il messaggio dal default \"Attendere prego...\" a qualcosa di "
+"differente, si imposti il valore di <literal>Seam.Remoting.loadingMessage</"
+"literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:482
@@ -1023,8 +1538,15 @@ msgstr "Nascondere il messaggio di caricamento"
 #. Tag: para
 #: Remoting.xml:488
 #, no-c-format
-msgid "To completely suppress the display of the loading message, override the implementation of <literal>displayLoadingMessage()</literal> and <literal>hideLoadingMessage()</literal> with functions that instead do nothing:"
-msgstr "Per sopprimere il messaggio di caricamento, occorre fare l'override dell'implementazione di <literal>displayLoadingMessage()</literal> e <literal>hideLoadingMessage()</literal> con funzioni che non fanno nulla:"
+msgid ""
+"To completely suppress the display of the loading message, override the "
+"implementation of <literal>displayLoadingMessage()</literal> and "
+"<literal>hideLoadingMessage()</literal> with functions that instead do "
+"nothing:"
+msgstr ""
+"Per sopprimere il messaggio di caricamento, occorre fare l'override "
+"dell'implementazione di <literal>displayLoadingMessage()</literal> e "
+"<literal>hideLoadingMessage()</literal> con funzioni che non fanno nulla:"
 
 #. Tag: programlisting
 #: Remoting.xml:492
@@ -1047,8 +1569,16 @@ msgstr "Un indicatore di caricamento personalizzato"
 #. Tag: para
 #: Remoting.xml:498
 #, no-c-format
-msgid "It is also possible to override the loading indicator to display an animated icon, or anything else that you want. To do this override the <literal>displayLoadingMessage()</literal> and <literal>hideLoadingMessage()</literal> messages with your own implementation:"
-msgstr "E' anche possibile sovrascrivere l'indicatore di caricamento per mostrare un'icona animata o qualunque altra cosa si voglia. A questo scopo occorre fare l'override di <literal>displayLoadingMessage()</literal> e <literal>hideLoadingMessage()</literal> con un'implementazione propria:"
+msgid ""
+"It is also possible to override the loading indicator to display an animated "
+"icon, or anything else that you want. To do this override the "
+"<literal>displayLoadingMessage()</literal> and <literal>hideLoadingMessage()"
+"</literal> messages with your own implementation:"
+msgstr ""
+"E' anche possibile sovrascrivere l'indicatore di caricamento per mostrare "
+"un'icona animata o qualunque altra cosa si voglia. A questo scopo occorre "
+"fare l'override di <literal>displayLoadingMessage()</literal> e "
+"<literal>hideLoadingMessage()</literal> con un'implementazione propria:"
 
 #. Tag: programlisting
 #: Remoting.xml:502
@@ -1079,20 +1609,59 @@ msgstr "Controllare i dati restituiti"
 #. Tag: para
 #: Remoting.xml:509
 #, no-c-format
-msgid "When a remote method is executed, the result is serialized into an XML response that is returned to the client. This response is then unmarshaled by the client into a Javascript object. For complex types (i.e. Javabeans) that include references to other objects, all of these referenced objects are also serialized as part of the response. These objects may reference other objects, which may reference other objects, and so forth. If left unchecked, this object \"graph\" could potentially be enormous, depending on what relationships exist between your objects. And as a side issue (besides the potential verbosity of the response), you might also wish to prevent sensitive information from being exposed to the client."
-msgstr "Quando un metodo remoto viene esegutio, il risultato viene serializzato in una risposta XML che viene restituita al client. Questa risposta viene allora deserializzata dal client in un oggetto Javascript. Nel caso di tipi complessi (vedi JavaBean) che includono riferimenti ad altri oggetti, anche tutti gli oggetti referenziati vengono serializzati all'interno della risposta. Questi oggetti possono referenziarne altri, che possono referenziarne altri ancora e così via. Se non lo si controlla, questo \"grafo\" di oggetti potrebbe essere potenzialmente enorme, a seconda delle relazioni esistenti tra gli oggetti stessi. E vi è l'ulteriore problema (oltre alla potenziale verbosità della risposta) che potrebbe essere desiderabile impedire che delle informazioni sensibili vengano esposte al client."
+msgid ""
+"When a remote method is executed, the result is serialized into an XML "
+"response that is returned to the client. This response is then unmarshaled "
+"by the client into a Javascript object. For complex types (i.e. Javabeans) "
+"that include references to other objects, all of these referenced objects "
+"are also serialized as part of the response. These objects may reference "
+"other objects, which may reference other objects, and so forth. If left "
+"unchecked, this object \"graph\" could potentially be enormous, depending on "
+"what relationships exist between your objects. And as a side issue (besides "
+"the potential verbosity of the response), you might also wish to prevent "
+"sensitive information from being exposed to the client."
+msgstr ""
+"Quando un metodo remoto viene esegutio, il risultato viene serializzato in "
+"una risposta XML che viene restituita al client. Questa risposta viene "
+"allora deserializzata dal client in un oggetto Javascript. Nel caso di tipi "
+"complessi (vedi JavaBean) che includono riferimenti ad altri oggetti, anche "
+"tutti gli oggetti referenziati vengono serializzati all'interno della "
+"risposta. Questi oggetti possono referenziarne altri, che possono "
+"referenziarne altri ancora e così via. Se non lo si controlla, questo \"grafo"
+"\" di oggetti potrebbe essere potenzialmente enorme, a seconda delle "
+"relazioni esistenti tra gli oggetti stessi. E vi è l'ulteriore problema "
+"(oltre alla potenziale verbosità della risposta) che potrebbe essere "
+"desiderabile impedire che delle informazioni sensibili vengano esposte al "
+"client."
 
 #. Tag: para
 #: Remoting.xml:517
 #, no-c-format
-msgid "Seam Remoting provides a simple means to \"constrain\" the object graph, by specifying the <literal>exclude</literal> field of the remote method's <literal>@WebRemote</literal> annotation. This field accepts a String array containing one or more paths specified using dot notation. When invoking a remote method, the objects in the result's object graph that match these paths are excluded from the serialized result packet."
-msgstr "Seam Remoting fornisce un modo semplice per \"vincolare\" il grafo di oggetti: basta valorizzare il campo <literal>exclude</literal> dell'annotazione <literal>@WebRemote</literal> del metodo remoto. Questo campo accetta un array di stringhe contenenti uno o più percorsi specificati usando la notazione col punto. Quando un metodo remoto viene invocato, gli oggetti del grafo risultante il cui percorso coincide con uno di questi vengono esclusi dalla serializzazione."
+msgid ""
+"Seam Remoting provides a simple means to \"constrain\" the object graph, by "
+"specifying the <literal>exclude</literal> field of the remote method's "
+"<literal>@WebRemote</literal> annotation. This field accepts a String array "
+"containing one or more paths specified using dot notation. When invoking a "
+"remote method, the objects in the result's object graph that match these "
+"paths are excluded from the serialized result packet."
+msgstr ""
+"Seam Remoting fornisce un modo semplice per \"vincolare\" il grafo di "
+"oggetti: basta valorizzare il campo <literal>exclude</literal> "
+"dell'annotazione <literal>@WebRemote</literal> del metodo remoto. Questo "
+"campo accetta un array di stringhe contenenti uno o più percorsi specificati "
+"usando la notazione col punto. Quando un metodo remoto viene invocato, gli "
+"oggetti del grafo risultante il cui percorso coincide con uno di questi "
+"vengono esclusi dalla serializzazione."
 
 #. Tag: para
 #: Remoting.xml:522
 #, no-c-format
-msgid "For all our examples, we'll use the following <literal>Widget</literal> class:"
-msgstr "Per tutti gli esempi utilizzeremo la seguente classe <literal>Widget</literal>:"
+msgid ""
+"For all our examples, we'll use the following <literal>Widget</literal> "
+"class:"
+msgstr ""
+"Per tutti gli esempi utilizzeremo la seguente classe <literal>Widget</"
+"literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:524
@@ -1131,8 +1700,14 @@ msgstr "Vincolare campi normali"
 #. Tag: para
 #: Remoting.xml:529
 #, no-c-format
-msgid "If your remote method returns an instance of <literal>Widget</literal>, but you don't want to expose the <literal>secret</literal> field because it contains sensitive information, you would constrain it like this:"
-msgstr "Se il metodo remoto restituisce un'istanza di <literal>Widget</literal>, ma non si volesse esporre il campo <literal>secret</literal> poiché contiene delle informazioni sensibili, sarebbe possibile escluderlo in questo modo:"
+msgid ""
+"If your remote method returns an instance of <literal>Widget</literal>, but "
+"you don't want to expose the <literal>secret</literal> field because it "
+"contains sensitive information, you would constrain it like this:"
+msgstr ""
+"Se il metodo remoto restituisce un'istanza di <literal>Widget</literal>, ma "
+"non si volesse esporre il campo <literal>secret</literal> poiché contiene "
+"delle informazioni sensibili, sarebbe possibile escluderlo in questo modo:"
 
 #. Tag: programlisting
 #: Remoting.xml:532
@@ -1147,8 +1722,25 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:534
 #, no-c-format
-msgid "The value \"secret\" refers to the <literal>secret</literal> field of the returned object. Now, suppose that we don't care about exposing this particular field to the client. Instead, notice that the <literal>Widget</literal> value that is returned has a field <literal>child</literal> that is also a <literal>Widget</literal>. What if we want to hide the <literal>child</literal>'s <literal>secret</literal> value instead? We can do this by using dot notation to specify this field's path within the result's object graph:"
-msgstr "Il valore \"secret\" si riferisce al campo <literal>secret</literal> dell'oggetto restituito. Ora, supponiamo che non ci importi di esporre questo campo particolare al client. Invece, si noti che il valore <literal>Widget</literal> che viene restituito ha un campo <literal>figlio</literal> che pure è un <literal>Widget</literal>. Cosa succede se, invece, si vuole nascondere il valore <literal>secret</literal> del <literal>figlio</literal>? Possiamo raggiungere lo scopo usando la notazione col punto per indicare il percorso di questo campo all'interno del grafo di oggetti risultante:"
+msgid ""
+"The value \"secret\" refers to the <literal>secret</literal> field of the "
+"returned object. Now, suppose that we don't care about exposing this "
+"particular field to the client. Instead, notice that the <literal>Widget</"
+"literal> value that is returned has a field <literal>child</literal> that is "
+"also a <literal>Widget</literal>. What if we want to hide the "
+"<literal>child</literal>'s <literal>secret</literal> value instead? We can "
+"do this by using dot notation to specify this field's path within the "
+"result's object graph:"
+msgstr ""
+"Il valore \"secret\" si riferisce al campo <literal>secret</literal> "
+"dell'oggetto restituito. Ora, supponiamo che non ci importi di esporre "
+"questo campo particolare al client. Invece, si noti che il valore "
+"<literal>Widget</literal> che viene restituito ha un campo <literal>figlio</"
+"literal> che pure è un <literal>Widget</literal>. Cosa succede se, invece, "
+"si vuole nascondere il valore <literal>secret</literal> del <literal>figlio</"
+"literal>? Possiamo raggiungere lo scopo usando la notazione col punto per "
+"indicare il percorso di questo campo all'interno del grafo di oggetti "
+"risultante:"
 
 #. Tag: programlisting
 #: Remoting.xml:541
@@ -1169,8 +1761,24 @@ msgstr "Vincolare mappe e collezioni"
 #. Tag: para
 #: Remoting.xml:548
 #, no-c-format
-msgid "The other place that objects can exist within an object graph are within a <literal>Map</literal> or some kind of collection (<literal>List</literal>, <literal>Set</literal>, <literal>Array</literal>, etc). Collections are easy, and are treated like any other field. For example, if our <literal>Widget</literal> contained a list of other <literal>Widget</literal>s in its <literal>widgetList</literal> field, to constrain the <literal>secret</literal> field of the <literal>Widget</literal>s in this list the annotation would look like this:"
-msgstr "L'altro luogo dove degli oggetti possono esistere all'interno di un grafo sono oggetti di tipo <literal>Map</literal> o qualche genere di collezione (<literal>List</literal>, <literal>Set</literal>, <literal>Array</literal>, etc). Le collezioni sono semplici e trattate come qualunque altro campo. Per esempio, se <literal>Widget</literal> contenesse una lista di altri <literal>Widget</literal> nel suo campo <literal>widgetList</literal>, per escludere il campo <literal>secret</literal> dei <literal>Widget</literal> di questa lista l'annotazione avrebbe questo aspetto:"
+msgid ""
+"The other place that objects can exist within an object graph are within a "
+"<literal>Map</literal> or some kind of collection (<literal>List</literal>, "
+"<literal>Set</literal>, <literal>Array</literal>, etc). Collections are "
+"easy, and are treated like any other field. For example, if our "
+"<literal>Widget</literal> contained a list of other <literal>Widget</"
+"literal>s in its <literal>widgetList</literal> field, to constrain the "
+"<literal>secret</literal> field of the <literal>Widget</literal>s in this "
+"list the annotation would look like this:"
+msgstr ""
+"L'altro luogo dove degli oggetti possono esistere all'interno di un grafo "
+"sono oggetti di tipo <literal>Map</literal> o qualche genere di collezione "
+"(<literal>List</literal>, <literal>Set</literal>, <literal>Array</literal>, "
+"etc). Le collezioni sono semplici e trattate come qualunque altro campo. Per "
+"esempio, se <literal>Widget</literal> contenesse una lista di altri "
+"<literal>Widget</literal> nel suo campo <literal>widgetList</literal>, per "
+"escludere il campo <literal>secret</literal> dei <literal>Widget</literal> "
+"di questa lista l'annotazione avrebbe questo aspetto:"
 
 #. Tag: programlisting
 #: Remoting.xml:555
@@ -1185,8 +1793,23 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:557
 #, no-c-format
-msgid "To constrain a <literal>Map</literal>'s key or value, the notation is slightly different. Appending <literal>[key]</literal> after the <literal>Map</literal>'s field name will constrain the <literal>Map</literal>'s key object values, while <literal>[value]</literal> will constrain the value object values. The following example demonstrates how the values of the <literal>widgetMap</literal> field have their <literal>secret</literal> field constrained:"
-msgstr "Per vincolare la chiave o il valore di un oggetto <literal>Map</literal>, la notazione è leggermente diversa. Aggiungere <literal>[key]</literal> dopo il nome del campo di tipo <literal>Map</literal> vincolerà il valore delle chiavi del campo di tipo <literal>Map</literal>, mentre <literal>[value]</literal> vincolerà il valore dei valori del campo di tipo <literal>Map</literal>. Gli esempi seguenti mostrano come i valori del campo <literal>widgetMap</literal> si trovino ad avere il campo <literal>secret</literal> vincolato:"
+msgid ""
+"To constrain a <literal>Map</literal>'s key or value, the notation is "
+"slightly different. Appending <literal>[key]</literal> after the "
+"<literal>Map</literal>'s field name will constrain the <literal>Map</"
+"literal>'s key object values, while <literal>[value]</literal> will "
+"constrain the value object values. The following example demonstrates how "
+"the values of the <literal>widgetMap</literal> field have their "
+"<literal>secret</literal> field constrained:"
+msgstr ""
+"Per vincolare la chiave o il valore di un oggetto <literal>Map</literal>, la "
+"notazione è leggermente diversa. Aggiungere <literal>[key]</literal> dopo il "
+"nome del campo di tipo <literal>Map</literal> vincolerà il valore delle "
+"chiavi del campo di tipo <literal>Map</literal>, mentre <literal>[value]</"
+"literal> vincolerà il valore dei valori del campo di tipo <literal>Map</"
+"literal>. Gli esempi seguenti mostrano come i valori del campo "
+"<literal>widgetMap</literal> si trovino ad avere il campo <literal>secret</"
+"literal> vincolato:"
 
 #. Tag: programlisting
 #: Remoting.xml:563
@@ -1207,8 +1830,19 @@ msgstr "Vincolare oggetti di tipo specifico"
 #. Tag: para
 #: Remoting.xml:569
 #, no-c-format
-msgid "There is one last notation that can be used to constrain the fields of a type of object no matter where in the result's object graph it appears. This notation uses either the name of the component (if the object is a Seam component) or the fully qualified class name (only if the object is not a Seam component) and is expressed using square brackets:"
-msgstr "Vi è un'ultima notazione che può essere usata per vincolare i campi di un tipo di oggetto, indipendentemente da dove appare all'interno del grafo di oggetti restituito. Questa notazione utilizza o il nome del componente (se l'oggetto è un componente Seam) o il nome completo della classe (soltanto se l'oggetto non è un componente Seam) ed viene costruita usando le parentesi quadre:"
+msgid ""
+"There is one last notation that can be used to constrain the fields of a "
+"type of object no matter where in the result's object graph it appears. This "
+"notation uses either the name of the component (if the object is a Seam "
+"component) or the fully qualified class name (only if the object is not a "
+"Seam component) and is expressed using square brackets:"
+msgstr ""
+"Vi è un'ultima notazione che può essere usata per vincolare i campi di un "
+"tipo di oggetto, indipendentemente da dove appare all'interno del grafo di "
+"oggetti restituito. Questa notazione utilizza o il nome del componente (se "
+"l'oggetto è un componente Seam) o il nome completo della classe (soltanto se "
+"l'oggetto non è un componente Seam) ed viene costruita usando le parentesi "
+"quadre:"
 
 #. Tag: programlisting
 #: Remoting.xml:574
@@ -1230,8 +1864,12 @@ msgstr "Combinare i vincoli"
 #. Tag: para
 #: Remoting.xml:581
 #, no-c-format
-msgid "Constraints can also be combined, to filter objects from multiple paths within the object graph:"
-msgstr "I vincoli possono anche essere usati combinandoli, per filtrare oggetti con percorsi multipli all'interno del grafo:"
+msgid ""
+"Constraints can also be combined, to filter objects from multiple paths "
+"within the object graph:"
+msgstr ""
+"I vincoli possono anche essere usati combinandoli, per filtrare oggetti con "
+"percorsi multipli all'interno del grafo:"
 
 #. Tag: programlisting
 #: Remoting.xml:583
@@ -1252,8 +1890,16 @@ msgstr "Richieste transazionali"
 #. Tag: para
 #: Remoting.xml:591
 #, no-c-format
-msgid "By default there is no active transaction during a remoting request, so if you wish to perform database updates during a remoting request, you need to annotate the <literal>@WebRemote</literal> method with <literal>@Transactional</literal>, like so:"
-msgstr "Di default non vi è alcuna transazione attiva durante una richiesta remota, così che, se si vogliono apportare delle modifiche al database, è necessario annotare il metodo <literal>@WebRemote</literal> con <literal>@Transactional</literal>, come di seguito:"
+msgid ""
+"By default there is no active transaction during a remoting request, so if "
+"you wish to perform database updates during a remoting request, you need to "
+"annotate the <literal>@WebRemote</literal> method with "
+"<literal>@Transactional</literal>, like so:"
+msgstr ""
+"Di default non vi è alcuna transazione attiva durante una richiesta remota, "
+"così che, se si vogliono apportare delle modifiche al database, è necessario "
+"annotare il metodo <literal>@WebRemote</literal> con "
+"<literal>@Transactional</literal>, come di seguito:"
 
 #. Tag: programlisting
 #: Remoting.xml:597
@@ -1279,21 +1925,39 @@ msgstr "Messaggistica JMS"
 #. Tag: para
 #: Remoting.xml:603
 #, no-c-format
-msgid "Seam Remoting provides experimental support for JMS Messaging. This section describes the JMS support that is currently implemented, but please note that this may change in the future. It is currently not recommended that this feature is used within a production environment."
-msgstr "Seam Remoting fornisce supporto sperimentale per la gestione di messaggi JMS. Questa sezione descrive il tipo di supporto attualmente implementato, ma si tenga presente che esso potrà cambiare in futuro. Attualmente si raccomanda di non usare tale funzionalità in un ambiente di produzione."
+msgid ""
+"Seam Remoting provides experimental support for JMS Messaging. This section "
+"describes the JMS support that is currently implemented, but please note "
+"that this may change in the future. It is currently not recommended that "
+"this feature is used within a production environment."
+msgstr ""
+"Seam Remoting fornisce supporto sperimentale per la gestione di messaggi "
+"JMS. Questa sezione descrive il tipo di supporto attualmente implementato, "
+"ma si tenga presente che esso potrà cambiare in futuro. Attualmente si "
+"raccomanda di non usare tale funzionalità in un ambiente di produzione."
 
 #. Tag: para
 #: Remoting.xml:610
 #, no-c-format
-msgid "Before you can subscribe to a JMS topic, you must first configure a list of the topics that can be subscribed to by Seam Remoting. List the topics under <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
-msgstr "Prima di sottoscrivere una topic JMS, occorre configurare la lista di topic che Seam Remoting può sottoscrivere. Occorre elencare i topic nella proprietà <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> o <literal>components.xml</literal>."
+msgid ""
+"Before you can subscribe to a JMS topic, you must first configure a list of "
+"the topics that can be subscribed to by Seam Remoting. List the topics under "
+"<literal>org.jboss.seam.remoting.messaging.subscriptionRegistry."
+"allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web."
+"xml</literal> or <literal>components.xml</literal>."
+msgstr ""
+"Prima di sottoscrivere una topic JMS, occorre configurare la lista di topic "
+"che Seam Remoting può sottoscrivere. Occorre elencare i topic nella "
+"proprietà <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry."
+"allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web."
+"xml</literal> o <literal>components.xml</literal>."
 
 #. Tag: programlisting
-#: Remoting.xml:615
-#: Remoting.xml:670
+#: Remoting.xml:615 Remoting.xml:670
 #, no-c-format
 msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
-msgstr "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
+msgstr ""
+"<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 
 #. Tag: title
 #: Remoting.xml:620
@@ -1330,15 +1994,42 @@ msgstr ""
 #. Tag: para
 #: Remoting.xml:626
 #, no-c-format
-msgid "The <literal>Seam.Remoting.subscribe()</literal> method accepts two parameters, the first being the name of the JMS Topic to subscribe to, the second being the callback function to invoke when a message is received."
-msgstr "Il metodo <literal>Seam.Remoting.subscribe()</literal> accetta due parametri, di cui il primo è il nome del topic JMS da sottoscrivere e il secondo la funzione di callback che deve essere invocata quando si riceve un messaggio."
+msgid ""
+"The <literal>Seam.Remoting.subscribe()</literal> method accepts two "
+"parameters, the first being the name of the JMS Topic to subscribe to, the "
+"second being the callback function to invoke when a message is received."
+msgstr ""
+"Il metodo <literal>Seam.Remoting.subscribe()</literal> accetta due "
+"parametri, di cui il primo è il nome del topic JMS da sottoscrivere e il "
+"secondo la funzione di callback che deve essere invocata quando si riceve un "
+"messaggio."
 
 # messaggi testuali e messaggi con oggetti.
 #. Tag: para
 #: Remoting.xml:629
 #, no-c-format
-msgid "There are two types of messages supported, Text messages and Object messages. If you need to test for the type of message that is passed to your callback function you can use the <literal>instanceof</literal> operator to test whether the message is a <literal>Seam.Remoting.TextMessage</literal> or <literal>Seam.Remoting.ObjectMessage</literal>. A <literal>TextMessage</literal> contains the text value in its <literal>text</literal> field (or alternatively call <literal>getText()</literal> on it), while an <literal>ObjectMessage</literal> contains its object value in its <literal>value</literal> field (or call its <literal>getValue()</literal> method)."
-msgstr "Due sono i tipi di messaggi supportati, messaggi testuali e messaggi oggetto. Per verificare il tipo di messaggio passato alla callback è possibile usare l'operatore <literal>instanceof</literal> per vedere se il messaggio sia un <literal>Seam.Remoting.TextMessage</literal> o un <literal>Seam.Remoting.ObjectMessage</literal>. Un <literal>TextMessage</literal> contiene il valore testuale nel campo <literal>text</literal> (si può anche fare una chiamata al metodo <literal>getText()</literal>), mentre un <literal>ObjectMessage</literal> contiene il valore oggetto nel campo <literal>value</literal> (si può anche fare una chiamata al metodo <literal>getValue()</literal>)."
+msgid ""
+"There are two types of messages supported, Text messages and Object "
+"messages. If you need to test for the type of message that is passed to your "
+"callback function you can use the <literal>instanceof</literal> operator to "
+"test whether the message is a <literal>Seam.Remoting.TextMessage</literal> "
+"or <literal>Seam.Remoting.ObjectMessage</literal>. A <literal>TextMessage</"
+"literal> contains the text value in its <literal>text</literal> field (or "
+"alternatively call <literal>getText()</literal> on it), while an "
+"<literal>ObjectMessage</literal> contains its object value in its "
+"<literal>value</literal> field (or call its <literal>getValue()</literal> "
+"method)."
+msgstr ""
+"Due sono i tipi di messaggi supportati, messaggi testuali e messaggi "
+"oggetto. Per verificare il tipo di messaggio passato alla callback è "
+"possibile usare l'operatore <literal>instanceof</literal> per vedere se il "
+"messaggio sia un <literal>Seam.Remoting.TextMessage</literal> o un "
+"<literal>Seam.Remoting.ObjectMessage</literal>. Un <literal>TextMessage</"
+"literal> contiene il valore testuale nel campo <literal>text</literal> (si "
+"può anche fare una chiamata al metodo <literal>getText()</literal>), mentre "
+"un <literal>ObjectMessage</literal> contiene il valore oggetto nel campo "
+"<literal>value</literal> (si può anche fare una chiamata al metodo "
+"<literal>getValue()</literal>)."
 
 #. Tag: title
 #: Remoting.xml:639
@@ -1350,8 +2041,13 @@ msgstr "Disiscriversi da un topic"
 #. Tag: para
 #: Remoting.xml:641
 #, no-c-format
-msgid "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</literal> and pass in the topic name:"
-msgstr "Per annullare la sottoscrizione ad un topic, bisogna fare una chiamata a <literal>Seam.Remoting.unsubscribe()</literal> passando il nome del topic come parametro:"
+msgid ""
+"To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</"
+"literal> and pass in the topic name:"
+msgstr ""
+"Per annullare la sottoscrizione ad un topic, bisogna fare una chiamata a "
+"<literal>Seam.Remoting.unsubscribe()</literal> passando il nome del topic "
+"come parametro:"
 
 #. Tag: programlisting
 #: Remoting.xml:644
@@ -1371,26 +2067,65 @@ msgstr "Fare il tuning del processo di polling"
 #. Tag: para
 #: Remoting.xml:650
 #, no-c-format
-msgid "There are two parameters which you can modify to control how polling occurs. The first one is <literal>Seam.Remoting.pollInterval</literal>, which controls how long to wait between subsequent polls for new messages. This parameter is expressed in seconds, and its default setting is 10."
-msgstr "E' possibile controllare il polling dei messaggi attraverso due parametri. Il primo è <literal>Seam.Remoting.pollInterval</literal>, che controlla quanto tempo passa tra due polling successivi per verificare l'arrivo di nuovi messaggi. Tale parametro è espresso in secondi, e il suo valore predefinito è 10."
+msgid ""
+"There are two parameters which you can modify to control how polling occurs. "
+"The first one is <literal>Seam.Remoting.pollInterval</literal>, which "
+"controls how long to wait between subsequent polls for new messages. This "
+"parameter is expressed in seconds, and its default setting is 10."
+msgstr ""
+"E' possibile controllare il polling dei messaggi attraverso due parametri. "
+"Il primo è <literal>Seam.Remoting.pollInterval</literal>, che controlla "
+"quanto tempo passa tra due polling successivi per verificare l'arrivo di "
+"nuovi messaggi. Tale parametro è espresso in secondi, e il suo valore "
+"predefinito è 10."
 
 #. Tag: para
 #: Remoting.xml:654
 #, no-c-format
-msgid "The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is also expressed as seconds. It controls how long a request to the server should wait for a new message before timing out and sending an empty response. Its default is 0 seconds, which means that when the server is polled, if there are no messages ready for delivery then an empty response will be immediately returned."
-msgstr "Il secondo parametro è <literal>Seam.Remoting.pollTimeout</literal>, che pure è espresso in secondi. Controlla per quanto tempo una richiesta al server debba stare in attesa di un nuovo messaggio prima di andare in time out e inviare una risposta vuota. Il valore predefinito è 0: ciò significa che quando il server viene interrogato, se non ci sono nuovi messaggi pronti alla consegna, allora viene immediatamente restituita una risposta vuota."
+msgid ""
+"The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is "
+"also expressed as seconds. It controls how long a request to the server "
+"should wait for a new message before timing out and sending an empty "
+"response. Its default is 0 seconds, which means that when the server is "
+"polled, if there are no messages ready for delivery then an empty response "
+"will be immediately returned."
+msgstr ""
+"Il secondo parametro è <literal>Seam.Remoting.pollTimeout</literal>, che "
+"pure è espresso in secondi. Controlla per quanto tempo una richiesta al "
+"server debba stare in attesa di un nuovo messaggio prima di andare in time "
+"out e inviare una risposta vuota. Il valore predefinito è 0: ciò significa "
+"che quando il server viene interrogato, se non ci sono nuovi messaggi pronti "
+"alla consegna, allora viene immediatamente restituita una risposta vuota."
 
 #. Tag: para
 #: Remoting.xml:659
 #, no-c-format
-msgid "Caution should be used when setting a high <literal>pollTimeout</literal> value; each request that has to wait for a message means that a server thread is tied up until a message is received, or until the request times out. If many such requests are being served simultaneously, it could mean a large number of threads become tied up because of this reason."
-msgstr "Occorre essere molto cauti nell'impostare un valore alto di <literal>pollTimeout</literal>; ogni richiesta in attesa di un messaggio tiene un thread attivo finché non viene ricevuto un messaggio o finché la richiesta non va in time out. Se molte di queste richieste devono essere gestite contemporaneamente, si potrebbero avere molti thread in attesa."
+msgid ""
+"Caution should be used when setting a high <literal>pollTimeout</literal> "
+"value; each request that has to wait for a message means that a server "
+"thread is tied up until a message is received, or until the request times "
+"out. If many such requests are being served simultaneously, it could mean a "
+"large number of threads become tied up because of this reason."
+msgstr ""
+"Occorre essere molto cauti nell'impostare un valore alto di "
+"<literal>pollTimeout</literal>; ogni richiesta in attesa di un messaggio "
+"tiene un thread attivo finché non viene ricevuto un messaggio o finché la "
+"richiesta non va in time out. Se molte di queste richieste devono essere "
+"gestite contemporaneamente, si potrebbero avere molti thread in attesa."
 
 #. Tag: para
 #: Remoting.xml:664
 #, no-c-format
-msgid "It is recommended that you set these options via components.xml, however they can be overridden via Javascript if desired. The following example demonstrates how to configure the polling to occur much more aggressively. You should set these parameters to suitable values for your application:"
-msgstr "Si raccomanda si impostare queste opzioni in components.xml, anche se possono essere sovrascritte dal codice Javascript. L'esempio seguente mostra come configurare il polling in modo da renderlo molto aggressivo. Dovreste impostare questi parametri a dei valori adatti alla vostra applicazione:"
+msgid ""
+"It is recommended that you set these options via components.xml, however "
+"they can be overridden via Javascript if desired. The following example "
+"demonstrates how to configure the polling to occur much more aggressively. "
+"You should set these parameters to suitable values for your application:"
+msgstr ""
+"Si raccomanda si impostare queste opzioni in components.xml, anche se "
+"possono essere sovrascritte dal codice Javascript. L'esempio seguente mostra "
+"come configurare il polling in modo da renderlo molto aggressivo. Dovreste "
+"impostare questi parametri a dei valori adatti alla vostra applicazione:"
 
 #. Tag: para
 #: Remoting.xml:668
@@ -1408,15 +2143,79 @@ msgstr "Via JavaScript:"
 #: Remoting.xml:674
 #, no-c-format
 msgid ""
-"// Only wait 1 second between receiving a poll response and sending the next poll request.\n"
+"// Only wait 1 second between receiving a poll response and sending the next "
+"poll request.\n"
 "Seam.Remoting.pollInterval = 1;\n"
 "  \n"
 "// Wait up to 5 seconds on the server for new messages\n"
 "Seam.Remoting.pollTimeout = 5;"
 msgstr ""
-"// Attendere 1 secondo tra la ricezione della risposta del pool e l'invio della successiva richiesta di pool.\n"
+"// Attendere 1 secondo tra la ricezione della risposta del pool e l'invio "
+"della successiva richiesta di pool.\n"
 "Seam.Remoting.pollInterval = 1;\n"
 "  \n"
 "// Attendere fino a 5 secondi sul server per nuovi messaggi\n"
 "Seam.Remoting.pollTimeout = 5;"
 
+#~ msgid "Evaluating EL Expressions"
+#~ msgstr "Valutazione delle espressioni EL"
+
+#~ msgid ""
+#~ "Seam Remoting also supports the evaluation of EL expressions, which "
+#~ "provides another convenient method for retrieving data from the server. "
+#~ "Using the <literal>Seam.Remoting.eval()</literal> function, an EL "
+#~ "expression can be remotely evaluated on the server and the resulting "
+#~ "value returned to a client-side callback method. This function accepts "
+#~ "two parameters, the first being the EL expression to evaluate, and the "
+#~ "second being the callback method to invoke with the value of the "
+#~ "expression. Here's an example:"
+#~ msgstr ""
+#~ "Seam Remoting supporta anche il calcolo di espressioni EL,  che "
+#~ "forniscono un altro metodo conveniente per ottenere dati dal server. "
+#~ "Usando la funzione <literal>Seam.Remoting.eval()</literal>, è possibile "
+#~ "calcolare un'espressione EL da remoto sul server e restituire il valore "
+#~ "risultante a un metodo callback lato del client. Questa funzione accetta "
+#~ "due parametri, di cui il primo è l'espressione EL da calcolare e il "
+#~ "secondo il metodo callback da invocare con il valore dell'espressione. "
+#~ "Ecco un esempio:"
+
+#~ msgid ""
+#~ "<![CDATA[  function customersCallback(customers) {\n"
+#~ "    for (var i = 0; i < customers.length; i++) {\n"
+#~ "      alert(\"Got customer: \" + customers[i].getName());\n"
+#~ "    }    \n"
+#~ "  }\n"
+#~ "    \n"
+#~ "  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
+#~ "    ]]>"
+#~ msgstr ""
+#~ "<![CDATA[  function customersCallback(customers) {\n"
+#~ "    for (var i = 0; i < customers.length; i++) {\n"
+#~ "      alert(\"Got customer: \" + customers[i].getName());\n"
+#~ "    }    \n"
+#~ "  }\n"
+#~ "    \n"
+#~ "  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
+#~ "    ]]>"
+
+#~ msgid ""
+#~ "In this example, the expression <literal>#{customers}</literal> is "
+#~ "evaluated by Seam, and the value of the expression (in this case a list "
+#~ "of Customer objects) is returned to the <literal>customersCallback()</"
+#~ "literal> method. It is important to remember that the objects returned "
+#~ "this way must have their types imported (via <literal>s:remote</literal>) "
+#~ "to be able to work with them in Javascript. So to work with a list of "
+#~ "<literal>customer</literal> objects, it is required to import the "
+#~ "<literal>customer</literal> type:"
+#~ msgstr ""
+#~ "In questo esempio l'espressione <literal>#{customers}</literal> è "
+#~ "calcolata da Seam, e il suo valore (in questo caso una lista di oggetti "
+#~ "customer) è restituita al metodo <literal>customersCallback()</literal>. "
+#~ "E' importante ricordare che occorre importare i tipi degli oggetti "
+#~ "restituiti in questo modo (via <literal>s:remote</literal>) per poterli "
+#~ "usare nel Javascript. Così per lavorare con una lista di oggetti "
+#~ "<literal>customer</literal>, è necessario importare il tipo "
+#~ "<literal>customer</literal>:"
+
+#~ msgid "<![CDATA[<s:remote include=\"customer\"/>]]>"
+#~ msgstr "<![CDATA[<s:remote include=\"customer\"/>]]>"
