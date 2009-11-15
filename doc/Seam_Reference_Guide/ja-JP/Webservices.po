@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-08-26 18:48+0000\n"
+"POT-Creation-Date: 2009-11-15 10:18+0000\n"
 "PO-Revision-Date: 2009-02-20 10:58-0500\n"
 "Last-Translator: kojiro miyamoto <kojiro_miyamoto@hotmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -844,8 +844,8 @@ msgstr ""
 
 #. Tag: title
 #: Webservices.xml:287
-#, no-c-format
-msgid "Resources and providers as Seam components"
+#, fuzzy, no-c-format
+msgid "Resources as Seam components"
 msgstr "Seam コンポーネントとしてのリソースとプロバイダ"
 
 #. Tag: para
@@ -867,11 +867,11 @@ msgstr ""
 
 #. Tag: para
 #: Webservices.xml:296
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"You can write resources and providers as Seam components and benefit from "
-"the richer lifecycle management of Seam, and interception for bijection, "
-"security, and so on. Simply make your resource class a Seam component:"
+"You can write resources as Seam components and benefit from the richer "
+"lifecycle management of Seam, and interception for bijection, security, and "
+"so on. Simply make your resource class a Seam component:"
 msgstr ""
 "リソースやプロバイダをSeamコンポーネントとして記述することもできます。こうす"
 "ることでSeamのより豊富なライフサイクル管理のほか、バイジェクションやセキュリ"
@@ -1074,29 +1074,41 @@ msgstr ""
 #: Webservices.xml:356
 #, no-c-format
 msgid ""
-"EJB Seam components are supported. Always annotate the local business "
-"interface, not the EJB implementation class, with JAX-RS annotations. The "
-"EJB has to be <literal>STATELESS</literal>."
+"EJB Seam components are supported as REST resources. Always annotate the "
+"local business interface, not the EJB implementation class, with JAX-RS "
+"annotations. The EJB has to be <literal>STATELESS</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:361
+#: Webservices.xml:362
 #, no-c-format
 msgid ""
-"Provider classes can also be Seam components, only <literal>APPLICATION</"
-"literal>-scoped provider components are supported. You can annotate the bean "
-"interface or implementation with JAX-RS annotations. EJB Seam components as "
-"providers are currently <emphasis>NOT</emphasis> supported, only POJOs!"
+"Sub-resources as defined in the JAX RS specification, section 3.4.1, can not "
+"be Seam component instances at this time. Only root resource classes can be "
+"registered as Seam components. In other words, do not return a Seam "
+"component instance from a root resource method."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:370
+#, no-c-format
+msgid ""
+"Provider classes can currently not be Seam components. Although you can "
+"configure an <literal>@Provider</literal> annotated class as a Seam "
+"component, it will at runtime be managed by RESTEasy as a singleton with no "
+"Seam interception, bijection, etc. The instance will not be a Seam component "
+"instance. We plan to support Seam component lifecycle for JAX-RS providers "
+"in the future."
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:370
+#: Webservices.xml:382
 #, no-c-format
 msgid "Securing resources"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:372
+#: Webservices.xml:384
 #, no-c-format
 msgid ""
 "You can enable the Seam authentication filter for HTTP Basic and Digest "
@@ -1104,7 +1116,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:377
+#: Webservices.xml:389
 #, no-c-format
 msgid ""
 "<![CDATA[<web:authentication-filter url-pattern=\"/seam/resource/rest/*\" "
@@ -1112,14 +1124,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:379
+#: Webservices.xml:391
 #, no-c-format
 msgid ""
 "See the Seam security chapter on how to write an authentication routine."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:383
+#: Webservices.xml:395
 #, no-c-format
 msgid ""
 "After successful authentication, authorization rules with the common "
@@ -1130,13 +1142,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:393
+#: Webservices.xml:405
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:395
+#: Webservices.xml:407
 #, no-c-format
 msgid ""
 "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked "
@@ -1149,7 +1161,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:403
+#: Webservices.xml:415
 #, no-c-format
 msgid ""
 "Exception handling within Seam requires that the Seam filter is executed for "
@@ -1161,7 +1173,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:410
+#: Webservices.xml:422
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1176,7 +1188,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:412
+#: Webservices.xml:424
 #, no-c-format
 msgid ""
 "To convert the unchecked <literal>UnsupportedOperationException</literal> "
@@ -1186,7 +1198,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:418
+#: Webservices.xml:430
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -1197,13 +1209,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:420
+#: Webservices.xml:432
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:424
+#: Webservices.xml:436
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
@@ -1215,7 +1227,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:426
+#: Webservices.xml:438
 #, no-c-format
 msgid ""
 "You do not have to send an HTTP error to the client if an exception occurs. "
@@ -1226,7 +1238,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:433
+#: Webservices.xml:445
 #, no-c-format
 msgid ""
 "Note that the HTTP response still passes through the servlet container, so "
@@ -1237,13 +1249,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:442
+#: Webservices.xml:454
 #, fuzzy, no-c-format
 msgid "Testing resources and providers"
 msgstr "Seam コンポーネントとしてのリソースとプロバイダ"
 
 #. Tag: para
-#: Webservices.xml:444
+#: Webservices.xml:456
 #, no-c-format
 msgid ""
 "Seam includes a unit testing utility class that helps you create unit tests "
@@ -1253,7 +1265,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:450
+#: Webservices.xml:462
 #, no-c-format
 msgid ""
 "<![CDATA[import org.jboss.seam.mock.ResourceRequestEnvironment;\n"
@@ -1310,7 +1322,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:452
+#: Webservices.xml:464
 #, no-c-format
 msgid ""
 "This test only executes local calls, it does not communicate with the "
@@ -1323,7 +1335,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:460
+#: Webservices.xml:472
 #, no-c-format
 msgid ""
 "Note that a <literal>ResourceRequest</literal> has to be executed in a "

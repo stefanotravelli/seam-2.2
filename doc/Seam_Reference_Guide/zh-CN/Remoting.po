@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-23 11:30+0000\n"
+"POT-Creation-Date: 2009-11-15 10:18+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -555,59 +555,6 @@ msgid ""
 "literal> but for non-component types. It will return the name of the type "
 "for an object instance, or <literal>null</literal> if the type is not known. "
 "The name is the fully qualified name of the type's Java class."
-msgstr ""
-
-#. Tag: title
-#: Remoting.xml:203
-#, no-c-format
-msgid "Evaluating EL Expressions"
-msgstr ""
-
-#. Tag: para
-#: Remoting.xml:205
-#, no-c-format
-msgid ""
-"Seam Remoting also supports the evaluation of EL expressions, which provides "
-"another convenient method for retrieving data from the server. Using the "
-"<literal>Seam.Remoting.eval()</literal> function, an EL expression can be "
-"remotely evaluated on the server and the resulting value returned to a "
-"client-side callback method. This function accepts two parameters, the first "
-"being the EL expression to evaluate, and the second being the callback "
-"method to invoke with the value of the expression. Here's an example:"
-msgstr ""
-
-#. Tag: programlisting
-#: Remoting.xml:213
-#, no-c-format
-msgid ""
-"<![CDATA[  function customersCallback(customers) {\n"
-"    for (var i = 0; i < customers.length; i++) {\n"
-"      alert(\"Got customer: \" + customers[i].getName());\n"
-"    }    \n"
-"  }\n"
-"    \n"
-"  Seam.Remoting.eval(\"#{customers}\", customersCallback);  \n"
-"    ]]>"
-msgstr ""
-
-#. Tag: para
-#: Remoting.xml:215
-#, no-c-format
-msgid ""
-"In this example, the expression <literal>#{customers}</literal> is evaluated "
-"by Seam, and the value of the expression (in this case a list of Customer "
-"objects) is returned to the <literal>customersCallback()</literal> method. "
-"It is important to remember that the objects returned this way must have "
-"their types imported (via <literal>s:remote</literal>) to be able to work "
-"with them in Javascript. So to work with a list of <literal>customer</"
-"literal> objects, it is required to import the <literal>customer</literal> "
-"type:"
-msgstr ""
-
-#. Tag: programlisting
-#: Remoting.xml:223
-#, no-c-format
-msgid "<![CDATA[<s:remote include=\"customer\"/>]]>"
 msgstr ""
 
 #. Tag: title
