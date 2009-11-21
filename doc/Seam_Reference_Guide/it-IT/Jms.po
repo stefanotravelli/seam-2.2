@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-06-13 23:52+0000\n"
-"PO-Revision-Date: 2009-06-14 02:28+0100\n"
+"PO-Revision-Date: 2009-11-21 21:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Quartz"
 #: Jms.xml:34
 #, no-c-format
 msgid "This chapter first covers how to leverage Seam to simplify JMS and then explains how to use the simpler asynchronous method and event facility."
-msgstr ""
+msgstr "Questo capitolo innanzitutto spiega come sfruttare Seam per semplificare JMS e quindi spiega come usare in modo semplice metodo asincrono e facility evento."
 
 #. Tag: title
 #: Jms.xml:40
@@ -71,7 +71,7 @@ msgstr "Seam facilita l'invio e la ricezione di messaggi JMS da e verso componen
 #: Jms.xml:48
 #, no-c-format
 msgid "You'll first learn to setup a queue and topic message publisher and then look at an example that illustrates how to perform the message exchange."
-msgstr ""
+msgstr "Si apprenderà come configurare una coda ed un publisher di messaggio topic e quindi si guarderà un esempio che illustri come eseguire uno scambio di messaggi."
 
 #. Tag: title
 #: Jms.xml:54
@@ -239,13 +239,13 @@ msgstr "I messaggi possono essere processati usando un qualsiasi bean message dr
 #: Jms.xml:108
 #, no-c-format
 msgid "You'll likely need to set the create attribute on the <literal>@In</literal> annotation to true (i.e. create = true) to have Seam create an instance of the component being injected. This isn't necessary if the component supports auto-creation (e.g., it's annotated with <literal>@Autocreate</literal>)."
-msgstr ""
+msgstr "Probabilmente servirà impostare a true l'attributo create nell'annotazione <literal>@In</literal> (cioè create=true) per fare creare a Seam un'istanza del componente da iniettare. Questo non è necessario se il componente supporta l'atuocreazione (ad esempio se è annotato con <literal>@Autocreate</literal>)."
 
 #. Tag: para
 #: Jms.xml:115
 #, no-c-format
 msgid "First, create an MDB to receive the message."
-msgstr ""
+msgstr "Per prima cosa creare un MDB per ricevere il messaggio."
 
 #. Tag: programlisting
 #: Jms.xml:119
@@ -282,12 +282,42 @@ msgid ""
 "   }\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@MessageDriven(activationConfig = {\n"
+"    @ActivationConfigProperty(\n"
+"        propertyName = \"destinationType\",\n"
+"        propertyValue = \"javax.jms.Queue\"\n"
+"    ),\n"
+"    @ActivationConfigProperty(\n"
+"        propertyName = \"destination\",\n"
+"        propertyValue = \"queue/paymentQueue\"\n"
+"    )\n"
+"})\n"
+"@Name(\"paymentReceiver\")\n"
+"public class PaymentReceiver implements MessageListener\n"
+"{\n"
+"   @Logger private Log log;\n"
+"\n"
+"   @In(create = true) private PaymentProcessor paymentProcessor;\n"
+"    \n"
+"   @Override\n"
+"   public void onMessage(Message message)\n"
+"   {\n"
+"      try\n"
+"      {\n"
+"         paymentProcessor.processPayment((Payment) ((ObjectMessage) message).getObject());\n"
+"      } \n"
+"      catch (JMSException ex)\n"
+"      {\n"
+"         log.error(\"Message payload did not contain a Payment object\", ex);\n"
+"      } \n"
+"   }\n"
+"}]]>"
 
 #. Tag: para
 #: Jms.xml:121
 #, no-c-format
 msgid "Then, implement the Seam component to which the receiver delegates processing of the payment."
-msgstr ""
+msgstr "Quindi implementare il componente Seam a cui il ricevitore delega il processo di pagamento."
 
 #. Tag: programlisting
 #: Jms.xml:125
