@@ -2790,9 +2790,9 @@ if (!Identity.instance().hasPermission("customer", "create"))
     <h:column>
         <f:facet name="header">Action</f:facet>
         <s:link value="Modify Client" action="#{clientAction.modify}"
-                rendered="#{s:hasPermission(cl,'modify')"/>
+                rendered="#{s:hasPermission(cl,'modify')}"/>
         <s:link value="Delete Client" action="#{clientAction.delete}"
-                rendered="#{s:hasPermission(cl,'delete')"/>
+                rendered="#{s:hasPermission(cl,'delete')}"/>
     </h:column>
 </h:dataTable>]]></programlisting>
 
@@ -3828,11 +3828,11 @@ end;
         
         <para>For example, to configure a single entity class to store both user and role permissions:</para>
         
-        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
         
         <para>To configure separate entity classes for storing user and role permissions:</para>
         
-        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
+        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
     role-permission-class="com.acme.model.RolePermission"/>]]></programlisting>        
         
         <sect4>
@@ -3966,7 +3966,7 @@ end;
                       and <literal>role</literal>, the annotation would be written like this:
                     </para>
                     
-                    <programlisting role="JAVA"><![CDATA[  @PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[@PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
                   </entry>
                 </row>                
                 
