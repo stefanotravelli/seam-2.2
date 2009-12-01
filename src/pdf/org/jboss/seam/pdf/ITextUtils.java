@@ -7,6 +7,7 @@ import java.util.Map;
 import com.lowagie.text.ElementTags;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class ITextUtils
 {
@@ -128,5 +129,20 @@ public class ITextUtils
       }
 
       return values;
+   }
+
+   public static int runDirection(String direction)
+   {
+      if (direction == null || direction.equalsIgnoreCase("default")) {
+         return PdfWriter.RUN_DIRECTION_DEFAULT;
+      } else if (direction.equalsIgnoreCase("rtl")) {
+         return PdfWriter.RUN_DIRECTION_RTL;
+      } else if (direction.equalsIgnoreCase("ltr")) {
+         return PdfWriter.RUN_DIRECTION_LTR;
+      } else if (direction.equalsIgnoreCase("no-bidi")) {
+         return PdfWriter.RUN_DIRECTION_NO_BIDI;
+      } else {
+         throw new RuntimeException("unknown run direction " + direction);
+      }
    }
 }
