@@ -24,6 +24,7 @@ package org.jboss.seam.resteasy;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.annotation.Annotation;
 import java.net.URI;
 
 import javax.ws.rs.DELETE;
@@ -73,6 +74,8 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    private Class entityIdClass = null;
    private boolean readonly;
+   
+   private static final PathParamAnnotation pathParamAnnotation = new PathParamAnnotation();
 
    /**
     * Called at component instantiation. EntityHome component must be set in
@@ -289,7 +292,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     */
    private T2 unmarshallId(String id)
    {
-      StringParameterInjector injector = new StringParameterInjector(getEntityIdClass(), getEntityIdClass(), "id", PathParam.class, null, null, SeamResteasyProviderFactory.getInstance());
+      StringParameterInjector injector = new StringParameterInjector(getEntityIdClass(), getEntityIdClass(), "id", PathParam.class, null, null, new Annotation[] {pathParamAnnotation}, SeamResteasyProviderFactory.getInstance());
       return (T2) injector.extractValue(id);
    }
 
@@ -368,5 +371,21 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    public void setEntityIdClass(Class entityIdClass)
    {
       this.entityIdClass = entityIdClass;
+   }
+   
+   /**
+    * Annotation implementation (@PathParam("id")) for providing RESTEasy with metadata. 
+    */
+   static class PathParamAnnotation implements PathParam {
+
+      public String value()
+      {
+         return "id";
+      }
+
+      public Class<? extends Annotation> annotationType()
+      {
+         return PathParam.class;
+      }
    }
 }
