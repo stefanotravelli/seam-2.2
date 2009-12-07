@@ -79,11 +79,11 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       
       List<Permission> permissions = permissionStore.listPermissions(target, action);
       
-      String username = identity.getPrincipal().getName();
+      String username = identity.getPrincipal() != null ? identity.getPrincipal().getName() : null;
       
       for (Permission permission : permissions)
       {
-         if (permission.getRecipient() instanceof SimplePrincipal &&
+         if (username != null && permission.getRecipient() instanceof SimplePrincipal &&
                username.equals(permission.getRecipient().getName()))
          {
             return true;

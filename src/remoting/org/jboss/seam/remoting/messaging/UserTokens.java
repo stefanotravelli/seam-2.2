@@ -1,5 +1,6 @@
 package org.jboss.seam.remoting.messaging;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ import org.jboss.seam.annotations.Scope;
 
 @Name("org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens")
 @Scope(ScopeType.SESSION)
-public class UserTokens
+public class UserTokens implements Serializable
 {
    Set<String> tokens = new HashSet<String>();
    
