@@ -219,7 +219,7 @@ public class RememberMe implements Serializable
       sb.append(username);
       sb.append(":");
       sb.append(value);
-      return Base64.encodeBytes(sb.toString().getBytes());      
+      return Base64.encodeBytes(sb.toString().getBytes(), Base64.DONT_BREAK_LINES);      
    }
    
    public String getCookiePath()
