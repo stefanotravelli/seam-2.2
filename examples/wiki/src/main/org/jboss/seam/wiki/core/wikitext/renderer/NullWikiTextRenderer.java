@@ -1,8 +1,7 @@
 package org.jboss.seam.wiki.core.wikitext.renderer;
 
-import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
-import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class NullWikiTextRenderer implements WikiTextRenderer {
     public void setExternalLinks(List<WikiLink> externalLinks) {}
     public String renderMacro(WikiTextMacro macro) { return null; }
     public String renderParagraphOpenTag() { return "<p>\n"; }
-    public String renderPreformattedOpenTag() { return "<pre>\n"; }
+    public String preformattedText(String text) { return "<pre>\n" + text + "</pre>\n"; }
     public String renderBlockquoteOpenTag() { return "<blockquote>\n"; }
     public String renderHeadline1(String headline) { return "<h1>"+headline+"</h1>"; }
     public String renderHeadline2(String headline) { return "<h2>"+headline+"</h2>"; }

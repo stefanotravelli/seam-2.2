@@ -15,6 +15,8 @@
     <title><h:outputText value="Seam Framework - "/><ui:insert name="screenname"/></title>
 
     <link href="#{themePath}/css/sfwk.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/shCore.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/shThemeDefault.css" rel="stylesheet" type="text/css"/>
 
     <ui:insert name="includeHeaders"/>
 
@@ -23,6 +25,33 @@
     <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqueryPlugins.js"></script>
     <script type="text/javascript" src="#{themePath}/js/lacewiki.js"></script>
+
+    <script type="text/javascript" src="#{themePath}/js/sh/scripts/shCore.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushBash.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushCpp.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushCSharp.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushCss.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushDelphi.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushDiff.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushGroovy.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushJava.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushPhp.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushPlain.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushPython.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushRuby.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushScala.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushSql.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushVb.js"></script>
+	<script type="text/javascript" src="#{themePath}/js/sh/scripts/shBrushXml.js"></script>
+
+	<script type="text/javascript">
+        /* If you really want to load the Flash garbage on every page, go ahead and enable this:
+        SyntaxHighlighter.config.clipboardSwf = '#{themePath}/js/sh/scripts/clipboard.swf';
+         */
+        SyntaxHighlighter.defaults['gutter'] = false;
+        SyntaxHighlighter.all();
+	</script>
 
     <script type="text/javascript">
 

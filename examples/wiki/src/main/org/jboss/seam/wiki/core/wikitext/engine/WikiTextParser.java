@@ -161,8 +161,8 @@ public class WikiTextParser extends SeamTextParser {
         return renderer.renderParagraphOpenTag();
     }
 
-    protected String preformattedOpenTag() {
-        return renderer.renderPreformattedOpenTag();
+    protected String preformattedText(String s) {
+        return renderer.preformattedText(s);
     }
 
     protected String blockquoteOpenTag() {

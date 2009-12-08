@@ -21,7 +21,7 @@ public interface WikiTextRenderer {
     public String renderMacro(WikiTextMacro macro);
 
     public String renderParagraphOpenTag();
-    public String renderPreformattedOpenTag();
+    public String preformattedText(String text);
     public String renderBlockquoteOpenTag();
     public String renderHeadline1(String headline);
     public String renderHeadline2(String headline);

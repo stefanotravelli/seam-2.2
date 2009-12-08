@@ -6,6 +6,8 @@ import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
 import org.jboss.seam.Component;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Convenience class that renders some sensible defaults that apply for the wiki.
@@ -13,6 +15,8 @@ import java.util.List;
  * @author Christian Bauer
  */
 public class DefaultWikiTextRenderer implements WikiTextRenderer {
+
+    public static final Pattern PREFORMATTED_OPTIONS_PATTERN = Pattern.compile("^\\[(.+?)\\]\\n(?s)(.*)");
 
     protected WikiURLRenderer wikiURLRenderer = (WikiURLRenderer) Component.getInstance(WikiURLRenderer.class);
 
@@ -56,8 +60,14 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "<p class=\"wikiPara\">\n";
     }
 
-    public String renderPreformattedOpenTag() {
-        return "<pre class=\"wikiPreformatted\">\n";
+    public String preformattedText(String text) {
+        String styleClass = "wikiPreformatted";
+        Matcher m = PREFORMATTED_OPTIONS_PATTERN.matcher(text);
+        if (m.matches()) {
+            styleClass = styleClass + " " + m.group(1);
+            text = m.group(2);
+        }
+        return "<pre class=\""+styleClass+"\">" + text + "</pre>\n";
     }
 
     public String renderBlockquoteOpenTag() {
