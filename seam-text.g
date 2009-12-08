@@ -449,8 +449,8 @@ options
         return "<p class=\"seamTextPara\">\n";
     }
 
-    protected String preformattedOpenTag() {
-        return "<pre class=\"seamTextPreformatted\">\n";
+    protected String preformattedText(String text) {
+        return "<pre class=\"seamTextPreformatted\">\n" + text + "</pre>\n";
     }
 
     protected String blockquoteOpenTag() {
@@ -515,9 +515,12 @@ blockquote: DOUBLEQUOTE { append( blockquoteOpenTag() ); }
             DOUBLEQUOTE newlineOrEof { append("</blockquote>\n"); }
     ;
     
-preformatted: BACKTICK { append( preformattedOpenTag() ); }
+preformatted: BACKTICK
+              { beginCapture(); }
               (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|newline)*
-              BACKTICK { append("</pre>"); }
+              { String text=endCapture(); }
+              { append( preformattedText(text) ); }
+              BACKTICK
     ;
     
 plain: word|punctuation|escape|space|link|macro
