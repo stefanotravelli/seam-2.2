@@ -215,29 +215,31 @@
                         </s:span>
                     </s:div>
 
-                    <s:div styleClass="entry">
-                        <div class="label"><h:outputText value="#{messages['lacewiki.label.userHome.Bio']}:"/></div>
-                        <div class="output">&#160;</div>
-                    </s:div>
-                    <ui:include src="includes/wikitext/editor/editor.xhtml">
-                        <ui:param name="textEditor" value="#{userHome.bioTextEditor}"/>
-                        <ui:param name="namingContainer" value="userHomeForm"/>
-                        <ui:param name="tabId" value="userProfileTab"/>
-                    </ui:include>
-                    <ui:include src="includes/wikitext/editor/preview.xhtml">
-                        <ui:param name="textEditor" value="#{userHome.bioTextEditor}"/>
-                        <ui:param name="baseDocument" value="#{wikiStart}"/>
-                        <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
-                    </ui:include>
+                    <s:fragment rendered="#{userHome.createdWikiNodeCount > 0}">
+                        <s:div styleClass="entry">
+                            <div class="label"><h:outputText value="#{messages['lacewiki.label.userHome.Bio']}:"/></div>
+                            <div class="output">&#160;</div>
+                        </s:div>
+                        <ui:include src="includes/wikitext/editor/editor.xhtml">
+                            <ui:param name="textEditor" value="#{userHome.bioTextEditor}"/>
+                            <ui:param name="namingContainer" value="userHomeForm"/>
+                            <ui:param name="tabId" value="userProfileTab"/>
+                        </ui:include>
+                        <ui:include src="includes/wikitext/editor/preview.xhtml">
+                            <ui:param name="textEditor" value="#{userHome.bioTextEditor}"/>
+                            <ui:param name="baseDocument" value="#{wikiStart}"/>
+                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                        </ui:include>
 
-                    <s:decorate id="websiteDecorate" template="includes/formFieldDecorate.xhtml">
-                        <ui:param name="tabId" value="userProfileTab"/>
-                        <ui:param name="fieldId" value="website"/>
-                        <ui:define name="label">#{messages['lacewiki.label.userHome.Website']}</ui:define>
-                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.website}">
-                            <a:support status="globalStatus" event="onchange" reRender="websiteDecorate" oncomplete="onAjaxRequestComplete()"/>
-                        </h:inputText>
-                    </s:decorate>
+                        <s:decorate id="websiteDecorate" template="includes/formFieldDecorate.xhtml">
+                            <ui:param name="tabId" value="userProfileTab"/>
+                            <ui:param name="fieldId" value="website"/>
+                            <ui:define name="label">#{messages['lacewiki.label.userHome.Website']}</ui:define>
+                            <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.website}">
+                                <a:support status="globalStatus" event="onchange" reRender="websiteDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            </h:inputText>
+                        </s:decorate>
+                    </s:fragment>
 
                     <s:decorate id="locationDecorate" template="includes/formFieldDecorate.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
@@ -257,20 +259,22 @@
                         </h:inputText>
                     </s:decorate>
 
-                    <s:div styleClass="entry">
-                        <div class="label"><h:outputText value="#{messages['lacewiki.label.userHome.Signature']}:"/></div>
-                        <div class="output">&#160;</div>
-                    </s:div>
-                    <ui:include src="includes/wikitext/editor/editor.xhtml">
-                        <ui:param name="textEditor" value="#{userHome.signatureTextEditor}"/>
-                        <ui:param name="namingContainer" value="userHomeForm"/>
-                        <ui:param name="tabId" value="userProfileTab"/>
-                    </ui:include>
-                    <ui:include src="includes/wikitext/editor/preview.xhtml">
-                        <ui:param name="textEditor" value="#{userHome.signatureTextEditor}"/>
-                        <ui:param name="baseDocument" value="#{wikiStart}"/>
-                        <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
-                    </ui:include>
+                    <s:fragment rendered="#{userHome.createdWikiNodeCount > 0}">
+                        <s:div styleClass="entry">
+                            <div class="label"><h:outputText value="#{messages['lacewiki.label.userHome.Signature']}:"/></div>
+                            <div class="output">&#160;</div>
+                        </s:div>
+                        <ui:include src="includes/wikitext/editor/editor.xhtml">
+                            <ui:param name="textEditor" value="#{userHome.signatureTextEditor}"/>
+                            <ui:param name="namingContainer" value="userHomeForm"/>
+                            <ui:param name="tabId" value="userProfileTab"/>
+                        </ui:include>
+                        <ui:include src="includes/wikitext/editor/preview.xhtml">
+                            <ui:param name="textEditor" value="#{userHome.signatureTextEditor}"/>
+                            <ui:param name="baseDocument" value="#{wikiStart}"/>
+                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                        </ui:include>
+                    </s:fragment>
 
                 </s:validateAll>
             </div>

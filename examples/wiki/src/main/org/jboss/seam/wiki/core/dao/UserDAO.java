@@ -100,6 +100,12 @@ public class UserDAO {
         return ratingPoints != null ? (Long)ratingPoints : 0;
     }
 
+    public Long countNodesCreatedBy(Long userId) {
+        return (Long)entityManager.createQuery("select count(n) from WikiNode n where n.createdBy.id = :userId")
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
     public void resetNodeCreatorToAdmin(User user) {
 
         User adminUser = (User) Component.getInstance("adminUser");
@@ -149,7 +155,7 @@ public class UserDAO {
         if (orderByProperty != null)
                 crit.addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty) );
 
-        return crit.setResultTransformer(new DistinctRootEntityResultTransformer());
+        return crit.setResultTransformer(DistinctRootEntityResultTransformer.INSTANCE);
     }
 
 }

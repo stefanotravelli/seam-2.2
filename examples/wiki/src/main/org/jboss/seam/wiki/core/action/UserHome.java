@@ -72,6 +72,7 @@ public class UserHome extends EntityHome<User> {
     private List<Role> roles;
     private org.jboss.seam.wiki.core.model.Role defaultRole;
     private Uploader uploader;
+    private Long createdWikiNodeCount;
     private String requestedUsername;
     private WikiTextEditor bioTextEditor;
     private WikiTextEditor signatureTextEditor;
@@ -108,6 +109,8 @@ public class UserHome extends EntityHome<User> {
             }
             if (roles == null) roles = getInstance().getRoles();
             if (oldUsername == null) oldUsername = getInstance().getUsername();
+
+            createdWikiNodeCount = userDAO.countNodesCreatedBy(getInstance().getId());
 
             uploader = (Uploader)Component.getInstance(Uploader.class);
 
@@ -216,6 +219,7 @@ public class UserHome extends EntityHome<User> {
                     "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
                 */
 
+                org.jboss.seam.core.Events.instance().raiseEvent("User.registered", getInstance());
                 org.jboss.seam.core.Events.instance().raiseEvent("User.persisted", getInstance());
             }
             return outcome;
@@ -226,11 +230,12 @@ public class UserHome extends EntityHome<User> {
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public String update() {
 
-        if (!validateWikiTextEditors()) {
-            return null;
+        if (isManaged() && getCreatedWikiNodeCount() != null && getCreatedWikiNodeCount() > 0) {
+            if (!validateWikiTextEditors()) {
+                return null;
+            }
+            syncWikiTextEditorsToInstance();
         }
-
-        syncWikiTextEditorsToInstance();
 
         if (uploader.hasData()) {
             uploader.uploadNewInstance();
@@ -506,6 +511,10 @@ public class UserHome extends EntityHome<User> {
 
     public long getRatingPoints() {
         return userDAO.findRatingPoints(getInstance().getId());
+    }
+
+    public Long getCreatedWikiNodeCount() {
+        return createdWikiNodeCount;
     }
 
     public WikiTextEditor getBioTextEditor() {
