@@ -49,7 +49,7 @@ public class UserResourceHome extends ResourceHome<User, String>
       setMediaTypes(new String[] { "application/xml", "application/json", "application/fastinfoset" });
    }
 
-   @In()
+   @In
    private EntityHome<User> userHome;
 
    @Override

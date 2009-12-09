@@ -35,7 +35,6 @@ import org.jboss.resteasy.plugins.providers.atom.Entry;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
 import org.jboss.resteasy.plugins.providers.atom.Person;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.example.tasks.ResourceNotFoundException;
 import org.jboss.seam.example.tasks.entity.Task;
@@ -69,7 +68,7 @@ public class ResolvedTaskResourceQuery extends ResourceQuery<Task>
    {
       super.create();
       List<String> restrictions = new ArrayList<String>();
-      restrictions.add("category.owner.username = #{username} AND resolved = true");
+      restrictions.add("category.owner.username = #{resolvedTaskResourceQuery.username} AND resolved = true");
       getEntityQuery().setRestrictionExpressionStrings(restrictions);
       getEntityQuery().setOrderColumn("updated");
       getEntityQuery().setOrderDirection("desc");
@@ -103,7 +102,6 @@ public class ResolvedTaskResourceQuery extends ResourceQuery<Task>
       return feed;
    }
 
-   @Factory("username")
    public String getUsername()
    {
       return username;
