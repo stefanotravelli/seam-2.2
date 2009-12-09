@@ -14,19 +14,15 @@ INSTALLATION WITH MYSQL (development profile)
 
 - Install JBoss Application Server 4.2.3 GA
 
-- Edit build.properties
-
-- Upgrade/downgrade the Hibernate libraries to the ones bundled with this application:
-  'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.3
-  and also copy the required ehcache.jar.
-  (Sorry, but no other version works currently and the 4.2.3 bundled libraries are too old.)
+- Edit build.properties and configure the path to your jboss-4.2.3-GA installation directory
 
 - Install MySQL 5.x and start it
 
 - Obtain the correct JDBC driver for your MySQL version and copy it into server/default/lib/ of JBoss AS
 
 - The 'dev' default deployment profile will use the default MySQL 'test' database with user 'test' and
-  no password, a fresh database schema will be exported to the database on each redeploy
+  no password, a fresh database schema will be exported to the database on each redeploy, you do not
+  have to do anything if these defaults are acceptable
 
 - Call 'ant deploy'
 
@@ -51,10 +47,6 @@ INSTALLATION WITH MYSQL (production profile)
 ==========================================================================================
 
 - Install JBoss Application Server 4.2.3 GA
-
-- Upgrade/downgrade the Hibernate libraries bundled with JBoss AS to the libraries bundled
-  with this application. Follow the steps outlined above (edit build.properties, call
-  'ant upgradehibernate') or copy them manually.
 
 - Install MySQL 5.x and start it
 

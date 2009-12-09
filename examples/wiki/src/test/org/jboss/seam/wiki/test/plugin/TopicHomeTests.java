@@ -29,7 +29,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
         );
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void newTopic() throws Exception {
 
         final String conversationId = new FacesRequest() {
@@ -94,7 +94,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
 
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void newStickyTopic() throws Exception {
 
         loginAdmin();
@@ -160,7 +160,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void newClosedTopic() throws Exception {
 
         loginAdmin();

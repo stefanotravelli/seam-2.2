@@ -26,7 +26,7 @@ public class ClipboardTests extends DBUnitSeamTest {
         );
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void copyPasteDocument() throws Exception {
 
         new FacesRequest("/dirDisplay_d.xhtml") {
@@ -108,7 +108,7 @@ public class ClipboardTests extends DBUnitSeamTest {
 
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void copyPasteUploadImage() throws Exception {
 
         new FacesRequest("/dirDisplay_d.xhtml") {
@@ -190,7 +190,7 @@ public class ClipboardTests extends DBUnitSeamTest {
 
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void copyPasteMultiple() throws Exception {
 
         new FacesRequest("/dirDisplay_d.xhtml") {
@@ -608,7 +608,7 @@ public class ClipboardTests extends DBUnitSeamTest {
 
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void copyPasteSameArea() throws Exception {
 
         new FacesRequest("/dirDisplay_d.xhtml") {

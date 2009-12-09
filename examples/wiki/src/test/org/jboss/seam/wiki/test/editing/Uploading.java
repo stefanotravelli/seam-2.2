@@ -22,7 +22,7 @@ public class Uploading extends DBUnitSeamTest {
         );
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void createUpload() throws Exception {
 
         final String conversationId = new NonFacesRequest("/uploadCreate_d.xhtml") {

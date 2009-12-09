@@ -165,8 +165,7 @@
                     destdir="${classes.dir}"
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
-                     nowarn="${javac.nowarn}"
-                    target="1.5">
+                     nowarn="${javac.nowarn}">
             <src path="${src.java.dir}"/>
             <src path="${src.plugin.dir}"/>
         </javac>
@@ -227,40 +226,21 @@
                 <include name="jsf-facelets.jar" />
                 <include name="commons-digester.jar"/>
                 <include name="commons-beanutils.jar"/>
-                <include name="jbpm-jpdl.jar" />
                 <include name="jboss-el.jar" />
                 <include name="urlrewritefilter.jar" />
-                <include name="itext.jar" />
                 <include name="lucene-core.jar" />
             	<include name="antlr-runtime.jar" />
-            	<include name="core.jar" />
-            	<include name="janino.jar" />
-            	<include name="mvel2.jar" />
-            	<include name="drools-decisiontables.jar"/>
-				<include name="jxl.jar"/>
-            	<include name="drools-api.jar" />
-            	<include name="drools-core.jar" />
-            	<include name="drools-compiler.jar" />
             	<include name="jboss-seam.jar" />
             	<include name="jboss-seam-debug.jar" />
-            	<include name="jboss-seam-ioc.jar" />
             	<include name="jboss-seam-mail.jar" />
-            	<include name="jboss-seam-pdf.jar" />
             	<include name="jboss-seam-remoting.jar" />
             	<include name="jboss-seam-ui.jar" />
+                <include name="slf4j*.jar" />
             </fileset>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset dir="${local.lib.dir}">
-                <exclude name="ejb3-persistence*"/>
-                <exclude name="hibernate3*"/>
                 <exclude name="hibernate-tools*"/>
-                <exclude name="hibernate-commons*"/>
-                <exclude name="hibernate-annotations*"/>
-                <exclude name="hibernate-entitymanager*"/>
-                <exclude name="hibernate-validator*"/>
-            	<exclude name="jboss-archive-browsing*"/>
-                <exclude name="ehcache*"/>
             </fileset>
         </copy>
 
@@ -400,8 +380,7 @@
                     destdir="${testclasses.dir}"
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
-                     nowarn="${javac.nowarn}"
-                     target="1.5">
+                     nowarn="${javac.nowarn}">
         	<classpath>
             	<path refid="test.classpath" />
             	<path refid="runtime.emma.path" />
@@ -467,16 +446,13 @@
 
     <target name="test" depends="configuretests,getemma"
             description="Run tests defined in *.tng.xml">
-    	<condition property="testng.file" value="AllTests-jdk6.tng.xml" else="AllTests.tng.xml">
-    		<equals arg1="${ant.java.version}" arg2="1.6"/>
-    	</condition>
         <taskdef resource="testngtasks" classpathref="test.classpath"/>
         <testng outputdir="${test.output.dir}">
             <classpath>
             	<path refid="test.classpath" />
             	<path refid="runtime.emma.path" />
             </classpath>
-            <xmlfileset dir="${src.test.dir}" includes="${testng.file}" />
+            <xmlfileset dir="${src.test.dir}" includes="AllTests.tng.xml" />
             <jvmarg line="${testng.jvmargs}"/>
 			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
         	<!-- Needed for running Embedded JBoss under JDK 6 -->

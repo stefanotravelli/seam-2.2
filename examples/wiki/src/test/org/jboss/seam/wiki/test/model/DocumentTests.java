@@ -126,7 +126,7 @@ public class DocumentTests extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void insertDocumentById() throws Exception {
         new FacesRequest() {
 

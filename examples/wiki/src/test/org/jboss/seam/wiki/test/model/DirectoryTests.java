@@ -195,7 +195,7 @@ public class DirectoryTests extends DBUnitSeamTest {
     }
     */
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void insertDirectoryById() throws Exception {
         new FacesRequest() {
 

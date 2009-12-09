@@ -91,7 +91,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void createDocument() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {

@@ -113,7 +113,7 @@ public class CommentTests extends DBUnitSeamTest {
     }
 
 
-    @Test(groups="jdk6-expected-failures")
+    @Test
     public void insertCommentNewThread() throws Exception {
         new FacesRequest() {
 
