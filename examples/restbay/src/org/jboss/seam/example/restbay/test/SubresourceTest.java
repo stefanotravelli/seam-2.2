@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 public class SubresourceTest extends SeamTest
 {
    @Test
-   public void testResourceHomeRead() throws Exception
+   public void testSubresourceGET() throws Exception
    {
       final String path = "/restv1/garage/1";
 
