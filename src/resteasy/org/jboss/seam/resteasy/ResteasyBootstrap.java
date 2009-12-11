@@ -48,6 +48,7 @@ import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -74,7 +75,7 @@ import java.util.Set;
 @Scope(ScopeType.APPLICATION)
 @Startup
 @AutoCreate
-@Install(classDependencies = "org.jboss.resteasy.spi.ResteasyProviderFactory")
+@Install(precedence = BUILT_IN, classDependencies = "org.jboss.resteasy.spi.ResteasyProviderFactory")
 public class ResteasyBootstrap
 {
 
