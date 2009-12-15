@@ -606,26 +606,27 @@ public class MyCustomerResourceBean implements MyCustomerResource {
          <title>Exposing entities via RESTful API</title>
          
          <para>
-            Seam makes it really easy to use RESTful approach for accessing application data. One of the improvements that 
-            Seam introduces is an ability to expose parts of your relational-database for remote use via plain HTTP calls. 
-            For this purpose, Seam-RESTEasy integration module provides two components: <literal>ResourceHome</literal> and 
-            <literal>ResourceQuery</literal>, which benefit from the API provided by the Seam Application Framework (<xref linkend="framework"/>)
-            and bind it to the REST API.     
+            Seam makes it really easy to use a RESTful approach for accessing application data. One of the improvements that
+            Seam introduces is the ability to expose parts of your SQL database for remote access via plain HTTP calls.
+            For this purpose, the Seam/RESTEasy integration module provides two components: <literal>ResourceHome</literal> and
+            <literal>ResourceQuery</literal>, which benefit from the API provided by the Seam Application Framework
+            (<xref linkend="framework"/>). These components allow you to bind domain model entity classes to an HTTP API.
          </para>
          
          <sect3>
-         	
          	<title>ResourceQuery</title>
          	
          	<para>
-         		ResourceQuery allows querying capabilities to be exposed as a RESTful web service. By default, a simple 
+         		ResourceQuery exposes entity querying capabilities as a RESTful web service. By default, a simple
          		underlying Query component, which returns a list of instances of a given entity class, is created automatically. 
          		Alternatively, the ResourceQuery component can be attached to an existing Query component in more sophisticated 
          		cases. The following example demonstrates how easily ResourceQuery can be configured:
          	</para>
          	
-         	<programlisting role="XML"><![CDATA[<resteasy:resource-query path="/user" name="userResourceQuery"
-entity-class="com.example.User"/>]]></programlisting>
+         	<programlisting role="XML"><![CDATA[<resteasy:resource-query
+   path="/user"
+   name="userResourceQuery"
+   entity-class="com.example.User"/>]]></programlisting>
          	
          	<para>
          		With this single XML element, a ResourceQuery component is set up. The configuration is straightforward:
@@ -639,20 +640,23 @@ entity-class="com.example.User"/>]]></programlisting>
          	 	</listitem>
            		<listitem>
 	           		<para>
-         	 			The component will listen on <literal>/user</literal> URI.
+         	 			The component will handle HTTP requests on the URI path <literal>/user</literal>.
          	 		</para>
          	 	</listitem>
          	 	<listitem>
          	 		<para>
-         	 			The component will by default marshall the result into XML or JSON (based on client's preference).
-         	 			The set of supported mime types can be altered by using <literal>media-types</literal> attribute for example:
+         	 			The component will by default transform the data into XML or JSON (based on client's preference).
+         	 			The set of supported mime types can be altered by using the <literal>media-types</literal> attribute,
+                      for example:
          	 		</para>
-         	 			
          	 	</listitem>
          	</itemizedlist>
          	 
-         	 <programlisting role="XML"><![CDATA[<resteasy:resource-query path="/user" name="userResourceQuery"
-entity-class="com.example.User" media-types="application/fastinfoset"/>]]></programlisting>
+         	 <programlisting role="XML"><![CDATA[<resteasy:resource-query
+   path="/user"
+   name="userResourceQuery"
+   entity-class="com.example.User"
+   media-types="application/fastinfoset"/>]]></programlisting>
          	
          	<para>	
 				Alternatively, if you do not like configuring components using XML, you can set up the component by extension:
@@ -665,8 +669,8 @@ public class UserResourceQuery extends ResourceQuery<User>
 }]]></programlisting>
 
 			<para>
-				Since queries are read-only operations, the resource only responds to GET requests. Furthermore, ResourceQuery allows clients 
-				of a web service to manipulate the result of a query using the following path parameters:
+				Queries are read-only operations, the resource only responds to GET requests. Furthermore, ResourceQuery allows
+            clients  of a web service to manipulate the resultset of a query using the following path parameters:
 			</para>
 			
 			<informaltable>
@@ -694,12 +698,15 @@ public class UserResourceQuery extends ResourceQuery<User>
          	</informaltable>
 			
 			<para>
-				For example, you can send an HTTP GET request to <literal>/user?start=30&amp;show=10</literal> to get a list of entries representing 10 rows starting with row 30.
+				For example, you can send an HTTP GET request to <literal>/user?start=30&amp;show=10</literal> to get a list of
+            entries representing 10 rows starting with row 30.
 			</para>
 			
 			<note>
             	<para>
-                	RESTEasy uses JAXB to marshall entities. Thus, in order to be able to transfer them over the wire, you need to annotate entity classes with <literal>@XMLRootElement</literal>.
+                	RESTEasy uses JAXB to marshall entities. Thus, in order to be able to transfer them over the wire, you
+                  need to annotate entity classes with <literal>@XMLRootElement</literal>. Consult the JAXB and
+                  RESTEasy documentation for more information.
             	</para>
          	</note>
          
@@ -710,8 +717,8 @@ public class UserResourceQuery extends ResourceQuery<User>
          	<title>ResourceHome</title>
          	
          	<para>
-         		Just as ResourceQuery makes Query's API available for remote access, so does ResourceHome  for the Home component. The following table describes 
-         		how the two APIs (HTTP and Home) are bound together.
+         		Just as ResourceQuery makes Query's API available for remote access, so does ResourceHome for the Home
+               component. The following table describes how the two APIs (HTTP and Home) are bound together.
          	</para>
          	
          	<table>
@@ -761,22 +768,26 @@ public class UserResourceQuery extends ResourceQuery<User>
                	</listitem>
                	<listitem>
                		<para>
-               			Sending a POST request to <literal>/user</literal> creates a new user entity instance and persists it. Usually, you leave it
-               			up to the persistence layer to provide the entity instance with an identifier and thus an URI. Therefore, the URI 
-               			is sent back to the client in the <literal>Location</literal> header of the HTTP response.                			 
+               			Sending a POST request to <literal>/user</literal> creates a new user entity instance and persists it.
+                        Usually, you leave it up to the persistence layer to provide the entity instance with an identifier
+                        value and thus an URI. Therefore, the URI is sent back to the client in the
+                        <literal>Location</literal> header of the HTTP response.
                		</para>
                	</listitem>
             </itemizedlist>
          	
          	<para>
          		The configuration of ResourceHome is very similar to ResourceQuery except that you need to explicitly specify the underlying 
-         		Home component and a Java type of the entity identifier.
+         		Home component and the Java type of the entity identifier property.
          	</para>
          	
-         	<programlisting role="XML"><![CDATA[<resteasy:resource-home path="/user" name="userResourceHome"
-entity-home="#{userHome}" entity-id-class="java.lang.Integer"/>]]></programlisting>
+         	<programlisting role="XML"><![CDATA[<resteasy:resource-home
+   path="/user"
+   name="userResourceHome"
+   entity-home="#{userHome}"
+   entity-id-class="java.lang.Integer"/>]]></programlisting>
          	
-         	<para>Again, you can write a subclass of ResourceHome instead of writting any XML code.</para>
+         	<para>Again, you can write a subclass of ResourceHome instead of XML:</para>
          	
          	<programlisting role="JAVA"><![CDATA[@Name("userResourceHome")
 @Path("user")
@@ -794,9 +805,10 @@ public class UserResourceHome extends ResourceHome<User, Integer>
 }]]></programlisting>
 
 			<para>
-				For more examples of how ResourceHome and ResourceQuery components can be used, take a look at the Seam Tasks sample application, which
-				demonstrates how Seam-RESTEasy integration can be used together with a jQuery client. In addition, you can find more code samples
-				in the Restbay example, which is used mainly for testing purposes. 
+				For more examples of ResourceHome and ResourceQuery components, take a look at the <emphasis>Seam Tasks</emphasis> 
+            example application, which demonstrates how Seam/RESTEasy integration can be used together with a jQuery web client.
+            In addition, you can find more code example in the <emphasis>Restbay</emphasis> example, which is used mainly
+            for testing purposes.
 			</para>
          	
          </sect3>
