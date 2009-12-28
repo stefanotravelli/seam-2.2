@@ -31,6 +31,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    private int sheetStartRow = 0;
 
    private final static String DEFAULT_COLUMN_DELIMITER = "\"";
+   private final static String DEFAULT_COLUMN_DELIMITER_REPLACEMENT = "\"\"";
    private final static String DEFAULT_LINEBREAK = "\n";
    private final static String DEFAULT_COLUMN_SEPERATOR = ",";
 
@@ -39,6 +40,10 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    private Log log = Logging.getLog(getClass());
 
+   protected String getColumnDelimeterReplacement() {
+	   return DEFAULT_COLUMN_DELIMITER_REPLACEMENT;
+   }
+  
    protected String getColumnDelimeter() {
       return DEFAULT_COLUMN_DELIMITER;
    }
@@ -83,6 +88,8 @@ public class CsvExcelWorkbook implements ExcelWorkbook
          {
             String value = table.get(hash(i, j));
             value = (value == null) ? "" : value;
+            if(value.contains(getColumnDelimeter()))
+            	value = value.replace(getColumnDelimeter(), getColumnDelimeterReplacement()); //JBSEAM-4187
             buffer.append(getColumnDelimeter()).append(value).append(getColumnDelimeter()).append(getColumnSeparator());
          }
          buffer.deleteCharAt(buffer.length() - 1);

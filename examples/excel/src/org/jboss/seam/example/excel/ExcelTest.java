@@ -34,7 +34,7 @@ public class ExcelTest
       people.add(new Person("Dan Allen", "Individual", "Seam-gen, Bug fixes"));
       people.add(new Person("Matt Drees", "Individual", "Seam Core"));
       people.add(new Person("Jacob Orshalick", "Focus IT Solutions LLC", ""));
-      people.add(new Person("Nicklas Karlsson", "Individual", "Excel reporting"));
+      people.add(new Person("Nicklas \"Nik\" Karlsson", "Individual", "Excel reporting"));
       people.add(new Person("Daniel Roth", "Individual", "Excel reporting"));
       people.add(new Person("Judy Guglielmin", "ICESoft Inc.", "ICEFaces integration"));
       people.add(new Person("Max Rydahl Andersen", "Red Hat Inc.", "Lead developer JBoss Tools, Hibernate Tools, Seam Tools"));
