@@ -27,8 +27,9 @@ final class JbpmELResolver extends ELResolver
    public Object getValue(ELContext context, Object base, Object property) 
    {
       if ( base==null && property!=null )
-      {
-         return resolver.resolveVariable( (String) base );
+      {         
+         context.setPropertyResolved(true); 
+         return resolver.resolveVariable( (String) property );
       }
       else
       {
