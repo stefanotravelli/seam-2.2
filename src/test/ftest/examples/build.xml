@@ -42,6 +42,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="jboss4.deploy.target" value="deploy" />
 	<property name="jboss5.deploy.target" value="${jboss4.deploy.target}" />
 	<property name="jboss4.undeploy.target" value="undeploy" />
+	<property name="jboss5.farm.target" value="farm" />
+	<property name="jboss5.unfarm.target" value="unfarm" />
 	<property name="jboss5.undeploy.target" value="${jboss4.undeploy.target}" />
 	<property name="jboss-embedded.deploy.target" value="tomcat.deploy" />
 	<property name="jboss-embedded.undeploy.target" value="tomcat.undeploy" />
@@ -111,10 +113,19 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="selenium.test" depends="build, container.properties" description="Run Tests">
 		<taskdef resource="testngtasks" classpathref="classpath.test" />
 		<mkdir dir="${test.output.dir}" />
-
+		
+		<condition property="clusterxml" value="cluster">
+		      <equals arg1="${cluster}" arg2="true"/>
+		</condition>
+		<condition property="clusterxml" value="">
+			  <not>
+			  	<equals arg1="${cluster}" arg2="true"/>
+			  </not>				
+		</condition>
+		
 		<!-- execute testng tests -->
 		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test" listener="${functional.listener}">
-			<xmlfileset file="${container}.xml" />
+			<xmlfileset file="${container}${clusterxml}.xml" />
 			<sysproperty key="selenium.server.port" value="${selenium.server.port}" />
 			<sysproperty key="selenium.host" value="${selenium.host}" />
 			<sysproperty key="selenium.browser" value="${selenium.browser}" />
@@ -125,13 +136,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<sysproperty key="openid.account" value="${openid.account}" />
 			<sysproperty key="openid.password" value="${openid.password}" />
 			<sysproperty key="seam.dir" value="${seam.dir}" />
+			<sysproperty key="jboss.home" value="${jboss.home}" />
 		</testng>
 	</target>
 
-	<target name="test" depends="build, container.properties" description="Run Tests">
+	<target name="simpletest" depends="build, container.properties" description="Run Tests" unless="cluster">
 		<!-- TODO all of these jboss commands must be optional with checks -->
 		<!-- TODO  go get JBoss and extract -->
-
+		<echo message="executing..."/>
 		<!-- TODO start JBoss -->
 		<!-- clean example -->
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
@@ -148,7 +160,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<!-- TODO stop jboss -->
 
 		<!-- TODO remove jboss -->
+	</target> 
+	
+	<target name="clustertest" depends="build, container.properties" description="Run Tests in a cluster environment" if="cluster">
+			<echo message="executing..."/>
+			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+			<antcall target="farm.example" />
+			<antcall target="selenium.test" />
+			<antcall target="unfarm.example" />
 	</target>
+	
+	<target name="test" depends="simpletest, clustertest"/>
 
 	<!-- TODO get this to next level too - how to combine into one report -->
 	<target name="testreport" depends="test" description="generate html report">
@@ -181,6 +203,27 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			</and>
 		</waitfor>
 	</target>
+	
+	<target name="farm.example" depends="container.properties">
+			<property name="absolute.wait.url" value="${selenium.browser.url.cluster}${wait.url}" />
+			<echo>Deploying ${example.name} example to farm directory of ${container} using ${farm.target} target</echo>
+			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${farm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+				<property name="jboss.home" value="${container.home}" />
+				<property name="tomcat.home" value="${container.home}" />				
+				<property name="session.replication" value="true" />
+				<property name="distributable" value="true" />				
+				<propertyset refid="deploy.properties" />
+			</ant>
+			<!-- wait for the application to be active -->
+			<!-- TODO is there a better way? -->
+			<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
+			<waitfor maxwait="${wait.time}" maxwaitunit="second">
+				<and>
+					<!-- wait for the application to not throw 404 -->
+					<http url="${absolute.wait.url}" errorsBeginAt="404" />
+				</and>
+			</waitfor>
+		</target>
 
 	<target name="undeploy.example" depends="container.properties">
 		<echo>Undeploying example ${example.name} from ${container} using ${undeploy.target} target</echo>
@@ -188,6 +231,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<property name="jboss.home" value="${container.home}" />
 			<property name="tomcat.home" value="${container.home}" />
 		</ant>
+	</target>
+	
+	<target name="unfarm.example" depends="container.properties">
+			<echo>Undeploying example ${example.name} from farm directory of ${container} using ${unfarm.target} target</echo>
+			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${unfarm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+				<property name="jboss.home" value="${container.home}" />
+				<property name="tomcat.home" value="${container.home}" />
+			</ant>
 	</target>
 
 	<target name="container.properties" depends="set.deploy.properties" unless="container.home">
@@ -202,6 +253,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<property name="container.profile" value="${@{container}.profile}" />
 			<property name="container.jvm.arguments" value="${@{container}.jvm.arguments}" />
 			<property name="deploy.target" value="${@{container}.deploy.target}" />
+			<property name="farm.target" value="${@{container}.farm.target}" />
+			<property name="unfarm.target" value="${@{container}.unfarm.target}" />
 			<property name="undeploy.target" value="${@{container}.undeploy.target}" />
 			<property name="context.path" value="${@{container}.context.path}" />
 			<property name="wait.url" value="${context.path}" />

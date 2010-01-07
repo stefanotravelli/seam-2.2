@@ -43,6 +43,27 @@ How To:
   * "ant test.jboss4 -Dtest=example_name" for JBoss AS 4.2
   * "ant test.jboss-embedded -Dtest=example_name" for Tomcat + JBoss Embedded
   * "ant test.tomcat6 -Dtest=example_name" for Tomcat6
+  
+How To Test Cluster Environment:
+--------------------------------
+* Currently there is one test for cluster environment - booking. The main goal of this test is
+* to simulate recovery from breakdown. Two instances of JBoss AS are being used. First part of 
+* the test is executed at first (master) instance. Then the first instance is killed and a second (slave)
+* instance takes over executing of the application. 
+* This test should be executed autonomously (not as a part of test bundle).
+
+* Prior to executing of this test it is needed to start both JBoss AS instances manually. 
+* For example (assuming you have created second "all" configuration ("all2")):
+* JBOSS_HOME/bin/run.sh -c all -g DocsPartition -u 239.255.101.101 -b localhost -Djboss.messaging.ServerPeerID=1 
+* -Djboss.service.binding.set=ports-default
+* JBOSS_HOME/bin/run.sh -c all2 -g DocsPartition -u 239.255.101.101 -b localhost -Djboss.messaging.ServerPeerID=2
+* -Djboss.service.binding.set=ports-01
+* The configuration "all" is considered to be master jboss instance (related to 
+* jboss.service.binding.set=ports-default) and the application is deployed to server/all/farm 
+* directory at "jboss5.home" location specified in ftest.properties
+ 
+To run cluster test for booking example:
+ant test -Dtest=booking -Dcluster=true
 
 Known Limitations:
 ---------------------

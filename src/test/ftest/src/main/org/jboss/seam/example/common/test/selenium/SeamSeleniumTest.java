@@ -40,11 +40,11 @@ import org.testng.annotations.Parameters;
  */
 public abstract class SeamSeleniumTest {
 
-    private static String HOST;
-    private static int PORT;
-    private static String BROWSER;
-    private static String BROWSER_URL;
-    private static String SPEED;
+    protected static String HOST;
+    protected static int PORT;
+    protected static String BROWSER;
+    protected static String BROWSER_URL;
+    protected static String SPEED;
     public static String TIMEOUT;
     private static String PROPERTY_FILE;
     protected String CONTEXT_PATH = "";
@@ -54,6 +54,8 @@ public abstract class SeamSeleniumTest {
     protected static String SEAM_DIR;
     protected static String APP_NAME;
     protected static String OUTPUT_DIR;
+    protected static String JBOSS_HOME;
+    
     
     //protected SeamSelenium
     public static SeamSelenium browser;
@@ -61,9 +63,9 @@ public abstract class SeamSeleniumTest {
     @BeforeClass
     @Parameters( { "selenium.host", "selenium.server.port", "selenium.browser",
             "selenium.browser.url", "selenium.speed", "selenium.timeout",
-            "PROPERTY_FILE", "example.context.path", "seam.dir" })
+            "PROPERTY_FILE", "example.context.path", "seam.dir", "jboss.home" })
     public void setParameters(String host, String port, String browser,
-            String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath, String seamDir) {
+            String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath, String seamDir, String jbossHome) {
         HOST = host;
         PORT = Integer.parseInt(port);
         BROWSER = browser;
@@ -74,6 +76,7 @@ public abstract class SeamSeleniumTest {
         CONTEXT_PATH = APP_NAME = contextPath;
         SEAM_DIR = seamDir;
         OUTPUT_DIR = SEAM_DIR + "/test-output/functional-framework";
+        JBOSS_HOME = jbossHome;
     }
 
     @BeforeMethod
