@@ -388,6 +388,50 @@
 
                             </entry>
                         </row>
+<row>
+                            <entry valign="top">
+                                <para>
+                                    <literal>&lt;p:textcolumn&gt;</literal>
+                                </para>
+                            </entry>
+                            <entry valign="top">
+                                <para>
+                                    <emphasis>Description</emphasis>
+                                </para>
+                                <para><literal>p:textcolumn</literal> inserts a text column that can
+                                    be used to control the flow of text.  The most common case is to
+                                    support right to left direction fonts.</para>
+                                <para>
+                                    <emphasis>Attributes</emphasis>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para><literal>left</literal> &#8212; The left bounds of
+                                                the text column</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para><literal>right</literal> &#8212; The right bounds
+                                                of the text column</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para><literal>direction</literal> &#8212; The run direction
+                                                of the text in the column: <literal>RTL</literal>,
+                                                  <literal>LTR</literal>, <literal
+                                                >NO-BIDI</literal>, <literal>DEFAULT</literal>
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </para>
+                                <para>
+                                    <emphasis>Usage</emphasis>
+                                </para>
+                                <programlisting role="XHTML"><![CDATA[
+<p:textcolumn left="400" right="600" direction="rtl"> 
+    <p:font name="/Library/Fonts/Arial Unicode.ttf" 
+            encoding="Identity-H" 
+            embedded="true">#{phrases.arabic}</p:font> 
+</p:textcolumn>]]></programlisting>
+                            </entry>
+                        </row>
                         <row>
                             <entry valign="top">
                                 <para>
