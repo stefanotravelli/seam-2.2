@@ -10,6 +10,7 @@ public class UISection extends ITextComponent
    Section section;
    Integer numberDepth;
    String sectionTitle;
+   boolean newPage = false;
 
    public void setNumberDepth(Integer numberDepth)
    {
@@ -20,6 +21,17 @@ public class UISection extends ITextComponent
    {
       this.sectionTitle = sectionTitle;
    }
+   
+   public boolean getNewPage()
+   {
+      return (Boolean) valueBinding("newPage", newPage);
+   }
+   
+   public void setNewPage(boolean newPage)
+   {
+      this.newPage = newPage;
+   }
+    
     
    public Section getSection()
    {
@@ -66,8 +78,10 @@ public class UISection extends ITextComponent
       sectionTitle = (String) valueBinding(context, "sectionTitle", sectionTitle);
       if (sectionTitle != null)
       {
-         section.setBookmarkTitle(sectionTitle);
+         section.setBookmarkTitle(sectionTitle);         
       }
+      
+      section.setTriggerNewPage(getNewPage());
    }
 
    private int countSectionParents(UISection component, int level)

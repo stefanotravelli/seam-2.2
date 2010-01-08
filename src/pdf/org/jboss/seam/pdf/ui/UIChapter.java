@@ -41,5 +41,7 @@ public class UIChapter extends UISection
       if (chapterTitle != null) {
           section.setBookmarkTitle(chapterTitle);
       }
+      
+      section.setTriggerNewPage(getNewPage());
    }
 }
