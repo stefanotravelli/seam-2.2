@@ -249,6 +249,26 @@ Example verification
   - jpa
   - hibernate
   
+Testing of Cluster
+------------------  
+Currently testing of cluster environment is done through one automated test of booking example.
+The main goal of this test is to simulate recovery from breakdown. 
+This test should be executed autonomously (not as a part of test bundle).
+To run the test follow these steps:
+1) Specify jboss5.home property in src/test/ftest/ftest.properties to point to your JBoss server folder
+2) Create second "all" configuration of your JBossAS instance (name it for instance "all2")
+3) Start first (master) instance of JBossAS: 
+	JBOSS_HOME/bin/run.sh -c all -g DocsPartition -u 239.255.101.101 -b localhost -Djboss.messaging.ServerPeerID=1 
+	-Djboss.service.binding.set=ports-default
+4) Start second (slave) instance of JBossAS:
+	JBOSS_HOME/bin/run.sh -c all2 -g DocsPartition -u 239.255.101.101 -b localhost -Djboss.messaging.ServerPeerID=2
+	-Djboss.service.binding.set=ports-01
+5) Go to src/test/ftest directory and run:
+	ant test -Dtest=booking -Dcluster=true
+
+** A booking example is configured to run in cluster only on JBoss server. **
+
+  
 JBDS and seam-gen verification
 ------------------------------
 These tests use a stable version of MySQL and the latest release of JBDS.  Be sure
