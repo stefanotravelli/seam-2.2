@@ -178,7 +178,8 @@ Building and Checking Dist
     
     - Delete or rename to original dist.
     - Rename the "*.orig" back to the original name
- 
+
+
 Example verification
 --------------------
 * The list of examples below is extensive, and testing may not touch each.
@@ -199,8 +200,8 @@ Example verification
     - document should be validated as well
     - including tomcat deployments
 * Edit the $dist/build.properties and set the jboss.home and tomcat.home
-    - JBoss AS 4.2.3.GA and Tomcat 6.X
-* JBoss 4.2.3 examples
+    - JBoss AS 5.1.0.GA and Tomcat 6.X
+* JBoss 5.1.0 examples
   - blog (tutorial)
   - booking (tutorial)
   - contactlist
@@ -248,7 +249,103 @@ Example verification
   - jee5
   - jpa
   - hibernate
-  
+
+
+Functional tests of Seam examples
+---------------------------------
+The functionality of most examples can be verified by automated tests. There are also jobs
+at Hudson system which run the testsuites periodically. 
+   
+* JBoss 5.1.0 examples
+  The following examples are tested automatically:
+	
+	* blog (tutorial)
+	* booking (tutorial)
+	* contactlist
+	* drools
+	* dvdstore (tutorial)
+	* groovybooking
+	* hibernate (tutorial)
+	* jee5/booking
+	* jpa
+	* messages (tutorial)
+	* nestedbooking
+	* numberguess (tutorial)
+	* openid (need to set properties openid.account and openid.password in ftest.properties file)
+	* quartz
+	* registration (tutorial)
+	* remoting/helloworld
+	* remoting/gwt
+	* remoting/chatroom
+	* seambay
+	* seamdiscs
+	* seampay
+	* seamspace
+	* spring
+	* toto (tutorial)
+	* ui (except the s:resource/download link)
+
+  The testsuite also verifies ability to deploy of the following examples:
+	
+	* excel
+	* itext
+	* mail
+	* ui
+    
+  The following sample applications have to be verified manually:
+   
+	* excel
+	* itext	
+	* mail
+	* nestedbooking (only nested conversation part)
+	* ui (only s:resource/download link)
+   
+  All automated tests are executed from src/test/ftest directory.
+  	* To run the automated tests:
+	  ant testall.jboss5
+	* To test examples manually:
+	  ant deploy (in SEAM_DIR/examples/<example_name>/)
+	  ...test manually
+	  ant undeploy
+        
+* Tomcat 6 examples (with JBoss embedded)
+  The following examples are tested (automatically):
+	
+	* blog (tutorial)
+	* booking (tutorial)
+	* dvdstore (tutorial)
+	* hibernate (tutorial)
+	* jpa
+	* messages (tutorial)
+	* numberguess (tutorial)
+	* registration (tutorial)
+	* seambay
+	* seampay
+	* todo (tutorial)
+	 
+  All automated tests are executed from src/test/ftest directory.
+	* To run the automated tests:
+	  ant testall.jboss-embedded 
+	 
+* Tomcat 6 examples (without JBoss embedded)
+  The following examples are tested (automatically):
+	
+	* hibernate (tutorial)
+	* jpa
+	 
+All automated tests are executed from src/test/ftest directory.
+	* To run the automated tests:
+	  ant testall.tomcat6
+
+Most of the examples can be tested automatically also with JBoss 4.x. However there are exceptions 
+(the newest functional test were tested only on JBoss 5.x and later). The automated test can
+be executed with JBoss 4.x if there is a file jboss4.xml at src/test/ftest/examples/<example_name>/
+directory)
+
+	* To run the automated tests with JBoss 4.x:
+	  ant testall.jboss4
+
+ 
 Testing of Cluster
 ------------------  
 Currently testing of cluster environment is done through one automated test of booking example.
