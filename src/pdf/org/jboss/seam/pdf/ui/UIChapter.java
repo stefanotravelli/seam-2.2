@@ -8,7 +8,7 @@ public class UIChapter extends UISection
    public static final String COMPONENT_TYPE = "org.jboss.seam.pdf.ui.UIChapter";
 
    Integer number = 1;
-   Integer numberDepth = 1;
+   String chapterTitle;
 
    public Chapter getChapter()
    {
@@ -18,11 +18,6 @@ public class UIChapter extends UISection
    public void setNumber(Integer number)
    {
       this.number = number;
-   }
-   
-   public void setNumberDepth(Integer numberDepth)
-   {
-      this.numberDepth = numberDepth;
    }
 
    @Override
@@ -38,7 +33,13 @@ public class UIChapter extends UISection
    {
       number = (Integer) valueBinding(context, "number", number);
       numberDepth = (Integer) valueBinding(context, "numberDepth", numberDepth);
+      chapterTitle = (String) valueBinding(context, "chapterTitle", chapterTitle);
+
       section = new Chapter("", number);
       section.setNumberDepth(numberDepth);
+      
+      if (chapterTitle != null) {
+          section.setBookmarkTitle(chapterTitle);
+      }
    }
 }

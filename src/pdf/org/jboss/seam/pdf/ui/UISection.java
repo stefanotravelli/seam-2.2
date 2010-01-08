@@ -9,12 +9,18 @@ public class UISection extends ITextComponent
 
    Section section;
    Integer numberDepth;
+   String sectionTitle;
 
    public void setNumberDepth(Integer numberDepth)
    {
       this.numberDepth = numberDepth;
    }
-
+      
+   public void setSectionTitle(String sectionTitle)
+   {
+      this.sectionTitle = sectionTitle;
+   }
+    
    public Section getSection()
    {
       return section;
@@ -56,6 +62,12 @@ public class UISection extends ITextComponent
       }
 
       section = sectionParent.addSection(new Paragraph(""), numberDepth);
+      
+      sectionTitle = (String) valueBinding(context, "sectionTitle", sectionTitle);
+      if (sectionTitle != null)
+      {
+         section.setBookmarkTitle(sectionTitle);
+      }
    }
 
    private int countSectionParents(UISection component, int level)
