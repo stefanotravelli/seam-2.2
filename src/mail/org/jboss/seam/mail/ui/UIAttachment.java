@@ -164,7 +164,10 @@ public class UIAttachment extends MailComponent implements ValueHolder
             MimeBodyPart attachment = new MimeBodyPart();
             // Need to manually set the contentid
             String contentId = RandomStringUtils.randomAlphabetic(20).toLowerCase();
-            attachment.setContentID(new Header("<" + contentId + ">").getSanitizedValue());
+            if(disposition.equals("inline"))
+            {
+               attachment.setContentID(new Header("<" + contentId + ">").getSanitizedValue());
+            }
             attachment.setDataHandler(new DataHandler(ds));
             attachment.setFileName(new Header(getName(ds.getName())).getSanitizedValue());
             attachment.setDisposition(new Header(getDisposition()).getSanitizedValue());
@@ -172,7 +175,10 @@ public class UIAttachment extends MailComponent implements ValueHolder
             if (getStatus() != null)
             {
                AttachmentStatus attachmentStatus = new AttachmentStatus();
-               attachmentStatus.setContentId(contentId);
+               if(disposition.equals("inline"))
+               {
+                  attachmentStatus.setContentId(contentId);
+               }
                Contexts.getEventContext().set(getStatus(), attachmentStatus);
             }
          }
