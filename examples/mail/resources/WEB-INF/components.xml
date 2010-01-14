@@ -13,10 +13,10 @@
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
         
      <!-- If you need to alter the SMTP gateway, comment out this mail-session, -->
-    <mail:mail-session host="localhost" port="2525" username="test" password="test" />
+     <!--<mail:mail-session host="localhost" port="2525" /> -->
     
     <!-- uncomment this one and set the host attribute to the name or IP address of your SMTP gateway-->
-    <!-- <mail:mail-session host="smtp.foo.com" />-->
+    <mail:mail-session host="localhost" tls="false" port="2525" ssl="false" />
     
     <!-- Configure meldware -->
     <mail:meldware>
@@ -28,5 +28,5 @@
     <!-- Meldware users -->
     
    	<mail:meldware-user name="meldwareUser.test" username="test" password="test" />
-   
+	
 </components>

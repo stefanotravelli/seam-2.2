@@ -17,23 +17,23 @@
     <p>Welcome to the Seam Email example.  This example demonstrates Seam's email templating.</p>
     <p>You need to enter a name and email address to receive the example emails in the form below.</p>
     
-    <h:form>
+    <h:form id="emailform" >
         <h:panelGrid columns="2">
             <h:outputText value="Name" />
             <h:panelGroup>
-                <h:inputText value="#{person.firstname}" required="true" />
-                <h:inputText value="#{person.lastname}" required="true" />
+                <h:inputText value="#{person.firstname}" required="true" id="firstname" />
+                <h:inputText value="#{person.lastname}" required="true" id="lastname" />
             </h:panelGroup>
             <h:outputText value="Email Address" />
-            <h:inputText value="#{person.address}" required="true"/>
+            <h:inputText value="#{person.address}" required="true" id="address" />
         </h:panelGrid>
         <h:panelGrid>
-	        <h:commandButton action="#{mailExample.send}" value="Send a simple email" />
-	        <h:commandButton action="#{mailExample.sendPlain}" value="Send Plain Text Email" />
-	        <h:commandButton action="#{mailExample.sendHtml}" value="Send HTML Email" />
-	        <h:commandButton action="#{mailExample.sendAttachment}" value="Send a simple email with attachment" />
-	        <h:commandButton action="#{mailExample.sendAsynchronous}" value="Send a simple email asynchronously" />
-	        <h:commandButton action="#{mailExample.sendTemplate}" value="Send a templated email" />
+	        <h:commandButton action="#{mailExample.send}" id="sendSimple" value="Send a simple email" />
+	        <h:commandButton action="#{mailExample.sendPlain}" id="sendPlain" value="Send Plain Text Email" />
+	        <h:commandButton action="#{mailExample.sendHtml}" id="sendHtml" value="Send HTML Email" />
+	        <h:commandButton action="#{mailExample.sendAttachment}" id="sendAttachment" value="Send a simple email with attachment" />
+	        <h:commandButton action="#{mailExample.sendAsynchronous}" id="sendAsynchronous" value="Send a simple email asynchronously" />
+	        <h:commandButton action="#{mailExample.sendTemplate}" id="sendTemplate" value="Send a templated email" />
         </h:panelGrid>
         <h:messages infoStyle="info" errorStyle="error" fatalStyle="fatal" warnStyle="warn" />
     </h:form>
@@ -47,7 +47,7 @@
     				Name
     			</td>
     			<td>
-    				<input name="name" />
+    				<input name="name" id="name" />
     			</td>
     		</tr>
     		<tr>
@@ -55,13 +55,13 @@
     				Email Address
     			</td>
     			<td>
-    				<input name="email" />
+    				<input name="email" id="email" />
     			</td>
     		</tr>
     		<tr>
     			<td></td>
     			<td>
-    				<input type="submit" value="Send" />
+    				<input type="submit" value="Send" id="sendServlet" />
     			</td>
     		</tr>
     	</table>
