@@ -20,6 +20,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -48,6 +50,8 @@ public class LocaleConfig
    private String defaultLocale;
 
    private List<String> supportedLocales;
+   
+   private static final LogProvider log = Logging.getLogProvider(LocaleConfig.class);
 
    @Create
    public void initLocaleConfig()
@@ -86,6 +90,7 @@ public class LocaleConfig
    public void setDefaultLocale(String defaultLocale)
    {
       this.defaultLocale = defaultLocale;
+      log.debug("Default locale was set to " + this.defaultLocale);
    }
 
    public List<String> getSupportedLocales()
@@ -96,6 +101,7 @@ public class LocaleConfig
    public void setSupportedLocales(List<String> supportedLocales)
    {
       this.supportedLocales = supportedLocales;
+      log.debug("Supported locales are " + this.supportedLocales);
    }
 
    public static LocaleConfig instance()
@@ -138,6 +144,7 @@ public class LocaleConfig
       }
       catch (IllegalStateException e)
       {
+         log.warn("JSF is not properly initialized, see http://jira.jboss.org/jira/browse/JBSEAM-4401");
          // just in case, for units and the like
          // if we can't do it, it just wan't meant to be
          return null;
