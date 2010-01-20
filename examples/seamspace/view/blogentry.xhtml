@@ -17,7 +17,7 @@
       <s:div rendered="#{selectedBlog != null}">
       
         <s:div id="blogMemberCard">	        
-	        <s:link view="/profile.xhtml" propagation="none">
+	        <s:link view="/profile.seam" propagation="none">
 	          #{selectedMember.memberName}<br/>
               <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          
 	        </s:link>
@@ -34,7 +34,7 @@
               <s:span rendered="#{s:hasPermission(selectedBlog, 'create')}">              
                 [<s:link action="#{commentAction.createComment}" value="Add Comment"/>]
               </s:span>
-              [<s:link view="/blog.xhtml" value="View all blog entries" propagation="none">
+              [<s:link view="/blog.seam" value="View all blog entries" propagation="none">
                  <f:param name="name" value="#{selectedMember.memberName}"/>
                </s:link>]
             </div>
@@ -44,7 +44,7 @@
 	          <table class="blogComment">
 	            <tr>
 		            <td class="blogCommentor">					        
-					        <s:link view="/profile.xhtml" propagation="none">
+					        <s:link view="/profile.seam" propagation="none">
 					          <f:param name="name" value="#{comment.commentor.memberName}"/>
 					          #{comment.commentor.memberName}<br/>
 					          <h:graphicImage value="/content/images?id=#{comment.commentor.picture.imageId}&amp;width=90"/>
@@ -54,7 +54,7 @@
 		            <td class="blogCommentText">
 		              <p><s:formattedText value="#{comment.comment}"/></p>
 		              <p>Posted by 					          
-					          <s:link view="/profile.xhtml" value="#{comment.commentor.memberName}" propagation="none">
+					          <s:link view="/profile.seam" value="#{comment.commentor.memberName}" propagation="none">
 					            <f:param name="name" value="#{comment.commentor.memberName}"/>
 					          </s:link> on #{comment.formattedCommentDate}
   					      </p>
