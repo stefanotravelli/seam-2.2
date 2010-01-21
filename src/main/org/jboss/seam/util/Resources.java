@@ -139,6 +139,18 @@ public class Resources
        }       
    }
    
+   public static void closeReader(java.io.Reader reader) {
+      if (reader == null) {
+          return;
+      }
+      
+      try {
+          reader.close();
+      } catch (IOException e) {
+         // 
+      }       
+  }
+   
    public static File getRealFile(ServletContext servletContext, String path)
    {
       String realPath = servletContext.getRealPath(path);

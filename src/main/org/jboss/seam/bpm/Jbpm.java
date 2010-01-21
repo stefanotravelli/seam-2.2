@@ -3,6 +3,7 @@ package org.jboss.seam.bpm;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +18,6 @@ import javax.naming.NamingException;
 import org.dom4j.Element;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Environment;
-import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -225,12 +225,13 @@ public class Jbpm
     */
    public ProcessDefinition getPageflowDefinitionFromXml(String pageflowDefinition)
    {
-      InputStream stream = null;
+      Reader reader = null;
       try {
-          stream = new ReaderInputStream(new StringReader(pageflowDefinition));
-          return Jbpm.parseInputSource(new InputSource(stream));
+          reader = new StringReader(pageflowDefinition);
+          //stream = new ReaderInputStream(new StringReader(pageflowDefinition));
+          return Jbpm.parseReaderSource(reader);
       } finally {
-          Resources.closeStream(stream);
+          Resources.closeReader(reader);
       }       
    }
    
@@ -241,12 +242,14 @@ public class Jbpm
     */
    public ProcessDefinition getProcessDefinitionFromXml(String processDefinition)
    {
-       InputStream stream = null;
+       //InputStream stream = null;
+      Reader reader = null;
        try {
-           stream = new ReaderInputStream(new StringReader(processDefinition));
-           return ProcessDefinition.parseXmlInputStream(stream);
+           //stream = new ReaderInputStream(new StringReader(processDefinition));
+           reader =  new StringReader(processDefinition);
+           return ProcessDefinition.parseXmlReader(reader);
        } finally {
-           Resources.closeStream(stream);
+           Resources.closeReader(reader);
        }
    }
    
@@ -357,6 +360,19 @@ public class Jbpm
       try 
       {
          return new PageflowParser(inputSource).readProcessDefinition();
+      }
+      finally 
+      {
+         jbpmContext.close();
+      }
+   }
+   
+   public static ProcessDefinition parseReaderSource(Reader reader) 
+   {
+      JbpmContext jbpmContext = createPageflowContext();
+      try 
+      {
+         return new PageflowParser(reader).readProcessDefinition();
       }
       finally 
       {
