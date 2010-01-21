@@ -41,7 +41,11 @@ public class QueryTest
       query.parseEjbql();
       // TODO this should eventually become count(v.person)
       assertEquals(query.getCountEjbql(), "select count(*) from Vehicle v left join v.person");
-
+      
+      query.setEjbql("select v.person, v.color from Vehicle v");
+      query.parseEjbql();
+      assertEquals(query.getCountEjbql(), "select count(*) from Vehicle v");
+      
       query = new CompliantUnitQuery();
       query.setEjbql("select p from Person p");
       query.parseEjbql();
