@@ -37,7 +37,7 @@ import org.jboss.seam.log.Logging;
 @Scope(ScopeType.EVENT)
 @Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.transaction.ejbTransaction")
 @BypassInterceptors
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSynchronization
 {
    private static final LogProvider log = Logging.getLogProvider(EjbSynchronizations.class);
