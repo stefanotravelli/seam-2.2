@@ -28,7 +28,7 @@ import org.jboss.seam.persistence.QueryParser;
 public abstract class Query<T, E> 
       extends PersistenceController<T> //TODO: extend MutableController!
 {
-   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select (\\w+((\\s+|\\.)\\w+)*)\\s+from", Pattern.CASE_INSENSITIVE);
+   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select\\s+(\\w+(?:\\s*\\.\\s*\\w+)*?)(?:\\s*,\\s*(\\w+(?:\\s*\\.\\s*\\w+)*?))*?\\s+from", Pattern.CASE_INSENSITIVE); 
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s",       Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
