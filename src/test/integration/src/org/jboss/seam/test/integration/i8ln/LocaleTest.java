@@ -66,9 +66,9 @@ public class LocaleTest extends SeamTest
           
             LocaleSelector.instance().setLocaleString(Locale.FRANCE.toString());
             
-            LocaleSelector.instance().getLanguage().equals(Locale.FRANCE.getLanguage());
-            LocaleSelector.instance().getCountry().equals(Locale.FRANCE.getCountry());
-            LocaleSelector.instance().getVariant().equals(Locale.FRANCE.getVariant());
+            assert LocaleSelector.instance().getLanguage().equals(Locale.FRANCE.getLanguage());
+            assert LocaleSelector.instance().getCountry().equals(Locale.FRANCE.getCountry());
+            assert LocaleSelector.instance().getVariant().equals(Locale.FRANCE.getVariant());
             
             assert org.jboss.seam.international.Locale.instance().equals(Locale.FRANCE);
             assert LocaleSelector.instance().getLocaleString().equals(Locale.FRANCE.toString());
