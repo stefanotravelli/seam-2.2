@@ -189,9 +189,9 @@
 
 	<target name="initcore" depends="init">
 		<init classesdir="${classes.core.dir}" srcdir="${src.core.dir}" modulename="core" pom="${core.pom}" />
-		<inlineDependencies id="jbosscache2" scope="compile">
+		<!-- <inlineDependencies id="jbosscache2" scope="compile">
 			<dependency groupId="org.jboss.cache" artifactId="jbosscache-core" version="2.2.0.CR6" />
-	   </inlineDependencies>
+	   </inlineDependencies> -->
 	</target>
 
 	<target name="antlr" depends="initcore" description="Generate ANTLR parser">
@@ -216,7 +216,7 @@
 	   </compile>
 		<!-- Fiddle to make sure we compile the JBossCache2 stuff with JBossCache2" -->
 		<path id="compile.core-jbosscache2.path">
-         <path refid="compile.jbosscache2.path" />
+         <!-- <path refid="compile.jbosscache2.path" /> -->
          <path refid="compile.core.path" />
          <fileset dir="${classes.core.dir}" />
       </path>
