@@ -38,13 +38,11 @@ public class WicketStatusMessages extends StatusMessages
    public static WicketStatusMessages instance()
    {
       Component component = Component.forName(StatusMessages.COMPONENT_NAME);
-      if(component != null)
+      if(component != null && !component.getScope().isContextActive())
       {
-         if ( !component.getScope().isContextActive() )
-         {
-            throw new IllegalStateException("No active "+component.getScope().name()+" context");
-         }
+         throw new IllegalStateException("No active "+component.getScope().name()+" context");
       }
+      //Attempting to get the instance anyway for backwards compatibility with some potential hack situations.
       return (WicketStatusMessages) Component.getInstance(StatusMessages.COMPONENT_NAME);
    }
 

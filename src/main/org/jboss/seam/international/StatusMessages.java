@@ -376,6 +376,7 @@ public abstract class StatusMessages implements Serializable
       {
          return;
       }
+      //Attempting to get the instance anyway for backwards compatibility with some potential hack situations.
       StatusMessages statusMessages = instance();
       if ( statusMessages != null )
       {
@@ -395,13 +396,11 @@ public abstract class StatusMessages implements Serializable
    public static StatusMessages instance()
    {
       Component component = Component.forName(StatusMessages.COMPONENT_NAME);
-      if(component != null)
+      if(component != null && !component.getScope().isContextActive())
       {
-         if ( !component.getScope().isContextActive() )
-         {
-            throw new IllegalStateException("No active "+component.getScope().name()+" context");
-         }
+         throw new IllegalStateException("No active "+component.getScope().name()+" context");
       }
+      //Attempting to get the instance anyway for backwards compatibility with some potential hack situations.
       return (StatusMessages) Component.getInstance(COMPONENT_NAME);
    }
 
