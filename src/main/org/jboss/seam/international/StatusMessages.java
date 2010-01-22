@@ -371,13 +371,15 @@ public abstract class StatusMessages implements Serializable
    
    protected static void runTasks()
    {
-      if ( Contexts.isConversationContextActive() )
+      Component component = Component.forName(StatusMessages.COMPONENT_NAME);
+      if( component != null && !component.getScope().isContextActive() )
       {
-         StatusMessages statusMessages = instance();
-         if (statusMessages != null)
-         {
-            statusMessages.doRunTasks();
-         }
+         return;
+      }
+      StatusMessages statusMessages = instance();
+      if ( statusMessages != null )
+      {
+         statusMessages.doRunTasks();
       }
    }
    
@@ -392,11 +394,15 @@ public abstract class StatusMessages implements Serializable
    
    public static StatusMessages instance()
    {
-      if ( !Contexts.isConversationContextActive() )
+      Component component = Component.forName(StatusMessages.COMPONENT_NAME);
+      if(component != null)
       {
-         throw new IllegalStateException("No active conversation context");
+         if ( !component.getScope().isContextActive() )
+         {
+            throw new IllegalStateException("No active "+component.getScope().name()+" context");
+         }
       }
-      return (StatusMessages) Component.getInstance(COMPONENT_NAME, ScopeType.CONVERSATION);
+      return (StatusMessages) Component.getInstance(COMPONENT_NAME);
    }
 
 }

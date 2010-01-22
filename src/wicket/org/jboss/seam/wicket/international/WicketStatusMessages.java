@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 
@@ -38,11 +37,15 @@ public class WicketStatusMessages extends StatusMessages
    
    public static WicketStatusMessages instance()
    {
-      if ( !Contexts.isConversationContextActive() )
+      Component component = Component.forName(StatusMessages.COMPONENT_NAME);
+      if(component != null)
       {
-         throw new IllegalStateException("No active conversation context");
+         if ( !component.getScope().isContextActive() )
+         {
+            throw new IllegalStateException("No active "+component.getScope().name()+" context");
+         }
       }
-      return (WicketStatusMessages) Component.getInstance(StatusMessages.COMPONENT_NAME, ScopeType.CONVERSATION);
+      return (WicketStatusMessages) Component.getInstance(StatusMessages.COMPONENT_NAME);
    }
 
 }
