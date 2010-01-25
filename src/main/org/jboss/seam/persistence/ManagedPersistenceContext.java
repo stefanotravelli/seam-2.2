@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueExpression;
@@ -199,30 +200,34 @@ public class ManagedPersistenceContext
    
    private void close()
    {
-      boolean transactionActive = false;
-      
-      try
+      if (Contexts.isEventContextActive()) 
       {
-         UserTransaction tx = Transaction.instance();
-         try 
+
+         boolean transactionActive = false;
+         
+         try
          {
-            transactionActive = tx.isActive();
+            UserTransaction tx = Transaction.instance();
+            try 
+            {
+               transactionActive = tx.isActive();
+            }
+            catch (SystemException se)
+            {
+               log.debug("could not get transaction status while destroying persistence context");
+            }
          }
-         catch (SystemException se)
+         catch (Exception e)
          {
-            log.debug("could not get transaction status while destroying persistence context");
+            // WebSphere throws a javax.naming.ConfigurationException when Transaction.instance() is called during HTTP Session expiration 
+            // and there is no JNDI lookup possible. See details there: JBSEAM-4332
+            log.warn("could not get transaction while destroying persistence context. (called during session expiration ?)");
          }
-      }
-      catch (Exception e)
-      {
-         // WebSphere throws a javax.naming.ConfigurationException when Transaction.instance() is called during HTTP Session expiration 
-         // and there is no JNDI lookup possible. See details there: JBSEAM-4332
-         log.warn("could not get transaction while destroying persistence context. (called during session expiration ?)");
-      }
-      
-      if ( transactionActive )
-      {
-         throw new IllegalStateException("attempting to destroy the persistence context while an active transaction exists (try installing <transaction:ejb-transaction/>)");
+         
+         if ( transactionActive )
+         {
+            throw new IllegalStateException("attempting to destroy the persistence context while an active transaction exists (try installing <transaction:ejb-transaction/>)");
+         }
       }
       
       if ( log.isDebugEnabled() )
