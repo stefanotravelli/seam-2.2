@@ -55,7 +55,7 @@ public abstract class SeleniumDvdTest extends SeamSeleniumTest {
             public boolean until() {
                 return browser.isElementPresent(getProperty("LOGIN_SUBMIT"));
             }
-        }.wait("Login page not loaded.");
+        }.wait("Login page not loaded.", Long.valueOf(TIMEOUT));
         if (isLoggedIn(browser)) {
             fail("User already logged in.");
         }
