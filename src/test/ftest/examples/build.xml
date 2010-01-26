@@ -186,7 +186,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="deploy.example" depends="container.properties">
-		<property name="absolute.wait.url" value="${selenium.browser.url}${wait.url}" />
+		<property name="absolute.wait.url" value="${selenium.browser.url}${wait.url}${example.homepage}" />
 		<echo>Deploying ${example.name} example to ${container} using ${deploy.target} target</echo>
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
 			<property name="jboss.home" value="${container.home}" />
@@ -196,7 +196,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<!-- wait for the application to be active -->
 		<!-- TODO is there a better way? -->
 		<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
-		<waitfor maxwait="${wait.time}" maxwaitunit="second">
+		<waitfor maxwait="${wait.time}" maxwaitunit="second" timeoutproperty="timeout">
 			<and>
 				<!-- wait for the application to not throw 404 -->
 				<http url="${absolute.wait.url}" errorsBeginAt="404" />
