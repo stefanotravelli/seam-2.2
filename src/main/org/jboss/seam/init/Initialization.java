@@ -755,92 +755,88 @@ public class Initialization
          return;
       }
       
-      ReentrantLock lock = new ReentrantLock();
-      if (lock.tryLock(500, TimeUnit.MILLISECONDS))
+      try
       {
-         try
+         hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
+         
+         boolean changed = new TimestampCheckForwardingDeploymentStrategy()
          {
-            hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
-            
-            boolean changed = new TimestampCheckForwardingDeploymentStrategy()
+            @Override
+            protected DeploymentStrategy delegate()
             {
-               @Override
-               protected DeploymentStrategy delegate()
-               {
-                  return hotDeploymentStrategy;
-               }
-               
-            }.changedSince(init.getTimestamp());
+               return hotDeploymentStrategy;
+            }
             
-            if (hotDeploymentStrategy.available() && changed)
+         }.changedSince(init.getTimestamp());
+         
+         if (hotDeploymentStrategy.available() && changed)
+         {
+            ServletLifecycle.beginReinitialization(request);
+            Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+            hotDeploymentStrategy.scan();
+            
+            if (hotDeploymentStrategy.getTimestamp() > init.getTimestamp())
             {
-               ServletLifecycle.beginReinitialization(request);
-               Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
-               hotDeploymentStrategy.scan();
-               
-               if (hotDeploymentStrategy.getTimestamp() > init.getTimestamp())
+               log.debug("redeploying components");
+               Seam.clearComponentNameCache();
+               for ( String name: init.getHotDeployableComponents() )
                {
-                  log.debug("redeploying components");
-                  Seam.clearComponentNameCache();
-                  for ( String name: init.getHotDeployableComponents() )
+                  Component component = Component.forName(name);
+                  if (component!=null)
                   {
-                     Component component = Component.forName(name);
-                     if (component!=null)
+                     ScopeType scope = component.getScope();
+                     if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
                      {
-                        ScopeType scope = component.getScope();
-                        if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
-                        {
-                           scope.getContext().remove(name);
-                        }
-                        init.removeObserverMethods(component);
+                        scope.getContext().remove(name);
                      }
-                     Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
+                     init.removeObserverMethods(component);
                   }
-               
-                  init.getHotDeployableComponents().clear();
-                  installHotDeployableComponents();
-                  installComponents(init);
-                  log.debug("done redeploying components");
+                  Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
                }
-               // update the timestamp outside of the second timestamp check to be sure we don't cause an unnecessary scan
-               // the second scan checks annotations (the slow part) which might happen to exclude the most recent file
-               init.setTimestamp(System.currentTimeMillis());
-               ServletLifecycle.endReinitialization();
+            
+               init.getHotDeployableComponents().clear();
+               installHotDeployableComponents();
+               installComponents(init);
+               log.debug("done redeploying components");
             }
-               
-            final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
-            changed = new TimestampCheckForwardingDeploymentStrategy()
-            {
-               @Override
-               protected DeploymentStrategy delegate()
-               {
-                  return warRootDeploymentStrategy;
-               }
-               
-            }.changedSince(init.getWarTimestamp());
-            if (changed)
-            {
-               warRootDeploymentStrategy.scan();
-               if (warRootDeploymentStrategy.getTimestamp() > init.getWarTimestamp())
-               {
-                  log.debug("redeploying page descriptors...");
-                  Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
-                  if (pages != null) {
-                     // application context is needed for creating expressions
-                     Lifecycle.setupApplication();
-                     pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
-                     Lifecycle.cleanupApplication();
-                  }
-                  ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
-                  init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
-                  log.debug ("done redeploying page descriptors");
-               }
-            }
+            // update the timestamp outside of the second timestamp check to be sure we don't cause an unnecessary scan
+            // the second scan checks annotations (the slow part) which might happen to exclude the most recent file
+            init.setTimestamp(System.currentTimeMillis());
+            ServletLifecycle.endReinitialization();
          }
-         finally
+            
+         final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
+         changed = new TimestampCheckForwardingDeploymentStrategy()
          {
-            lock.unlock();
+            @Override
+            protected DeploymentStrategy delegate()
+            {
+               return warRootDeploymentStrategy;
+            }
+            
+         }.changedSince(init.getWarTimestamp());
+         if (changed)
+         {
+            warRootDeploymentStrategy.scan();
+            if (warRootDeploymentStrategy.getTimestamp() > init.getWarTimestamp())
+            {
+               log.debug("redeploying page descriptors...");
+               Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
+               if (pages != null) {
+                  // application context is needed for creating expressions
+                  Lifecycle.setupApplication();
+                  pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
+                  Lifecycle.cleanupApplication();
+               }
+               ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
+               init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
+               log.debug ("done redeploying page descriptors");
+            }
          }
+      }
+      finally
+      {
+         
       }
    }
 
