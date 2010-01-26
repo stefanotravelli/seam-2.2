@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Reflections;
 
@@ -54,15 +56,18 @@ public class HotDeploymentStrategy extends DeploymentStrategy
 
    private ClassLoader classLoader;
    
+   private ServletContext servletContext;
+   
    /**
     * @param classLoader The parent classloader of the hot deployment classloader
     * @param hotDeployDirectory The directory in which hot deployable Seam 
     * components are placed
     */
-   public HotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
+   public HotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, ServletContext servletContext, boolean enabled)
    {
       if (enabled)
       {
+         this.servletContext=servletContext;
          this.classLoader = Thread.currentThread().getContextClassLoader();
          if (hotDeployDirectory != null && hotDeployDirectory.exists())
          {
@@ -140,13 +145,13 @@ public class HotDeploymentStrategy extends DeploymentStrategy
     * @param hotDeployDirectory The directory which contains hot deployable
     * Seam components
     */
-   public static HotDeploymentStrategy createInstance(String className, ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
+   public static HotDeploymentStrategy createInstance(String className, ClassLoader classLoader, File hotDeployDirectory, ServletContext servletContext, boolean enabled)
    {
       try
       {
          Class initializer = Reflections.classForName(className);
-         Constructor ctr = initializer.getConstructor(ClassLoader.class, File.class, boolean.class);
-         return (HotDeploymentStrategy) ctr.newInstance(classLoader, hotDeployDirectory, enabled);
+         Constructor ctr = initializer.getConstructor(ClassLoader.class, File.class, ServletContext.class, boolean.class);
+         return (HotDeploymentStrategy) ctr.newInstance(classLoader, hotDeployDirectory, servletContext, enabled);
       }
       catch (Exception e)
       {
@@ -187,6 +192,12 @@ public class HotDeploymentStrategy extends DeploymentStrategy
          return (HotDeploymentStrategy) Contexts.getEventContext().get(NAME);
       }
       return null;
+   }
+
+   @Override
+   public ServletContext getServletContext()
+   {
+      return servletContext;
    }
    
 }

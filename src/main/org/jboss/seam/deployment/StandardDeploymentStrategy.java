@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -19,6 +21,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
 {
 
    private ClassLoader classLoader;
+   
+   private ServletContext servletContext;
    
    /**
     * The files used to identify a Seam archive
@@ -45,12 +49,14 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    private AnnotationDeploymentHandler annotationDeploymentHandler;
    private DotComponentDotXmlDeploymentHandler dotComponentDotXmlDeploymentHandler;
    
+   
    /**
     * @param classLoader The classloader used to load and handle resources
     */
-   public StandardDeploymentStrategy(ClassLoader classLoader)
+   public StandardDeploymentStrategy(ClassLoader classLoader,ServletContext servletContext)
    {
       this.classLoader = Thread.currentThread().getContextClassLoader();
+      this.servletContext=servletContext;
       componentDeploymentHandler = new ComponentDeploymentHandler();
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
       componentsXmlDeploymentHandler = new ComponentsXmlDeploymentHandler();
@@ -122,5 +128,11 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
          return (StandardDeploymentStrategy) Contexts.getEventContext().get(NAME);
       }
       return null;
+   }
+
+   @Override
+   public ServletContext getServletContext()
+   {
+      return servletContext;
    }
 }

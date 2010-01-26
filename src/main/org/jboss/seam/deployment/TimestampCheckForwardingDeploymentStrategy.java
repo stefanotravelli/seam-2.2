@@ -22,7 +22,7 @@ public abstract class TimestampCheckForwardingDeploymentStrategy extends Forward
       if (getScanner() instanceof AbstractScanner)
       {
          final AbstractScanner delegate = (AbstractScanner) getScanner();
-         this.scanner = new TimestampScanner()
+         this.scanner = new TimestampScanner(getServletContext())
          {
 
             @Override

@@ -46,10 +46,32 @@ public class ServletLifecycle
    
    public static void beginRequest(HttpServletRequest request)
    {
+      beginRequest(request,null);
+   }
+   
+   public static void beginRequest(HttpServletRequest request,ServletContext context)
+   {
+      
+      ServletContext ctx = context;
+      if(ctx == null)
+      {
+         //try and figure out which servlet context to use
+         //from the request. 
+         HttpSession session = request.getSession(false);
+         if(session == null)
+         {
+            ctx = servletContext;
+         }
+         else
+         {
+            ctx = session.getServletContext();
+         }
+      }
+      
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new EventContext( new ServletRequestMap(request) ) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
-      Contexts.applicationContext.set(new ApplicationContext( Lifecycle.getApplication() ) );
+      Contexts.applicationContext.set(new ApplicationContext( new ServletApplicationMap(ctx) ) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
    
@@ -76,11 +98,16 @@ public class ServletLifecycle
          log.debug( "<<< End web request" );
       }
    }
-   
+   @Deprecated
    public static void beginReinitialization(HttpServletRequest request)
    {
+      beginReinitialization(request, servletContext);
+   }
+   
+   public static void beginReinitialization(HttpServletRequest request,ServletContext servletContext)
+   {
       log.debug(">>> Begin re-initialization");
-      Contexts.applicationContext.set( new ApplicationContext( Lifecycle.getApplication() ) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );

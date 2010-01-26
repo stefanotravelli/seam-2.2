@@ -50,7 +50,7 @@ public class CaptchaImage extends AbstractResource
    {
       ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-      ServletLifecycle.beginRequest(request);         
+      ServletLifecycle.beginRequest(request,getServletContext());         
       try
       {
          ImageIO.write( Captcha.instance().renderChallenge(), "jpeg", out );

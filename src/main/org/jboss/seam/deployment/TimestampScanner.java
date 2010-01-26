@@ -1,5 +1,7 @@
 package org.jboss.seam.deployment;
 
+import javax.servlet.ServletContext;
+
 /**
  * A no-op version of the URLScanner that merely returns whether the deployment
  * handler would in fact handle this file. It does not process the file
@@ -31,6 +33,18 @@ public abstract class TimestampScanner extends ForwardingAbstractScanner
          }
       }
       return false;
+   }
+   
+   @Deprecated
+   public TimestampScanner()
+   {
+      
+   }
+   
+   
+   public TimestampScanner(ServletContext servletContext)
+   {
+      super(servletContext);
    }
   
 }

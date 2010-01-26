@@ -3,6 +3,8 @@ package org.jboss.seam.deployment;
 import java.io.File;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -20,6 +22,8 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
 
    private ClassLoader classLoader;
    
+   private ServletContext servletContext;
+   
    private File[] warRoot;
    
    private File[] excludedDirectories;
@@ -32,14 +36,15 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
 
    private PagesDotXmlDeploymentHandler pagesDotXmlDeploymentHandler;
    
-   public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot)
+   public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot,ServletContext servletContext)
    {
-      this(classLoader, warRoot, new File[0]);
+      this(classLoader, warRoot,servletContext, new File[0]);
    }
    
-   public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot, File[] excludedDirectories)
+   public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot,ServletContext servletContext, File[] excludedDirectories)
    {
       this.classLoader = classLoader;
+      this.servletContext = servletContext;
       this.warRoot = new File[1];
       this.excludedDirectories = excludedDirectories;
       if (warRoot != null)
@@ -86,6 +91,12 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    public Set<FileDescriptor> getDotPageDotXmlFileNames()
    {
       return dotPageDotXmlDeploymentHandler.getResources();
+   }
+
+   @Override
+   public ServletContext getServletContext()
+   {
+      return servletContext;
    }
 
 }

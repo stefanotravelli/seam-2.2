@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -65,6 +67,11 @@ public abstract class DeploymentStrategy
     * Get the classloader to use
     */
    public abstract ClassLoader getClassLoader();
+   
+   /**
+    * Get the ServletContext to use
+    */
+   public abstract ServletContext getServletContext();
 
    /**
     * Get (or modify) any registered {@link DeploymentHandler}s

@@ -61,6 +61,7 @@ import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -128,7 +129,7 @@ public class Initialization
    
    public Initialization create()
    {
-      standardDeploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      standardDeploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader(),servletContext);
       standardDeploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
@@ -715,7 +716,7 @@ public class Initialization
       
       // Add the war root deployment
       warRootDeploymentStrategy = new WarRootDeploymentStrategy(
-            Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
+            Thread.currentThread().getContextClassLoader(), warRoot,servletContext, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
       Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
       warRootDeploymentStrategy.scan();
       init.setWarTimestamp(System.currentTimeMillis());
@@ -744,7 +745,7 @@ public class Initialization
 
    public void redeploy(HttpServletRequest request) throws InterruptedException
    {
-      redeploy(request, (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) ));
+      redeploy(request, (Init) servletContext.getAttribute( Seam.getComponentName(Init.class) ));
    }
    
    public void redeploy(HttpServletRequest request, Init init) throws InterruptedException
@@ -805,7 +806,7 @@ public class Initialization
             ServletLifecycle.endReinitialization();
          }
             
-         final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
+         final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, servletContext, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
          changed = new TimestampCheckForwardingDeploymentStrategy()
          {
             @Override
@@ -854,12 +855,12 @@ public class Initialization
       if (isGroovyPresent())
       {
          log.debug("Using Java + Groovy hot deploy");
-         return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory, hotDeployEnabled);
+         return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory, servletContext, hotDeployEnabled);
       }
       else 
       {
          log.debug("Using Java hot deploy");
-         return new HotDeploymentStrategy(classLoader, hotDeployDirectory, hotDeployEnabled);
+         return new HotDeploymentStrategy(classLoader, hotDeployDirectory, servletContext, hotDeployEnabled);
       }
    }
    

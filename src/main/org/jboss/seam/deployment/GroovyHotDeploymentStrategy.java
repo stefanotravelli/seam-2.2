@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 
@@ -31,9 +33,9 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
     * groovy Seam components are placed
     * 
     */
-   public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
+   public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, ServletContext servletContext, boolean enabled)
    {
-      super(classLoader, hotDeployDirectory, enabled);
+      super(classLoader, hotDeployDirectory,servletContext, enabled);
       if (enabled)
       {
          groovyDeploymentHandler = new GroovyDeploymentHandler(DEFAULT_SCRIPT_EXTENSION);

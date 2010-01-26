@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 /**
  * A decorator for DeploymentStrategy
  * 
@@ -17,6 +19,12 @@ public abstract class ForwardingDeploymentStrategy extends DeploymentStrategy
    public ClassLoader getClassLoader()
    {
       return delegate().getClassLoader();
+   }
+   
+   @Override
+   public ServletContext getServletContext()
+   {
+      return delegate().getServletContext();
    }
 
    @Override

@@ -2,6 +2,8 @@ package org.jboss.seam.deployment;
 
 import java.net.URL;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -18,9 +20,9 @@ public class ClassDescriptor extends FileDescriptor
       this.clazz = clazz;
    }
    
-   public ClassDescriptor(String name, ClassLoader classLoader)
+   public ClassDescriptor(String name, ClassLoader classLoader,ServletContext servletContext)
    {
-      super(name, classLoader);
+      super(name, classLoader,servletContext);
       String classname = filenameToClassname(name);
       log.trace("Trying to load class " + classname);
       try 

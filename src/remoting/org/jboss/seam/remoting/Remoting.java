@@ -68,7 +68,7 @@ public class Remoting extends AbstractResource
       {
          try
          {
-            ServletLifecycle.beginRequest(request);
+            ServletLifecycle.beginRequest(request,getServletContext());
 
             StringBuilder sb = new StringBuilder();
             sb.append("\nSeam.Remoting.resourcePath = \"");

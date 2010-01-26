@@ -2,6 +2,8 @@ package org.jboss.seam.deployment;
 
 import java.io.File;
 
+import javax.servlet.ServletContext;
+
 
 public abstract class ForwardingAbstractScanner extends AbstractScanner
 {
@@ -53,5 +55,17 @@ public abstract class ForwardingAbstractScanner extends AbstractScanner
    }
    
    protected abstract AbstractScanner delegate();
+   
+   @Deprecated
+   public ForwardingAbstractScanner()
+   {
+      
+   }
+   
+   
+   public ForwardingAbstractScanner(ServletContext servletContext)
+   {
+      super(servletContext);
+   }
    
 }

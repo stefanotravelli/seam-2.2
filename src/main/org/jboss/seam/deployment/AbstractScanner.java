@@ -11,6 +11,9 @@ import java.util.Map.Entry;
 import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 
+import javax.servlet.ServletContext;
+
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -25,6 +28,8 @@ import org.jboss.seam.log.Logging;
 public abstract class AbstractScanner implements Scanner
 {
    
+   protected ServletContext servletContext;
+   
    private static class Handler
    {
       
@@ -36,12 +41,14 @@ public abstract class AbstractScanner implements Scanner
       private Set<Entry<String, DeploymentHandler>> deploymentHandlers;
       private ClassLoader classLoader;
       private String name;
+      private ServletContext servletContext;
       
-      public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader)
+      public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader,ServletContext servletContext)
       {
          this.deploymentHandlers = deploymentHandlers;
          this.name = name;
          this.classLoader = classLoader;
+         this.servletContext=servletContext;
       }
       
       /**
@@ -115,7 +122,7 @@ public abstract class AbstractScanner implements Scanner
       {
          if (classDescriptor == null)
          {
-            classDescriptor = new ClassDescriptor(name, classLoader);
+            classDescriptor = new ClassDescriptor(name, classLoader,servletContext);
          }
          return classDescriptor;
       }
@@ -124,7 +131,7 @@ public abstract class AbstractScanner implements Scanner
       {
          if (fileDescriptor == null)
          {
-            fileDescriptor = new FileDescriptor(name, classLoader);
+            fileDescriptor = new FileDescriptor(name, classLoader,servletContext);
          }
          return fileDescriptor;
       }
@@ -137,12 +144,18 @@ public abstract class AbstractScanner implements Scanner
    public AbstractScanner(DeploymentStrategy deploymentStrategy)
    {
       this.deploymentStrategy = deploymentStrategy;
+      this.servletContext=deploymentStrategy.getServletContext();
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
-   
+   @Deprecated
    protected AbstractScanner()
    {
-      
+      this.servletContext=ServletLifecycle.getCurrentServletContext();
+   }
+   
+   protected AbstractScanner(ServletContext servletContext)
+   {
+      this.servletContext=servletContext;
    }
    
    protected static boolean hasAnnotations(ClassFile classFile, Set<Class<? extends Annotation>> annotationTypes)
@@ -209,7 +222,7 @@ public abstract class AbstractScanner implements Scanner
    
    protected boolean handle(String name)
    {
-      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
+      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),servletContext).handle();
    }
    
    public void scanDirectories(File[] directories, File[] excludedDirectories)
