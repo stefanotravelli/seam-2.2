@@ -3,6 +3,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:c="http://java.sun.com/jstl/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:rich="http://richfaces.ajax4jsf.org/rich"
      xmlns:s="http://jboss.com/products/seam/taglib">
@@ -11,11 +12,19 @@
 
         <div class="mainMenuHeader"><ui:insert name="mainMenuHeader">&#160;</ui:insert></div>
 
-        <s:cache region="#{menu.cacheRegion}" key="#{menu.cacheKey}">
-            <ui:include src="mainMenuItem.xhtml">
-                <ui:param name="node" value="#{menu.root}"/>
-            </ui:include>
-        </s:cache>
+        <div class="mainMenuBody">
+            <s:cache region="#{menu.cacheRegion}" key="#{menu.cacheKey}">
+                <c:forEach items="#{menu.tree}" var="tn">
+                    <s:div styleClass="level#{tn.level}">
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerDot" value="&#183;"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerGreaterThan" value=">"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerSlash" value="&#47;"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerSpace" value="&#160;"/>
+                        <h:outputLink styleClass="level#{tn.level}Link" value="#{wikiURLRenderer.renderURL(tn.node)}">#{tn.node.name}</h:outputLink>
+                    </s:div>
+                </c:forEach>
+            </s:cache>
+        </div>
 
         <div class="mainMenuFooter"><ui:insert name="mainMenuFooter">&#160;</ui:insert></div>
 

@@ -84,7 +84,6 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 Redirect.instance().setViewId("/dirDisplay.xhtml");
                 Redirect.instance().execute();
 
-                assert checkNestedSetNodeInDatabase(1l, 1, 997);
                 assert !checkDirectoryInDatabase(5l);
             }
 
@@ -119,7 +118,6 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 WikiDocument newNode = (WikiDocument)getValue("#{documentHome.instance}");
 
-                assert checkNestedSetNodeInDatabase(3l, 4, 9);
                 assert newNode.getAreaNumber().equals(3l);
                 assert newNode.getCreatedBy().getId().equals(2l);
                 assert newNode.getParent().getId().equals(3l);
@@ -243,13 +241,6 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert newDefaultDocumentId.equals(7l);
             }
         }.run();
-    }
-
-    private boolean checkNestedSetNodeInDatabase(long nodeId, long left, long right) throws Exception {
-        Session s = getHibernateSession();
-        WikiDirectory dir = (WikiDirectory)s.createQuery("select d from WikiDirectory d  left join fetch d.parent where d.id = :id").setParameter("id", nodeId).uniqueResult();
-        s.close();
-        return dir.getNodeInfo().getNsLeft() == left && dir.getNodeInfo().getNsRight() == right;
     }
 
     private boolean checkDirectoryInDatabase(long nodeId) throws Exception {

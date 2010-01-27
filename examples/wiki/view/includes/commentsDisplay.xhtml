@@ -38,8 +38,12 @@
         </f:facet>
         <c:forEach var="c" items="#{commentQuery.comments}">
 
+<!--
             <s:div style="margin-left:#{c.level > 1 ? c.level : ''}0px;"
                    styleClass="commentBox #{c.level > 1 ? 'commentLevel' : 'commentFirstLevel'}">
+-->
+
+            <s:div styleClass="commentBox commentFirstLevel">
 
                 <h:panelGrid columns="3" styleClass="commentHeader"
                              columnClasses="commentSubject, commentAuthorInfo smallFont, commentAuthorPortrait"

@@ -36,6 +36,15 @@ public class UserRoleAccessFactory implements Serializable {
     @Factory(value = "guestUser", scope = ScopeType.SESSION)
     public User getGuestUser() {
         try {
+            /*
+            This causes the following warning in Hibernate 3.3:
+
+            WARN  [org.hibernate.hql.ast.QueryTranslatorImpl] firstResult/maxResults specified with collection fetch; applying in memory!
+
+            Of course that is just wrong and it looks like this warning was added in a hurry between 3.2 and 3.3. Or this is not the
+            query that is causing the warning - who knows! It probably would have been too easy printing the offending query string
+            with the message...
+             */
             User guestUser =
                     (User) entityManager
                             .createQuery("select u from User u left join fetch u.roles where u.username = '"+User.GUEST_USERNAME+"'")

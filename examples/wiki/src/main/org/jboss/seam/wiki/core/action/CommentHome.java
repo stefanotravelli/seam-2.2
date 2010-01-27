@@ -133,7 +133,12 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     public String persist() {
+        // TODO: This is not pretty but this has really not been designed for non-threaded comments
+        WikiNode oldParent = getParentNode(); // Remember old parent
+        setParentNode(documentHome.getInstance()); // Set the "real" parent, which is the document
         String outcome = super.persist();
+        setParentNode(oldParent); // Reset old parent afterwards
+
         if (outcome != null) {
 
             if (documentHome.getInstance().isEnableCommentsOnFeeds()) {
@@ -143,10 +148,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
                 getEntityManager().flush();
             }
-
-            getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
-            getWikiNodeDAO().updateWikiDocumentComments(documentHome.getInstance());
-            getEntityManager().flush();
 
             Events.instance().raiseEvent("Comment.persisted");
             endConversation();
@@ -177,12 +178,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             );
 
             remove();
-            getEntityManager().clear();
-
-            getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
-            getWikiNodeDAO().updateWikiDocumentComments(documentHome.getInstance());
-            getEntityManager().flush();
-
             getEntityManager().clear();
             Events.instance().raiseEvent("Comment.commentListRefresh");
         }

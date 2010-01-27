@@ -17,7 +17,8 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.WikiTreeNode;
 import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.richfaces.component.UITree;
@@ -33,7 +34,7 @@ import java.util.*;
 @Scope(ScopeType.CONVERSATION)
 public class DirTocQuery implements Serializable {
 
-    public static final String MACRO_ATTR_TOCROOT = "dirTocRoot";
+    public static final String MACRO_ATTR_TOCTREE = "dirTocTree";
 
     @In
     EntityManager restrictedEntityManager;
@@ -44,11 +45,11 @@ public class DirTocQuery implements Serializable {
     @In
     WikiDirectory currentDirectory;
 
-    public NestedSetNodeWrapper<WikiDirectory> getTocRoot(WikiPluginMacro macro) {
+    public List<WikiTreeNode<WikiDirectory>> getToc(WikiPluginMacro macro) {
 
-        NestedSetNodeWrapper<WikiDirectory> tocRoot =
-                (NestedSetNodeWrapper<WikiDirectory>)macro.getAttributes().get(MACRO_ATTR_TOCROOT);
-        if (tocRoot == null) {
+        // We cache the result in the macro, so that when the getter is called over and over during rendering, we have it
+        if (macro.getAttributes().get(MACRO_ATTR_TOCTREE) == null) {
+
             DirTocPreferences prefs = Preferences.instance().get(DirTocPreferences.class, macro);
 
             if (prefs.getRootDocumentLink() != null) {
@@ -60,11 +61,17 @@ public class DirTocQuery implements Serializable {
             }
 
             // Query the directory tree
-            tocRoot = WikiNodeDAO.instance().findWikiDirectoryTree(currentDirectory);
+            List<WikiTreeNode<WikiDirectory>>
+                tree = WikiNodeDAO.instance().findWikiDirectoryTree(currentDirectory, WikiNode.SortableProperty.createdOn, true);
 
-            Set<Long> directoryIds = new HashSet<Long>(tocRoot.getFlatTree().keySet());
-            if (prefs.getShowRootDocuments() != null && prefs.getShowRootDocuments()) {
-                directoryIds.add(tocRoot.getWrappedNode().getId());
+            Set<Long> directoryIds = new HashSet<Long>();
+            for (WikiTreeNode<WikiDirectory> treeNode : tree) {
+                if (currentDirectory.getId().equals(treeNode.getNode().getId())
+                        && (prefs.getShowRootDocuments() != null && prefs.getShowRootDocuments())) {
+                    directoryIds.add(treeNode.getNode().getId());
+                } else if (!currentDirectory.getId().equals(treeNode.getNode().getId())){
+                    directoryIds.add(treeNode.getNode().getId());
+                }
             }
             if (directoryIds.size() == 0) return null; // Early exit
 
@@ -89,25 +96,21 @@ public class DirTocQuery implements Serializable {
             for (WikiDocument flatDoc : flatDocs) {
 
                 Long directoryId = flatDoc.getParent().getId();
-                NestedSetNodeWrapper<WikiDirectory> dirWrapper;
 
-                if (prefs.getShowRootDocuments() != null && prefs.getShowRootDocuments()
-                    && directoryId.equals(tocRoot.getWrappedNode().getId())) {
-                    dirWrapper = tocRoot;
-                } else {
-                    dirWrapper = tocRoot.getFlatTree().get(directoryId);
+                for (WikiTreeNode<WikiDirectory> treeNode : tree) {
+                    if (treeNode.getNode().getId().equals(directoryId)) {
+                        if (treeNode.getPayload() == null)
+                            treeNode.setPayload(new ArrayList());
+
+                        ((Collection)treeNode.getPayload()).add(flatDoc);
+                    }
                 }
-
-                if (dirWrapper.getPayload() == null)
-                    dirWrapper.setPayload(new ArrayList<WikiDocument>());
-
-                ((Collection)dirWrapper.getPayload()).add(flatDoc);
             }
 
-            macro.getAttributes().put(MACRO_ATTR_TOCROOT, tocRoot);
+            macro.getAttributes().put(MACRO_ATTR_TOCTREE, tree);
         }
 
-        return tocRoot;
+        return (List<WikiTreeNode<WikiDirectory>>)macro.getAttributes().get(MACRO_ATTR_TOCTREE);
     }
 
     public boolean expandTocTree(UITree tree) {

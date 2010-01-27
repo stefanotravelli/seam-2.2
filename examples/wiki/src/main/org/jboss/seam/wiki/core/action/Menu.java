@@ -14,11 +14,12 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.model.WikiTreeNode;
 import org.jboss.seam.wiki.core.cache.PageFragmentCache;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Holds the nodes that are displayed in the site menu
@@ -38,12 +39,12 @@ public class Menu implements Serializable {
     @In
     Integer currentAccessLevel;
 
-    NestedSetNodeWrapper<WikiDirectory> root;
-    public NestedSetNodeWrapper<WikiDirectory> getRoot() {
-        if (root == null) {
-            refreshRoot();
+    List<WikiTreeNode<WikiDirectory>> tree;
+    public List<WikiTreeNode<WikiDirectory>> getTree() {
+        if (tree == null) {
+            refreshTree();
         }
-        return root;
+        return tree;
     }
 
     public String getCacheRegion() {
@@ -59,13 +60,13 @@ public class Menu implements Serializable {
     public void invalidateCache() {
         log.debug("invaliding menu items tree cache");
         PageFragmentCache.instance().removeAll(CACHE_REGION);
-        root = null;
+        tree = null;
     }
 
-    private void refreshRoot() {
+    private void refreshTree() {
         log.debug("Loading menu items tree");
         WikiPreferences wikiPreferences = Preferences.instance().get(WikiPreferences.class);
-        root = WikiNodeDAO.instance().findMenuItemTree(
+        tree = WikiNodeDAO.instance().findMenuItemTree(
                 (WikiDirectory)Component.getInstance("wikiRoot"),
                 wikiPreferences.getMainMenuDepth(),
                 wikiPreferences.getMainMenuLevels(),

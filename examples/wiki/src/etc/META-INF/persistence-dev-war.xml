@@ -75,14 +75,6 @@
             <property name="hibernate.ejb.collectioncache.org.jboss.seam.wiki.core.model.Feed.feedEntries"
                       value="read-write, WikiFeedEntryCollection"/>
 
-            <!-- Nested Set handling through special Hibernate event listeners -->
-            <property name="hibernate.ejb.event.flush"
-                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetFlushEventListener"/>
-            <property name="hibernate.ejb.event.post-insert"
-                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostInsertEventListener"/>
-            <property name="hibernate.ejb.event.post-delete"
-                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostDeleteEventListener"/>
-
         </properties>
     </persistence-unit>
 

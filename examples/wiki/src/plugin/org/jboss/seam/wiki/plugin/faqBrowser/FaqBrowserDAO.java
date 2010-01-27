@@ -7,13 +7,16 @@
 package org.jboss.seam.wiki.plugin.faqBrowser;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Christian Bauer
@@ -27,31 +30,20 @@ public class FaqBrowserDAO implements Serializable {
 
     public WikiDirectory findFaqRootDir(WikiDirectory startDir) {
 
-        StringBuilder queryString = new StringBuilder();
-        queryString.append("select dir from WikiDirectory dir join dir.defaultFile f, WikiDocument doc");
-        queryString.append(" where dir.nodeInfo.nsThread = :nsThread and");
-        queryString.append(" dir.nodeInfo.nsLeft <= :nsLeft and dir.nodeInfo.nsRight >= :nsRight");
-        queryString.append(" and f = doc and doc.headerMacrosString like '%faqBrowser%'");
-
-        Query query = restrictedEntityManager.createQuery(queryString.toString())
-                .setParameter("nsThread", startDir.getNodeInfo().getNsThread())
-                .setParameter("nsLeft", startDir.getNodeInfo().getNsLeft())
-                .setParameter("nsRight", startDir.getNodeInfo().getNsRight());
-
-        List<WikiDirectory> result = query.getResultList();
-
-        if (result.size() == 0) return null;
-
-        // We need to iterate through all found directories, these directories are all the "parents" in the
-        // tree which might have a default document with "faqBrowser" macro. We assume that the "highest level"
-        // directory is the root of the FAQ tree - luckily we have the nested set values to find that one.
-        WikiDirectory highestLevelDirectory = result.get(0);
-        for (WikiDirectory wikiDirectory : result) {
-            if (wikiDirectory.getNodeInfo().getNsLeft() < highestLevelDirectory.getNodeInfo().getNsLeft()) {
-                highestLevelDirectory = wikiDirectory;
+        // This was a database query once... now it's in-memory iteration
+        List<WikiDirectory> parents = new ArrayList();
+        parents.add(startDir);
+        parents.addAll(startDir.getParentsRecursive());
+        WikiDirectory faqRootDir = null;
+        // We need the highest level directory that has a document with a "faqBrowser" macro
+        for (WikiDirectory parent : parents) {
+            if (parent.getDefaultFile() == null) continue;
+            if (((WikiDocument)parent.getDefaultFile()).getHeaderMacrosString().contains("faqBrowser")) {
+                faqRootDir = parent;
+                // Continue iterating, maybe we find a higher level directory with the macro
             }
         }
-        return highestLevelDirectory;
+        return faqRootDir;
     }
 
 }

@@ -35,7 +35,7 @@ public class FaqQuestionHome extends DocumentHome {
     @Override
     public void create() {
         super.create();
-        setParentNodeId(faqBrowser.getSelectedDir().getWrappedNode().getId());
+        setParentNodeId(faqBrowser.getSelectedDir().getNode().getId());
     }
 
     @Override

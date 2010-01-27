@@ -138,7 +138,8 @@ public class Authenticator {
         // Create home directory
         WikiDirectory memberArea = (WikiDirectory)Component.getInstance("memberArea");
 
-        WikiDirectory homeDirectory = new WikiDirectory(user.getUsername());
+        WikiDirectory homeDirectory = new WikiDirectory();
+        homeDirectory.setName(user.getUsername());
         homeDirectory.setWikiname(WikiUtil.convertToWikiName(homeDirectory.getName()));
         homeDirectory.setAreaNumber(memberArea.getAreaNumber());
         homeDirectory.setCreatedBy(user);

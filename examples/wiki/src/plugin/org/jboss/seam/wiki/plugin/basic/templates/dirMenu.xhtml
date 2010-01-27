@@ -36,9 +36,15 @@
 
             <s:cache region="#{currentMacro.getCacheRegion('DirMenuList')}"
                      key="#{currentMacro.cacheKey}">
-                <ui:include src="dirMenuItem.xhtml">
-                    <ui:param name="node" value="#{dirMenu.getRoot(currentMacro)}"/>
-                </ui:include>
+                <c:forEach items="#{dirMenu.getTree(currentMacro)}" var="tn">
+                    <s:div styleClass="level#{tn.level}">
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerDot" value="&#183;"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerGreaterThan" value=">"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerSlash" value="&#47;"/>
+                        <h:outputText styleClass="level#{tn.level}Marker level#{tn.level}MarkerSpace" value="&#160;"/>
+                        <h:outputLink styleClass="level#{tn.level}Link" value="#{wikiURLRenderer.renderURL(tn.node)}">#{tn.node.name}</h:outputLink>
+                    </s:div>
+                </c:forEach>
             </s:cache>
         </div>
 

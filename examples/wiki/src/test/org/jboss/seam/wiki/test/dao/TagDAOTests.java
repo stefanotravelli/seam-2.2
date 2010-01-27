@@ -11,8 +11,11 @@ import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.DisplayTagCount;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -61,6 +64,25 @@ public class TagDAOTests extends DBUnitSeamTest {
                 assert tags.get(1).getTag().equals("Tag Three");
                 assert tags.get(1).getCount().equals(1l);
 
+            }
+        }.run();
+    }
+
+    @Test
+    public void findTaggedFiles() throws Exception {
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                WikiDirectory startDir = ((WikiNodeDAO)getInstance(WikiNodeDAO.class)).findWikiDirectory(3l);
+
+                TagDAO dao = (TagDAO)getInstance(TagDAO.class);
+                List<WikiFile> taggedFiles = dao.findWikFiles(startDir, null, "Tag One", WikiNode.SortableProperty.name, true);
+
+                Assert.assertEquals(taggedFiles.size(), 3);
+
+                Assert.assertEquals(taggedFiles.get(0).getName(), "One");
+                Assert.assertEquals(taggedFiles.get(1).getName(), "Three");
+                Assert.assertEquals(taggedFiles.get(2).getName(), "Two");
             }
         }.run();
     }

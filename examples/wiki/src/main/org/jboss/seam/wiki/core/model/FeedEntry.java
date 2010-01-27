@@ -173,6 +173,26 @@ public class FeedEntry implements Serializable, Comparable {
         return (getPublishedDate().getTime() == other.getPublishedDate().getTime() ? 0 : 1);
     }
 
+/*
+    // Equality needs to be consistent with comparable/ordering!
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedEntry feedEntry = (FeedEntry) o;
+
+        if (!publishedDate.equals(feedEntry.publishedDate)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return publishedDate.hashCode();
+    }
+*/
+
     public String toString() {
         return "FeedEntry (" + getId() + ")";
     }

@@ -63,7 +63,7 @@ public class ReplyHome extends CommentHome {
         // Find all posters of the thread
         Set<User> notifyPosters = new HashSet();
         getLog().debug("finding all posters of current topic thread");
-        List<WikiComment> comments = getWikiNodeDAO().findWikiCommentsFlat(documentHome.getInstance(), true);
+        List<WikiComment> comments = getWikiNodeDAO().findWikiComments(documentHome.getInstance(), true);
         for (WikiComment comment : comments) {
 
             Long commentPosterId = comment.getCreatedBy().getId();

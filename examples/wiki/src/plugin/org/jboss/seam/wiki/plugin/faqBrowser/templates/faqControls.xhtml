@@ -23,38 +23,37 @@
 
             <s:span>
                 <h:selectOneMenu value="#{faqBrowser.selectedDir}"
-                                 rendered="#{not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}"
-                                 converter="#{nestedSetNodeWrapperRestrictedEntityConverter}"
+                                 rendered="#{not empty faqBrowser.tree}"
+                                 converter="#{wikiTreeNodeRestrictedEntityConverter}"
                                  styleClass="ajaxSupport" tabindex="1">
-                    <s:selectItems value="#{faqBrowser.tree.wrappedChildren}"
+                    <s:selectItems value="#{faqBrowser.tree}"
                                    var="faqsDir"
-                                   label="#{wiki:repeatString('&#160;&#183;&#160;',faqsDir.level-1)}#{wiki:truncateString(faqsDir.wrappedNode.name, 40, '...')}"/>
+                                   label="#{wiki:repeatString('&#160;',faqsDir.level-1)}&#183;&#160;#{wiki:truncateString(faqsDir.node.name, 40, '...')}"/>
                     <a:support event="onchange" status="globalStatus"
                                action="#{faqBrowser.showQuestions}"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"/>
                 </h:selectOneMenu>
                 <h:outputText value="#{messages['fb.faqBrowser.msg.TreeNotFound']}" rendered="#{empty faqBrowser.tree}"/>
-                <h:outputText value="#{messages['fb.faqBrowser.msg.TreeEmpty']}" rendered="#{faqBrowser.tree.wrappedChildren.size() == 0}"/>
             </s:span>
 
             <s:span id="faqQuestionsControl">
                 <a:commandLink action="#{faqBrowser.showQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="globalStatus"
-                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
+                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree}">
                     <h:graphicImage value="#{imagePath}/menu_down.gif" width="18" height="18"/>
                 </a:commandLink>
                 <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="globalStatus"
-                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
+                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree}">
                     <h:graphicImage value="#{imagePath}/menu_up.gif" width="18" height="18"/>
                 </a:commandLink>
             </s:span>
 
             <s:span id="faqCategoryLink" styleClass="undecoratedLink">
                 <s:fragment rendered="#{faqBrowser.directorySelected}">
-                    <h:outputLink value="#{wikiURLRenderer.renderWikiURL(currentDocument)}/Category/#{faqBrowser.selectedDir.wrappedNode.wikiname}">
+                    <h:outputLink value="#{wikiURLRenderer.renderWikiURL(currentDocument)}/Category/#{faqBrowser.selectedDir.node.wikiname}">
                         <h:outputText value="Link"/>
                     </h:outputLink>
                 </s:fragment>
@@ -69,9 +68,9 @@
                 <h:panelGrid columns="2" styleClass="header" columnClasses="categoryDescription, newQuestionButton"
                              cellpadding="0" cellspacing="0" border="0">
 
-                    <h:outputText value="#{faqBrowser.selectedDir.wrappedNode.description}"/>
+                    <h:outputText value="#{faqBrowser.selectedDir.node.description}"/>
 
-                    <s:fragment rendered="#{s:hasPermission('Node', 'create', faqBrowser.selectedDir.wrappedNode)}">
+                    <s:fragment rendered="#{s:hasPermission('Node', 'create', faqBrowser.selectedDir.node)}">
                         <a:commandLink action="#{faqQuestionHome.newQuestion()}"
                                        reRender="faqBrowserPluginContainer, messageBoxContainer"
                                        status="globalStatus"

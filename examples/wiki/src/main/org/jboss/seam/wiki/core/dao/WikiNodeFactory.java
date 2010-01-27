@@ -38,7 +38,7 @@ public class WikiNodeFactory implements Serializable {
     public void checkPreferences() {
         
         log.info("checking wiki preferences...");
-/* TODO: needs to be disabled in testing
+        /* TODO: needs to be disabled in testing
         // We need a fake user so we can retrieve preferences without a request, on startup
         Contexts.getEventContext().set("currentPreferencesUser", new User());
 

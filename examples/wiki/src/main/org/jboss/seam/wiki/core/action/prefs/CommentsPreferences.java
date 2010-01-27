@@ -24,13 +24,6 @@ public class CommentsPreferences implements Serializable {
     @NotNull
     private Boolean enableByDefault;
 
-    @PreferenceProperty(
-        description = "#{messages['lacewiki.preferences.comments.Threaded']}",
-        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.USER}
-    )
-    @NotNull
-    private Boolean threaded;
-
     public Boolean getListAscending() {
         return listAscending;
     }
@@ -39,7 +32,4 @@ public class CommentsPreferences implements Serializable {
         return enableByDefault;
     }
 
-    public Boolean getThreaded() {
-        return threaded;
-    }
 }

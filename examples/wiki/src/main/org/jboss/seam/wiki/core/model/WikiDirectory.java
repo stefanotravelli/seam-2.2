@@ -1,8 +1,6 @@
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeInfo;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,17 +11,17 @@ import java.util.Collections;
 @Entity
 @Table(name = "WIKI_DIRECTORY")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_NODE_ID")
-public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetNode<WikiDirectory>, Serializable {
+public class WikiDirectory extends WikiNode<WikiDirectory> implements Serializable {
 
     @Column(name = "DESCRIPTION", nullable = true)
     @Length(min = 0, max = 512)
     private String description;
 
-// This does not work, as usual. Hibernate just ignores it and gives me a proxy sometimes, leading to CCE later on
-// Maybe because I query directories with "from WikiNode where parentId", so the instrumentation of the WikiDirectory
-// subclass has no effect. 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
+    // This does not work, as usual. Hibernate just ignores it and gives me a proxy sometimes, leading to CCE later on
+    // Maybe because I query directories with "from WikiNode where parentId", so the instrumentation of the WikiDirectory
+    // subclass has no effect.
+    //    @ManyToOne(fetch = FetchType.LAZY)
+    //    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DEFAULT_FILE_ID", nullable = true, unique = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_DEFAULT_FILE_ID")
@@ -32,18 +30,6 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
     @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
     private WikiFeed feed;
-
-    @Embedded
-    private NestedSetNodeInfo<WikiDirectory> nodeInfo;
-
-    public WikiDirectory() {
-        nodeInfo = new NestedSetNodeInfo<WikiDirectory>(this);
-    }
-
-    public WikiDirectory(String name) {
-        super(name);
-        nodeInfo = new NestedSetNodeInfo<WikiDirectory>(this);
-    }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
@@ -64,23 +50,12 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     public void flatCopy(WikiDirectory original, boolean copyLazyProperties) {
         super.flatCopy(original, copyLazyProperties);
         this.description = original.description;
-        this.nodeInfo = original.nodeInfo;
     }
 
     public WikiDirectory duplicate(boolean copyLazyProperties) {
         WikiDirectory dupe = new WikiDirectory();
         dupe.flatCopy(this, copyLazyProperties);
         return dupe;
-    }
-
-    public NestedSetNodeInfo<WikiDirectory> getNodeInfo() {
-        return nodeInfo;
-    }
-
-    public NestedSetNodeInfo<WikiDirectory> getParentNodeInfo() {
-        if (getParent() != null && WikiDirectory.class.isAssignableFrom(getParent().getClass()))
-            return ((WikiDirectory)getParent()).getNodeInfo();
-        return null;
     }
 
     public String[] getPropertiesForGroupingInQueries() {
@@ -131,6 +106,23 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
         }
         Collections.reverse(path);
         return path;
+    }
+
+
+    public List<WikiDirectory> getParentsRecursive() {
+        if (this.getParent() == null) return Collections.EMPTY_LIST;
+        List parents = new ArrayList();
+        WikiNode currentNode = this.getParent();
+        while (true) {
+            if (currentNode.getParent() == null) {
+                parents.add(currentNode);
+                break;
+            } else {
+                parents.add(currentNode);
+                currentNode = currentNode.getParent();
+            }
+        }
+        return parents;
     }
 
     public String toString() {

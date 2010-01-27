@@ -8,7 +8,7 @@ import org.jboss.seam.wiki.core.model.WikiComment;
 public class ForumReplyFeedEntryManager extends WikiCommentFeedEntryManager {
 
     public String getFeedEntryTitle(WikiComment comment) {
-        return "[" + comment.getParentDocument().getParent().getName() + "] " + comment.getSubject();
+        return "[" + comment.getParent().getParent().getName() + "] " + comment.getSubject();
     }
 
 }

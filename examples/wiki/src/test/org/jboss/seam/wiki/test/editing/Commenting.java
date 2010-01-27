@@ -12,11 +12,8 @@ import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.CommentQuery;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiDocumentCountComment;
-import org.jboss.seam.wiki.core.model.WikiDocumentLastComment;
 import org.testng.annotations.Test;
-
-import javax.persistence.EntityManager;
+import static org.testng.Assert.assertEquals;
 
 public class Commenting extends DBUnitSeamTest {
 
@@ -49,12 +46,10 @@ public class Commenting extends DBUnitSeamTest {
                 commentHome.getInstance().setFromUserHomepage("http://foo.bar");
                 commentHome.getInstance().setFromUserEmail("foo@bar.tld");
                 commentHome.getInstance().setSubject("Some Subject");
-                commentHome.getInstance().setContent("Some Content");
+                commentHome.getTextEditor().setValue("Some Content");
 
                 invokeMethod("#{commentHome.persist}");
-            }
 
-            protected void renderResponse() throws Exception {
                 CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
                 assert commentQuery.getComments().size() == 7;
 
@@ -70,19 +65,10 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(6).getFromUserHomepage().equals("http://foo.bar");
                 assert commentQuery.getComments().get(6).getFromUserEmail().equals("foo@bar.tld");
                 assert commentQuery.getComments().get(6).getSubject().equals("Some Subject");
-                assert commentQuery.getComments().get(6).getContent().equals("Some Content");
+                assertEquals(commentQuery.getComments().get(6).getContent(), "Some Content");
 
                 assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
                 assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
-
-                EntityManager em = (EntityManager)getInstance("entityManager");
-                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
-                assert lastComment != null;
-                assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
-
-                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
-                assert countComment != null;
-                assert countComment.getCommentCount() == 8;
             }
 
         }.run();
@@ -112,12 +98,10 @@ public class Commenting extends DBUnitSeamTest {
                 commentHome.getInstance().setFromUserHomepage("http://foo.bar");
                 commentHome.getInstance().setFromUserEmail("foo@bar.tld");
                 commentHome.getInstance().setSubject("Some Subject");
-                commentHome.getInstance().setContent("Some Content");
+                commentHome.getTextEditor().setValue("Some Content");
 
                 invokeMethod("#{commentHome.persist}");
-            }
 
-            protected void renderResponse() throws Exception {
                 CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
                 assert commentQuery.getComments().size() == 7;
 
@@ -132,23 +116,14 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(6).getFromUserName().equals("Foo");
                 assert commentQuery.getComments().get(6).getFromUserHomepage().equals("http://foo.bar");
                 assert commentQuery.getComments().get(6).getFromUserEmail().equals("foo@bar.tld");
-                assert commentQuery.getComments().get(6).getSubject().equals("Some Subject");
-                assert commentQuery.getComments().get(6).getContent().equals("Some Content");
-                assert commentQuery.getComments().get(6).getParent().getId().equals(15l);
+                assertEquals(commentQuery.getComments().get(6).getSubject(), "Some Subject");
+                assertEquals(commentQuery.getComments().get(6).getContent(), "Some Content");
+                assertEquals(commentQuery.getComments().get(6).getParent().getId(), new Long(6));
 
                 assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
                 assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
-
-                EntityManager em = (EntityManager)getInstance("entityManager");
-                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
-                assert lastComment != null;
-                assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
-
-                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
-                assert countComment != null;
-                assert countComment.getCommentCount() == 7;
             }
-
+            
         }.run();
     }
 
@@ -169,28 +144,14 @@ public class Commenting extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
                 invokeMethod("#{commentHome.remove(14)}");
-            }
 
-            protected void renderResponse() throws Exception {
                 CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
-                assert commentQuery.getComments().size() == 4;
+                assert commentQuery.getComments().size() == 5;
                 assert commentQuery.getComments().get(0).getId().equals(10l);
-                assert commentQuery.getComments().get(0).getLevel().equals(1l);
                 assert commentQuery.getComments().get(1).getId().equals(11l);
-                assert commentQuery.getComments().get(1).getLevel().equals(2l);
                 assert commentQuery.getComments().get(2).getId().equals(12l);
-                assert commentQuery.getComments().get(2).getLevel().equals(2l);
                 assert commentQuery.getComments().get(3).getId().equals(13l);
-                assert commentQuery.getComments().get(3).getLevel().equals(3l);
-
-                EntityManager em = (EntityManager)getInstance("entityManager");
-                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
-                assert lastComment != null;
-                assert lastComment.getLastCommentId().equals(13l);
-
-                WikiDocumentCountComment countComment = em.find(WikiDocumentCountComment.class, 6l);
-                assert countComment != null;
-                assert countComment.getCommentCount() == 4;
+                assert commentQuery.getComments().get(4).getId().equals(15l);
             }
 
         }.run();

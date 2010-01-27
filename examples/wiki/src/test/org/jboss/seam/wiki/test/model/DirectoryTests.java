@@ -11,8 +11,10 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class DirectoryTests extends DBUnitSeamTest {
 
@@ -33,8 +35,6 @@ public class DirectoryTests extends DBUnitSeamTest {
                                 .setParameter("id", 1l)
                                 .getSingleResult();
                 assert d.getName().equals("AAA");
-                assert d.getNodeInfo().getNsLeft().equals(1l);
-                assert d.getNodeInfo().getNsRight().equals(999l);
             }
         }.run();
     }
@@ -77,8 +77,6 @@ public class DirectoryTests extends DBUnitSeamTest {
                                 .setParameter("id", 1l)
                                 .getSingleResult();
                 assert d.getName().equals("AAA2");
-                assert d.getNodeInfo().getNsLeft().equals(1l);
-                assert d.getNodeInfo().getNsRight().equals(999l);
             }
         }.run();
     }
@@ -222,8 +220,6 @@ public class DirectoryTests extends DBUnitSeamTest {
                                 .setParameter("id", 1l)
                                 .getSingleResult();
                 assert d.getName().equals("AAA");
-                assert d.getNodeInfo().getNsLeft().equals(1l);
-                assert d.getNodeInfo().getNsRight().equals(1001l);
 
                 em.clear();
                 d = (WikiDirectory)
@@ -231,8 +227,6 @@ public class DirectoryTests extends DBUnitSeamTest {
                                 .setParameter("id", 3l)
                                 .getSingleResult();
                 assert d.getName().equals("CCC");
-                assert d.getNodeInfo().getNsLeft().equals(4l);
-                assert d.getNodeInfo().getNsRight().equals(11l);
 
                 em.clear();
                 d = (WikiDirectory)
@@ -240,12 +234,45 @@ public class DirectoryTests extends DBUnitSeamTest {
                                 .setParameter("id", newDir.getId())
                                 .getSingleResult();
                 assert d.getName().equals("FFF");
-                assert d.getNodeInfo().getNsLeft().equals(9l);
-                assert d.getNodeInfo().getNsRight().equals(10l);
             }
         }.run();
     }
 
+    @Test
+    public void findParents() throws Exception {
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                EntityManager em = (EntityManager) getInstance("restrictedEntityManager");
+                WikiDirectory d = (WikiDirectory)
+                        em.createQuery("select d from WikiDirectory d where d.id = :id")
+                                .setParameter("id", 4l)
+                                .getSingleResult();
+
+                List<WikiDirectory> parents = d.getParentsRecursive();
+
+                Assert.assertEquals(parents.size(), 2);
+                Assert.assertEquals(parents.get(0).getId(), new Long(3));
+                Assert.assertEquals(parents.get(1).getId(), new Long(1));
+            }
+        }.run();
+
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                EntityManager em = (EntityManager) getInstance("restrictedEntityManager");
+                WikiDirectory d = (WikiDirectory)
+                        em.createQuery("select d from WikiDirectory d where d.id = :id")
+                                .setParameter("id", 3l)
+                                .getSingleResult();
+
+                List<WikiDirectory> parents = d.getParentsRecursive();
+
+                Assert.assertEquals(parents.size(), 1);
+                Assert.assertEquals(parents.get(0).getId(), new Long(1));
+            }
+        }.run();
+    }
 
 
 }

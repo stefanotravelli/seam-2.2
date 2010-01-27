@@ -14,14 +14,15 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * DAO for feeds.
@@ -95,23 +96,24 @@ public class FeedDAO {
     }
 
     public List<WikiFeed> findParentFeeds(WikiDirectory startDir, boolean includeSiteFeed) {
-        StringBuilder queryString = new StringBuilder();
+        WikiDirectory currentDir = WikiNodeDAO.instance().findWikiDirectory(startDir.getId()); // Use restricted PC!
 
-        queryString.append("select f from WikiDirectory d join d.feed f ");
-        queryString.append("where d.nodeInfo.nsThread = :nsThread and ");
-        queryString.append("d.nodeInfo.nsLeft <= :nsLeft and d.nodeInfo.nsRight >= :nsRight ");
-        if (!includeSiteFeed) queryString.append("and not d = :wikiRoot ");
-        queryString.append("order by f.publishedDate desc ");
+        List<WikiFeed> feeds = new ArrayList();
+        if (currentDir.getParent() == null && currentDir.getFeed() != null) {
+            feeds.add(currentDir.getFeed());
+        }
+        while (currentDir.getParent() != null) {
+            if (currentDir.getFeed() != null)
+                feeds.add(currentDir.getFeed());
+            currentDir = (WikiDirectory)currentDir.getParent();
+        }
 
-        Query query = restrictedEntityManager.createQuery(queryString.toString())
-                .setParameter("nsThread", startDir.getNodeInfo().getNsThread())
-                .setParameter("nsLeft", startDir.getNodeInfo().getNsLeft())
-                .setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        if (includeSiteFeed) {
+            WikiDirectory wikiRoot = (WikiDirectory)Component.getInstance("wikiRoot");
+            feeds.add(WikiNodeDAO.instance().findWikiDirectory(wikiRoot.getId()).getFeed()); // Use restricted PC!
+        }
 
-        if (!includeSiteFeed)
-            query.setParameter("wikiRoot", Component.getInstance("wikiRoot"));
-
-        return query.getResultList();
+        return feeds;
     }
 
     public WikiDocumentFeedEntry findFeedEntry(WikiDocument document) {

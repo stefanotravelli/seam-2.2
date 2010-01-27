@@ -59,8 +59,8 @@
                          scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
     <ui:jpa-entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}"/>
 
-    <ui:entity-converter name="nestedSetNodeWrapperRestrictedEntityConverter" 
-                         class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter"
+    <ui:entity-converter name="wikiTreeNodeRestrictedEntityConverter"
+                         class="org.jboss.seam.wiki.core.ui.WikiTreeNodeEntityConverter"
                          scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
 
     <!-- Login and security -->

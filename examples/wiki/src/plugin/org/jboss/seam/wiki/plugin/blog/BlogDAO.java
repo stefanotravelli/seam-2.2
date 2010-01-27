@@ -7,9 +7,9 @@
 package org.jboss.seam.wiki.plugin.blog;
 
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -17,7 +17,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.action.Pager;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.ScopeType;
 
 import javax.persistence.EntityManager;
@@ -29,7 +31,7 @@ import java.math.BigInteger;
 
 /**
  * Queries and database operations related to blog entries (mostly aggregation queries).
- *
+ * <p/>
  * TODO: The queries (especially since they are all SQL) should be externalized to a hbm.xml file. However,
  * building them dynamically here is less duplication for now.
  *
@@ -42,6 +44,9 @@ public class BlogDAO implements Serializable {
 
     @In
     EntityManager restrictedEntityManager;
+
+    @In
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     Integer currentAccessLevel;
@@ -70,12 +75,7 @@ public class BlogDAO implements Serializable {
 
     private String getBlogEntryWhereClause(WikiDocument ignoreDoc, Integer year, Integer month, Integer day, String tag) {
         StringBuilder clause = new StringBuilder();
-        clause.append("where doc2.PARENT_NODE_ID in").append(" (");
-        clause.append("select distinct dir1.NODE_ID from WIKI_DIRECTORY dir1, WIKI_DIRECTORY dir2").append(" ");
-        clause.append("where dir1.NS_THREAD = dir2.NS_THREAD").append(" ");
-        clause.append("and dir1.NS_LEFT between dir2.NS_LEFT and dir2.NS_RIGHT").append(" ");
-        clause.append("and dir2.NS_THREAD=:nsThread and dir2.NS_LEFT>=:nsLeft and dir2.NS_RIGHT<=:nsRight");
-        clause.append(") ");
+        clause.append("where doc2.PARENT_NODE_ID in (:directoryIDs)").append(" ");
         clause.append("and doc.HEADER_MACROS like '%blogEntry%'").append(" ");
         clause.append("and doc2.READ_ACCESS_LEVEL <= :currentAccessLevel").append(" ");
         if (ignoreDoc != null && ignoreDoc.getId() != null) clause.append("and doc.NODE_ID<>:ignoreDoc").append(" ");
@@ -88,9 +88,7 @@ public class BlogDAO implements Serializable {
 
     private void bindBlogEntryWhereClause(Query query, WikiDirectory startDir, WikiDocument ignoreDoc,
                                           Integer year, Integer month, Integer day, String tag) {
-        query.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
-        query.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
-        query.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        query.setParameterList("directoryIDs", wikiNodeDAO.findWikiDirectoryTreeIDs(startDir));
         query.setParameter("currentAccessLevel", currentAccessLevel);
 
         if (ignoreDoc != null && ignoreDoc.getId() != null) query.setParameter("ignoreDoc", ignoreDoc);
@@ -151,11 +149,9 @@ public class BlogDAO implements Serializable {
         if (countComments && result.size() > 0) {
             // The risk here is that pager.getQueryMaxResults() is too large for the IN() operator of some DBs...
             StringBuilder commentQueryString = new StringBuilder();
-            commentQueryString.append("select doc.NODE_ID as DOC_ID, count(c3.NODE_ID) as COMMENT_COUNT").append(" ");
+            commentQueryString.append("select doc.NODE_ID as DOC_ID, count(c1.NODE_ID) as COMMENT_COUNT").append(" ");
             commentQueryString.append("from WIKI_DOCUMENT doc").append(" ");
             commentQueryString.append("left outer join WIKI_NODE c1 on doc.NODE_ID = c1.PARENT_NODE_ID").append(" ");
-            commentQueryString.append("left outer join WIKI_COMMENT c2 on c1.NODE_ID = c2.NODE_ID").append(" ");
-            commentQueryString.append("left outer join WIKI_COMMENT c3 on c2.NS_THREAD = c3.NS_THREAD").append(" ");
             commentQueryString.append("where doc.NODE_ID in (:blogEntriesIds)").append(" ");
             commentQueryString.append("group by doc.NODE_ID");
 

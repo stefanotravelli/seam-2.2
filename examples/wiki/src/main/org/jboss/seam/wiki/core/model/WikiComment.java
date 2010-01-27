@@ -2,8 +2,6 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeInfo;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
 import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 import org.jboss.seam.wiki.core.search.annotations.CompositeSearchables;
@@ -25,7 +23,7 @@ import java.util.Date;
         properties = {"subject", "content"}
     )
 )
-public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<WikiComment>, Serializable {
+public class WikiComment extends WikiNode<WikiComment> implements Serializable {
 
     @Column(name = "SUBJECT", nullable = false)
     @Length(min = 3, max = 255)
@@ -54,16 +52,6 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
     @Column(name = "USE_WIKI_TEXT", nullable = false)
     private boolean useWikiText = true;
 
-    @Transient
-    private Long level;
-
-    @Embedded
-    private NestedSetNodeInfo<WikiComment> nodeInfo;
-
-    public WikiComment () {
-        nodeInfo = new NestedSetNodeInfo<WikiComment>(this);
-    }
-
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }
 
@@ -81,9 +69,6 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
 
     public boolean isUseWikiText() { return useWikiText; }
     public void setUseWikiText(boolean useWikiText) { this.useWikiText = useWikiText; }
-
-    public Long getLevel() { return level; }
-    public void setLevel(Long level) { this.level = level; }
 
     public void flatCopy(WikiComment original, boolean copyLazyProperties) {
         super.flatCopy(original, copyLazyProperties);
@@ -103,16 +88,6 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
         return dupe;
     }
 
-    public NestedSetNodeInfo<WikiComment> getNodeInfo() {
-        return nodeInfo;
-    }
-
-    public NestedSetNodeInfo<WikiComment> getParentNodeInfo() {
-        if (getParent() != null && WikiComment.class.isAssignableFrom(getParent().getClass()))
-            return ((WikiComment)getParent()).getNodeInfo();
-        return null;
-    }
-
     public String[] getPropertiesForGroupingInQueries() {
         return new String[]{
             "version", "parent", "rating",
@@ -128,22 +103,11 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
 
 
     public String getPermURL(String suffix) {
-        return getParentDocument().getId() + suffix + "#comment" + getId();
+        return getParent().getId() + suffix + "#comment" + getId();
     }
 
     public String getWikiURL() {
-        return getArea().getWikiname() + "/" + getParentDocument().getWikiname() + "#comment" + getId();
-    }
-
-    // TODO: Everything can have comments, this has the wrong name and it's crude
-    public WikiNode getParentDocument() {
-        WikiNode current = this.getParent();
-        if (WikiDocument.class.isAssignableFrom(current.getClass())) return current;
-        while (current.getParent() != null && WikiComment.class.isAssignableFrom(current.getParent().getClass())) {
-            current = current.getParent();
-        }
-        return current.getParent(); // Let's just assume that the parent of a comment is at some point a document
-
+        return getArea().getWikiname() + "/" + getParent().getWikiname() + "#comment" + getId();
     }
 
     public void setDerivedName(WikiNode node) {
@@ -152,7 +116,6 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
 
     public String toString() {
         return  "Comment (" + getId() + ")," +
-                " Level: " + getLevel() +
                 " Subject: '" + getSubject() + "'";
     }
 

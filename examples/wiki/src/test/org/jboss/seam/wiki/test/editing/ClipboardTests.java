@@ -761,7 +761,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 assert doc.getAreaNumber().equals(2l);
                 assert doc.getParent().getId().equals(2l);
 
-                List<WikiComment> comments = browser.getWikiNodeDAO().findWikiCommentsFlat(doc, false);
+                List<WikiComment> comments = browser.getWikiNodeDAO().findWikiComments(doc, false);
                 for (WikiComment comment : comments) {
                     assert comment.getAreaNumber().equals(2l);
                 }

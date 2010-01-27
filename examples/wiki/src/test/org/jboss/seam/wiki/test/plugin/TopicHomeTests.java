@@ -67,9 +67,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 home.getTextEditor().setValue("This is a new topic.");
 
                 assert invokeMethod("#{topicHome.persist}") == null;
-            }
 
-            protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
@@ -135,9 +133,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 home.setSticky(true);
 
                 assert invokeMethod("#{topicHome.persist}") == null;
-            }
-
-            protected void renderResponse() throws Exception {
+                
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
@@ -201,9 +197,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 home.getInstance().setEnableComments(false);
 
                 assert invokeMethod("#{topicHome.persist}") == null;
-            }
 
-            protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);

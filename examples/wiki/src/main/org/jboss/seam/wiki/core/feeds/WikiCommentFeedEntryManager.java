@@ -58,8 +58,8 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
         StringBuilder desc = new StringBuilder();
         desc.append(Messages.instance().get("lacewiki.msg.comment.FeedIntro"));
         desc.append("&#160;");
-        desc.append("<a href=\"").append(wikiURLRenderer.renderURL(comment.getParentDocument())).append("\">");
-        desc.append("'").append(comment.getParentDocument().getName()).append("'");
+        desc.append("<a href=\"").append(wikiURLRenderer.renderURL(comment.getParent())).append("\">");
+        desc.append("'").append(comment.getParent().getName()).append("'");
         desc.append("</a>.");
         desc.append("<hr/>");
         desc.append(

@@ -1,18 +1,14 @@
 package org.jboss.seam.wiki.core.dao;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.core.model.DisplayTagCount;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.core.model.WikiNode;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetQueryBuilder;
+import org.jboss.seam.wiki.core.model.*;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -28,34 +24,32 @@ public class TagDAO {
     @In
     protected EntityManager restrictedEntityManager;
 
-    // TODO: This query needs to be optimized, the nested subselect with in() is not good for MySQL, needs to be a join
+    @In
+    protected WikiNodeDAO wikiNodeDAO;
+
     public List<DisplayTagCount> findTagCounts(WikiDirectory startDir, WikiFile ignoreFile, int limit, long minimumCount) {
 
         StringBuilder queryString = new StringBuilder();
-
         queryString.append("select t as tag, count(t) as count").append(" ");
         queryString.append("from WikiFile f join f.tags as t").append(" ");
-        queryString.append("where f.parent.id in");
-        queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
+        queryString.append("where f.parent.id in (:parentDirIds) ");
         if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
         queryString.append("group by t").append(" ");
         queryString.append("having count(t) >= :minimumCount").append(" ");
         queryString.append("order by count(t) desc, t asc ");
 
-        Query nestedSetQuery = getSession().createQuery(queryString.toString());
-        nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
-        nestedSetQuery.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
-        nestedSetQuery.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
-        nestedSetQuery.setParameter("minimumCount", minimumCount);
+        Query tagQuery = getSession().createQuery(queryString.toString());
+        tagQuery.setParameterList("parentDirIds", wikiNodeDAO.findWikiDirectoryTreeIDs(startDir));
+        tagQuery.setParameter("minimumCount", minimumCount);
         if (ignoreFile != null && ignoreFile.getId() != null)
-            nestedSetQuery.setParameter("ignoreFile", ignoreFile);
+            tagQuery.setParameter("ignoreFile", ignoreFile);
         if (limit > 0) {
-            nestedSetQuery.setMaxResults(limit);
+            tagQuery.setMaxResults(limit);
         }
 
-        nestedSetQuery.setResultTransformer(Transformers.aliasToBean(DisplayTagCount.class));
+        tagQuery.setResultTransformer(Transformers.aliasToBean(DisplayTagCount.class));
 
-        return nestedSetQuery.list();
+        return tagQuery.list();
     }
 
     public List<WikiFile> findWikFiles(WikiDirectory startDir, WikiFile ignoreFile, final String tag,
@@ -65,30 +59,19 @@ public class TagDAO {
 
         StringBuilder queryString = new StringBuilder();
 
-        queryString.append("select distinct f from WikiFile f join f.tags as t where f.parent.id in");
-        queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
+        queryString.append("select distinct f from WikiFile f join f.tags as t ");
+        queryString.append("where f.parent.id in (:parentDirIds) ");
         if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
         queryString.append("and t = :tag").append(" ");
         queryString.append("order by f.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
 
-        Query nestedSetQuery = getSession().createQuery(queryString.toString());
-        nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
-        nestedSetQuery.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
-        nestedSetQuery.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        Query fileQuery = getSession().createQuery(queryString.toString());
+        fileQuery.setParameterList("parentDirIds", wikiNodeDAO.findWikiDirectoryTreeIDs(startDir));
         if (ignoreFile != null && ignoreFile.getId() != null)
-            nestedSetQuery.setParameter("ignoreFile", ignoreFile);
-        nestedSetQuery.setParameter("tag", tag);
+            fileQuery.setParameter("ignoreFile", ignoreFile);
+        fileQuery.setParameter("tag", tag);
 
-        return nestedSetQuery.list();
-    }
-
-    private String getNestedDirectoryQuery(WikiDirectory dir) {
-        NestedSetQueryBuilder builder = new NestedSetQueryBuilder(dir, true);
-        StringBuilder queryString = new StringBuilder();
-        queryString.append("select distinct ").append(NestedSetQueryBuilder.NODE_ALIAS).append(".id").append(" ");
-        queryString.append("from ").append(builder.getFromClause()).append(" ");
-        queryString.append("where ").append(builder.getWhereClause()).append(" ");
-        return queryString.toString();
+        return fileQuery.list();
     }
 
     private Session getSession() {

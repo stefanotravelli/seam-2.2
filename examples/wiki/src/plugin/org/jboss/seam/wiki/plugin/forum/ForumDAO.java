@@ -275,7 +275,7 @@ public class ForumDAO implements Serializable {
             )
             .list();
 
-        if (topicInfoMap.keySet().size() == 0) return topicInfoMap; // Early exist possible
+        if (topicInfoMap.keySet().size() == 0) return topicInfoMap; // Early exit possible
 
         // Retrieve the topic entity instances and shove them into the map
         getSession(true).getNamedQuery("forumTopics")

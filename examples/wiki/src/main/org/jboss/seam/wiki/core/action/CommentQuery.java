@@ -54,11 +54,7 @@ public class CommentQuery implements Serializable {
             return;
         }
 
-        if (commentsPreferences.getThreaded()) {
-            comments = wikiNodeDAO.findWikiCommentsThreaded(documentHome.getInstance());
-        } else {
-            comments = wikiNodeDAO.findWikiCommentsFlat(documentHome.getInstance(), commentsPreferences.getListAscending());
-        }
+        comments = wikiNodeDAO.findWikiComments(documentHome.getInstance(), commentsPreferences.getListAscending());
     }
 
 }

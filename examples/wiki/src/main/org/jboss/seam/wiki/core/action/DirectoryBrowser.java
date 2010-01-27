@@ -17,7 +17,6 @@ import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
@@ -73,7 +72,10 @@ public class DirectoryBrowser implements Serializable {
 
     private Long directoryId;
     private WikiDirectory instance;
-    private NestedSetNodeWrapper<WikiDirectory> treeRoot;
+
+    // TODO: No more nested set, rewriting this with the same functionality is more difficult...
+    //private NestedSetNodeWrapper<WikiDirectory> treeRoot;
+
     private List<WikiNode> childNodes;
     private Map<WikiNode, Boolean> selectedNodes = new HashMap<WikiNode,Boolean>();
     private Pager pager;
@@ -109,10 +111,12 @@ public class DirectoryBrowser implements Serializable {
         pager = new Pager(settings.getPageSize());
     }
 
+    /*
     public NestedSetNodeWrapper<WikiDirectory> getTreeRoot() {
         if (treeRoot == null) loadTree();
         return treeRoot;
     }
+    */
 
     public void showTree() {
         settings.setTreeVisible(true);
@@ -122,6 +126,7 @@ public class DirectoryBrowser implements Serializable {
         settings.setTreeVisible(false);
     }
 
+    /*
     // Open a node in the visible UI tree if its identifier is in the current path
     public boolean adviseTreeNodeOpened(UITree tree) {
 
@@ -170,6 +175,7 @@ public class DirectoryBrowser implements Serializable {
         log.debug("selecting tree node: " + currentTreeNodeId);
         selectDirectory(currentTreeNodeId);
     }
+    */
 
     public void findInstance() {
         if (getDirectoryId() == null)
@@ -206,11 +212,13 @@ public class DirectoryBrowser implements Serializable {
         refreshChildNodes();
     }
 
+    /*
     @Observer(value = {"Node.removed"}, create = false)
     public void loadTree() {
         WikiDirectory wikiRoot = (WikiDirectory) Component.getInstance("wikiRoot");
         treeRoot = wikiNodeDAO.findWikiDirectoryTree(wikiRoot);
     }
+    */
 
     @Observer(value = {"Node.removed", "Pager.pageChanged"}, create = false)
     public void refreshChildNodes() {
@@ -355,7 +363,7 @@ public class DirectoryBrowser implements Serializable {
 
                     // TODO: Ugly and memory intensive, better use a database query but HQL updates are limited with joins
                     if (n.isInstance(WikiDocument.class)) {
-                        List<WikiComment> comments = wikiNodeDAO.findWikiCommentsFlat((WikiDocument)n, true);
+                        List<WikiComment> comments = wikiNodeDAO.findWikiComments((WikiDocument)n, true);
                         for (WikiComment comment : comments) {
                             comment.setAreaNumber(n.getAreaNumber());
                         }

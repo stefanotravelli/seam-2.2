@@ -1,20 +1,38 @@
-.dirToc {
+.tocLevel1,
+    .tocLevel2,
+    .tocLevel3,
+    .tocLevel4
+{
+    margin-bottom: 6px;
 }
 
-.tocDirectoryLabel {
+.tocLevel2 {
+    margin-left: 18px;
+}
+
+
+.tocLevel3 {
+    margin-left: 36px;
+}
+
+.tocLevel4 {
+    margin-left: 54px;
+}
+
+.tocLevel1 .children,
+    .tocLevel2 .children,
+    .tocLevel3 .children,
+    .tocLevel4 .children
+{
+    margin-left: 18px;
+    margin-top: 4px;
+
+}
+
+.tocLevel1 .category,
+    .tocLevel2 .category,
+    .tocLevel3 .category,
+    .tocLevel4 .category
+{
     font-weight: bold;
-}
-
-.tocDirectoryLabel {
-    cursor: pointer;
-}
-
-.tocDocumentLabel {
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.rich-tree-node-highlighted .tocDirectoryLabel,
-.rich-tree-node-highlighted .tocDocumentLabel {
-    color: black;
 }

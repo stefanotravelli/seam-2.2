@@ -42,6 +42,7 @@
                         <h:outputText escape="false" value="#{messages['lacewiki.label.template.RegularWikiDocument']}"/>
                         <f:param name="documentId" value=""/>
                         <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
+                        <f:param name="templateType" value=""/>
                     </s:link>
                 </li>
                 <ui:repeat var="templateType" value="#{templateRegistry.templateTypes}">

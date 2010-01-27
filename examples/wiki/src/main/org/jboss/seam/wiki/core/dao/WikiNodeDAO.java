@@ -9,11 +9,6 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetDuplicator;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetQueryBuilder;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetResultTransformer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -56,8 +51,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find wikinode by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
 
@@ -85,8 +80,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find node in area")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -99,8 +94,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find number of wikinode children")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -138,97 +133,21 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find comment by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
 
-    public List<WikiComment> findWikiCommentsThreaded(WikiDocument document) {
-        return findWikiComments(document, true, false);
-    }
-
-    public List<WikiComment> findWikiCommentsFlat(WikiDocument document, boolean orderbyDateAscending) {
-        return findWikiComments(document, false, orderbyDateAscending);
-    }
-
-    private List<WikiComment> findWikiComments(WikiDocument document, final boolean threaded, boolean unthreadedAscending) {
-        StringBuilder queryString = new StringBuilder();
-
-        NestedSetQueryBuilder queryBuilder = new NestedSetQueryBuilder(new WikiComment(), false, true);
-        queryString.append("select ").append(queryBuilder.getSelectLevelClause()).append(", ");
-        queryString.append(queryBuilder.getSelectNodeClause()).append(" ");
-        queryString.append("from ").append(queryBuilder.getFromClause()).append(" ");
-        queryString.append("where ").append(queryBuilder.getWhereClause(false)).append(" ");
-        queryString.append("and ").append(NestedSetQueryBuilder.NODE2_ALIAS).append(".nodeInfo.nsThread in ");
-        queryString.append("(select c3.nodeInfo.nsThread from WikiComment c3 where c3.parent = :doc)").append(" ");
-        queryString.append("group by ").append(queryBuilder.getGroupByClause()).append(" ");
-        queryString.append("order by ");
-        if (threaded) {
-            queryString.append(NestedSetQueryBuilder.NODE_ALIAS).append(".nodeInfo.nsThread asc").append(", ");
-            queryString.append(queryBuilder.getOrderByClause());
-        } else {
-            queryString.append(NestedSetQueryBuilder.NODE_ALIAS).append(".createdOn ").append(unthreadedAscending ? "asc" : "desc");
-        }
-
-        org.hibernate.Query nsQuery = getSession(true).createQuery(queryString.toString());
-        nsQuery.setParameter("doc", document);
-        nsQuery.setComment("Find wikicomments (tree)");
-        nsQuery.setCacheable(false);
-        nsQuery.setResultTransformer(
-            new ResultTransformer() {
-                public Object transformTuple(Object[] objects, String[] aliases) {
-                    Long level = (Long)objects[0];
-                    WikiComment c = (WikiComment)objects[1];
-                    if (threaded) c.setLevel(level);
-                    return c;
-                }
-                public List transformList(List list) {
-                    return list;
-                }
-            }
-        );
-        return nsQuery.list();
-    }
-
-    public List<WikiComment> findWikiCommentSubtree(WikiComment root) {
-        return findWikiCommentSubtree(root, false);
-    }
-
-    public List<WikiComment> findWikiCommentSubtree(WikiComment root, boolean orderByLevelDescending) {
-        NestedSetQueryBuilder queryBuilder;
-        if (orderByLevelDescending) {
-            queryBuilder = new NestedSetQueryBuilder(new WikiComment(), false, false) {
-                public String getOrderByClause() {
-                    StringBuilder clause = new StringBuilder();
-                    clause.append("count(").append(NestedSetQueryBuilder.NODE_ALIAS).append(".id) desc");
-                    return clause.toString();
-                }
-            };
-        } else {
-            queryBuilder = new NestedSetQueryBuilder(new WikiComment(), false, false);
-        }
-
-        org.hibernate.Query nsQuery = getSession(true).createQuery(queryBuilder.getSimpleQuery());
-        nsQuery.setParameter("nsThread", root.getNodeInfo().getNsThread());
-        nsQuery.setParameter("nsLeft", root.getNodeInfo().getNsLeft());
-        nsQuery.setParameter("nsRight", root.getNodeInfo().getNsRight());
-        nsQuery.setComment("Find wikicomments subtree");
-        nsQuery.setCacheable(false);
-        nsQuery.setResultTransformer(
-            new ResultTransformer() {
-                public Object transformTuple(Object[] objects, String[] aliases) {
-                    Long level = (Long)objects[0];
-                    WikiComment c = (WikiComment)objects[1];
-                    c.setLevel(level);
-                    return c;
-                }
-                public List transformList(List list) {
-                    return list;
-                }
-            }
-        );
-        return nsQuery.list();
+    public List<WikiComment> findWikiComments(WikiDocument document, boolean orderbyDateAscending) {
+        String query =
+                "select c from WikiComment c where c.parent = :parentDoc order by c.createdOn " +
+                (orderbyDateAscending ? "asc" : "desc");
+        return (List<WikiComment>)restrictedEntityManager
+                .createQuery(query)
+                .setParameter("parentDoc", document)
+                .setHint("org.hibernate.comment", "Finding all comments of document")
+                .getResultList();
     }
 
     public WikiFile findWikiFile(Long fileId) {
@@ -239,8 +158,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find wikifile by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -258,8 +177,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find wikifile in area")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -272,8 +191,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find document by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -288,8 +207,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find default file")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -303,8 +222,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find default doc")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -334,8 +253,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find document in area")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -366,8 +285,8 @@ public class WikiNodeDAO {
                     .setMaxResults(1)
                     .setParameter("current", currentDocument)
                     .getSingleResult();
-            } catch (EntityNotFoundException ex) {
-            } catch (NoResultException ex) {
+            } catch (EntityNotFoundException ignored) {
+            } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -380,8 +299,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find upload by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -406,8 +325,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find directory by id")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -419,8 +338,8 @@ public class WikiNodeDAO {
                     .setParameter("id", directoryId)
                     .setHint("org.hibernate.comment", "Find user for directory member home by id")
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -442,10 +361,68 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find directory in area")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
+    }
+
+    public List<Long> findWikiDirectoryTreeIDs(WikiDirectory startDir) {
+        List<Long> parentDirIds = new ArrayList();
+        List<WikiTreeNode<WikiDirectory>> directoryTree = findWikiDirectoryTree(startDir, WikiNode.SortableProperty.createdOn, true);
+        for (WikiTreeNode<WikiDirectory> treeNode : directoryTree) {
+            parentDirIds.add(treeNode.getNode().getId());
+        }
+        return parentDirIds;
+    }
+
+    public List<WikiTreeNode<WikiDirectory>> findWikiDirectoryTree(WikiDirectory rootDir, WikiNode.SortableProperty sortByProperty, boolean sortAscending) {
+        List<WikiTreeNode<WikiDirectory>> tree = new ArrayList();
+        long level = 1;
+        tree.add(new WikiTreeNode<WikiDirectory>(level++, rootDir));
+
+        String query = "select d from WikiDirectory d where d.parent.id = :parentNodeId and d.readAccessLevel <= :readAccessLevel order by " +
+                sortByProperty.name() + " " + (sortAscending ? "asc" : "desc");
+
+        appendWikiNodeChildren(query, tree, rootDir.getId(), level, null, null);
+        return tree;
+    }
+
+    public List<WikiTreeNode<WikiDirectory>> findMenuItemTree(WikiDirectory rootDir, Long maxDepth, Long flattenToLevel, boolean onlyCreatedByAdminUser) {
+        List<WikiTreeNode<WikiDirectory>> tree = new ArrayList();
+        long level = 1;
+        // TODO: Root in or out?
+        // tree.add(new WikiTreeNode<WikiDirectory>(level++, rootDir));
+
+        String query = "select d from WikiMenuItem mi join mi.directory d" +
+                " where d.parent.id = :parentNodeId" +
+                " and d.readAccessLevel <= :readAccessLevel" +
+                (onlyCreatedByAdminUser ? " and d.createdBy.id = '"+((User)Component.getInstance("adminUser")).getId()+"'" : "") +
+                " order by mi.displayPosition asc";
+
+        appendWikiNodeChildren(query, tree, rootDir.getId(), level, maxDepth, flattenToLevel);
+        return tree;
+    }
+
+    // Recursive! Don't use for large trees...
+    private void appendWikiNodeChildren(String query, List tree, long parentNodeId, long currentLevel, Long maxDepth, Long flattenToLevel) {
+        List<WikiNode> nodes = restrictedEntityManager.createQuery(query)
+                .setHint("org.hibernate.comment", "Querying children of wiki node: " + parentNodeId)
+                .setParameter("parentNodeId", parentNodeId)
+                .setParameter("readAccessLevel", Component.getInstance("currentAccessLevel"))
+                .getResultList();
+        for (WikiNode node : nodes) {
+            tree.add(new WikiTreeNode(currentLevel, node));
+            if (maxDepth == null || currentLevel < maxDepth) {
+                if (flattenToLevel == null || currentLevel < flattenToLevel) {
+                    currentLevel++;
+                    appendWikiNodeChildren(query, tree, node.getId(), currentLevel, maxDepth, flattenToLevel);
+                    currentLevel--;
+                } else {
+                    appendWikiNodeChildren(query, tree, node.getId(), currentLevel, maxDepth, flattenToLevel);
+                }
+            }
+        }
     }
 
     public WikiDirectory findAreaUnrestricted(String wikiname) {
@@ -464,8 +441,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find area by wikiname")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -478,8 +455,8 @@ public class WikiNodeDAO {
                     .setHint("org.hibernate.comment", "Find area by area number")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
     }
@@ -555,8 +532,8 @@ public class WikiNodeDAO {
                     .setParameter("dir", dir)
                     .setHint("org.hibernate.comment", "Find menu item of directory")
                     .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
+        } catch (EntityNotFoundException ignored) {
+        } catch (NoResultException ignored) {
         }
         return null;
 
@@ -566,167 +543,6 @@ public class WikiNodeDAO {
         return restrictedEntityManager.createQuery("select m from WikiMenuItem m where m.directory.parent = :parent order by m.displayPosition asc")
                 .setParameter("parent", parentDir)
                 .getResultList();
-    }
-
-    public NestedSetNodeWrapper<WikiDirectory> findMenuItemTree(WikiDirectory startDir, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
-
-        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper = 
-            new NestedSetNodeWrapper<WikiDirectory>(startDir, new WikiDirectoryDisplayPositionComparator());
-
-        NestedSetResultTransformer<WikiDirectory> transformer =
-            new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
-
-        transformer.getAdditionalProjections().put("displayPosition", "m.displayPosition");
-
-        // Make hollow copies for menu display so that changes to the model in the persistence context don't appear
-        transformer.setNestedSetDuplicator(
-            new NestedSetDuplicator<WikiDirectory>() {
-                public WikiDirectory duplicate(WikiDirectory original) {
-                    WikiDirectory copy = new WikiDirectory();
-                    copy.flatCopy(original, false);
-                    copy.setId(original.getId());
-                    copy.setParent(original.getParent());
-                    return copy;
-                }
-            }
-        );
-
-        appendNestedSetNodes(transformer, maxDepth, showAdminOnly, "WikiMenuItem m", "m.id = n1.id");
-        return startNodeWrapper;
-
-    }
-
-    public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir) {
-        return findWikiDirectoryTree(startDir, null, 0l, false);
-    }
-
-    public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir,
-                                                                     Long maxDepth, Long flattenToLevel,
-                                                                     boolean showAdminOnly) {
-
-        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper =
-            new NestedSetNodeWrapper<WikiDirectory>(startDir, new WikiDirectoryNameComparator());
-
-        NestedSetResultTransformer<WikiDirectory> transformer =
-            new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
-
-        appendNestedSetNodes(transformer, maxDepth, showAdminOnly, null);
-        return startNodeWrapper;
-
-    }
-
-    public <N extends NestedSetNode> void appendNestedSetNodes(NestedSetResultTransformer<N> transformer,
-                                                                   Long maxDepth,
-                                                                   boolean showAdminOnly,
-                                                                   String selectionFragment,
-                                                                   String... restrictionFragment) {
-
-        N startNode = transformer.getRootWrapper().getWrappedNode();
-
-        log.debug("appending nested set nodes to node: " + startNode + ", " + startNode.getNodeInfo());
-
-        NestedSetQueryBuilder builder = new NestedSetQueryBuilder(startNode, false);
-
-        StringBuilder queryString = new StringBuilder();
-
-        queryString.append("select").append(" ");
-        queryString.append(builder.getSelectLevelClause()).append(", ");
-        queryString.append(builder.getSelectNodeClause()).append(" ");
-        for (Map.Entry<String, String> entry : transformer.getAdditionalProjections().entrySet()) {
-            queryString.append(", ").append(entry.getValue()).append(" as ").append(entry.getKey()).append(" ");
-        }
-        queryString.append("from ").append(builder.getFromClause());
-        if (selectionFragment != null) {
-            queryString.append(", ").append(selectionFragment);
-        }
-        queryString.append(" where ").append(builder.getWhereClause()).append(" ");
-        if (showAdminOnly) {
-            queryString.append("and ").append(NestedSetQueryBuilder.NODE_ALIAS).append(".createdBy = :adminUser").append(" ");
-        }
-        for (String fragment: restrictionFragment) {
-            queryString.append("and ").append(fragment).append(" ");
-        }
-        queryString.append("group by ").append(builder.getGroupByClause()).append(" ");
-        for (Map.Entry<String, String> entry : transformer.getAdditionalProjections().entrySet()) {
-            queryString.append(", ").append(entry.getValue()).append(" ");
-        }
-
-        if (maxDepth != null) {
-            queryString.append("having count(").append(NestedSetQueryBuilder.NODE_ALIAS).append(".id) <= :maxDepth").append(" ");
-        }
-
-        queryString.append("order by ").append(builder.getOrderByClause());
-
-        org.hibernate.Query nestedSetQuery = getSession(true).createQuery(queryString.toString());
-        nestedSetQuery.setParameter("nsThread", startNode.getNodeInfo().getNsThread());
-        nestedSetQuery.setParameter("nsLeft", startNode.getNodeInfo().getNsLeft());
-        nestedSetQuery.setParameter("nsRight", startNode.getNodeInfo().getNsRight());
-        if (showAdminOnly) nestedSetQuery.setParameter("adminUser", Component.getInstance("adminUser"));
-        if (maxDepth != null) nestedSetQuery.setParameter("maxDepth", maxDepth);
-
-        nestedSetQuery.setComment("Appending nested set nodes to startnode: " + startNode.getId());
-
-        nestedSetQuery.setResultTransformer(transformer);
-        nestedSetQuery.list(); // Append all children hierarchically to the transformers rootWrapper
-    }
-
-    // TODO: This is not great
-    public void updateWikiDocumentComments(WikiDocument document) {
-
-        // First, the denormalized "last comment" data duplication
-
-        // TODO: This probably is vulnerable to a race condition if we don't lock the whole WIKI_DOCUMENT_LAST_COMMENT table
-
-        Long lastCommentId = (Long)
-            getSession(true).getNamedQuery("findLastCommentOfDocument")
-                .setParameter("documentId", document.getId())
-                .setComment("Finding last comment of document: " + document.getId())
-                .uniqueResult();
-
-        WikiComment lastComment = null;
-        if (lastCommentId!= null) {
-            lastComment = restrictedEntityManager.find(WikiComment.class, lastCommentId);
-        }
-
-        WikiDocumentLastComment existingLastCommentEntry
-                = restrictedEntityManager.find(WikiDocumentLastComment.class, document.getId());
-
-        if (existingLastCommentEntry != null && lastComment == null) {
-            restrictedEntityManager.remove(existingLastCommentEntry);
-        } else if (existingLastCommentEntry != null) {
-            existingLastCommentEntry.setLastCommentId(lastComment.getId());
-            existingLastCommentEntry.setLastCommentCreatedOn(lastComment.getCreatedOn());
-        } else if (lastComment != null){
-            existingLastCommentEntry = new WikiDocumentLastComment();
-            existingLastCommentEntry.setDocumentId(document.getId());
-            existingLastCommentEntry.setLastCommentId(lastComment.getId());
-            existingLastCommentEntry.setLastCommentCreatedOn(lastComment.getCreatedOn());
-            restrictedEntityManager.persist(existingLastCommentEntry);
-        }
-
-        // Next, the denormalized "total comment count" data duplication
-
-        Long commentCount = 0l;
-        try {
-            commentCount = (Long)
-                    getSession(true).getNamedQuery("countCommentOfDocument")
-                        .setParameter("documentId", document.getId())
-                        .setComment("Counting comments of document: " + document.getId())
-                        .uniqueResult();
-        } catch (Exception ex) {
-            // Ugh
-        }
-
-        WikiDocumentCountComment existingCommentCount =
-                restrictedEntityManager.find(WikiDocumentCountComment.class, document.getId());
-        if (existingCommentCount != null) {
-            existingCommentCount.setCommentCount(commentCount);
-        } else {
-            existingCommentCount = new WikiDocumentCountComment();
-            existingCommentCount.setDocumentId(document.getId());
-            existingCommentCount.setCommentCount(commentCount);
-            restrictedEntityManager.persist(existingCommentCount);
-        }
     }
 
     private Session getSession(boolean restricted) {

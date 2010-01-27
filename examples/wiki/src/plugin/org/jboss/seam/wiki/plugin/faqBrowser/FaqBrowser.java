@@ -13,7 +13,7 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiNode;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.model.WikiTreeNode;
 
 import java.util.List;
 import java.io.Serializable;
@@ -40,8 +40,8 @@ public class FaqBrowser implements Serializable {
     @In(required = false)
     String requestedCategory;
 
-    NestedSetNodeWrapper<WikiDirectory> tree;
-    NestedSetNodeWrapper<WikiDirectory> selectedDir;
+    List<WikiTreeNode<WikiDirectory>> tree;
+    WikiTreeNode<WikiDirectory> selectedDir;
     boolean directorySelected = false;
 
     public void loadTree() {
@@ -49,7 +49,7 @@ public class FaqBrowser implements Serializable {
         WikiDirectory faqRoot = faqBrowserDAO.findFaqRootDir(currentDirectory);
         if (faqRoot != null) {
             log.debug("found faq root: " + faqRoot);
-            tree = wikiNodeDAO.findWikiDirectoryTree(faqRoot, 99l, 1l, false);
+            tree = wikiNodeDAO.findWikiDirectoryTree(faqRoot, WikiNode.SortableProperty.createdOn, true);
         } else {
             log.warn("did not find faq root, started search in: " + currentDirectory);
         }
@@ -65,31 +65,28 @@ public class FaqBrowser implements Serializable {
             WikiDirectory dir = wikiNodeDAO.findWikiDirectoryInArea(currentDirectory.getAreaNumber(), requestedCategory);
             if (dir != null) {
                 log.debug("found requested category, setting selected directory: " + dir);
-                selectedDir = new NestedSetNodeWrapper<WikiDirectory>(dir);
+                selectedDir = new WikiTreeNode(0, dir);
                 showQuestions();
             }
         }
         if (selectedDir == null) {
             log.debug("setting selected directory to current directory");
-            selectedDir =
-                new NestedSetNodeWrapper<WikiDirectory>(
-                    wikiNodeDAO.findWikiDirectory(currentDirectory.getId())
-                );
+            selectedDir = new WikiTreeNode(0, wikiNodeDAO.findWikiDirectory(currentDirectory.getId()));
         }
     }
 
-    public NestedSetNodeWrapper<WikiDirectory> getTree() {
+    public List<WikiTreeNode<WikiDirectory>> getTree() {
         log.debug("getting faq tree");
         if (tree == null) loadTree();
         return tree;
     }
 
-    public NestedSetNodeWrapper<WikiDirectory> getSelectedDir() {
+    public WikiTreeNode<WikiDirectory> getSelectedDir() {
         log.debug("getting selected directory : " + selectedDir);
         return selectedDir;
     }
 
-    public void setSelectedDir(NestedSetNodeWrapper<WikiDirectory> selectedDir) {
+    public void setSelectedDir(WikiTreeNode<WikiDirectory> selectedDir) {
         log.debug("setting selected directory: " + selectedDir);
         this.selectedDir = selectedDir;
     }
@@ -100,9 +97,9 @@ public class FaqBrowser implements Serializable {
 
     @Observer("FaqBrowser.questionListRefresh")
     public void showQuestions() {
-        log.debug("showing questions of currently selected directory: " + selectedDir.getWrappedNode());
+        log.debug("showing questions of currently selected: " + selectedDir);
         directorySelected = true;
-        questions = wikiNodeDAO.findWikiDocuments(selectedDir.getWrappedNode(), WikiNode.SortableProperty.createdOn, true);
+        questions = wikiNodeDAO.findWikiDocuments(selectedDir.getNode(), WikiNode.SortableProperty.createdOn, true);
     }
 
     public void hideQuestions() {

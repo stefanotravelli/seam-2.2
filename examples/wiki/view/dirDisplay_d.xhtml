@@ -43,6 +43,7 @@
                         <h:outputText escape="false" value="#{messages['lacewiki.label.template.RegularWikiDocument']}"/>
                         <f:param name="documentId" value=""/>
                         <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                        <f:param name="templateType" value=""/>
                     </s:link>
                 </li>
                 <ui:repeat var="templateType" value="#{templateRegistry.templateTypes}">
@@ -101,10 +102,17 @@
 
 <s:div styleClass="box directoryBrowser" id="directoryBrowser">
 
+<!--
     <ui:include src="includes/directoryBrowserPath.xhtml">
         <ui:param name="renderOnSelect" value="control, directoryBrowser, messageBoxContainer"/>
     </ui:include>
+-->
 
+    <h:panelGrid id="directoryBrowserMainPanel" styleClass="directoryBrowserMainPanel"
+                 columnClasses="directoryBrowserContentPanel"
+                 columns="2" cellpadding="0" cellspacing="0" border="0">
+
+<!--
     <h:panelGrid id="directoryBrowserMainPanel" styleClass="directoryBrowserMainPanel"
                  columnClasses="directoryBrowserTreePanel #{directoryBrowserSettings.treeVisible ? 'open':'closed'}, directoryBrowserContentPanel"
                  columns="2" cellpadding="0" cellspacing="0" border="0">
@@ -114,6 +122,7 @@
                 <ui:param name="renderOnSelect" value="control, directoryBrowser, messageBoxContainer"/>
             </ui:include>
         </s:fragment>
+-->
 
         <s:div id="directoryBrowserContentPanel">
         <h:form>
@@ -260,6 +269,8 @@
                                         <li>
                                             <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
                                                 <f:param name="documentId" value="#{node.id}"/>
+                                                <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                                                <f:param name="templateType" value=""/>
                                                 <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
                                             </s:link>
                                         </li>
