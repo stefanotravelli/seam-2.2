@@ -76,6 +76,15 @@ public class ResourceLoader
                Locale.instance(), 
                Thread.currentThread().getContextClassLoader() 
          );
+         
+         // for getting bundle from page level message properties
+         if (bundle == null){
+            bundle = java.util.ResourceBundle.getBundle( 
+                  bundleName, 
+                  Locale.instance(), 
+                  ServletLifecycle.getCurrentServletContext().getClass().getClassLoader() 
+            );
+         }
          log.debug("loaded resource bundle: " + bundleName);
          return bundle;
       }
