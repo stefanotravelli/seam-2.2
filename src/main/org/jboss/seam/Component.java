@@ -1980,7 +1980,7 @@ public class Component extends Model
    public static Object getInstance(String name, boolean create, boolean allowAutocreation)
    {
       Object result = Contexts.lookupInStatefulContexts(name);
-      result = getInstance(name, create, allowAutocreation, result);
+      result = getInstance(name, create, allowAutocreation, result, null);
       return result;
    }
 
@@ -1997,18 +1997,18 @@ public class Component extends Model
    public static Object getInstance(String name, ScopeType scope, boolean create, boolean allowAutocreation)
    {
       Object result = scope==STATELESS ? null : scope.getContext().get(name);
-      result = getInstance(name, create, allowAutocreation, result);
+      result = getInstance(name, create, allowAutocreation, result, scope);
       return result;
    }
 
-   private static Object getInstance(String name, boolean create, boolean allowAutoCreation, Object result) {
+   private static Object getInstance(String name, boolean create, boolean allowAutoCreation, Object result, ScopeType scope) {
       Component component = Component.forName(name);
 
       create = create || (Init.instance().isAutocreateVariable(name) && allowAutoCreation);
 
       if (result==null && create)
       {
-        result = getInstanceFromFactory(name);
+        result = getInstanceFromFactory(name, scope);
         if (result==null)
         {
            if (component==null)
@@ -2048,6 +2048,11 @@ public class Component extends Model
 
    public static Object getInstanceFromFactory(String name)
    {
+      return getInstanceFromFactory(name, null);
+   }
+
+   private static synchronized Object getInstanceFromFactory(String name, ScopeType scope)
+   {
       Init init = Init.instance();
       if (init==null) //for unit tests, yew!
       {
@@ -2055,6 +2060,13 @@ public class Component extends Model
       }
       else
       {
+         // check whether there has been created an instance by another thread while waiting for this function's lock
+         if (scope != STATELESS) {
+            Object value = (scope == null) ? Contexts.lookupInStatefulContexts(name) : scope.getContext().get(name);
+            if (value != null) {
+               return value;
+            }
+         }
          Init.FactoryMethod factoryMethod = init.getFactory(name);
          Init.FactoryExpression methodBinding = init.getFactoryMethodExpression(name);
          Init.FactoryExpression valueBinding = init.getFactoryValueExpression(name);
