@@ -73,124 +73,118 @@ public class Interpolator
    {
       StringTokenizer tokens = new StringTokenizer(string, "#{}", true);
       StringBuilder builder = new StringBuilder(string.length());
-      try
+      
+      while (tokens.hasMoreTokens())
       {
-         while (tokens.hasMoreTokens())
+         String tok = tokens.nextToken();
+         
+         if ("#".equals(tok) && tokens.hasMoreTokens())
          {
-            String tok = tokens.nextToken();
+            String nextTok = tokens.nextToken();
             
-            if ("#".equals(tok) && tokens.hasMoreTokens())
+            while (nextTok.equals("#") && tokens.hasMoreTokens())
             {
-               String nextTok = tokens.nextToken();
-               
-               while (nextTok.equals("#") && tokens.hasMoreTokens())
-               {
-                  builder.append(tok);
-                  nextTok = tokens.nextToken();
-               }
-               
-               if ("{".equals(nextTok))
-               {
-                  String expression = "#{" + tokens.nextToken() + "}";
-                  try
-                  {
-                     Object value = Expressions.instance().createValueExpression(expression).getValue();
-                     if (value != null)
-                        builder.append(value);
-                  }
-                  catch (Exception e)
-                  {
-                     log.debug("exception interpolating string: " + string, e);
-                  }
-                  tokens.nextToken(); // the trailing "}"
-                  
-               }
-               else if (nextTok.equals("#"))
-               {
-                  // could be trailing #
-                  builder.append("#");
-                  
-               }
-               else
-               {
-                  int index;
-                  try
-                  {
-                     index = Integer.parseInt(nextTok.substring(0, 1));
-                     if (index >= params.length)
-                     {
-                        // log.warn("parameter index out of bounds: " + index +
-                        // " in: " + string);
-                        builder.append("#").append(nextTok);
-                     }
-                     else
-                     {
-                        builder.append(params[index]).append(nextTok.substring(1));
-                     }
-                  }
-                  catch (NumberFormatException nfe)
-                  {
-                     builder.append("#").append(nextTok);
-                  }
-               }
+               builder.append(tok);
+               nextTok = tokens.nextToken();
             }
-            else if ("{".equals(tok))
+            
+            if ("{".equals(nextTok))
             {
-               StringBuilder expr = new StringBuilder();
-               
-               expr.append(tok);
-               int level = 1;
-               
-               while (tokens.hasMoreTokens())
+               String expression = "#{" + tokens.nextToken() + "}";
+               try
                {
-                  String nextTok = tokens.nextToken();
-                  expr.append(nextTok);
-                  
-                  if (nextTok.equals("{"))
-                  {
-                     ++level;
-                  }
-                  else if (nextTok.equals("}"))
-                  {
-                     if (--level == 0)
-                     {
-                        try
-                        {
-                           if (params.length == 0)
-                           {
-                              builder.append(expr.toString());
-                           }
-                           else
-                           {
-                              String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
-                              builder.append(value);
-                           }
-                        }
-                        catch (Exception e)
-                        {
-                           // if it is a bad message, use the expression itself
-                           builder.append(expr);
-                        }
-                        expr = null;
-                        break;
-                     }
-                  }
+                  Object value = Expressions.instance().createValueExpression(expression).getValue();
+                  if (value != null)
+                     builder.append(value);
                }
-               
-               if (expr != null)
+               catch (Exception e)
                {
-                  builder.append(expr);
+                  log.debug("exception interpolating string: " + string, e);
                }
+               tokens.nextToken(); // the trailing "}"
+               
+            }
+            else if (nextTok.equals("#"))
+            {
+               // could be trailing #
+               builder.append("#");
+               
             }
             else
             {
-               builder.append(tok);
+               int index;
+               try
+               {
+                  index = Integer.parseInt(nextTok.substring(0, 1));
+                  if (index >= params.length)
+                  {
+                     // log.warn("parameter index out of bounds: " + index +
+                     // " in: " + string);
+                     builder.append("#").append(nextTok);
+                  }
+                  else
+                  {
+                     builder.append(params[index]).append(nextTok.substring(1));
+                  }
+               }
+               catch (NumberFormatException nfe)
+               {
+                  builder.append("#").append(nextTok);
+               }
             }
          }
-      }
-      catch (Exception e)
-      {
-         log.debug("exception interpolating string: " + string, e);
+         else if ("{".equals(tok))
+         {
+            StringBuilder expr = new StringBuilder();
+            
+            expr.append(tok);
+            int level = 1;
+            
+            while (tokens.hasMoreTokens())
+            {
+               String nextTok = tokens.nextToken();
+               expr.append(nextTok);
+               
+               if (nextTok.equals("{"))
+               {
+                  ++level;
+               }
+               else if (nextTok.equals("}"))
+               {
+                  if (--level == 0)
+                  {
+                     try
+                     {
+                        if (params.length == 0)
+                        {
+                           builder.append(expr.toString());
+                        }
+                        else
+                        {
+                           String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
+                           builder.append(value);
+                        }
+                     }
+                     catch (Exception e)
+                     {
+                        // if it is a bad message, use the expression itself
+                        builder.append(expr);
+                     }
+                     expr = null;
+                     break;
+                  }
+               }
+            }
+            
+            if (expr != null)
+            {
+               builder.append(expr);
+            }
+         }
+         else
+         {
+            builder.append(tok);
+         }
       }
       
       return builder.toString();
