@@ -24,45 +24,51 @@ import org.jboss.seam.log.Logging;
 @BypassInterceptors
 @Scope(STATELESS)
 @Name("org.jboss.seam.core.interpolator")
-@Install(precedence=BUILT_IN)
-public class Interpolator 
+@Install(precedence = BUILT_IN)
+public class Interpolator
 {
-
-    private static final LogProvider log = Logging.getLogProvider(Interpolator.class);
-
-    public static Interpolator instance()
-    {
-        if (Contexts.isApplicationContextActive()) {
-            return (Interpolator) Component.getInstance(Interpolator.class, ScopeType.APPLICATION);         
-        } else {
-            return new Interpolator(); //for unit testing
-        }
-    }
-
-    /**
-     * Replace all EL expressions in the form #{...} with their evaluated
-     * values.
-     * 
-     * @param string a template
-     * @return the interpolated string
-     */
-    public String interpolate(String string, Object... params) 
-    {
-        if (params == null) {
-            params = new Object[0];
-        }
-
-        if (params.length>10) {
-            throw new IllegalArgumentException("more than 10 parameters");
-        }
-
-        if (string.indexOf('#')>=0 || string.indexOf('{')>=0) {
-            string = interpolateExpressions(string, params);
-        }
-
-        return string;
-    }
-
+   
+   private static final LogProvider log = Logging.getLogProvider(Interpolator.class);
+   
+   public static Interpolator instance()
+   {
+      if (Contexts.isApplicationContextActive())
+      {
+         return (Interpolator) Component.getInstance(Interpolator.class, ScopeType.APPLICATION);
+      }
+      else
+      {
+         return new Interpolator(); // for unit testing
+      }
+   }
+   
+   /**
+    * Replace all EL expressions in the form #{...} with their evaluated values.
+    * 
+    * @param string
+    *           a template
+    * @return the interpolated string
+    */
+   public String interpolate(String string, Object... params)
+   {
+      if (params == null)
+      {
+         params = new Object[0];
+      }
+      
+      if (params.length > 10)
+      {
+         throw new IllegalArgumentException("more than 10 parameters");
+      }
+      
+      if (string.indexOf('#') >= 0 || string.indexOf('{') >= 0)
+      {
+         string = interpolateExpressions(string, params);
+      }
+      
+      return string;
+   }
+   
    private String interpolateExpressions(String string, Object... params)
    {
       StringTokenizer tokens = new StringTokenizer(string, "#{}", true);
@@ -189,5 +195,5 @@ public class Interpolator
       
       return builder.toString();
    }
-
+   
 }
