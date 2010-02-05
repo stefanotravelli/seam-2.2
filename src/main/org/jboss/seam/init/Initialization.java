@@ -599,10 +599,16 @@ public class Initialization
             }
          }
          
-         throw new IllegalStateException("Two components with the same name and precedence - " +
-               "component name: " + name + ", component classes: " + 
-               descriptor.getComponentClass().getName() + ", " +
-               (other != null ? other.getComponentClass().getName() : "<unknown>"));
+         // for the same component name and the same class in classpath don't throw exception,
+         // use the first in classpath as standard order - JBSEAM-3996 
+         Class clazz = descriptor.getComponentClass();         
+         if (!clazz.equals(other.getComponentClass())) 
+         {         
+            throw new IllegalStateException("Two components with the same name and precedence - " +
+                  "component name: " + name + ", component classes: " + 
+                  descriptor.getComponentClass().getName() + ", " +
+                  (other != null ? other.getComponentClass().getName() : "<unknown>"));
+         }
       }
    }
 
