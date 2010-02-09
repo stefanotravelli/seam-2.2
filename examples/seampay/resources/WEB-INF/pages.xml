@@ -5,5 +5,10 @@
 
    <page view-id="/search.xhtml">
           <param name="accountId" value="#{accountHome.id}" converterId="javax.faces.Long" />
+          <navigation>
+          	<rule if-outcome="persisted">
+          		<render/>
+          	</rule>
+          </navigation>
    </page>
 </pages>
