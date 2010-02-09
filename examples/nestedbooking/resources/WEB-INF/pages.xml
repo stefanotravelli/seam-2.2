@@ -4,8 +4,7 @@
 
     <page view-id="/register.xhtml">
     
-        <action if="#{validation.failed}"
-           execute="#{register.invalid}"/>
+        <action if="#{validation.failed}" execute="#{register.invalid}"/>
     
         <navigation>
             <rule if="#{register.registered}">
@@ -17,17 +16,14 @@
 
     <page view-id="/home.xhtml" action="#{identity.isLoggedIn}">
 
-        <navigation from-action="#{identity.isLoggedIn}">
-            <rule if-outcome="true">
-                <redirect view-id="/main.xhtml"/>
-            </rule>
-        </navigation>
-    
-        <navigation>
-            <rule if="#{identity.loggedIn}">
-                <redirect view-id="/main.xhtml"/>
-            </rule>
-        </navigation>
+        <navigation from-action="#{identity.isLoggedIn}"> 
+      		<rule if-outcome="true"> 
+         		<redirect view-id="/main.xhtml"/> 
+      		</rule> 
+      		<rule if-outcome="false"> 
+         		<render view-id="/home.xhtml"/> 
+      		</rule> 
+	</navigation>
         
     </page>
     
