@@ -48,7 +48,7 @@ public class RegisterAction implements Serializable
       if (confirm == null || !confirm.equals(newuser.getPassword()))
       {
          FacesMessages.instance().addToControl("confirm", "Passwords do not match");
-         return "failed";
+         return null;
       }
       
       if (entityManager.createQuery("from User where username = :username")
@@ -57,7 +57,7 @@ public class RegisterAction implements Serializable
       {
          FacesMessages.instance().addToControl("username", 
                "That user ID is already taken, please choose a different one");
-         return "failed"; 
+         return null; 
       }
       
       newuser.getAccount().setFeedbackPercent(0);
@@ -82,7 +82,7 @@ public class RegisterAction implements Serializable
       {
          FacesMessages.instance().addToControl("username", 
                "That user ID is already taken, please choose a different one");
-         return "failed";  
+         return null;  
       }
    }
    
