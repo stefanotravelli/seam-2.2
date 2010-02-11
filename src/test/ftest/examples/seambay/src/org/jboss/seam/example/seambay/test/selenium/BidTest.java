@@ -47,7 +47,14 @@ public class BidTest extends SeleniumSeamBayTest
       search(title);
       browser.clickAndWait(getProperty("SEARCH_RESULTS_FIRST_ROW_LINK"));
       browser.clickAndWait(getProperty("ITEM_BID_HISTORY"));
-      bidCount = browser.getXpathCount(getProperty("BID_HISTORY_COUNT")).intValue();
+      if (browser.isElementPresent(getProperty("BID_HISTORY_COUNT_EMPTY")))
+      {
+         bidCount = 0;
+      }
+      else
+      {         
+         bidCount = browser.getXpathCount(getProperty("BID_HISTORY_COUNT")).intValue();
+      }      
       browser.goBackAndWait();
       placeBid(price);
       assertTrue("Auction page expected.", browser.getLocation().contains(getProperty("AUCTION_URL")));
