@@ -11,6 +11,11 @@
 	<page view-id="/selectItems.xhtml">
 		<begin-conversation join="true"/>
 		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	 	<navigation from-action="#{personHome.update}">        
+            <rule if-outcome="updated">
+       			<render/>         
+            </rule>        
+        </navigation>
 	</page>
 	
 	<page view-id="/formattedText.xhtml">
@@ -20,6 +25,11 @@
 	<page view-id="/fileUpload.xhtml">
 		<begin-conversation join="true"/>
 		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+		<navigation from-action="#{personHome.update}">        
+            <rule if-outcome="updated">
+                <render/>
+            </rule>        
+        </navigation>
 	</page>
 	
 	<page view-id="/graphicImage.xhtml">
