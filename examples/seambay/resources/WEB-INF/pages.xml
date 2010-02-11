@@ -43,6 +43,9 @@
                     <param name="id" value="#{bidAction.bid.auction.auctionId}"/>
                 </redirect>
             </rule>        
+            <rule if-outcome="outbid">
+                <render/>
+            </rule>        
         </navigation>
     </page>
 
