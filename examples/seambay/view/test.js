@@ -14,6 +14,7 @@ ServiceMetadata = function(name, group)
   this.group = group;
   this.parameters = new Array();
   this.conversational = false;
+  this.active = false;
 
   webServices[name] = this;
 
@@ -24,6 +25,7 @@ ServiceMetadata = function(name, group)
   ServiceMetadata.prototype.getRequest = function() { return this.request; };
   ServiceMetadata.prototype.setConversational = function(val) { this.conversational = val; };
   ServiceMetadata.prototype.isConversational = function() { return this.conversational; };
+  ServiceMetadata.prototype.setActive = function(val) { this.active = val; };
 }
 
 // start of web service definitions
@@ -291,6 +293,7 @@ function sendRequest()
   req.open("POST", getEndpoint(), true);
   req.setRequestHeader("Content-type", "text/xml");
   req.send(document.getElementById("serviceRequest").value);
+  selectedService.setActive(true);
 }
 
 function receiveResponse(req)
@@ -309,7 +312,8 @@ function receiveResponse(req)
         document.getElementById("conversationId").value = cid;
       }
     }
-      
+	selectedService.setActive(false);      
+
     if (req.status != 200)
     {
       alert("There was an error processing your request.  Error code: " + req.status);      
