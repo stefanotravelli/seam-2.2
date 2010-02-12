@@ -3,7 +3,11 @@
 
 	<!-- Check that we are using Ant 1.7.0. Not using <antversion> as it wasn't available until 1.7.0. -->
 	<condition property="compatible.ant">
-		<contains string="${ant.version}" substring="1.7.0"/>
+	    <or>
+	        <contains string="${ant.version}" substring="1.7.0"/>
+	        <contains string="${ant.version}" substring="1.8.0"/>
+	    </or>
+		
 	</condition>
 
 	<fail unless="compatible.ant">You are using ${ant.version}. You must use Ant 1.7.0 to build Seam. Ant 1.7.1 has known bugs.</fail>
