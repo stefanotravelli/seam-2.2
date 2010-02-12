@@ -29,8 +29,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * This is the base class for Tasks functional tests.
- * Uses jQuery library and Selenium to match AJAX updates.
+ * This is the base class for Tasks functional tests. Uses jQuery library and
+ * Selenium to match AJAX updates.
  * 
  * @author kpiwko
  * 
@@ -166,14 +166,6 @@ public class SeleniumTasksTest extends SeamSeleniumTest
    }
 
    /**
-    * Waits until all existing jQuery request are processed
-    */
-   protected void waitForJQueryUpdate()
-   {
-      browser.waitForCondition("selenium.browserbot.getCurrentWindow().jQuery.active===0", TIMEOUT);
-   }
-
-   /**
     * Presses undo button for given task
     * 
     * @param task The task name
@@ -211,7 +203,7 @@ public class SeleniumTasksTest extends SeamSeleniumTest
    protected void navigate(String anchor)
    {
       browser.clickAndWait(anchor);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
    }
 
    /**
@@ -225,11 +217,12 @@ public class SeleniumTasksTest extends SeamSeleniumTest
    {
       String btn = buttonPresent(description, button);
       browser.click(btn);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
    }
 
    /**
     * Checks whether button is present on page
+    * 
     * @param description The task/category associated with button
     * @param button Button type label
     * @return Button locator
@@ -243,6 +236,7 @@ public class SeleniumTasksTest extends SeamSeleniumTest
 
    /**
     * Checks whether button is not present on page
+    * 
     * @param description The task/category associated with button
     * @param button Button type label
     * @return Button locator
@@ -256,6 +250,7 @@ public class SeleniumTasksTest extends SeamSeleniumTest
 
    /**
     * Creates new task
+    * 
     * @param category Category of the task
     * @param description Description of the task
     */
@@ -264,11 +259,12 @@ public class SeleniumTasksTest extends SeamSeleniumTest
       browser.select(NEW_TASK_CATEGORY, String.format("value=%s", category));
       browser.type(NEW_TASK_DESCRIPTION, description);
       browser.click(NEW_TASK_SUBMIT);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
    }
 
    /**
-    * Edits task 
+    * Edits task
+    * 
     * @param task Old description of the task
     * @param newCategory New category
     * @param newDescription Old description of the task
@@ -277,22 +273,23 @@ public class SeleniumTasksTest extends SeamSeleniumTest
    {
       String btn = buttonPresent(task, EDIT_BTN_TITLE);
       browser.click(btn);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
       browser.select(EDIT_TASK_CATEGORY, String.format("value=%s", newCategory));
       browser.type(EDIT_TASK_DESCRIPTION, newDescription);
       browser.click(EDIT_TASK_SUBMIT);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
    }
 
    /**
     * Creates new category
+    * 
     * @param category Category description
     */
    protected void newCategory(String category)
    {
       browser.type(NEW_CATEGORY_DESCRIPTION, category);
       browser.click(NEW_CATEGORY_SUBMIT);
-      waitForJQueryUpdate();
+      browser.waitForAJAXUpdate();
    }
 
 }
