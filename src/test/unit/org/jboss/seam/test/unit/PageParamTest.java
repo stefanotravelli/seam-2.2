@@ -1,5 +1,7 @@
 package org.jboss.seam.test.unit;
 
+import java.util.Date;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.IntegerConverter;
@@ -10,6 +12,7 @@ import org.hibernate.validator.Length;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Validators;
+import org.jboss.seam.faces.DateConverter;
 import org.jboss.seam.navigation.Param;
 import org.testng.annotations.Test;
 
@@ -42,6 +45,15 @@ public class PageParamTest extends AbstractPageTest
       Param param = new Param("param");
       param.setValueExpression(Expressions.instance().createValueExpression("#{variable}"));
       assert param.getConverter() == null;
+   }
+   
+   @Test
+   public void testDateConverter()
+   {
+      Param param = setupParam(false);
+      
+      assert DateConverter.class.equals(param.getConverter().getClass());
+      
    }
    
    @Test
@@ -84,6 +96,20 @@ public class PageParamTest extends AbstractPageTest
       }
       return param;
    }
+
+   protected Param setupParam(boolean disableModelValidator)
+   {
+      installComponent(Contexts.getApplicationContext(), DateConverter.class);
+      Param param = new Param("birthDate");
+      param.setValueExpression(Expressions.instance().createValueExpression("#{bean.birthDate}"));
+      Bean bean = new Bean();
+      bean.setBirthDate(new Date());
+      Contexts.getEventContext().set("bean", bean);
+      if (disableModelValidator) {
+         param.setValidateModel(false);
+      }
+      return param;
+   }
    
    public static class TestValidator implements Validator
    {
@@ -94,6 +120,15 @@ public class PageParamTest extends AbstractPageTest
    
    class Bean {
       private String value;
+      private Date birthDate;
+      public Date getBirthDate()
+      {
+         return birthDate;
+      }
+      public void setBirthDate(Date birth)
+      {
+         this.birthDate = birth;
+      }
       @Length(min = 3, max = 10)
       public String getValue() {
          return value;

@@ -12,6 +12,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -116,5 +117,11 @@ public class DateConverter extends javax.faces.convert.DateTimeConverter {
 			log.debug("Converting date '#0' to string for clientId '#1' using Seam's built-in JSF date converter", value, component.getClientId(context));
 		}
 		return super.getAsString(context, component, value);
+	}
+	
+	public static javax.faces.convert.Converter getInstance(){
+
+	   return (javax.faces.convert.Converter) Component.getInstance("org.jboss.seam.faces.dateConverter");
+	   
 	}
 }

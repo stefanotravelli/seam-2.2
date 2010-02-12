@@ -1,5 +1,6 @@
 package org.jboss.seam.navigation;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.el.ELContext;
@@ -67,15 +68,23 @@ public final class Param
       else if (valueExpression==null)
       {
          return null;
-      }
+      } 
       else
       {
          Class<?> type = valueExpression.getType();
-         if (type==null)
+         if (type == null)
          {
             return null;
          }
-         return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
+         
+         if (type.equals(Date.class))
+         {
+            return org.jboss.seam.faces.DateConverter.getInstance();
+         }
+         else
+         {
+            return FacesContext.getCurrentInstance().getApplication().createConverter(type);
+         }
       }
    }
 
