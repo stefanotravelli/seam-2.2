@@ -36,20 +36,20 @@ import com.thoughtworks.selenium.Wait;
  */
 public class SeamSelenium extends DefaultSelenium
 {
-   
+
    private String timeout = "30000";
    private boolean icefacesDetection = false;
    private long icefacesWaitTime = 1000;
    private long windowMaximizeWaitTime = 5000L;
-   
+
    private final String ICEFACES_CONNECTION_STATUS = "xpath=//div[@class='iceOutConStat connectionStatus']";
    private final String ICEFACES_IDLE_VISIBLE = "xpath=//div[@class='iceOutConStatInactv connectionStatusInactv'][@style='visibility: visible;']";
-   
+
    public SeamSelenium(String serverHost, int serverPort, String browserStartCommand, String browserURL)
    {
       super(serverHost, serverPort, browserStartCommand, browserURL);
    }
-   
+
    /**
     * Same as click method but waits for page to load after clicking. Default
     * timeout can be changed by setTimeout() method.
@@ -61,7 +61,7 @@ public class SeamSelenium extends DefaultSelenium
       click(locator);
       waitForPageToLoad();
    }
-   
+
    /**
     * Simulates a user pressing "back" button and waits for page to load.
     * Default timeout can be changed by setTimeout() method.
@@ -71,7 +71,7 @@ public class SeamSelenium extends DefaultSelenium
       super.goBack();
       super.waitForPageToLoad(timeout);
    }
-   
+
    /**
     * Simulates a user pressing "refresh" button and waits for page to load.
     * Default timeout can be changed by setTimeout() method.
@@ -81,25 +81,25 @@ public class SeamSelenium extends DefaultSelenium
       super.refresh();
       super.waitForPageToLoad(timeout);
    }
-   
+
    @Override
    public void setTimeout(String timeout)
    {
       super.setTimeout(timeout);
       this.timeout = timeout;
    }
-   
+
    public String getTimeout()
    {
       return timeout;
    }
-   
+
    public void waitForPageToLoad()
    {
-      
+
       waitForPageToLoad(timeout);
    }
-   
+
    @Override
    public void waitForPageToLoad(String timeout)
    {
@@ -112,26 +112,52 @@ public class SeamSelenium extends DefaultSelenium
          super.waitForPageToLoad(timeout);
       }
    }
-   
+
+   /**
+    * Waits until any AJAX worker is registered by underlying framework performs update.
+    * Uses default (global) timeout
+    */
+   public void waitForAJAXUpdate()
+   {
+      waitForAJAXUpdate(timeout);
+   }
+
+   /**
+    * Waits until any AJAX worker is registered by underlying framework performs update.
+    * 
+    * @param timeout Timeout in milliseconds
+    */
+   public void waitForAJAXUpdate(String timeout)
+   {
+      // there are two frameworks supposed, either jQuery or Prototype
+      if (icefacesDetection)
+      {
+         // Prototype style
+         waitForCondition("selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount===0", timeout);
+      }
+      else
+      {
+         // jQuery style
+         waitForCondition("selenium.browserbot.getCurrentWindow().jQuery.active===0", timeout);
+      }
+   }
+
    /**
     * Waits until element is asynchronously loaded on page. Uses global Selenium
     * timeout
     * 
-    * @param locator
-    *           Locator of element
+    * @param locator Locator of element
     */
    public void waitForElement(final String locator)
    {
       waitForElement(locator, Long.valueOf(timeout));
    }
-   
+
    /**
     * Waits until element is asynchronously loaded on page.
     * 
-    * @param timeout
-    *           Timeout in milliseconds
-    * @param locator
-    *           Locator of element
+    * @param timeout Timeout in milliseconds
+    * @param locator Locator of element
     */
    public void waitForElement(final String locator, long timeout)
    {
@@ -144,14 +170,12 @@ public class SeamSelenium extends DefaultSelenium
          }
       }.wait("Timeout while waiting for asynchronous update of " + locator, timeout);
    }
-   
+
    /**
     * Waits until element is asynchronously unloaded from page.
     * 
-    * @param timeout
-    *           Timeout in milliseconds
-    * @param locator
-    *           Locator of element
+    * @param timeout Timeout in milliseconds
+    * @param locator Locator of element
     */
    public void waitForElementNotPresent(final String locator, long timeout)
    {
@@ -164,12 +188,11 @@ public class SeamSelenium extends DefaultSelenium
          }
       }.wait("Timeout while waiting for asynchronous update of " + locator, timeout);
    }
-   
+
    /**
     * Selects windows by its id. Waits until windows is refreshed.
     * 
-    * @param windowID
-    *           Identification of window which is selected
+    * @param windowID Identification of window which is selected
     */
    @Override
    public void selectWindow(String windowID)
@@ -178,7 +201,7 @@ public class SeamSelenium extends DefaultSelenium
       refresh();
       waitForPageToLoad();
    }
-   
+
    /**
     * Returns true if icefaces detection is turned on
     */
@@ -186,7 +209,7 @@ public class SeamSelenium extends DefaultSelenium
    {
       return icefacesDetection;
    }
-   
+
    /**
     * Switch icefaces detection on/off
     * 
@@ -196,7 +219,7 @@ public class SeamSelenium extends DefaultSelenium
    {
       this.icefacesDetection = icefacesDetection;
    }
-   
+
    /**
     * This wait time will be used when waiting for response after invoking
     * icefaces action
@@ -205,7 +228,7 @@ public class SeamSelenium extends DefaultSelenium
    {
       return icefacesWaitTime;
    }
-   
+
    /**
     * This wait time will be used when waiting for response after invoking
     * icefaces action
@@ -216,7 +239,7 @@ public class SeamSelenium extends DefaultSelenium
    {
       this.icefacesWaitTime = icefacesWaitTime;
    }
-   
+
    /**
     * Captures a screenshot and stores it into a file. Active windows is
     * maximized before capturing a screenshot.
@@ -234,7 +257,7 @@ public class SeamSelenium extends DefaultSelenium
       }
       super.captureScreenshot(path);
    }
-   
+
    /**
     * Logs HTML body into a file.
     * 
@@ -265,7 +288,7 @@ public class SeamSelenium extends DefaultSelenium
          }
       }
    }
-   
+
    private void waitForIcefaces(Long waitTime, Long timeout)
    {
       new Wait()
