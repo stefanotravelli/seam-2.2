@@ -135,6 +135,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceRequest'); elem.value.indexOf('<arg1>"+password+"</arg1>')!=-1;", TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
       browser.waitForAJAXUpdate();
+      browser.waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceResponse'); elem.value.indexOf('<return>true</return>')!=-1;", TIMEOUT);
    }
 
    @Test(dependsOnMethods = { "loginTest" })
