@@ -277,6 +277,7 @@ function sendRequest()
     return;
   }
   
+  selectedService.setActive(true);
   document.getElementById("serviceResponse").value = null;
   
   var req;
@@ -293,7 +294,6 @@ function sendRequest()
   req.open("POST", getEndpoint(), true);
   req.setRequestHeader("Content-type", "text/xml");
   req.send(document.getElementById("serviceRequest").value);
-  selectedService.setActive(true);
 }
 
 function receiveResponse(req)
@@ -312,12 +312,12 @@ function receiveResponse(req)
         document.getElementById("conversationId").value = cid;
       }
     }
-	selectedService.setActive(false);      
 
     if (req.status != 200)
     {
       alert("There was an error processing your request.  Error code: " + req.status);      
     }
+	selectedService.setActive(false);      
   }  
 }
 
