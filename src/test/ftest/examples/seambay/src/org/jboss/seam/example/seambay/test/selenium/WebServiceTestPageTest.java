@@ -87,6 +87,7 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
          public void waitForAJAXUpdate(String timeout)
          {
             waitForCondition("selenium.browserbot.getCurrentWindow().selectedService.active===false", timeout);
+            waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceResponse'); elem.value.indexOf('null')==-1;", timeout);
          };
          
          /**
