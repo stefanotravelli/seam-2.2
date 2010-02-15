@@ -8,6 +8,7 @@
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:resteasy="http://jboss.com/products/seam/resteasy"
             xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:transaction="http://jboss.com/products/seam/transaction"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd
@@ -18,6 +19,7 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.2.xsd
                  http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.2.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.2.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.2.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.2.xsd">
 
     <core:init jndi-pattern="@jndiPattern@" debug="true"/>
@@ -25,6 +27,8 @@
     <core:manager conversation-timeout="120000"
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
+                  
+    <transaction:ejb-transaction />
 
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
                                              persistence-unit-jndi-name="java:/restbayEntityManagerFactory"/>

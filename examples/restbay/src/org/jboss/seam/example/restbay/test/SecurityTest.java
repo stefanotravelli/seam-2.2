@@ -159,5 +159,52 @@ public class SecurityTest extends SeamTest
 
       }.run();
    }
-
+   
+   @Test
+   // JBPAPP-3713
+   public void ejbLookup() throws Exception
+   {
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/ejbLookup")
+      {
+         @Override
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         {
+            super.prepareRequest(request);
+            request.addHeader("Accept", "text/plain");
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
+         }
+         
+         @Override
+         protected void onResponse(EnhancedMockHttpServletResponse response)
+         {
+            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assert response.getContentAsString().equals("true");
+         }
+         
+      }.run();
+   }
+   
+   @Test
+   // JBPAPP-3713
+   public void synchronizationsLookup() throws Exception
+   {
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/secured/synchronizationsLookup")
+      {
+         @Override
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         {
+            super.prepareRequest(request);
+            request.addHeader("Accept", "text/plain");
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
+         }
+         
+         @Override
+         protected void onResponse(EnhancedMockHttpServletResponse response)
+         {
+            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assert response.getContentAsString().equals("true");
+         }
+         
+      }.run();
+   }
 }

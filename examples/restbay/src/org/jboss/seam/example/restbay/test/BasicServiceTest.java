@@ -404,4 +404,26 @@ public class BasicServiceTest extends SeamTest
       // TODO: Retracted support for Seam component providers, injection shouldn't happen, see https://jira.jboss.org/jira/browse/JBSEAM-4247
 
    }
+   
+   @Test
+   // JBPAPP-3713
+   public void synchronizationsLookup() throws Exception
+   {
+      new ResourceRequest(requestEnv, Method.GET, "/restv1/eventComponentTest/synchronizationsLookup")
+      {
+         @Override
+         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         {
+            super.prepareRequest(request);
+         }
+         
+         @Override
+         protected void onResponse(EnhancedMockHttpServletResponse response)
+         {
+            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assert response.getContentAsString().equals("true");
+         }
+         
+      }.run();
+   }
 }

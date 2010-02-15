@@ -1,12 +1,15 @@
 package org.jboss.seam.example.restbay.resteasy.eventcomponent;
 
 import org.jboss.resteasy.annotations.Form;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.example.restbay.resteasy.TestResource;
 import org.jboss.seam.example.restbay.resteasy.TestComponent;
 import org.jboss.seam.example.restbay.resteasy.TestForm;
 import org.jboss.seam.example.restbay.resteasy.SubResource;
+import org.jboss.seam.transaction.Synchronizations;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
@@ -155,5 +158,13 @@ public class EventComponentTestResource extends TestResource
    public Integer[] getCommaSeparatedIntegers()
    {
       return super.getCommaSeparatedIntegers();
+   }
+   
+   @GET
+   @Path("/synchronizationsLookup")
+   public boolean synchronizationsLookup()
+   {
+      Synchronizations ejb = (Synchronizations) Component.getInstance("org.jboss.seam.transaction.synchronizations", ScopeType.EVENT);
+      return ejb.isAwareOfContainerTransactions();
    }
 }
