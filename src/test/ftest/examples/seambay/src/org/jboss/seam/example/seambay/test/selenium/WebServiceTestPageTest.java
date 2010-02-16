@@ -26,8 +26,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import org.jboss.seam.example.common.test.selenium.SeamSelenium;
 import org.testng.annotations.Test;
 
-import com.thoughtworks.selenium.Wait;
-
 /**
  * This class tests a functionality of web service test page available directly
  * from SeamBay home page
@@ -38,23 +36,23 @@ import com.thoughtworks.selenium.Wait;
  */
 public class WebServiceTestPageTest extends SeleniumSeamBayTest
 {
-   protected static final String HERE_LINK = "xpath=//a[contains(text(),\"here\")]";
+   protected static final String HERE_LINK = "xpath=//a[contains(text(),'here')]";
    protected static final String SERVICE_PAGE_HEADING = "seamBay Web Services - Test Page";
 
-   protected static final String INVOKE_SERVICE_BUTTON = "xpath=//button[contains(@onclick,\"sendRequest\")]";
+   protected static final String INVOKE_SERVICE_BUTTON = "xpath=//button[contains(@onclick,'sendRequest')]";
    protected static final String REQUEST_AREA = "id=serviceRequest";
    protected static final String RESPONSE_AREA = "id=serviceResponse";
 
-   protected static final String LOGIN_LINK = "xpath=//a[contains(text(),\"Login\")]";
-   protected static final String LIST_CATEGORIES_LINK = "xpath=//a[contains(text(),\"List Categories\")]";
-   protected static final String CREATE_NEW_AUCTION_LINK = "xpath=//a[contains(text(),\"Create new auction\")]";
-   protected static final String UPDATE_AUCTION_DETAILS_LINK = "xpath=//a[contains(text(),\"Update auction details\")]";
-   protected static final String SET_AUCTION_DURATION_LINK = "xpath=//a[contains(text(),\"Set auction duration\")]";
-   protected static final String SET_STARTING_PRICE_LINK = "xpath=//a[contains(text(),\"Set starting price\")]";
-   protected static final String GET_AUCTION_DETAILS_LINK = "xpath=//a[contains(text(),\"Get the auction details\")]";
-   protected static final String CONFIRM_AUCTION_LINK = "xpath=//a[contains(text(),\"Confirm auction\")]";
-   protected static final String FIND_AUCTIONS_LINK = "xpath=//a[contains(text(),\"Find Auctions\")]";
-   protected static final String LOGOUT_LINK = "xpath=//a[contains(text(),\"Logout\")]";
+   protected static final String LOGIN_LINK = "xpath=//a[contains(text(),'Login')]";
+   protected static final String LIST_CATEGORIES_LINK = "xpath=//a[contains(text(),'List Categories')]";
+   protected static final String CREATE_NEW_AUCTION_LINK = "xpath=//a[contains(text(),'Create new auction')]";
+   protected static final String UPDATE_AUCTION_DETAILS_LINK = "xpath=//a[contains(text(),'Update auction details')]";
+   protected static final String SET_AUCTION_DURATION_LINK = "xpath=//a[contains(text(),'Set auction duration')]";
+   protected static final String SET_STARTING_PRICE_LINK = "xpath=//a[contains(text(),'Set starting price')]";
+   protected static final String GET_AUCTION_DETAILS_LINK = "xpath=//a[contains(text(),'Get the auction details')]";
+   protected static final String CONFIRM_AUCTION_LINK = "xpath=//a[contains(text(),'Confirm auction')]";
+   protected static final String FIND_AUCTIONS_LINK = "xpath=//a[contains(text(),'Find Auctions')]";
+   protected static final String LOGOUT_LINK = "xpath=//a[contains(text(),'Logout')]";
 
    /* login parameters */
    protected static final String LOGIN_INPUT_USERNAME = "id=username";
@@ -69,6 +67,40 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
    protected static final String SEARCH_TERM = "id=searchTerm";
    protected static final String AUCTION_DURATION = "id=duration";
    protected static final String STARTING_PRICE = "id=price";
+
+   /**
+    * Retrieves value of given element in Selenium. Since Selenium specification
+    * differs from HTML standards, e.g. text within {@code
+    * <textarea></textarea>} blocks must be retrieved with {@code getValue()},
+    * this is a preffered way to get value of an element within DOM tree
+    * 
+    * @author kpiwko
+    * 
+    */
+   protected static enum SeleniumValueRetriever
+   {
+      TEXTAREA("Value"), OTHER("Text");
+
+      private String sa;
+
+      private SeleniumValueRetriever(String seleniumAttribute)
+      {
+         this.sa = seleniumAttribute;
+      }
+
+      /**
+       * Returns JavaScript selenium function, which can retrieve a value under
+       * given locator
+       * 
+       * @param locator Selenium locator
+       * @return Function call to be used in waitForCondition()
+       */
+      public String getSeleniumValueFunction(String locator)
+      {
+         return String.format("selenium.get%s(\"%s\")", sa, locator);
+      }
+
+   }
 
    /**
     * Modifies AJAX waits to match behavior of asynchronous services
@@ -87,17 +119,36 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
          public void waitForAJAXUpdate(String timeout)
          {
             waitForCondition("selenium.browserbot.getCurrentWindow().selectedService.active===false", timeout);
-            waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceResponse'); elem.value.indexOf('null')==-1;", timeout);
+            waitForElementContent(SeleniumValueRetriever.TEXTAREA, RESPONSE_AREA, "</env:Envelope>", timeout);
          };
-         
+
          /**
           * Check typed result in the request field
           */
          @Override
          public void type(String locator, String value)
-         {            
+         {
             super.type(locator, value);
-            waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceRequest'); elem.value.indexOf('"+value+"')!=-1;", TIMEOUT);
+            waitForElementContent(SeleniumValueRetriever.TEXTAREA, REQUEST_AREA, value, TIMEOUT);
+         }
+
+         /**
+          * Force waiting a timeout after match because of selenium bug. This is
+          * obscure, but selenium can match element as present while waiting,
+          * but after returning from verification element is still not present.
+          */
+         @Override
+         public void waitForCondition(String script, String timeout)
+         {
+            super.waitForCondition(script, timeout);
+            try
+            {
+               Thread.sleep(2000);
+            }
+            catch (InterruptedException e)
+            {
+               e.printStackTrace();
+            }
          }
       };
       newBrowser.start();
@@ -131,12 +182,12 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.click(LOGIN_LINK);
       waitForElementPresent(LOGIN_INPUT_PASSWORD, TIMEOUT);
       browser.type(LOGIN_INPUT_USERNAME, username);
-      browser.waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceRequest'); elem.value.indexOf('<arg0>"+username+"</arg0>')!=-1;", TIMEOUT);
+      // this wait is needed because we can't distinguish username from password
+      waitForElementContent(SeleniumValueRetriever.TEXTAREA, REQUEST_AREA, "<arg0>" + username + "</arg0>", TIMEOUT);
       browser.type(LOGIN_INPUT_PASSWORD, password);
-      browser.waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceRequest'); elem.value.indexOf('<arg1>"+password+"</arg1>')!=-1;", TIMEOUT);
+      waitForElementContent(SeleniumValueRetriever.TEXTAREA, REQUEST_AREA, "<arg1>" + password + "</arg1>", TIMEOUT);
       browser.click(INVOKE_SERVICE_BUTTON);
       browser.waitForAJAXUpdate();
-      browser.waitForCondition("var elem = selenium.browserbot.getCurrentWindow().document.getElementById('serviceResponse'); elem.value.indexOf('<return>true</return>')!=-1;", TIMEOUT);
    }
 
    @Test(dependsOnMethods = { "loginTest" })
@@ -300,16 +351,14 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
       browser.waitForAJAXUpdate();
    }
 
+   protected void waitForElementContent(final SeleniumValueRetriever type, final String locator, final String content, String timeout)
+   {
+      browser.waitForCondition(String.format("var value = %s; value.indexOf(\"%s\");", type.getSeleniumValueFunction(locator), content), timeout);
+   }
+
    protected void waitForElementPresent(final String locator, String timeout)
    {
-      new Wait()
-      {
-         @Override
-         public boolean until()
-         {
-            return browser.isElementPresent(locator);
-         }
-      }.wait("Timeout while waiting for element " + locator + " present.", Long.parseLong(timeout));
-   } // waitForElementPresent
+      browser.waitForCondition(String.format("selenium.isElementPresent(\"%s\")", locator), timeout);
+   }
 
 }
