@@ -53,6 +53,12 @@
         <param-name>facelets.SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
+   
+    <!--  This option is required by JSF 2 RI to work with custom EqualityValidator see JBSEAM-4537 -->
+    <context-param>
+        <param-name>com.sun.faces.allowTextChildren</param-name>
+        <param-value>true</param-value>
+    </context-param>
     
     <!-- Faces Servlet -->
     
