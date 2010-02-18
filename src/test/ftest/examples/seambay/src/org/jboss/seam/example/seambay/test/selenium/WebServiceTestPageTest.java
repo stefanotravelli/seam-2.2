@@ -131,25 +131,6 @@ public class WebServiceTestPageTest extends SeleniumSeamBayTest
             super.type(locator, value);
             waitForElementContent(SeleniumValueRetriever.TEXTAREA, REQUEST_AREA, value, TIMEOUT);
          }
-
-         /**
-          * Force waiting a timeout after match because of selenium bug. This is
-          * obscure, but selenium can match element as present while waiting,
-          * but after returning from verification element is still not present.
-          */
-         @Override
-         public void waitForCondition(String script, String timeout)
-         {
-            super.waitForCondition(script, timeout);
-            try
-            {
-               Thread.sleep(2000);
-            }
-            catch (InterruptedException e)
-            {
-               e.printStackTrace();
-            }
-         }
       };
       newBrowser.start();
       newBrowser.allowNativeXpath("false");
