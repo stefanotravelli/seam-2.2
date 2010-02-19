@@ -68,7 +68,7 @@ public class SOAPRequestHandler implements SOAPHandler
       try
       {
          HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
-         ServletLifecycle.beginRequest(request);
+         ServletLifecycle.beginRequest(request, ServletLifecycle.getServletContext());
 
          ServletContexts.instance().setRequest(request);
                  
