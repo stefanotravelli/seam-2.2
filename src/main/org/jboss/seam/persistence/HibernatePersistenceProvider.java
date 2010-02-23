@@ -1,9 +1,9 @@
 package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Map;
 
@@ -47,9 +47,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
 {
    
    private static Log log = Logging.getLog(HibernatePersistenceProvider.class);
-   private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
+   private static Class FULL_TEXT_SESSION_PROXY_CLASS;
    private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
-   private static Constructor FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR;
+   private static Class FULL_TEXT_ENTITYMANAGER_PROXY_CLASS;
    private static Method FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR;
    static
    {
@@ -74,9 +74,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
                log.debug("org.hibernate.search.Search.getFullTextSession(Session) not found, trying deprecated method name createFullTextSession");
                FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
             }
-            Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
-            Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
-            FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
+            FULL_TEXT_SESSION_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
             Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
             try {
                FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("getFullTextEntityManager", EntityManager.class);   
@@ -85,9 +83,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
                log.debug("org.hibernate.search.jpa.getFullTextSession(EntityManager) not found, trying deprecated method name createFullTextEntityManager");
                FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
             }
-            Class fullTextEntityManagerProxyClass = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
-            Class fullTextEntityManagerClass = Class.forName("org.hibernate.search.jpa.FullTextEntityManager");
-            FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR = fullTextEntityManagerProxyClass.getDeclaredConstructor(fullTextEntityManagerClass);
+            FULL_TEXT_ENTITYMANAGER_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
             log.debug("Hibernate Search is available :-)");
          }
       }
@@ -111,18 +107,24 @@ public class HibernatePersistenceProvider extends PersistenceProvider
     */
    static Session proxySession(Session session)
    {
-      if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
+      if (FULL_TEXT_SESSION_PROXY_CLASS==null)
       {
-         return new HibernateSessionProxy(session);
+         return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+               new Class[] { HibernateSessionProxy.class },
+               new HibernateSessionInvocationHandler(session));
       }
       else
       {
          try {
-            return (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
+            return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                  new Class[] { FULL_TEXT_SESSION_PROXY_CLASS },
+                  new HibernateSessionInvocationHandler((Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session)));
          }
          catch(Exception e) {
             log.warn("Unable to wrap into a FullTextSessionProxy, regular SessionProxy returned", e);
-            return new HibernateSessionProxy(session);
+            return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                  new Class[] { HibernateSessionProxy.class },
+                  new HibernateSessionInvocationHandler(session));
          }
       }
    }
@@ -292,7 +294,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public EntityManager proxyEntityManager(EntityManager entityManager)
    {
-      if (FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR==null)
+      if (FULL_TEXT_ENTITYMANAGER_PROXY_CLASS==null)
       {
          return super.proxyEntityManager(entityManager);
       }
@@ -300,11 +302,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       {
          try
          {
-            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance(
-               FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, super.proxyEntityManager( entityManager) )
-               //TODO is double wrapping the right choice? ie to wrap the session?
-         );
-       }
+            return (EntityManager) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                  new Class[] { FULL_TEXT_ENTITYMANAGER_PROXY_CLASS },
+                  new EntityManagerInvocationHandler(
+                        (EntityManager) FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null,
+                              super.proxyEntityManager(entityManager))));
+         }
          catch (Exception e)
          {
             //throw new RuntimeException("could not proxy FullTextEntityManager", e);

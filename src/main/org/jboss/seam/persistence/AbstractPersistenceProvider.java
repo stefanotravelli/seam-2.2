@@ -1,6 +1,7 @@
 package org.jboss.seam.persistence;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -110,7 +111,9 @@ public abstract class AbstractPersistenceProvider
     */
    public EntityManager proxyEntityManager(EntityManager entityManager)
    {
-      return new EntityManagerProxy(entityManager);
+      return (EntityManager) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+            new Class[] { EntityManagerProxy.class },
+            new EntityManagerInvocationHandler(entityManager));
    }
 
    /**
