@@ -55,7 +55,7 @@
 		
 		<s:decorate template="decorateField.xhtml">
 		  <ui:define name="label">Roles</ui:define>
-		  <h:selectManyCheckbox value="#{person.roles}" required="true">
+		  <h:selectManyCheckbox value="#{person.roles}" required="true" collectionType="java.util.ArrayList">
 		    <s:selectItems value="#{roles}" var="role" label="#{role.name}"/>
 		    <s:convertEnum />
 		  </h:selectManyCheckbox>
@@ -81,7 +81,7 @@
 		<s:decorate template="decorateField.xhtml">
 			<ui:define name="label">Favourite Colours</ui:define>
 			<ui:define name="description">A colour is an entity</ui:define>
-			<h:selectManyListbox value="#{personHome.instance.favouriteColours}" >
+			<h:selectManyListbox value="#{personHome.instance.favouriteColours}" collectionType="java.util.ArrayList">
 				<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
 				<s:convertEntity />
 			</h:selectManyListbox>
