@@ -2,6 +2,126 @@ JBoss Seam Changelog
 ====================
 
 
+Release Notes - Seam - Version 2.2.1.CR1
+
+** Bug
+    * [JBSEAM-2082] - JMS Topic subscriptions never released
+    * [JBSEAM-2292] - Resources from resource servlet can't be re-rendered
+    * [JBSEAM-2419] - IAE: factory method with defined scope outjected a value: guestRole
+    * [JBSEAM-3305] - Seam testsuite skipping and failing many tests on windows XP machine
+    * [JBSEAM-3475] - Seamspace example - InvalidStateException at friend request
+    * [JBSEAM-3702] - NotBoundException when undeploying Seam examples on AS5
+    * [JBSEAM-3703] - bug in JbpmElResolver
+    * [JBSEAM-3721] - Seam Remoting Callback not set before server response comes back
+    * [JBSEAM-3778] - MDB - IllegalStateException: No event context active
+    * [JBSEAM-3844] - Hot deployment : You are trying to use a connection factory that has been shut down
+    * [JBSEAM-3906] - Attachements are not shown in outlook
+    * [JBSEAM-3996] - Seam should ignore duplicate classes on classpath
+    * [JBSEAM-4029] - NPE in JBossClusterMonitor.locateJBoss when other non-JBoss JMX servers are present
+    * [JBSEAM-4067] -  ELSupport.coerceToType modifies BigDecimal Values  
+    * [JBSEAM-4087] - Regexp Query.SUBJECT_PATTERN may be improved for JBSEAM-3032
+    * [JBSEAM-4187] - double-quotes is not correctly encoded during CSV export
+    * [JBSEAM-4191] - TransactionsAttribute.SUPPORTS in EjbSynchronisations
+    * [JBSEAM-4192] - s.tld in jboss-seam.ui.jar/MANIFEST.MF/ is not valid
+    * [JBSEAM-4196] - Infinite Loop bug in JBPM integration
+    * [JBSEAM-4203] - Interpolator swallows all exceptions
+    * [JBSEAM-4212] - JMS feature does not work after cluster failover
+    * [JBSEAM-4223] - Error page is called relative to invoking URL
+    * [JBSEAM-4290] - jboss-el.jar version in MANIFEST.MF doesn't correspond with real version in maven repo - it applies for 1.0_02.CR3 and 1.0_02.CR4 
+    * [JBSEAM-4316] - Classloader cannot find XML files in multiple WARs
+    * [JBSEAM-4321] - Typo "Exeception" in AsynchronousExceptionHandler message
+    * [JBSEAM-4332] - HTTP sessions expiration cause a "javax.naming.ConfigurationException" while trying to "Destroy" the EntityManager components in WebSphere
+    * [JBSEAM-4334] - Useless lock in Initialization.redeploy
+    * [JBSEAM-4340] - Seam blog example - throws IllegalStateException on undeploy
+    * [JBSEAM-4342] - RemotingTest.testMapWrapper() relies on undefined behavior
+    * [JBSEAM-4344] - testreport target does not pick up all test results on Windows
+    * [JBSEAM-4352] - Excel example should be placed in a separate package
+    * [JBSEAM-4360] - Prefix bug in Seam integration of RESTEasy
+    * [JBSEAM-4364] - Fix joystickSellingTest in seambay example ftest
+    * [JBSEAM-4400] - SeleniumDateSelector cannot be compiled with JDK 5
+    * [JBSEAM-4401] - Component locale-config (org.jboss.seam.international.localeConfig) does not set the locale things in JSF context if JSF is not initialized before Seam
+    * [JBSEAM-4402] - DBUnitSeamTest assumes @BeforeClass methods run in certain order
+    * [JBSEAM-4413] - Date format error in .page.xml params when having custom date pattern
+    * [JBSEAM-4451] - SeamGen WAR ftest uses wrong input
+    * [JBSEAM-4462] - Seam booking - outdated page footers
+    * [JBSEAM-4474] - Hibernate class org.hibernate.lob.ReaderInputStream is now org.hibernate.engine.jdbc.ReaderInputStream and that breaks Seam
+    * [JBSEAM-4482] - Sjsxp Maven dependency moved to another location in java.net repository
+    * [JBSEAM-4491] - ant target initresteasy is failing - dependency com/sun/xml/stream/sjsxp/1.0.1 is missing
+    * [JBSEAM-4495] - Page actions do not work with JSF 2.0
+    * [JBSEAM-4505] - SAX error when parsing Seam 2.1 s.tld - org.xml.sax.SAXException: cvc-complex-type.2.4.a: Invalid content was found starting with element 'description'.
+    * [JBSEAM-4509] - EntityManager not injected on JBoss AS 6 M1
+    * [JBSEAM-4519] - Conditional navigation rules vs JSF 2.0
+    * [JBSEAM-4526] - Wrong navigation in Seamspace example
+    * [JBSEAM-4537] - s:validateEquality tag doesn't work with JBossAS 6.0.0.M1
+    * [JBSEAM-4539] - s:selectItems part of UI example doesn't work with JBossAS 6.0.0.M1
+    * [JBSEAM-4549] - NPE in handleInbound()when servlet contexts are initialized
+
+** Feature Request
+    * [JBSEAM-1572] - Make s:decorate behave more similarly to ui:decorate (h:panelGrid-friendly)
+    * [JBSEAM-2057] - Syntax highlighting
+    * [JBSEAM-2369] - Embedding custom fonts (TrueType, etc...) to the generated PDF file
+    * [JBSEAM-2578] - Provide support for creating bookmarks in pdf
+    * [JBSEAM-2852] - Scan for @WebRemote on extended Interfaces 
+    * [JBSEAM-3685] - Add "rendered" attribute to s:decorate
+    * [JBSEAM-3752] - The possibility to kill the conversation stack with the "s:conversationPropagation" tag is missing
+    * [JBSEAM-3987] - Integrate RESTEasy with Seam Application fwk for easy CRUD
+    * [JBSEAM-4186] - Bundle remoting resources as path parameters of interface.js GET request
+    * [JBSEAM-4325] - ResourceLoader, moving from JBoss 4 to JBoss 5, page level messages.properties not workin any more.
+    * [JBSEAM-4339] - add JMX lookup component
+    * [JBSEAM-4383] - Implement supporting infrastructure for HTTP optimization
+    * [JBSEAM-4403] - Create an eclipseclasspath ant target for examples
+    * [JBSEAM-4453] - seam script in distribution should have executable permission set
+    * [JBSEAM-4493] - add right to left character support
+    * [JBSEAM-4501] - Wiki registration spam protection
+    * [JBSEAM-4517] - Add Support to create New Page for Chapter/Section in PDF
+    * [JBSEAM-4518] - Create an automated test for testing failover of booking example in a cluster
+    * [JBSEAM-4525] - Allow FacesMessages component to be Scope other than CONVERSATION
+    * [JBSEAM-4552] - AbstractMethodError thrown when attempting to invoke JPA 2 method on EntityManager
+
+** Patch
+    * [JBSEAM-4036] - Wicket Example - Missing jars in tomcat.deploy ant task
+    * [JBSEAM-4455] - Seamspace -- viewIds  in s:link and s:button
+
+** Task
+    * [JBSEAM-3035] - upgrade to Spring JAR to version 2.5
+    * [JBSEAM-3714] - Update release-process.txt to include the functional test execution
+    * [JBSEAM-3727] - Create an eclipse project and ant task for functional tests
+    * [JBSEAM-3776] - Update release-process with cluster testing steps
+    * [JBSEAM-4048] - Upgrade Seam to use RichFaces 3.3.1
+    * [JBSEAM-4240] - Duplicate class name AbstractResource in two packages
+    * [JBSEAM-4247] - Remove Seam component support for JAX RS providers
+    * [JBSEAM-4293] - Make JBoss restart after a specified number of ftests run to prevent OutOfMemoryError
+    * [JBSEAM-4324] - Adapt the jee5/booking sample application to run smoothly on WebSphere v7 and review the WebSphere chapter in the doc
+    * [JBSEAM-4331] - Upgrade xstream dependency
+    * [JBSEAM-4353] - Create functional test for Guice example
+    * [JBSEAM-4355] - Create a testcase for seamspace example
+    * [JBSEAM-4356] - Creation of a functional test for remoting/helloworld example
+    * [JBSEAM-4359] - Create a functional test for remoting/gwt example
+    * [JBSEAM-4361] - update jfreechart
+    * [JBSEAM-4362] - Create automated test for OpenID seam feature
+    * [JBSEAM-4363] - Extend Seambay example ftest
+    * [JBSEAM-4365] - Create a selenium test for UI example
+    * [JBSEAM-4366] - Create a testcase for web service test page of seambay example
+    * [JBSEAM-4372] - Fixed joystickSellingTest of seambay example
+    * [JBSEAM-4386] - Create a functional test for UI example
+    * [JBSEAM-4406] - ResteasyBootstrap should use @Install(precedence=BUILT_IN) 
+    * [JBSEAM-4412] - Create automated test for OpenID seam feature
+    * [JBSEAM-4414] - Create a functional test for chatroom example
+    * [JBSEAM-4416] - Fix a functional test of seam UI example
+    * [JBSEAM-4418] - Create a functional test for chatroom example
+    * [JBSEAM-4423] - Modify functional tests to log more debugging information
+    * [JBSEAM-4430] - Replace ftest libraries with maven dependencies
+    * [JBSEAM-4437] - Create a testcase for JBSEAM-3866
+    * [JBSEAM-4445] - Use rutime.exec to call ant targets in functional tests
+    * [JBSEAM-4492] - Upgrade resteasy to last available release
+    * [JBSEAM-4498] - Upgrade Hibernate libs in wiki
+    * [JBSEAM-4499] - Improve wiki data model/schema
+    * [JBSEAM-4524] - Create a functional test for mail example
+    * [JBSEAM-4533] - Modify navigation rules in Seam examples to work with JSF 2.0
+    * [JBSEAM-4534] - Upgrade Richfaces to 3.3.3
+    * [JBSEAM-4541] - Remote webservices invocation in Seambay should inform about of state of request by a JavaScript flag
+
+
 Release Notes - Seam - Version 2.2.0.GA
 
 ** Bug
