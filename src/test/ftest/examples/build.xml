@@ -242,7 +242,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			</ant>
 	</target>
 
-	<target name="container.properties" depends="set.deploy.properties" unless="container.home">
+	<!-- <target name="container.properties" depends="set.deploy.properties" unless="container.home">-->
+    <target name="container.properties" depends="set.deploy.properties">
 		<set.container.properties container="${container}" />
 	</target>
 
@@ -260,7 +261,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<property name="context.path" value="${@{container}.context.path}" />
 			<property name="wait.url" value="${context.path}" />
 			<property name="wait.time" value="${@{container}.deploy.waittime}" />
-			<propertyset id="deploy.properties" refid="${container}.deploy.properties" />
+			<propertyset id="deploy.properties" refid="@{container}.deploy.properties" />
 			<echo>Container properties set</echo>
 		</sequential>
 	</macrodef>
