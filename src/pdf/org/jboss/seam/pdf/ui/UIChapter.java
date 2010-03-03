@@ -36,7 +36,7 @@ public class UIChapter extends UISection
       chapterTitle = (String) valueBinding(context, "chapterTitle", chapterTitle);
 
       section = new Chapter("", number);
-      section.setNumberDepth(numberDepth);
+      if (numberDepth != null) section.setNumberDepth(numberDepth);
       
       if (chapterTitle != null) {
           section.setBookmarkTitle(chapterTitle);

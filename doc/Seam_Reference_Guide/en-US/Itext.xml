@@ -789,7 +789,9 @@
                                     provide the necessary structure. Sections can only be used inside of chapters, but
                                     they may be nested arbitrarily deep. Most PDF viewers provide easy navigation
                                     between chapters and sections in a document. </para>
-
+								<note>
+									<para>You cannot include a chapter into another chapter, this can be done only with section(s).</para>
+								</note>
                                 <para>
                                     <emphasis>Attributes</emphasis>
                                 </para>
@@ -806,17 +808,21 @@
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>number</literal> &#8212; The chapter number. Every chapter
-                                            should be assigned a chapter number.</para>
+                                        <para><literal>number</literal> &#8212; The chapter/section number. Every chapter/section
+                                            should be assigned a number.</para>
                                     </listitem>
 
                                     <listitem>
                                         <para><literal>numberDepth</literal> &#8212; The depth of numbering for
-                                            section. All sections are numbered relative to their surrounding
+                                            chapter/section. All sections are numbered relative to their surrounding
                                             chapter/sections. The fourth section of the first section of chapter
                                             three would be section 3.1.4, if displayed at the default number depth of
                                             three. To omit the chapter number, a number depth of 2 should be used. In
                                             that case, the section number would be displayed as 1.4.</para>
+                                            <note> 
+                                            	<para>Chapter(s) can have a number or without it by setting numberDepth to 0.</para>
+                                            	
+                                            </note>
                                     </listitem>
                                 </itemizedlist>
                                 <para>
