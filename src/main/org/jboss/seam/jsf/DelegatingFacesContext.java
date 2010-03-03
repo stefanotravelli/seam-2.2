@@ -1,6 +1,7 @@
 package org.jboss.seam.jsf;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.faces.application.Application;
@@ -42,6 +43,10 @@ public class DelegatingFacesContext extends FacesContext
    public Application getApplication()
    {
      return delegate.getApplication();
+   }
+   
+   public Map<String, Object> getAttributes() {
+      return delegate.getExternalContext().getApplicationMap();
    }
 
    @Override
