@@ -55,6 +55,13 @@
 		<param-name>facelets.DEVELOPMENT</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	
+	<!-- JSF2 requires to set this parameter, otherwise embedded text UI component won't be rendered -->
+	<context-param>
+        <param-name>com.sun.faces.allowTextChildren</param-name>
+        <param-value>true</param-value>
+    </context-param> 
+	
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
