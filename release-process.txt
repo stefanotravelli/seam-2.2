@@ -456,17 +456,35 @@ CREATE TABLE `Vehicle` (
 * JBDS - test a subset of the examples with testNG plugin.
     - See "/readme.txt" and "/examples/readme.txt" for details. 
     
-Portal Bridge Verification
+Portlet Bridge Verification
 --------------------------
-* Use the latest released version of the PortalBridge (PBR) and JBoss Portal.
-  - http://labs.jboss.com/portletbridge
-  - http://www.jboss.org/jbossportal/
-* <NOTE: because the bridge is beta first test the example using the PBR
-         distribution.  Then follow the steps below to upgrade the seam 
-         version in the example.  Then retest the example./>
+* Use the latest released version of the JBoss Portlet Bridge (PBR) and GateIn.
+  - for PBR source distribution is preferred
+  - http://www.jboss.com/portletbridge
+  - http://www.jboss.org/gatein
+
+* <NOTE: since no GA is released yet, this is expected to work with versions of
+         PBR 2.0.0.CR1 and GateIn 3.0.CR1 or higher. It is useful to check both
+         with original Seam version specified in PBR and current Seam release />
+
 * Deploy PBR seam booking example following the PBR document instructions.
-    - Review any known issues with the PBR in the PBR Jira project.
+    - Review any known issues with the PBR in the PBR JIRA project.
+    - verify cargo is set to version which supports JBoss 5.x distributed with
+      GateIn and versions are set to "jboss5x"
+    - the same holds for maven-ear-plugin 
+    - <NOTE: see PBR-145 in case of problems />
+    - simplified instructions for deploying seam booking:
+		- use 2 terminals
+			- 1:	$ mvn clean install
+                    $ mvn cargo:start -Plocal-portal -Dlocal \
+					   -DJBOSS_ZIP_HOME=${path.to.GateIn.zip} \
+                       -DJBOSS_HOME_DIR=${path.to.JBossAS.in.zip}
+			- 2:	$ mvn cargo:deploy -Plocal-portal -Dlocal 
+					   -DJBOSS_ZIP_HOME=${path.to.GateIn.zip} \
+                       -DJBOSS_HOME_DIR=${path.to.JBossAS.in.zip}
 * Verify the example and functionality.
+    - Update applications in application registry 
+    - Add new page with Seam booking portlets 
     - User authentication through portal
         - use default users, and new users that are created
     - Basic hotel booking
@@ -477,18 +495,13 @@ Portal Bridge Verification
     - Conversation handling
         - launch several hotels booking conv. from the search page
         - individually confirm and switch between conversations.
-        - <NOTE: Can not lauch into multiple conversations ATM>
-    - <NOTE: logging in/out through the portlet, registering new users, and 
-             changing passwords do not work, and jiras have been entered
-             for them to be removed as it is integrated with portal auth/>
-* Upgrade the seam version in the seam portlet booking example
-    - download the src distribution of the PBR
+        - <NOTE: Can not launch into multiple conversations ATM>
+* Upgrade the Seam version in the Seam portlet booking example and follow 
+  steps above
     - edit the $PBR_SRC/examples/seam/booking/pom.xml file
         - adjust the seam version properties at the top of the file
-    - build the example by running "mvn install" in the $PBR_SRC/examples dir
-    - <NOTE: You need to remove the "javassist.jar" from both the EAR
-             and WAR lib directories.  This is related to PBR-2 - but for some
-             reason the javassist.jar is still placed in both./>
+    - build the example by running "mvn clean install" 
+      in the $PBR_SRC/examples/seam/booking dir
 * Deploy a second version of the booking example as a separate portlet
     - <TODO: DEFER - this is not supported in the bridge yet/>
     - <TODO: there may be a new chatroom seam portlet for this testing/>
