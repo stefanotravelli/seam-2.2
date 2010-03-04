@@ -1,5 +1,6 @@
 package org.jboss.seam.persistence;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,7 +18,7 @@ import org.hibernate.Session;
  * @author Mike Youngstrom
  * 
  */
-public class HibernateSessionInvocationHandler implements InvocationHandler
+public class HibernateSessionInvocationHandler implements InvocationHandler, Serializable
 {
    
    private Session delegate;

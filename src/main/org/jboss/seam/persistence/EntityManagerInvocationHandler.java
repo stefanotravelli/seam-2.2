@@ -1,5 +1,6 @@
 package org.jboss.seam.persistence;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +17,7 @@ import org.jboss.seam.security.permission.PermissionManager;
  * @author Gavin King
  * @author Mike Youngstrom
  */
-public class EntityManagerInvocationHandler implements InvocationHandler
+public class EntityManagerInvocationHandler implements InvocationHandler, Serializable
 {
    
    private EntityManager delegate;
