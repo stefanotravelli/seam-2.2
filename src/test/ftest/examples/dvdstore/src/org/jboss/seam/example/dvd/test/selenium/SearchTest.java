@@ -65,11 +65,6 @@ public class SearchTest extends SeleniumDvdTest {
         String searchString1 = "Forrest Gump";
         String searchString2 = "The Shawshank Redemption";
 
-        browser.openWindow(CONTEXT_PATH + getProperty("HOME_PAGE"), "1");
-        browser.selectWindow("1");
-        Thread.sleep(10000); // ugly but turned out to be the most browser-compatible solution
-        assertTrue("User should be logged in by now.", isLoggedIn(browser));
-        browser.selectWindow(null); // select main window
         assertTrue("User should be logged in by now.", isLoggedIn(browser));
         browser.click(getProperty("SHOP"));
         browser.waitForPageToLoad(TIMEOUT);
@@ -80,7 +75,10 @@ public class SearchTest extends SeleniumDvdTest {
                 searchString1, browser
                         .getText(getProperty("SEARCH_RESULT_FIRST_ROW_LINK")));
         // search for dvd in second window
+        browser.openWindow(CONTEXT_PATH + getProperty("HOME_PAGE"), "1");
         browser.selectWindow("1");
+        Thread.sleep(10000); // ugly but turned out to be the most browser-compatible solution
+        assertTrue("User should be logged in by now.", isLoggedIn(browser));
         browser.click(getProperty("SHOP"));
         browser.waitForPageToLoad(TIMEOUT);
         browser.type(getProperty("SEARCH_FIELD"), searchString2);
