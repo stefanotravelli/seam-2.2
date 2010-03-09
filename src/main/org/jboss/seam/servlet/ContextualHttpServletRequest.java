@@ -35,6 +35,11 @@ public abstract class ContextualHttpServletRequest
    public void run() throws ServletException, IOException
    {
       log.debug("beginning request");
+      // Force creation of the session
+      if (request.getSession(false) == null)
+      {
+         request.getSession(true);
+      }
       ServletLifecycle.beginRequest(request);
       ServletContexts.instance().setRequest(request);
       restoreConversationId();
@@ -42,11 +47,7 @@ public abstract class ContextualHttpServletRequest
       ServletLifecycle.resumeConversation(request);
       handleConversationPropagation();
       
-      // Force creation of the session
-      if (request.getSession(false) == null)
-      {
-         request.getSession(true);
-      }
+      
       
       try
       {
