@@ -225,7 +225,7 @@ public class EntityPassivationTest extends SeamTest
          entityManager.persist(thing1);
          
          UnversionedThing thing2 = new UnversionedThing();
-         thing1.setName("thing two");
+         thing2.setName("thing two");
          entityManager.persist(thing2);
       }
 
