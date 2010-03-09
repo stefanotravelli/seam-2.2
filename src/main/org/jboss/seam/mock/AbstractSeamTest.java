@@ -507,8 +507,8 @@ public class AbstractSeamTest
                }
             });
             seamFilter.destroy();
-            facesContext.release();
             afterRequest();
+            facesContext.release();
             return conversationId;
          }
          finally
