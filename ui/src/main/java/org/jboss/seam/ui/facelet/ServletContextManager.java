@@ -30,9 +30,9 @@ public class ServletContextManager
    public void create()
    {
       // TODO A bit of a hack, we should store the servlet context properly
-      if (ServletLifecycle.getServletContext() != null)
+      if (ServletLifecycle.getCurrentServletContext() != null)
       {
-         servletContext = ServletLifecycle.getServletContext();
+         servletContext = ServletLifecycle.getCurrentServletContext();
       }
       else
       {
