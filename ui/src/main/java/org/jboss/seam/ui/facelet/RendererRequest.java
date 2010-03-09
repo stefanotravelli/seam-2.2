@@ -44,7 +44,11 @@ public class RendererRequest
 
    private void init()
    {
-      request = new MockHttpServletRequest(HttpSessionManager.instance());
+      if (FacesContext.getCurrentInstance() != null) {
+         request = new MockHttpServletRequest(HttpSessionManager.instance(), FacesContext.getCurrentInstance().getExternalContext());  
+      } else {
+         request = new MockHttpServletRequest(HttpSessionManager.instance());
+      }
       response = new MockHttpServletResponse();
 
       setContextClassLoader();
