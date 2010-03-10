@@ -34,7 +34,7 @@ public class BidAction
    
    @Begin(join = true)
    public void placeBid()
-   {
+   {     
       if (auction.getStatus() != Auction.STATUS_LIVE ||
            auction.getEndDate().getTime() < System.currentTimeMillis())
       {
@@ -87,7 +87,7 @@ public class BidAction
          bid.setAuction(entityManager.find(Auction.class, bid.getAuction().getAuctionId()));
       }
       
-      entityManager.lock(bid.getAuction(), LockModeType.WRITE);
+      //entityManager.lock(bid.getAuction(), LockModeType.WRITE);
       entityManager.refresh(bid.getAuction());
       
       if (bid.getAuction().getStatus() != Auction.STATUS_LIVE)
@@ -175,7 +175,6 @@ public class BidAction
          bid.getAuction().setBids(bid.getAuction().getBids() + 1);
          
          entityManager.persist(bid);        
-         entityManager.flush();        
          
          if ("success".equals(outcome))
          {
