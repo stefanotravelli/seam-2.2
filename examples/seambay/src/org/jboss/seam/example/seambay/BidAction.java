@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
@@ -87,7 +86,6 @@ public class BidAction
          bid.setAuction(entityManager.find(Auction.class, bid.getAuction().getAuctionId()));
       }
       
-      //entityManager.lock(bid.getAuction(), LockModeType.WRITE);
       entityManager.refresh(bid.getAuction());
       
       if (bid.getAuction().getStatus() != Auction.STATUS_LIVE)
