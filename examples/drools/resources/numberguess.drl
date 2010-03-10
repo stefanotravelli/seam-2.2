@@ -34,9 +34,9 @@ end
 rule Lose
    #ruleflow-group "Decision"
    when 
-      Game(guessCount==9)
+   	  Guess(value!=randomNumber)
    then
-      if ( decision.getOutcome()==null )
+      if ( game.getGuessCount() == 9 && decision.getOutcome()==null )
       {
          decision.setOutcome("lose");
       }
