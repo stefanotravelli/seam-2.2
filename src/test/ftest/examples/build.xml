@@ -281,6 +281,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<classpath>
 				<pathelement location="${container.home}/bin/run.jar" />
 			</classpath>
+            <sysproperty key="java.endorsed.dirs" value="${container.home}/lib/endorsed" />
 			<jvmarg line="${container.jvm.arguments}" />
 			<arg line="-c ${jboss.domain} -b ${jboss.host}" />
 		</java>
