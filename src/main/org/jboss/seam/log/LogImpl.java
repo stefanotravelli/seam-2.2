@@ -141,7 +141,7 @@ class LogImpl implements Log, Externalizable
       if (object instanceof String)
       {
          try {
-            return Interpolator.instance().interpolate( (String) object, params );
+            object = Interpolator.instance().interpolate( (String) object, params );
          } catch (Exception e) {
             log.error("exception interpolating string: " + object, e);
          } finally {
