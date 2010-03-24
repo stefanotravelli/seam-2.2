@@ -16,18 +16,10 @@
 		Boston, MA 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 	--> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Seambay example" verbose="2" parallel="false">
-	<test name="seambay_jboss5">
-		<parameter name="PROPERTY_FILE"
-			value="/org/jboss/seam/example/seambay/test/selenium/seambay.properties" />
-		<classes> 
-			<class
-				name="org.jboss.seam.example.seambay.test.selenium.RegistrationTest" />
-			<class name="org.jboss.seam.example.seambay.test.selenium.SellTest" />
-			<class name="org.jboss.seam.example.seambay.test.selenium.SearchTest" />
-			<class name="org.jboss.seam.example.seambay.test.selenium.BidTest" /> <!--
-			<class name="org.jboss.seam.example.seambay.test.selenium.WebServiceTestPageTest" />
-            -->
-		</classes>
+<suite name="Web Driver Seambay example" verbose="2" parallel="false">
+	<test name="seambay_jboss5_webdriver">
+		<packages>
+			<package name="org.jboss.seam.example.test.webdriver.seambay" />
+		</packages>
 	</test>
 </suite>

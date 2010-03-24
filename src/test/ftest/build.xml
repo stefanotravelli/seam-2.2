@@ -78,7 +78,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="registration" />
 		<testexample name="remoting/chatroom" />
 		<testexample name="rss" />
-		<testexample name="seambay" />
+		<testexample name="seambay" webdriver="true"/>
 		<testexample name="seamdiscs" />
 		<testexample name="seampay" />
 		<testexample name="seamspace" />
@@ -123,8 +123,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="remoting/chatroom" />
 		<testexample name="remoting/helloworld" />
 		<testexample name="remoting/gwt" />
-		<testexample name="rss" />
-		<testexample name="seambay" />
+		<testexample name="rss" /> 
+		<testexample name="seambay" webdriver="true"/>  
 		<testexample name="seampay" />
 		<testexample name="seamspace" />
 		<testexample name="spring" />
@@ -132,7 +132,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="todo" />
 		<testexample name="ui" />
 		<testexample name="wicket" />
-		<testexample name="wicket-runtime" />
+		<testexample name="wicket-runtime" /> 
 		<antcall target="stop.selenium.server" />
 		<antcall target="stop.container" />
 	</target>
@@ -146,7 +146,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="messages" />
 		<testexample name="numberguess" />
 		<testexample name="registration" />
-		<testexample name="seambay" />
+		<testexample name="seambay" webdriver="true"/>
 		<testexample name="seampay" />
 		<testexample name="todo" />
 		<testexample name="booking" />
@@ -195,7 +195,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="start.selenium.server" />
 
 		<!-- Execute tests for a specific example-->
-		<testexample name="${test}" />
+		<testexample name="${test}" webdriver="${webdriver}" />
 
 		<antcall target="stop.selenium.server" />
 	</target>
@@ -311,6 +311,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<macrodef name="testexample">
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
+        <attribute name="webdriver" default="false" />
 		<attribute name="message" default="Running functional tests on @{name} example" />
 		<sequential>
 			<groovy>
@@ -325,7 +326,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				]]>
 			</groovy>
 			<echo>@{message}</echo>
-			<callExample path="@{path}" target="test" />
+			<callExample path="@{path}" target="test" webdriver="@{webdriver}"/>
 		</sequential>
 	</macrodef>
 
@@ -350,10 +351,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<macrodef name="callExample">
 		<attribute name="path" />
 		<attribute name="target" />
+        <attribute name="webdriver" default="false"/>
 		<sequential>
 			<ant dir="@{path}" target="@{target}" inheritall="false">
-				<property name="container" value="${container}">
-				</property>
+				<property name="container" value="${container}" />
+                <property name="webdriver" value="@{webdriver}" />
 			</ant>
 		</sequential>
 	</macrodef>

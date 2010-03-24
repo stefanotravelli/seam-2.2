@@ -101,7 +101,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<!-- TODO we should compile this once to a common place not build for each example -->
 	<!-- TODO if needed we should allow examples to exclude/include src under 
         common dvd does not care about booking for example-->
-	<target name="build.common" depends="copy.htmlunit, copy.selenium" description="Compiles the common selenium test code">
+	<target name="build.common" depends="copy.htmlunit, copy.selenium, copy.webdriver" description="Compiles the common selenium test code">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
@@ -141,6 +141,27 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</testng>
 	</target>
 
+	<target name="webdriver.test" depends="webdriver.test.present, build, container.properties" description="Run Tests (WebDriver)" if="test.webdriver">
+		<taskdef resource="testngtasks" classpathref="classpath.test" />
+		<mkdir dir="${test.output.dir}" />
+	    <echo message="${test.webdriver}" />	
+		<!-- execute testng tests -->
+		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
+			<xmlfileset file="${container}-webdriver.xml" />
+			<sysproperty key="browser" value="${selenium.browser}" />
+			<sysproperty key="server.url" value="${selenium.browser.url}" />
+            <sysproperty key="context.path" value="${context.path}" />
+		</testng>
+	</target>
+
+    <target name="webdriver.test.present">
+        <condition property="test.webdriver">
+            <not>
+                <equals arg1="${webdriver}" arg2="false"/>
+            </not>
+        </condition>
+    </target>
+
 	<target name="simpletest" depends="build, container.properties" description="Run Tests" unless="cluster">
 		<!-- TODO all of these jboss commands must be optional with checks -->
 		<!-- TODO  go get JBoss and extract -->
@@ -154,6 +175,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 		<!-- execute testng tests -->
 		<antcall target="selenium.test" />
+        <antcall target="webdriver.test"/>
 
 		<!-- undeploy the example -->
 		<antcall target="undeploy.example" />
@@ -355,5 +377,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</copyInlineDependencies>
 		<property name="copy.selenium.done" value="true" />
 	</target>
+
+    <target name="copy.webdriver" unless="copy.webdriver.done">
+       	<copyInlineDependencies id="webdriver.driver" scope="compile" todir="${ftest.lib.dir}">
+			<dependency groupId="org.seleniumhq.webdriver" artifactId="webdriver-firefox" version="0.9.7376">
+			</dependency>
+			<dependency groupId="org.seleniumhq.webdriver" artifactId="webdriver-support" version="0.9.7376">
+			</dependency>
+		</copyInlineDependencies>
+        <property name="copy.webdriver.done" value="true" />
+    </target>
 
 </project>
