@@ -20,6 +20,8 @@ public interface AjaxWebElement extends WebElement
    public void setWaitTime(int millis);
 
    public void clickAndWait();
+   
+   public void clickAndWait(int millis);
 
    public void clearAndSendKeys(CharSequence... keysToSend);
 }

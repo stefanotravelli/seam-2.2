@@ -16,12 +16,10 @@
 		Boston, MA 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 	--> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Chatroom example" verbose="2" parallel="false">
-	<test name="chatroom_jboss5">
-		<parameter name="PROPERTY_FILE" value="" />
-		<classes>
-			<class
-				name="org.jboss.seam.example.remoting.chatroom.test.selenium.SeleniumChatroomTest" />
-		</classes>
+<suite name="Web Driver Chatroom example" verbose="2" parallel="false">
+	<test name="chatroom_jboss5_webdriver">
+		<packages>
+			<package name="org.jboss.seam.example.remoting.chatroom.test.webdriver" />
+		</packages>
 	</test>
 </suite>

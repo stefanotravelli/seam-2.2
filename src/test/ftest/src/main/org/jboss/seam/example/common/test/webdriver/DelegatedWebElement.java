@@ -51,7 +51,15 @@ public class DelegatedWebElement implements AjaxWebElement {
 		} catch (InterruptedException e) {
 		}
 	}
-
+	
+	public void clickAndWait(int millis) {
+	   element.click();
+	   try {
+	      Thread.sleep(millis);
+	   } catch (InterruptedException e) {
+	   }
+	}
+	
 	//@Override
 	public AjaxWebElement findElement(By by) {
 		return new DelegatedWebElement(element.findElement(by));

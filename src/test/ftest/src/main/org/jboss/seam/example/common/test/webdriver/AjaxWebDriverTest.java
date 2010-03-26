@@ -18,6 +18,7 @@ public abstract class AjaxWebDriverTest
    protected AjaxWebDriver driver;
    protected String serverURL;
    protected String contextPath;
+   protected String browser;
 
    @BeforeMethod
    @Parameters(value = {
@@ -40,6 +41,7 @@ public abstract class AjaxWebDriverTest
 
       this.serverURL = serverURL;
       this.contextPath = contextPath;
+      this.browser = browser;
    }
 
    @AfterMethod
