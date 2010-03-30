@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	$.ajaxSetup({ cache: false }); // workaround for IE
+})
+
 function getCategories(callback) {
 	$.get("seam/resource/v1/auth/category", callback);
 }
