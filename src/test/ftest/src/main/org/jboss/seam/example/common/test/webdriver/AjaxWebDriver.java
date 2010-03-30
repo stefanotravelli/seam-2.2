@@ -16,4 +16,6 @@ public interface AjaxWebDriver extends WebDriver
    public AjaxWebElement findElement(By by);
 
    public void setWaitTime(int millis);
+   
+   public boolean isElementPresent(By by);
 }

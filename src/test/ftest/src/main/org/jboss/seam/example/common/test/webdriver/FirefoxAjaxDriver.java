@@ -1,6 +1,7 @@
 package org.jboss.seam.example.common.test.webdriver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class FirefoxAjaxDriver extends FirefoxDriver implements AjaxWebDriver
@@ -28,5 +29,18 @@ public class FirefoxAjaxDriver extends FirefoxDriver implements AjaxWebDriver
    public void setWaitTime(int millis)
    {
       this.waitTime = millis;
+   }
+   
+   public boolean isElementPresent(By by)
+   {
+      try
+      {
+         findElement(by);
+         return true;
+      }
+      catch (NoSuchElementException e)
+      {
+         return false;
+      }
    }
 }

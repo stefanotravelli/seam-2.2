@@ -16,25 +16,10 @@
 		Boston, MA 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 	--> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Icefaces example" verbose="2" parallel="false">
-	<test name="icefaces_jboss5">
-		<parameter name="PROPERTY_FILE"
-			value="/org/jboss/seam/example/icefaces/test/selenium/icefaces.properties" />
+<suite name="Web Driver Icefaces example" verbose="2" parallel="false">
+	<test name="icefaces_jboss5_webdriver">
 		<classes>
-			<class
-				name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
-			<class
-				name="org.jboss.seam.example.common.test.booking.selenium.ChangePasswordTest" />
-			<class
-				name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest">
-				<methods>
-					<include name="backbuttoningAfterLogoutTest"></include>
-				</methods>
-			</class>
-			<class
-				name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
-			<!-- this test is executed by web driver  
-			<class name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" /> -->
+			<class name="org.jboss.seam.example.common.test.booking.webdriver.ConversationTest" />
 		</classes>
 	</test>
 </suite>
