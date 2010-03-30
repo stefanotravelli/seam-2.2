@@ -18,31 +18,48 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
 package org.jboss.seam.example.common.test.webdriver;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
-/**
- * Adds AJAX functionality to an ordinary WebElement
- * 
- * @author kpiwko
- * 
- */
-public interface AjaxWebElement extends WebElement
+public class InternetExplorerAjaxDriver extends InternetExplorerDriver implements AjaxWebDriver
 {
    
-   public static final int DEFAULT_WAIT_TIME = 3000;
+   private int waitTime;
    
-   // @Override
-   public AjaxWebElement findElement(By by);
+   public InternetExplorerAjaxDriver()
+   {
+      this(AjaxWebElement.DEFAULT_WAIT_TIME);
+   }
    
-   public void setWaitTime(int millis);
+   public InternetExplorerAjaxDriver(int waitTime)
+   {
+      this.waitTime = waitTime;
+   }
    
-   public void clickAndWait();
+   public AjaxWebElement findElement(By by)
+   {
+      return new DelegatedWebElement(super.findElement(by), waitTime);
+   }
    
-   public void clickAndWait(int millis);
+   public void setWaitTime(int millis)
+   {
+      this.waitTime = millis;
+   }
    
-   public void clearAndSendKeys(CharSequence... keysToSend);
+   public boolean isElementPresent(By by)
+   {
+      try
+      {
+         findElement(by);
+         return true;
+      }
+      catch (NoSuchElementException e)
+      {
+         return false;
+      }
+   }
 }
