@@ -66,7 +66,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<path id="classpath.build">
 		<fileset dir="${root.lib.dir}">
-			<include name="testng.jar"/>
+			<include name="testng-jdk15.jar"/>
 		</fileset>
 		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
 	</path>
@@ -383,6 +383,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<dependency groupId="org.seleniumhq.webdriver" artifactId="webdriver-firefox" version="0.9.7376">
 			</dependency>
 			<dependency groupId="org.seleniumhq.webdriver" artifactId="webdriver-support" version="0.9.7376">
+			</dependency>
+			<dependency groupId="org.seleniumhq.webdriver" artifactId="webdriver-ie" version="0.9.7376">
 			</dependency>
 		</copyInlineDependencies>
         <property name="copy.webdriver.done" value="true" />
