@@ -493,14 +493,22 @@ public class MyCustomerResourceBean implements MyCustomerResource {
             EJB Seam components are supported as REST resources. Always annotate the local business interface, not
             the EJB implementation class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>.
          </para>
-
-         <note>
-            <para>
-               Sub-resources as defined in the JAX RS specification, section 3.4.1, can not be Seam component instances
-               at this time. Only root resource classes can be registered as Seam components. In other words, do not
-               return a Seam component instance from a root resource method.
-            </para>
-         </note>
+         
+         <para>
+            Sub-resources as defined in the JAX RS specification, section 3.4.1, can also be Seam component instances:
+         </para>
+         
+<programlisting role="JAVA"><![CDATA[@Path("/garage")
+@Name("garage")
+public class GarageService
+{
+   ...
+   
+   @Path("/vehicles")
+   public VehicleService getVehicles() {
+      return (VehicleService) Component.getInstance(VehicleService.class);
+   }
+}]]></programlisting>
 
          <note>
             <para>
