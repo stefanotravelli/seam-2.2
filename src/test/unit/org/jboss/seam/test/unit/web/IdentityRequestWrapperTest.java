@@ -29,6 +29,10 @@ public class IdentityRequestWrapperTest
    public void testWithSeamSecurityEnabled()
    {
       HttpServletRequest request = initializeWrappedRequest();
+      if (!Identity.isSecurityEnabled())
+      {
+         Identity.setSecurityEnabled(true);
+      }
       assert request.getUserPrincipal() != null && request.getUserPrincipal().getName().equals(SEAM_USER);
       assert request.getRemoteUser() != null && request.getRemoteUser().equals(SEAM_USER);
       assert request.isUserInRole(SEAM_ROLE);
