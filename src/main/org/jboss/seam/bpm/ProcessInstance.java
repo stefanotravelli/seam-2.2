@@ -46,7 +46,9 @@ public class ProcessInstance
             if (processId!=null)
             {
                //TODO: do we need to cache this??
-               return ManagedJbpmContext.instance().getProcessInstanceForUpdate(processId);
+               //return ManagedJbpmContext.instance().getProcessInstanceForUpdate(processId);
+               //JBSEAM-4629:
+               return ManagedJbpmContext.instance().getProcessInstance(processId); 
             }
             else
             {
