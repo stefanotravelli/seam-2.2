@@ -22,6 +22,7 @@ import org.jboss.seam.mail.ui.UIAttachment;
 import org.jboss.seam.mail.ui.UIMessage;
 import org.jboss.seam.mock.MockTransport;
 import org.jboss.seam.mock.SeamTest;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -51,49 +52,45 @@ public class MailTest extends SeamTest
             {
                 MimeMessage renderedMessage = getRenderedMailMessage("/simple.xhtml");
              
-                assert MailSession.instance().getTransport() instanceof MockTransport;
+                Assert.assertTrue(MailSession.instance().getTransport() instanceof MockTransport);
                 
                 // Test the headers
                 
-                assert renderedMessage != null;
-                assert renderedMessage.getAllRecipients().length == 1;
-                assert renderedMessage.getAllRecipients()[0] instanceof InternetAddress;
+                Assert.assertNotNull(renderedMessage);
+                Assert.assertEquals(renderedMessage.getAllRecipients().length, 1);
+                Assert.assertTrue(renderedMessage.getAllRecipients()[0] instanceof InternetAddress);
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("test@example.com");
-                assert to.getPersonal().equals("Pete Muir");
-                assert renderedMessage.getFrom().length == 1;
-                assert renderedMessage.getFrom()[0] instanceof InternetAddress;
+                Assert.assertEquals(to.getAddress(), "test@example.com");
+                Assert.assertEquals(to.getPersonal(), "Pete Muir");
+                Assert.assertEquals(renderedMessage.getFrom().length, 1);
+                Assert.assertTrue(renderedMessage.getFrom()[0] instanceof InternetAddress);
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("peter@example.com");
-                assert from.getPersonal().equals("Peter");
-                assert "Try out Seam!".equals(renderedMessage.getSubject());
-                assert renderedMessage.getHeader("Precedence") == null;
-                assert renderedMessage.getHeader("X-Priority") == null;
-                assert renderedMessage.getHeader("Priority") == null;
-                assert renderedMessage.getHeader("Importance") == null;
-                assert renderedMessage.getHeader("Disposition-Notification-To") == null;
-
+                Assert.assertEquals(from.getAddress(), "peter@example.com");
+                Assert.assertEquals(from.getPersonal(), "Peter");
+                Assert.assertEquals(renderedMessage.getSubject(), "Try out Seam!");
+                Assert.assertNull(renderedMessage.getHeader("Precedence"));
+                Assert.assertNull(renderedMessage.getHeader("X-Priority"));
+                Assert.assertNull(renderedMessage.getHeader("Priority"));
+                Assert.assertNull(renderedMessage.getHeader("Importance"));
+                Assert.assertNull(renderedMessage.getHeader("Disposition-Notification-To"));
                 
                 // Check the body
                 
-                assert renderedMessage.getContent() != null;
-                assert renderedMessage.getContent() instanceof MimeMultipart;
+                Assert.assertNotNull(renderedMessage.getContent());
+                Assert.assertTrue(renderedMessage.getContent() instanceof MimeMultipart);
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
-                assert body.getCount() == 1;
-                assert body.getBodyPart(0) != null;
-                assert body.getBodyPart(0) instanceof MimeBodyPart;
+                Assert.assertEquals(body.getCount(), 1);
+                Assert.assertNotNull(body.getBodyPart(0));
+                Assert.assertTrue(body.getBodyPart(0) instanceof MimeBodyPart);
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
-                assert bodyPart.getContent() != null;
-                assert "inline".equals(bodyPart.getDisposition());
-                assert bodyPart.isMimeType("text/html");
-
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertEquals(bodyPart.getDisposition(), "inline");
+                Assert.assertTrue(bodyPart.isMimeType("text/html"));                
             }            
         }.run();
        
-    }
-    
-    
-    
+    }    
+        
     @Test
     public void testAttachment() throws Exception
     {
@@ -117,85 +114,89 @@ public class MailTest extends SeamTest
                 // Test the headers
                 
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("gavin@king.com");
-                assert to.getPersonal().equals("Gavin King");
+                Assert.assertEquals(to.getAddress(), "gavin@king.com");
+                Assert.assertEquals(to.getPersonal(), "Gavin King");
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("do-not-reply@jboss.com");
-                assert from.getPersonal().equals("Seam");
-                assert "Try out Seam!".equals(renderedMessage.getSubject());
-                MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
-                
-                // Test the attachments (no ui:repeat atm, so only 6)
-                assert body.getCount() == 1;
+                Assert.assertEquals(from.getAddress(), "do-not-reply@jboss.com");
+                Assert.assertEquals(from.getPersonal(), "Seam");
+                Assert.assertEquals(renderedMessage.getSubject(), "Try out Seam!");
+                MimeMultipart body = (MimeMultipart) renderedMessage.getContent();                
+    
+                Assert.assertEquals(body.getCount(), 4); //3 Attachments and 1 MimeMultipart                
                 
                 // The root multipart/related
-                assert body.getBodyPart(0) != null;
-                assert body.getBodyPart(0) instanceof MimeBodyPart;
+                Assert.assertNotNull(body.getBodyPart(0));
+                Assert.assertTrue(body.getBodyPart(0) instanceof MimeBodyPart);
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() instanceof MimeMultipart;
-                assert bodyPart.isMimeType("multipart/related");
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue(bodyPart.getContent() instanceof MimeMultipart);
+                Assert.assertTrue(bodyPart.isMimeType("multipart/related"));
                 
                 MimeMultipart attachments = (MimeMultipart) bodyPart.getContent();
                 
+                Assert.assertEquals(attachments.getCount(), 3); //2 Attachments and 1 MimeMultipart
+                
                 // Attachment 0 (the actual message)
-                assert attachments.getBodyPart(0) != null;                
-                assert attachments.getBodyPart(0) instanceof MimeBodyPart;
+                Assert.assertNotNull(attachments.getBodyPart(0));                
+                Assert.assertTrue(attachments.getBodyPart(0) instanceof MimeBodyPart);
                 bodyPart = (MimeBodyPart) attachments.getBodyPart(0);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() != null;
-                assert "inline".equals(bodyPart.getDisposition());
-                assert bodyPart.isMimeType("text/html");
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue(bodyPart.isMimeType("text/html"));
+                Assert.assertEquals(bodyPart.getDisposition(), "inline");
                 
-                // Attachment 1
-                assert attachments.getBodyPart(1) != null;                
-                assert attachments.getBodyPart(1) instanceof MimeBodyPart;
+                // Inline Attachment 1 // Attachment Jboss Logo
+                Assert.assertNotNull(attachments.getBodyPart(1));                
+                Assert.assertTrue(attachments.getBodyPart(1) instanceof MimeBodyPart);
                 bodyPart = (MimeBodyPart) attachments.getBodyPart(1);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() instanceof InputStream;
-                assert "jboss.jpg".equals(bodyPart.getFileName());
-                assert bodyPart.isMimeType("image/jpeg");
-                assert "inline".equals(bodyPart.getDisposition());
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue(bodyPart.getContent() instanceof InputStream);
+                Assert.assertEquals(bodyPart.getFileName(), "jboss.jpg");
+                Assert.assertTrue(bodyPart.isMimeType("image/jpeg"));
+                Assert.assertEquals(bodyPart.getDisposition(), "inline");
+                Assert.assertNotNull(bodyPart.getContentID());
                 
-                // Attachment 2
-                assert attachments.getBodyPart(2) != null;                
-                assert attachments.getBodyPart(2) instanceof MimeBodyPart;
+                // Inline Attachment 1 // Attachment Gavin Pic
+                Assert.assertNotNull(attachments.getBodyPart(2));                
+                Assert.assertTrue(attachments.getBodyPart(2) instanceof MimeBodyPart);
                 bodyPart = (MimeBodyPart) attachments.getBodyPart(2);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() instanceof InputStream;
-                assert "numbers.csv".equals(bodyPart.getFileName());
-                assert bodyPart.isMimeType("content/unknown");
-                assert "attachment".equals(bodyPart.getDisposition());
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue(bodyPart.getContent() instanceof InputStream);
+                Assert.assertEquals(bodyPart.getFileName(), "Gavin_King.jpg");
+                Assert.assertTrue(bodyPart.isMimeType("image/png"));
+                Assert.assertEquals(bodyPart.getDisposition(), "inline");
+                Assert.assertNotNull(bodyPart.getContentID());
                 
-                // Attachment 3
-                assert attachments.getBodyPart(3) != null;                
-                assert attachments.getBodyPart(3) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) attachments.getBodyPart(3);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() instanceof InputStream;
-                assert "Gavin_King.jpg".equals(bodyPart.getFileName());
-                assert bodyPart.isMimeType("image/png");
-                assert "inline".equals(bodyPart.getDisposition());
+                // Root Attachment 0
+                Assert.assertNotNull(body.getBodyPart(1));                
+                Assert.assertTrue(body.getBodyPart(1) instanceof MimeBodyPart);
+                bodyPart = (MimeBodyPart) body.getBodyPart(1);
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue( bodyPart.getContent() instanceof InputStream);
+                Assert.assertEquals(bodyPart.getFileName(), "numbers.csv");
+                Assert.assertTrue(bodyPart.isMimeType("content/unknown"));
+                Assert.assertEquals(bodyPart.getDisposition(), "attachment");
+                Assert.assertNull(bodyPart.getContentID());                
                 
-                // Attachment 4
-                assert attachments.getBodyPart(4) != null;                
-                assert attachments.getBodyPart(4) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) attachments.getBodyPart(4);
-                assert bodyPart.getContent() != null;
-                // No PDF rendering here :(
-                assert bodyPart.getContent() instanceof String;
-                assert "whyseam.pdf".equals(bodyPart.getFileName());
-                assert "attachment".equals(bodyPart.getDisposition());
+                // Root Attachment 1
+                Assert.assertNotNull(body.getBodyPart(2));                
+                Assert.assertTrue(body.getBodyPart(2) instanceof MimeBodyPart);
+                bodyPart = (MimeBodyPart) body.getBodyPart(2);
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertTrue(bodyPart.getContent() instanceof String);
+                Assert.assertEquals(bodyPart.getFileName(), "whyseam.pdf");
+                Assert.assertEquals(bodyPart.getDisposition(), "attachment");
+                Assert.assertNull(bodyPart.getContentID());
                 
-                // Attachment 5 -- ui:repeat doesn't work in test env :(
-                /*assert attachments.getBodyPart(5) != null;                
-                assert attachments.getBodyPart(5) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) attachments.getBodyPart(5);
-                assert bodyPart.getContent() != null;
-                assert "Gavin_King.jpg".equals(bodyPart.getFileName());
-                assert bodyPart.isMimeType("image/jpeg");
-                assert "attachment".equals(bodyPart.getDisposition());*/
+                // Root Attachment 3
+                Assert.assertNotNull(body.getBodyPart(3));                
+                Assert.assertTrue(body.getBodyPart(3) instanceof MimeBodyPart);
+                bodyPart = (MimeBodyPart) body.getBodyPart(3);
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertEquals(bodyPart.getFileName(), "excel.xls");
+                Assert.assertTrue(bodyPart.isMimeType("application/vnd.ms-excel"));
+                Assert.assertEquals(bodyPart.getDisposition(), "attachment");
+                Assert.assertNull(bodyPart.getContentID());                
                 
             }            
         }.run();
@@ -225,10 +226,10 @@ public class MailTest extends SeamTest
              attachment.encodeEnd(FacesContext.getCurrentInstance());
              
              // verify we built the message
-             assert new Integer(1).equals(message.getAttachments().size());
+             Assert.assertEquals(message.getAttachments().size(), 1);
              MimeBodyPart bodyPart = message.getAttachments().get(0);
-             assert "filename.pdf".equals(bodyPart.getFileName());
-             assert "attachment".equals(bodyPart.getDisposition());
+             Assert.assertEquals(bodyPart.getFileName(), "filename.pdf");
+             Assert.assertEquals(bodyPart.getDisposition(),"attachment");
           }
        }.run();
     }
@@ -256,54 +257,55 @@ public class MailTest extends SeamTest
                 // Test the standard headers
                 
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("test@example.com");
-                assert to.getPersonal().equals("Pete Muir");
+                Assert.assertEquals(to.getAddress(), "test@example.com");
+                Assert.assertEquals(to.getPersonal(), "Pete Muir");
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("do-not-reply@jboss.com");
-                assert from.getPersonal().equals("Seam");
-                assert "Seam Mail".equals(renderedMessage.getSubject());
+                Assert.assertEquals(from.getAddress(), "do-not-reply@jboss.com");
+                Assert.assertEquals(from.getPersonal(), "Seam");
+                Assert.assertEquals(renderedMessage.getSubject(), "Seam Mail");
                 
                 // Test the extra headers
                 
                 // Importance
-                assert renderedMessage.getHeader("X-Priority") != null;
-                assert renderedMessage.getHeader("Priority") != null;
-                assert renderedMessage.getHeader("Importance") != null;
-                assert renderedMessage.getHeader("X-Priority").length == 1;
-                assert renderedMessage.getHeader("Priority").length == 1;
-                assert renderedMessage.getHeader("Importance").length == 1;
-                assert "5".equals(renderedMessage.getHeader("X-Priority")[0]);
-                assert "Non-urgent".equals(renderedMessage.getHeader("Priority")[0]);
-                assert "low".equals(renderedMessage.getHeader("Importance")[0]);
+                Assert.assertNotNull(renderedMessage.getHeader("X-Priority"));
+                Assert.assertNotNull(renderedMessage.getHeader("Priority"));
+                Assert.assertNotNull(renderedMessage.getHeader("Importance"));
+                Assert.assertEquals(renderedMessage.getHeader("X-Priority").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("Priority").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("Importance").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("X-Priority")[0], "5");
+                Assert.assertEquals(renderedMessage.getHeader("Priority")[0], "Non-urgent");
+                Assert.assertEquals(renderedMessage.getHeader("Importance")[0], "low");
                 
                 // read receipt
-                assert renderedMessage.getHeader("Disposition-Notification-To") != null;
-                assert renderedMessage.getHeader("Disposition-Notification-To").length == 1;
-                assert "Seam <do-not-reply@jboss.com>".equals(renderedMessage.getHeader("Disposition-Notification-To")[0]);
+                Assert.assertNotNull(renderedMessage.getHeader("Disposition-Notification-To"));
+                Assert.assertEquals(renderedMessage.getHeader("Disposition-Notification-To").length,  1);
+                Assert.assertEquals(renderedMessage.getHeader("Disposition-Notification-To")[0], "Seam <do-not-reply@jboss.com>");
                 
                 // m:header
-                assert renderedMessage.getHeader("X-Sent-From") != null;
-                assert renderedMessage.getHeader("X-Sent-From").length == 1;
-                assert "Seam".equals(renderedMessage.getHeader("X-Sent-From")[0]);
+                Assert.assertNotNull(renderedMessage.getHeader("X-Sent-From"));
+                Assert.assertEquals(renderedMessage.getHeader("X-Sent-From").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("X-Sent-From")[0], "Seam");
                 
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
                 
                 // Check the alternative facet
-                assert renderedMessage.getContentType().startsWith("multipart/mixed");
-                assert body.getCount() == 1;
+                Assert.assertTrue(renderedMessage.getContentType().startsWith("multipart/mixed"));
+                Assert.assertEquals(body.getCount(), 1);
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
-                assert bodyPart.getContentType().startsWith("multipart/alternative");
-                assert bodyPart.getContent() instanceof MimeMultipart;
+                Assert.assertTrue(bodyPart.getContentType().startsWith("multipart/alternative"));
+                Assert.assertTrue(bodyPart.getContent() instanceof MimeMultipart);
                 MimeMultipart bodyParts = (MimeMultipart) bodyPart.getContent();
-                assert bodyParts.getCount() == 2;
-                assert bodyParts.getBodyPart(0) instanceof MimeBodyPart;
-                assert bodyParts.getBodyPart(1) instanceof MimeBodyPart;
+                Assert.assertEquals(bodyParts.getCount(), 2);
+                Assert.assertTrue(bodyParts.getBodyPart(0) instanceof MimeBodyPart);
+                Assert.assertTrue(bodyParts.getBodyPart(1) instanceof MimeBodyPart);
                 MimeBodyPart alternative = (MimeBodyPart) bodyParts.getBodyPart(0);
                 MimeBodyPart html = (MimeBodyPart) bodyParts.getBodyPart(1);
-                assert alternative.isMimeType("text/plain");
-                assert "inline".equals(alternative.getDisposition());
-                assert html.isMimeType("text/html");
-                assert "inline".equals(html.getDisposition());
+                Assert.assertTrue(alternative.isMimeType("text/plain"));
+                Assert.assertEquals(alternative.getDisposition(), "inline");
+                Assert.assertTrue(html.isMimeType("text/html"));
+                Assert.assertEquals(html.getDisposition(), "inline");
+
             }            
         }.run();
        
@@ -333,48 +335,48 @@ public class MailTest extends SeamTest
                 // Test the standard headers
                 
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("test@example.com");
-                assert to.getPersonal().equals("Pete Muir");
+                Assert.assertEquals(to.getAddress(), "test@example.com");
+                Assert.assertEquals(to.getPersonal(), "Pete Muir");
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("do-not-reply@jboss.com");
-                assert from.getPersonal().equals("Seam");
-                assert renderedMessage.getReplyTo().length == 1;
-                assert renderedMessage.getReplyTo()[0] instanceof InternetAddress;
+                Assert.assertEquals(from.getAddress(), "do-not-reply@jboss.com");
+                Assert.assertEquals(from.getPersonal(), "Seam");
+                Assert.assertEquals(renderedMessage.getReplyTo().length,  1);
+                Assert.assertTrue(renderedMessage.getReplyTo()[0] instanceof InternetAddress);
                 InternetAddress replyTo = (InternetAddress) renderedMessage.getReplyTo()[0];
-                assert "another.address@jboss.org".equals(replyTo.getAddress());
-                assert "JBoss".equals(replyTo.getPersonal());
-                assert renderedMessage.getRecipients(CC).length == 1;
-                assert renderedMessage.getRecipients(CC)[0] instanceof InternetAddress;
+                Assert.assertEquals(replyTo.getAddress(), "another.address@jboss.org");
+                Assert.assertEquals(replyTo.getPersonal(), "JBoss");
+                Assert.assertEquals(renderedMessage.getRecipients(CC).length, 1);
+                Assert.assertTrue(renderedMessage.getRecipients(CC)[0] instanceof InternetAddress);
                 InternetAddress cc = (InternetAddress) renderedMessage.getRecipients(CC)[0];
-                assert "test@example.com".equals(cc.getAddress());
-                assert "Pete Muir".equals(cc.getPersonal());
-                assert renderedMessage.getRecipients(BCC).length == 1;
-                assert renderedMessage.getRecipients(BCC)[0] instanceof InternetAddress;
+                Assert.assertEquals(cc.getAddress(), "test@example.com");
+                Assert.assertEquals(cc.getPersonal(), "Pete Muir");
+                Assert.assertEquals(renderedMessage.getRecipients(BCC).length, 1);
+                Assert.assertTrue(renderedMessage.getRecipients(BCC)[0] instanceof InternetAddress);
                 InternetAddress bcc = (InternetAddress) renderedMessage.getRecipients(CC)[0];
-                assert "test@example.com".equals(bcc.getAddress());
-                assert "Pete Muir".equals(bcc.getPersonal());
-                assert "bulk".equals(renderedMessage.getHeader("Precedence")[0]);
+                Assert.assertEquals(bcc.getAddress(), "test@example.com");
+                Assert.assertEquals(bcc.getPersonal(), "Pete Muir");
+                Assert.assertEquals(renderedMessage.getHeader("Precedence")[0], "bulk");
                 // Importance
-                assert renderedMessage.getHeader("X-Priority") != null;
-                assert renderedMessage.getHeader("Priority") != null;
-                assert renderedMessage.getHeader("Importance") != null;
-                assert renderedMessage.getHeader("X-Priority").length == 1;
-                assert renderedMessage.getHeader("Priority").length == 1;
-                assert renderedMessage.getHeader("Importance").length == 1;
-                assert "1".equals(renderedMessage.getHeader("X-Priority")[0]);
-                assert "Urgent".equals(renderedMessage.getHeader("Priority")[0]);
-                assert "high".equals(renderedMessage.getHeader("Importance")[0]);
-                assert "Plain text email sent by Seam".equals(renderedMessage.getSubject());
+                Assert.assertNotNull(renderedMessage.getHeader("X-Priority"));
+                Assert.assertNotNull(renderedMessage.getHeader("Priority"));
+                Assert.assertNotNull(renderedMessage.getHeader("Importance"));
+                Assert.assertEquals(renderedMessage.getHeader("X-Priority").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("Priority").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("Importance").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("X-Priority")[0], "1");
+                Assert.assertEquals(renderedMessage.getHeader("Priority")[0], "Urgent");
+                Assert.assertEquals(renderedMessage.getHeader("Importance")[0], "high");
+                Assert.assertEquals(renderedMessage.getSubject(), "Plain text email sent by Seam");
                 
                 // Check the body
                 
-                assert renderedMessage.getContent() != null;
+                Assert.assertNotNull(renderedMessage.getContent());
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
-                assert body.getCount() == 1;
+                Assert.assertEquals(body.getCount(), 1);
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
-                assert bodyPart.getContent() != null;
-                assert "inline".equals(bodyPart.getDisposition());
-                assert bodyPart.isMimeType("text/plain");
+                Assert.assertNotNull(bodyPart.getContent());
+                Assert.assertEquals(bodyPart.getDisposition(), "inline");
+                Assert.assertTrue(bodyPart.isMimeType("text/plain"));
             }
         }.run();
     }
@@ -439,12 +441,12 @@ public class MailTest extends SeamTest
                 }
                 catch (FacesException e)
                 {
-                    assert e.getCause() instanceof AddressException;
+                    Assert.assertTrue(e.getCause() instanceof AddressException);
                     AddressException ae = (AddressException) e.getCause();
-                    assert ae.getMessage().startsWith("Missing final '@domain'");
+                    Assert.assertTrue(ae.getMessage().startsWith("Missing final '@domain'"));
                     exceptionThrown = true;
                 }
-                assert exceptionThrown;
+                Assert.assertTrue(exceptionThrown);
              
             }
         }.run();
@@ -483,13 +485,13 @@ public class MailTest extends SeamTest
                 }
                 catch (Exception e)
                 {
-                    assert e.getCause() instanceof AddressException;
+                    Assert.assertTrue(e.getCause() instanceof AddressException);
                     AddressException ae = (AddressException) e.getCause();
                     System.out.println(ae.getMessage());
-                    assert ae.getMessage().startsWith("Email cannot have more than one Reply-to address");
+                    Assert.assertTrue(ae.getMessage().startsWith("Email cannot have more than one Reply-to address"));
                     exceptionThrown = true;
                 }
-                assert exceptionThrown;
+                Assert.assertTrue(exceptionThrown);
              
             }
         }.run();
@@ -525,12 +527,12 @@ public class MailTest extends SeamTest
                 }
                 catch (FacesException e)
                 {
-                    assert e.getCause() instanceof AddressException;
+                    Assert.assertTrue(e.getCause() instanceof AddressException);
                     AddressException ae = (AddressException) e.getCause();
-                    assert ae.getMessage().startsWith("Email cannot have more than one from address");
+                    Assert.assertTrue(ae.getMessage().startsWith("Email cannot have more than one from address"));
                     exceptionThrown = true;
                 }
-                assert exceptionThrown;
+                Assert.assertTrue(exceptionThrown);
              
             }
         }.run();
@@ -554,18 +556,18 @@ public class MailTest extends SeamTest
             { 
                 Contexts.getEventContext().set("name", "Pete\nMuir");   
                 MimeMessage renderedMessage = getRenderedMailMessage("/org/jboss/seam/example/mail/test/sanitization.xhtml");
-                assert "Try out Seam!".equals(renderedMessage.getSubject());
+                Assert.assertEquals(renderedMessage.getSubject(), "Try out Seam!");
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("peter@email.tld");
-                assert to.getPersonal().equals("Pete");
-                assert renderedMessage.getFrom().length == 1;
-                assert renderedMessage.getFrom()[0] instanceof InternetAddress;
+                Assert.assertEquals(to.getAddress(), "peter@email.tld");
+                Assert.assertEquals(to.getPersonal(), "Pete");
+                Assert.assertEquals(renderedMessage.getFrom().length, 1);
+                Assert.assertTrue(renderedMessage.getFrom()[0] instanceof InternetAddress);
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("peter@example.com");
-                assert from.getPersonal().equals("Pete");
-                assert renderedMessage.getHeader("Pete") != null;
-                assert renderedMessage.getHeader("Pete").length == 1;
-                assert "roll over".equals(renderedMessage.getHeader("Pete")[0]);
+                Assert.assertEquals(from.getAddress(), "peter@example.com");
+                Assert.assertEquals(from.getPersonal(), "Pete");
+                Assert.assertNotNull(renderedMessage.getHeader("Pete"));
+                Assert.assertEquals(renderedMessage.getHeader("Pete").length, 1);
+                Assert.assertEquals(renderedMessage.getHeader("Pete")[0], "roll over");
             }
         }.run();
     }
@@ -593,36 +595,36 @@ public class MailTest extends SeamTest
                 // Test the standard headers
                 
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
-                assert to.getAddress().equals("test@example.com");
-                assert to.getPersonal().equals("Pete Muir");
+                Assert.assertEquals(to.getAddress(), "test@example.com");
+                Assert.assertEquals(to.getPersonal(), "Pete Muir");
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("do-not-reply@jboss.com");
-                assert from.getPersonal().equals("Seam");
-                assert "Templating with Seam Mail".equals(renderedMessage.getSubject());
-                assert renderedMessage.getHeader("X-Priority") == null;
-                assert renderedMessage.getHeader("Priority") == null;
-                assert renderedMessage.getHeader("Importance") == null;
+                Assert.assertEquals(from.getAddress(), "do-not-reply@jboss.com");
+                Assert.assertEquals(from.getPersonal(), "Seam");
+                Assert.assertEquals(renderedMessage.getSubject(), "Templating with Seam Mail");
+                Assert.assertNull(renderedMessage.getHeader("X-Priority"));
+                Assert.assertNull(renderedMessage.getHeader("Priority"));
+                Assert.assertNull(renderedMessage.getHeader("Importance"));
                 
                 // Check the body
                 
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
                 
                 // Check the alternative facet
-                assert renderedMessage.getContentType().startsWith("multipart/mixed");
-                assert body.getCount() == 1;
+                Assert.assertTrue(renderedMessage.getContentType().startsWith("multipart/mixed"));
+                Assert.assertEquals(body.getCount(), 1);
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
-                assert bodyPart.getContentType().startsWith("multipart/alternative");
-                assert bodyPart.getContent() instanceof MimeMultipart;
+                Assert.assertTrue(bodyPart.getContentType().startsWith("multipart/alternative"));
+                Assert.assertTrue(bodyPart.getContent() instanceof MimeMultipart);
                 MimeMultipart bodyParts = (MimeMultipart) bodyPart.getContent();
-                assert bodyParts.getCount() == 2;
-                assert bodyParts.getBodyPart(0) instanceof MimeBodyPart;
-                assert bodyParts.getBodyPart(1) instanceof MimeBodyPart;
+                Assert.assertEquals(bodyParts.getCount(), 2);
+                Assert.assertTrue(bodyParts.getBodyPart(0) instanceof MimeBodyPart);
+                Assert.assertTrue(bodyParts.getBodyPart(1) instanceof MimeBodyPart);
                 MimeBodyPart alternative = (MimeBodyPart) bodyParts.getBodyPart(0);
                 MimeBodyPart html = (MimeBodyPart) bodyParts.getBodyPart(1);
-                assert alternative.isMimeType("text/plain");
-                assert "inline".equals(alternative.getDisposition());
-                assert html.isMimeType("text/html");
-                assert "inline".equals(html.getDisposition());       
+                Assert.assertTrue(alternative.isMimeType("text/plain"));
+                Assert.assertEquals(alternative.getDisposition(), "inline");
+                Assert.assertTrue(html.isMimeType("text/html"));
+                Assert.assertEquals(html.getDisposition(), "inline");
             }
         }.run();
     }
