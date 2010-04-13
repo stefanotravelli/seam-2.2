@@ -63,7 +63,7 @@ public class IdentityManagementTest extends DatabaseTest
    {
       seamGen.addIdentityManagement();
       seamGen.restart();
-      waitForAppToDeploy(HOME_PAGE, FOOTER);
+      waitForAppToDeploy(HOME_PAGE, IDENTITY_MANAGEMENT);
 
       // execute testing import script
       InputStream is = getClass().getResourceAsStream("/org/jboss/seam/test/functional/seamgen/identity-management.sql");
