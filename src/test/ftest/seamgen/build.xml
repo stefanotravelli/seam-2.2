@@ -71,6 +71,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<ant antfile="${ftest.dir}/examples/build.xml" target="copy.selenium" />
 	</target>
 	
+	<target name="copy.webdriver">
+			<ant antfile="${ftest.dir}/examples/build.xml" target="copy.webdriver" />
+	</target>
+	
 	<target name="build" depends="build.common" description="Compiles the Test">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
@@ -81,7 +85,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</copy>
 	</target>
 
-	<target name="build.common" depends="copy.selenium" description="Compiles the common selenium test code">
+	<target name="build.common" depends="copy.selenium, copy.webdriver" description="Compiles the common selenium test code">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
