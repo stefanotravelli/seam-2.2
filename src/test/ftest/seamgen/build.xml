@@ -24,8 +24,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<!-- Location of Seam -->
 	<dirname property="seam.dir" file="${ant.file.ftest.seamgen}/../../../../" />
-	
-	<!-- Build resources -->	
+
+	<!-- Build resources -->
 	<import file="${seam.dir}/build/common.build.xml" />
 
 	<!-- default property setup -->
@@ -45,7 +45,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<path id="classpath.build">
 		<fileset dir="${root.lib.dir}">
-					<include name="testng-jdk15.jar"/>
+			<include name="testng-jdk15.jar"/>
 		</fileset>
 		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
 	</path>
@@ -68,13 +68,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="copy.selenium">
-			<ant antfile="${ftest.dir}/examples/build.xml" target="copy.selenium" />
+		<ant antfile="${ftest.dir}/examples/build.xml" target="copy.selenium" />
 	</target>
-	
+
 	<target name="copy.webdriver">
-			<ant antfile="${ftest.dir}/examples/build.xml" target="copy.webdriver" />
+		<ant antfile="${ftest.dir}/examples/build.xml" target="copy.webdriver" />
 	</target>
-	
+
 	<target name="build" depends="build.common" description="Compiles the Test">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
@@ -129,6 +129,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<sequential>
 			<!--<ant antfile="${seam.dir}/build.xml" target="copyseam"/>
 			<ant antfile="${seam.dir}/build.xml" target="copyseamdependencies"/>-->
+			
+			<!-- Start the application server -->
+			<ant target="start.container" />
+			
 			<taskdef resource="testngtasks" classpathref="classpath.test" />
 			<!-- execute testng tests -->
 			<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
@@ -136,7 +140,23 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				<sysproperty key="seam.dir" value="${seam.dir}" />
 				<sysproperty key="ftest.config.location" value="${ftest.config.location}" />
 			</testng>
+			
+			<!-- Stop the application server -->
+			<ant target="stop.container" />
 		</sequential>
 	</macrodef>
+
+	<target name="start.container" if="run.container.per.suite">
+		<echo>Starting container</echo>
+		<ant antfile="${ftest.dir}/examples/build.xml" target="start.container.jboss" inheritall="false">
+			<property name="container" value="${container}" />
+		</ant>
+	</target>
+	<target name="stop.container" if="run.container.per.suite">
+		<echo>Stopping container</echo>
+		<ant antfile="${ftest.dir}/examples/build.xml" target="stop.container.jboss" inheritall="false">
+			<property name="container" value="${container}" />
+		</ant>
+	</target>
 
 </project>
