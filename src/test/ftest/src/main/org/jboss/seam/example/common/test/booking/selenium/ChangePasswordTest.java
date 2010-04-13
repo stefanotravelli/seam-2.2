@@ -61,6 +61,13 @@ public class ChangePasswordTest extends SeleniumBookingTest {
         assertTrue("Login failed.", login(USERNAME, "password"));
         // cleanup - set default password
         changePassword(PASSWORD);
+        try
+        {
+           Thread.sleep(7000);
+        }
+        catch (InterruptedException e)
+        {
+        }
         assertTrue("Password change failed.", browser
                 .isTextPresent(getProperty("PASSWORD_UPDATED_MESSAGE")));
         logout();
