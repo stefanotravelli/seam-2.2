@@ -112,9 +112,21 @@ public class WebDriverChatroomTest extends AjaxWebDriverTest
       
    public void connect()
    {
-      driver.findElement(NAME_INPUT).clearAndSendKeys(NAME1);
+      
+      driver.findElement(NAME_INPUT).clearAndSendKeys(NAME1, Keys.TAB);
+            
       driver.setWaitTime(timeout);
-      driver.findElement(CONNECT_BUTTON).clickAndWait();
+      
+      //more reliable than simple click
+      driver.findElement(CONNECT_BUTTON).clearAndSendKeys(Keys.RETURN);
+      
+      try
+      {
+         Thread.sleep(timeout);
+      }
+      catch (InterruptedException e)
+      {
+      }
    }
    
    public void verifyConnecting()
