@@ -124,8 +124,8 @@ public class SeleniumTasksTest extends SeamSeleniumTest
    public void editTurtleTask()
    {
       String turtle = "Buy a turtle";
-      String newCategory = "School";
-      String newDescription = "Buy a turtle and take it to school";
+      String newCategory = "Work";
+      String newDescription = "Buy a turtle and take it to work";
       editTask(turtle, newCategory, newDescription);
       buttonPresent(newDescription, RESOLVE_BTN_TITLE);
       navigate(LOGOUT_LINK);
