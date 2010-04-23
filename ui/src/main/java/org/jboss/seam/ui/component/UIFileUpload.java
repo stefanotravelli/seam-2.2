@@ -144,6 +144,122 @@ public abstract class UIFileUpload extends UIInput
       this.localInputStream = localInputStream;
    }
    
+   /**
+    * {@inheritDoc}
+    *
+    * @see javax.faces.component.UIOutput#getLocalValue()
+    */
+   @Override
+   public Object getLocalValue() {
+       return new LocalUploadValue(localContentType, localFileName, localFileSize,
+               localInputStream);
+   }
+
+   /**
+    * {@inheritDoc}
+    *
+    * @see javax.faces.component.UIInput#setValue(java.lang.Object)
+    */
+   @Override
+   public void setValue(Object value) {
+       // Check if the local values get restored
+       if (value != null && value instanceof LocalUploadValue) {
+           LocalUploadValue localValue = (LocalUploadValue) value;
+           localFileName = localValue.getFileName();
+           localFileSize = localValue.getFileSize();
+           localContentType = localValue.getContentType();
+           localInputStream = localValue.getInputStream();
+       } else {
+           super.setValue(value);
+       }
+   }
+
+   /**
+    * {@inheritDoc}
+    *
+    * @see javax.faces.component.UIInput#isLocalValueSet()
+    */
+   @Override
+   public boolean isLocalValueSet() {
+       return localContentType != null || localFileName != null || localFileSize != null
+               || localInputStream != null;
+   }
+
+   /**
+    * Helper class to store the local values.
+    */
+   protected class LocalUploadValue {
+
+       /** Stores the local content type. */
+       private String contentType;
+
+       /** Stores the local file name. */
+       private String fileName;
+
+       /** Stores the local file size. */
+       private Integer fileSize;
+
+       /** Stores the local stream information. */
+       private InputStream inputStream;
+
+       /**
+        * Constructor for this class.
+        *
+        * @param contentType
+        * The local content type to save
+        * @param fileName
+        * The local file name to save
+        * @param fileSize
+        * The local file size to save
+        * @param inputStream
+        * The local input stream to save
+        */
+       public LocalUploadValue(String contentType, String fileName, Integer fileSize,
+               InputStream inputStream) {
+           super();
+           this.contentType = contentType;
+           this.fileName = fileName;
+           this.fileSize = fileSize;
+           this.inputStream = inputStream;
+       }
+
+       /**
+        * Returns the contentType value.
+        *
+        * @return the contentType value
+        */
+       public String getContentType() {
+           return contentType;
+       }
+
+       /**
+        * Returns the fileName value.
+        *
+        * @return the fileName value
+        */
+       public String getFileName() {
+           return fileName;
+       }
+
+       /**
+        * Returns the fileSize value.
+        *
+        * @return the fileSize value
+        */
+       public Integer getFileSize() {
+           return fileSize;
+       }
+
+       /**
+        * Returns the inputStream value.
+        *
+        * @return the inputStream value
+        */
+       public InputStream getInputStream() {
+           return inputStream;
+       }
+   }
+   
    public abstract void setAccept(String accept);
    
    public abstract String getAccept();
