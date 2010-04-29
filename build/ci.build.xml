@@ -14,6 +14,10 @@
 
     <import file="common.build.xml" />
 
+    <artifact:remoteRepository id="jboss-snapshots-repository" url="https://repository.jboss.org/nexus/content/repositories/snapshots/">
+        <authentication username="hudson-services" password="${snapshots.password}" />
+    </artifact:remoteRepository>
+
     <target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
         <deploySnapshotPom pom="${root.pom}" />
         <deploySnapshotPom pom="${parent.pom}" />
@@ -97,16 +101,16 @@
     </target>
 
     <target name="deployExamplesSnapshot" depends="initdav">
-        <deployExample name="booking" repositoryId="jboss-snapshots" />
-        <deployExampleNoDs name="numberguess" repositoryId="jboss-snapshots" />
-        <deployExampleNoDs name="jpa" distdir="dist-jboss" type="war" repositoryId="jboss-snapshots" />
-        <deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-snapshots" />
+        <deployExample name="booking" repositoryId="jboss-snapshots-repository" />
+        <deployExampleNoDs name="numberguess" repositoryId="jboss-snapshots-repository" />
+        <deployExampleNoDs name="jpa" distdir="dist-jboss" type="war" repositoryId="jboss-snapshots-repository" />
+        <deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-snapshots-repository" />
     </target>
 
     <target name="deployDocumentation" depends="initdav, initpoms">
         <artifact:deploy uniqueVersion="false" file="${docs.pom}" settingsFile="${maven.settings.xml}">
             <pom file="${docs.pom}" settingsFile="${maven.settings.xml}" />
-            <remoteRepository refId="jboss-snapshots" />
+            <remoteRepository refId="jboss-snapshots-repository" />
             <attach file="${doc.ref.dir}/target/docbook/publish/en-US/pdf/seam_reference.pdf" classifier="en-US" type="pdf" />
             <attach file="${doc.ref.dir}/target/docbook/publish/fr-FR/pdf/seam_reference.pdf" classifier="fr-FR" type="pdf" />
             <attach file="${doc.ref.dir}/target/docbook/publish/it-IT/pdf/seam_reference.pdf" classifier="it-IT" type="pdf" />
@@ -138,7 +142,7 @@
         <sequential>
             <artifact:deploy uniqueVersion="true">
                 <pom file="@{pom}" settingsFile="${maven.settings.xml}" />
-                <remoteRepository refid="jboss-snapshots" />
+                <remoteRepository refid="jboss-snapshots-repository" />
             </artifact:deploy>
         </sequential>
     </macrodef>
@@ -151,7 +155,7 @@
             <artifact:deploy file="@{jar}" uniqueVersion="true">
                 <pom file="@{pom}" settingsFile="${maven.settings.xml}" />
                 <attach file="@{srcjar}" classifier="sources" />
-                <remoteRepository refid="jboss-snapshots" />
+                <remoteRepository refid="jboss-snapshots-repository" />
             </artifact:deploy>
         </sequential>
     </macrodef>
