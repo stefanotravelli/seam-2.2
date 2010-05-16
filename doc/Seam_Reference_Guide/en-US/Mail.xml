@@ -326,13 +326,18 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
       If you are using EJB then you can use a MDB (Message Driven Bean) to 
       receive email.  JBoss provides a JCA adaptor &#8212; 
       <literal>mail-ra.rar</literal> &#8212; but the version distributed with
-      JBoss AS has a number of limitations (and isn't bundled in some versions)
+      JBoss AS 4.x has a number of limitations (and isn't bundled in some versions)
       therefore we recommend using the <literal>mail-ra.rar</literal> 
       distributed with Seam (it's in the <literal>extras/</literal>
       directory in the Seam bundle).  <literal>mail-ra.rar</literal> should 
       be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the
       version of JBoss AS you use already has this file, replace it.
     </para>
+    
+    <note>
+    	<para>JBoss AS 5.x and newer has mail-ra.rar with applied the patches,
+    	 so there is no need to copy the mail-ra.rar from Seam distribution.</para>
+    </note>
     
     <para>
       You can configure it like this:
