@@ -69,7 +69,7 @@ public class DocumentStore
     
     public static DocumentStore instance()
     {
-        return (DocumentStore) Component.getInstance(DocumentStore.class);
+       return (DocumentStore) Component.getInstance("org.jboss.seam.document.documentStore");
     }
   
 
