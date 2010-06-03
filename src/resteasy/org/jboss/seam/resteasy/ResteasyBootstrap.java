@@ -26,7 +26,9 @@ import org.jboss.resteasy.core.SynchronousDispatcher;
 import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
+import org.jboss.resteasy.spi.Registry;
 import org.jboss.resteasy.spi.ResourceFactory;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.resteasy.spi.StringConverter;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -53,7 +55,10 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import javax.ws.rs.ext.Providers;
 
 /**
  * Detects (through scanning and configuration) JAX-RS resources and providers, then
@@ -108,6 +113,13 @@ public class ResteasyBootstrap
       // TODO: How does that actually work? It's never used because the dispatcher is created with the original one
       SeamResteasyProviderFactory.setInstance(new ThreadLocalResteasyProviderFactory(providerFactory));
 
+      // Put Providers, Registry and Dispatcher into RESTEasy context.
+      dispatcher.getDefaultContextObjects().put(Providers.class, providerFactory);
+      dispatcher.getDefaultContextObjects().put(Registry.class, dispatcher.getRegistry());
+      dispatcher.getDefaultContextObjects().put(Dispatcher.class, dispatcher);
+      Map contextDataMap = SeamResteasyProviderFactory.getContextDataMap();
+      contextDataMap.putAll(dispatcher.getDefaultContextObjects());
+      
       // Seam can scan the classes for us, we just have to list them in META-INF/seam-deployment.properties
       DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
       AnnotationDeploymentHandler handler =
