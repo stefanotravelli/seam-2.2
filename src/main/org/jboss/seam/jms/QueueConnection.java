@@ -11,10 +11,12 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -26,12 +28,16 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
 @Name("org.jboss.seam.jms.queueConnection")
-@Install(precedence=BUILT_IN, genericDependencies=ManagedQueueSender.class)
+@Install(precedence = BUILT_IN, genericDependencies = ManagedQueueSender.class)
 public class QueueConnection
 {
+   
+   @Logger
+   private Log log;
+   
    private String queueConnectionFactoryJndiName = "UIL2ConnectionFactory";
    private javax.jms.QueueConnection queueConnection;
-
+   
    /**
     * The JNDI name of the QueueConnectionFactory
     */
@@ -39,7 +45,7 @@ public class QueueConnection
    {
       return queueConnectionFactoryJndiName;
    }
-
+   
    public void setQueueConnectionFactoryJndiName(String jndiName)
    {
       this.queueConnectionFactoryJndiName = jndiName;
@@ -55,10 +61,20 @@ public class QueueConnection
    @Destroy
    public void destroy() throws JMSException
    {
-      queueConnection.stop();
+      try
+      {
+         queueConnection.stop();
+      }
+      catch (javax.jms.IllegalStateException e)
+      {
+         // as for JEE v5 specs, section EE 6.6
+         // At least WebSphere v7 enforce this
+         log.warn("queueSession.stop() called during @Destroy in an invalid context for this container. Msg={0}", e.getMessage());
+      }
+      
       queueConnection.close();
    }
-
+   
    private QueueConnectionFactory getQueueConnectionFactory() throws NamingException
    {
       return (QueueConnectionFactory) Naming.getInitialContext().lookup(queueConnectionFactoryJndiName);
@@ -74,11 +90,11 @@ public class QueueConnection
    {
       return (javax.jms.QueueConnection) Component.getInstance(QueueConnection.class);
    }
-
+   
    @Override
    public String toString()
    {
       return "QueueConnection(" + queueConnectionFactoryJndiName + ")";
    }
-
+   
 }
