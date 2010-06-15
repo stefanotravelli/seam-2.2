@@ -26,7 +26,7 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="persistenceUnitName" value="bookingDatabase"/>
 		<!-- Use alternate location to prevent JBoss AS from automatically loading persistence units (in-container) -->
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence-spring.xml"/>
+		<property name="persistenceXmlLocation" value="classpath*:/META-INF/persistence-spring.xml"/>
 	</bean>
 
 	<!-- This example uses resource local JpaTransactionManager.  You could just as easily use a JtaTransactionManager -->
