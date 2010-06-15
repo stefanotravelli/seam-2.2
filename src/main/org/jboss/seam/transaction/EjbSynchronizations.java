@@ -34,7 +34,7 @@ import org.jboss.seam.log.Logging;
  */
 @Stateful
 @Name("org.jboss.seam.transaction.synchronizations")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.EVENT)
 @Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.transaction.ejbTransaction")
 @BypassInterceptors
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
