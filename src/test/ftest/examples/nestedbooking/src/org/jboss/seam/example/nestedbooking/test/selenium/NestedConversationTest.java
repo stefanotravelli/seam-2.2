@@ -32,7 +32,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * This class alters behaviour of SimpleBookingTest to test nested conversations
+ * This class tests only nested conversations
  *
  * @author mgencur
  */
@@ -60,8 +60,6 @@ public class NestedConversationTest extends SeamSeleniumTest
    {
       browser.open(CONTEXT_PATH + getProperty("MAIN_PAGE"));
       pause(timeout);
-      //browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "0");
-      //pause(timeout);
       browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "0");
       pause(timeout);
       browser.selectWindow("0");
