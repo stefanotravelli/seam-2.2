@@ -101,7 +101,7 @@ public class NestedConversationTest extends SeamSeleniumTest
    
    public void login(String username, String password) 
    {
-      browser.waitForPageToLoad(TIMEOUT);
+      //browser.waitForPageToLoad(TIMEOUT);
       browser.type(getProperty("LOGIN_USERNAME_FIELD"), username);
       browser.type(getProperty("LOGIN_PASSWORD_FIELD"), password);
       browser.click(getProperty("LOGIN_SUBMIT"));
