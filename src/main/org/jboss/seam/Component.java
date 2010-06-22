@@ -2051,7 +2051,8 @@ public class Component extends Model
       return getInstanceFromFactory(name, null);
    }
 
-   private static synchronized Object getInstanceFromFactory(String name, ScopeType scope)
+  // JBSEAM-4669: Removed the "synchronized" keyword
+   private static Object getInstanceFromFactory(String name, ScopeType scope)
    {
       Init init = Init.instance();
       if (init==null) //for unit tests, yew!
