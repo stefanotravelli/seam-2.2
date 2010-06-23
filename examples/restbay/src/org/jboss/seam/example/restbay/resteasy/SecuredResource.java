@@ -52,9 +52,8 @@ public class SecuredResource
    @Transactional
    public boolean synchronizationsLookup()
    {
-      //Synchronizations ejb = (Synchronizations) Component.getInstance("org.jboss.seam.transaction.synchronizations", ScopeType.EVENT);
-      //return ejb.isAwareOfContainerTransactions();
-      return true;
+      Synchronizations ejb = (Synchronizations) Component.getInstance("org.jboss.seam.transaction.synchronizations", ScopeType.EVENT);
+      return ejb.isAwareOfContainerTransactions();
    }
    
    @GET
