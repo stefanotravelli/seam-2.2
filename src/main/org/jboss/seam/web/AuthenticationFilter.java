@@ -103,7 +103,7 @@ public class AuthenticationFilter extends AbstractFilter
       this.nonceValiditySeconds = value;
    }
    
-   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+   public void doFilter(ServletRequest request, ServletResponse response, final FilterChain chain) 
       throws IOException, ServletException
    {
       if (!(request instanceof HttpServletRequest)) 
@@ -111,33 +111,39 @@ public class AuthenticationFilter extends AbstractFilter
          throw new ServletException("This filter can only process HttpServletRequest requests");
       }
 
-      HttpServletRequest httpRequest = (HttpServletRequest) request;
-      HttpServletResponse httpResponse = (HttpServletResponse) response;
+      final HttpServletRequest httpRequest = (HttpServletRequest) request;
+      final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
       // Force session creation
       httpRequest.getSession();
       
-      if (AUTH_TYPE_BASIC.equals(authType))
-         processBasicAuth(httpRequest, httpResponse, chain);
-      else if (AUTH_TYPE_DIGEST.equals(authType))
-         processDigestAuth(httpRequest, httpResponse, chain);
-      else
-         throw new ServletException("Invalid authentication type");
+      new ContextualHttpServletRequest(httpRequest)
+      {
+         @Override
+         public void process() throws ServletException, IOException, LoginException
+         {      
+            if (AUTH_TYPE_BASIC.equals(authType))
+               processBasicAuth(httpRequest, httpResponse, chain);
+            else if (AUTH_TYPE_DIGEST.equals(authType))
+               processDigestAuth(httpRequest, httpResponse, chain);
+            else
+               throw new ServletException("Invalid authentication type");
+         }
+      }.run();
    }
    
    private void processBasicAuth(HttpServletRequest request, 
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
-      Identity identity = (Identity) ctx.get(Identity.class);
+      Identity identity = Identity.instance();
 
       if (identity == null)
       {
          throw new ServletException("Identity not found - please ensure that the Identity component is created on startup.");
       }
       
-      Credentials credentials = (Credentials) ctx.get(Credentials.class);
+      Credentials credentials = identity.getCredentials();
       
       boolean requireAuth = false;
       
@@ -202,15 +208,14 @@ public class AuthenticationFilter extends AbstractFilter
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
-      Identity identity = (Identity) ctx.get(Identity.class);
+      Identity identity = Identity.instance();
       
       if (identity == null)
       {
          throw new ServletException("Identity not found - please ensure that the Identity component is created on startup.");
       }      
       
-      Credentials credentials = (Credentials) ctx.get(Credentials.class);
+      Credentials credentials = identity.getCredentials();
       
       boolean requireAuth = false;    
       boolean nonceExpired = false;
@@ -227,7 +232,6 @@ public class AuthenticationFilter extends AbstractFilter
             String[] vals = split(entry, "=");
             headerMap.put(vals[0].trim(), vals[1].replace("\"", "").trim());
          }
-         
 
          DigestRequest digestRequest = new DigestRequest();
          digestRequest.setHttpMethod(request.getMethod());
@@ -302,18 +306,11 @@ public class AuthenticationFilter extends AbstractFilter
    }
    
    private void authenticate(HttpServletRequest request, final String username)
-      throws ServletException, IOException
+      throws ServletException, IOException, LoginException
    {
-      new ContextualHttpServletRequest(request)
-      {
-         @Override
-         public void process() throws ServletException, IOException, LoginException
-         {
-            Identity identity = Identity.instance();
-            identity.getCredentials().setUsername(username);
-            identity.authenticate();
-         }
-      }.run();  
+      Identity identity = Identity.instance();
+      identity.getCredentials().setUsername(username);
+      identity.authenticate();
    }
    
    private String[] split(String toSplit, String delimiter) 
