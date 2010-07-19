@@ -32,6 +32,8 @@ How To:
 * Set jboss*.home properties in ftest.properties to point to your application server locations
 * Set tomcat.home in ftest.properties to be able to run tests on plain Tomcat
 * Set jboss-embedded.home in ftest.properties to be able to run tests on Tomcat (with JBoss Embedded)
+* Check if testng jar file was downloaded - its location should be $SEAM_HOME/lib/ (if not, tests will miss some classes and fail)
+  - if there is no testng jar file, change to the $SEAM_HOME directory and run "ant copyseamdependencies"
 
   To run all the functional tests run:
   * "ant testall" for JBoss AS 5
