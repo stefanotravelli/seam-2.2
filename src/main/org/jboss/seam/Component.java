@@ -50,6 +50,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
@@ -128,6 +129,8 @@ public class Component extends Model
    public static final String PROPERTIES = "org.jboss.seam.properties";
 
    private static final LogProvider log = Logging.getLogProvider(Component.class);
+   
+   static ReentrantLock factoryLock = new ReentrantLock();
    
    private ComponentType type;
    private String name;
@@ -2051,7 +2054,6 @@ public class Component extends Model
       return getInstanceFromFactory(name, null);
    }
 
-  // JBSEAM-4669: Removed the "synchronized" keyword
    private static Object getInstanceFromFactory(String name, ScopeType scope)
    {
       Init init = Init.instance();
@@ -2061,13 +2063,6 @@ public class Component extends Model
       }
       else
       {
-         // check whether there has been created an instance by another thread while waiting for this function's lock
-         if (scope != STATELESS) {
-            Object value = (scope == null) ? Contexts.lookupInStatefulContexts(name) : scope.getContext().get(name);
-            if (value != null) {
-               return value;
-            }
-         }
          Init.FactoryMethod factoryMethod = init.getFactory(name);
          Init.FactoryExpression methodBinding = init.getFactoryMethodExpression(name);
          Init.FactoryExpression valueBinding = init.getFactoryValueExpression(name);
@@ -2084,14 +2079,32 @@ public class Component extends Model
          else if ( factoryMethod!=null && getOutScope( factoryMethod.getScope(), factoryMethod.getComponent() ).isContextActive() )
          {
             Object factory = Component.getInstance( factoryMethod.getComponent().getName(), true );
-            if (factory==null)
+            factoryLock.lock();
+            try
             {
-               return null;
+               // check whether there has been created an instance by another thread while waiting for this function's lock
+               if (scope != STATELESS)
+               {
+                  Object value = (scope == null) ? Contexts.lookupInStatefulContexts(name) : scope.getContext().get(name);
+                  if (value != null)
+                  {
+                     return value;
+                  }
+               }
+               
+               if (factory==null)
+               {
+                  return null;
+               }
+               else
+               {
+                  Object result = factoryMethod.getComponent().callComponentMethod( factory, factoryMethod.getMethod() );
+                  return handleFactoryMethodResult( name, factoryMethod.getComponent(), result, factoryMethod.getScope() );
+               }
             }
-            else
+            finally 
             {
-               Object result = factoryMethod.getComponent().callComponentMethod( factory, factoryMethod.getMethod() );
-               return handleFactoryMethodResult( name, factoryMethod.getComponent(), result, factoryMethod.getScope() );
+               factoryLock.unlock();
             }
          }
          else
