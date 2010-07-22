@@ -528,6 +528,14 @@ public class MockExternalContext extends ExternalContext
       response.sendRedirect(url);
       FacesContext.getCurrentInstance().responseComplete();
    }
+   
+   
+
+   @Override
+   public void setRequest(Object myrequest)
+   {
+      this.request = (HttpServletRequest) myrequest;
+   }
 
    /**
     * @since 1.2

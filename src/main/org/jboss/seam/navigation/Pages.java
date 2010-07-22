@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,8 +20,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
@@ -42,12 +43,12 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.MethodExpression;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ResourceLoader;
-import org.jboss.seam.core.Expressions.MethodExpression;
-import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
 import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.faces.FacesMessages;
@@ -678,6 +679,16 @@ public class Pages
       String outcome = facesContext.getExternalContext()
             .getRequestParameterMap().get("actionOutcome");
       String fromAction = outcome;
+
+      String decodedOutcome = null;
+      if (outcome != null)
+      {
+         decodedOutcome = URLDecoder.decode(outcome);
+      }
+
+      if (decodedOutcome != null && (decodedOutcome.indexOf('#') >= 0 || decodedOutcome.indexOf('{') >= 0) ){
+         throw new IllegalArgumentException("EL expressions are not allowed in actionOutcome parameter");
+      }
       
       if (outcome==null)
       {
