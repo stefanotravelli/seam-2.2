@@ -120,12 +120,12 @@ public class DelegatedWebElement implements AjaxWebElement
       return element.getAttribute(name);
    }
    
-   @Deprecated
-   // @Override
-   public String getElementName()
-   {
-      return element.getElementName();
-   }
+   //@Deprecated
+   //// @Override
+   //public String getElementName()
+   //{
+   //   return element.getElementName();
+   //}
    
    // @Override
    public String getTagName()
