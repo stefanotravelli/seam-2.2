@@ -184,7 +184,7 @@ public class SecurityTest extends SeamTest
       }.run();
    }
    
-   // @Test
+    @Test
    // JBPAPP-3713
    public void synchronizationsLookup() throws Exception
    {
