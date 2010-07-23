@@ -360,13 +360,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	
 	<target name="copy.selenium" unless="copy.selenium.done">
 		<copyInlineDependencies id="selenium.server" scope="compile" todir="${ftest.lib.dir}">
-			<dependency groupId="org.seleniumhq.selenium.server" artifactId="selenium-server" version="1.0.1" classifier="standalone">
+			<dependency groupId="org.seleniumhq.selenium.server" artifactId="selenium-server" version="1.0.3" classifier="standalone">
 				<exclusion groupId="org.seleniumhq.selenium.core" artifactId="selenium-core" />
 				<exclusion groupId="org.seleniumhq.selenium.server" artifactId="selenium-server-coreless" />
 				<exclusion groupId="org.apache.ant" artifactId="ant-trax" />
 				<exclusion groupId="org.apache.ant" artifactId="ant-nodeps" />
 			</dependency>
-			<dependency groupId="org.seleniumhq.selenium.client-drivers" artifactId="selenium-java-client-driver" version="1.0.1">
+			<dependency groupId="org.seleniumhq.selenium.client-drivers" artifactId="selenium-java-client-driver" version="1.0.2">
 				<exclusion groupId="org.codehaus.groovy.maven.runtime" artifactId="gmaven-runtime-default" />
 			</dependency>
 			<dependency groupId="org.subethamail" artifactId="subethasmtp-smtp" version="1.2" >
