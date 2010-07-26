@@ -231,6 +231,27 @@
                 <ui:param name="titlePlural" value="#{messages['lacewiki.label.commentsDisplay.Comments']}"/>
                 <ui:define name="controls">
 
+                    <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'reportSpam', currentDocument)}">
+                        <ui:decorate template="includes/confirmationAction.xhtml">
+                            <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.ReportCommentAsSpam']}"/>
+                            <ui:param name="linkClass" value="buttonReport"/>
+                            <ui:param name="jsFunctionName" value="reportCommentAsSpamId#{c.id}"/>
+                            <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToReport']
+                                                                .concat(' ')
+                                                                .concat(c.ownedByRegularUser ? c.createdBy.fullname : c.fromUserName)
+                                                                .concat(' ')
+                                                                .concat(messages['lacewiki.label.AsSpam'])
+                                                                .concat('?')}"/>
+                            <ui:define name="jsFunction">
+                                <a:jsFunction name="#{jsFunctionName}"
+                                              reRender="commentDisplayForm, messageBoxContainer"
+                                              action="#{commentHome.reportAsSpam(c.id)}"
+                                              oncomplete="onAjaxRequestComplete()"
+                                              status="globalStatus"/>
+                            </ui:define>
+                        </ui:decorate>
+                    </s:fragment>                            
+
                     <h:panelGroup>
 
                         <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">

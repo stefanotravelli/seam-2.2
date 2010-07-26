@@ -87,6 +87,10 @@
                                        accesskey="#{messages['lacewiki.button.adminHome.Preferences.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Preferences']}"/>
             </a></li>
+            <li id="spamReportTab"><a href="#spamReport">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.SpamReport']}"/>
+            </a></li>            
+            
         </ul>
 
         <div id="formTabsTitle"/>
@@ -245,6 +249,61 @@
                     <ui:param name="preferenceEntities" value="#{systemPreferenceEntities}"/>
                 </ui:include>
             </div>
+        </div>
+        
+        <div id="spamReport" style="padding: 20px">
+            <h:dataTable id="spamReportTable" var="report"
+                         value="#{spamReports}"
+                         rendered="#{spamReports.rowCount >0}"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder smallFont"
+                         columnClasses="tenPercentColumn rightBorder alignLeft,
+                                        defaultColumn rightBorder alignLeft wrapWhitespace,
+                                        tenPercentColumn rightBorder alignCenter"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.spamReport.Reporter']}
+                    </f:facet>
+
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(report.reporter)}">
+                        <h:outputText value="#{report.reporter.fullname}"/>
+                    </h:outputLink>                                        
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.spamReport.Comment']}
+                    </f:facet>                    
+                    
+                    <s:div styleClass="commentText" rendered="#{report.comment.useWikiText and not empty report.comment.parent.areaNumber}">
+                        <s:formattedText value="#{report.comment.content}"
+                                            linkStyleClass="regularLink"
+                                            brokenLinkStyleClass="brokenLink"
+                                            attachmentLinkStyleClass="regularLink"
+                                            thumbnailLinkStyleClass="regularLink"
+                                            enableMacroRendering="false"/>
+                    </s:div>
+                    <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name != report.comment.subject}" style="margin-top:15px;">
+                        <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
+                    </s:div>
+                    <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name == report.comment.subject}">
+                        <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
+                    </s:div>               
+                    
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.spamReport.Poster']}
+                    </f:facet>
+                    
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(report.comment.createdBy)}">
+                        <h:outputText value="#{report.comment.createdBy}"/>
+                    </h:outputLink>                                        
+                </h:column>                
+
+            </h:dataTable>
         </div>
 
     </div>

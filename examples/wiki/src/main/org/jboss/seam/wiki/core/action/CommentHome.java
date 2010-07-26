@@ -185,6 +185,30 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return null; // Prevent navigation
     }
 
+    /**
+     * Creates a spam report for the selected comment
+     * 
+     * @param commentId
+     * @return
+     */
+    public String reportAsSpam(Long commentId)
+    {
+       WikiSpamReport report = new WikiSpamReport();
+       setNodeId(commentId);
+       report.setComment(getInstance());
+       report.setReporter(currentUser);
+       
+       getEntityManager().persist(report);
+       
+       StatusMessages.instance().addFromResourceBundleOrDefault(
+             INFO,
+             "lacewiki.label.ReportThankYou",
+             "Thank you for your assistance."
+       );       
+       
+       return "success";
+    }
+
 
     @Override
     protected NodeRemover getNodeRemover() {

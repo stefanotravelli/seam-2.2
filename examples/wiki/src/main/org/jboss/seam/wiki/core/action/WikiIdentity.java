@@ -81,6 +81,9 @@ public class WikiIdentity extends Identity {
         if ("Comment".equals(name) && "create".equals(action)) {
             return checkCommentCreate((WikiDocument)args[0]);
         } else
+        if ("Comment".equals(name) && "reportSpam".equals(action)) {
+           return checkCommentReportSpam((WikiNode)args[0]);
+        }
         if ("Comment".equals(name) && "delete".equals(action)) {
             return checkCommentDelete((WikiNode)args[0]);
         } else
@@ -229,6 +232,11 @@ public class WikiIdentity extends Identity {
         if (doc.getReadAccessLevel() <= currentAccessLevel &&
             doc.isEnableComments() && doc.isEnableCommentForm()) return true;
         return false;
+    }
+    
+    private boolean checkCommentReportSpam(WikiNode node) {
+       if (currentAccessLevel > Role.GUESTROLE_ACCESSLEVEL) return true;
+       return false;
     }
 
     /*

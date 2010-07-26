@@ -22,6 +22,7 @@ import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiSpamReport;
 import org.jboss.seam.wiki.core.search.IndexManager;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
@@ -114,6 +115,16 @@ public class AdminHome implements Serializable {
 
     public LinkProtocol getLinkProtocol() {
         return linkProtocol;
+    }
+    
+    @DataModel(value = "spamReports")
+    private List<WikiSpamReport> spamReports;
+    
+    @Factory("spamReports")
+    public void loadSpamReports()
+    {
+       spamReports = entityManager.createQuery("select r from WikiSpamReport r")
+           .getResultList();
     }
 
     public void addLinkProtocol() {
