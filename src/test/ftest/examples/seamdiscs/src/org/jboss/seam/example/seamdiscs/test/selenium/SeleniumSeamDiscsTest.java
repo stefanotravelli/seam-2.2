@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 
 import org.jboss.seam.example.common.test.selenium.SeamSeleniumTest;
 import org.testng.annotations.BeforeMethod;
+import com.thoughtworks.selenium.SeleniumException;
 
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
@@ -128,8 +129,12 @@ public abstract class SeleniumSeamDiscsTest extends SeamSeleniumTest
       assertTrue("This is not expected (" + expectedDiscTitle + ") album (" + actualDiscTitle + ")!", actualDiscTitle.equals(expectedDiscTitle));
       
       String actualReleaseDate = "";
-      if (browser.isElementPresent(MessageFormat.format(ARTIST_NTH_DISC_YEAR, tableRow) + "/attribute::value")) {
-         actualReleaseDate = browser.getAttribute(MessageFormat.format(ARTIST_NTH_DISC_YEAR, tableRow) + "@value");
+      if (browser.isElementPresent(MessageFormat.format(ARTIST_NTH_DISC_YEAR, tableRow))) {
+         try {
+            actualReleaseDate = browser.getAttribute(MessageFormat.format(ARTIST_NTH_DISC_YEAR, tableRow) + "@value");
+         } catch (SeleniumException ex) {
+            // intentianally left blank
+         }
          assertTrue("This is not expected (" + expectedReleaseDate + ") release date (" + actualReleaseDate + ")!", actualReleaseDate.equals(expectedReleaseDate));
       }
 
