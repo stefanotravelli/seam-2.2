@@ -353,6 +353,25 @@ public class UserHome extends EntityHome<User> {
         }
         return outcome;
     }
+    
+    @Restrict("#{s:hasPermission('User', 'delete', userHome.instance)}")
+    public String nuke() {
+
+       // TODO need to do almost the same as remove(), however we want to delete
+       // all the user's nodes instead of re-parenting them, plus add their 
+       // e-mail and ip address to the blacklist
+       
+       // Remove preferences for this user
+        PreferenceProvider prefProvider = (PreferenceProvider)Component.getInstance("preferenceProvider");
+        prefProvider.deleteUserPreferenceValues(getInstance());
+        prefProvider.flush();
+
+        String outcome = super.remove();
+        if (outcome != null) {
+            org.jboss.seam.core.Events.instance().raiseEvent("User.removed", getInstance());
+        }
+        return outcome;
+    }    
 
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public void removePortrait() {

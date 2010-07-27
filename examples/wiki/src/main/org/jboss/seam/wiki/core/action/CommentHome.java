@@ -20,6 +20,7 @@ import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.dao.SpamReportDAO;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
@@ -42,6 +43,9 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @In
     protected FeedDAO feedDAO;
+    
+    @In
+    protected SpamReportDAO spamReportDAO;
 
     @In("#{preferences.get('Comments')}")
     protected CommentsPreferences commentsPreferences;
@@ -176,6 +180,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
                 feedDAO.findFeeds(getInstance()),
                 feedDAO.findFeedEntry(getInstance())
             );
+            
+            spamReportDAO.removeReports(spamReportDAO.findReports(getInstance()));
 
             remove();
             getEntityManager().clear();

@@ -37,5 +37,7 @@ public class CommentNodeRemover extends NodeRemover<WikiComment> implements Seri
             feedDAO.findFeeds(comment),
             feedDAO.findFeedEntry(comment)
         );
+        
+        spamReportDAO.removeReports(spamReportDAO.findReports(comment));
     }
 }

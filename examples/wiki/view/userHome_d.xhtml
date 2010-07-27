@@ -332,6 +332,25 @@
                     </ui:decorate>
                 </s:fragment>
                 
+                <s:fragment rendered="#{s:hasPermission('User', 'delete', userHome.instance)}">
+                    <ui:decorate template="includes/confirmationAction.xhtml">
+                        <ui:param name="label" value="#{messages['lacewiki.button.userHome.Nuke']}"/>
+                        <ui:param name="tabindex" value="1"/>
+                        <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                        <ui:param name="escapeLabel" value="false"/>
+                        <ui:param name="jsFunctionName" value="nukeUser"/>
+                        <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToNukePrefix']
+                                                            .concat(userHome.instance.username)
+                                                            .concat(messages['lacewiki.label.AreYouSureYouWantToNukeSuffix'])
+                                                            }"/>
+                        <ui:define name="jsFunction">
+                            <a:jsFunction name="#{jsFunctionName}"
+                                          action="#{userHome.nuke}"
+                                          status="globalStatus"/>
+                        </ui:define>
+                    </ui:decorate>
+                </s:fragment>                
+                
             </div>
         </div>
     </div>

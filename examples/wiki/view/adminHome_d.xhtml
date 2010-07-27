@@ -290,17 +290,41 @@
                     </s:div>
                     <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name == report.comment.subject}">
                         <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
-                    </s:div>               
+                    </s:div>       
+                    
+                    <div>
+                      <h:outputLink value="#{wikiURLRenderer.renderURL(report.comment)}">                        
+                      <h:outputText value="#{messages['lacewiki.label.adminHome.spamReport.ViewOriginal']}"/>
+                      </h:outputLink>
+                    </div>        
                     
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         #{messages['lacewiki.label.adminHome.spamReport.Poster']}
                     </f:facet>
-                    
-                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(report.comment.createdBy)}">
-                        <h:outputText value="#{report.comment.createdBy}"/>
-                    </h:outputLink>                                        
+
+                    <s:div rendered="#{report.comment.ownedByRegularUser}">
+                        <s:span styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(report.comment.createdBy)}">
+                                <h:outputText value="#{report.comment.createdBy.fullname}"/>
+                            </h:outputLink>
+                        </s:span>
+                    </s:div>
+
+                    <s:div rendered="#{not report.comment.ownedByRegularUser}">
+                        <h:outputText rendered="#{empty report.comment.fromUserHomepage}" value="#{report.comment.fromUserName}"/>
+                        <s:fragment rendered="#{not empty report.comment.fromUserHomepage}">
+                            <a href="#{report.comment.fromUserHomepage}">#{report.comment.fromUserName}</a>
+                        </s:fragment>
+                        <s:fragment rendered="#{not empty report.comment.fromUserEmail}">
+                            <h:outputText value="&#160;|&#160;"/>
+                                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', report.comment.fromUserEmail))}">
+                                <h:outputText value="#{wiki:escapeAtSymbol(report.comment.fromUserEmail)}"/>
+                            </h:outputLink>
+                        </s:fragment>
+                    </s:div>                                        
+                                                          
                 </h:column>                
 
             </h:dataTable>
