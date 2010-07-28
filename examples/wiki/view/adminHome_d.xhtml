@@ -275,28 +275,52 @@
                 <h:column>
                     <f:facet name="header">
                         #{messages['lacewiki.label.adminHome.spamReport.Comment']}
-                    </f:facet>                    
+                    </f:facet>                   
                     
-                    <s:div styleClass="commentText" rendered="#{report.comment.useWikiText and not empty report.comment.parent.areaNumber}">
-                        <s:formattedText value="#{report.comment.content}"
-                                            linkStyleClass="regularLink"
-                                            brokenLinkStyleClass="brokenLink"
-                                            attachmentLinkStyleClass="regularLink"
-                                            thumbnailLinkStyleClass="regularLink"
-                                            enableMacroRendering="false"/>
-                    </s:div>
-                    <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name != report.comment.subject}" style="margin-top:15px;">
-                        <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
-                    </s:div>
-                    <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name == report.comment.subject}">
-                        <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
-                    </s:div>       
-                    
-                    <div>
-                      <h:outputLink value="#{wikiURLRenderer.renderURL(report.comment)}">                        
-                      <h:outputText value="#{messages['lacewiki.label.adminHome.spamReport.ViewOriginal']}"/>
-                      </h:outputLink>
-                    </div>        
+                    <div style="padding: 4px">
+                      <h:outputLink value="#{wikiURLRenderer.renderURL(report.comment)}">
+                          <h:outputText value="#{report.comment.subject}"/>
+                      </h:outputLink>                     
+                      
+                      <s:div styleClass="commentText" rendered="#{report.comment.useWikiText and not empty report.comment.parent.areaNumber}">
+                          <s:formattedText value="#{report.comment.content}"
+                                              linkStyleClass="regularLink"
+                                              brokenLinkStyleClass="brokenLink"
+                                              attachmentLinkStyleClass="regularLink"
+                                              thumbnailLinkStyleClass="regularLink"
+                                              enableMacroRendering="false"/>
+                      </s:div>
+                      <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name != report.comment.subject}" style="margin-top:15px;">
+                          <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
+                      </s:div>
+                      <s:div styleClass="commentText plaintext" rendered="#{not report.comment.useWikiText and report.comment.parent.name == report.comment.subject}">
+                          <h:outputText value="#{wiki:escapeHTML(report.comment.content, true, true)}" escape="false"/>
+                      </s:div>       
+                      
+                      <div>
+                                              
+                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', report.comment)}">
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                <ui:param name="jsFunctionName" value="deleteCommentId#{report.comment.id}"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(' ')
+                                                                    .concat(messages['lacewiki.label.commentsDisplay.CommentThread'])
+                                                                    .concat(': \'')
+                                                                    .concat(report.comment.subject)
+                                                                    .concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  reRender="commentDisplayForm, messageBoxContainer"
+                                                  action="#{commentHome.remove(report.comment.id)}"
+                                                  oncomplete="onAjaxRequestComplete()"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
+                        </s:fragment>
+                        
+                      </div>        
+                   </div>
                     
                 </h:column>
                 <h:column>

@@ -6,30 +6,40 @@
  */
 package org.jboss.seam.wiki.core.action;
 
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.international.StatusMessages;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
-import org.jboss.seam.wiki.core.wikitext.renderer.MacroWikiTextRenderer;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.template.TemplateRegistry;
-import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
 import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
+import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
 import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
+import org.jboss.seam.wiki.core.wikitext.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.util.WikiUtil;
-
-import static org.jboss.seam.international.StatusMessage.Severity.INFO;
-
-import java.util.*;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -261,6 +271,19 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     @Override
     public String remove() {
         return trash();
+    }
+    
+    public String reallyRemove()
+    {
+       checkRemovePermissions();
+       
+       getLog().debug("removing node : " + getInstance());
+       getNodeRemover().removeDependencies(getInstance());
+       getEntityManager().remove(getInstance());
+       getEntityManager().flush();
+
+       Events.instance().raiseEvent("Node.removed", getInstance());
+       return "removed";       
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
@@ -18,13 +19,18 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
@@ -40,7 +46,9 @@ import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +56,9 @@ import java.util.regex.Pattern;
 @Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
 
+   @Logger
+   static Log log;
+   
     // TODO: This is a performance optimization, our EM is always already joined (SMPC)
     //protected void joinTransaction() {}
 
@@ -56,7 +67,7 @@ public class UserHome extends EntityHome<User> {
 
     @In
     private UserDAO userDAO;
-
+    
     @In
     private Hash hashUtil;
 
@@ -356,10 +367,72 @@ public class UserHome extends EntityHome<User> {
     
     @Restrict("#{s:hasPermission('User', 'delete', userHome.instance)}")
     public String nuke() {
+      
+       // First delete their comments
+       
+       DocumentHome documentHome = (DocumentHome) Component.getInstance("documentHome");              
+       WikiNodeDAO wikiNodeDAO = (WikiNodeDAO) Component.getInstance("wikiNodeDAO");
+              
+       // Find all the content that this user has created
+       List<WikiNode> userNodes = wikiNodeDAO.findWikiNodes(getInstance());
+       
+       Set<WikiNode> nodesToDelete = new HashSet<WikiNode>();
+       
+       // Build a list of all the child nodes of the user's nodes
+       for (WikiNode node : userNodes)
+       {
+          recursiveAddChildren(wikiNodeDAO, node, nodesToDelete);
+       }
+       
+       while (!nodesToDelete.isEmpty())
+       {
+          WikiNode nodeToDelete = null;
+                    
+          main: for (WikiNode node : nodesToDelete)
+          {
+             // We need to find a node without children contained in the same set (which should contain any children if they exist)
+             for (WikiNode n : nodesToDelete)
+             {
+                if (n.getParent().equals(node)) continue main;
+             }
+             
+             nodeToDelete = node;
+             break;
+          }
+          
+          if (nodeToDelete == null)
+          {
+             throw new IllegalStateException("Error while deleting child nodes - no childless node found in set.");
+          }
+          else
+          {
+             if (nodeToDelete instanceof WikiComment)
+             {
+                WikiComment comment = (WikiComment) nodeToDelete;
+                
+                documentHome.setId(getCommentDocument(comment).getId());
+                CommentHome commentHome = (CommentHome) Component.getInstance("commentHome");
+                
+                commentHome.setId(comment.getId());
+                commentHome.remove(comment.getId());             
+             }
+             else if (nodeToDelete instanceof WikiDocument)
+             {
+                documentHome.setId(nodeToDelete.getId());
+                documentHome.reallyRemove();
+             }
+             else
+             {
+                log.info("Unhandled node found, could not delete: " + nodeToDelete);
+             }
 
-       // TODO need to do almost the same as remove(), however we want to delete
-       // all the user's nodes instead of re-parenting them, plus add their 
-       // e-mail and ip address to the blacklist
+          }
+          
+          nodesToDelete.remove(nodeToDelete);          
+       }       
+       
+       // TODO blacklist the user
+       
        
        // Remove preferences for this user
         PreferenceProvider prefProvider = (PreferenceProvider)Component.getInstance("preferenceProvider");
@@ -372,6 +445,29 @@ public class UserHome extends EntityHome<User> {
         }
         return outcome;
     }    
+    
+    private void recursiveAddChildren(WikiNodeDAO wikiNodeDAO, WikiNode parent, Set<WikiNode> nodeSet)
+    {
+       if (nodeSet.contains(parent)) return;
+       
+       List<WikiNode> children = wikiNodeDAO.findChildren(parent, WikiNode.SortableProperty.createdOn, true, 0, 0);
+       for (WikiNode child : children)
+       {
+          recursiveAddChildren(wikiNodeDAO, child, nodeSet);          
+       }
+       
+       nodeSet.add(parent);
+    }
+    
+    private WikiDocument getCommentDocument(WikiComment comment)
+    {
+       WikiNode parent = comment.getParent();
+       while (!(parent instanceof WikiDocument))
+       {
+          parent = parent.getParent();
+       }
+       return (WikiDocument) parent;
+    }
 
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public void removePortrait() {

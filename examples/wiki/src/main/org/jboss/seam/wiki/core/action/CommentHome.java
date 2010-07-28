@@ -6,29 +6,36 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
-import org.jboss.seam.security.AuthorizationException;
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Conversation;
-import org.jboss.seam.international.Messages;
-import org.jboss.seam.international.StatusMessages;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.seam.wiki.core.feeds.FeedDAO;
-import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
-import org.jboss.seam.wiki.core.dao.SpamReportDAO;
-import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
-import org.jboss.seam.wiki.core.ui.WikiRedirect;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
-import org.jboss.seam.wiki.util.WikiUtil;
-
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
 import java.util.Date;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.FlushModeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.security.AuthorizationException;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.dao.SpamReportDAO;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.feeds.FeedDAO;
+import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
+import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.WikiSpamReport;
+import org.jboss.seam.wiki.core.ui.WikiRedirect;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 @Name("commentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -38,7 +45,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     /* -------------------------- Context Wiring ------------------------------ */
 
-    @In
+    @In(required = false)
     protected DocumentHome documentHome;
 
     @In
@@ -77,7 +84,10 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     @Override
     public void create() {
         super.create();
-        setParentNodeId(documentHome.getInstance().getId());
+        if (documentHome != null)
+        {
+           setParentNodeId(documentHome.getInstance().getId());
+        }
     }
 
     @Override

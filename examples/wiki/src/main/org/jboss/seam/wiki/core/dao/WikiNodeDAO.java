@@ -1,19 +1,29 @@
 package org.jboss.seam.wiki.core.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
 import org.hibernate.Session;
-import org.hibernate.transform.ResultTransformer;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.core.model.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
-import java.util.*;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.WikiMenuItem;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.WikiTreeNode;
+import org.jboss.seam.wiki.core.model.WikiUpload;
 
 /**
  * DAO for nodes, transparently respects security access levels.
@@ -22,6 +32,7 @@ import java.util.*;
  * about access levels because it relies on a restricted (filtered) Entitymanager.
  *
  * @author Christian Bauer
+ * @author Shane Bryzak
  *
  */
 @Name("wikiNodeDAO")
@@ -58,6 +69,7 @@ public class WikiNodeDAO {
 
     }
 
+    @SuppressWarnings("unchecked")
     public List<WikiNode> findWikiNodes(List<Long> ids) {
         return restrictedEntityManager
                 .createQuery("select n from WikiNode n where n.id in (:idList)")
@@ -100,23 +112,38 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiNode> findChildren(WikiNode node, WikiNode.SortableProperty orderBy, boolean orderAscending, int firstResult, int maxResults) {
+    @SuppressWarnings("unchecked")
+    public List<WikiNode> findChildren(WikiNode node, WikiNode.SortableProperty orderBy, 
+          boolean orderAscending, int firstResult, int maxResults) {
 
         StringBuilder queryString = new StringBuilder();
         queryString.append("select n from WikiNode n where n.parent = :parent").append(" ");
         queryString.append("order by n.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
 
-        return restrictedEntityManager
-                .createQuery(queryString.toString())
-                .setHint("org.hibernate.comment", "Find wikinode children order by "+orderBy.name())
-                .setParameter("parent", node)
-                .setHint("org.hibernate.cacheable", false)
-                .setFirstResult(firstResult)
-                .setMaxResults(maxResults)
-                .getResultList();
+        Query query = restrictedEntityManager
+        .createQuery(queryString.toString())
+        .setHint("org.hibernate.comment", "Find wikinode children order by "+orderBy.name())
+        .setParameter("parent", node)
+        .setHint("org.hibernate.cacheable", false)
+        .setFirstResult(firstResult);
+        
+        if (maxResults > 0)
+        {
+           query.setMaxResults(maxResults);
+        }
+        
+        return query.getResultList();
+    }
+    
+    public List<WikiNode> findWikiNodes(User user)
+    {
+       return restrictedEntityManager.createQuery("select n from WikiNode n where n.createdBy = :createdBy")
+          .setParameter("createdBy", user)
+          .getResultList();
     }
 
-    public List<WikiDirectory> findChildWikiDirectories(WikiDirectory dir) {
+   @SuppressWarnings("unchecked")
+   public List<WikiDirectory> findChildWikiDirectories(WikiDirectory dir) {
         return restrictedEntityManager
                 .createQuery("select d from WikiDirectory d left join fetch d.feed where d.parent = :parent")
                 .setHint("org.hibernate.comment", "Find wikinode children directories")
@@ -139,7 +166,8 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiComment> findWikiComments(WikiDocument document, boolean orderbyDateAscending) {
+    @SuppressWarnings("unchecked")
+   public List<WikiComment> findWikiComments(WikiDocument document, boolean orderbyDateAscending) {
         String query =
                 "select c from WikiComment c where c.parent = :parentDoc order by c.createdOn " +
                 (orderbyDateAscending ? "asc" : "desc");
@@ -149,7 +177,65 @@ public class WikiNodeDAO {
                 .setHint("org.hibernate.comment", "Finding all comments of document")
                 .getResultList();
     }
-
+    
+   /**
+    * Returns a list of all the WikiComments created by a particular user
+    * @param createdBy
+    * @return
+    */
+   @SuppressWarnings("unchecked")
+   public List<WikiComment> findWikiComments(User createdBy)
+    {
+       return (List<WikiComment>) restrictedEntityManager.createQuery(
+             "select c from WikiComment c where c.createdBy = :createdBy")
+             .setParameter("createdBy", createdBy)
+             .getResultList();
+    }
+    
+   /**
+    * Returns a list of all the WikiComments matching the specified parameters 
+    * 
+    * @param fromUserName
+    * @param fromUserEmail
+    * @param fromUserHomepage
+    * @return
+    */
+   @SuppressWarnings("unchecked")
+   public List<WikiComment> findWikiComments(String fromUserName, String fromUserEmail, 
+          String fromUserHomepage)
+    {
+       if (fromUserName == null && fromUserEmail == null && fromUserHomepage == null)
+       {
+          throw new IllegalArgumentException("At least one parameter must be not null.");
+       }       
+              
+       StringBuilder criteria = new StringBuilder();
+       if (fromUserName != null) 
+       {
+          criteria.append("where c.fromUserName = :fromUserName");
+       }
+       
+       if (fromUserEmail != null)
+       {
+          if (criteria.length() > 0) criteria.append(" and ");
+          criteria.append("c.fromUserEmail = :fromUserEmail");
+       }
+       
+       if (fromUserHomepage != null)
+       {
+          if (criteria.length() > 0) criteria.append(" and ");
+          criteria.append("c.fromUserHomepage = :fromUserHomepage");
+       }
+       
+       Query query = restrictedEntityManager.createQuery("select c from WikiComment c " + criteria.toString());
+       
+       if (fromUserName != null) query.setParameter("fromUserName", fromUserName);
+       if (fromUserEmail != null) query.setParameter("fromUserEmail", fromUserEmail);
+       if (fromUserHomepage != null) query.setParameter("fromUserHomepage", fromUserHomepage);
+       
+       return (List<WikiComment>) query.getResultList();
+    }
+   
     public WikiFile findWikiFile(Long fileId) {
         try {
             return (WikiFile) restrictedEntityManager
@@ -228,6 +314,7 @@ public class WikiNodeDAO {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public List<WikiDocument> findWikiDocuments(WikiDirectory directory, WikiNode.SortableProperty orderBy, boolean orderAscending) {
 
         StringBuilder query = new StringBuilder();
@@ -259,6 +346,7 @@ public class WikiNodeDAO {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public List<WikiDocument> findWikiDocuments(int maxResults, WikiNode.SortableProperty orderBy, boolean orderAscending) {
 
         StringBuilder query = new StringBuilder();
@@ -305,6 +393,7 @@ public class WikiNodeDAO {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public List<WikiUpload> findWikiUploads(WikiDirectory directory, WikiNode.SortableProperty orderBy, boolean orderAscending) {
         StringBuilder query = new StringBuilder();
         query.append("select u from WikiUpload u where u.parent = :dir");
@@ -405,6 +494,7 @@ public class WikiNodeDAO {
     }
 
     // Recursive! Don't use for large trees...
+    @SuppressWarnings("unchecked")
     private void appendWikiNodeChildren(String query, List tree, long parentNodeId, long currentLevel, Long maxDepth, Long flattenToLevel) {
         List<WikiNode> nodes = restrictedEntityManager.createQuery(query)
                 .setHint("org.hibernate.comment", "Querying children of wiki node: " + parentNodeId)
