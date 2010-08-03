@@ -71,10 +71,10 @@
                                        accesskey="#{messages['lacewiki.button.adminHome.SystemStatistics.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.SystemStatistics']}"/>
             </a></li>
-            <li id="rolesPermissionsTab"><a href="#rolesPermissions"
+            <!--li id="rolesPermissionsTab"><a href="#rolesPermissions"
                                             accesskey="#{messages['lacewiki.button.adminHome.RolesPermissions.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.RolesPermissions']}"/>
-            </a></li>
+            </a></li-->
             <li id="pluginsTab"><a href="#plugins"
                                             accesskey="#{messages['lacewiki.button.adminHome.Plugins.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Plugins']}"/>
@@ -87,9 +87,14 @@
                                        accesskey="#{messages['lacewiki.button.adminHome.Preferences.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Preferences']}"/>
             </a></li>
+            
             <li id="spamReportTab"><a href="#spamReport">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.SpamReport']}"/>
-            </a></li>            
+            </a></li>   
+                     
+            <li id="blacklistTab"><a href="#blacklist">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Blacklist']}"/>
+            </a></li>                           
             
         </ul>
 
@@ -252,6 +257,7 @@
         </div>
         
         <div id="spamReport" style="padding: 20px">
+          <s:div id="spamReportContent">
             <h:dataTable id="spamReportTable" var="report"
                          value="#{spamReports}"
                          rendered="#{spamReports.rowCount >0}"
@@ -299,9 +305,9 @@
                       
                       <div>
                                               
-                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', report.comment)}">
+                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', report.comment)}">                        
                             <ui:decorate template="includes/confirmationAction.xhtml">
-                                <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                <ui:param name="label" value="#{messages['lacewiki.label.adminHome.spamReport.RemoveComment']}"/>
                                 <ui:param name="jsFunctionName" value="deleteCommentId#{report.comment.id}"/>
                                 <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
                                                                     .concat(' ')
@@ -311,13 +317,31 @@
                                                                     .concat('\'?')}"/>
                                 <ui:define name="jsFunction">
                                     <a:jsFunction name="#{jsFunctionName}"
-                                                  reRender="commentDisplayForm, messageBoxContainer"
+                                                  reRender="spamReportContent"
                                                   action="#{commentHome.remove(report.comment.id)}"
                                                   oncomplete="onAjaxRequestComplete()"
                                                   status="globalStatus"/>
                                 </ui:define>
                             </ui:decorate>
                         </s:fragment>
+                        
+                        
+                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', report.comment)}">                        
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.label.adminHome.spamReport.NotSpam']}"/>
+                                <ui:param name="jsFunctionName" value="deleteReportId#{report.reportId}"/>
+                                <ui:param name="linkClass" value="buttonReport"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.adminHome.spamReport.AreYouSureYouWantToDelete']
+                                                                    .concat('?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  reRender="spamReportContent"
+                                                  action="#{adminHome.removeSpamReport(report.comment.id)}"
+                                                  oncomplete="onAjaxRequestComplete()"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
+                        </s:fragment>                                              
                         
                       </div>        
                    </div>
@@ -352,7 +376,64 @@
                 </h:column>                
 
             </h:dataTable>
+          </s:div>
         </div>
+        
+        <div id="blacklist" style="padding: 20px">
+          <s:div id="blacklistContent">
+            <h:dataTable id="blacklistTable" var="bl"
+                         value="#{blacklist}"
+                         rendered="#{blacklist.rowCount >0}"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder smallFont"
+                         columnClasses="tenPercentColumn rightBorder alignLeft,
+                                        defaultColumn rightBorder alignLeft wrapWhitespace,
+                                        tenPercentColumn rightBorder alignCenter"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.blacklist.IPAddress']}
+                    </f:facet>
+
+                    #{bl.ipAddress}                                       
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.blacklist.Email']}
+                    </f:facet>                   
+                    
+                    #{bl.email}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">
+                        #{messages['lacewiki.label.adminHome.blacklist.Action']}
+                    </f:facet>
+                                          
+                    <div style="padding:4px">
+                        <ui:decorate template="includes/confirmationAction.xhtml">
+                            <ui:param name="label" value="#{messages['lacewiki.label.adminHome.blacklist.Remove']}"/>
+                            <ui:param name="jsFunctionName" value="deleteBlacklistId#{bl.id}"/>
+                            <ui:param name="message" value="#{messages['lacewiki.label.adminHome.blacklist.AreYouSureYouWantToDelete']
+                                                                .concat('?')}"/>
+                            <ui:define name="jsFunction">
+                                <a:jsFunction name="#{jsFunctionName}"
+                                              reRender="blacklistContent"
+                                              action="#{adminHome.removeBlacklist(bl.id)}"
+                                              oncomplete="onAjaxRequestComplete()"
+                                              status="globalStatus"/>
+                            </ui:define>
+                        </ui:decorate>
+                    </div>        
+                    
+                </h:column>            
+
+            </h:dataTable>
+          </s:div>
+        </div>
+        
 
     </div>
 

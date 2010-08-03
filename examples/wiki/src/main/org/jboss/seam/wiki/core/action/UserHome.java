@@ -24,8 +24,10 @@ import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.dao.BlacklistDAO;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.Blacklist;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiComment;
@@ -52,6 +54,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.context.FacesContext;
+
 @Name("userHome")
 @Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
@@ -64,9 +68,15 @@ public class UserHome extends EntityHome<User> {
 
     @In
     private StatusMessages statusMessages;
+    
+    @In(required = false)
+    private String clientAddress;
 
     @In
     private UserDAO userDAO;
+    
+    @In
+    private BlacklistDAO blacklistDAO;
     
     @In
     private Hash hashUtil;
@@ -179,6 +189,16 @@ public class UserHome extends EntityHome<User> {
     @Override
     public String persist() {
 
+       if (clientAddress != null)
+       {
+          getInstance().setRegisteredAddress(clientAddress);
+       }
+       
+       if (isBlacklisted())
+       {
+          return "blacklisted";
+       }
+       
         // Validate
         if (!isUniqueUsername() ||
             !passwordAndControlNotNull() ||
@@ -431,8 +451,10 @@ public class UserHome extends EntityHome<User> {
           nodesToDelete.remove(nodeToDelete);          
        }       
        
-       // TODO blacklist the user
-       
+       Blacklist blacklist = new Blacklist();
+       blacklist.setEmail(getInstance().getEmail());
+       blacklist.setIpAddress(getInstance().getRegisteredAddress());
+       getEntityManager().persist(blacklist);       
        
        // Remove preferences for this user
         PreferenceProvider prefProvider = (PreferenceProvider)Component.getInstance("preferenceProvider");
@@ -609,6 +631,12 @@ public class UserHome extends EntityHome<User> {
             return false;
         }
         return true;
+    }
+    
+    public boolean isBlacklisted()
+    {
+       return blacklistDAO.isEmailBlacklisted(getInstance().getEmail()) ||
+              blacklistDAO.isIpAddressBlacklisted(getInstance().getRegisteredAddress());
     }
 
     public void validateUsername() {

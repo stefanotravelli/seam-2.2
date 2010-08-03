@@ -10,6 +10,7 @@ import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
@@ -116,6 +117,56 @@ public class TopicHome extends DocumentHome {
             WikiRedirect.instance().setWikiDocument(getInstance()).execute();
         }
         return null; // Prevent navigation
+    }
+    
+    /**
+     * Have to jiggle with the subject line a bit to get it right
+     * @return
+     */
+    public String getMailSubject()
+    {
+       StringBuilder sb = new StringBuilder();
+       
+       String forumName = getForumName();
+       
+       if (getInstance().getName().toLowerCase().startsWith("re:"))
+       {
+          sb.append("Re: ");
+          if (forumName != null)
+          {
+             sb.append("[");
+             sb.append(forumName);
+             sb.append("] ");
+          }
+          sb.append(getInstance().getName().replaceFirst("[Rr]e:", "").trim());
+       }
+       else
+       {
+          if (forumName != null)
+          {
+             sb.append("[");
+             sb.append(forumName);
+             sb.append("] ");
+          }
+          sb.append(getInstance().getName());
+       }       
+       
+       return sb.toString();
+    }    
+    
+    /**
+     * This *should* return the name of the forum the topic belongs to
+     * 
+     * @return
+     */
+    public String getForumName()
+    {
+       WikiNode parent = getInstance().getParent();
+       while (parent != null && !(parent instanceof WikiDirectory))
+       {
+          parent = parent.getParent();
+       }
+       return (parent != null && parent instanceof WikiDirectory) ? parent.getName() : "";
     }
 
     @Override

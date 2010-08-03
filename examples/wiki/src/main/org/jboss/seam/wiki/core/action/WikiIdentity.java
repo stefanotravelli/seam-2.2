@@ -230,6 +230,7 @@ public class WikiIdentity extends Identity {
     private boolean checkCommentCreate(WikiDocument doc) {
         if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         if (doc.getReadAccessLevel() <= currentAccessLevel &&
+              currentAccessLevel > Role.GUESTROLE_ACCESSLEVEL &&
             doc.isEnableComments() && doc.isEnableCommentForm()) return true;
         return false;
     }

@@ -9,6 +9,7 @@ import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
@@ -95,7 +96,48 @@ public class ReplyHome extends CommentHome {
         }
 
     }
+    
+    public String getMailSubject()
+    {
+       StringBuilder sb = new StringBuilder();
+       
+       String forumName = getForumName();
+       
+       if (getInstance().getSubject().toLowerCase().startsWith("re:"))
+       {
+          sb.append("Re: ");
+          if (forumName != null)
+          {
+             sb.append("[");
+             sb.append(forumName);
+             sb.append("] ");
+          }
+          sb.append(getInstance().getSubject().replaceFirst("[Rr]e:", "").trim());
+       }
+       else
+       {
+          if (forumName != null)
+          {
+             sb.append("[");
+             sb.append(forumName);
+             sb.append("] ");
+          }
+          sb.append(getInstance().getSubject());
+       }       
+       
+       return sb.toString();
+    }
 
+    public String getForumName()
+    {
+       WikiNode parent = getInstance().getParent();
+       while (parent != null && !(parent instanceof WikiDirectory))
+       {
+          parent = parent.getParent();
+       }
+       return (parent != null && parent instanceof WikiDirectory) ? parent.getName() : null;
+    }    
+    
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void replyToDocument() {
 

@@ -18,13 +18,14 @@ public class SpamReportDAO
 {
    @Logger static Log log;
 
-   @In protected EntityManager restrictedEntityManager;
+   @In
+   protected EntityManager entityManager;
    
    
    public List<WikiSpamReport> findReports(WikiComment comment) {
       if (comment == null || comment.getId() == null) throw new IllegalArgumentException("comment is null or unsaved");
       
-      return restrictedEntityManager
+      return entityManager
               .createQuery(
                   "select distinct r from WikiSpamReport r " +
                   " where r.comment = :comment"
@@ -37,7 +38,8 @@ public class SpamReportDAO
    {
       for (WikiSpamReport report : reports)
       {
-         restrictedEntityManager.remove(report);
+         entityManager.remove(report);
       }
+      entityManager.flush();
    }
 }

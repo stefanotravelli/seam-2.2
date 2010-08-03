@@ -29,7 +29,7 @@ import java.util.Map;
 @Scope(ScopeType.APPLICATION)
 @Name("wikiUrlRewriteFilter")
 @BypassInterceptors
-@Filter(within = "org.jboss.seam.web.ajax4jsfFilter")
+@Filter(within = "org.jboss.seam.web.exceptionFilter")
 @Install(classDependencies = "org.tuckey.web.filters.urlrewrite.UrlRewriteFilter", precedence = Install.APPLICATION)
 public class WikiUrlRewriteFilter extends AbstractFilter {
 

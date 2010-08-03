@@ -219,7 +219,8 @@ public class WikiUtil {
 
     public static String removeHtml(String original) {
         if (original == null) return null;
-        return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
+        //return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
+        return original.replaceAll("<!--.*?-->", "").replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }
 
     // TODO: Ouch...

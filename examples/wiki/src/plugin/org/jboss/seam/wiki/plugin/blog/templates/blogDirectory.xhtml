@@ -19,8 +19,13 @@
                     <div class="boxHeader blogEntryHeader">
 
                         <div class="title">
-                            <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                          <h:outputLink value="#{wikiURLRenderer.renderURL(blogEntry.entryDocument)}">
+                             <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                          </h:outputLink>
                         </div>
+                        
+
+                        
 
                         <div class="dateAuthor smallFont">
                             <h:outputText value="#{blogEntry.entryDocument.createdOn}">

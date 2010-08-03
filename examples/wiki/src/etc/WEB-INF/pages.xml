@@ -181,6 +181,11 @@
         <action execute="#{userHome.init}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
         <navigation>
+            <rule if-outcome="blacklisted">
+              <end-conversation before-redirect="true"/>
+              <redirect view-id="/blacklisted.xhtml"/>
+            </rule>
+        
             <rule if-outcome="persisted" if="#{s:hasPermission('User', 'isAdmin', currentUser)}">
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/userHome_#{skin}.xhtml">

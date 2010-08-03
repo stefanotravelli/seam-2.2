@@ -6,14 +6,30 @@
  */
 package org.jboss.seam.wiki.core.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+
+import org.hibernate.validator.Email;
+import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
-import org.hibernate.validator.Length;
-import org.hibernate.validator.Email;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.*;
 
 @Entity
 @Table(name = "USERS")
@@ -78,6 +94,9 @@ public class User implements Serializable {
 
     @Column(name = "LAST_LOGIN_ON", nullable = true)
     private Date lastLoginOn = new Date();
+    
+    @Column(name = "REGISTERED_ADDRESS", length = 255, nullable = true)
+    private String registeredAddress;
 
     @Transient
     private Date previousLastLoginOn = new Date();
@@ -156,6 +175,9 @@ public class User implements Serializable {
 
     public String getActivationCode() { return activationCode; }
     public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
+    
+    public String getRegisteredAddress() { return registeredAddress; }
+    public void setRegisteredAddress(String registeredAddress) { this.registeredAddress = registeredAddress; }
 
     public WikiDirectory getMemberHome() { return memberHome; }
     public void setMemberHome(WikiDirectory memberHome) { this.memberHome = memberHome; }

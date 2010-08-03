@@ -6,8 +6,10 @@
  */
 package org.jboss.seam.wiki.core.action;
 
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.wiki.core.dao.SpamReportDAO;
 import org.jboss.seam.wiki.core.model.WikiComment;
 
 import java.io.Serializable;
@@ -19,6 +21,8 @@ import java.io.Serializable;
 @AutoCreate
 public class CommentNodeRemover extends NodeRemover<WikiComment> implements Serializable {
 
+   @In SpamReportDAO spamReportDAO;
+   
     public boolean isRemovable(WikiComment comment) {
         return true;
     }

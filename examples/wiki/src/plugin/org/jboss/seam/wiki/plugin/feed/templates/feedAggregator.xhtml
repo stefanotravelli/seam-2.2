@@ -69,18 +69,14 @@
                     <s:div styleClass="feedEntryTitle undecoratedLink"
                            rendered="#{not preferences.get('FeedAggregator', currentMacro).hideTitle}">
                         <h:outputLink target="_top" value="#{feDTO.feedEntry.link}">
-                            <h:outputText value="#{wiki:escapeAtSymbol(wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.title)))}"/>
+                            <h:outputText value="#{wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.title))}"/>
                         </h:outputLink>
                     </s:div>
 
                     <s:div styleClass="feedEntryBody" rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDescription}">
                         <h:outputText value="#{wiki:truncateStringOnWordBoundary(
-                                                wiki:escapeAtSymbol(
-                                                    wiki:removeHtml(
-                                                        stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)
-                                                    )
-                                                ),
-                                                preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
+                                                wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)),
+                                                 preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
 
                         <h:outputLink target="_top" styleClass="feedEntryBodyMoreLink"
                                       value="#{feDTO.feedEntry.link}"
