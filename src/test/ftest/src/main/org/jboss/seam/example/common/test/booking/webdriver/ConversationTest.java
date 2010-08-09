@@ -167,9 +167,9 @@ public class ConversationTest extends AjaxWebDriverTest
 
    public boolean login(AjaxWebDriver driver, String username, String password) 
    {
-      if (isLoggedIn(driver)) {
+      /*if (isLoggedIn(driver)) {
           fail("User already logged in.");
-      }
+      }*/
       driver.get(serverURL + contextPath + HOME_PAGE);
       
       if (!driver.getTitle().equals(PAGE_TITLE)) 
