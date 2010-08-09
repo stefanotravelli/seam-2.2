@@ -27,5 +27,11 @@ public class MockResponseStateManager extends ResponseStateManager
    {
       
    }
+   
+   @Override
+   public boolean isPostback(FacesContext context)
+   {
+      return context.getExternalContext().getRequestParameterMap().containsKey(ResponseStateManager.VIEW_STATE_PARAM);
+   }
 
 }
