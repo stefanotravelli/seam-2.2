@@ -43,7 +43,7 @@ import static org.testng.Assert.fail;
  */
 public class ConversationTest extends AjaxWebDriverTest
 {
-   public int timeout = 16000;
+   public int timeout = 5000;
          
    private final String DEFAULT_USERNAME = "demo";
    private final String DEFAULT_PASSWORD = "demo";
@@ -106,22 +106,25 @@ public class ConversationTest extends AjaxWebDriverTest
       }
       
       enterSearchQueryUsingAJAX(driver, HOTEL1);
+      pause(timeout);
       driver.findElement(SEARCH_RESULT_TABLE_FIRST_ROW_LINK).clickAndWait();
       driver.findElement(BOOKING_BOOK).click();
       
       driver.switchTo().window(windows.get(W2));
       driver.navigate().refresh();
-
+      pause(timeout);
+      
       if (!isLoggedIn(driver)) 
       {
          login(driver);
       }
-      
+      pause(timeout);
       enterSearchQueryUsingAJAX(driver, HOTEL2);
       driver.findElement(SEARCH_RESULT_TABLE_FIRST_ROW_LINK).clickAndWait();
       
       driver.switchTo().window(windows.get(W1));
       driver.navigate().refresh();
+      pause(timeout);
       
       assertEquals("#1 workspace not present in workspace table", WORKSPACE_BOOKING_TEXT_HOTEL1, driver.findElement(WORKSPACE_LINK_0).getText());
       assertEquals("#2 workspace not present in workspace table", WORKSPACE_VIEW_TEXT_HOTEL2, driver.findElement(WORKSPACE_LINK_1).getText());
@@ -171,7 +174,7 @@ public class ConversationTest extends AjaxWebDriverTest
           fail("User already logged in.");
       }*/
       driver.get(serverURL + contextPath + HOME_PAGE);
-      
+      pause(timeout);
       if (!driver.getTitle().equals(PAGE_TITLE)) 
       {
           return false;
@@ -179,6 +182,7 @@ public class ConversationTest extends AjaxWebDriverTest
       driver.findElement(LOGIN_USERNAME_FIELD).sendKeys(username);
       driver.findElement(LOGIN_PASSWORD_FIELD).sendKeys(password);
       driver.findElement(LOGIN_SUBMIT).clickAndWait();
+      pause(timeout);
       return isLoggedIn(driver);
    }
 
@@ -198,6 +202,18 @@ public class ConversationTest extends AjaxWebDriverTest
       {
          driver.switchTo().window(h);
          driver.close();
+      }
+   }
+   
+   private void pause(int millis)
+   {
+      try
+      {
+         Thread.sleep(millis);
+      }
+      catch (InterruptedException e)
+      {
+         e.printStackTrace();
       }
    }
 }
