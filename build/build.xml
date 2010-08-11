@@ -12,6 +12,11 @@
 
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
 	<artifact:remoteRepository id="offline.repository.jboss.org" url="file:///${offline.repository.jboss.org}" />
+	<!-- Pass the repository.username and repository.password as cmd line parameters -->
+	<!-- e.g ant -Drepository.username=<your_username> -Drepository.password=<your_password> stageReleaseSeam --> 
+	<artifact:remoteRepository id="jboss-releases-repository" url="https://repository.jboss.org/nexus/service/local/staging/deploy/maven2">
+		<authentication username="${repository.username}" password="${repository.password}" />
+	</artifact:remoteRepository>
 	
 	<target name="deployLocal">
 		<pomfile name="pom.file" value="${pom}" />
@@ -55,7 +60,28 @@
 		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
 		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
 		<deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
-
+	</target>
+	
+	<target name="stageReleaseSeam" description="Deploy Seam and JBoss EL to your local copy of repository.jboss.org" depends="initpoms">
+		<fail unless="jboss-releases-repository" message="Please set the jboss-releases-repository property"/>
+		<deploy pom="${root.pom}" repositoryId="jboss-releases-repository"/>
+		<deploy pom="${parent.pom}" repositoryId="jboss-releases-repository" />
+		<deployWithSources pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
+		<deployWithSources pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
+		<deployWithSources pom="${gen.pom}" jar="${lib.dir}/gen/jboss-seam-gen.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/gen/src/jboss-seam-gen-sources.jar"/>
+		<deployWithSources pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>
+		<deployWithSources pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
+		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
+		<deployWithSources pom="${excel.pom}" jar="${lib.dir}/jboss-seam-excel.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-excel-sources.jar"/>
+		<deployWithSources pom="${rss.pom}" jar="${lib.dir}/jboss-seam-rss.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-rss-sources.jar"/>
+		<deployWithSources pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
+		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
+		<deployWithSources pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/interop/src/jboss-seam-jul-sources.jar"/>
+		<deployWithSources pom="${resteasy.pom}" jar="${lib.dir}/jboss-seam-resteasy.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-resteasy-sources.jar"/>
+	    <deployWithSources pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
+		<deployExample name="booking" repositoryId="jboss-releases-repository"/>
+		<deployExampleNoDs name="numberguess" repositoryId="jboss-releases-repository"/>
+		<deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-releases-repository"/>
 	</target>
 	
 	<target name="deployLocalPom">
