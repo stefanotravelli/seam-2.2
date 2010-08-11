@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
+/**   
  * Stores user reports of comment spam
  * 
  * @author Shane Bryzak
