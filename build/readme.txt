@@ -42,20 +42,6 @@ To add or upgrade a dependency of Seam:
 
 * Bear in mind that a released Seam shouldn't depend on a SNAPSHOT version
 
-* When we release Seam we have to add all it's dependencies to 
-  repository.jboss.org (no thirdparty repositories should be used for released
-  versions) - so if you are adding a dependency which is stable, and you aren't
-  planning to change the dependency before the next release you should add it
-  straight to repository.jboss.org.  To do this:
-  1) Checkout repository.jboss.org/maven2 from svn (https://svn.jboss.org/repos/repository.jboss.org)
-  2) Set the offline.repository.jboss.org property in build/build.properties to
-     the directory you checked out to.
-  3) Run ant -Dpom=foo.pom -Djar=foo.jar deployRelease
-     - if the new dependency also has a source and javadoc jar you can run:
-       - "ant -Dpom=foo.pom -Djar=foo.jar -Dsrcjar=foo-src.jar -Ddocjar=foo-doc.jar deployReleaseWithSourcesAndJavaDoc"
-  4) Check in the changed files to SVN (they'll be under a path of 
-     artifactId/groupId/version)
-
   
 To add a unreleased dependency of Seam:
 -----------------------------------------
@@ -63,24 +49,8 @@ To add a unreleased dependency of Seam:
 * If you need a dependency which isn't available in Maven, and don't want to add
   it straight to repository.jboss.org or want to depend on a CVS/snapshot of a 
   project which you're planning to upgrade before the next Seam release you
-  can add it to snapshots.jboss.org.
-  
-* To add a jar to the local repository, you can, if you have a pom (that you
-  copied from an earlier version or have written) run:
-
-  ant deploySnapshot -Dpom=foo.pom -Djar=foo.jar
-  
-  If you want maven to create a basic pom for you:
-  
-  ant deploySnapshot -Djar=foo.jar
-  
-  You will be prompted for your jboss.org username and pasword (WARNING your
-  password is echoed back to you!)
-  
-* If you need to alter the pom or jar in a repository but don't change
-  the version number, you should delete the old copy from maven's cache
-  
-  rm -rf ~/.m2/repository/group/id/artifactId/version
+  can add it to repository.jboss.org. 
+  Check the http://community.jboss.org/wiki/UploadingaThirdpartyArtifact.
   
 
 Release Instructions
@@ -95,15 +65,19 @@ Release dependencies:
 * Check that all dependencies of Seam are present in repository.jboss.org
   - Check that snapshots.jboss.org is not active
   - Check that no other maven repositorys are enabled
-* Follow the proceedure outlined above to add jars to repository.jboss.org
+* Follow the procedure outlined above to add jars to repository.jboss.org
   
 Add Seam to repository.jboss.org:
 
-* Checkout repository.jboss.org/maven2 from svn (https://svn.jboss.org/repos/repository.jboss.org)
-* Set the offline.repository.jboss.org property in build/build.properties to the
-  directory you checked out to.
-* Run ant releaseSeam
-* Commit the release to repository.jboss.org
+* Run ant -Drepository.username=<your_username> -Drepository.password=<your_password> stageReleaseSeam 
+* Login to https://repository.jboss.org/nexus and close the staging repository, which was created by previous
+  step.
+* Click on the link "Staging Repositories" on the left side under the section called "Build Promotion".
+  Next, select the checkbox next to the staging repository which contains your jboss.org userid.
+  Then click on the "Close" button at the top of the repository list.
+  More at http://community.jboss.org/wiki/MavenDeployingaRelease page
+* Verify your upload by using staging repo https://repository.jboss.org/nexus/content/groups/staging/
+* 
 
 
 Examples

@@ -28,7 +28,8 @@ Updating version numbers
 Maven repository settings
 -------------------------
 * A released version of seam should not reference any repositories other than
-  "repository.jboss.org".  See "build/readme.txt" for details.
+  "http://repository.jboss.org/nexus/content/groups/public/" or for older things "https://repository.jboss.org/nexus/content/repositories/deprecated/".
+  See "build/readme.txt" for details.
   - Search "$SEAM/build" for "repositories".  
     - Comment out any repository entry not "http://repository.jboss.org/maven2"
     - Should only be entries in "root.pom.xml" and "docs.pom.xml"
@@ -593,19 +594,8 @@ Final Build + Upload
     - Note: this can take a long time.
     
 * Maven release procedure.(see build/readme.txt for details)
-    - Checkout/update JBoss repository 
-        - checkout "svn co https://svn.jboss.org/repos/repository.jboss.org/maven2"
-            - Note this can take a very long time
-        - update (if already local) "svn update ." in the "maven2" directory.
-    - Adding this to an eclipse project with svn plugin can make it much easier.
-    - Set the "offline.repository.jboss.org" property in "build/build.properties"
-        - to the directory you checked out to.
-    - Run "ant releaseSeam" in the build directory
-    - Review and Commit the release changes to repository.jboss.org
-        - simple script to add new files to SVN
-        - svn status | grep "^\?" | awk '{print $2}' | xargs svn add
-            - note if you've added this to eclipse you may need to revert ".project"
-        - they still need to be reviewed and commited.
+    - Run "ant -Drepository.username=<your_username> -Drepository.password=<your_password> stageReleaseSeam" in the build directory
+    - Then follow http://community.jboss.org/wiki/MavenDeployingaRelease section Closing the Staging Respository
 
 * Create draft of the documentation and download pages on seamframework.org
     - documentation points to "docs.jboss.com"
