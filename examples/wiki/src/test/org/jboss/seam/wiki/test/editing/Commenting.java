@@ -11,11 +11,13 @@ import org.jboss.seam.mock.DBUnitSeamTest;
 import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.CommentQuery;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.model.User;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class Commenting extends DBUnitSeamTest {
+   
+    public static final String MEMBER_USERNAME = "member";
+    public static final String MEMBER_PASSWORD = "member";
 
     protected void prepareDBUnitOperations() {
         beforeTestOperations.add(
@@ -26,6 +28,8 @@ public class Commenting extends DBUnitSeamTest {
     @Test
     public void postComment() throws Exception {
 
+        loginMember();
+       
         new FacesRequest("/docDisplay_d.xhtml") {
 
             protected void beforeRequest() {
@@ -60,7 +64,7 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(4).getId().equals(14l);
                 assert commentQuery.getComments().get(5).getId().equals(15l);
 
-                assert commentQuery.getComments().get(6).getCreatedBy().getUsername().equals(User.GUEST_USERNAME);
+                assert commentQuery.getComments().get(6).getCreatedBy().getUsername().equals(MEMBER_USERNAME);
                 assert commentQuery.getComments().get(6).getFromUserName().equals("Foo");
                 assert commentQuery.getComments().get(6).getFromUserHomepage().equals("http://foo.bar");
                 assert commentQuery.getComments().get(6).getFromUserEmail().equals("foo@bar.tld");
@@ -77,6 +81,8 @@ public class Commenting extends DBUnitSeamTest {
     @Test
     public void replyToComment() throws Exception {
 
+        loginMember();
+       
         new FacesRequest("/docDisplay_d.xhtml") {
 
             protected void beforeRequest() {
@@ -112,7 +118,7 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(4).getId().equals(14l);
                 assert commentQuery.getComments().get(5).getId().equals(15l);
 
-                assert commentQuery.getComments().get(6).getCreatedBy().getUsername().equals(User.GUEST_USERNAME);
+                assert commentQuery.getComments().get(6).getCreatedBy().getUsername().equals(MEMBER_USERNAME);
                 assert commentQuery.getComments().get(6).getFromUserName().equals("Foo");
                 assert commentQuery.getComments().get(6).getFromUserHomepage().equals("http://foo.bar");
                 assert commentQuery.getComments().get(6).getFromUserEmail().equals("foo@bar.tld");
@@ -207,8 +213,8 @@ public class Commenting extends DBUnitSeamTest {
     private void loginMember() throws Exception {
         new FacesRequest() {
            protected void invokeApplication() throws Exception {
-              setValue("#{identity.username}", "member");
-              setValue("#{identity.password}", "member");
+              setValue("#{identity.username}", MEMBER_USERNAME);
+              setValue("#{identity.password}", MEMBER_PASSWORD);
               invokeAction("#{identity.login}");
               assert getValue("#{identity.loggedIn}").equals(true);
            }
