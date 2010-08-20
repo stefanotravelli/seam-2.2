@@ -2,8 +2,12 @@
 
 <project name="Hibernate Booking" default="jboss" basedir=".">
 
-   <target name="jboss" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
+   <target name="jboss" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 5 and later">
      	<ant antfile="build-jboss.xml"/>
+   </target>
+	
+   <target name="jboss42" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.x.GA">
+     	<ant antfile="build-jboss42.xml"/>
    </target>
    
    <target name="jboss-embedded" description="Build the JPA artifacts, and deploy to JBoss Embedded in Tomcat">
@@ -14,7 +18,11 @@
       <ant antfile="build-jboss-embedded.xml" target="tomcat.undeploy"/>
    </target>
 	
-   <target name="jboss.undeploy" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
+   <target name="jboss.undeploy" description="Undeploy Hibernate Booking example from JBoss Application Server">
+        <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
+   </target>
+	
+   <target name="jboss42.undeploy" description="Undeploy Hibernate Booking example from JBoss Application Server">
         <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
    </target>
 
@@ -52,6 +60,7 @@
 
    <target name="clean" description="Clean up the example">
      	<ant antfile="build-jboss.xml" target="clean" />
+   		<ant antfile="build-jboss42.xml" target="clean" />
     	<ant antfile="build-jboss405.xml" target="clean" />
     	<ant antfile="build-glassfish.xml" target="clean" />
     	<ant antfile="build-weblogic92.xml" target="clean" />
@@ -61,7 +70,7 @@
         <ant antfile="build-jboss-embedded.xml" target="clean" />
    </target>
 
-   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
+   <target name="all" depends="jboss, jboss42, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
    
    <target name="test">
       <ant antfile="build-jboss.xml" target="test" />

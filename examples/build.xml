@@ -291,6 +291,16 @@
 		<include name="cglib-nodep.jar" if="spring.lib" />
 	</fileset>
 
+	<fileset id="hibernate-annotations.jar" dir="${lib.dir}">
+		<include name="hibernate-core.jar" if="han.lib" />
+		<include name="hibernate-annotations.jar" if="han.lib" />
+		<include name="hibernate-commons-annotations.jar" if="han.lib" />
+		<include name="hibernate-entitymanager.jar" if="han.lib" />
+		<include name="hibernate-validator.jar" if="han.lib" />
+		<include name="slf4j-api.jar" if="han.lib" />
+		<include name="slf4j-log4j12.jar" if="han.lib" />
+	</fileset>
+	
 	<!-- Optional UI jars -->
 
 	<!-- Dependencies for using Seam with facelets -->
@@ -1046,6 +1056,7 @@
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />
+			<fileset refid="hibernate-annotations.jar" />
 			<fileset refid="spring.jar" />
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />

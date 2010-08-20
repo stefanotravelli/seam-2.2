@@ -7,7 +7,7 @@ the EJB3 container.
 
 JBoss AS 4.2.x:
   * Install JBoss AS with the default profile
-  * ant jboss
+  * ant jboss42
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
   * ant jboss.undeploy
