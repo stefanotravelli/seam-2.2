@@ -16,8 +16,11 @@
 	<!-- Datasource -->
 	<property name="example.ds"              value="blog-ds.xml"/>
 
-	<property name="clean.extra" value="${basedir}/blogindexes" />
+	<property name="clean.extra" value="${basedir}/blogindexes" />	
+	
+	<target name="jboss42" description="Build the Groovy Booking example artifacts, and deploy to JBoss 4.2.x.GA">
+		<ant antfile="build-jboss42.xml"/>
+	</target>
 	
     <import file="../build.xml"/>
-    
 </project>

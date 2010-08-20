@@ -291,7 +291,7 @@
 		<include name="cglib-nodep.jar" if="spring.lib" />
 	</fileset>
 
-	<fileset id="hibernate-annotations.jar" dir="${lib.dir}">
+	<fileset id="hibernate-deps" dir="${lib.dir}">
 		<include name="hibernate-core.jar" if="han.lib" />
 		<include name="hibernate-annotations.jar" if="han.lib" />
 		<include name="hibernate-commons-annotations.jar" if="han.lib" />
@@ -811,6 +811,7 @@
 			<fileset refid="metawidget-backend.jar" />
 			<fileset refid="jboss-common-core.jar" />
 			<fileset refid="openid.jar" />
+			<fileset refid="hibernate-deps" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
@@ -1056,7 +1057,7 @@
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />
-			<fileset refid="hibernate-annotations.jar" />
+			<fileset refid="hibernate-deps" />
 			<fileset refid="spring.jar" />
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />
