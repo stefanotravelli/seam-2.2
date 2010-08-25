@@ -2,11 +2,11 @@ package org.jboss.seam.remoting.messaging;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
@@ -39,7 +39,7 @@ public class SubscriptionRegistry
 
   private Object monitor = new Object();
 
-  private Map<String,RemoteSubscriber> subscriptions = new HashMap<String,RemoteSubscriber>();
+  private Map<String,RemoteSubscriber> subscriptions = new ConcurrentHashMap<String,RemoteSubscriber>();
 
   /**
    * Contains a list of all the topics that clients are allowed to subscribe to.
