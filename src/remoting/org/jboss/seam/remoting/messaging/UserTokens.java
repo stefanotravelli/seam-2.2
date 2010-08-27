@@ -1,9 +1,10 @@
 package org.jboss.seam.remoting.messaging;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.cache.util.concurrent.ConcurrentHashSet;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
@@ -13,7 +14,7 @@ import org.jboss.seam.annotations.Scope;
 @Scope(ScopeType.SESSION)
 public class UserTokens implements Serializable
 {
-   Set<String> tokens = new ConcurrentHashSet<String>();
+   Set<String> tokens = Collections.synchronizedSet(new HashSet<String>());
    
    public void add(String token) {
       tokens.add(token);
