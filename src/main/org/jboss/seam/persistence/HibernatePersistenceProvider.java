@@ -53,44 +53,49 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    private static Method FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR;
    static
    {
-      try
+      boolean hibernateSearchPresent = false;
+      try 
       {
-         String version = null;
-         try {
-            Class searchVersionClass = Class.forName("org.hibernate.search.Version");
-            Field versionField = searchVersionClass.getDeclaredField("VERSION");
-            version = (String) versionField.get(null);
-         }
-         catch (Exception e)
+         Class.forName("org.hibernate.search.Version");
+         hibernateSearchPresent = true;
+      }
+      catch (Exception e)
+      {
+         log.debug("Hibernate Search not present", e);
+      }
+      if (hibernateSearchPresent) 
+      {
+         try 
          {
-            log.debug("no Hibernate Search, sorry :-(", e);
-         }
-         if (version != null) {
             Class searchClass = Class.forName("org.hibernate.search.Search");
-            try {
+            try 
+            {
                FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("getFullTextSession", Session.class);
             }
-            catch (NoSuchMethodException noSuchMethod) {
+            catch (NoSuchMethodException noSuchMethod) 
+            {
                log.debug("org.hibernate.search.Search.getFullTextSession(Session) not found, trying deprecated method name createFullTextSession");
                FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
             }
             FULL_TEXT_SESSION_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
             Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
-            try {
+            try 
+            {
                FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("getFullTextEntityManager", EntityManager.class);   
             }
-            catch (NoSuchMethodException noSuchMethod) {
+            catch (NoSuchMethodException noSuchMethod) 
+            {
                log.debug("org.hibernate.search.jpa.getFullTextSession(EntityManager) not found, trying deprecated method name createFullTextEntityManager");
                FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
             }
             FULL_TEXT_ENTITYMANAGER_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
             log.debug("Hibernate Search is available :-)");
          }
-      }
-      catch (Exception e)
-      {
-         log.debug("no Hibernate Search, sorry :-(", e);
-      }
+         catch (Exception e)
+         {
+            log.debug("Unable to load Hibernate Search for ORM", e);
+         }
+      }    
    }
 
    @Override
@@ -109,22 +114,42 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       if (FULL_TEXT_SESSION_PROXY_CLASS==null)
       {
-         return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-               new Class[] { HibernateSessionProxy.class },
-               new HibernateSessionInvocationHandler(session));
-      }
-      else
-      {
-         try {
-            return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                  new Class[] { FULL_TEXT_SESSION_PROXY_CLASS },
-                  new HibernateSessionInvocationHandler((Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session)));
+         if ( session instanceof HibernateSessionProxy )
+         {
+            return session;
          }
-         catch(Exception e) {
-            log.warn("Unable to wrap into a FullTextSessionProxy, regular SessionProxy returned", e);
+         else 
+         {  
             return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                   new Class[] { HibernateSessionProxy.class },
                   new HibernateSessionInvocationHandler(session));
+         }
+      }
+      else
+      {
+         try 
+         {
+            if ( FULL_TEXT_SESSION_PROXY_CLASS.isAssignableFrom( session.getClass() ) )
+            {
+               return session;
+            }
+            else {
+               return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                     new Class[] { FULL_TEXT_SESSION_PROXY_CLASS },
+                     new HibernateSessionInvocationHandler((Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session)));
+            }
+         }
+         catch(Exception e) {
+            log.warn("Unable to wrap into a FullTextSessionProxy, regular SessionProxy returned", e);
+            if ( session instanceof HibernateSessionProxy ) 
+            {
+               return session;
+            }
+            else {
+               return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                     new Class[] { HibernateSessionProxy.class },
+                     new HibernateSessionInvocationHandler(session));
+            }
          }
       }
    }
@@ -241,12 +266,15 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
          for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
          {
-		   Object filterValue = me.getValue().getValue();
-		   if ( filterValue instanceof Collection ) {
-		      filter.setParameterList(me.getKey(), (Collection) filterValue);
-		   } else {
-			  filter.setParameter(me.getKey(), filterValue);
-		   }
+            Object filterValue = me.getValue().getValue();
+            if ( filterValue instanceof Collection ) 
+            {
+               filter.setParameterList(me.getKey(), (Collection) filterValue);
+            } 
+            else 
+            {
+               filter.setParameter(me.getKey(), filterValue);
+            }
          }
          filter.validate();
       }
