@@ -4,10 +4,12 @@
 	<include url="${ivy.default.settings.dir}/ivysettings.xml" />
 	<resolvers>
 		<ibiblio name="jboss" m2compatible="true" usepoms="true" root="${jboss.repo}" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+		<ibiblio name="jboss-deprec" m2compatible="true" usepoms="true" root="${jboss.deprecated.repo}" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
 		<chain name="seam" dual="true">
 			<!-- local is always checked; public needs to be before jboss to allow Ivy to properly locate sources -->
 			<resolver ref="public"/>
 			<resolver ref="jboss"/>
+			<resolver ref="jboss-deprec"/>
 		</chain>
 	</resolvers>
 </ivysettings>
