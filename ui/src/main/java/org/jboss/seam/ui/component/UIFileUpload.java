@@ -27,6 +27,13 @@ public abstract class UIFileUpload extends UIInput
    @Override
    public void processUpdates(FacesContext context)
    {
+      
+      // Skip processing if rendered flag is false.
+      // this logic is in javax.faces.component.UIInput.processUpdates(FacesContext context) 
+      if (!isRendered()) {
+         return;
+      }
+      
       ValueExpression dataBinding = getValueExpression("data");
       if (dataBinding != null)
       {
