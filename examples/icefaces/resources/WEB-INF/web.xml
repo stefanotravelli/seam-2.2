@@ -74,11 +74,20 @@
         <param-name>com.icesoft.faces.standardRequestScope</param-name>
         <param-value>true</param-value>
     </context-param>
-  <context-param>
+   
+   <context-param>
         <param-name>com.icesoft.faces.concurrentDOMViews</param-name>
         <param-value>true</param-value>
     </context-param>
- <!-- servlets -->
+
+   	<!--  this is only for JBoss AS 6 - it contains JSF RI 2.0.2 which has a bug 
+		Remove this if you have upgraded to 2.0.3	-->   
+    <context-param>
+      <param-name>org.jboss.jbossfaces.JSF_CONFIG_NAME</param-name>
+      <param-value>Mojarra-1.2</param-value>
+   </context-param>
+       
+  <!-- servlets -->
    <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
