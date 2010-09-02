@@ -300,6 +300,14 @@ public class AbstractSeamTest
       }
 
       /**
+       * Override to implement any logic that requires active scopes
+       * but must happen before the rest of the JSF lifecycle.
+       */ 
+      protected void afterRestoreViewPhase() throws Exception
+      {
+      }
+
+      /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the apply request values phase.
        */
@@ -583,6 +591,8 @@ public class AbstractSeamTest
          restoreViewPhase();
          if (!isGetRequest() && !skipToRender())
          {
+            afterRestoreViewPhase();
+
             applyRequestValuesPhase();
             if (!skipToRender())
             {
