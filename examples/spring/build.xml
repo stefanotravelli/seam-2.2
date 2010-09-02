@@ -17,6 +17,10 @@
    </target>
 
    <target name="all" depends="jbosswar" description="Build Spring Booking example, for deployment to all supported application servers"/>
+	
+	<target name="jboss42" description="Build the Spring example, and deploy to JBoss 4.2.x.GA">
+		<ant antfile="build-jboss42.xml"/>
+	</target>
 
 </project>
 
