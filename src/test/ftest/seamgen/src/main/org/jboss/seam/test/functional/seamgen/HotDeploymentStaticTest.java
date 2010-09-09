@@ -35,23 +35,23 @@ import static org.testng.Assert.assertTrue;
 
 /**
  * This test verifies hot deployment of static resources. It modifies home.xhtml
- * page and verifies that changes are reflected within the running app. All is done
- * within user session to detect if the whole application was restarted or not.
+ * page and verifies that changes are reflected within the running app. All is
+ * done within user session to detect if the whole application was restarted or
+ * not.
  * 
  * @author Jozef Hartinger
  * 
  */
 public class HotDeploymentStaticTest extends SeleniumSeamGenTest
 {
-
+   
    private String newFeature;
-
-   @BeforeClass
-   public void modifyHomePage() throws IOException, InterruptedException
+   
+   public void modifyHomePage() throws InterruptedException
    {
       String homePageLocation = WORKSPACE + "/" + APP_NAME + "/view/home.xhtml";
       newFeature = "Works flawlessly as it is tested by Selenium";
-
+      
       BufferedReader reader = null;
       StringBuilder homePageContentBuilder = new StringBuilder();
       try
@@ -65,16 +65,27 @@ public class HotDeploymentStaticTest extends SeleniumSeamGenTest
             line = reader.readLine();
          }
       }
+      catch (IOException e)
+      {
+         throw new RuntimeException("Unable to read home page " + homePageLocation);
+      }
       finally
       {
-         reader.close();
+         try
+         {
+            reader.close();
+         }
+         catch (IOException e)
+         {
+            throw new RuntimeException("Unable to close home page reader.");
+         }
       }
-
+      
       String homePageContent = homePageContentBuilder.toString();
-
+      
       // add new item into the feature list
-      homePageContent = homePageContent.replaceAll("<li>Internationalization support</li>", "<li>Internationalization support</li>\n<li>" + newFeature + "</li>");
-
+      homePageContent = homePageContent.replaceAll("<li>Internationalization support</li>", "<li>Internationalization support</li>\n<li id=\"newFeature\">" + newFeature + "</li>");
+      
       // write new content
       Writer writer = null;
       try
@@ -83,21 +94,37 @@ public class HotDeploymentStaticTest extends SeleniumSeamGenTest
          writer.write(homePageContent);
          writer.flush();
       }
+      catch (IOException e)
+      {
+         throw new RuntimeException("Unable write modified home page " + homePageLocation);
+      }
       finally
       {
-         writer.close();
+         try
+         {
+            writer.close();
+         }
+         catch (IOException e)
+         {
+            throw new RuntimeException("Unable to close home page reader.");
+         }
       }
-
+      
       seamGen.deploy();
    }
-
+   
    @Test(dependsOnGroups = { "newProjectGroup" })
-   public void hotDeploymentOfFaceletTemplateTest()
+   public void hotDeploymentOfFaceletTemplateTest() throws InterruptedException
    {
-
+      
       login();
-
-      assertTrue(browser.isTextPresent(newFeature), "New feature not found. Hot deployment failure.");
+      
+      modifyHomePage();
+      
+      waitForAppToDeploy(HOME_PAGE, "id=newFeature");
+      
+      browser.open(HOME_PAGE);
+      assertTrue(browser.isElementPresent("id=newFeature"), "New feature not found. Hot deployment failure.");
       assertTrue(isLoggedIn(), "Session lost. Hot deployment failure.");
    }
 }
