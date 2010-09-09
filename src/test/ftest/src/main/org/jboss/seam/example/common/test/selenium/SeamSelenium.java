@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
 import com.thoughtworks.selenium.DefaultSelenium;
+import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -316,4 +317,20 @@ public class SeamSelenium extends DefaultSelenium
          }
       }.wait("Timeout while waiting for document body after icefaces click.", timeout);
    }
+
+   @Override
+   public void open(String url)
+   {
+      try
+      {
+         super.open(url);
+      }
+      catch (SeleniumException e)
+      {
+         // since 1.0.3 Selenium throws SeleniumException when a server returns 404
+         // we suppress this behavior in order to retain backward compatibility 
+      }
+   }
+   
+   
 }
