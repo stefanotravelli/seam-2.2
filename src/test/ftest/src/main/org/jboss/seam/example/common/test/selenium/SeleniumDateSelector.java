@@ -56,7 +56,7 @@ public enum SeleniumDateSelector
          String calMonth = stk.nextToken().trim();
          int steps = monthStepsCount(calMonth, month);
          
-         movement(browser, "xpath=//div[@class='rich-calendar-tool-btn' and text()='<']", "xpath=//div[@class='rich-calendar-tool-btn' and text()='>']", steps);
+         movement(browser, "xpath=//div[@class='rich-calendar-tool-btn' and normalize-space(text())='<']", "xpath=//div[@class='rich-calendar-tool-btn' and normalize-space(text())='>']", steps);
       }
       
       @Override
@@ -69,7 +69,7 @@ public enum SeleniumDateSelector
          String calYear = stk.nextToken().trim();
          int steps = yearStepsCount(calYear, year);
          
-         movement(browser, "xpath=//div[@class='rich-calendar-tool-btn' and text()='<<']", "xpath=//div[@class='rich-calendar-tool-btn' and text()='>>'", steps);
+         movement(browser, "xpath=//div[@class='rich-calendar-tool-btn' and normalize-space(text())='<<']", "xpath=//div[@class='rich-calendar-tool-btn' and normalize-space(text())='>>']", steps);
       }
       
    },
