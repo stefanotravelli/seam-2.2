@@ -24,6 +24,11 @@ package org.jboss.seam.example.ui.test.selenium;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 import org.jboss.seam.example.common.test.selenium.SeamSeleniumTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -45,6 +50,7 @@ public class SeleniumUITest extends SeamSeleniumTest
       public static final String CACHE_LINK = "xpath=//a[contains(@href,\"cache\")]";
       public static final String VALIDATE_EQUALITY_LINK = "xpath=//a[contains(@href,\"equalityValidator\")]";
       public static final String VALIDATE_EQUALITY2_LINK = "xpath=//a[contains(@href,\"equalityValidatorWConvert\")]";
+      public static final String RESOURCE_DOWNLOAD_LINK = "xpath=//a[contains(@href,\"resource\")]";
                
       @BeforeMethod
       @Override
@@ -62,7 +68,7 @@ public class SeleniumUITest extends SeamSeleniumTest
       {
          assertEquals("Unexpected page title.", HOME_PAGE_TITLE, browser.getTitle());
       }        
-         
+       
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void selectItemsTest(){      
          String title = "Mr.";
@@ -93,20 +99,17 @@ public class SeleniumUITest extends SeamSeleniumTest
          assertTrue("Page should contain \"Successfully updated\"", browser.isTextPresent("Successfully updated"));
       }
       
-      
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void fragmentTest(){ 
          browser.clickAndWait(FRAGMENT_LINK);
          assertTrue("Page should contain \"fragment is rendered\"", browser.isTextPresent("This fragment is rendered whilst"));
       }      
       
-      
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void formattedTextTest(){ 
          browser.clickAndWait(FOTMATTED_TEXT_LINK);
          assertTrue("Page should contain information about Pete Muir working all the time on Seam", browser.isTextPresent("works on Seam, of course"));
       }
-            
           
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void buttonAndLinkTest(){ 
@@ -129,13 +132,11 @@ public class SeleniumUITest extends SeamSeleniumTest
          assertTrue("Page should contain \"Foo = bar\"", browser.isTextPresent("Foo = bar"));      
       }
       
-      
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void cacheTest(){ 
          browser.clickAndWait(CACHE_LINK);         
          assertTrue("Page should contain some cached text", browser.isTextPresent("Some cached text"));
       }
-      
       
       @Test(dependsOnMethods={"homePageLoadTest"})
       public void validateEqualityTest(){ 
@@ -187,11 +188,33 @@ public class SeleniumUITest extends SeamSeleniumTest
          //assertTrue("Page should contain information about Pete Muir working all the time on Seam", browser.isTextPresent("works on Seam, of course"));
       }
       
-      /**
-       * Resource download cannot be tested automatically because downloading a file needs user interaction
-       * with a window form 
-       *
       @Test(dependsOnMethods={"homePageLoadTest"})
-      public void resourceDownloadTest(){         
-      }*/    
+      public void resourceDownloadTest(){
+         String textToFind1 = "abc";
+         String textToFind2 = "123";
+         browser.clickAndWait(RESOURCE_DOWNLOAD_LINK);
+
+         assertTrue( "File download failed: Restful with s:download \"Text\"", isDownloadWorking("/seam-ui/resources.seam?id=1", textToFind1));
+         assertTrue( "File download failed: Restful with s:download \"Numbers\"", isDownloadWorking("/seam-ui/resources.seam?id=2", textToFind2));         
+      }
+      
+      private boolean isDownloadWorking(String pathToFile, String textToFind)
+      {
+         try 
+         {
+            URL downloadUrl = new URL("http://localhost:8080" + pathToFile);
+            BufferedReader r = new BufferedReader(new InputStreamReader(downloadUrl.openStream()));
+            String str;
+            StringBuffer sb = new StringBuffer();
+            while ((str = r.readLine()) != null)
+            {
+               sb.append(str);
+            }
+            return sb.toString().contains(textToFind);
+         } 
+         catch (IOException e) 
+         {
+            return false;
+         } 
+      }
 }
