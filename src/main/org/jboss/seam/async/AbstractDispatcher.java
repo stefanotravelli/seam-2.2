@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.async.Expiration;
 import org.jboss.seam.annotations.async.FinalExpiration;
 import org.jboss.seam.annotations.async.IntervalCron;
 import org.jboss.seam.annotations.async.IntervalDuration;
+import org.jboss.seam.annotations.async.JobName;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
@@ -29,6 +30,7 @@ public abstract class AbstractDispatcher<T, S extends Schedule> implements Dispa
       private Long duration;
       private Long intervalDuration;
       private String intervalCron;
+      private String jobName;
       
       public String getIntervalCron()
       {
@@ -70,6 +72,14 @@ public abstract class AbstractDispatcher<T, S extends Schedule> implements Dispa
       {
          this.intervalDuration = intervalDuration;
       }
+      public String getJobName()
+      {
+         return jobName;
+      }
+      public void setJobName(String jobName)
+      {
+         this.jobName = jobName;
+      }
       
       
    }
@@ -100,11 +110,11 @@ public abstract class AbstractDispatcher<T, S extends Schedule> implements Dispa
       DispatcherParameters dispatcherParameters = extractAndValidateParameters(invocation);
       if (dispatcherParameters.getIntervalCron() == null)
       {
-         return new TimerSchedule(dispatcherParameters.getDuration(), dispatcherParameters.getExpiration(), dispatcherParameters.getIntervalDuration(), dispatcherParameters.getFinalExpiration());
+         return new TimerSchedule(dispatcherParameters.getDuration(), dispatcherParameters.getExpiration(), dispatcherParameters.getIntervalDuration(), dispatcherParameters.getFinalExpiration(), dispatcherParameters.getJobName());
       }
       else
       {
-         return new CronSchedule(dispatcherParameters.getDuration(), dispatcherParameters.getExpiration(), dispatcherParameters.getIntervalCron(), dispatcherParameters.getFinalExpiration());
+         return new CronSchedule(dispatcherParameters.getDuration(), dispatcherParameters.getExpiration(), dispatcherParameters.getIntervalCron(), dispatcherParameters.getFinalExpiration(), dispatcherParameters.getJobName());
       }
    }
    
@@ -188,6 +198,21 @@ public abstract class AbstractDispatcher<T, S extends Schedule> implements Dispa
                else if (invocation.getParameters()[i] != null)
                {
                   throw new IllegalArgumentException("@IntervalDuration on " + invocation.getTarget().getClass() + ":" + invocation.getMethod().getName() + " must be a Long");
+               }
+            }
+            else if (annotation.annotationType().equals(JobName.class))
+            {
+               if (!(this instanceof QuartzDispatcher))
+               {
+                  throw new IllegalArgumentException("Can only use @JobName with the QuartzDispatcher");
+         }
+               else if (invocation.getParameters()[i] instanceof String)
+               {
+                  dispatcherParameters.setJobName((String) invocation.getParameters()[i]);
+      }
+               else if (invocation.getParameters()[i] != null)
+               {
+                  throw new IllegalArgumentException("@JobName on " + invocation.getTarget().getClass() + ":" + invocation.getMethod().getName() + " must be a String");
                }
             }
          }

@@ -17,6 +17,7 @@ public class Schedule implements Serializable
    private Long duration;
    private Date expiration;
    private Date finalExpiration;
+   private String jobName;
    
    public Long getDuration()
    {
@@ -31,6 +32,11 @@ public class Schedule implements Serializable
    public Date getFinalExpiration()
    {
       return finalExpiration;
+   }
+
+   String getJobName()
+   {
+      return jobName;
    }
 
    /**
@@ -53,6 +59,18 @@ public class Schedule implements Serializable
       this.duration = duration;
       this.expiration = expiration;
       this.finalExpiration = finalExpiration;
+   }
+
+   /**
+    * @param duration the delay before the event occurs
+    * @param expiration the datetime at which the event occurs
+    * @param finalExpiration the datetime at which the event ends
+    * @param jobName the Quartz job name
+    */
+   Schedule(Long duration, Date expiration, Date finalExpiration, String jobName)
+   {
+      this(duration, expiration, finalExpiration);
+      this.jobName = jobName;
    }
 
    /**
@@ -80,6 +98,7 @@ public class Schedule implements Serializable
       int result = 1;
       result = prime * result + ((duration == null) ? 0 : duration.hashCode());
       result = prime * result + ((expiration == null) ? 0 : expiration.hashCode());
+      result = prime * result + ((jobName == null) ? 0 : jobName.hashCode());
       return result;
    }
 
@@ -100,8 +119,12 @@ public class Schedule implements Serializable
          if (other.expiration != null) return false;
       }
       else if (!expiration.equals(other.expiration)) return false;
+      if (jobName == null)
+      {
+         if (other.jobName != null) return false;
+      }
+      else if (!jobName.equals(other.jobName)) return false;
       return true;
    }
-   
    
 }

@@ -44,4 +44,10 @@ public class CronSchedule extends Schedule
       this.cron = cron;
    }
    
+   CronSchedule(Long duration, Date expiration, String cron, Date finalExpiration, String jobName)
+   {
+      super(duration, expiration, finalExpiration, jobName);
+      this.cron = cron;
+}
+
 }

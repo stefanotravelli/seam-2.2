@@ -15,6 +15,7 @@ import org.quartz.Trigger;
 public class QuartzTriggerHandle implements Serializable
 {
    private final String triggerName;
+   private String triggerGroupName;
    
    // Hold a transient reference to the scheduler to allow control of the
    // scheduler outside of Seam contexts (useful in a testing context)
@@ -25,24 +26,30 @@ public class QuartzTriggerHandle implements Serializable
       this.triggerName = triggerName; 
    }
 
+   public QuartzTriggerHandle(String triggerName, String triggerGroupName)
+   {
+      this(triggerName);
+      this.triggerGroupName = triggerGroupName; 
+   }
+
    public void cancel() throws SchedulerException
    {
-      getScheduler().unscheduleJob(triggerName, null);
+      getScheduler().unscheduleJob(triggerName, triggerGroupName);
    }
    
    public void pause() throws SchedulerException
    {
-      getScheduler().pauseTrigger(triggerName, null);  
+      getScheduler().pauseTrigger(triggerName, triggerGroupName);  
    }
    
    public Trigger getTrigger() throws SchedulerException
    {
-      return getScheduler().getTrigger(triggerName, null);
+      return getScheduler().getTrigger(triggerName, triggerGroupName);
    }
    
    public void resume() throws SchedulerException
    {
-      getScheduler().resumeTrigger(triggerName, null);
+      getScheduler().resumeTrigger(triggerName, triggerGroupName);
    }
    
    private Scheduler getScheduler()

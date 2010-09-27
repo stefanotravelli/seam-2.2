@@ -28,6 +28,7 @@ import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
 /**
@@ -127,15 +128,29 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    private QuartzTriggerHandle scheduleWithQuartzService(Schedule schedule, Asynchronous async) throws SchedulerException, ParseException
    {
       String jobName = nextUniqueName();
+      String jobGroupName = Scheduler.DEFAULT_GROUP;
       String triggerName = nextUniqueName();
+      String triggerGroupName = Scheduler.DEFAULT_GROUP;
       
-      JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
+      if (schedule.getJobName() != null)
+      {
+         String[] groupAndJobName = extractGroupAndJobNames(schedule.getJobName());
+         jobName = groupAndJobName[0];
+         if (groupAndJobName.length > 1) {
+            jobGroupName = groupAndJobName[0];
+            jobName = groupAndJobName[1];
+            triggerGroupName = jobGroupName + "Trigger";
+         }
+         triggerName = jobName + "Trigger";
+      }
+
+      JobDetail jobDetail = new JobDetail(jobName, jobGroupName, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", async);
 
       if (schedule instanceof CronSchedule) 
       {
           CronSchedule cronSchedule = (CronSchedule) schedule; 
-          CronTrigger trigger = new CronTrigger (triggerName, null);
+         CronTrigger trigger = new CronTrigger(triggerName, triggerGroupName);
           trigger.setCronExpression(cronSchedule.getCron());
           trigger.setEndTime(cronSchedule.getFinalExpiration());
         
@@ -157,7 +172,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           {
              if ( timerSchedule.getExpiration()!=null )
              {
-                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName, 
                         timerSchedule.getExpiration(), 
                         timerSchedule.getFinalExpiration(), 
                         SimpleTrigger.REPEAT_INDEFINITELY, 
@@ -167,7 +182,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
              }
              else if ( timerSchedule.getDuration()!=null )
              {
-                 SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName, 
                          calculateDelayedDate(timerSchedule.getDuration()), 
                          timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, 
                          timerSchedule.getIntervalDuration());
@@ -176,7 +191,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
              }
              else
              {
-                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, new Date(), 
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName, new Date(), 
                         timerSchedule.getFinalExpiration(), 
                         SimpleTrigger.REPEAT_INDEFINITELY, 
                         timerSchedule.getIntervalDuration());
@@ -188,20 +203,20 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           {
             if ( schedule.getExpiration()!=null )
             {
-                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName, schedule.getExpiration());
                 scheduler.scheduleJob(jobDetail, trigger);
     
             }
             else if ( schedule.getDuration()!=null )
             {
-                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, 
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName, 
                         calculateDelayedDate(schedule.getDuration()));
                 scheduler.scheduleJob(jobDetail, trigger);
     
             }
             else
             {
-               SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, triggerGroupName);
                scheduler.scheduleJob(jobDetail, trigger);
     
             }
@@ -212,9 +227,24 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           throw new IllegalArgumentException("unrecognized schedule type");
       }
 
-      return new QuartzTriggerHandle(triggerName);
+      return new QuartzTriggerHandle(triggerName, triggerGroupName);
    }
    
+   // follows Quartz 'full name' format: "group.name". 
+   private String[] extractGroupAndJobNames(String jobName)
+   {
+      int idx = jobName.indexOf('.');
+      if (idx != -1) {
+         String[] result = new String[2];
+         result[0] = jobName.substring(0, idx);
+         result[1] = jobName.substring(idx + 1);
+         
+         return result;
+      }
+      
+      return new String[] { jobName };
+   }
+
    private String nextUniqueName ()
    {
       return (new UID()).toString();
@@ -237,7 +267,8 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       {
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
          async = (Asynchronous)dataMap.get("async");
-         QuartzTriggerHandle handle = new QuartzTriggerHandle(context.getTrigger().getName());
+         Trigger trigger = context.getTrigger();
+         QuartzTriggerHandle handle = new QuartzTriggerHandle(trigger.getName(), trigger.getGroup());
          try
          {
             async.execute(handle);
