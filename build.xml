@@ -435,7 +435,8 @@
 	<!-- ########################### UI TARGETS ###########################-->
 
 	<target name="initui" depends="init, jarcore, jarjul">
-		<dependencies id="ui" scope="compile" pom="${ui.pom}" />
+		<!-- dependencies id="ui" scope="compile" pom="${ui.pom}" / -->
+        <init classesdir="${classes.core.dir}" srcdir="${src.ui.dir}" modulename="ui" pom="${ui.pom}" />
 	</target>
 
 	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="initui">
