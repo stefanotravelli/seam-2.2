@@ -69,7 +69,7 @@ public class EntityConverter implements
    @Transactional
    public Object getAsObject(FacesContext facesContext, UIComponent cmp, String value) throws ConverterException
    {
-      if (value == null)
+      if (value == null || value.length() == 0)
       {
          return null;
       }
