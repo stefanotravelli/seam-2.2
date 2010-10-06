@@ -169,6 +169,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<!-- TODO start JBoss -->
 		<!-- clean example -->
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+      <groovy>
+         <![CDATA[
+            System.clearProperty("TIMEOUT");
+         ]]>
+      </groovy>
 
 		<!-- deploy the example-->
 		<antcall target="deploy.example" />
@@ -217,36 +222,56 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<propertyset refid="deploy.properties" />
 		</ant>
 		<!-- wait for the application to be active -->
-		<!-- TODO is there a better way? -->
-		<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
-		<waitfor maxwait="${wait.time}" maxwaitunit="second" timeoutproperty="timeout">
-			<and>
-				<!-- wait for the application to not throw 404 -->
-				<http url="${absolute.wait.url}" errorsBeginAt="404" />
-			</and>
-		</waitfor>
+      <groovy>
+         <arg value="${container}" />
+         <![CDATA[
+         System.setProperty("CONTAINER", args[0]);
+         
+         def waitTime = properties.get("wait.time");
+         def waitUrl = properties.get("absolute.wait.url");
+         
+         ant.echo("Waiting " + waitTime + " seconds for " + waitUrl);
+         ant.waitfor(maxwait:waitTime,maxwaitunit:'second',timeoutproperty:'timeout') {
+            ant.http(url:waitUrl,errorsBeginAt:'404');
+         }
+         
+         if (properties.timeout != null) {
+            System.setProperty("TIMEOUT", System.getProperty("EXAMPLE"));
+         }
+         ]]>
+      </groovy>
 	</target>
 	
 	<target name="farm.example" depends="container.properties">
-			<property name="absolute.wait.url" value="${selenium.browser.url.cluster}${wait.url}" />
-			<echo>Deploying ${example.name} example to farm directory of ${container} using ${farm.target} target</echo>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${farm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
-				<property name="jboss.home" value="${container.home}" />
-				<property name="tomcat.home" value="${container.home}" />				
-				<property name="session.replication" value="true" />
-				<property name="distributable" value="true" />				
-				<propertyset refid="deploy.properties" />
-			</ant>
-			<!-- wait for the application to be active -->
-			<!-- TODO is there a better way? -->
-			<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
-			<waitfor maxwait="${wait.time}" maxwaitunit="second">
-				<and>
-					<!-- wait for the application to not throw 404 -->
-					<http url="${absolute.wait.url}" errorsBeginAt="404" />
-				</and>
-			</waitfor>
-		</target>
+      <property name="absolute.wait.url" value="${selenium.browser.url.cluster}${wait.url}" />
+      <echo>Deploying ${example.name} example to farm directory of ${container} using ${farm.target} target</echo>
+      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${farm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+         <property name="jboss.home" value="${container.home}" />
+         <property name="tomcat.home" value="${container.home}" />				
+         <property name="session.replication" value="true" />
+         <property name="distributable" value="true" />				
+         <propertyset refid="deploy.properties" />
+      </ant>
+      <!-- wait for the application to be active -->
+      <groovy>
+         <arg value="${container}" />
+         <![CDATA[
+         System.setProperty("CONTAINER", args[0]);
+         
+         def waitTime = properties.get("wait.time");
+         def waitUrl = properties.get("absolute.wait.url");
+         
+         ant.echo("Waiting " + waitTime + " seconds for " + waitUrl);
+         ant.waitfor(maxwait:waitTime,maxwaitunit:'second',timeoutproperty:'timeout') {
+            ant.http(url:waitUrl,errorsBeginAt:'404');
+         }
+         
+         if (properties.timeout != null) {
+            System.setProperty("TIMEOUT", System.getProperty("EXAMPLE"));
+         }
+         ]]>
+      </groovy>
+   </target>
 
 	<target name="undeploy.example" depends="container.properties">
 		<echo>Undeploying example ${example.name} from ${container} using ${undeploy.target} target</echo>
@@ -374,6 +399,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				<exclusion groupId="log4j" artifactId="log4j" />
 			</dependency>
 			<dependency groupId="org.subethamail" artifactId="subethasmtp-wiser" version="1.2" />
+         <dependency groupId="xmlunit" artifactId="xmlunit" version="1.3" />
 		</copyInlineDependencies>
 		<property name="copy.selenium.done" value="true" />
 	</target>

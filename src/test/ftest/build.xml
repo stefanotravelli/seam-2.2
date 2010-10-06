@@ -51,6 +51,93 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="testall" description="Run functional testsuite based on container property">
 		<fail unless="container">Please set container property.</fail>
 		<antcall target="testall.${container}" />
+      <echo message="Rewriting ftest output xml files." />
+      <groovy>
+         <classpath>
+            <pathelement location="../../../lib/ftest/xmlunit.jar" />
+         </classpath>
+         <![CDATA[
+            import org.custommonkey.xmlunit.Diff
+            import org.custommonkey.xmlunit.XMLUnit
+            import groovy.xml.StreamingMarkupBuilder
+
+            def container = System.getProperty("CONTAINER");
+            def slurper = new XmlSlurper();
+            def builder = new StreamingMarkupBuilder();
+            builder.encoding = "UTF-8";
+
+            /*
+               edit $(SEAM)/test-output/testng-results.xml
+                  remove elements containing 'setUp' or 'tearDown' - failures incorrectly counted as testcases
+                  replace 'SKIP' with 'FAIL'
+                     insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
+            */
+            def xmlFile = new File("../../../test-output/testng-results.xml");
+            println "../../../test-output/testng-results.xml";
+            assert xmlFile.exists() && xmlFile.isFile();
+
+            def root = slurper.parse(xmlFile);
+            def serviceMethods = root.suite.test.class."test-method".findAll { it.@signature == "setUp()" || it.@signature == "tearDown()" }
+            serviceMethods.each { it.replaceNode {} }
+            def skippedMethods = root.suite.test.class."test-method".findAll { it.@status == "SKIP" }
+            skippedMethods.each {
+               it.attributes().put("status", "FAIL");
+               it.appendNode { exception(class:'java.lang.Error') { message("Deployment in error.") } }
+            }
+
+            def writer = new FileWriter("../../../test-output/testng-results-edit.xml");
+            writer << "<testng-results>";
+            writer << builder.bind(root.getBody());
+            writer << "</testng-results>";
+            writer.close();
+            
+            ant.delete(file:'../../../test-output/testng-results.xml');
+            ant.move(file:'../../../test-output/testng-results-edit.xml',tofile:'../../../test-output/testng-results.xml');
+
+            /*
+               for each ${SEAM}/${EXAMPLE} example/
+                  edit ${SEAM}/${EXAMPLE} example/${EXAMPLE}_${CONTAINER}.xml
+                     remove elements containing '@' - beforeMethod and afterMethod failures incorrectly counted as testcases
+                     replace '<skipped />' with '<failure message="Test skipped." type="java.lang.Error" />'
+            */
+            def testOutDir = new File("../../../test-output");
+            assert testOutDir.exists() && testOutDir.isDirectory();
+            testOutDir.eachDir { dir ->
+               if (dir.getName().endsWith("example")) {
+                  def exampleName;
+                  dir.eachFile { f ->
+                     if (f.getName().endsWith(container + ".xml")) {
+                        exampleName = f.getName().split("_" + container + ".xml")[0];
+                     }
+                  }
+                  def xmlFilePath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + ".xml";
+                  def xmlFileEditPath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + "-edit.xml";
+                  xmlFile = new File(xmlFilePath);
+                  println xmlFilePath;
+                  assert xmlFile.exists() && xmlFile.isFile();
+                  
+                  root = slurper.parse(xmlFile);
+                  def tsName = root.attributes().get("name");
+                  def tsTime = root.attributes().get("time");
+                  def tsTests = root.attributes().get("tests");
+                  serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
+
+                  serviceMethods.each { it.replaceNode {} }
+                  root.testcase.skipped.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') }
+
+                  writer = new FileWriter(xmlFileEditPath);
+                  writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
+                  writer << '<testsuite name="' + tsName + '" failures="0" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsTests + '">';
+                  writer << builder.bind(root.getBody());
+                  writer << "</testsuite>";
+                  writer.close();
+                  
+                  ant.delete(file:xmlFilePath);
+                  ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
+               }
+            }
+         ]]>
+      </groovy>
 	</target>
 
 	<target name="testall.jboss4" description="Run functional testsuite for JBoss 4">
@@ -169,6 +256,93 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="test" description="Run tests for single example. Container selection is based on the value of container property">
 		<fail unless="container">Please set container property.</fail>
 		<antcall target="test.${container}" />
+      <echo message="Rewriting ftest output xml files." />
+      <groovy>
+         <classpath>
+            <pathelement location="../../../lib/ftest/xmlunit.jar" />
+         </classpath>
+         <![CDATA[
+            import org.custommonkey.xmlunit.Diff
+            import org.custommonkey.xmlunit.XMLUnit
+            import groovy.xml.StreamingMarkupBuilder
+
+            def container = System.getProperty("CONTAINER");
+            def slurper = new XmlSlurper();
+            def builder = new StreamingMarkupBuilder();
+            builder.encoding = "UTF-8";
+
+            /*
+               edit $(SEAM)/test-output/testng-results.xml
+                  remove elements containing 'setUp' or 'tearDown' - failures incorrectly counted as testcases
+                  replace 'SKIP' with 'FAIL'
+                     insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
+            */
+            def xmlFile = new File("../../../test-output/testng-results.xml");
+            println "../../../test-output/testng-results.xml";
+            assert xmlFile.exists() && xmlFile.isFile();
+
+            def root = slurper.parse(xmlFile);
+            def serviceMethods = root.suite.test.class."test-method".findAll { it.@signature == "setUp()" || it.@signature == "tearDown()" }
+            serviceMethods.each { it.replaceNode {} }
+            def skippedMethods = root.suite.test.class."test-method".findAll { it.@status == "SKIP" }
+            skippedMethods.each {
+               it.attributes().put("status", "FAIL");
+               it.appendNode { exception(class:'java.lang.Error') { message("Deployment in error.") } }
+            }
+
+            def writer = new FileWriter("../../../test-output/testng-results-edit.xml");
+            writer << "<testng-results>";
+            writer << builder.bind(root.getBody());
+            writer << "</testng-results>";
+            writer.close();
+            
+            ant.delete(file:'../../../test-output/testng-results.xml');
+            ant.move(file:'../../../test-output/testng-results-edit.xml',tofile:'../../../test-output/testng-results.xml');
+
+            /*
+               for each ${SEAM}/${EXAMPLE} example/
+                  edit ${SEAM}/${EXAMPLE} example/${EXAMPLE}_${CONTAINER}.xml
+                     remove elements containing '@' - beforeMethod and afterMethod failures incorrectly counted as testcases
+                     replace '<skipped />' with '<failure message="Test skipped." type="java.lang.Error" />'
+            */
+            def testOutDir = new File("../../../test-output");
+            assert testOutDir.exists() && testOutDir.isDirectory();
+            testOutDir.eachDir { dir ->
+               if (dir.getName().endsWith("example")) {
+                  def exampleName;
+                  dir.eachFile { f ->
+                     if (f.getName().endsWith(container + ".xml")) {
+                        exampleName = f.getName().split("_" + container + ".xml")[0];
+                     }
+                  }
+                  def xmlFilePath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + ".xml";
+                  def xmlFileEditPath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + "-edit.xml";
+                  xmlFile = new File(xmlFilePath);
+                  println xmlFilePath;
+                  assert xmlFile.exists() && xmlFile.isFile();
+                  
+                  root = slurper.parse(xmlFile);
+                  def tsName = root.attributes().get("name");
+                  def tsTime = root.attributes().get("time");
+                  def tsTests = root.attributes().get("tests");
+                  serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
+
+                  serviceMethods.each { it.replaceNode {} }
+                  root.testcase.skipped.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') }
+
+                  writer = new FileWriter(xmlFileEditPath);
+                  writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
+                  writer << '<testsuite name="' + tsName + '" failures="0" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsTests + '">';
+                  writer << builder.bind(root.getBody());
+                  writer << "</testsuite>";
+                  writer.close();
+                  
+                  ant.delete(file:xmlFilePath);
+                  ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
+               }
+            }
+         ]]>
+      </groovy>
 	</target>
 
 	<target name="test.jboss4" description="Run tests for single example on JBoss 4">
@@ -315,7 +489,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<attribute name="message" default="Running functional tests on @{name} example" />
 		<sequential>
 			<groovy>
+            <arg value="@{name}" />
 				<![CDATA[
+            	System.setProperty("EXAMPLE", args[0]);
 				def testExamplesRunSoFar = properties['testExamplesRunSoFar'] == null ? 0 : Integer.valueOf(properties['testExamplesRunSoFar']);
 				def jbossDeploymentsRestart = properties['jboss.deployments.restart'] == null ? 0 : Integer.valueOf(properties['jboss.deployments.restart']);
 				if (jbossDeploymentsRestart > 0 && testExamplesRunSoFar > 0 && testExamplesRunSoFar % jbossDeploymentsRestart  == 0 ) {
