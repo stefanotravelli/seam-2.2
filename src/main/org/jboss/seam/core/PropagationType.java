@@ -9,7 +9,7 @@ public enum PropagationType
 {
    BEGIN,
    JOIN,
-   NEST,
+   NESTED,
    NONE,
    END,
    ENDROOT

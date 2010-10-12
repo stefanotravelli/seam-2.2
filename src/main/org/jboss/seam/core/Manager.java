@@ -514,7 +514,7 @@ public class Manager
 
    /**
     * Look for a conversation propagation style in the request
-    * parameters and begin, nest or join the conversation,
+    * parameters and begin, nested or join the conversation,
     * as necessary.
     * 
     * @param parameters the request parameters
@@ -553,7 +553,7 @@ public class Manager
                }
             }
             break;
-         case NEST:
+         case NESTED:
             if ( isLongRunningOrNestedConversation() ) 
             {
                 beginNestedConversation();
