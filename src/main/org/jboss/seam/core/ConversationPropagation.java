@@ -33,7 +33,7 @@ public class ConversationPropagation
    private static final LogProvider log = Logging.getLogProvider(ConversationPropagation.class);
 
    public static final String CONVERSATION_NAME_PARAMETER = "conversationName";
-   public static final String CONVERSATION_PROPAGATION_PARAMETER = " ";
+   public static final String CONVERSATION_PROPAGATION_PARAMETER = "conversationPropagation";
    
    private String conversationName;
    private String conversationId;
