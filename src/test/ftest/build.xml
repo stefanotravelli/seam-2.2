@@ -45,8 +45,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</fileset>
 	</path>
 
-	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
-	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/ftest/groovy-all.jar"/>
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
 
 	<target name="testall" description="Run functional testsuite based on container property">
 		<fail unless="container">Please set container property.</fail>
