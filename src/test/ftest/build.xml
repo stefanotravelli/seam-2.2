@@ -416,7 +416,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                         insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
                */
                def xmlFile = new File("../../../test-output/testng-results.xml");
-               println "../../../test-output/testng-results.xml";
+               ant.echo 'Checking "../../../test-output/testng-results.xml"';
                assert xmlFile.exists() && xmlFile.isFile();
 
                def root = slurper.parse(xmlFile);
@@ -446,37 +446,42 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                def testOutDir = new File("../../../test-output");
                assert testOutDir.exists() && testOutDir.isDirectory();
                testOutDir.eachDir { dir ->
-                  if (dir.getName().endsWith("example")) {
-                     def exampleName;
-                     dir.eachFile { f ->
-                        if (f.getName().endsWith(container + ".xml")) {
-                           exampleName = f.getName().split("_" + container + ".*\\.xml")[0];
+                  ant.echo "Checking " + dir.getName();
+                  String exampleName;
+                  String xmlFilePath;
+                  String xmlFileEditPath;
+                  
+                  dir.eachFile { f ->
+                     if (f.isFile() && f.getName().matches(".*_" + container + ".*\\.xml")) {
+                        exampleName = f.getName().split("_" + container + ".*\\.xml")[0];
+                        xmlFilePath = f.getAbsolutePath();
+                        xmlFileEditPath = xmlFilePath.substring(0, xmlFilePath.length() - 4) + "-edit.xml";
+                        xmlFile = new File(xmlFilePath);
+                        ant.echo "DEBUG Parsing file " + xmlFile.getName();
+                        if (xmlFile.exists() && xmlFile.isFile()) {
+                           root = slurper.parse(xmlFile);
+                           def tsName = root.attributes().get("name");
+                           def tsTime = root.attributes().get("time");
+                           def tsTests = root.attributes().get("tests");
+                           serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
+
+                           serviceMethods.each { it.replaceNode {} }
+                           root.testcase.skipped.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') }
+
+                           writer = new FileWriter(xmlFileEditPath);
+                           writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
+                           writer << '<testsuite name="' + tsName + '" failures="0" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsTests + '">';
+                           writer << builder.bind(root.getBody());
+                           writer << "</testsuite>";
+                           writer.close();
+                        
+                           ant.delete(file:xmlFilePath);
+                           ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
+                        }
+                        else {
+                           println dir.getName() + "does not contain any xml file with test results (Looking for " + xmlFilePath + "). Skipping this directory."
                         }
                      }
-                     def xmlFilePath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + ".xml";
-                     def xmlFileEditPath = "../../../test-output/" + dir.getName() + "/" + exampleName + "_" + container + "-edit.xml";
-                     xmlFile = new File(xmlFilePath);
-                     println xmlFilePath;
-                     assert xmlFile.exists() && xmlFile.isFile();
-                     
-                     root = slurper.parse(xmlFile);
-                     def tsName = root.attributes().get("name");
-                     def tsTime = root.attributes().get("time");
-                     def tsTests = root.attributes().get("tests");
-                     serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
-
-                     serviceMethods.each { it.replaceNode {} }
-                     root.testcase.skipped.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') }
-
-                     writer = new FileWriter(xmlFileEditPath);
-                     writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
-                     writer << '<testsuite name="' + tsName + '" failures="0" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsTests + '">';
-                     writer << builder.bind(root.getBody());
-                     writer << "</testsuite>";
-                     writer.close();
-                     
-                     ant.delete(file:xmlFilePath);
-                     ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
                   }
                }
             ]]>
