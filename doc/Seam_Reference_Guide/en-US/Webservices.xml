@@ -232,9 +232,16 @@ public class AuctionService implements AuctionServiceRemote
          <para>
             First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy them with the
             other libraries of your application. Also deploy the integration library,
-            <literal>jboss-seam-resteasy.jar</literal>.
+            <literal>jboss-seam-resteasy.jar</literal>. 
          </para>
-
+         <para>
+	         In seam-gen based projects, this can be done by appending <literal>jaxrs-api.jar</literal>, <literal>resteasy-jaxrs.jar</literal>
+	         and <literal>jboss-seam-resteasy.jar</literal> to the <literal>deployed-jars.list</literal> (war deployment) or 
+	         <literal>deployed-jars-ear.list</literal> (ear deployment) file. For a JBoss Tools based project, copy the libraries mentioned 
+	         above to the <literal>EarContent/lib</literal> (ear deployment) or <literal>WebContent/WEB-INF/lib</literal> (war deployment) 
+	         folder and reload the project in the IDE.
+         </para>
+         
          <para>
             On startup, all classes annotated <literal>@javax.ws.rs.Path</literal> will be discovered automatically
             and registered as HTTP resources. Seam automatically accepts and serves HTTP requests with its built-in
@@ -510,6 +517,13 @@ public class GarageService
    }
 }]]></programlisting>
 
+         <note>
+            <para>
+                RESTEasy components do not support hot redeployment. As a result, the components should never 
+                be placed in the <literal>src/hot</literal> folder. The <literal>src/main</literal> folder should
+                be used instead.
+            </para>
+         </note>
          <note>
             <para>
                 Provider classes can currently not be Seam components. Although you can configure an
