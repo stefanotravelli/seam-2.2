@@ -396,6 +396,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
          <echo message="Rewriting ftest output xml files." />
          <groovy>
             <arg value="@{container}" />
+            <arg value="${seam.dir}" />
             <classpath>
                <pathelement location="../../../lib/ftest/xmlunit.jar" />
             </classpath>
@@ -404,7 +405,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                import org.custommonkey.xmlunit.XMLUnit
                import groovy.xml.StreamingMarkupBuilder
 
-               def container = args[0];
+               String container = args[0];
+               String seamHome = args[1];
                def slurper = new XmlSlurper();
                def builder = new StreamingMarkupBuilder();
                builder.encoding = "UTF-8";
@@ -415,8 +417,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                      replace 'SKIP' with 'FAIL'
                         insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
                */
-               def xmlFile = new File("../../../test-output/testng-results.xml");
-               ant.echo 'Checking "../../../test-output/testng-results.xml"';
+               String xmlFilePath = seamHome + "/test-output/testng-results.xml";
+               File xmlFile = new File(xmlFilePath);
+               ant.echo 'Checking: ' + xmlFilePath;
                assert xmlFile.exists() && xmlFile.isFile();
 
                def root = slurper.parse(xmlFile);
@@ -428,14 +431,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                   it.appendNode { exception(class:'java.lang.Error') { message("Deployment in error.") } }
                }
 
-               def writer = new FileWriter("../../../test-output/testng-results-edit.xml");
+               String xmlFileEditPath = seamHome + "/test-output/testng-results-edit.xml";
+               def writer = new FileWriter(xmlFileEditPath);
                writer << "<testng-results>";
                writer << builder.bind(root.getBody());
                writer << "</testng-results>";
                writer.close();
                
-               ant.delete(file:'../../../test-output/testng-results.xml');
-               ant.move(file:'../../../test-output/testng-results-edit.xml',tofile:'../../../test-output/testng-results.xml');
+               ant.delete(file:xmlFilePath);
+               ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
 
                /*
                   for each ${SEAM}/${EXAMPLE} example/
@@ -443,13 +447,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                         remove elements containing '@' - beforeMethod and afterMethod failures incorrectly counted as testcases
                         replace '<skipped />' with '<failure message="Test skipped." type="java.lang.Error" />'
                */
-               def testOutDir = new File("../../../test-output");
+               File testOutDir = new File(seamHome + "/test-output");
                assert testOutDir.exists() && testOutDir.isDirectory();
                testOutDir.eachDir { dir ->
                   ant.echo "Checking " + dir.getName();
-                  String exampleName;
-                  String xmlFilePath;
-                  String xmlFileEditPath;
+                  String exampleName = null;
                   
                   dir.eachFile { f ->
                      if (f.isFile() && f.getName().matches(".*_" + container + ".*\\.xml")) {
@@ -457,29 +459,30 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                         xmlFilePath = f.getAbsolutePath();
                         xmlFileEditPath = xmlFilePath.substring(0, xmlFilePath.length() - 4) + "-edit.xml";
                         xmlFile = new File(xmlFilePath);
-                        ant.echo "DEBUG Parsing file " + xmlFile.getName();
                         if (xmlFile.exists() && xmlFile.isFile()) {
                            root = slurper.parse(xmlFile);
                            def tsName = root.attributes().get("name");
                            def tsTime = root.attributes().get("time");
                            def tsTests = root.attributes().get("tests");
+                           def tsFailures = root.attributes().get("failures");
+                           def tsErrors = root.attributes().get("errors");
                            serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
 
                            serviceMethods.each { it.replaceNode {} }
-                           root.testcase.skipped.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') }
+                           root.testcase.skipped.replaceNode { node -> 
+                              failure(message:'Test skipped.',type:'java.lang.Error.');
+                              tsErrors++;
+                           }
 
                            writer = new FileWriter(xmlFileEditPath);
                            writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
-                           writer << '<testsuite name="' + tsName + '" failures="0" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsTests + '">';
+                           writer << '<testsuite name="' + tsName + '" failures="' + tsFailures + '" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsErrors + '">';
                            writer << builder.bind(root.getBody());
                            writer << "</testsuite>";
                            writer.close();
                         
                            ant.delete(file:xmlFilePath);
                            ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
-                        }
-                        else {
-                           println dir.getName() + "does not contain any xml file with test results (Looking for " + xmlFilePath + "). Skipping this directory."
                         }
                      }
                   }
