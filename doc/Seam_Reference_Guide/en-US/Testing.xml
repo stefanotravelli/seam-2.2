@@ -590,8 +590,9 @@ public class MockPaymentProcessor extends PaymentProcessor {
          </para>
          
          <para>
-           You need to tell DBUnit about the datasource you are using by 
-           setting a TestNG test parameter named <literal>datasourceJndiName</literal>:
+           You need to tell DBUnit which datasource you are using. This is accomplished by defining
+           a <ulink url="http://testng.org/doc/documentation-main.html#parameters-testng-xml">test
+           parameter</ulink> named <literal>datasourceJndiName</literal> in testng.xml as follows:
          </para>
          
          <programlisting role="XML"><![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]></programlisting>
