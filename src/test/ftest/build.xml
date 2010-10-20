@@ -404,6 +404,24 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                import org.custommonkey.xmlunit.Diff
                import org.custommonkey.xmlunit.XMLUnit
                import groovy.xml.StreamingMarkupBuilder
+               import groovy.util.slurpersupport.GPathResult
+               
+               def getRootAsText(GPathResult root) {
+                  String text = '<' + root.name();
+                  root.attributes().each { key, value ->
+                     text += " $key=\"$value\"";
+                  }
+                  return text + '>';
+               }
+               
+               def saveXml(GPathResult root, StreamingMarkupBuilder builder, String filePath) {
+                  def writer = new FileWriter(filePath);
+                  writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
+                  writer << getRootAsText(root);
+                  writer << builder.bind(root.getBody());
+                  writer << "</" + root.name() + ">";
+                  writer.close();
+               }
 
                String container = args[0];
                String seamHome = args[1];
@@ -417,26 +435,19 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                      replace 'SKIP' with 'FAIL'
                         insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
                */
-               String xmlFilePath = seamHome + "/test-output/testng-results.xml";
+               String xmlFilePath      = seamHome + "/test-output/testng-results.xml";
+               String xmlFileEditPath  = seamHome + "/test-output/testng-results-edit.xml";
                File xmlFile = new File(xmlFilePath);
-               ant.echo 'Checking: ' + xmlFilePath;
                assert xmlFile.exists() && xmlFile.isFile();
 
                def root = slurper.parse(xmlFile);
-               def serviceMethods = root.suite.test.class."test-method".findAll { it.@signature == "setUp()" || it.@signature == "tearDown()" }
-               serviceMethods.each { it.replaceNode {} }
-               def skippedMethods = root.suite.test.class."test-method".findAll { it.@status == "SKIP" }
-               skippedMethods.each {
+               root.'**'.findAll { it.name() == "test-method" && ( it.@signature.toString().contains("setUp") || it.@signature.toString().contains("tearDown") ) }.each { it.replaceNode {} }
+               root.'**'.findAll { it.name() == "test-method" && it.@status.toString().contains("SKIP") }.each { 
                   it.attributes().put("status", "FAIL");
                   it.appendNode { exception(class:'java.lang.Error') { message("Deployment in error.") } }
                }
-
-               String xmlFileEditPath = seamHome + "/test-output/testng-results-edit.xml";
-               def writer = new FileWriter(xmlFileEditPath);
-               writer << "<testng-results>";
-               writer << builder.bind(root.getBody());
-               writer << "</testng-results>";
-               writer.close();
+               
+               saveXml(root, builder, xmlFileEditPath);
                
                ant.delete(file:xmlFilePath);
                ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
@@ -444,6 +455,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                /*
                   for each ${SEAM}/${EXAMPLE} example/
                      edit ${SEAM}/${EXAMPLE} example/${EXAMPLE}_${CONTAINER}.xml
+                        recalculate failure & error count
                         remove elements containing '@' - beforeMethod and afterMethod failures incorrectly counted as testcases
                         replace '<skipped />' with '<failure message="Test skipped." type="java.lang.Error" />'
                */
@@ -451,35 +463,24 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
                assert testOutDir.exists() && testOutDir.isDirectory();
                testOutDir.eachDir { dir ->
                   ant.echo "Checking " + dir.getName();
-                  String exampleName = null;
-                  
                   dir.eachFile { f ->
                      if (f.isFile() && f.getName().matches(".*_" + container + ".*\\.xml")) {
-                        exampleName = f.getName().split("_" + container + ".*\\.xml")[0];
                         xmlFilePath = f.getAbsolutePath();
                         xmlFileEditPath = xmlFilePath.substring(0, xmlFilePath.length() - 4) + "-edit.xml";
                         xmlFile = new File(xmlFilePath);
                         if (xmlFile.exists() && xmlFile.isFile()) {
                            root = slurper.parse(xmlFile);
-                           def tsName = root.attributes().get("name");
-                           def tsTime = root.attributes().get("time");
-                           def tsTests = root.attributes().get("tests");
-                           def tsFailures = root.attributes().get("failures");
-                           def tsErrors = root.attributes().get("errors");
-                           serviceMethods = root.testcase.findAll { it.@name.toString().contains("@") }
-
-                           serviceMethods.each { it.replaceNode {} }
-                           root.testcase.skipped.replaceNode { node -> 
-                              failure(message:'Test skipped.',type:'java.lang.Error.');
-                              tsErrors++;
-                           }
-
-                           writer = new FileWriter(xmlFileEditPath);
-                           writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
-                           writer << '<testsuite name="' + tsName + '" failures="' + tsFailures + '" tests="' + tsTests + '" time="' + tsTime + '" errors="' + tsErrors + '">';
-                           writer << builder.bind(root.getBody());
-                           writer << "</testsuite>";
-                           writer.close();
+                           
+                           int tcfailures = root.'**'.findAll { it.name() == "testcase" && !it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "failure" }.size() > 0 }.size();
+                           int smfailures = root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "failure" }.size() > 0 }.size();
+                           int tcskips = root.'**'.findAll { it.name() == "testcase" && !it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "skipped" }.size() > 0 }.size();
+                           int smskips = root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "skipped" }.size() > 0 }.size();
+                           root.attributes().put("failures", (tcfailures + tcskips).toString());
+                           ant.echo "DEBUG: TCF $tcfailures SMF $smfailures TCS $tcskips SMS $smskips ERR " + root.@errors;
+                           root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") }.each { it.replaceNode {} }
+                           root.'**'.findAll { it.name() == "skipped" }.each { it.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') } }
+                           
+                           saveXml(root, builder, xmlFileEditPath);
                         
                            ant.delete(file:xmlFilePath);
                            ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
