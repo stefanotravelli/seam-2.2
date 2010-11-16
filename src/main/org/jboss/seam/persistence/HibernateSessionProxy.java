@@ -10,8 +10,7 @@ import org.hibernate.event.EventSource;
  * previous HibernateSessionProxy.
  * 
  * @author Gavin King
- * @author Emmanuel Bernard FIXME: EventSource should not really be there,
- *         remove once HSearch is fixed
+ * @author Emmanuel Bernard
  * @author Mike Youngstrom
  * 
  */
