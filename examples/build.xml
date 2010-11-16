@@ -24,8 +24,28 @@
     <!-- Settings -->
     <property name="loadPersistenceUnits" value="true"/>
 
-	<!-- Source directories -->
-	<property name="src.java.dir" value="src" />
+	<!-- different setup for jboss6 enviroment -->
+	<condition property="exploded-archives.dir" value="exploded-archives-jbossas6" else="exploded-archives">
+		<isset property="jboss6"/>
+	</condition>
+    <condition property="src.java.dir" value="staging-jbossas6/src" else="src">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="dist.dir" value="dist-jbossas6" else="dist">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="staging.dir" value="staging-jbossas6">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="example.lib.dir" value="lib">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="lib.search.dir" value="${example.lib.dir}" else="${seam.dir}/lib">
+       	<isset property="jboss6"/>
+    </condition>
+	
+	<!-- Source directories -->		
+	<property name="src.java.dir" value="src" />	
 	<property name="src.test.dir" value="src" />
 	<property name="view.dir" value="view" />
 	<property name="resources.dir" value="resources" />
@@ -45,7 +65,7 @@
 	<property name="meldware.dir" value="${lib.dir}/meldware.deployable" />
 
 	<!-- Target directories -->
-	<property name="dist.dir" value="dist" />
+	<property name="dist.dir" value="dist" />	
 	<property name="exploded-archives.dir" value="exploded-archives" />
 	<property name="ear.dir" value="${exploded-archives.dir}/${example.name}.ear" />
 	<property name="jar.dir" value="${exploded-archives.dir}/${example.name}.jar" />
@@ -338,10 +358,13 @@
 	</fileset>
 
 	<!-- Dependencies for using Seam with Hibernate Search -->
-	<fileset id="search.jar" dir="${lib.dir}">
+	<fileset id="search.jar" dir="${lib.search.dir}">
 		<include name="lucene-core.jar" if="search.lib" />
+		<include name="lucene-analyzers.jar" if="jboss6"/>
 		<include name="hibernate-search.jar" if="search.lib" />
+		<include name="hibernate-search-analyzers.jar" if="jboss6"/>
 		<include name="hibernate-commons-annotations.jar" if="search.lib" />
+		<!-- <include name="hibernate-core.jar" if="search.lib" /> remove or add condition for jboss42 only -->
 	</fileset>
 
 	<!-- Dependencies for using Seam with Drools -->
@@ -583,7 +606,9 @@
 			<exclude name="jboss-seam-pdf.jar" />
                         <!-- <exclude name="jboss-seam-flex.jar" /> -->
 			<exclude name="jboss-seam-excel.jar" />
-			<exclude name="jboss-seam-rss.jar" />
+			<exclude name="jboss-seam-rss.jar" />	
+			<exclude name="hibernate-search.jar" if="jboss6"/>
+			<exclude name="lucene-core.jar" if="jboss6"/>
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -622,9 +647,17 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" depends="gettrinidad, getmetawidget, getelri"/>
+	<target name="copyextradependencies" depends="gettrinidad, getmetawidget, getelri, gethsearch3.3"/>
 
    <target name="getmetawidget" depends="getmetawidget-war,getmetawidget-ear"/>
+	
+   <target name="gethsearch3.3" if="jboss6">
+		<copyInlineDependencies id="org.hibernate.search" scope="runtime" todir="${example.lib.dir}">
+			<dependency groupId="org.hibernate" artifactId="hibernate-search" version="3.3.0.CR1">
+				<exclusion groupId="org.hibernate" artifactId="hibernate-core"/>
+			</dependency>
+		</copyInlineDependencies>
+   </target>
 
    <target name="getmetawidget-war" if="metawidget-war.lib">
 		<copyInlineDependencies id="metawidget" scope="runtime" todir="${lib.dir}">
@@ -743,6 +776,8 @@
 		<delete dir="${jar.dir}" />
 		<delete dir="${test.dir}" />
 		<delete dir="${clean.extra}" />
+		<delete dir="${staging.dir}" />
+		<delete dir="${example.lib.dir}" />
 	</target>
 
 
