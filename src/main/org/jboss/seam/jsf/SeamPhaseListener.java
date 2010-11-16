@@ -37,7 +37,6 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.faces.Validation;
-import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;

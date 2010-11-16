@@ -670,6 +670,7 @@ public class Pages
    /**
     * Call the action requested by s:link or s:button.
     */
+   @SuppressWarnings("deprecation")
    private static boolean callAction(FacesContext facesContext)
    {
       //TODO: refactor with Pages.instance().callAction()!!

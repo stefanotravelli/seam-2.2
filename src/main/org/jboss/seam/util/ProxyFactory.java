@@ -199,9 +199,11 @@ public class ProxyFactory {
             proxyClass = null;
         }
 
-        public int hashCode() { return hash; }
+      @Override
+      public int hashCode() { return hash; }
 
-        public boolean equals(Object obj) {
+      @Override
+      public boolean equals(Object obj) {
             if (obj instanceof CacheKey) {
                 CacheKey target = (CacheKey)obj;
                 return target.filter == filter && target.handler == handler
@@ -561,7 +563,7 @@ public class ProxyFactory {
         cf.addField(finfo3);
 
         HashMap allMethods = getMethods(superClass, interfaces);
-        int size = allMethods.size();
+        //int size = allMethods.size();
         makeConstructors(classname, cf, pool, classname);
         int s = overrideMethods(cf, pool, classname, allMethods);
         addMethodsHolder(cf, pool, classname, s);

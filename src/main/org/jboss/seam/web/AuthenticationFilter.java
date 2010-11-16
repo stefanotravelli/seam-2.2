@@ -21,8 +21,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
-import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
@@ -31,7 +29,6 @@ import org.jboss.seam.security.digest.DigestRequest;
 import org.jboss.seam.security.digest.DigestUtils;
 import org.jboss.seam.security.digest.DigestValidationException;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
-import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Base64;
 
 /**

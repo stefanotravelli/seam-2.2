@@ -23,7 +23,6 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 

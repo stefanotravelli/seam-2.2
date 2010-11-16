@@ -330,7 +330,7 @@ public class JMXInvocationHandler
    
    
    // Object overrides ----------------------------------------------
-   
+   @Override
    public String toString() 
    {
       return "MBeanProxy for " + objectName + " (Agent ID: " + AgentID.get(server) + ")";

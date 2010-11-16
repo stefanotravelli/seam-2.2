@@ -3,7 +3,6 @@ package org.jboss.seam.jmx;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.management.MBeanServer;
