@@ -16,6 +16,10 @@
 
 	<!-- Datasource -->
 	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />
+	
+	<target name="jboss6" description="Build the DVD Store example artifacts, and deploy to JBoss AS 6">
+		<ant antfile="build-jboss6.xml"/>
+	</target>
 
 	<import file="../build.xml" />
 
@@ -40,5 +44,5 @@
 	<target name="jboss42" description="Build the DvdStore example artifacts, and deploy to JBoss 4.2.x.GA">
 		<ant antfile="build-jboss42.xml"/>
 	</target>
-
+	
 </project>

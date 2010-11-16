@@ -19,11 +19,11 @@
                   value="org.hibernate.search.store.FSDirectoryProvider"/>
          <!-- directory where the indexes will be stored -->
          <property name="hibernate.search.default.indexBase" value="./dvdindexes"/>  
-         <!-- Not needed with HA 3.3 -->
+         <!-- Not needed with HA 3.3 
          <property name="hibernate.ejb.event.post-insert" value="org.hibernate.search.event.FullTextIndexEventListener"/>
          <property name="hibernate.ejb.event.post-update" value="org.hibernate.search.event.FullTextIndexEventListener"/>
          <property name="hibernate.ejb.event.post-delete" value="org.hibernate.search.event.FullTextIndexEventListener"/>         
-         
+         -->
          <property name="jboss.entity.manager.factory.jndi.name"
                    value="java:/dvdstoreEntityManagerFactory" />
       </properties>
