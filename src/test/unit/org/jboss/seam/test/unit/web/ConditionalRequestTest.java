@@ -1,19 +1,20 @@
 package org.jboss.seam.test.unit.web;
 
-import org.testng.annotations.Test;
-import org.testng.Assert;
 import static org.testng.Assert.assertEquals;
-import org.jboss.seam.mock.MockHttpSession;
-import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
-import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
-import org.jboss.seam.web.ConditionalAbstractResource;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.MockHttpSession;
+import org.jboss.seam.web.ConditionalAbstractResource;
+import org.testng.annotations.Test;
 
 /**
  * @author Christian Bauer

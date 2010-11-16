@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +24,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -38,6 +39,7 @@ import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.remoting.Call;
 import org.jboss.seam.remoting.CallContext;
+import org.jboss.seam.remoting.InterfaceGenerator;
 import org.jboss.seam.remoting.MarshalUtils;
 import org.jboss.seam.remoting.client.ParserUtils;
 import org.jboss.seam.remoting.wrapper.BagWrapper;
@@ -53,10 +55,6 @@ import org.jboss.seam.remoting.wrapper.NumberWrapper;
 import org.jboss.seam.remoting.wrapper.StringWrapper;
 import org.jboss.seam.remoting.wrapper.WrapperFactory;
 import org.testng.annotations.Test;
-import org.w3c.dom.Node;
-import org.jboss.seam.remoting.InterfaceGenerator;
-import java.math.BigInteger;
-import java.math.BigDecimal;
 
 /**
  * Unit tests for Seam Remoting
@@ -381,6 +379,7 @@ public class RemotingTest
    @SuppressWarnings("serial")
    private class InvalidList<E> extends ArrayList<E>
    {
+      @SuppressWarnings("unused")
       public InvalidList()
       {
          throw new InstantiationError();
@@ -539,6 +538,7 @@ public class RemotingTest
    @SuppressWarnings("serial")
    private class InvalidMap extends HashMap
    {
+      @SuppressWarnings("unused")
       public InvalidMap()
       {
          throw new InstantiationError();

@@ -1,10 +1,11 @@
 package org.jboss.seam.test.integration;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
-import javax.faces.validator.ValidatorException;
-import javax.faces.application.FacesMessage;
-import java.util.List;
 
 /**
  * @author Pete Muir

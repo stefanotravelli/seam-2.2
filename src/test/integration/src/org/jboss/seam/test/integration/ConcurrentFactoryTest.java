@@ -1,17 +1,14 @@
 package org.jboss.seam.test.integration;
 
-import org.jboss.seam.ScopeType;
+import static org.jboss.seam.ScopeType.APPLICATION;
+
 import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.ServletLifecycle;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
-import static org.jboss.seam.ScopeType.APPLICATION;
 
 public class ConcurrentFactoryTest 
     extends SeamTest 
