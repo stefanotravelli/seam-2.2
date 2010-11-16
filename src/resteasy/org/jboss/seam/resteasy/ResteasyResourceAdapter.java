@@ -21,43 +21,37 @@
  */
 package org.jboss.seam.resteasy;
 
-import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.servlet.ContextualHttpServletRequest;
-import org.jboss.seam.web.AbstractResource;
-import org.jboss.seam.web.Session;
-import org.jboss.resteasy.core.SynchronousDispatcher;
-import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
-import org.jboss.resteasy.core.Dispatcher;
-import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
-import org.jboss.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
-import org.jboss.resteasy.plugins.server.servlet.ServletSecurityContext;
-import org.jboss.resteasy.plugins.server.servlet.ServletUtil;
-import org.jboss.resteasy.specimpl.PathSegmentImpl;
-import org.jboss.resteasy.specimpl.UriBuilderImpl;
-import org.jboss.resteasy.specimpl.UriInfoImpl;
-import org.jboss.resteasy.spi.HttpRequest;
-import org.jboss.resteasy.spi.HttpResponse;
-import org.jboss.resteasy.util.PathHelper;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriBuilder;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.List;
+
+import org.jboss.resteasy.core.Dispatcher;
+import org.jboss.resteasy.core.SynchronousDispatcher;
+import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
+import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
+import org.jboss.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
+import org.jboss.resteasy.plugins.server.servlet.ServletSecurityContext;
+import org.jboss.resteasy.plugins.server.servlet.ServletUtil;
+import org.jboss.resteasy.specimpl.UriInfoImpl;
+import org.jboss.resteasy.spi.HttpRequest;
+import org.jboss.resteasy.spi.HttpResponse;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
+import org.jboss.seam.web.AbstractResource;
+import org.jboss.seam.web.Session;
 
 /**
  * Accepts incoming HTTP requests through the <tt>SeamResourceServlet</tt> and

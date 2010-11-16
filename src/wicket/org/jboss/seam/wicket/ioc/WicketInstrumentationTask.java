@@ -1,13 +1,10 @@
 package org.jboss.seam.wicket.ioc;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javassist.ClassPool;
-import javassist.CtClass;
 import javassist.LoaderClassPath;
 
 import org.apache.tools.ant.Task;
@@ -73,7 +70,7 @@ public class WicketInstrumentationTask extends Task
          ClassPool classPool = new ClassPool();
          classPool.insertClassPath(new LoaderClassPath(getProject().createClassLoader(buildPath)));
          
-         List<CtClass> instrumentedClasses = new ArrayList<CtClass>();
+         //List<CtClass> instrumentedClasses = new ArrayList<CtClass>();
 
          JavassistInstrumentor instrumentor = new JavassistInstrumentor(classPool,useAnnotations);
 

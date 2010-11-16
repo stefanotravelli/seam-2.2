@@ -403,7 +403,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
     * interface
     * </ul>
     * @param clazz The class to check
-    * @return
+    * @return boolean value if the class can be instrumented or not
     */
    public boolean isInstrumentable(CtClass clazz)
    {

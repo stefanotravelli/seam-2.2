@@ -21,6 +21,16 @@
  */
 package org.jboss.seam.resteasy;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import javax.ws.rs.ext.Providers;
+
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.core.SynchronousDispatcher;
 import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
@@ -28,7 +38,6 @@ import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.jboss.resteasy.spi.Registry;
 import org.jboss.resteasy.spi.ResourceFactory;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.resteasy.spi.StringConverter;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -50,15 +59,6 @@ import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ws.rs.ext.Providers;
 
 /**
  * Detects (through scanning and configuration) JAX-RS resources and providers, then
