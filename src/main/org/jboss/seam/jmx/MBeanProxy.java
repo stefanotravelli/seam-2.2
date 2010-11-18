@@ -30,7 +30,7 @@ public class MBeanProxy
     */
    public static Object get(Class intrface, ObjectName name, String agentID) throws MBeanProxyCreationException
    {
-      return get(intrface, name, MBeanServerFactory.findMBeanServer(agentID).get(0));
+      return get(intrface, name, (MBeanServer) MBeanServerFactory.findMBeanServer(agentID).get(0));
    }
 
    /**
@@ -78,7 +78,7 @@ public class MBeanProxy
     */
    public static Object create(Class instance, Class intrface, ObjectName name, String agentID) throws MBeanProxyCreationException
    {
-      return create(instance, intrface, name, MBeanServerFactory.findMBeanServer(agentID).get(0));
+      return create(instance, intrface, name,(MBeanServer) MBeanServerFactory.findMBeanServer(agentID).get(0));
    }   
    
    /**
