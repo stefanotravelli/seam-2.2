@@ -5,7 +5,7 @@
     version="1.0">
     <persistence-unit name="bookingDatabase" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <!-- classes must be enumerated due to a known bug in Seam 2.5.6, SPR-5787 -->
+        <!-- classes must be enumerated due to a known bug in Spring 2.5.6, SPR-5787 -->
         <class>org.jboss.seam.example.spring.Booking</class>
         <class>org.jboss.seam.example.spring.Hotel</class>
         <class>org.jboss.seam.example.spring.User</class>

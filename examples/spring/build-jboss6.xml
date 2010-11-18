@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<project name="Spring JBossWar for JBoss AS 6" default="jbosswar6" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Spring Example for JBoss War"/>
+    <property name="example.name"           value="jboss-seam-spring"/>	
+	<property name="jboss6"					value="yes"/>
+	
+	<property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="seam.ioc.war.lib"   value="true"/>
+	<property name="spring.lib"   value="true"/>
+	<!-- needed because jboss must include hibernate search -->
+	<property name="search.lib"   value="true"/>
+	<property name="richfaces.lib" value="true"/>
+	<property name="cglib.lib" value="true"/>
+			
+    <target name="init" depends="preparesrc">
+        <antcall target="SeamExample.init"/>    	
+    	<path id="build.classpath.extras">
+    		<fileset dir="${lib.search.dir}">
+    				<include name="*.jar"/>
+    		</fileset>
+    	</path>
+    </target>
+	
+	<target name="preparesrc"> 
+		<mkdir dir="${src.java.dir}"/>
+		
+		<copy todir="${src.java.dir}">
+			<fileset includes="**" dir="jboss6/src" />
+		</copy>
+		<copy todir="${src.java.dir}">
+			<fileset includes="**" dir="src"/>
+		</copy>	
+	</target>
+	
+	<target name="mynoejb.jar" depends="jar">
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${jar.dir}">
+				<exclude name="**/ejb-jar.xml" />
+				<exclude name="javax/**"/> <!-- required jpa 2 classes for hacking jboss as6-->
+			</fileset>
+			<fileset refid="noejb.jar.extras" />
+			<fileset refid="noejb.jar.resources" />
+		</copy>
+	</target>
+	
+	<target name="mynoejb.archive" depends="mynoejb.jar,noejb.war" description="Package the archives for non-ejb war">
+		<jar jarfile="${dist.dir}/${example.name}.war">
+			<fileset dir="${war.dir}" />
+			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
+				<include name="${example.name}.jar" />
+			</zipfileset>
+		</jar>
+	</target>
+	
+	<target name="jbosswar6" depends="mynoejb.archive" >
+		
+		<copy file="${dist.dir}/${example.name}.war" todir="${deploy.dir}" />
+	</target>
+	
+	<import file="../build.xml"/>
+    
+	<fileset id="noejb.jar.extras" dir="${resources.dir}">
+		<include name="META-INF/persistence-spring.xml"/>
+	</fileset>
+
+</project>
