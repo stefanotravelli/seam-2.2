@@ -22,3 +22,8 @@ The stage command is automatically called on any Ant build, so you can simply ru
 Access the application at http://localhost:8080/seam-metawidget-dvdstore
 
 For further Metawidget documentation see http://metawidget.org/documentation.html.
+
+Notice: Deployment into JBoss AS 6 requires to use Hibernate-Search 3.3 and this 
+can be done through launching 
+
+	ant -f build-jboss6.xml 
