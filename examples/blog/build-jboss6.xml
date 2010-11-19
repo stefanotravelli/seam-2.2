@@ -6,7 +6,12 @@
     <property name="Name"                   value="Seam Blog Example"/>
     <property name="example.name"           value="jboss-seam-blog"/>	
 	<property name="jboss6"					value="yes"/>
-	
+    <!-- Libraries to include -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="seam.debug.lib"  value="yes"/>
+	<property name="facelets.lib"    value="yes"/>
+    <property name="search.lib"      value="yes"/>
+    <property name="cache.lib"       value="yes"/>	
 
     <target name="init" depends="preparesrc">
         <antcall target="SeamExample.init"/>    	
