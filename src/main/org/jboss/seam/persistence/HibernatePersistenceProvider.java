@@ -17,7 +17,6 @@ import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.proxy.HibernateProxy;
-import org.hibernate.search.FullTextSession;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
@@ -122,7 +121,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          {  
             return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                   new Class[] { HibernateSessionProxy.class },
-                  new HibernateSessionInvocationHandler(session, (FullTextSession) session) );
+                  new HibernateSessionInvocationHandler(session));//, (FullTextSession) session) );
          }
       }
       else
@@ -136,7 +135,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
             else {
                return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                      new Class[] { FULL_TEXT_SESSION_PROXY_CLASS },
-                     new HibernateSessionInvocationHandler( session, (FullTextSession) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) ) );
+                     new HibernateSessionInvocationHandler( (Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) ) );
             }
          }
          catch(Exception e) {
@@ -148,7 +147,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
             else {
                return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                      new Class[] { HibernateSessionProxy.class },
-                     new HibernateSessionInvocationHandler( session, null) );
+                     new HibernateSessionInvocationHandler( session) );
             }
          }
       }
