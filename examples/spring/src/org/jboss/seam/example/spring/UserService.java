@@ -1,21 +1,17 @@
 package org.jboss.seam.example.spring;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Mike Youngstrom
+ * @author Marek Novotny
  *
  */
 public class UserService extends JpaDaoSupport {
-
-	//@PersistenceContext
-	//@Autowired(required=true)
-   //private EntityManager entityManager;
 
 	@Transactional
     public boolean changePassword(String username, String oldPassword, String newPassword) {
@@ -45,12 +41,15 @@ public class UserService extends JpaDaoSupport {
 	@Transactional
     public User findUser(String username, String password) {
         try {
-           /*return (User) 
-            entityManager.createQuery("select u from User u where u.username=:username and u.password=:password")
-            .setParameter("username", username)
-            .setParameter("password", password)
-            .getSingleResult();*/
-            return (User) getJpaTemplate().find("select u from User u where u.username=?1 and u.password=?2", username, password).get(0);
+            List result = getJpaTemplate().find("select u from User u where u.username=?1 and u.password=?2", username, password);
+            if (result.size() > 0)
+            {
+               return (User) result.get(0);   
+            }
+            else
+            {
+               return null;
+            }
         } catch (DataAccessException e) {
             return null;
         }
