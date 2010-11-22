@@ -204,6 +204,47 @@
 		</sequential>
 	</macrodef>
 	
+	<macrodef name="deployExampleJboss6">
+	   <attribute name="name" />
+	   <attribute name="path" default="${seam.dir}/examples/@{name}" />
+	   <attribute name="repositoryId" />
+		<attribute name="type" default="ear" />
+	   <sequential>
+	      <ant dir="@{path}" target="archive" antfile="build-jboss6.xml" inheritall="false">
+	         <propertyset>
+	            <propertyref name="initpomsdone" />
+	            <propertyref name="copyseamdone" />
+	            <propertyref name="copyseamdependenciesdone" />
+	            <propertyref name="copyjbossembeddeddone" />
+	            <propertyref name="core.pom" />
+	            <propertyref name="root.pom" />
+	            <propertyref name="parent.pom" />
+	            <propertyref name="ui.pom" />
+	            <propertyref name="remoting.pom" />
+	            <propertyref name="resteasy.pom" />
+	            <propertyref name="pdf.pom" />
+	            <propertyref name="flex.pom" />
+	            <propertyref name="rss.pom" />
+	            <propertyref name="gen.pom" />
+	            <propertyref name="excel.pom" />
+	            <propertyref name="ioc.pom" />
+	            <propertyref name="mail.pom" />
+	            <propertyref name="debug.pom" />
+	            <propertyref name="wicket.pom" />
+	            <propertyref name="testng.jvmargs" />
+	            <propertyref name="maven.settings.xml" />
+	         </propertyset>
+	      </ant>
+	      <pomfile name="example.pom" value="@{path}/pom.xml" />
+	      <artifact:deploy file="@{path}/dist-jbossas6/jboss-seam-@{name}.ear"
+	         uniqueVersion="false" settingsFile="${maven.settings.xml}">
+	         <pom file="${example.pom}" settingsFile="${maven.settings.xml}" />
+	         <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml"
+	            classifier="ds" type="xml" />
+	         <remoteRepository refid="@{repositoryId}" />
+	      </artifact:deploy>
+	   </sequential>
+	</macrodef>
 	<macrodef name="deployExample">
 	   <attribute name="name" />
 	   <attribute name="path" default="${seam.dir}/examples/@{name}" />

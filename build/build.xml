@@ -59,7 +59,9 @@
 	    <deployWithSources pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
 		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
 		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
-		<deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
+<!--		<deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/> -->
+		<!-- macro for JBoss AS 6 example build -->
+		<deployExampleJboss6 name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
 	</target>
 	
 	<target name="stageReleaseSeam" description="Deploy Seam and JBoss EL to your local copy of repository.jboss.org" depends="initpoms">
@@ -81,7 +83,9 @@
 	    <deployWithSources pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" repositoryId="jboss-releases-repository" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
 		<deployExample name="booking" repositoryId="jboss-releases-repository"/>
 		<deployExampleNoDs name="numberguess" repositoryId="jboss-releases-repository"/>
-		<deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-releases-repository"/>
+		<!-- <deployExample name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-releases-repository"/> -->
+		<!-- macro for JBoss AS 6 example build -->
+		<deployExampleJboss6 name="dvdstore" path="${seam.dir}/examples/dvdstore" repositoryId="jboss-releases-repository"/>
 	</target>
 	
 	<target name="deployLocalPom">
