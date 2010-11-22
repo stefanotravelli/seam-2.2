@@ -360,9 +360,9 @@
 	<!-- Dependencies for using Seam with Hibernate Search -->
 	<fileset id="search.jar" dir="${lib.search.dir}">
 		<include name="lucene-core.jar" if="search.lib" />
-		<include name="lucene-analyzers.jar" if="jboss6"/>
+		<include name="lucene-analyzers.jar" if="search.lib"/>
 		<include name="hibernate-search.jar" if="search.lib" />
-		<include name="hibernate-search-analyzers.jar" if="jboss6"/>
+		<include name="hibernate-search-analyzers.jar" if="search.lib"/>
 		<include name="hibernate-commons-annotations.jar" if="search.lib" />
 		<!-- <include name="hibernate-core.jar" if="search.lib" /> remove or add condition for jboss42 only -->
 	</fileset>
