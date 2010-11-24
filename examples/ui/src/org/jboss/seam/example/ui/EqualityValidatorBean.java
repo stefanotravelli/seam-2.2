@@ -1,5 +1,6 @@
 package org.jboss.seam.example.ui;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.jboss.seam.ScopeType;
@@ -12,7 +13,7 @@ import org.jboss.seam.util.Strings;
 
 @Name("equalityValidatorBean")
 @Scope(ScopeType.SESSION)
-public class EqualityValidatorBean
+public class EqualityValidatorBean implements Serializable
 {
 
    @In
