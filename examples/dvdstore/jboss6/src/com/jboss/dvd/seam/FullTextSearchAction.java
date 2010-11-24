@@ -133,7 +133,6 @@ public class FullTextSearchAction
         } catch (ParseException pe) { 
             return; 
         }
-        System.out.println("Query " + query);
         List<Product> items = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
