@@ -137,6 +137,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.container" />
       <testoutRewrite container="${container}" />
 	</target>
+	
+	<target name="testall.jboss6" depends="testall.jboss5" description="Run functional testsuite for JBoss 6" />
 
 	<target name="testall.jboss-embedded" description="Run functional testsuite for JBoss Embedded">
 		<property name="container" value="jboss-embedded" />
@@ -182,6 +184,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<target name="test.jboss5" description="Run tests for single example on JBoss 5">
 		<property name="container" value="jboss5" />
+		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
+	</target>
+	
+	<target name="test.jboss6" description="Run tests for single example on JBoss 6">
+		<property name="container" value="jboss6" />
 		<antcall target="test.single.example" />
       <testoutRewrite container="${container}" />
 	</target>
