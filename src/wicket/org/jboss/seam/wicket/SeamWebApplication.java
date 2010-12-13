@@ -71,7 +71,7 @@ public abstract class SeamWebApplication extends WebApplication
    /**
     * This is the key we will use to to store the conversation metadata in the wicket page.
     */
-   private static MetaDataKey CID = new MetaDataKey(String.class) { };
+   private static MetaDataKey CID = new MetaDataKey<String>() { };
 
    
    /**
@@ -110,7 +110,7 @@ public abstract class SeamWebApplication extends WebApplication
       super.init();
       inititializeSeamSecurity();
       initializeSeamStatusMessages();
-      addComponentOnBeforeRenderListener(new SeamEnforceConversationListener());
+      addPreComponentOnBeforeRenderListener(new SeamEnforceConversationListener());
    }
 
    /**
@@ -130,7 +130,7 @@ public abstract class SeamWebApplication extends WebApplication
     */
    protected void initializeSeamStatusMessages()
    {
-      addComponentOnBeforeRenderListener(new SeamStatusMessagesListener());
+      addPreComponentOnBeforeRenderListener(new SeamStatusMessagesListener());
    }
 
    protected abstract Class getLoginPage();
