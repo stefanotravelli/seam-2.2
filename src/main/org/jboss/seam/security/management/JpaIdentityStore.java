@@ -978,6 +978,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private List<String> listRoleMembers(String role)
    {                
+      
       if (roleGroupsProperty.isSet())
       {
          Object roleEntity = lookupRole(role);                  
@@ -988,7 +989,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
                .getResultList();
       }
       
-      return null;
+      return new ArrayList<String>();
    }
    
    public List<String> listGrantableRoles()
