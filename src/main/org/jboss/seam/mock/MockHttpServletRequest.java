@@ -178,8 +178,9 @@ public class MockHttpServletRequest implements HttpServletRequest
    }
 
    public Enumeration getHeaders(String header)
-   {
-      return new IteratorEnumeration( Arrays.asList( headers.get(header) ).iterator() );
+   {      
+      String[] values = headers.get(header);
+      return values==null || values.length==0 ? null : new IteratorEnumeration( Arrays.asList( values ).iterator() );
    }
 
    public Enumeration getHeaderNames()
