@@ -228,13 +228,17 @@ public class MockExternalContext extends ExternalContext
       while (en.hasMoreElements())
       {
          String header = en.nextElement();
-         List<String> headerList = Collections.list(request.getHeaders(header));
-         String[] headers = new String[headerList.size()];
-         for (int i = 0; i < headerList.size(); i++)
+         Enumeration requestHeaders = request.getHeaders(header);
+         if (requestHeaders != null)
          {
-            headers[i] = headerList.get(i);
+            List<String> headerList =  Collections.list(requestHeaders);
+            String[] headers = new String[headerList.size()];
+            for (int i = 0; i < headerList.size(); i++)
+            {
+               headers[i] = headerList.get(i);
+            }
+            result.put(header, headers);
          }
-         result.put(header, headers);
       }
       return result;
    }
