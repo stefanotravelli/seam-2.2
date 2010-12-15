@@ -146,9 +146,9 @@ refer to the Seam reference guide for additional information.
 
 JBoss AS 6
 -----------
-AS 6 has got all Hibernate jars required for example. So there is build-jbossas6.xml script for reducing 
+AS 6 has got all Hibernate jars required for example. So there is build-jboss6.xml script for reducing 
 amount of included jars in EAR and WAR archives.
-Just launch ant -f build-jbossas6.xml and then put dist/jboss-seam-jee5-booking.ear into JBoss AS 6 deploy dir.
-Or you can just run  ant -f build-jbossas6.xml deploy, if you have set up jboss.home in build.properties.
+Just launch ant -f build-jboss6.xml and then put dist/jboss-seam-jee5-booking.ear into JBoss AS 6 deploy dir.
+Or you can just run  ant -f build-jboss6.xml deploy, if you have set up jboss.home in build.properties.
  
 
