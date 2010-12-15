@@ -94,6 +94,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    
    private String[] userObjectClasses = { "person", "uidObject" };
    
+   private String securityAuthenticationType = "simple";
+   
    private int searchScope = SearchControls.SUBTREE_SCOPE;
    
    /**
@@ -331,6 +333,16 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       this.searchTimeLimit = searchTimeLimit;
    }
    
+   public String getSecurityAuthenticationType()
+   {
+      return securityAuthenticationType;
+   }
+   
+   public void setSecurityAuthenticationType(String value)
+   {
+      this.securityAuthenticationType = value;
+   }
+   
    public String getSearchScope()
    {
       switch (searchScope)
@@ -389,7 +401,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       Properties env = new Properties();
 
       env.setProperty(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-      env.setProperty(Context.SECURITY_AUTHENTICATION, "simple");
+      env.setProperty(Context.SECURITY_AUTHENTICATION, securityAuthenticationType);
       
       String providerUrl = String.format("ldap://%s:%d", getServerAddress(), getServerPort());
       env.setProperty(Context.PROVIDER_URL, providerUrl);
