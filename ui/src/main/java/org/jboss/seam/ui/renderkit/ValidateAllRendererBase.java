@@ -23,14 +23,16 @@ public class ValidateAllRendererBase extends RendererBase
    
    @Override
    protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
-   {
+   {      
+      renderChildren(context, component);
+      
       UIValidateAll validateAll = (UIValidateAll) component;
       if (!validateAll.isValidatorsAdded())
       {
          addValidators(validateAll.getChildren());
          validateAll.setValidatorsAdded(true);
       }
-      renderChildren(context, component);
+      
    }
    
    private void addValidators(List children)
