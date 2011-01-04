@@ -27,16 +27,16 @@
 
 	<target name="copyextradependencies">
 		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
-			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.8.1">
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.8.2">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
-			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.8.1">
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.8.2">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
-			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.8.1">
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.8.2">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
-			<remoteRepository refId="repository.jboss.org" />
+			
 		</artifact:dependencies>
 		<copy todir="${example.tmp.lib.dir}">
 			<fileset refid="icefaces.fileset" />
