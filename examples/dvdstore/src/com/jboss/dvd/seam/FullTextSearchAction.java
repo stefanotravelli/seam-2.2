@@ -23,8 +23,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.FullTextEntityManager;
 
