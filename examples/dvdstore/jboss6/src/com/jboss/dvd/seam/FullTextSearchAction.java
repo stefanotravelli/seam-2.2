@@ -2,9 +2,6 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +27,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.util.Reflections;
 
 /**
  * Hibernate Search version of the store querying mechanism
@@ -161,93 +157,13 @@ public class FullTextSearchAction
         String[] productFields = {"title", "description", "actors.name", "categories.name"};
         
         Analyzer defaultAnalyzer = ((FullTextEntityManager) em).getSearchFactory().getAnalyzer(Product.class);        
-        QueryParser parser = createNewInstanceOfQueryParser(Version.LUCENE_30, productFields, defaultAnalyzer, boostPerField);
+        QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30, productFields, defaultAnalyzer, boostPerField);
 
         parser.setAllowLeadingWildcard(true);
         org.apache.lucene.search.Query luceneQuery = parser.parse(searchQuery);
         return ( (FullTextEntityManager) em ).createFullTextQuery(luceneQuery, Product.class);
     }
-
-   @SuppressWarnings("finally")
-   private QueryParser createNewInstanceOfQueryParser(Object luceneVersion, String[] productFields, Analyzer defaultAnalyzer, Map<String, Float> boostPerField)
-    {
-       //Class.forName("org.apache.lucene.queryParser.MultiFieldQueryParser");
-       Class targetClass = MultiFieldQueryParser.class; 
        
-       Constructor properConstructor = null;
-       if ( luceneVersion == null )
-       {
-        //older constructor - String[] productFields, Analyzer defaultAnalyzer, Map<String, Float> boostPerField
-          properConstructor = getProperConstructor(targetClass.getConstructors(), 3); 
-          try
-         {
-            return (QueryParser) properConstructor.newInstance(productFields, defaultAnalyzer, boostPerField);
-         }
-         catch (IllegalArgumentException e)
-         {
-            return null;
-         }
-         catch (InstantiationException e)
-         {
-            return null;
-         }
-         catch (IllegalAccessException e)
-         {
-            return null;
-         }
-         catch (InvocationTargetException e)
-         {
-            return null;
-         }
-
-       }
-       else
-       {
-        //newer constructor - Version luceneVersion. String[] productFields, Analyzer defaultAnalyzer, Map<String, Float> boostPerField
-          properConstructor = getProperConstructor(targetClass.getConstructors(), 4); 
-          try
-         {
-            return (QueryParser) properConstructor.newInstance(luceneVersion, productFields, defaultAnalyzer, boostPerField);
-         }
-         catch (IllegalArgumentException e)
-         {
-            return null;
-         }
-         catch (InstantiationException e)
-         {
-            return null;
-         }
-         catch (IllegalAccessException e)
-         {
-            return null;
-         }
-         catch (InvocationTargetException e)
-         {
-            return null;
-         }
-       }
-
-    }
-   
-   private Constructor getProperConstructor(Constructor[] constructors, int properLength)
-   {
-      Constructor properConstructor = null;
-      
-      for (int i = 0; i < constructors.length; i++ )
-      {
-         Constructor constructor = constructors[i];
-         Class[] parametersType = constructor.getParameterTypes();
-         if (parametersType.length == properLength)
-         {
-            // TODO: very weak condition, but for testing purpose
-            properConstructor = constructor;
-            return properConstructor;
-         }
-      }
-      
-      return null;
-   }
-    
     /**
      * Add the selected DVD to the cart
      */
