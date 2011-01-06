@@ -78,7 +78,7 @@ public enum SeleniumDateSelector
       @Override
       public void setDay(SeamSelenium browser, int day)
       {
-         String locator = "xpath=//td[@class='iceSelInpDateDay']/a[./span/text()='" + Integer.toString(day) + "']";
+         String locator = "xpath=//td[normalize-space(@class)='iceSelInpDateDay']/a[./span/text()='" + Integer.toString(day) + "']";
          browser.waitForElement(locator);
          browser.click(locator);
       }
