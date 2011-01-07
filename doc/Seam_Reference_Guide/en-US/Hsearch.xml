@@ -23,7 +23,7 @@
     JBoss Seam provides an Hibernate Search integration.</para>
 
 	<para>Please refer to the <ulink
-	url="http://www.hibernate.org/hib_docs/search/reference/en/html_single/">Hibernate
+	url="">Hibernate
 	Search documentation</ulink> for information specific to the Hibernate
 	Search project.</para>
 
@@ -103,6 +103,13 @@
         <para>lucene-core.jar</para>
       </listitem>
     </itemizedlist>
+    
+    <para><filename>hibernate-commons-annotations.jar</filename> is not needed
+      in JBossAS6. Some Hibernate Search extensions require additional dependencies,
+      a commonly used is <filename>hibernate-search-analyzers.jar</filename>.
+      For details, see the <ulink url="http://www.hibernate.org/subprojects/search/docs">
+      Hibernate Search documentation</ulink> for details.
+    </para>
 
     <note>
       <para>If you deploy those in a EAR, don't forget to update
@@ -115,7 +122,7 @@
 
     <para>Hibernate Search uses annotations to map entities to a Lucene index,
     check the <ulink
-    url="http://www.hibernate.org/hib_docs/search/reference/en/html_single/">reference
+    url="http://www.hibernate.org/subprojects/search/docs">reference
     documentation</ulink> for more informations.</para>
 
     <para>Hibernate Search is fully integrated with the API and semantic of
