@@ -3,7 +3,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam Dvd Store Example"/>
-    <property name="example.name"           value="jboss-seam-dvdstore"/>	
+    <property name="example.name"           value="jboss-seam-dvdstore"/>
 	<property name="jboss6"	value="yes"/>
 	<!-- Libraries -->
 	<property name="seam.ui.lib" value="yes" />
@@ -29,9 +29,12 @@
 			<fileset includes="**" dir="jboss6/src" />
 		</copy>
 		<copy todir="${src.java.dir}">
-			<fileset includes="**" excludes="src/com/jboss/dvd/seam/FullTextSearchAction.java" dir="src"/>
-		</copy>	
-
+			<fileset dir="src">
+				<include name="**" />
+				<exclude name="src/com/jboss/dvd/seam/FullTextSearchAction.java" />
+				<exclude name="src/com/jboss/dvd/seam/IndexerAction.java" />
+			</fileset>
+		</copy>
 	</target>
 	
 	<import file="../build.xml"/>

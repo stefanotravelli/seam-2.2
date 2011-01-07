@@ -12,13 +12,27 @@
 	<property name="facelets.lib" value="yes" />
 	<property name="jbpm.lib" value="yes" />
 	<property name="search.lib" value="yes" />
-    <property name="urlrewrite.lib"    value="yes"/>
+	<property name="urlrewrite.lib" value="yes"/>
+	<property name="example.lib.dir" value="lib"/>
 
 	<!-- Datasource -->
-	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />	
-
-	<import file="../build.xml" />
-
+	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />
+	
+	<target name="init" depends="gethsearch3.1">
+		<fileset id="ear.lib.extras" dir="${example.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<antcall target="SeamExample.init"/>
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${example.lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	</target>
+	
 	<!-- Exclude the DS from validated files, as the mbean causes it not to validate -->
 	<fileset id="validate.resources" dir="${validate.resources.dir}">
 		<include name="META-INF/application.xml" />
@@ -44,5 +58,7 @@
 	<target name="jboss6" description="Build the DVD Store example artifacts, and deploy to JBoss AS 6">
 		<ant antfile="build-jboss6.xml"/>
 	</target>
+	
+	<import file="../build.xml" />
 	
 </project>

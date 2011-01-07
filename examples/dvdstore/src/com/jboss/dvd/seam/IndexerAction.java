@@ -19,7 +19,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 
 /**
- * Re index the needed entities
+ * Re index the needed entities.
+ * (Old version: see IndexerAction implementation in the
+ * jboss6 additional source folder to see usage of new Search API)
  *
  * @author Emmanuel Bernard
  */
@@ -27,6 +29,7 @@ import org.jboss.seam.annotations.Startup;
 @Stateful
 @Scope(ScopeType.APPLICATION)
 @Startup
+@Deprecated
 public class IndexerAction implements Indexer
 {
    private Date lastIndexingTime;

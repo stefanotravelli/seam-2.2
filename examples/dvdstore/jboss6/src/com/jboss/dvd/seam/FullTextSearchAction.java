@@ -9,28 +9,32 @@ import java.util.Map;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.util.Version;
+import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.log.Log;
 
 /**
- * Hibernate Search version of the store querying mechanism
+ * Hibernate Search version of the store querying mechanism.
+ * This version is updated to show the new Query capabilities
+ * of Hibernate Search 3.3, which requires Hibernate 3.6 and
+ * as such is the recommended (minimal) version to use for JBoss6.
+ * This code resides in a separate src directory as it wouldn't
+ * compile with older Hibernate Search versions.
+ * 
  * @author Emmanuel Bernard
+ * @author Sanne Grinovero
  */
 @Stateful
 @Name("search")
@@ -43,8 +47,16 @@ public class FullTextSearchAction
     @In(create=true)
     ShoppingCart cart;
     
-    @PersistenceContext
-    EntityManager em;
+    /**
+     * Note that when using Seam's injection the entityManager
+     * can be assigned directly to a FullTextEntityManager.
+     * Same trick applies to FullTextSession.
+     */
+    @In
+    FullTextEntityManager entityManager;
+    
+    @Logger
+    Log log;
 
     //@RequestParameter
     Long id;
@@ -107,7 +119,7 @@ public class FullTextSearchAction
     @Begin(join = true)
     public void selectFromRequest() {
         if (id != null)  {
-            dvd = em.find(Product.class, id);
+            dvd = entityManager.find(Product.class, id);
         } else if (selectedProduct != null) {
             dvd = selectedProduct;
         }
@@ -123,12 +135,7 @@ public class FullTextSearchAction
 
     @SuppressWarnings("unchecked")
     private void updateResults() {
-        FullTextQuery query;
-        try {
-            query = searchQuery(searchQuery);
-        } catch (ParseException pe) { 
-            return; 
-        }
+        FullTextQuery query = searchQuery(searchQuery);
         List<Product> items = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
@@ -146,22 +153,38 @@ public class FullTextSearchAction
         searchSelections = new HashMap<Product, Boolean>();
     }
 
-    private FullTextQuery searchQuery(String searchQuery) throws ParseException
-    {
-        Map<String,Float> boostPerField = new HashMap<String,Float>();
-        boostPerField.put("title", 4f);
-        boostPerField.put("description", 2f);
-        boostPerField.put("actors.name", 2f);
-        boostPerField.put("categories.name", 0.5f);
-
-        String[] productFields = {"title", "description", "actors.name", "categories.name"};
+    private FullTextQuery searchQuery(String textQuery) {
+        QueryBuilder queryBuilder = entityManager.getSearchFactory()
+           .buildQueryBuilder().forEntity(Product.class).get();
         
-        Analyzer defaultAnalyzer = ((FullTextEntityManager) em).getSearchFactory().getAnalyzer(Product.class);        
-        QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30, productFields, defaultAnalyzer, boostPerField);
-
-        parser.setAllowLeadingWildcard(true);
-        org.apache.lucene.search.Query luceneQuery = parser.parse(searchQuery);
-        return ( (FullTextEntityManager) em ).createFullTextQuery(luceneQuery, Product.class);
+        //Hibernate Search fulltext query example:
+        
+        //query to match exact terms occurrence, using custom boosts:
+        Query queryToFindExactTerms = queryBuilder.keyword()
+           .onFields("title").boostedTo(4f)
+           .andField("description").boostedTo(2f)
+           .andField("actors.name").boostedTo(2f)
+           .andField("categories.name").boostedTo(0.5f)
+           .matching(textQuery)
+           .createQuery();
+        
+        //Similar query, but using NGram matching instead of exact terms:
+        Query queryToFindMathingNGrams = queryBuilder.keyword()
+           .onFields("title:ngrams").boostedTo(2f)
+           .andField("description:ngrams")
+           .andField("actors.name:ngrams")
+           .andField("categories.name:ngrams").boostedTo(0.2f)
+           .matching(textQuery)
+           .createQuery();
+        
+        //Combine them for best results, note exact uses an higher boost:
+        Query fullTextQuery = queryBuilder.bool()
+           .should(queryToFindMathingNGrams)
+           .should(queryToFindExactTerms)
+           .createQuery();
+        
+        log.info("Executing fulltext query {0}", fullTextQuery);
+        return entityManager.createFullTextQuery(fullTextQuery, Product.class);
     }
        
     /**
