@@ -26,6 +26,8 @@
 		<path id="build.classpath.extras">
 			<fileset dir="${lib.search.dir}">
 				<include name="*.jar"/>
+				<!-- Exclude at least wicket or it has tests fail-->
+				<exclude name="*wicket*.jar" />
 			</fileset>
 			<fileset dir="${example.lib.dir}">
 				<include name="*.jar"/>
