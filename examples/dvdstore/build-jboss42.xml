@@ -3,17 +3,16 @@
 <project name="DVDStore" default="deploy" basedir=".">
 	
 	<!-- Naming -->
-	<property name="Name"                   value="Seam Dvd Store Example"/>
-	<property name="example.name"           value="jboss-seam-dvdstore"/>
-	<!-- Libraries -->
-	<property name="seam.ui.lib" value="yes" />
-	<property name="seam.debug.lib" value="yes" />
-	<property name="facelets.lib" value="yes" />
-	<property name="jbpm.lib" value="yes" />
-	<property name="search.lib" value="yes" />
-	<property name="urlrewrite.lib"    value="yes"/>
-
-	<property name="han.lib"       value="yes"/>
+	<property name="Name"             value="Seam Dvd Store Example"/>
+	<property name="example.name"     value="jboss-seam-dvdstore"/>
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"      value="yes" />
+	<property name="seam.debug.lib"   value="yes" />
+	<property name="facelets.lib"     value="yes" />
+	<property name="search.lib"       value="yes" />
+	<property name="jbpm.lib"         value="yes" />
+	<property name="urlrewrite.lib"   value="yes" />
+	<property name="han.lib"          value="yes" />
 	
 	<target name="init" depends="gethsearch3.1">
 		<fileset id="ear.lib.extras" dir="${example.lib.dir}">
@@ -30,6 +29,6 @@
 		</path>
 	</target>
 	
-    <import file="../build.xml"/>
-    
+	<import file="../build.xml"/>
+
 </project>

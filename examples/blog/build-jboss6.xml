@@ -2,41 +2,44 @@
 
 <project name="Blog" default="deploy" basedir=".">
 
-    <!-- Naming -->
-    <property name="Name"                   value="Seam Blog Example"/>
-    <property name="example.name"           value="jboss-seam-blog"/>	
-	<property name="jboss6"					value="yes"/>
-    <!-- Libraries to include -->
-	<property name="seam.ui.lib"     value="yes"/>
-	<property name="seam.debug.lib"  value="yes"/>
-	<property name="facelets.lib"    value="yes"/>
-    <property name="search.lib"      value="yes"/>
-    <property name="cache.lib"       value="yes"/>	
+	<!-- Naming -->
+	<property name="Name"             value="Seam Blog Example" />
+	<property name="example.name"     value="jboss-seam-blog"   />
+	<property name="jboss6"           value="yes"               />
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"      value="yes" />
+	<property name="seam.debug.lib"   value="yes" />
+	<property name="facelets.lib"     value="yes" />
+	<property name="search.lib"       value="yes" />
+	<property name="cache.lib"        value="yes" />
 	
 	<!-- Datasource -->
-	<property name="example.ds"              value="blog-ds.xml"/>
+	<property name="example.ds"              value="blog-ds.xml" />
 
-    <target name="init" depends="preparesrc">
-        <antcall target="SeamExample.init"/>    	
-    	<path id="build.classpath.extras">
-    		<fileset dir="${lib.search.dir}">
-    				<include name="*.jar"/>
-    		</fileset>
-    	</path>
-    </target>
-		
+	<target name="init" depends="preparesrc">
+		<antcall target="SeamExample.init" />
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+	</target>
+	
 	<target name="preparesrc"> 
-		<mkdir dir="${src.java.dir}"/>
+		<mkdir dir="${src.java.dir}" />
 		
 		<copy todir="${src.java.dir}">
 			<fileset includes="**" dir="jboss6/src" />
 		</copy>
 		<copy todir="${src.java.dir}">
-			<fileset includes="**" excludes="src/actions/SearchService.java" dir="src"/>
-		</copy>	
-
+			<fileset dir="src">
+				<include name="**" />
+				<exclude name="src/actions/SearchService.java" />
+				<exclude name="src/actions/IndexerService.java" />
+			</fileset>
+		</copy>
 	</target>
 	
-	<import file="../build.xml"/>
-    
+	<import file="../build.xml" />
+
 </project>

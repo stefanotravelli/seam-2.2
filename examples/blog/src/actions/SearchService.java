@@ -34,14 +34,18 @@ public class SearchService
    {
       if (searchPattern==null || "".equals(searchPattern) ) {
          searchPattern = null;
-         return entityManager.createQuery("select be from BlogEntry be order by date desc").getResultList();
+         return entityManager
+            .createQuery("select be from BlogEntry be order by date desc")
+            .setHint("org.hibernate.cacheable", true)
+            .setMaxResults(100)
+            .getResultList();
       }
       else
       {
          Map<String,Float> boostPerField = new HashMap<String,Float>();
-         boostPerField.put( "title", 4f );
-         boostPerField.put( "body", 1f );
-         String[] productFields = {"title", "body"};
+         boostPerField.put( "title:en", 4f );
+         boostPerField.put( "body:en", 1f );
+         String[] productFields = {"title:en", "body:en"};
          QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
          parser.setAllowLeadingWildcard(true);
          org.apache.lucene.search.Query luceneQuery;

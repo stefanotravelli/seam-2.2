@@ -3,17 +3,17 @@
 <project name="DVDStore" default="deploy" basedir=".">
 
 	<!-- Naming -->
-	<property name="Name" value="Seam DVD Store Example" />
-	<property name="example.name" value="jboss-seam-dvdstore" />
+	<property name="Name"            value="Seam DVD Store Example" />
+	<property name="example.name"    value="jboss-seam-dvdstore"    />
 
-	<!-- Libraries -->
-	<property name="seam.ui.lib" value="yes" />
-	<property name="seam.debug.lib" value="yes" />
-	<property name="facelets.lib" value="yes" />
-	<property name="jbpm.lib" value="yes" />
-	<property name="search.lib" value="yes" />
-	<property name="urlrewrite.lib" value="yes"/>
-	<property name="example.lib.dir" value="lib"/>
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"     value="yes" />
+	<property name="seam.debug.lib"  value="yes" />
+	<property name="facelets.lib"    value="yes" />
+	<property name="search.lib"      value="yes" />
+	<property name="example.lib.dir" value="lib" />
+	<property name="jbpm.lib"        value="yes" />
+	<property name="urlrewrite.lib"  value="yes" />
 
 	<!-- Datasource -->
 	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />
@@ -53,7 +53,7 @@
 		<exclude name=".gpd.*.jpdl.xml" />
 	</fileset>
 	
-	<target name="jboss42" description="Build the DvdStore example artifacts, and deploy to JBoss 4.2.x.GA">
+	<target name="jboss42" description="Build the DvdStore example artifacts, and deploy to JBoss AS 4.2.x.GA">
 		<ant antfile="build-jboss42.xml"/>
 	</target>
 	

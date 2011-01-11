@@ -377,6 +377,7 @@
 	<!-- Dependencies for using Seam with Hibernate Search -->
 	<fileset id="search.jar" dir="${lib.search.dir}">
 		<include name="lucene-core.jar" if="search.lib" />
+		<include name="lucene-snowball.jar" if="search.lib" />
 		<include name="lucene-analyzers.jar" if="search.lib" />
 		<include name="hibernate-search.jar" if="search.lib" />
 		<include name="solr-core.jar" if="search.lib" />
@@ -676,6 +677,7 @@
 				<exclusion groupId="org.hibernate" artifactId="hibernate-core"/>
 			</dependency>
 			<dependency groupId="org.hibernate" artifactId="hibernate-search-analyzers" version="3.3.0.Final" />
+			<dependency groupId="org.apache.lucene" artifactId="lucene-snowball" version="3.0.3" />
 		</copyInlineDependencies>
 	</target>
 	
@@ -688,7 +690,6 @@
 				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-core" />
 				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-highlighter" />
 				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-spellchecker" />
-				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-snowball" />
 				<exclusion groupId="org.apache.solr" artifactId="solr-commons-csv" />
 				<exclusion groupId="woodstox" artifactId="wstx-asl" />
 				<exclusion groupId="net.java.dev.stax-utils" artifactId="stax-utils" />
