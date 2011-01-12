@@ -358,7 +358,7 @@
 	</fileset>
 
 	<!-- Hibernate Search requires different dependencies since version 3.3
-		(minimal suggested version for JBossAS 6 ) -->
+		(minimal suggested version for JBossAS 6 ) -->	
 	<condition property="search.lib.jb6">
 		<and>
 			<isset property="jboss6"/>
@@ -373,7 +373,7 @@
 			<isset property="search.lib"/>
 		</and>
 	</condition>
-
+	
 	<!-- Dependencies for using Seam with Hibernate Search -->
 	<fileset id="search.jar" dir="${lib.search.dir}">
 		<include name="lucene-core.jar" if="search.lib" />
@@ -681,7 +681,7 @@
 		</copyInlineDependencies>
 	</target>
 	
-	<target name="gethsearch3.1" unless="jboss6">
+	<target name="gethsearch3.1" if="search.lib.jb5">
 		<copyInlineDependencies id="org.hibernate.search" scope="runtime" todir="${example.lib.dir}">
 			<dependency groupId="org.apache.solr" artifactId="solr-core" version="1.3.0">
 				<exclusion groupId="commons-httpclient" artifactId="commons-httpclient" />
