@@ -44,7 +44,7 @@ public class Image implements Serializable
    public enum Type
    {
       IMAGE_PNG("image/png", ".png", "PNG"), IMAGE_JPEG("image/jpeg", ".jpg", "JPEG", "image/jpg"), IMAGE_GIF(
-               "image/gif", ".gif", "GIF");
+            "image/gif", ".gif", "GIF"), IMAGE_BMP("image/bmp", ".bmp", "BMP"); 
 
       private String mimeType;
 
