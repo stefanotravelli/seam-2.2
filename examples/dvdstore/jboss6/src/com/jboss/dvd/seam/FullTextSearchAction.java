@@ -135,12 +135,23 @@ public class FullTextSearchAction
 
     @SuppressWarnings("unchecked")
     private void updateResults() {
-        FullTextQuery query = searchQuery(searchQuery);
+       
+       javax.persistence.Query query = null;  
+       if (searchQuery == null || searchQuery.isEmpty())
+       {
+          query = entityManager.createQuery("from Product");  
+          numberOfResults =query.getResultList().size();
+       }
+       else
+       {
+          query = searchQuery(searchQuery);
+          numberOfResults =( (FullTextQuery) query).getResultSize();
+       }
+       
         List<Product> items = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
-            .getResultList();
-        numberOfResults = query.getResultSize();
+            .getResultList();       
         
         if (items.size() > pageSize) {
             searchResults = new ArrayList(items.subList(0, pageSize));
