@@ -13,7 +13,7 @@ import org.jboss.seam.security.Identity;
 
 @Stateless
 @Name("auctionService")
-@WebService(name = "AuctionService", serviceName = "AuctionService")
+@WebService(name = "AuctionService")
 public class AuctionService implements AuctionServiceRemote
 {           
    @WebMethod
