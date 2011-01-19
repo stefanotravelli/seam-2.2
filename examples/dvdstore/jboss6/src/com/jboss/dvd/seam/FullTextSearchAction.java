@@ -137,7 +137,7 @@ public class FullTextSearchAction
     private void updateResults() {
        
        javax.persistence.Query query = null;  
-       if (searchQuery == null || searchQuery.isEmpty())
+       if (searchQuery == null || "".equals(searchQuery))
        {
           query = entityManager.createQuery("from Product");  
           numberOfResults =query.getResultList().size();
