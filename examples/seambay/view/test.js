@@ -197,11 +197,12 @@ function setAllParams()
 function setParamValue(event)
 {
   var ctl = null
-  if (event.target)
-    ctl = event.target;
-  else if (window.event.srcElement)
+  if (!event)
+	var event = window.event;
+  if (event.srcElement)
     ctl = window.event.srcElement;
-    
+  else if (event.target)
+    ctl = event.target;
   var key = ctl.id;
   
   for (var i = 0; i < selectedService.parameters.length; i++)
