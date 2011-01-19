@@ -170,7 +170,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	    <echo message="${test.webdriver}" />	
 		<!-- execute testng tests -->
 		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
-			<xmlfileset file="${container}-webdriver.xml" />
+			<xmlfileset file="${example.testsuite}-webdriver.xml" />
 			<sysproperty key="browser" value="${selenium.browser}" />
 			<sysproperty key="server.url" value="${selenium.browser.url}" />
             <sysproperty key="context.path" value="${context.path}" />
