@@ -21,6 +21,7 @@
     <property name="facelets.lib" value="yes"/>
     <property name="jbpm.lib" value="yes"/>
     <property name="search.lib" value="yes"/>
+    <property name="example.lib.dir" value="lib" />
     <property name="urlrewrite.lib" value="yes"/>
     <property name="metawidget-ear.lib" value="yes"/>
     
@@ -28,8 +29,21 @@
     <!--<property name="example.ds" value="seam-metawidget-dvdstore-ds.xml"/>-->
     <property name="example.ds" value="jboss-seam-dvdstore-ds.xml"/>
 
-    <target name="init" depends="stage">
-        <antcall target="SeamExample.init"/>
+    <target name="init" depends="stage, gethsearch3.1">
+       <fileset id="ear.lib.extras" dir="${example.lib.dir}">
+          <include name="*.jar"/>
+       </fileset>
+       <antcall target="SeamExample.init"/>
+       <path id="build.classpath.extras">
+          <fileset dir="${lib.search.dir}">
+             <include name="*.jar"/>
+             <!-- Exclude at least wicket or it has tests fail-->
+             <exclude name="*wicket*.jar" />
+          </fileset>
+          <fileset dir="${example.lib.dir}">
+             <include name="*.jar"/>
+          </fileset>
+       </path>
     </target>
 
     <target name="stage">
