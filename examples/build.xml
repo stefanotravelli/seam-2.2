@@ -44,6 +44,10 @@
        	<isset property="jboss6"/>
     </condition>
 	
+	<condition property="nohornetq" value="yes">
+	 <not> <isset property="hornetq"/></not> 
+	</condition>
+	
 	<!-- Source directories -->		
 	<property name="src.java.dir" value="src" />	
 	<property name="src.test.dir" value="src" />
@@ -52,6 +56,7 @@
 	<property name="validate.resources.dir" value="${resources.dir}" />
 	<property name="example.ds" value="${example.name}-ds.xml" />
 	<property name="example.service" value="${example.name}-service.xml" />
+	<property name="example.jms" value="${example.name}-hornetq-jms.xml" />
 
 	<!-- Deployment directories -->
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
@@ -933,7 +938,8 @@
 	<target name="undeploy" description="Undeploy the example from JBoss">
 		<delete file="${deploy.dir}/${example.name}.ear" />
 		<delete file="${deploy.dir}/${example.ds}" />
-		<delete file="${deploy.dir}/${example.service}" />
+		<delete file="${deploy.dir}/${example.service}" failonerror="no" />
+		<delete file="${deploy.dir}/${example.jms}" failonerror="no"/>
 		<delete>
 			<fileset dir="${deploy.dir}">
 				<patternset refid="meldware.files" />
@@ -956,7 +962,8 @@
 		<fail unless="jboss.home">jboss.home not set</fail>
 		<copy todir="${deploy.dir}">
 			<fileset dir="${resources.dir}">
-				<include name="${example.service}" />
+				<include name="${example.service}" if="nohornetq"/>
+				<include name="${example.jms}" if="hornetq" />
 			</fileset>
 		</copy>
 	</target>
