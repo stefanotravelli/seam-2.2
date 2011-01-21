@@ -23,6 +23,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 <project name="chatroom.ftest.build" basedir="." default="build">
 	<property name="example.name" value="remoting/chatroom" />
 	<property name="jboss4.context.path" value="/seam-chatroom" />
+	<property name="hornetq" value="true" />
+
+	<target name="set.deploy.properties">
+		<propertyset id="jboss6.deploy.properties">
+			<propertyref name="hornetq" id="hornetq" />
+		</propertyset>
+		<propertyset id="jboss4.deploy.properties" />
+		<propertyset id="jboss5.deploy.properties" />
+		<propertyset id="tomcat6.deploy.properties" />
+		<propertyset id="jboss-embedded.deploy.properties" />
+	</target>
 
 	<import file="../../build.xml" />
 </project>
