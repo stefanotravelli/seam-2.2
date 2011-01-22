@@ -330,9 +330,12 @@ function extractConversationId(doc)
   {
     for (var i = 0; i < doc.documentElement.childNodes.length; i++)
     {
-      var node = doc.documentElement.childNodes.item(i);
-      if (node.localName == "Header")
-        headerNode = node;
+      var node = doc.documentElement.childNodes.item(i);      
+      if (node.localName == "Header" || node.baseName == "Header")
+      {
+    	  headerNode = node;
+    	  break;
+      }        
     }
   }
 
@@ -341,7 +344,7 @@ function extractConversationId(doc)
     for (var i = 0; i < headerNode.childNodes.length; i++)
     {
       var node = headerNode.childNodes.item(i);
-      if (node.localName == "conversationId")
+      if (node.localName == "conversationId" || node.baseName == "conversationId")
       {
         return node.firstChild.nodeValue;
       }
