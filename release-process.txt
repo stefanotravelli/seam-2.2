@@ -22,7 +22,7 @@ Updating version numbers
         - Check all the issue types one at a time to determine final list.
   - build/default.build.properties 
     - Change the version numbers as needed
-    - Set the qualifier using a "." ex. ".CR1" or ".GA"
+    - Set the qualifier using a "." ex. ".CR1" or ".Final"
     - Check that build.properties has the qualifier commented out
     
 Maven repository settings
@@ -44,6 +44,13 @@ Maven repository settings
     - This should build, and test without a problem.
   - Run "ant dependencyReport"
     - Review for snapshot dependencies
+
+Internal testing before tagging for Final releases
+--------------------------------------------------
+Final releases should be verified before tagging. Just note revision number after updating changelog.txt and build/default.build.properties.
+Send email to <seam-dev@lists.jboss.org> about frozen branch and point the QE to the revision number.
+After verification continue with creating final tag and final steps for releasing.
+
 
 SVN tagging and checkout
 ------------------------
