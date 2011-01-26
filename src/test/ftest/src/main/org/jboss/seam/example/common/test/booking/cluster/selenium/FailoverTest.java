@@ -115,8 +115,17 @@ public class FailoverTest extends SeamSeleniumTest
     
     public void shutdownMasterJBossInstance()
     {
-      String command = JBOSS_HOME + "/bin/shutdown.sh -s localhost:1099 -S";
-      //System.out.println("Command:" + command);
+      String command = ""; 
+      
+      if (CONTAINER.contains("jboss6"))
+      {
+         command = JBOSS_HOME + "/bin/shutdown.sh -s service:jmx:rmi:///jndi/rmi://localhost:1090/jmxrmi -S";
+      }
+      else
+      {
+         command = JBOSS_HOME + "/bin/shutdown.sh -s localhost:1099 -S";
+      }
+
       try
       {
          Process process = Runtime.getRuntime().exec(command);
