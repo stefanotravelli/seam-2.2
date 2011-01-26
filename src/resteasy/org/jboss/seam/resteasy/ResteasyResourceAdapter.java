@@ -21,6 +21,8 @@
  */
 package org.jboss.seam.resteasy;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,6 +46,7 @@ import org.jboss.resteasy.spi.HttpResponse;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -62,6 +65,7 @@ import org.jboss.seam.web.Session;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.resteasy.resourceAdapter")
 @BypassInterceptors
+@Install(precedence = BUILT_IN)
 public class ResteasyResourceAdapter extends AbstractResource
 {
 
@@ -118,34 +122,36 @@ public class ResteasyResourceAdapter extends AbstractResource
             @Override
             public void process() throws ServletException, IOException
             {
-
-               HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
-               UriInfoImpl uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
-
-               HttpResponse theResponse = new HttpServletResponseWrapper(
-                     response,
-                     dispatcher.getProviderFactory()
-               );
-
-               // TODO: This requires a SynchronousDispatcher
-               HttpRequest in = new HttpServletInputMessage(
-                     request,
-                     theResponse,
-                     headers,
-                     uriInfo,
-                     request.getMethod().toUpperCase(),
-                     (SynchronousDispatcher) dispatcher
-               );
-
-               dispatcher.invoke(in, theResponse);
-
-               // Prevent anemic sessions clog up the server
-               if (request.getSession().isNew()
-                     && application.isDestroySessionAfterRequest()
-                     && !Session.instance().isInvalid())
+               try
                {
-                  log.debug("Destroying HttpSession after REST request");
-                  Session.instance().invalidate();
+                  HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
+                  UriInfoImpl uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
+
+                  HttpResponse theResponse = new HttpServletResponseWrapper(
+                        response,
+                        dispatcher.getProviderFactory()
+                  );
+
+                  // TODO: This requires a SynchronousDispatcher
+                  HttpRequest in = new HttpServletInputMessage(
+                        request,
+                        theResponse,
+                        headers,
+                        uriInfo,
+                        request.getMethod().toUpperCase(),
+                        (SynchronousDispatcher) dispatcher
+                  );
+
+                  dispatcher.invoke(in, theResponse);
+               }
+               finally
+               {
+                  // Prevent anemic sessions clog up the server
+                  if (application.isDestroySessionAfterRequest())
+                  {
+                     log.debug("Destroying HttpSession after REST request");
+                     Session.instance().invalidate();
+                  }
                }
             }
          }.run();
