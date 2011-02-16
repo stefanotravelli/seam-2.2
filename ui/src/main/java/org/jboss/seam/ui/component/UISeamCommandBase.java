@@ -78,7 +78,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          url.addParameter(uiAction);
       }
 
-      PropagationType propagationType = PropagationType.valueOf(getPropagation());      
+      PropagationType propagationType = PropagationType.valueOf(getPropagation().toUpperCase());      
       if (propagationType == PropagationType.DEFAULT || propagationType == PropagationType.JOIN ||
             propagationType == PropagationType.NESTED || propagationType == PropagationType.END)
       {
