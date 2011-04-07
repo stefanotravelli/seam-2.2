@@ -244,7 +244,6 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
                         Object target = valueMethod.invoke(annotation);
                         if (!target.equals(void.class))
                         {
-                           if (restriction == null) restriction = new Restriction();
                            restriction.addMethodRestriction(target, 
                                  getPermissionAction(permissionCheck, annotation));
                         }

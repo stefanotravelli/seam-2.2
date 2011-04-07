@@ -45,7 +45,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</fileset>
 	</path>
 
-	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
 	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="../../../lib/groovy-all.jar"/>
 
 	<target name="testall" description="Run functional testsuite based on container property">
@@ -90,6 +89,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="wicket-runtime" />
 		<antcall target="stop.selenium.server" />
 		<antcall target="stop.container" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="testall.jboss5" description="Run functional testsuite for JBoss 5">
@@ -135,7 +135,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="wicket-runtime" /> 
 		<antcall target="stop.selenium.server" />
 		<antcall target="stop.container" />
+      <testoutRewrite container="${container}" />
 	</target>
+	
+	<target name="testall.jboss6" depends="testall.jboss5" description="Run functional testsuite for JBoss 6" />
 
 	<target name="testall.jboss-embedded" description="Run functional testsuite for JBoss Embedded">
 		<property name="container" value="jboss-embedded" />
@@ -153,6 +156,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="jpa" />
 		<testexample name="hibernate" />
 		<antcall target="stop.selenium.server" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="testall.tomcat6" description="Run functional testsuite for Tomcat 6">
@@ -164,6 +168,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="hibernate" />
 
 		<antcall target="stop.selenium.server" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="test" description="Run tests for single example. Container selection is based on the value of container property">
@@ -174,21 +179,31 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="test.jboss4" description="Run tests for single example on JBoss 4">
 		<property name="container" value="jboss4" />
 		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="test.jboss5" description="Run tests for single example on JBoss 5">
 		<property name="container" value="jboss5" />
 		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
+	</target>
+	
+	<target name="test.jboss6" description="Run tests for single example on JBoss 6">
+		<property name="container" value="jboss6" />
+		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="test.tomcat6" description="Run tests for single example on Tomcat 6">
 		<property name="container" value="tomcat6" />
 		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="test.jboss-embedded" description="Run tests for single example on JBoss Embedded">
 		<property name="container" value="jboss-embedded" />
 		<antcall target="test.single.example" />
+      <testoutRewrite container="${container}" />
 	</target>
 
 	<target name="test.single.example">
@@ -315,7 +330,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<attribute name="message" default="Running functional tests on @{name} example" />
 		<sequential>
 			<groovy>
+            <arg value="@{name}" />
 				<![CDATA[
+            	System.setProperty("EXAMPLE", args[0]);
 				def testExamplesRunSoFar = properties['testExamplesRunSoFar'] == null ? 0 : Integer.valueOf(properties['testExamplesRunSoFar']);
 				def jbossDeploymentsRestart = properties['jboss.deployments.restart'] == null ? 0 : Integer.valueOf(properties['jboss.deployments.restart']);
 				if (jbossDeploymentsRestart > 0 && testExamplesRunSoFar > 0 && testExamplesRunSoFar % jbossDeploymentsRestart  == 0 ) {
@@ -380,6 +397,109 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<property name="container" value="${container}" />
 		</ant>
 	</target>
+   
+   <macrodef name="testoutRewrite">
+      <attribute name="container" />
+      <sequential>
+         <echo message="Rewriting ftest output xml files." />
+         <groovy>
+            <arg value="@{container}" />
+            <arg value="${seam.dir}" />
+            <classpath>
+               <pathelement location="../../../lib/ftest/xmlunit.jar" />
+            </classpath>
+            <![CDATA[
+               import org.custommonkey.xmlunit.Diff
+               import org.custommonkey.xmlunit.XMLUnit
+               import groovy.xml.StreamingMarkupBuilder
+               import groovy.util.slurpersupport.GPathResult
+               
+               def getRootAsText(GPathResult root) {
+                  String text = '<' + root.name();
+                  root.attributes().each { key, value ->
+                     text += " $key=\"$value\"";
+                  }
+                  return text + '>';
+               }
+               
+               def saveXml(GPathResult root, StreamingMarkupBuilder builder, String filePath) {
+                  def writer = new FileWriter(filePath);
+                  writer << "<" + "?xml version=\"1.0\" encoding=\"UTF-8\" ?" + ">";
+                  writer << getRootAsText(root);
+                  writer << builder.bind(root.getBody());
+                  writer << "</" + root.name() + ">";
+                  writer.close();
+               }
+
+               String container = args[0];
+               String seamHome = args[1];
+               def slurper = new XmlSlurper();
+               def builder = new StreamingMarkupBuilder();
+               builder.encoding = "UTF-8";
+
+               /*
+                  edit $(SEAM)/test-output/testng-results.xml
+                     remove elements containing 'setUp' or 'tearDown' - failures incorrectly counted as testcases
+                     replace 'SKIP' with 'FAIL'
+                        insert child '<exception class="java.lang.Error"><message><![CDATA[Deployment in error.] ]></message><full-stacktrace><![CDATA[ ] ]></full-stacktrace></exception>'
+               */
+               String xmlFilePath      = seamHome + "/test-output/testng-results.xml";
+               String xmlFileEditPath  = seamHome + "/test-output/testng-results-edit.xml";
+               File xmlFile = new File(xmlFilePath);
+               assert xmlFile.exists() && xmlFile.isFile();
+
+               def root = slurper.parse(xmlFile);
+               root.'**'.findAll { it.name() == "test-method" && ( it.@signature.toString().contains("setUp") || it.@signature.toString().contains("tearDown") ) }.each { it.replaceNode {} }
+               root.'**'.findAll { it.name() == "test-method" && it.@status.toString().contains("SKIP") }.each { 
+                  it.attributes().put("status", "FAIL");
+                  it.appendNode { exception(class:'java.lang.Error') { message("Deployment in error.") } }
+               }
+               
+               saveXml(root, builder, xmlFileEditPath);
+               
+               ant.delete(file:xmlFilePath);
+               ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
+
+               /*
+                  for each ${SEAM}/${EXAMPLE} example/
+                     edit ${SEAM}/${EXAMPLE} example/${EXAMPLE}_${CONTAINER}.xml
+                        recalculate failure & error count
+                        remove elements containing '@' - beforeMethod and afterMethod failures incorrectly counted as testcases
+                        replace '<skipped />' with '<failure message="Test skipped." type="java.lang.Error" />'
+               */
+               File testOutDir = new File(seamHome + "/test-output");
+               assert testOutDir.exists() && testOutDir.isDirectory();
+               testOutDir.eachDir { dir ->
+                  ant.echo "Checking " + dir.getName();
+                  dir.eachFile { f ->
+                     if (f.isFile() && f.getName().matches(".*_" + container + ".*\\.xml")) {
+                        xmlFilePath = f.getAbsolutePath();
+                        xmlFileEditPath = xmlFilePath.substring(0, xmlFilePath.length() - 4) + "-edit.xml";
+                        xmlFile = new File(xmlFilePath);
+                        if (xmlFile.exists() && xmlFile.isFile()) {
+                           root = slurper.parse(xmlFile);
+                           
+                           int tcfailures = root.'**'.findAll { it.name() == "testcase" && !it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "failure" }.size() > 0 }.size();
+                           int smfailures = root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "failure" }.size() > 0 }.size();
+                           int tcskips = root.'**'.findAll { it.name() == "testcase" && !it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "skipped" }.size() > 0 }.size();
+                           int smskips = root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") &&  it.'**'.findAll { it.name() == "skipped" }.size() > 0 }.size();
+                           root.attributes().put("failures", (tcfailures + tcskips).toString());
+                           ant.echo "DEBUG: TCF $tcfailures SMF $smfailures TCS $tcskips SMS $smskips ERR " + root.@errors;
+                           root.'**'.findAll { it.name() == "testcase" && it.@name.toString().contains("@") }.each { it.replaceNode {} }
+                           root.'**'.findAll { it.name() == "skipped" }.each { it.replaceNode { node -> failure(message:'Test skipped.',type:'java.lang.Error.') } }
+                           
+                           saveXml(root, builder, xmlFileEditPath);
+                        
+                           ant.delete(file:xmlFilePath);
+                           ant.move(file:xmlFileEditPath,tofile:xmlFilePath);
+                        }
+                     }
+                  }
+               }
+            ]]>
+         </groovy>
+      </sequential>
+   </macrodef>
 
 </project>
 

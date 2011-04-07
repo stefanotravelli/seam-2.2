@@ -24,14 +24,39 @@
     <!-- Settings -->
     <property name="loadPersistenceUnits" value="true"/>
 
-	<!-- Source directories -->
-	<property name="src.java.dir" value="src" />
+	<!-- different setup for jboss6 enviroment -->
+	<condition property="exploded-archives.dir" value="exploded-archives-jbossas6" else="exploded-archives">
+		<isset property="jboss6"/>
+	</condition>
+    <condition property="src.java.dir" value="staging-jbossas6/src" else="src">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="dist.dir" value="dist-jbossas6" else="dist">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="staging.dir" value="staging-jbossas6">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="example.lib.dir" value="lib">
+       	<isset property="jboss6"/>
+    </condition>
+    <condition property="lib.search.dir" value="${example.lib.dir}" else="${seam.dir}/lib">
+       	<isset property="jboss6"/>
+    </condition>
+	
+	<condition property="nohornetq" value="yes">
+	 <not> <isset property="hornetq"/></not> 
+	</condition>
+	
+	<!-- Source directories -->		
+	<property name="src.java.dir" value="src" />	
 	<property name="src.test.dir" value="src" />
 	<property name="view.dir" value="view" />
 	<property name="resources.dir" value="resources" />
 	<property name="validate.resources.dir" value="${resources.dir}" />
 	<property name="example.ds" value="${example.name}-ds.xml" />
 	<property name="example.service" value="${example.name}-service.xml" />
+	<property name="example.jms" value="${example.name}-hornetq-jms.xml" />
 
 	<!-- Deployment directories -->
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
@@ -45,7 +70,7 @@
 	<property name="meldware.dir" value="${lib.dir}/meldware.deployable" />
 
 	<!-- Target directories -->
-	<property name="dist.dir" value="dist" />
+	<property name="dist.dir" value="dist" />	
 	<property name="exploded-archives.dir" value="exploded-archives" />
 	<property name="ear.dir" value="${exploded-archives.dir}/${example.name}.ear" />
 	<property name="jar.dir" value="${exploded-archives.dir}/${example.name}.jar" />
@@ -61,7 +86,7 @@
 	<property name="eejb.conf.dir" value="${seam.dir}/bootstrap" />
 	<property name="src.schema.dir" value="${seam.dir}/src/main/org/jboss/seam" />
 	<property name="schema.version" value="${version}" />
-	<property name="testng.jar" value="${seam.dir}/lib/testng-5.6-jdk15.jar" />
+	<property name="testng.jar" value="${seam.dir}/lib/testng-jdk15.jar" />
 	<property name="testng.jvmargs" value="-Dfoo" />
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
@@ -337,11 +362,34 @@
 		<include name="jgroups.jar" if="cache.lib" />
 	</fileset>
 
+	<!-- Hibernate Search requires different dependencies since version 3.3
+		(minimal suggested version for JBossAS 6 ) -->	
+	<condition property="search.lib.jb6">
+		<and>
+			<isset property="jboss6"/>
+			<isset property="search.lib"/>
+		</and>
+	</condition>
+	<condition property="search.lib.jb5">
+		<and>
+			<not>
+				<isset property="jboss6"/>
+			</not>
+			<isset property="search.lib"/>
+		</and>
+	</condition>
+	
 	<!-- Dependencies for using Seam with Hibernate Search -->
-	<fileset id="search.jar" dir="${lib.dir}">
+	<fileset id="search.jar" dir="${lib.search.dir}">
 		<include name="lucene-core.jar" if="search.lib" />
+		<include name="lucene-snowball.jar" if="search.lib" />
+		<include name="lucene-analyzers.jar" if="search.lib" />
 		<include name="hibernate-search.jar" if="search.lib" />
-		<include name="hibernate-commons-annotations.jar" if="search.lib" />
+		<include name="solr-core.jar" if="search.lib" />
+		<include name="solr-lucene-analyzers.jar" if="search.lib.jb5" />
+		<include name="hibernate-search-analyzers.jar" if="search.lib.jb6"/>
+		<include name="hibernate-commons-annotations.jar" if="search.lib.jb5" />
+		<!-- <include name="hibernate-core.jar" if="search.lib" /> remove or add condition for jboss42 only -->
 	</fileset>
 
 	<!-- Dependencies for using Seam with Drools -->
@@ -499,7 +547,7 @@
 		<include name="META-INF/jboss.xml" />
 		<include name="META-INF/security-config.xml" />
 		<include name="META-INF/security-rules.drl" />
-		<include name="META-INF/standard-jaxws-endpoint-config.xml" />
+		<!--<include name="META-INF/standard-jaxws-endpoint-config.xml" /> -->
 		<include name="*.jpdl.xml" />
 		<exclude name=".gpd*" />
 	</fileset>
@@ -583,7 +631,9 @@
 			<exclude name="jboss-seam-pdf.jar" />
                         <!-- <exclude name="jboss-seam-flex.jar" /> -->
 			<exclude name="jboss-seam-excel.jar" />
-			<exclude name="jboss-seam-rss.jar" />
+			<exclude name="jboss-seam-rss.jar" />	
+			<exclude name="hibernate-search.jar" if="jboss6"/>
+			<exclude name="lucene-core.jar" if="jboss6"/>
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -622,9 +672,37 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" depends="gettrinidad, getmetawidget, getelri"/>
+	<target name="copyextradependencies" depends="gettrinidad, getmetawidget, getelri, gethsearch3.3, gethsearch3.1" />
 
    <target name="getmetawidget" depends="getmetawidget-war,getmetawidget-ear"/>
+	
+	<target name="gethsearch3.3" if="jboss6">
+		<copyInlineDependencies id="org.hibernate.search" scope="runtime" todir="${example.lib.dir}">
+			<dependency groupId="org.hibernate" artifactId="hibernate-search" version="3.3.0.Final">
+				<exclusion groupId="org.hibernate" artifactId="hibernate-core"/>
+			</dependency>
+			<dependency groupId="org.hibernate" artifactId="hibernate-search-analyzers" version="3.3.0.Final" />
+			<dependency groupId="org.apache.lucene" artifactId="lucene-snowball" version="3.0.3" />
+		</copyInlineDependencies>
+	</target>
+	
+	<target name="gethsearch3.1" if="search.lib.jb5">
+		<copyInlineDependencies id="org.hibernate.search" scope="runtime" todir="${example.lib.dir}">
+			<dependency groupId="org.apache.solr" artifactId="solr-core" version="1.3.0">
+				<exclusion groupId="commons-httpclient" artifactId="commons-httpclient" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-solrj" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-queries" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-core" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-highlighter" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-lucene-spellchecker" />
+				<exclusion groupId="org.apache.solr" artifactId="solr-commons-csv" />
+				<exclusion groupId="woodstox" artifactId="wstx-asl" />
+				<exclusion groupId="net.java.dev.stax-utils" artifactId="stax-utils" />
+				<exclusion groupId="commons-logging" artifactId="commons-logging" />
+				<exclusion groupId="org.apache.geronimo.specs" artifactId="geronimo-stax-api_1.0_spec" />
+			</dependency>
+		</copyInlineDependencies>
+	</target>
 
    <target name="getmetawidget-war" if="metawidget-war.lib">
 		<copyInlineDependencies id="metawidget" scope="runtime" todir="${lib.dir}">
@@ -743,6 +821,8 @@
 		<delete dir="${jar.dir}" />
 		<delete dir="${test.dir}" />
 		<delete dir="${clean.extra}" />
+		<delete dir="${staging.dir}" />
+		<delete dir="${example.lib.dir}" />
 	</target>
 
 
@@ -858,7 +938,8 @@
 	<target name="undeploy" description="Undeploy the example from JBoss">
 		<delete file="${deploy.dir}/${example.name}.ear" />
 		<delete file="${deploy.dir}/${example.ds}" />
-		<delete file="${deploy.dir}/${example.service}" />
+		<delete file="${deploy.dir}/${example.service}" failonerror="no" />
+		<delete file="${deploy.dir}/${example.jms}" failonerror="no"/>
 		<delete>
 			<fileset dir="${deploy.dir}">
 				<patternset refid="meldware.files" />
@@ -881,7 +962,8 @@
 		<fail unless="jboss.home">jboss.home not set</fail>
 		<copy todir="${deploy.dir}">
 			<fileset dir="${resources.dir}">
-				<include name="${example.service}" />
+				<include name="${example.service}" if="nohornetq"/>
+				<include name="${example.jms}" if="hornetq" />
 			</fileset>
 		</copy>
 	</target>
@@ -1067,7 +1149,7 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
-         <fileset refid="seam.resteasy.jar" />
+			<fileset refid="seam.resteasy.jar" />
 			<fileset refid="trinidad-api.jar" />
 			<fileset refid="metawidget.jar" />
 			<fileset refid="el-ri.jar"/>

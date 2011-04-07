@@ -11,8 +11,6 @@ import java.util.Map;
 
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage.Severity;
 
 /**

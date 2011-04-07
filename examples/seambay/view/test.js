@@ -197,11 +197,12 @@ function setAllParams()
 function setParamValue(event)
 {
   var ctl = null
-  if (event.target)
-    ctl = event.target;
-  else if (window.event.srcElement)
+  if (!event)
+	var event = window.event;
+  if (event.srcElement)
     ctl = window.event.srcElement;
-    
+  else if (event.target)
+    ctl = event.target;
   var key = ctl.id;
   
   for (var i = 0; i < selectedService.parameters.length; i++)
@@ -329,9 +330,12 @@ function extractConversationId(doc)
   {
     for (var i = 0; i < doc.documentElement.childNodes.length; i++)
     {
-      var node = doc.documentElement.childNodes.item(i);
-      if (node.localName == "Header")
-        headerNode = node;
+      var node = doc.documentElement.childNodes.item(i);      
+      if (node.localName == "Header" || node.baseName == "Header")
+      {
+    	  headerNode = node;
+    	  break;
+      }        
     }
   }
 
@@ -340,7 +344,7 @@ function extractConversationId(doc)
     for (var i = 0; i < headerNode.childNodes.length; i++)
     {
       var node = headerNode.childNodes.item(i);
-      if (node.localName == "conversationId")
+      if (node.localName == "conversationId" || node.baseName == "conversationId")
       {
         return node.firstChild.nodeValue;
       }

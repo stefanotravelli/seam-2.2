@@ -1,5 +1,6 @@
 package org.jboss.seam.jsf;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -45,8 +46,12 @@ public class DelegatingFacesContext extends FacesContext
      return delegate.getApplication();
    }
    
-   public Map<String, Object> getAttributes() {
-      return delegate.getExternalContext().getApplicationMap();
+   
+   public Map<Object, Object> getAttributes() {
+      // FIXME: due JSF 2 new method for
+      // javax.faces.context.FacesContext.getAttributes() and non existent
+      // JSF 1.2 equivalent method it returns empty Map without delegating call
+      return new HashMap<Object, Object>();
    }
 
    @Override

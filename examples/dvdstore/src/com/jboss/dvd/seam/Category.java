@@ -16,8 +16,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 
@@ -43,7 +45,9 @@ public class Category
     }
 
     @Column(name="NAME",nullable=false,unique=true,length=50)
-    @Field(index = Index.TOKENIZED)
+    @Fields({
+       @Field(index=Index.TOKENIZED),
+       @Field(index=Index.TOKENIZED, name="name:ngrams", analyzer=@Analyzer(definition="ngrams"))})
     public String getName() {
         return name;
     }

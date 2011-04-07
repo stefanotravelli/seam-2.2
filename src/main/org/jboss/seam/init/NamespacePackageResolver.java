@@ -18,7 +18,8 @@ import org.jboss.seam.log.Logging;
 public class NamespacePackageResolver {
     private static final String JAVA_SCHEME = "java";
     
-    private static final LogProvider log = 
+    @SuppressWarnings("unused")
+   private static final LogProvider log = 
         Logging.getLogProvider(NamespacePackageResolver.class);
     
     

@@ -68,6 +68,7 @@ public class HibernateEntityController extends PersistenceController<Session>
       getSession().flush();
    }
 
+   @SuppressWarnings("deprecation")
    protected <T> T get(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
       return (T) getSession().get(clazz, id, lockMode);
@@ -83,6 +84,7 @@ public class HibernateEntityController extends PersistenceController<Session>
       return getSession().getNamedQuery(name);
    }
 
+   @SuppressWarnings("deprecation")
    protected <T> T load(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
       return (T) getSession().load(clazz, id, lockMode);
@@ -93,6 +95,7 @@ public class HibernateEntityController extends PersistenceController<Session>
       return (T) getSession().load(clazz, id);
    }
 
+   @SuppressWarnings("deprecation")
    protected void lock(Object entity, LockMode lockMode) throws HibernateException
    {
       getSession().lock(entity, lockMode);
@@ -108,6 +111,7 @@ public class HibernateEntityController extends PersistenceController<Session>
       getSession().persist(entity);
    }
 
+   @SuppressWarnings("deprecation")
    protected void refresh(Object entity, LockMode lockMode) throws HibernateException
    {
       getSession().refresh(entity, lockMode);

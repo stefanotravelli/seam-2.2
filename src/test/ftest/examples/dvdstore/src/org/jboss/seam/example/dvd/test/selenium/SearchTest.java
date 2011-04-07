@@ -47,8 +47,9 @@ public class SearchTest extends SeleniumDvdTest {
         browser.type(getProperty("SEARCH_FIELD"), searchString);
         browser.click(getProperty("SEARCH_SUBMIT"));
         browser.waitForPageToLoad(TIMEOUT);
-        assertEquals("Unexpected number of results. One result expected.", 1,
-                browser.getXpathCount(getProperty("SEARCH_RESULT_ITEM")));
+        //exact number of matches depends on search algorithm,
+        //so we only check that at least something was found:
+        assertTrue("Unexpected number of results. One result expected.", browser.getXpathCount(getProperty("SEARCH_RESULT_ITEM")).intValue() > 0);
         browser.click(getProperty("SEARCH_RESULT_FIRST_ROW_LINK"));
         browser.waitForPageToLoad(TIMEOUT);
         assertTrue("Navigation failure.", browser.getLocation().contains(

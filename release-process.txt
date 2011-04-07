@@ -22,7 +22,7 @@ Updating version numbers
         - Check all the issue types one at a time to determine final list.
   - build/default.build.properties 
     - Change the version numbers as needed
-    - Set the qualifier using a "." ex. ".CR1" or ".GA"
+    - Set the qualifier using a "." ex. ".CR1" or ".Final"
     - Check that build.properties has the qualifier commented out
     
 Maven repository settings
@@ -44,6 +44,13 @@ Maven repository settings
     - This should build, and test without a problem.
   - Run "ant dependencyReport"
     - Review for snapshot dependencies
+
+Internal testing before tagging for Final releases
+--------------------------------------------------
+Final releases should be verified before tagging. Just note revision number after updating changelog.txt and build/default.build.properties.
+Send email to <seam-dev@lists.jboss.org> about frozen branch and point the QE to the revision number.
+After verification continue with creating final tag and final steps for releasing.
+
 
 SVN tagging and checkout
 ------------------------
@@ -461,48 +468,42 @@ Portlet Bridge Verification
 --------------------------
 * Use the latest released version of the JBoss Portlet Bridge (PBR) and GateIn.
   - for PBR source distribution is preferred
-  - http://www.jboss.com/portletbridge
+  - http://www.jboss.org/portletbridge
   - http://www.jboss.org/gatein
-
-* <NOTE: since no GA is released yet, this is expected to work with versions of
-         PBR 2.0.0.CR1 and GateIn 3.0.CR1 or higher. It is useful to check both
-         with original Seam version specified in PBR and current Seam release />
 
 * Deploy PBR seam booking example following the PBR document instructions.
     - Review any known issues with the PBR in the PBR JIRA project.
-    - verify cargo is set to version which supports JBoss 5.x distributed with
-      GateIn and versions are set to "jboss5x"
-    - the same holds for maven-ear-plugin 
-    - <NOTE: see PBR-145 in case of problems />
     - simplified instructions for deploying seam booking:
-		- use 2 terminals
-			- 1:	$ mvn clean install
-                    $ mvn cargo:start -Plocal-portal -Dlocal \
-					   -DJBOSS_ZIP_HOME=${path.to.GateIn.zip} \
-                       -DJBOSS_HOME_DIR=${path.to.JBossAS.in.zip}
-			- 2:	$ mvn cargo:deploy -Plocal-portal -Dlocal 
-					   -DJBOSS_ZIP_HOME=${path.to.GateIn.zip} \
-                       -DJBOSS_HOME_DIR=${path.to.JBossAS.in.zip}
+      - run "mvn package" in $PBR_SRC/examples/seam/booking/
+      - copy $PBR_SRC/examples/seam/booking/ear/target/seamEAR.ear into 
+        running JBossAS in GateIn destribution
+        
 * Verify the example and functionality.
-    - Update applications in application registry 
-    - Add new page with Seam booking portlets 
+    - Update applications in application registry
+      - in the GUI under http://localhost:8080/portal - Group -> Administration -> Application Registry,
+        click Categories, Import Applications
+    - Add new page with Seam booking portlets
+      - in the GUI - click Group Editor -> Add Page
     - User authentication through portal
         - use default users, and new users that are created
     - Basic hotel booking
         - user both text search and search button 
         - change dates, and options in the booking
         - confirm, logout, login, verify confirmation, cancel confirmation
-            - <NOTE: can not confirm booking ATM>
     - Conversation handling
         - launch several hotels booking conv. from the search page
         - individually confirm and switch between conversations.
         - <NOTE: Can not launch into multiple conversations ATM>
+        
 * Upgrade the Seam version in the Seam portlet booking example and follow 
   steps above
-    - edit the $PBR_SRC/examples/seam/booking/pom.xml file
-        - adjust the seam version properties at the top of the file
-    - build the example by running "mvn clean install" 
-      in the $PBR_SRC/examples/seam/booking dir
+    - install the jars with current version of Seam into your local mvn repo
+    - adjust the following files to contain current version of Seam:
+      - $PBR_SRC/parent/pom.xml
+    - build all the distribution by running "mvn -U clean install" in the $PBR_SRC dir
+    - make sure the built booking application contains jars related to the current version of Seam
+    - deploy the app
+      
 * Deploy a second version of the booking example as a separate portlet
     - <TODO: DEFER - this is not supported in the bridge yet/>
     - <TODO: there may be a new chatroom seam portlet for this testing/>
@@ -596,6 +597,8 @@ Final Build + Upload
 * Maven release procedure.(see build/readme.txt for details)
     - Run "ant -Drepository.username=<your_username> -Drepository.password=<your_password> stageReleaseSeam" in the build directory
     - Then follow http://community.jboss.org/wiki/MavenDeployingaRelease section Closing the Staging Respository
+    - test a Seam project with staged artifacts in repository https://repository.jboss.org/nexus/content/groups/staging/
+    - then release Maven artifacts 
 
 * Create draft of the documentation and download pages on seamframework.org
     - documentation points to "docs.jboss.com"

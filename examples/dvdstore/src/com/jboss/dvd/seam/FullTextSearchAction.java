@@ -23,15 +23,17 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.FullTextEntityManager;
 
 /**
- * Hibernate Search version of the store querying mechanism
+ * Hibernate Search version of the store querying mechanism.
+ * (Old version: see FullTextSearchAction implementation in the
+ * jboss6 additional source folder to see usage of new Search API)
+ * 
  * @author Emmanuel Bernard
  */
+@Deprecated
 @Stateful
 @Name("search")
 public class FullTextSearchAction

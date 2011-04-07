@@ -14,10 +14,14 @@
     <property name="jcaptcha.lib"      value="yes"/>
     <property name="urlrewrite.lib"    value="yes"/>
     <property name="jbpm.lib"          value="yes"/>    
-    
+    	
     <property name="example.ds"        value="jboss-seam-bay-ds.xml"/>
 
     <import file="../build.xml"/>
+	
+	<fileset id="jar.extras" dir="${resources.dir}">
+		<include name="**/soap-handlers.xml" />
+	</fileset>
 
 </project>
 

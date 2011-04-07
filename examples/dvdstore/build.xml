@@ -3,22 +3,41 @@
 <project name="DVDStore" default="deploy" basedir=".">
 
 	<!-- Naming -->
-	<property name="Name" value="Seam DVD Store Example" />
-	<property name="example.name" value="jboss-seam-dvdstore" />
+	<property name="Name"            value="Seam DVD Store Example" />
+	<property name="example.name"    value="jboss-seam-dvdstore"    />
 
-	<!-- Libraries -->
-	<property name="seam.ui.lib" value="yes" />
-	<property name="seam.debug.lib" value="yes" />
-	<property name="facelets.lib" value="yes" />
-	<property name="jbpm.lib" value="yes" />
-	<property name="search.lib" value="yes" />
-        <property name="urlrewrite.lib"    value="yes"/>
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"     value="yes" />
+	<property name="seam.debug.lib"  value="yes" />
+	<property name="facelets.lib"    value="yes" />
+	<property name="search.lib"      value="yes" />
+	<property name="example.lib.dir" value="lib" />
+	<property name="jbpm.lib"        value="yes" />
+	<property name="urlrewrite.lib"  value="yes" />
 
 	<!-- Datasource -->
 	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />
-
-	<import file="../build.xml" />
-
+	
+	<target name="init" depends="gethsearch3.1">
+		<fileset id="ear.lib.extras" dir="${example.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset id="tomcat.war.extras" dir="${example.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<antcall target="SeamExample.init"/>
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar"/>
+				<!-- Exclude at least wicket or it has tests fail-->
+				<exclude name="*wicket*.jar" />
+			</fileset>
+			<fileset dir="${example.lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	</target>
+	
 	<!-- Exclude the DS from validated files, as the mbean causes it not to validate -->
 	<fileset id="validate.resources" dir="${validate.resources.dir}">
 		<include name="META-INF/application.xml" />
@@ -37,8 +56,14 @@
 		<exclude name=".gpd.*.jpdl.xml" />
 	</fileset>
 	
-	<target name="jboss42" description="Build the DvdStore example artifacts, and deploy to JBoss 4.2.x.GA">
+	<target name="jboss42" description="Build the DvdStore example artifacts, and deploy to JBoss AS 4.2.x.GA">
 		<ant antfile="build-jboss42.xml"/>
 	</target>
-
+	
+	<target name="jboss6" description="Build the DVD Store example artifacts, and deploy to JBoss AS 6">
+		<ant antfile="build-jboss6.xml"/>
+	</target>
+	
+	<import file="../build.xml" />
+	
 </project>

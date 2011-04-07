@@ -55,6 +55,29 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="jboss-embedded.context.path" value="/jboss-seam-${example.name}" />
 	<property name="tomcat6.context.path" value="${jboss-embedded.context.path}" />
 	
+	<property name="jboss4.build.file" value="build.xml" />
+	<property name="jboss5.build.file" value="${jboss4.build.file}" />
+	<property name="jboss6.build.file" value="${jboss5.build.file}" />
+	<property name="tomcat6.build.file" value="${jboss4.build.file}" />
+	<property name="jboss-embedded.build.file" value="${jboss4.build.file}" />
+	
+	<property name="jboss4.example.testsuite" value="jboss4" />
+	<property name="jboss5.example.testsuite" value="jboss5" />
+	<property name="jboss6.example.testsuite" value="${jboss5.example.testsuite}" />
+	<property name="tomcat6.example.testsuite" value="tomcat6" />
+	<property name="jboss-embedded.example.testsuite" value="jboss-embedded" />
+	
+	<!-- JBoss AS 6 -->
+	<property name="jboss6.deploy.waittime" value="${jboss5.deploy.waittime}" />
+	<property name="jboss6.home" value="${jboss5.home}" />
+	<property name="jboss6.profile" value="${jboss5.profile}" />
+	<property name="jboss6.jvm.arguments" value="${jboss5.jvm.arguments}" />
+	<property name="jboss6.deploy.target" value="${jboss5.deploy.target}" />
+	<property name="jboss6.farm.target" value="${jboss5.farm.target}" />
+	<property name="jboss6.unfarm.target" value="${jboss5.unfarm.target}" />
+	<property name="jboss6.undeploy.target" value="${jboss5.undeploy.target}" />
+	<property name="jboss6.context.path" value="${jboss5.context.path}" />
+	
 	<property name="functional.listener" value="org.jboss.seam.example.common.test.selenium.SeleniumFunctionalTestListener"/>
 	<property name="root.lib.dir" value="${seam.dir}/lib" />
 	<property name="example.homepage" value="" />
@@ -126,7 +149,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		
 		<!-- execute testng tests -->
 		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test" listener="${functional.listener}">
-			<xmlfileset file="${container}${clusterxml}.xml" />
+			<xmlfileset file="${example.testsuite}${clusterxml}.xml" />
 			<sysproperty key="selenium.server.port" value="${selenium.server.port}" />
 			<sysproperty key="selenium.host" value="${selenium.host}" />
 			<sysproperty key="selenium.browser" value="${selenium.browser}" />
@@ -138,6 +161,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<sysproperty key="openid.password" value="${openid.password}" />
 			<sysproperty key="seam.dir" value="${seam.dir}" />
 			<sysproperty key="jboss.home" value="${container.home}" />
+			<sysproperty key="container" value="${container}" />
 		</testng>
 	</target>
 
@@ -147,7 +171,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	    <echo message="${test.webdriver}" />	
 		<!-- execute testng tests -->
 		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
-			<xmlfileset file="${container}-webdriver.xml" />
+			<xmlfileset file="${example.testsuite}-webdriver.xml" />
 			<sysproperty key="browser" value="${selenium.browser}" />
 			<sysproperty key="server.url" value="${selenium.browser.url}" />
             <sysproperty key="context.path" value="${context.path}" />
@@ -168,7 +192,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<echo message="executing..."/>
 		<!-- TODO start JBoss -->
 		<!-- clean example -->
-		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+		<ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+      <groovy>
+         <![CDATA[
+            System.clearProperty("TIMEOUT");
+         ]]>
+      </groovy>
 
 		<!-- deploy the example-->
 		<antcall target="deploy.example" />
@@ -187,7 +216,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	
 	<target name="clustertest" depends="build, container.properties" description="Run Tests in a cluster environment" if="cluster">
 			<echo message="executing..."/>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+			<ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
 			<antcall target="farm.example" />
 			<antcall target="selenium.test" />
 			<antcall target="unfarm.example" />
@@ -210,47 +239,67 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<target name="deploy.example" depends="container.properties">
 		<property name="absolute.wait.url" value="${selenium.browser.url}${wait.url}${example.homepage}" />
-		<echo>Deploying ${example.name} example to ${container} using ${deploy.target} target</echo>
-		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+		<echo>Deploying ${example.name} example to ${container} using ${deploy.target} target (${example.build.file})</echo>
+		<ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
 			<property name="jboss.home" value="${container.home}" />
 			<property name="tomcat.home" value="${container.home}" />
 			<propertyset refid="deploy.properties" />
 		</ant>
 		<!-- wait for the application to be active -->
-		<!-- TODO is there a better way? -->
-		<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
-		<waitfor maxwait="${wait.time}" maxwaitunit="second" timeoutproperty="timeout">
-			<and>
-				<!-- wait for the application to not throw 404 -->
-				<http url="${absolute.wait.url}" errorsBeginAt="404" />
-			</and>
-		</waitfor>
+      <groovy>
+         <arg value="${container}" />
+         <![CDATA[
+         System.setProperty("CONTAINER", args[0]);
+         
+         def waitTime = properties.get("wait.time");
+         def waitUrl = properties.get("absolute.wait.url");
+         
+         ant.echo("Waiting " + waitTime + " seconds for " + waitUrl);
+         ant.waitfor(maxwait:waitTime,maxwaitunit:'second',timeoutproperty:'timeout') {
+            ant.http(url:waitUrl,errorsBeginAt:'404');
+         }
+         
+         if (properties.timeout != null) {
+            System.setProperty("TIMEOUT", System.getProperty("EXAMPLE"));
+         }
+         ]]>
+      </groovy>
 	</target>
 	
 	<target name="farm.example" depends="container.properties">
-			<property name="absolute.wait.url" value="${selenium.browser.url.cluster}${wait.url}" />
-			<echo>Deploying ${example.name} example to farm directory of ${container} using ${farm.target} target</echo>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${farm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
-				<property name="jboss.home" value="${container.home}" />
-				<property name="tomcat.home" value="${container.home}" />				
-				<property name="session.replication" value="true" />
-				<property name="distributable" value="true" />				
-				<propertyset refid="deploy.properties" />
-			</ant>
-			<!-- wait for the application to be active -->
-			<!-- TODO is there a better way? -->
-			<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
-			<waitfor maxwait="${wait.time}" maxwaitunit="second">
-				<and>
-					<!-- wait for the application to not throw 404 -->
-					<http url="${absolute.wait.url}" errorsBeginAt="404" />
-				</and>
-			</waitfor>
-		</target>
+      <property name="absolute.wait.url" value="${selenium.browser.url.cluster}${wait.url}" />
+      <echo>Deploying ${example.name} example to farm directory of ${container} using ${farm.target} target</echo>
+      <ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="${farm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+         <property name="jboss.home" value="${container.home}" />
+         <property name="tomcat.home" value="${container.home}" />				
+         <property name="session.replication" value="true" />
+         <property name="distributable" value="true" />				
+         <propertyset refid="deploy.properties" />
+      </ant>
+      <!-- wait for the application to be active -->
+      <groovy>
+         <arg value="${container}" />
+         <![CDATA[
+         System.setProperty("CONTAINER", args[0]);
+         
+         def waitTime = properties.get("wait.time");
+         def waitUrl = properties.get("absolute.wait.url");
+         
+         ant.echo("Waiting " + waitTime + " seconds for " + waitUrl);
+         ant.waitfor(maxwait:waitTime,maxwaitunit:'second',timeoutproperty:'timeout') {
+            ant.http(url:waitUrl,errorsBeginAt:'404');
+         }
+         
+         if (properties.timeout != null) {
+            System.setProperty("TIMEOUT", System.getProperty("EXAMPLE"));
+         }
+         ]]>
+      </groovy>
+   </target>
 
 	<target name="undeploy.example" depends="container.properties">
 		<echo>Undeploying example ${example.name} from ${container} using ${undeploy.target} target</echo>
-		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+		<ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="${undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
 			<property name="jboss.home" value="${container.home}" />
 			<property name="tomcat.home" value="${container.home}" />
 		</ant>
@@ -258,7 +307,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	
 	<target name="unfarm.example" depends="container.properties">
 			<echo>Undeploying example ${example.name} from farm directory of ${container} using ${unfarm.target} target</echo>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${unfarm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+			<ant antfile="${seam.dir}/examples/${example.name}/${example.build.file}" target="${unfarm.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
 				<property name="jboss.home" value="${container.home}" />
 				<property name="tomcat.home" value="${container.home}" />
 			</ant>
@@ -283,6 +332,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<property name="context.path" value="${@{container}.context.path}" />
 			<property name="wait.url" value="${context.path}" />
 			<property name="wait.time" value="${@{container}.deploy.waittime}" />
+			<property name="example.build.file" value="${@{container}.build.file}" />
+			<property name="example.testsuite" value="${@{container}.example.testsuite}" />
 			<propertyset id="deploy.properties" refid="@{container}.deploy.properties" />
 			<echo>Container properties set</echo>
 		</sequential>
@@ -293,6 +344,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="set.deploy.properties">
 		<propertyset id="jboss4.deploy.properties" />
 		<propertyset id="jboss5.deploy.properties" />
+		<propertyset id="jboss6.deploy.properties" />
 		<propertyset id="tomcat6.deploy.properties" />
 		<propertyset id="jboss-embedded.deploy.properties" />
 	</target>
@@ -374,6 +426,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				<exclusion groupId="log4j" artifactId="log4j" />
 			</dependency>
 			<dependency groupId="org.subethamail" artifactId="subethasmtp-wiser" version="1.2" />
+         <dependency groupId="xmlunit" artifactId="xmlunit" version="1.3" />
 		</copyInlineDependencies>
 		<property name="copy.selenium.done" value="true" />
 	</target>

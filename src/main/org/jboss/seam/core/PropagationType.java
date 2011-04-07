@@ -7,9 +7,10 @@ package org.jboss.seam.core;
  */
 public enum PropagationType
 {
+   DEFAULT,
    BEGIN,
    JOIN,
-   NEST,
+   NESTED,
    NONE,
    END,
    ENDROOT

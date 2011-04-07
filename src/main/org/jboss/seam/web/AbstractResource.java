@@ -1,14 +1,15 @@
 package org.jboss.seam.web;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.zip.GZIPOutputStream;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * Superclass of Seam components that serve up
@@ -114,6 +115,7 @@ public abstract class AbstractResource
          gzipStream = new GZIPOutputStream(byteStream);
       }
 
+      @Override
       public void close() throws IOException
       {
          if (closed)
@@ -132,6 +134,7 @@ public abstract class AbstractResource
          closed = true;
       }
 
+      @Override
       public void flush() throws IOException
       {
          if (closed)
@@ -141,6 +144,7 @@ public abstract class AbstractResource
          gzipStream.flush();
       }
 
+      @Override
       public void write(int b) throws IOException
       {
          if (closed)
@@ -150,11 +154,13 @@ public abstract class AbstractResource
          gzipStream.write((byte) b);
       }
 
+      @Override
       public void write(byte b[]) throws IOException
       {
          write(b, 0, b.length);
       }
 
+      @Override
       public void write(byte b[], int off, int len) throws IOException
       {
          if (closed)
@@ -164,11 +170,13 @@ public abstract class AbstractResource
          gzipStream.write(b, off, len);
       }
 
+      @SuppressWarnings("unused")
       public boolean closed()
       {
          return (this.closed);
       }
 
+      @SuppressWarnings("unused")
       public void reset()
       {
          // noop

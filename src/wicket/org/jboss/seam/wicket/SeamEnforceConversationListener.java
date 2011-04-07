@@ -32,7 +32,7 @@ public class SeamEnforceConversationListener implements IComponentOnBeforeRender
                      "org.jboss.seam.NoConversation", 
                      "The conversation ended or timed" 
                   );
-               cycle.redirectTo(component.getPageFactory().newPage(noConversationPage));
+               cycle.redirectTo(cycle.getSession().getPageFactory().newPage(noConversationPage));
                throw new AbortException();
             }
          }

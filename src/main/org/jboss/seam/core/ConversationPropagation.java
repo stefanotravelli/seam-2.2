@@ -160,7 +160,7 @@ public class ConversationPropagation
       if (value.startsWith("begin"))
       {
          propagationType = PropagationType.BEGIN;
-         if ( value.length()>6 )
+         if ( value.length() > 6 )
          {
             pageflow = value.substring(6);
          }         
@@ -168,17 +168,17 @@ public class ConversationPropagation
       else if (value.startsWith("join"))
       {
          propagationType = PropagationType.JOIN;
-         if ( value.length()>5 )
+         if ( value.length() > 5 )
          {
             pageflow = value.substring(5);
          }         
       }
-      else if (value.startsWith("nest"))
+      else if (value.startsWith("nested"))
       {
-         propagationType = PropagationType.NEST;
-         if ( value.length()>5 )
+         propagationType = PropagationType.NESTED;
+         if ( value.length() > 7 )
          {
-            pageflow = value.substring(5);
+            pageflow = value.substring(7);
          }         
       }
       else

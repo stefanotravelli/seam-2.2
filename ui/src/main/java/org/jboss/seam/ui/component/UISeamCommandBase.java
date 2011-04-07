@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
+import org.jboss.seam.core.PropagationType;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
 import org.jboss.seam.ui.util.cdk.MethodBindingToMethodExpression;
@@ -77,16 +78,17 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          url.addParameter(uiAction);
       }
 
-      if ("default".equals(getPropagation()) || "join".equals(getPropagation())
-               || "nest".equals(getPropagation()) || "end".equals(getPropagation()))
+      PropagationType propagationType = PropagationType.valueOf(getPropagation().toUpperCase());      
+      if (propagationType == PropagationType.DEFAULT || propagationType == PropagationType.JOIN ||
+            propagationType == PropagationType.NESTED || propagationType == PropagationType.END)
       {
          UIConversationId uiConversationId = UIConversationId.newInstance();
          uiConversationId.setViewId(viewId);
          url.addParameter(uiConversationId);
       }
-
-      if ("join".equals(getPropagation()) || "nest".equals(getPropagation())
-               || "begin".equals(getPropagation()) || "end".equals(getPropagation()))
+            
+      if (propagationType == PropagationType.JOIN || propagationType == PropagationType.NESTED ||
+            propagationType == PropagationType.BEGIN || propagationType == PropagationType.END)
       {
          UIConversationPropagation uiPropagation = UIConversationPropagation.newInstance();
          uiPropagation.setType(getPropagation());

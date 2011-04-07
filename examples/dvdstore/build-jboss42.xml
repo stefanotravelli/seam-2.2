@@ -1,9 +1,34 @@
 <?xml version="1.0"?>
 
 <project name="DVDStore" default="deploy" basedir=".">
-
-	<property name="han.lib"       value="yes"/>
 	
-    <import file="../build.xml"/>
-    
+	<!-- Naming -->
+	<property name="Name"             value="Seam Dvd Store Example"/>
+	<property name="example.name"     value="jboss-seam-dvdstore"/>
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"      value="yes" />
+	<property name="seam.debug.lib"   value="yes" />
+	<property name="facelets.lib"     value="yes" />
+	<property name="search.lib"       value="yes" />
+	<property name="jbpm.lib"         value="yes" />
+	<property name="urlrewrite.lib"   value="yes" />
+	<property name="han.lib"          value="yes" />
+	
+	<target name="init" depends="gethsearch3.1">
+		<fileset id="ear.lib.extras" dir="${example.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<antcall target="SeamExample.init"/>
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${example.lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	</target>
+	
+	<import file="../build.xml"/>
+
 </project>

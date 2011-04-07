@@ -28,6 +28,11 @@
 		<!-- Use alternate location to prevent JBoss AS from automatically loading persistence units (in-container) -->
 		<property name="persistenceXmlLocation" value="classpath*:/META-INF/persistence-spring.xml"/>
 	</bean>
+	
+    <bean id="entityManagerWrapper" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
 
 	<!-- This example uses resource local JpaTransactionManager.  You could just as easily use a JtaTransactionManager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -39,7 +44,9 @@
 	<tx:annotation-driven proxy-target-class="true" />
 
 	<!-- Example using PersistenceAnnotationBeanPostProcessor for persistence -->
-	<bean id="userService" class="org.jboss.seam.example.spring.UserService"/>
+	<bean id="userService" class="org.jboss.seam.example.spring.UserService">
+		<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
+	</bean>
 
 	<!-- Example using JpaDaoSupport for persistence -->
 	<bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
@@ -56,7 +63,7 @@
 	<seam:configure-scopes default-auto-create="true" />
 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
-		<!-- Because we have multiple EntityManagerFactories in this applicaitonContext identify the
+		<!-- Because we have multiple EntityManagerFactories in this applicationContext identify the
 		SeamManagedEntityManagerFactory as the default -->
 		<property name="defaultPersistenceUnitName" value="conversationScoped"/>
 	</bean>

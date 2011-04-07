@@ -136,6 +136,7 @@ class LogImpl implements Log, Externalizable
       }
    }
    
+   @SuppressWarnings("finally")
    private Object interpolate(Object object, Object... params)
    {
       if (object instanceof String)

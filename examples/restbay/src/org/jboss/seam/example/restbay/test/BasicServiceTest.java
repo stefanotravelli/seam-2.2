@@ -161,6 +161,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoquery")
       {
@@ -181,6 +183,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoheader")
       {
@@ -199,6 +203,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echocookie")
       {
@@ -217,6 +223,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/foo/bar/asdf")
       {
@@ -230,6 +238,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echotwoparams/foo/bar")
       {
@@ -282,6 +292,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams2")
       {
@@ -301,6 +313,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams3")
       {
@@ -321,6 +335,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
    }
 
@@ -365,6 +381,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedStrings")
       {
@@ -383,6 +401,8 @@ public class BasicServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedIntegers")
       {

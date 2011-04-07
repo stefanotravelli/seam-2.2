@@ -22,18 +22,31 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.NGramFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Fields;
+import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
-
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 @Entity
 @Table(name="PRODUCTS")
 @Indexed
-public class Product
-    implements Serializable
+@AnalyzerDef(name="ngrams", tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
+      filters={
+         @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+         @TokenFilterDef(factory = NGramFilterFactory.class,
+               params = { @Parameter(name = "minGramSize", value = "3"), @Parameter(name = "maxGramSize", value = "3") })
+   })
+public class Product implements Serializable
 {
     private static final long serialVersionUID = -5378546367347755065L;
  
@@ -93,6 +106,7 @@ public class Product
     @JoinTable(name="PRODUCT_CATEGORY",
                joinColumns=@JoinColumn(name="PROD_ID"),
                inverseJoinColumns=@JoinColumn(name="CATEGORY"))
+    @IndexedEmbedded
     public Set<Category> getCategories() {
         return categories;
     }
@@ -101,7 +115,9 @@ public class Product
     }
     
     @Column(name="TITLE",nullable=false,length=100)
-    @Field(index=Index.TOKENIZED)
+    @Fields({
+       @Field(index=Index.TOKENIZED),
+       @Field(index=Index.TOKENIZED, name="title:ngrams", analyzer=@Analyzer(definition="ngrams"))})
     public String getTitle() {
         return title;
     }
@@ -110,6 +126,9 @@ public class Product
     }
 
     @Column(name="DESCRIPTION",length=1024)
+    @Fields({
+       @Field(index=Index.TOKENIZED),
+       @Field(index=Index.TOKENIZED, name="description:ngrams", analyzer=@Analyzer(definition="ngrams"))})
     public String getDescription() {
         return description;
     }

@@ -445,16 +445,17 @@ public class AuthenticationToken implements Serializable {
         </para>
         
         <programlisting role="XML"><![CDATA[
-  <security:jpa-token-store token-class="org.jboss.seam.example.seamspace.AuthenticationToken"/>        
-        ]]></programlisting>
+<security:jpa-token-store token-class="org.jboss.seam.example.seamspace.AuthenticationToken" />]]>
+        </programlisting>
         
         <para>
           Once this is done, the last thing to do is to configure the <literal>RememberMe</literal> component in
           <literal>components.xml</literal> also.  Its <literal>mode</literal> should be set to <literal>autoLogin</literal>:
         </para>
         
-        <programlisting role="XML"><![CDATA[  <security:remember-me mode="autoLogin"/>        
-        ]]></programlisting>
+        <programlisting role="XML"><![CDATA[
+<security:remember-me mode="autoLogin"/>]]>
+        </programlisting>
         
         <para>
           That is all that is required - automatic authentication will now occur for users revisiting your site (as long as they
@@ -466,7 +467,8 @@ public class AuthenticationToken implements Serializable {
           should be placed in components.xml:
         </para>
 
-        <programlisting role="XML"><![CDATA[  <event type="org.jboss.seam.security.notLoggedIn">
+        <programlisting role="XML">
+        <![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
     <action execute="#{identity.tryLogin()}"/>
   </event>
@@ -789,8 +791,8 @@ public class AuthenticationToken implements Serializable {
         <table>
           <title>User Entity Annotations</title>
     
-          <tgroup cols="2">
-            <colspec colnum="1" colwidth="2*" />
+          <tgroup cols="3">
+            <colspec colnum="1" colwidth="1*" />
             <colspec colnum="2" colwidth="1*" />
             <colspec colnum="3" colwidth="3*" />
     
@@ -841,7 +843,7 @@ public class AuthenticationToken implements Serializable {
                     <literal>md5</literal>, <literal>sha</literal> and <literal>none</literal>.  E.g:
                   </para>
 
-                  <programlisting role="JAVA"><![CDATA[@UserPassword(hash = "md5")
+                  <programlisting role="JAVA"><![CDATA[@UserPassword (hash="md5")
 public String getPasswordHash() { 
   return passwordHash; 
 }]]></programlisting>
@@ -926,7 +928,7 @@ public String getPasswordHash() {
         <table>
           <title>Role Entity Annotations</title>
     
-          <tgroup cols="2">
+          <tgroup cols="3">
             <colspec colnum="1" colwidth="2*" />
             <colspec colnum="2" colwidth="1*" />
             <colspec colnum="3" colwidth="3*" />
@@ -1020,7 +1022,7 @@ public String getPasswordHash() {
           
           <mediaobject>
             <imageobject role="fo">
-              <imagedata fileref="images/security-entities-1.png" align="center" scalefit="1"/>
+              <imagedata fileref="images/security-entities-1.png" align="center"/>
             </imageobject>
             <imageobject role="html">
               <imagedata fileref="images/security-entities-1.png" align="center"/>
@@ -1228,8 +1230,8 @@ public class Role {
           <title>LdapIdentityStore Configuration Properties</title>
     
           <tgroup cols="2">
-            <colspec colnum="1" colwidth="2*" />
-            <colspec colnum="2" colwidth="1*" />
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="2*" />
             <colspec colnum="3" colwidth="3*" />
     
             <thead>
@@ -1601,6 +1603,22 @@ public class Role {
                   </para>
                 </entry>
               </row>
+	      
+              <row>
+                <entry>
+                  <para>
+                    <literal>security-authentication-type</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>simple</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    The security level to use.  Possible values are "none", "simple" and "strong".
+                  </para>
+                </entry>
+              </row>	      
                
             </tbody>
           </tgroup>
@@ -1695,8 +1713,9 @@ public class Role {
       <table>
         <title>Identity Management API</title>
 
-        <tgroup cols="2">
-          <colspec colnum="1" colwidth="1*" />
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="2*" />
+          <colspec colnum="2" colwidth="1*" />
           <colspec colnum="2" colwidth="3*" />
 
           <thead>
@@ -2111,9 +2130,10 @@ public class Role {
       <table>
         <title>Identity Management Security Permissions</title>
 
-        <tgroup cols="2">
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="2*" />
           <colspec colnum="1" colwidth="1*" />
-          <colspec colnum="2" colwidth="3*" />
+          <colspec colnum="2" colwidth="2*" />
 
           <thead>
             <row>
@@ -3158,11 +3178,10 @@ public @interface User {
           <table>
             <title>PermissionResolver interface</title>
       
-            <tgroup cols="2">
-              <colspec colnum="1" colwidth="2*" />
+            <tgroup cols="3">
+              <colspec colnum="1" colwidth="1*" />
               <colspec colnum="2" colwidth="3*" />
-              <colspec colnum="3" colwidth="3*" />
-              <colspec colnum="4" colwidth="4*" />
+              <colspec colnum="3" colwidth="3*" />              
       
               <thead>
                 <row>
@@ -3266,7 +3285,7 @@ public @interface User {
         
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="images/security-permission-sequence.png" align="center"/>
+            <imagedata scalefit="1" fileref="images/security-permission-sequence.png" align="center"/>
           </imageobject>
           <imageobject role="html">
             <imagedata fileref="images/security-permission-sequence.png" align="center"/>
@@ -3630,8 +3649,8 @@ end;
           <title>PermissionStore interface</title>
     
           <tgroup cols="2">
-            <colspec colnum="1" colwidth="2*" />
-            <colspec colnum="2" colwidth="3*" />
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="2*" />
             <colspec colnum="3" colwidth="3*" />
     
             <thead>
@@ -3828,12 +3847,12 @@ end;
         
         <para>For example, to configure a single entity class to store both user and role permissions:</para>
         
-        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission" />]]></programlisting>
         
         <para>To configure separate entity classes for storing user and role permissions:</para>
         
         <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
-    role-permission-class="com.acme.model.RolePermission"/>]]></programlisting>        
+    role-permission-class="com.acme.model.RolePermission" />]]></programlisting>        
         
         <sect4>
           <title>Permission annotations</title>
@@ -3848,8 +3867,8 @@ end;
             <title>Entity Permission annotations</title>
       
             <tgroup cols="2">
-              <colspec colnum="1" colwidth="2*" />
-              <colspec colnum="2" colwidth="3*" />
+              <colspec colnum="1" colwidth="1*" />
+              <colspec colnum="2" colwidth="1*" />
               <colspec colnum="3" colwidth="3*" />
       
               <thead>
@@ -3966,7 +3985,8 @@ end;
                       and <literal>role</literal>, the annotation would be written like this:
                     </para>
                     
-                    <programlisting role="JAVA"><![CDATA[@PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[@PermissionDiscriminator
+(userValue="u", roleValue="r")]]></programlisting>
                   </entry>
                 </row>                
                 
@@ -4064,9 +4084,9 @@ public class AccountPermission implements Serializable {
           <table>
             <title>Class Permission Annotations</title>
       
-            <tgroup cols="2">
-              <colspec colnum="1" colwidth="2*" />
-              <colspec colnum="2" colwidth="3*" />
+            <tgroup cols="3">
+              <colspec colnum="1" colwidth="1*" />
+              <colspec colnum="2" colwidth="1*" />
               <colspec colnum="3" colwidth="3*" />
       
               <thead>
@@ -4513,9 +4533,10 @@ public class Customer { ]]></programlisting>
       <table>
         <title>Permission Management Security Permissions</title>
 
-        <tgroup cols="2">
-          <colspec colnum="1" colwidth="1*" />
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="2*" />
           <colspec colnum="2" colwidth="3*" />
+          <colspec colnum="2" colwidth="2*" />
 
           <thead>
             <row>

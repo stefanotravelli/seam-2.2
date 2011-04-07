@@ -1,7 +1,6 @@
 package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
@@ -21,8 +20,8 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Entity.NotEntityException;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -98,12 +97,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }    
    }
 
-   @Override
-   public void init()
+   public HibernatePersistenceProvider()
    {
       super.init();
       featureSet.add(Feature.WILDCARD_AS_COUNT_QUERY_SUBJECT);
-   }
+   } 
    
    /**
     * Wrap the Hibernate Session in a proxy that supports HQL
@@ -122,7 +120,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          {  
             return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                   new Class[] { HibernateSessionProxy.class },
-                  new HibernateSessionInvocationHandler(session));
+                  new HibernateSessionInvocationHandler(session));//, (FullTextSession) session) );
          }
       }
       else
@@ -136,7 +134,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
             else {
                return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                      new Class[] { FULL_TEXT_SESSION_PROXY_CLASS },
-                     new HibernateSessionInvocationHandler((Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session)));
+                     new HibernateSessionInvocationHandler( (Session) FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) ) );
             }
          }
          catch(Exception e) {
@@ -148,7 +146,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
             else {
                return (Session) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                      new Class[] { HibernateSessionProxy.class },
-                     new HibernateSessionInvocationHandler(session));
+                     new HibernateSessionInvocationHandler( session) );
             }
          }
       }

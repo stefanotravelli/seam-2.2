@@ -39,6 +39,8 @@ public class AuctionServiceTest extends SeamTest
 
       // Just verify we can do that, even if it doesn't make much sense
       new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/restv1/category").run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, "/restv1/category")
       {
@@ -54,6 +56,8 @@ public class AuctionServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, "/restv1/category/1")
       {
@@ -84,6 +88,8 @@ public class AuctionServiceTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(requestEnv, Method.GET, "/restv1/auction/19264723")
       {

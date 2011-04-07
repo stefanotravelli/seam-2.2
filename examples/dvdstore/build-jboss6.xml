@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="DvdStore" default="deploy" basedir=".">
+
+	<!-- Naming -->
+	<property name="Name"             value="Seam Dvd Store Example"/>
+	<property name="example.name"     value="jboss-seam-dvdstore"/>
+	<property name="jboss6"           value="yes"/>
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"      value="yes" />
+	<property name="seam.debug.lib"   value="yes" />
+	<property name="facelets.lib"     value="yes" />
+	<property name="search.lib"       value="yes" />
+	<property name="jbpm.lib"         value="yes" />
+	<property name="urlrewrite.lib"   value="yes" />
+
+	<target name="init" depends="preparesrc">
+		<antcall target="SeamExample.init" />
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+	</target>
+	
+	<target name="preparesrc"> 
+		<mkdir dir="${src.java.dir}" />
+		
+		<copy todir="${src.java.dir}">
+			<fileset includes="**" dir="jboss6/src" />
+		</copy>
+		<copy todir="${src.java.dir}">
+			<fileset dir="src">
+				<include name="**" />
+				<exclude name="src/com/jboss/dvd/seam/FullTextSearchAction.java" />
+				<exclude name="src/com/jboss/dvd/seam/IndexerAction.java" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<import file="../build.xml" />
+
+</project>

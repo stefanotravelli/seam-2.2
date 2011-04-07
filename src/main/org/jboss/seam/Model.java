@@ -26,6 +26,7 @@ public class Model
       return beanClass;
    }
 
+   @SuppressWarnings("deprecation")
    public static Model forClass(Class clazz)
    {
       if ( !Contexts.isApplicationContextActive() )

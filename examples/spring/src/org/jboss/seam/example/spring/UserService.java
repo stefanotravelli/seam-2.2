@@ -1,19 +1,17 @@
 package org.jboss.seam.example.spring;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
+import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Mike Youngstrom
+ * @author Marek Novotny
  *
  */
-public class UserService {
-
-	@PersistenceContext
-    private EntityManager entityManager;
+public class UserService extends JpaDaoSupport {
 
 	@Transactional
     public boolean changePassword(String username, String oldPassword, String newPassword) {
@@ -37,18 +35,22 @@ public class UserService {
         if (username == null || "".equals(username)) {
             throw new IllegalArgumentException("Username cannot be null");
         }
-        return entityManager.find(User.class, username);
+        return getJpaTemplate().find(User.class, username);
     }
 
 	@Transactional
     public User findUser(String username, String password) {
         try {
-            return (User) 
-            entityManager.createQuery("select u from User u where u.username=:username and u.password=:password")
-            .setParameter("username", username)
-            .setParameter("password", password)
-            .getSingleResult();
-        } catch (PersistenceException e) {
+            List result = getJpaTemplate().find("select u from User u where u.username=?1 and u.password=?2", username, password);
+            if (result.size() > 0)
+            {
+               return (User) result.get(0);   
+            }
+            else
+            {
+               return null;
+            }
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -63,6 +65,7 @@ public class UserService {
         if (existingUser != null) {
             throw new ValidationException("Username "+user.getUsername()+" already exists");
         }
-        entityManager.persist(user);
+        getJpaTemplate().persist(user);
+        getJpaTemplate().flush();
     }
 }

@@ -171,11 +171,7 @@ public class DigestRequest
       }         
       
 
-      String nonceAsText = new String(Base64.decode(nonce));         
-      if (nonceAsText == null) 
-      {
-         throw new DigestValidationException("Nonce is not Base64 encoded - nonce received: " + nonce);
-      }           
+      String nonceAsText = new String(Base64.decode(nonce));               
       
       String[] nonceTokens = nonceAsText.split(":");
       if (nonceTokens.length != 2) 

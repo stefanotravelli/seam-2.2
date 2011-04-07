@@ -3,6 +3,7 @@ package org.jboss.seam.example.seambay;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -13,7 +14,8 @@ import org.jboss.seam.security.Identity;
 
 @Stateless
 @Name("auctionService")
-@WebService(name = "AuctionService", serviceName = "AuctionService")
+@WebService(name = "AuctionService")
+@HandlerChain(file = "soap-handlers.xml")
 public class AuctionService implements AuctionServiceRemote
 {           
    @WebMethod

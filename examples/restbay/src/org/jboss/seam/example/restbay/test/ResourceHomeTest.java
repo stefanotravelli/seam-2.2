@@ -106,6 +106,8 @@ public class ResourceHomeTest extends SeamTest
          }
 
       }.run();
+      
+      reset();
 
       new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
       {
@@ -144,7 +146,9 @@ public class ResourceHomeTest extends SeamTest
          }
 
       }.run();
-
+      
+      reset();
+      
       new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
       {
 

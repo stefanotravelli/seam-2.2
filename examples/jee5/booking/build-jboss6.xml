@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<project name="Java EE 5 Booking" default="archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Java EE 5 Booking Example (JBoss AS 6)"/>
+    <property name="example.name"           value="jboss-seam-jee5-booking"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources" />
+    <property name="dist.dir" value="dist" />
+    <property name="exploded-archives.dir" value="exploded-archives" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="richfaces.lib"   value="true"/>
+	
+	<!-- Hibernate libs are not required for deployment on JBoss AS 6, because they are already in AS jars -->
+	
+    <import file="../../build.xml"/>
+
+</project>
+

@@ -2,8 +2,36 @@
 
 <project name="Blog" default="deploy" basedir=".">
 
-	<property name="han.lib"       value="yes"/>
+	<!-- Naming -->
+	<property name="Name"             value="Seam Blog Example" />
+	<property name="example.name"     value="jboss-seam-blog"   />
+
+	<!-- Libraries to include -->
+	<property name="seam.ui.lib"      value="yes" />
+	<property name="seam.debug.lib"   value="yes" />
+	<property name="facelets.lib"     value="yes" />
+	<property name="search.lib"       value="yes" />
+	<property name="cache.lib"        value="yes" />
+	<property name="han.lib"          value="yes" />
 	
-    <import file="../build.xml"/>
-    
+	<!-- Datasource -->
+	<property name="example.ds"              value="blog-ds.xml" />
+	
+	<target name="init" depends="gethsearch3.1">
+		<fileset id="ear.lib.extras" dir="${example.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<antcall target="SeamExample.init"/>
+		<path id="build.classpath.extras">
+			<fileset dir="${lib.search.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${example.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+	</target>
+	
+	<import file="../build.xml" />
+
 </project>
