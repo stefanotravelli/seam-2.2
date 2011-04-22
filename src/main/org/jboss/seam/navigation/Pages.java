@@ -697,6 +697,10 @@ public class Pages
                .getRequestParameterMap().get("actionMethod");
          if (actionId!=null)
          {
+            String decodedActionId = URLDecoder.decode(actionId);
+            if (decodedActionId != null && (decodedActionId.indexOf('#') >= 0 || decodedActionId.indexOf('{') >= 0) ){
+               throw new IllegalArgumentException("EL expressions are not allowed in actionMethod parameter");
+            }
             if ( !SafeActions.instance().isActionSafe(actionId) ) return result;
             String expression = SafeActions.toAction(actionId);
             result = true;

@@ -3,7 +3,13 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -17,6 +23,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamExpressionFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Factory for EL method and value expressions.
@@ -31,6 +39,40 @@ import org.jboss.seam.el.SeamExpressionFactory;
 @Name("org.jboss.seam.core.expressions")
 public class Expressions implements Serializable
 {
+   private static final LogProvider log = Logging.getLogProvider(Expressions.class);
+   private static List<String> blacklist = new ArrayList<String>();
+   
+   // loading blacklisted patterns of non-valid EL expressions
+   static 
+   {
+      BufferedReader reader = null;
+      try
+      {
+         InputStream blacklistIS = ResourceLoader.instance().getResourceAsStream("blacklist.properties");
+         reader = new BufferedReader(new InputStreamReader(blacklistIS));
+         String line; 
+         while ((line = reader.readLine()) != null)
+         {
+            blacklist.add(line);
+         }
+      }
+      catch (IOException e)
+      {
+         log.warn("Black list of non-valid EL expressions was not found!");
+      }
+      finally
+      {
+         if (reader != null)
+         {
+            try
+            {
+               reader.close();
+            }
+            catch (IOException e) { }
+         }
+      }
+      
+   }
    
    /**
     * Get the JBoss EL ExpressionFactory
@@ -76,6 +118,8 @@ public class Expressions implements Serializable
     */
    public <T> ValueExpression<T> createValueExpression(final String expression, final Class<T> type)
    {
+
+      checkELExpression(expression);
       
       return new ValueExpression<T>()
       {
@@ -140,6 +184,8 @@ public class Expressions implements Serializable
     */
    public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class... argTypes)
    {
+      checkELExpression(expression);
+      
       return new MethodExpression<T>()
       {
          private javax.el.MethodExpression facesMethodExpression;
@@ -257,4 +303,21 @@ public class Expressions implements Serializable
            return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION);
        }
    }
+   
+   private static void checkELExpression(final String expression)
+   {
+      for (int index = 0; blacklist.size() > index; index++)
+      {
+         if ( expression.contains(blacklist.get(index)) ) {
+            throw new IllegalArgumentException("This EL expression is not allowed!");
+         }
+      }
+      
+      // for any case blacklist is not provided this is definitely not permitted
+      if ( expression.contains(".getClass()") )
+      {
+         throw new IllegalArgumentException("This EL expression is not allowed!");
+      }
+   }
+
 }
