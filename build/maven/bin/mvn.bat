@@ -38,7 +38,7 @@
 @if "%MAVEN_BATCH_ECHO%" == "on"  echo %MAVEN_BATCH_ECHO%
 
 @REM set %HOME% to equivalent of $HOME
-if "%HOME%" == "" (set HOME=%HOMEDRIVE%%HOMEPATH%)
+if "%HOME%" == "" (set "HOME=%HOMEDRIVE%%HOMEPATH%")
 
 @REM Execute a user defined script before this one
 if exist "%HOME%\mavenrc_pre.bat" call "%HOME%\mavenrc_pre.bat"
@@ -47,6 +47,7 @@ set ERROR_CODE=0
 
 @REM set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" @setlocal
+if "%OS%"=="WINNT" @setlocal
 
 @REM ==== START VALIDATION ====
 if not "%JAVA_HOME%" == "" goto OkJHome
@@ -63,7 +64,7 @@ if exist "%JAVA_HOME%\bin\java.exe" goto chkMHome
 
 echo.
 echo ERROR: JAVA_HOME is set to an invalid directory.
-echo JAVA_HOME = %JAVA_HOME%
+echo JAVA_HOME = "%JAVA_HOME%"
 echo Please set the JAVA_HOME variable in your environment to match the
 echo location of your Java installation
 echo.
@@ -72,7 +73,8 @@ goto error
 :chkMHome
 if not "%M2_HOME%"=="" goto valMHome
 
-if "%OS%"=="Windows_NT" SET M2_HOME=%~dp0\..
+if "%OS%"=="Windows_NT" SET "M2_HOME=%~dp0.."
+if "%OS%"=="WINNT" SET "M2_HOME=%~dp0.."
 if not "%M2_HOME%"=="" goto valMHome
 
 echo.
@@ -83,11 +85,18 @@ echo.
 goto error
 
 :valMHome
+
+:stripMHome
+if not "_%M2_HOME:~-1%"=="_\" goto checkMBat
+set "M2_HOME=%M2_HOME:~0,-1%"
+goto stripMHome
+
+:checkMBat
 if exist "%M2_HOME%\bin\mvn.bat" goto init
 
 echo.
 echo ERROR: M2_HOME is set to an invalid directory.
-echo M2_HOME = %M2_HOME%
+echo M2_HOME = "%M2_HOME%"
 echo Please set the M2_HOME variable in your environment to match the
 echo location of the Maven installation
 echo.
@@ -97,8 +106,13 @@ goto error
 :init
 @REM Decide how to startup depending on the version of windows
 
+@REM -- Windows NT with Novell Login
+if "%OS%"=="WINNT" goto WinNTNovell
+
 @REM -- Win98ME
 if NOT "%OS%"=="Windows_NT" goto Win9xArg
+
+:WinNTNovell
 
 @REM -- 4NT shell
 if "%@eval[2+2]" == "4" goto 4NTArgs
@@ -146,11 +160,13 @@ goto end
 
 :error
 if "%OS%"=="Windows_NT" @endlocal
+if "%OS%"=="WINNT" @endlocal
 set ERROR_CODE=1
 
 :end
 @REM set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" goto endNT
+if "%OS%"=="WINNT" goto endNT
 
 @REM For old DOS remove the set variables from ENV - we assume they were not set
 @REM before we started - at least we don't leave any baggage around
@@ -159,7 +175,7 @@ set MAVEN_CMD_LINE_ARGS=
 goto postExec
 
 :endNT
-@endlocal
+@endlocal & set ERROR_CODE=%ERROR_CODE%
 
 :postExec
 if exist "%HOME%\mavenrc_post.bat" call "%HOME%\mavenrc_post.bat"
@@ -168,5 +184,5 @@ if "%MAVEN_BATCH_PAUSE%" == "on" pause
 
 if "%MAVEN_TERMINATE_CMD%" == "on" exit %ERROR_CODE%
 
-exit /B %ERROR_CODE%
+cmd /C exit /B %ERROR_CODE%
 
