@@ -47,7 +47,7 @@ public class MessagingTest
 
         // need to delay a bit to make sure the message is delivered
         // might need 
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         
         assert messageText.getValue().equals("message for topic");
     }
