@@ -260,7 +260,7 @@ public class AuctionService implements AuctionServiceRemote
                   Then the pattern mapped in <literal>web.xml</literal> for the <literal>SeamResourceServlet</literal>,
                    e.g <literal>/seam/resource</literal> if you follow the common examples, is appended.
                   Change this setting to expose your RESTful resources under a different base.
-                  Note that this is a global change and other Seam resources (e.g. <literal>s:graphicImage</literal>)
+                  Note that this is a global change and other Seam resources (e.g. <literal>s:graphicImage</literal> and <literal>s:captcha</literal>)
                   are then also served under that base path.
                </para>
             </listitem>
@@ -268,8 +268,8 @@ public class AuctionService implements AuctionServiceRemote
                <para>
                   The RESTEasy integration for Seam then appends a configurable string to the base path, by default
                   this is <literal>/rest</literal>. Hence, the full base path of your resources would e.g. be
-                  <literal>/myapp/seam/resource/rest</literal>. We recommend that you change this string in your application,
-                  you could for example add a version number to prepare for a future REST API upgrade of your services
+                  <literal>/myapp/seam/resource/rest</literal>. We recommend that you change this string in your application (details below).
+                  You could for example add a version number to prepare for a future REST API upgrade of your services
                   (old clients would keep the old URI base): <literal>/myapp/seam/resource/restv1</literal>.
                </para>
             </listitem>
@@ -300,9 +300,9 @@ public class MyCustomerResource {
 }]]></programlisting>
 
          <para>
-            No additional configuration is required, you do not have to edit <literal>web.xml</literal> or any
-            other setting if these defauls are acceptable. However, you can configure RESTEasy in your Seam application.
-            First import the <literal>resteasy</literal> namespace into your XML configuration file header:
+            No additional configuration is required; you do not have to edit <literal>web.xml</literal> or any
+            other setting if these defaults are acceptable. However, you can configure RESTEasy in your Seam application.
+            First import the <literal>resteasy</literal> namespace into your XML configuration (<literal>components.xml</literal>) file header:
          </para>
 
          <programlisting role="XML"><![CDATA[<components
