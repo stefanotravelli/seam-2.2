@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -119,14 +121,25 @@ public class DelegatedWebElement implements AjaxWebElement
    {
       return element.getAttribute(name);
    }
-   
-   //@Deprecated
-   //// @Override
-   //public String getElementName()
-   //{
-   //   return element.getElementName();
-   //}
-   
+
+   // @Override
+   public String getCssValue(String propertyName)
+   {
+      return element.getCssValue(propertyName);
+   }
+
+   // @Override
+   public Point getLocation()
+   {
+      return element.getLocation();
+   }
+
+   // @Override
+   public Dimension getSize()
+   {
+      return element.getSize();
+   }
+
    // @Override
    public String getTagName()
    {
@@ -138,11 +151,11 @@ public class DelegatedWebElement implements AjaxWebElement
    {
       return element.getText();
    }
-   
+
    // @Override
-   public String getValue()
+   public boolean isDisplayed()
    {
-      return element.getValue();
+      return element.isDisplayed();
    }
    
    // @Override
@@ -164,12 +177,6 @@ public class DelegatedWebElement implements AjaxWebElement
    }
    
    // @Override
-   public void setSelected()
-   {
-      element.setSelected();
-   }
-   
-   // @Override
    public void setWaitTime(int millis)
    {
       this.waitTime = millis;
@@ -180,11 +187,5 @@ public class DelegatedWebElement implements AjaxWebElement
    {
       element.submit();
    }
-   
-   // @Override
-   public boolean toggle()
-   {
-      return element.toggle();
-   }
-   
+
 }
