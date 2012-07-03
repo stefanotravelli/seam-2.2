@@ -50,7 +50,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
@@ -129,8 +128,6 @@ public class Component extends Model
    public static final String PROPERTIES = "org.jboss.seam.properties";
 
    private static final LogProvider log = Logging.getLogProvider(Component.class);
-   
-   static ReentrantLock factoryLock = new ReentrantLock();
    
    private ComponentType type;
    private String name;
@@ -2057,7 +2054,7 @@ public class Component extends Model
    private static Object getInstanceFromFactory(String name, ScopeType scope)
    {
       Init init = Init.instance();
-      if (init==null) //for unit tests, yew!
+      if (init == null) // for unit tests, yew!
       {
          return null;
       }
@@ -2066,45 +2063,62 @@ public class Component extends Model
          Init.FactoryMethod factoryMethod = init.getFactory(name);
          Init.FactoryExpression methodBinding = init.getFactoryMethodExpression(name);
          Init.FactoryExpression valueBinding = init.getFactoryValueExpression(name);
-         if ( methodBinding!=null && getOutScope( methodBinding.getScope(), null ).isContextActive() ) //let the XML take precedence
-         {
+         if (methodBinding != null && getOutScope(methodBinding.getScope(), null).isContextActive())
+         {// let the XML take precedence
             Object result = methodBinding.getMethodBinding().invoke();
-            return handleFactoryMethodResult( name, null, result, methodBinding.getScope() );
+            return handleFactoryMethodResult(name, null, result, methodBinding.getScope());
          }
-         else if ( valueBinding!=null && getOutScope( valueBinding.getScope(), null ).isContextActive() ) //let the XML take precedence
-         {
+         else if (valueBinding != null && getOutScope(valueBinding.getScope(), null).isContextActive()) 
+         { // let the XML take precedence
             Object result = valueBinding.getValueBinding().getValue();
-            return handleFactoryMethodResult( name, null, result, valueBinding.getScope() );
+            return handleFactoryMethodResult(name, null, result, valueBinding.getScope());
          }
-         else if ( factoryMethod!=null && getOutScope( factoryMethod.getScope(), factoryMethod.getComponent() ).isContextActive() )
+         else if (factoryMethod != null && getOutScope(factoryMethod.getScope(), factoryMethod.getComponent()).isContextActive())
          {
-            Object factory = Component.getInstance( factoryMethod.getComponent().getName(), true );
-            factoryLock.lock();
-            try
+            Object factory = Component.getInstance(factoryMethod.getComponent().getName(), true);
+            ScopeType scopeResult = getOutScope(factoryMethod.getScope(), factoryMethod.getComponent());
+            ScopeType scopeFactory = factoryMethod.getComponent().getScope();
+            // we need this lock in the following cases: (1) the target scope is
+            // accessed by more than one thread (as we don't want to create the
+            // same object by two threads at the same time for the same scope)
+            // OR (2) the factory is accessed by more than one thread and is
+            // using interceptors (as accessing a factory multiple times might
+            // mess up interceptors). This assumes that (1) the scopes
+            // CONVERSATION, EVENT and PAGE can't be accessed by more than one
+            // thread anyway due to CONVERSATION being locked for the current
+            // thread anyway, and EVENT and PAGE being only short-lived anyway.
+            // (2) a factory that doesn't use injection can be accessed multi
+            // threaded. See JBSEAM-4669/JBSEAM-2419 for the original
+            // discussion.
+            boolean lockingNeeded = ((scopeResult != ScopeType.CONVERSATION && scopeResult != ScopeType.EVENT && scopeResult != ScopeType.PAGE) ||
+                  (scopeFactory != ScopeType.CONVERSATION && scopeFactory != ScopeType.EVENT && scopeFactory != ScopeType.PAGE && factoryMethod.getComponent().interceptionEnabled));
+
+            if (lockingNeeded)
             {
-               // check whether there has been created an instance by another thread while waiting for this function's lock
-               if (scope != STATELESS)
+               // Only one factory instance can access result scope
+               // CONVERSATION / EVENT / PAGE anyway due to
+               // the locking of the conversation.
+               if (scopeResult == ScopeType.CONVERSATION || scopeResult == ScopeType.EVENT || scopeResult == ScopeType.PAGE)
                {
-                  Object value = (scope == null) ? Contexts.lookupInStatefulContexts(name) : scope.getContext().get(name);
-                  if (value != null)
+                  synchronized (factory)
                   {
-                     return value;
+                     return createInstanceFromFactory(name, scope, factoryMethod, factory);
                   }
                }
-               
-               if (factory==null)
-               {
-                  return null;
-               }
+               // synchronize all instances of this factory as they might
+               // outject to the same scope (i.e. factory in EVENT scope,
+               // outjecting to APPLICATION scope).
                else
                {
-                  Object result = factoryMethod.getComponent().callComponentMethod( factory, factoryMethod.getMethod() );
-                  return handleFactoryMethodResult( name, factoryMethod.getComponent(), result, factoryMethod.getScope() );
+                  synchronized (factory.getClass())
+                  {
+                     return createInstanceFromFactory(name, scope, factoryMethod, factory);
+                  }
                }
             }
-            finally 
+            else
             {
-               factoryLock.unlock();
+               return createInstanceFromFactory(name, scope, factoryMethod, factory);
             }
          }
          else
@@ -2114,6 +2128,30 @@ public class Component extends Model
       }
    }
 
+   private static Object createInstanceFromFactory(String name, ScopeType scope, Init.FactoryMethod factoryMethod, Object factory)
+   {
+      // check whether there has been created an instance by another thread
+      // while waiting for this function's lock
+      if (scope != STATELESS)
+      {
+         Object value = (scope == null) ? Contexts.lookupInStatefulContexts(name) : scope.getContext().get(name);
+         if (value != null)
+         {
+            return value;
+         }
+      }
+
+      if (factory == null)
+      {
+         return null;
+      }
+      else
+      {
+         Object result = factoryMethod.getComponent().callComponentMethod(factory, factoryMethod.getMethod());
+         return handleFactoryMethodResult(name, factoryMethod.getComponent(), result, factoryMethod.getScope());
+      }
+   }
+   
    private static Object handleFactoryMethodResult(String name, Component component, Object result, ScopeType scope) {
         // see if a value was outjected by the factory method
         Object value = Contexts.lookupInStatefulContexts(name);
@@ -2163,11 +2201,11 @@ public class Component extends Model
          }
          
       } catch (Exception e) {
-    	  if (getScope()!=STATELESS) {
-    		  getScope().getContext().remove(name); 
-    	  }
+              if (getScope()!=STATELESS) {
+                      getScope().getContext().remove(name); 
+              }
 
-    	  throw new InstantiationException("Could not instantiate Seam component: " + name, e);
+              throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
 
       return instance;
