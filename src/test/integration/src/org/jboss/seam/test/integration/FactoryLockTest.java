@@ -7,7 +7,6 @@ import javax.ejb.Stateful;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.mock.SeamTest;
@@ -36,37 +35,43 @@ public class FactoryLockTest extends SeamTest
       }
    }
    
+   private void multiThreadedTest(Thread... threads) throws InterruptedException {
+      exceptionOccured = false;
+
+      for (Thread thread : threads) {
+         thread.start();
+      }
+
+      for (Thread thread : threads) {
+         thread.join();
+      }
+
+      assert !exceptionOccured;
+   }
+
+   
    // JBSEAM-4993
    // The test starts two threads, one evaluates #{factoryLock.test.testOtherFactory()} and the other #{factoryLock.testString} 200ms later
    @Test
    public void factoryLock() 
        throws Exception 
    {
-      exceptionOccured = false;
-      Thread thread1 = new TestThread() {
+      multiThreadedTest(new TestThread() {
          @Override
          public void runTest() throws Exception
          {
             FactoryLockTest.this.invokeMethod("foo", "#{factoryLock.test.testOtherFactory()}");
          }
-      };
-
-      Thread thread2 = new TestThread() {
+      },
+      
+      new TestThread() {
          @Override
          public void runTest() throws Exception
          {
             Thread.sleep(200);
             FactoryLockTest.this.getValue("testString", "#{factoryLock.testString}");
          }
-      };
-
-      thread1.start();
-      thread2.start();
-   
-      thread1.join();
-      thread2.join();
-      
-      assert !exceptionOccured;
+      });
    }
    
    // This test is the same as factoryLock test, except it uses the same factory in both threads.
@@ -74,31 +79,46 @@ public class FactoryLockTest extends SeamTest
    public void sameFactoryLock() 
        throws Exception 
    {
-      exceptionOccured = false;
-      Thread thread1 = new TestThread() {
+      multiThreadedTest(new TestThread() {
          @Override
          public void runTest() throws Exception
          {
             FactoryLockTest.this.invokeMethod("testString", "#{factoryLock.test.testSameFactory()}");
          }
-      };
+      },
 
-      Thread thread2 = new TestThread() {
+      new TestThread() {
          @Override
          public void runTest() throws Exception
          {
             Thread.sleep(200);
             FactoryLockTest.this.getValue("testString", "#{factoryLock.testString}");
          }
-      };
-
-      thread1.start();
-      thread2.start();
+      });
+   }
    
-      thread1.join();
-      thread2.join();
-      
-      assert !exceptionOccured;
+   // Test the behavior of two components using factories of each other.
+   // Skip the test, as it causes deadlock.
+   @Test(enabled=false)
+   public void interleavingFactories()
+         throws Exception
+   {
+      multiThreadedTest(new TestThread() {
+         @Override
+         public void runTest() throws Exception
+         {
+            FactoryLockTest.this.getValue("knit(purl)", "#{factoryLock.knitPurl}");
+         }
+      },
+
+      new TestThread() {
+         @Override
+         public void runTest() throws Exception
+         {
+            Thread.sleep(200);
+            FactoryLockTest.this.getValue("purl(knit)", "#{factoryLock.purlKnit}");
+         }
+      });
    }
    
    private void invokeMethod(final String expected, final String el) throws Exception {
@@ -132,7 +152,6 @@ public class FactoryLockTest extends SeamTest
    @Stateful
    @Scope(ScopeType.SESSION)
    @Name("factoryLock.test")
-   //@JndiName("java:global/test/FactoryLockTest$FactoryLockAction")
    public static class FactoryLockAction implements FactoryLockLocal
    {
       public String testOtherFactory() {
@@ -160,7 +179,7 @@ public class FactoryLockTest extends SeamTest
          return (String)Component.getInstance("factoryLock.testString", true);
       }
       
-      @Factory(value="factoryLock.testString", scope=ScopeType.EVENT)
+      @Factory(value="factoryLock.testString", scope=ScopeType.SESSION)
       public String getTestString() {
          return "testString";
       }
@@ -170,9 +189,47 @@ public class FactoryLockTest extends SeamTest
    
    @Name("factoryLock.testProducer")
    public static class TestProducer {
-      @Factory(value="factoryLock.foo", scope=ScopeType.EVENT)
+      @Factory(value="factoryLock.foo", scope=ScopeType.SESSION)
       public String getFoo() {
          return "foo";
+      }
+   }
+   
+   @Scope(ScopeType.APPLICATION)
+   @Name("factoryLock.knitFactory")
+   public static class KnitFactory
+   {
+      @Factory(value="factoryLock.knitPurl", scope=ScopeType.SESSION)
+      public String getDoubleKnit() {
+         try
+         {
+            Thread.sleep(500);
+         }
+         catch (InterruptedException e)
+         {
+            e.printStackTrace();
+         }
+         return "knit(" + (String)Component.getInstance("factoryLock.purl") + ")";
+      }
+
+      @Factory(value="factoryLock.knit", scope=ScopeType.SESSION)
+      public String getKnit() {
+         return "knit";
+      }
+   }
+
+   @Scope(ScopeType.APPLICATION)
+   @Name("factoryLock.purlFactory")
+   public static class PurlFactory
+   {
+      @Factory(value="factoryLock.purlKnit", scope=ScopeType.SESSION)
+      public String getDoublePurl() {
+         return "purl(" + (String)Component.getInstance("factoryLock.knit") + ")";
+      }
+
+      @Factory(value="factoryLock.purl", scope=ScopeType.SESSION)
+      public String getPurl() {
+         return "purl";
       }
    }
 }
